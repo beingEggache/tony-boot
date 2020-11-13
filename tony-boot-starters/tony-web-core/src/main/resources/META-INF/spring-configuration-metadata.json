@@ -1,0 +1,94 @@
+{
+    "hints": [],
+    "groups": [
+        {
+            "sourceType": "com.tony.webcore.config.WebProperties",
+            "name": "web",
+            "type": "com.tony.webcore.config.WebProperties"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebCorsProperties",
+            "name": "web.cors",
+            "type": "com.tony.webcore.config.WebCorsProperties"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebJwtProperties",
+            "name": "web.jwt",
+            "type": "com.tony.webcore.config.WebJwtProperties"
+        }
+    ],
+    "properties": [
+        {
+            "sourceType": "com.tony.webcore.config.WebProperties",
+            "name": "web.app-id",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebProperties",
+            "name": "web.success-code",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebProperties",
+            "name": "web.error-msg",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebProperties",
+            "name": "web.error-code",
+            "type": "java.lang.Integer"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebProperties",
+            "name": "web.validation-error-msg",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebProperties",
+            "name": "web.validation-error-code",
+            "type": "java.lang.Integer"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebProperties",
+            "name": "web.biz-error-code",
+            "type": "java.lang.Integer"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebProperties",
+            "name": "web.unauthorized-code",
+            "type": "java.lang.Integer"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebCorsProperties",
+            "name": "web.cors.enabled",
+            "type": "java.lang.Boolean"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebCorsProperties",
+            "name": "web.cors.allowed-origins",
+            "type": "java.lang.String[]"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebCorsProperties",
+            "name": "web.cors.allowed-headers",
+            "type": "java.lang.String[]"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebJwtProperties",
+            "name": "web.jwt.enabled",
+            "type": "java.lang.Boolean"
+        },
+        {
+            "sourceType": "com.tonywebcore.config.WebJwtProperties",
+            "name": "web.jwt.secret",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "com.tony.webcore.config.WebJwtProperties",
+            "name": "web.jwt.expired-minutes",
+            "type": "java.lang.Long",
+            "defaultValue": 525600,
+            "description": "jwt token expired minutes, default value is one year."
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+spring:
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://localhost:5432/lx_api
+        username: lx_api
+        password: ^!*23S21sfhgewr
+        driver-class-name: org.postgresql.Driver
+#    redis:
+#        password: ^!*23S21sfhgewr
+web:
+    jwt:
+        enabled: on
+        secret: saoidadsio3jsdfn12323
+debug: off

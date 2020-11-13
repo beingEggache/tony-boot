@@ -1,0 +1,30 @@
+spring:
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://localhost:5432/tony_api
+        username: tony_api
+        password: sacd21g#BGdfshj234@%4
+        driver-class-name: org.postgresql.Driver
+#    redis:
+#        password: ^!*23S21sfhgewr
+web:
+    jwt:
+        enabled: on
+        secret: saoidadsio3jsdfn12323
+debug: on
+swagger:
+    basePackages:
+        - "com.tony.api"
+    description: "基本开发模板"
+    contact:
+        name: "能力有限公司"
+        url: "https://www.baidu.com"
+        email: "service@tony.com"
+logging:
+    config: classpath:logback-dev.xml
+knife4j:
+    documents:
+        - name: MarkDown文档
+          locations: classpath:markdown/*
+    enable: true
+

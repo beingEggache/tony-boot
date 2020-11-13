@@ -1,0 +1,11 @@
+mybatis:
+    mapper-locations: classpath*:mappers/*.mapper.xml
+    configuration:
+        default-enum-type-handler: com.tony.db.typehandler.EnumValueTypeHandler
+spring:
+    profiles:
+        active: dev
+cache:
+    key-prefix: tony
+web:
+    app-id: Lx-Api

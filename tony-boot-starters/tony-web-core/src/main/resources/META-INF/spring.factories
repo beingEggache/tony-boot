@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.tony.webcore.config.WebConfig,\
+  com.tony.webcore.config.WebCorsConfig,\
+  com.tony.webcore.config.WebJwtConfig
+

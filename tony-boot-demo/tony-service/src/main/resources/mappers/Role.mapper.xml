@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tony.db.dao.RoleDao">
+  <resultMap id="BaseResultMap" type="com.tony.db.po.Role">
+    <id column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    role_id, app_id, role_name, remark
+  </sql>
+  <select id="selectByPk" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from public.tb_sys_role
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPk" parameterType="java.lang.String">
+    delete from public.tb_sys_role
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tony.db.po.Role">
+    insert into public.tb_sys_role (role_id, app_id, role_name, remark)
+    values (#{roleId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertDynamic" parameterType="com.tony.db.po.Role">
+    insert into public.tb_sys_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="!@kotlin.text.StringsKt@isBlank(roleId)">
+        role_id,
+      </if>
+      <if test="!@kotlin.text.StringsKt@isBlank(appId)">
+        app_id,
+      </if>
+      <if test="!@kotlin.text.StringsKt@isBlank(roleName)">
+        role_name,
+      </if>
+      <if test="!@kotlin.text.StringsKt@isBlank(remark)">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="!@kotlin.text.StringsKt@isBlank(roleId)">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="!@kotlin.text.StringsKt@isBlank(appId)">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="!@kotlin.text.StringsKt@isBlank(roleName)">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="!@kotlin.text.StringsKt@isBlank(remark)">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPkDynamic" parameterType="com.tony.db.po.Role">
+    update public.tb_sys_role
+    <set>
+      <if test="!@kotlin.text.StringsKt@isBlank(appId)">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="!@kotlin.text.StringsKt@isBlank(roleName)">
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="!@kotlin.text.StringsKt@isBlank(remark)">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPk" parameterType="com.tony.db.po.Role">
+    update public.tb_sys_role
+    set app_id = #{appId,jdbcType=VARCHAR},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select role_id, app_id, role_name, remark
+    from public.tb_sys_role
+  </select>
+</mapper>

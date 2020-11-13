@@ -1,0 +1,65 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+ "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+ "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<classPathEntry  location="C:\workspace\mybatis-gen\libs\postgresql-42.2.16.jar"/>
+	<context id="simple" targetRuntime="MyBatis3">
+	
+		<commentGenerator type="com.lx.mybatis.gen.MyCommentGenerator">
+			<property name="addRemarkComments" value="true" />
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+	
+		<jdbcConnection driverClass="org.postgresql.Driver"
+			connectionURL="jdbc:postgresql://127.0.0.1:5432/lx_api" userId="lx_api" password="^!*23S21sfhgewr" />
+			
+
+		<javaTypeResolver>
+			<property name="useJSR310Types" value="true"  />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.lx.db.po" targetProject="./generate" />
+		
+		
+		<sqlMapGenerator targetPackage="mappers"  targetProject="./generate" />
+
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.lx.db.dao" targetProject="./generate"/>
+
+   
+		<table schema="public" tableName="tb_sys_app" domainObjectName="App"
+			   enableSelectByExample="false"
+			   enableDeleteByExample="false"
+			   enableCountByExample="false"
+			   enableUpdateByExample="false"
+			   selectByPrimaryKeyQueryId="false"
+			   selectByExampleQueryId="false"
+		/>
+		<table schema="public" tableName="tb_sys_user" domainObjectName="User"
+			   enableSelectByExample="false"
+			   enableDeleteByExample="false"
+			   enableCountByExample="false"
+			   enableUpdateByExample="false"
+			   selectByPrimaryKeyQueryId="false"
+			   selectByExampleQueryId="false"
+		/>
+		<table schema="public" tableName="tb_sys_role" domainObjectName="Role"
+			   enableSelectByExample="false"
+			   enableDeleteByExample="false"
+			   enableCountByExample="false"
+			   enableUpdateByExample="false"
+			   selectByPrimaryKeyQueryId="false"
+			   selectByExampleQueryId="false"
+		/>
+		<table schema="public" tableName="tb_sys_module" domainObjectName="Module"
+			   enableSelectByExample="false"
+			   enableDeleteByExample="false"
+			   enableCountByExample="false"
+			   enableUpdateByExample="false"
+			   selectByPrimaryKeyQueryId="false"
+			   selectByExampleQueryId="false"
+		/>
+		
+		
+  </context>
+</generatorConfiguration>
+
