@@ -33,7 +33,7 @@ data class FrontEndModuleReq(
     val moduleDescription: String = "",
 
     @ApiModelProperty("模块/权限类型", allowableValues = "2,3", required = true)
-    @get:SimpleIntEnum(range = [2, 3], "只能提交前端类型模块")
+    @get:SimpleIntEnum(enums = [2, 3], "只能提交前端类型模块")
     @get:NotNull(message = "请输入模块/权限类型")
     val moduleType: ModuleType?,
 )

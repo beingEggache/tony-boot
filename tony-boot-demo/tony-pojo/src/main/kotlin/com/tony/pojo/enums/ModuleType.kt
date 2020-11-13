@@ -17,7 +17,7 @@ enum class ModuleType(
     ROUTE(2),
     COMPONENT(3),
     @JsonEnumDefaultValue
-    UNUSED(EnumCreator.defaultIntEnumValue);
+    UNUSED(EnumCreator.defaultIntValue);
 
     companion object : EnumCreator<ModuleType, Int>(ModuleType::class.java) {
 
