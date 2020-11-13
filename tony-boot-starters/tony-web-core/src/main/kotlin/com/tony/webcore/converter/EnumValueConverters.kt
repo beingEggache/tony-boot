@@ -45,7 +45,7 @@ internal class EnumIntValueConverter(enumType: Class<out EnumValue<Int>>)
 
     override fun convert(source: String): EnumValue<Int>? {
         val intSource = convertSource(source)
-        return if (intSource == EnumCreator.defaultIntEnumValue) null
+        return if (intSource == EnumCreator.defaultIntValue) null
         else super.convert(source)
     }
 }

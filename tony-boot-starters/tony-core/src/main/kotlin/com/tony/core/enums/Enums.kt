@@ -29,7 +29,7 @@ abstract class EnumCreator<out E, KEY>(
     }
 
     companion object {
-        const val defaultIntEnumValue = 40404
+        const val defaultIntValue = 40404
         const val defaultStringValue = ""
     }
 
