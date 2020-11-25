@@ -45,7 +45,7 @@ object RedisUtils {
     private lateinit var stringRedisTemplate: StringRedisTemplate
 
     @JvmStatic
-    fun delete(key: String): Boolean = redisTemplate.delete(key)
+    fun delete(key: String): Boolean = redisTemplate.delete(keys(key)) > 0
 
     @JvmStatic
     fun delete(key: String, hashKey: String) =
@@ -214,5 +214,9 @@ object RedisUtils {
     @Resource
     private fun stringRedisTemplate(stringRedisTemplate: StringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate
+    }
+
+    fun keys(key: String): Collection<String> {
+        return redisTemplate.keys(key)
     }
 }
