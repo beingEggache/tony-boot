@@ -1,6 +1,8 @@
 package com.tony.webcore.converter
 
 import com.tony.core.enums.EnumCreator
+import com.tony.core.enums.EnumIntValue
+import com.tony.core.enums.EnumStringValue
 import com.tony.core.enums.EnumValue
 import com.tony.core.enums.getCreator
 import java.io.Serializable
@@ -12,15 +14,15 @@ private val converters = WeakHashMap<Class<*>, Converter<String, *>>()
 
 @Suppress("UNCHECKED_CAST")
 internal class EnumIntValueConverterFactory
-    : ConverterFactory<String, EnumValue<Int>> {
-    override fun <E : EnumValue<Int>> getConverter(targetType: Class<E>) =
+    : ConverterFactory<String, EnumIntValue> {
+    override fun <E : EnumIntValue> getConverter(targetType: Class<E>) =
         converters.getOrPut(targetType) { EnumIntValueConverter(targetType) } as Converter<String, E>
 }
 
 @Suppress("UNCHECKED_CAST")
 internal class EnumStringValueConverterFactory
-    : ConverterFactory<String, EnumValue<String>> {
-    override fun <E : EnumValue<String>> getConverter(targetType: Class<E>) =
+    : ConverterFactory<String, EnumStringValue> {
+    override fun <E : EnumStringValue> getConverter(targetType: Class<E>) =
         converters.getOrPut(targetType) { EnumStringValueConverter(targetType) } as Converter<String, E>
 }
 
@@ -37,26 +39,26 @@ internal abstract class EnumValueConverter<out E, K>(enumType: Class<out E>)
 
 }
 
-internal class EnumIntValueConverter(enumType: Class<out EnumValue<Int>>)
-    : EnumValueConverter<EnumValue<Int>, Int>(enumType),
+internal class EnumIntValueConverter(enumType: Class<out EnumIntValue>)
+    : EnumValueConverter<EnumIntValue, Int>(enumType),
     Converter<String, EnumValue<Int>> {
 
     override fun convertSource(source: String) = source.toInt()
 
-    override fun convert(source: String): EnumValue<Int>? {
+    override fun convert(source: String): EnumIntValue? {
         val intSource = convertSource(source)
         return if (intSource == EnumCreator.defaultIntValue) null
         else super.convert(source)
     }
 }
 
-internal class EnumStringValueConverter(enumType: Class<out EnumValue<String>>)
-    : EnumValueConverter<EnumValue<String>, String>(enumType),
+internal class EnumStringValueConverter(enumType: Class<out EnumStringValue>)
+    : EnumValueConverter<EnumStringValue, String>(enumType),
     Converter<String, EnumValue<String>> {
 
     override fun convertSource(source: String) = source
 
-    override fun convert(source: String): EnumValue<String>? {
+    override fun convert(source: String): EnumStringValue? {
         val intSource = convertSource(source)
         return if (intSource == EnumCreator.defaultStringValue) null
         else super.convert(source)

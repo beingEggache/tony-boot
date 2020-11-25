@@ -9,6 +9,10 @@ interface EnumValue<T : Serializable> {
     val value: T?
 }
 
+interface EnumIntValue : EnumValue<Int>
+
+interface EnumStringValue : EnumValue<String>
+
 private val creators = HashMap<Class<*>, EnumCreator<*, *>>()
 
 @Suppress("UNCHECKED_CAST")

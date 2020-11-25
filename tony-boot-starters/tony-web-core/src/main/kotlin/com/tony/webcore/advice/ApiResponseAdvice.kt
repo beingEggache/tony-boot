@@ -2,11 +2,11 @@ package com.tony.webcore.advice
 
 import com.tony.core.ApiResult
 import com.tony.core.ListResult
-import com.tony.core.OneResult
 import com.tony.core.utils.asTo
 import com.tony.webcore.WebApp
 import com.tony.webcore.utils.antPathMatcher
 import com.tony.webcore.utils.matchAny
+import java.util.Collections
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
@@ -30,7 +30,7 @@ internal class ApiResponseAdvice : ResponseBodyAdvice<Any?> {
         response: ServerHttpResponse) =
         when {
             antPathMatcher.matchAny(WebApp.excludeJsonResultUrlPatterns, request.uri.path) -> body
-            body == null -> ApiResult(OneResult(null), WebApp.successCode)
+            body == null -> ApiResult(Collections.EMPTY_MAP, WebApp.successCode)
             Collection::class.java.isAssignableFrom(body.javaClass) -> ApiResult(
                 ListResult(body.asTo<Collection<Any>>()), WebApp.successCode)
             else -> ApiResult(body, WebApp.successCode)
