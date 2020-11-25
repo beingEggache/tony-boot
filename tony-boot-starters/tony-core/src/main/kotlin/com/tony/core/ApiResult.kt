@@ -2,6 +2,7 @@
 
 package com.tony.core
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.tony.core.utils.toJsonString
 
 data class ApiResult<T> @JvmOverloads constructor(
@@ -15,6 +16,11 @@ data class ApiResult<T> @JvmOverloads constructor(
             "data" to data.toJsonString(),
             "msg" to msg)
 }
+
+val EMPTY_RESULT = EmptyResult()
+
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
+class EmptyResult
 
 data class OneResult<T>(val result: T? = null)
 

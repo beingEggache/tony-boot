@@ -3,7 +3,7 @@ package com.tony.webcore
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.tony.core.ApiResult
-import com.tony.core.OneResult
+import com.tony.core.EMPTY_RESULT
 import com.tony.core.exception.ApiException
 import com.tony.core.exception.BaseException
 import com.tony.core.utils.asTo
@@ -99,6 +99,6 @@ object WebContext {
     }
 
     fun BaseException.toResponse() =
-        ApiResult(OneResult(null), code, message.defaultIfBlank())
+        ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
 
 }
