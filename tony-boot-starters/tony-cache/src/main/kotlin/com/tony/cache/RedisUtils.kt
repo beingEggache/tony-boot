@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
 package com.tony.cache
 
@@ -216,7 +216,5 @@ object RedisUtils {
         this.stringRedisTemplate = stringRedisTemplate
     }
 
-    fun keys(key: String): Collection<String> {
-        return redisTemplate.keys(key)
-    }
+    fun keys(key: String): Collection<String> = redisTemplate.keys(key)
 }
