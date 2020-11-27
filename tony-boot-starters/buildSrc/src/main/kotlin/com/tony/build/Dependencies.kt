@@ -11,7 +11,7 @@ object Version {
     const val byteBuddyVersion = "1.10.18"
     const val jacksonVersion = "2.11.3"
     const val knife4jVersion = "2.0.8"
-    const val kotlinVersion = "1.4.10"
+    const val kotlinVersion = "1.4.20"
     const val mybatisSpringStarterVersion = "2.1.4"
     const val nettyVersion = "4.1.54.Final"
     const val reactorVersion = "3.3.11.RELEASE"

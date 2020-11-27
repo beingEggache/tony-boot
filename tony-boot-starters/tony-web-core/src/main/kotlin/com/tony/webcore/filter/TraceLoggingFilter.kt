@@ -165,7 +165,6 @@ internal class TraceLoggingFilter(
 
         private const val VALIDATE_FAILED = "VALIDATE_FAILED"
 
-        @JvmStatic
         private fun requestParam(request: ContentCachingRequestWrapper) =
             if (request.method.equals(HttpMethod.POST.name, true)) {
                 val bytes = request.contentAsByteArray
@@ -176,7 +175,6 @@ internal class TraceLoggingFilter(
                 }
             } else NULL
 
-        @JvmStatic
         private fun responseBody(response: ContentCachingResponseWrapper) =
             response.contentAsByteArray.let { bytes ->
                 val size = bytes.size
@@ -188,7 +186,6 @@ internal class TraceLoggingFilter(
                 }
             }
 
-        @JvmStatic
         private fun shouldPrintResponse(response: HttpServletResponse) =
             TEXT_MEDIA_TYPES.any { it.includes(response.parsedMedia) }
     }
