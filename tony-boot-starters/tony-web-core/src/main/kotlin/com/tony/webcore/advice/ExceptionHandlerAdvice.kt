@@ -7,6 +7,7 @@ import com.tony.webcore.WebContext.toResponse
 import com.tony.webcore.badRequest
 import com.tony.webcore.config.WebProperties
 import com.tony.webcore.errorResponse
+import java.lang.Exception
 import javax.validation.ConstraintViolationException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
@@ -53,6 +54,12 @@ internal class ExceptionHandlerAdvice(
     @ExceptionHandler(ConstraintViolationException::class)
     fun constraintViolationException(e: ConstraintViolationException) =
         badRequest(e.constraintViolations.first().message)
+
+    @ExceptionHandler(Exception::class)
+    fun exception(e:Exception) = run {
+        logger.error(e.message,e)
+        errorResponse(webProperties.errorMsg)
+    }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
     @ResponseStatus(HttpStatus.OK)
