@@ -9,15 +9,15 @@ import org.gradle.kotlin.dsl.project
 
 object Version {
     const val byteBuddyVersion = "1.10.18"
-    const val jacksonVersion = "2.11.3"
+    const val jacksonVersion = "2.12.0"
     const val knife4jVersion = "2.0.8"
     const val kotlinVersion = "1.4.20"
     const val mybatisSpringStarterVersion = "2.1.4"
+    const val mybatisPlusVersion = "3.4.1"
     const val nettyVersion = "4.1.54.Final"
-    const val reactorVersion = "3.3.11.RELEASE"
+    const val reactorVersion = "3.4.0"
     const val slf4jVersion = "1.7.30"
     const val springBootVersion = "2.4.0"
-    const val springDataVersion = "2.4.0"
     const val springVersion = "5.3.1"
     const val springfoxSwagger2Version = "2.10.5"
     const val swaggerVersion = "1.6.2"
@@ -79,8 +79,8 @@ object Deps {
     }
 
     object SpringData {
-        const val springDataCommon = "org.springframework.data:spring-data-common:${Version.springDataVersion}"
-        const val springDataRedis = "org.springframework.data:spring-data-redis:${Version.springDataVersion}"
+        const val springDataCommon = "org.springframework.data:spring-data-common:${Version.springBootVersion}"
+        const val springDataRedis = "org.springframework.data:spring-data-redis:${Version.springBootVersion}"
         const val lettuce = "io.lettuce:lettuce-core:6.0.1.RELEASE"
     }
 
