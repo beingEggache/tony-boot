@@ -13,8 +13,12 @@ import javax.validation.constraints.NotNull
  * @author tangli
  * @since 2020-11-03 14:40
  */
-@ApiModel("新增用户请求")
-data class UserCreateReq(
+@ApiModel("更新用户请求")
+data class UserUpdateReq(
+
+    @ApiModelProperty("用户ID", required = true)
+    @get:NotBlank(message = "请选择用户")
+    val userId: String?,
 
     @ApiModelProperty("用户名", required = true)
     @get:NotBlank(message = "请输入用户名")
@@ -29,18 +33,10 @@ data class UserCreateReq(
     @get:Mobile
     val mobile: String?,
 
-    @ApiModelProperty("用户类型 用户类型 0 普通 1 水投", required = true)
+    @ApiModelProperty("用户类型 0 普通 1 水投", required = true)
     @get:NotNull(message = "请选择用户类型")
     @get:SimpleIntEnum(message="",enums = [0, 1])
     val userType: UserType?,
-
-    @ApiModelProperty("密码", required = true)
-    @get:NotBlank(message = "请输入密码")
-    val pwd: String?,
-
-    @ApiModelProperty("重复", required = true)
-    @get:NotBlank(message = "请重复密码")
-    val confirmPwd: String?,
 
     @ApiModelProperty("水库工程ID", required = false)
     val proIdList: List<String>?

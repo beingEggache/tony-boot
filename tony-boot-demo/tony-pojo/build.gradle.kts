@@ -1,5 +1,3 @@
-import com.tony.build.Deps
-
 dependencies {
 
     //while execute gradle task, use -Pprofile=prod

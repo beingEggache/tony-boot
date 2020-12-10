@@ -1,6 +1,3 @@
-import com.tony.build.Deps
-import com.tony.build.implementationOf
-
 apply(plugin = "kotlin-spring")
 dependencies {
 
@@ -13,5 +10,7 @@ dependencies {
     )
     implementation(Deps.TonyBoot.cache) { isChanging = true }
     api(project(":tony-pojo"))
+    api(Deps.Other.mybatisPlusBootStarter)
+    api(Deps.Spring.web)
 
 }

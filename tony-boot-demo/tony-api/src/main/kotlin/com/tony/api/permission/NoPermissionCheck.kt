@@ -6,6 +6,7 @@ import com.tony.webcore.WebApp
 import com.tony.webcore.WebContext
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
@@ -21,7 +22,8 @@ import org.springframework.web.servlet.HandlerInterceptor
 annotation class NoPermissionCheck
 
 @Component
-class PermissionInterceptor(
+@Profile("prod")
+class DefaultPermissionInterceptor(
     private val moduleService: ModuleService
 ) : HandlerInterceptor {
 
@@ -34,3 +36,9 @@ class PermissionInterceptor(
         return true
     }
 }
+
+@Component
+@Profile("!prod")
+class NoOpPermissionInterceptor : PermissionInterceptor
+
+interface PermissionInterceptor : HandlerInterceptor

@@ -1,9 +1,8 @@
-import com.tony.build.forceDepsVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") apply false
-    kotlin("plugin.spring") version "1.4.10" apply false
+    kotlin("plugin.spring") version "1.4.20" apply false
 }
 
 forceDepsVersion()

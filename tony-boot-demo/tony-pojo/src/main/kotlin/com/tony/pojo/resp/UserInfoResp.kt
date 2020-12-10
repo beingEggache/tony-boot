@@ -41,25 +41,5 @@ data class RouteAndComponentModuleResp(
 
 )
 
-@ApiModel("模块/权限")
-data class ModuleResp(
-
-    @ApiModelProperty("模块/权限Id")
-    val moduleId: String,
-
-    @ApiModelProperty("模块/权限名称")
-    val moduleName: String,
-
-    @ApiModelProperty("模块/权限值（URL、路由、控件Id）")
-    val moduleValue: String,
-
-    @ApiModelProperty("模块/权限类型")
-    val moduleType: ModuleType?,
-
-    @ApiModelProperty("子路由")
-    var children: List<ModuleResp> = listOf(),
-
-)
-
 
 

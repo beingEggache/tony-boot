@@ -1,5 +1,3 @@
-package com.tony.build
-
 import java.lang.reflect.Modifier
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
@@ -9,19 +7,19 @@ import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.project
 
 object Version {
-    const val byteBuddyVersion = "1.10.17"
-    const val jacksonVersion = "2.11.3"
-    const val knife4jVersion = "2.0.7"
-    const val kotlinVersion = "1.4.10"
-    const val mybatisSpringStarterVersion = "2.1.3"
+    const val byteBuddyVersion = "1.10.18"
+    const val jacksonVersion = "2.12.0"
+    const val knife4jVersion = "2.0.8"
+    const val kotlinVersion = "1.4.20"
+    const val mybatisSpringStarterVersion = "2.1.4"
+    const val mybatisPlusVersion = "3.4.1"
     const val nettyVersion = "4.1.54.Final"
-    const val reactorVersion = "3.3.11.RELEASE"
+    const val reactorVersion = "3.4.0"
     const val slf4jVersion = "1.7.30"
     const val springBootVersion = "2.4.0"
-    const val springVersion = "5.3.1"
+    const val springVersion = "5.3.2"
     const val springfoxSwagger2Version = "2.10.5"
     const val swaggerVersion = "1.6.2"
-    const val tonyBootVersion = "0.1-SNAPSHOT"
 }
 
 object Deps {
@@ -111,6 +109,7 @@ object Deps {
     }
 
     object Other {
+        const val pageHelperStarter = "com.github.pagehelper:pagehelper-spring-boot-starter:1.3.0"
         const val swaggerAnnotations = "io.swagger:swagger-annotations:${Version.swaggerVersion}"
         const val swaggerModels = "io.swagger:swagger-models:${Version.swaggerVersion}"
         const val mybatisStarter = "org.mybatis.spring.boot:mybatis-spring-boot-starter:${Version.mybatisSpringStarterVersion}"
@@ -121,17 +120,17 @@ object Deps {
         const val elApi = "jakarta.el:jakarta.el-api:3.0.3"
         const val websocketApi = "jakarta.websocket:jakarta.websocket-api:1.1.2"
         const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3"
-        const val reactorNetty = "io.projectreactor.netty:reactor-netty:0.9.13.RELEASE"
+        const val reactorNetty = "io.projectreactor.netty:reactor-netty:1.0.2"
         const val gson = "com.google.code.gson:gson:2.8.6"
-        const val xstream = "com.thoughtworks.xstream:xstream:1.4.13"
+        const val xstream = "com.thoughtworks.xstream:xstream:1.4.14"
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
         const val okhttp = "com.squareup.okhttp3:okhttp:4.9.0"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
         const val guava = "com.google.guava:guava:30.0-jre"
         const val javaJwt = "com.auth0:java-jwt:3.11.0"
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.10.167.ALL"
-        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.13"
-        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.11.1"
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.10.204.ALL"
+        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.17"
+        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.11.2"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
         const val springfoxSwagger2 = "io.springfox:springfox-swagger2:${Version.springfoxSwagger2Version}"
         const val knife4j = "com.github.xiaoymin:knife4j-spring-boot-starter:${Version.knife4jVersion}"
@@ -145,16 +144,13 @@ object Deps {
         const val jclOverSlf4J = "org.slf4j:jcl-over-slf4j:${Version.slf4jVersion}"
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${Version.reactorVersion}"
-        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:1.66"
-        const val fastjson = "com.alibaba:fastjson:1.2.74"
-    }
-
-    object TonyBoot{
-        const val core = "com.tony:tony-core:${Version.tonyBootVersion}"
-        const val webCore = "com.tony:tony-web-core:${Version.tonyBootVersion}"
-        const val swagger = "com.tony:tony-swagger:${Version.tonyBootVersion}"
-        const val aliyunOss = "com.tony:tony-aliyun-oss:${Version.tonyBootVersion}"
-        const val cache = "com.tony:tony-cache:${Version.tonyBootVersion}"
+        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:1.67"
+        const val fastjson = "com.alibaba:fastjson:1.2.75"
+        const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${Version.mybatisPlusVersion}"
+        const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${Version.mybatisPlusVersion}"
+        const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter:${Version.mybatisPlusVersion}"
+        const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${Version.mybatisPlusVersion}"
+        const val easyExcel = "com.alibaba:easyexcel:2.2.7"
     }
 
     val canReplacedDependencies = mapOf(

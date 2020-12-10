@@ -1,14 +1,18 @@
 package com.tony.db.service
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
+import com.tony.cache.RedisUtils
 import com.tony.cache.annotation.RedisCacheable
 import com.tony.core.exception.BizException
 import com.tony.core.utils.defaultIfBlank
 import com.tony.db.CacheKeys
 import com.tony.db.dao.ModuleDao
 import com.tony.db.po.Module
+import com.tony.db.po.Module.Companion.MODULE_TYPE
 import com.tony.pojo.enums.ModuleType
 import com.tony.pojo.resp.ModuleResp
 import com.tony.pojo.resp.RouteAndComponentModuleResp
+import com.tony.pojo.trait.listAndSetChildren
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -22,7 +26,9 @@ class ModuleService(
     private val moduleDao: ModuleDao
 ) {
 
-    val rootRouteModuleIdRegex = Regex("^[a-zA-Z0-9]+$")
+    companion object {
+        val frontEndModuleTypes = listOf(ModuleType.ROUTE, ModuleType.COMPONENT)
+    }
 
     @RedisCacheable(
         cacheKey = CacheKeys.USER_FRONTEND_MODULES_CACHE_KEY,
@@ -35,13 +41,9 @@ class ModuleService(
 
         val routeModules = modules.filter { it.moduleType == ModuleType.ROUTE }
 
-        val rootRouteModules = routeModules.filter { it.isRootRouteModule }
-
         val componentModule = modules.filter { it.moduleType == ModuleType.COMPONENT }
 
-        return RouteAndComponentModuleResp(rootRouteModules.onEach { module ->
-            module.findAndSetChildren(routeModules)
-        }, componentModule)
+        return RouteAndComponentModuleResp(routeModules, componentModule)
     }
 
     @RedisCacheable(
@@ -51,40 +53,42 @@ class ModuleService(
     fun listApiModules(userId: String, appId: String) =
         moduleDao.selectModulesByUserIdAndAppId(userId, appId, listOf(ModuleType.API)).map { it.toDto() }
 
-
     @Transactional
     fun saveModules(modules: List<Module>, moduleType: List<ModuleType>, appId: String) {
         if (modules.isEmpty()) throw BizException("模块列表为空")
-        moduleDao.deleteByModuleType(moduleType)
+        moduleDao.delete(QueryWrapper<Module>().`in`(MODULE_TYPE, moduleType))
         modules.forEach {
             it.appId = appId
-            moduleDao.insertDynamic(it)
+            moduleDao.insert(it)
         }
+        ModuleDao.clearModuleCache()
     }
 
-    private fun ModuleResp.findAndSetChildren(routeModules: List<ModuleResp>): ModuleResp =
-        routeModules.filter {
-            isMyChild(it.moduleId)
-        }.onEach {
-            it.findAndSetChildren(routeModules)
-        }.let { children ->
-            this.children = children
-            this
-        }
+    fun tree(moduleTypes: List<ModuleType>): List<ModuleResp> {
+        val modules = moduleDao.selectList(QueryWrapper<Module>().`in`(MODULE_TYPE, moduleTypes)).map { it.toDto() }
+        return modules.listAndSetChildren()
+    }
 
-    private fun ModuleResp.isMyChild(otherModuleId: String) =
-        Regex("^${moduleId}-[a-zA-Z0-9]+$").matches(otherModuleId)
+    fun listModuleGroups(appId: String) =
+        moduleDao.selectList(QueryWrapper<Module>().eq(Module.APP_ID, appId))
+            .filter { !it.moduleGroup.isNullOrEmpty() }
+            .flatMap { it.moduleGroup.defaultIfBlank().split(",") }
+            .distinct()
 
-    val ModuleResp.isRootRouteModule: Boolean
-        get() = moduleType == ModuleType.ROUTE &&
-            rootRouteModuleIdRegex.matches(moduleId)
+    fun listByRoleId(roleId: String): List<String?> {
+        if (roleId.isBlank()) throw BizException("请选择角色")
+        return moduleDao.selectModuleByRoleId(roleId)
+            .filter { it.moduleType in frontEndModuleTypes }
+            .map { it.moduleId }
+    }
+
+    fun clearRedis() = RedisUtils.delete("*")
 
     private fun Module.toDto() =
         ModuleResp(
             moduleId.defaultIfBlank(),
             moduleName.defaultIfBlank(),
             moduleValue.defaultIfBlank(),
-            moduleType)
-
-
+            moduleType,
+            moduleGroup.defaultIfBlank())
 }

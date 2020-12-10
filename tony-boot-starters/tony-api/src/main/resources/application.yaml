@@ -1,0 +1,15 @@
+web:
+    jwt:
+        enabled: true
+        secret: 564515656qwes
+server:
+    port: 8088
+swagger:
+    basePackages:
+        - "com.tony.api"
+knife4j:
+    documents:
+        -
+            name: markdown说明
+            locations: classpath:markdown/*
+    enable: true

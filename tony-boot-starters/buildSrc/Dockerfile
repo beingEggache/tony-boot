@@ -1,5 +1,5 @@
 # First stage: JDK 11 with modules required for Spring Boot
-FROM debian:stretch-slim as packager
+FROM debian:stretch as packager
 
 ENV JDK_VERSION="11.0.8"
 ENV JDK_URL="https://download.java.net/openjdk/jdk11/ri/openjdk-11+28_linux-x64_bin.tar.gz"
@@ -49,7 +49,25 @@ RUN jlink \
     --output "$JAVA_MINIMAL"
 
 # Second stage, add only our minimal "JRE" distr
-FROM debian:stretch-slim
+FROM debian:stretch
+
+RUN echo " " > /etc/apt/sources.list; \
+    echo "deb http://mirrors.aliyun.com/debian stretch  main" >> /etc/apt/sources.list; \
+    echo "deb http://mirrors.aliyun.com/debian stretch -updates main" >> /etc/apt/sources.list; \
+    set -eux; \
+    apt-get clean; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends --fix-broken \
+		bzip2 \
+		unzip \
+		xz-utils \
+		\
+# java.lang.UnsatisfiedLinkError: /usr/local/openjdk-11/lib/libfontmanager.so: libfreetype.so.6: cannot open shared object file: No such file or directory
+# java.lang.NoClassDefFoundError: Could not initialize class sun.awt.X11FontManager
+# https://github.com/docker-library/openjdk/pull/235#issuecomment-424466077
+		fontconfig libfreetype6 ttf-dejavu \
+	; \
+	rm -rf /var/lib/apt/lists/*
 
 ENV JAVA_HOME=/opt/java-minimal
 ENV PATH="$PATH:$JAVA_HOME/bin"
