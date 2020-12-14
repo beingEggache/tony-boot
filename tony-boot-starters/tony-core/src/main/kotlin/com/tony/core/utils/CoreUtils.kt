@@ -15,7 +15,9 @@ import com.tony.core.exception.ApiException
 import java.io.IOException
 import java.io.InputStream
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.security.SecureRandom
+import java.text.NumberFormat
 import java.util.TimeZone
 import kotlin.math.pow
 import org.slf4j.Logger
@@ -56,43 +58,38 @@ inline fun <reified T> InputStream.jsonToObj(): T =
 fun <E> Any?.asTo(): E? where E : Any = this as E?
 
 @JvmOverloads
-fun Long?.trunc(digit: Int = 2, decimal: Int = digit): String {
-    if (digit < 0) throw IllegalArgumentException("digit must >= 0")
+fun Number?.truncToBigDecimal(decimal: Int = 2): BigDecimal {
     if (decimal < 0) throw IllegalArgumentException("decimal must >= 0")
-    val zeroSuffix = if (decimal == 0) "" else ".${"0".repeat(decimal)}"
-    if (this == null) return "0$zeroSuffix"
-
-    val str = (this.toBigDecimal().div("10$zeroSuffix".toBigDecimal().pow(digit))).toString()
-
-    val list = str.split(".")
-
-    val first = list.first()
-    if (list.size == 1) return "$first$zeroSuffix"
-    val second = list[1]
-    val originLength = second.length
-    val secondStr =
-        if (decimal > originLength) "${second}${"0".repeat(decimal - originLength)}"
-        else second.subSequence(0, decimal)
-    return "$first.$secondStr"
+    return when (this) {
+        null -> "0".toBigDecimal(decimal)
+        is Int -> "$this".toBigDecimal(decimal)
+        is Long -> "$this".toBigDecimal(decimal)
+        is Double -> "$this".toBigDecimal(decimal)
+        is BigDecimal -> "$this".toBigDecimal(decimal)
+        else -> throw ApiException("Not support ${this::class.simpleName}")
+    }
 }
 
-fun Double?.trunc(decimal: Int = 2, callback: (Double) -> Double): String {
-    if (decimal < 0) throw IllegalArgumentException("decimal must >= 0")
-    val zeroSuffix = if (decimal == 0) "" else ".${"0".repeat(decimal)}"
-    if (this == null) return "0$zeroSuffix"
+private fun String?.toBigDecimal(decimal: Int = 2) = BigDecimal(this ?: "0").setScale(decimal, RoundingMode.DOWN)
 
-    val str = callback(this).toBigDecimal().toString()
-    val list = str.split(".")
+@JvmOverloads
+fun Number?.truncToString(digit: Int = 2, decimal: Int = digit) =
+    truncToBigDecimal(decimal).div(10.truncToBigDecimal(decimal).pow(digit)).toString()
 
-    val first = list.first()
-    if (list.size == 1) return "$first$zeroSuffix"
-    val second = list[1]
-    val originLength = second.length
-    val secondStr =
-        if (decimal > originLength) "${second}${"0".repeat(decimal - originLength)}"
-        else second.subSequence(0, decimal)
-    return "$first.$secondStr"
-}
+@JvmOverloads
+fun Float?.formatToPercent(digit: Int = 2): String = NumberFormat.getPercentInstance().apply {
+    maximumFractionDigits = digit
+}.format(this ?: 0)
+
+@JvmOverloads
+fun Double?.formatToPercent(digit: Int = 2): String = NumberFormat.getPercentInstance().apply {
+    maximumFractionDigits = digit
+}.format(this ?: 0)
+
+@JvmOverloads
+fun BigDecimal?.formatToPercent(digit: Int = 2): String = NumberFormat.getPercentInstance().apply {
+    maximumFractionDigits = digit
+}.format(this ?: 0)
 
 private val secureRandom = SecureRandom()
 
@@ -126,8 +123,4 @@ inline fun Boolean.doUnless(crossinline block: () -> Any) {
 
 inline fun <reified T> T?.doIfNull(crossinline block: () -> T): T {
     return this ?: block()
-}
-
-fun main() {
-    1565418131234234L.trunc(8,4).println()
 }
