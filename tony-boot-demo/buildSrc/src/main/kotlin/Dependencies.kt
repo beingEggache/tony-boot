@@ -13,15 +13,13 @@ object Version {
     const val kotlinVersion = "1.4.20"
     const val mybatisSpringStarterVersion = "2.1.4"
     const val mybatisPlusVersion = "3.4.1"
-    const val nettyVersion = "4.1.54.Final"
-    const val reactorVersion = "3.4.0"
+    const val nettyVersion = "4.1.55.Final"
+    const val reactorVersion = "3.4.1"
     const val slf4jVersion = "1.7.30"
-    const val springBootVersion = "2.4.0"
+    const val springBootVersion = "2.4.1"
     const val springVersion = "5.3.2"
     const val springfoxSwagger2Version = "2.10.5"
     const val swaggerVersion = "1.6.2"
-    const val tonyBootVersion = "0.1-SNAPSHOT"
-
 }
 
 object Deps {
@@ -155,14 +153,6 @@ object Deps {
         const val easyExcel = "com.alibaba:easyexcel:2.2.7"
     }
 
-    object TonyBoot{
-        const val core = "com.tony:tony-core:${Version.tonyBootVersion}"
-        const val webCore = "com.tony:tony-web-core:${Version.tonyBootVersion}"
-        const val swagger = "com.tony:tony-swagger:${Version.tonyBootVersion}"
-        const val aliyunOss = "com.tony:tony-aliyun-oss:${Version.tonyBootVersion}"
-        const val cache = "com.tony:tony-cache:${Version.tonyBootVersion}"
-    }
-
     val canReplacedDependencies = mapOf(
         "org.apache.tomcat:tomcat-annotations-api" to Other.annotationApi,
         "javax.annotation:javax.annotation-api" to Other.annotationApi,
@@ -230,4 +220,3 @@ fun Project.forceDepsVersion() {
         }
     }
 }
-
