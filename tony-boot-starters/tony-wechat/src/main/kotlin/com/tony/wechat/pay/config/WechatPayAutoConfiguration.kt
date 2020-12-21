@@ -10,16 +10,19 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @EnableConfigurationProperties(WechatPayProperties::class)
 internal class WechatPayAutoConfiguration(
-    private val wechatProperties: WechatPayProperties) {
+    private val wechatProperties: WechatPayProperties
+) {
 
     @Bean
     fun wechatPayService() =
         let {
-            val (appId,
+            val (
+                appId,
                 miniProgramAppId,
                 subscriptionAppId,
                 mchId,
-                mchSecretKey) = wechatProperties
+                mchSecretKey
+            ) = wechatProperties
 
             WechatPayService(
                 appId,
@@ -41,4 +44,3 @@ internal data class WechatPayProperties(
     val mchId: String,
     val mchSecretKey: String
 )
-

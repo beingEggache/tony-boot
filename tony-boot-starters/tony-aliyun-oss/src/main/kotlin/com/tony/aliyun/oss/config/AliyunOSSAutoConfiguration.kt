@@ -10,20 +10,25 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @EnableConfigurationProperties(AliyunOSSProperties::class)
 internal class AliyunOSSAutoConfiguration(
-    private val aliyunOSSProperties: AliyunOSSProperties) {
+    private val aliyunOSSProperties: AliyunOSSProperties
+) {
 
     @Bean
     fun ossService() = let {
 
-        val (accessKeyId,
+        val (
+            accessKeyId,
             accessKeySecret,
             bucketName,
-            endpoint) = aliyunOSSProperties
+            endpoint
+        ) = aliyunOSSProperties
 
-        OssService(accessKeyId,
+        OssService(
+            accessKeyId,
             accessKeySecret,
             bucketName,
-            endpoint)
+            endpoint
+        )
     }
 }
 
@@ -33,4 +38,5 @@ internal data class AliyunOSSProperties(
     val accessKeyId: String,
     val accessKeySecret: String,
     val bucketName: String,
-    val endpoint: String)
+    val endpoint: String
+)

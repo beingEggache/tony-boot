@@ -8,7 +8,6 @@ import com.tony.wechat.pay.response.WechatPayNotifyResponse
 import com.tony.wechat.xml.XStreamCDataConverter
 import com.tony.wechat.xml.toXmlString
 
-
 const val SUCCESS = "SUCCESS"
 
 /**
@@ -76,7 +75,6 @@ data class WechatPayNotifyRequest(
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("result_code")
     var resultCode: String,
-
 
     /**
      * ## 错误代码
@@ -198,11 +196,14 @@ data class WechatPayNotifyRequest(
             notifyRequest: WechatPayNotifyRequest,
             signValid: Boolean,
             doOnSuccess: () -> Unit,
-            doOnFailed: (String) -> Unit): String {
+            doOnFailed: (String) -> Unit
+        ): String {
 
             if (!signValid) {
-                logger.error("wechat pay order ${notifyRequest.outTradeNo} " +
-                    "sign invalid,notify request:${notifyRequest.toXmlString()}")
+                logger.error(
+                    "wechat pay order ${notifyRequest.outTradeNo} " +
+                        "sign invalid,notify request:${notifyRequest.toXmlString()}"
+                )
                 return WechatPayNotifyResponse().toXmlString()
             }
             try {
@@ -219,5 +220,4 @@ data class WechatPayNotifyRequest(
             return WechatPayNotifyResponse().toXmlString()
         }
     }
-
 }

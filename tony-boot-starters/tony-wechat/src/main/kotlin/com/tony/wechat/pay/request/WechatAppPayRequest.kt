@@ -2,7 +2,6 @@ package com.tony.wechat.pay.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-
 data class WechatAppPayRequest(
 
     @JsonProperty("appid")

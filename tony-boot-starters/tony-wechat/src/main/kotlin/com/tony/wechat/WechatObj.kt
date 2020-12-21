@@ -59,14 +59,11 @@ enum class MsgType {
     }
 }
 
-
 data class WechatMenu(var button: List<WechatButton>)
-
 
 open class WechatButton(
     open var name: String
 )
-
 
 open class WechatTypedButton(
     open var type: WechatButtonType? = null,
@@ -79,7 +76,6 @@ class WechatMenuButton(
     override var name: String,
     var sub_button: List<WechatTypedButton>
 ) : WechatButton(name)
-
 
 class WechatViewButton(
     override var name: String,
@@ -107,12 +103,17 @@ class WechatScanCodeButton(
 
 enum class WechatButtonType {
 
-    CLICK, LOCATION_SELECT, MEDIA_ID, PIC_PHOTO_OR_ALBUM, PIC_SYSPHOTO, PIC_WEIXIN, SCANCODE_PUSH, SCANCODE_WAITMSG, VIEW, VIEW_LIMITED;
+    CLICK,
+    LOCATION_SELECT,
+    MEDIA_ID,
+    PIC_PHOTO_OR_ALBUM,
+    PIC_SYSPHOTO,
+    PIC_WEIXIN,
+    SCANCODE_PUSH,
+    SCANCODE_WAITMSG,
+    VIEW,
+    VIEW_LIMITED;
 
     @JsonValue
     override fun toString() = super.toString().toLowerCase()
 }
-
-
-
-

@@ -7,3 +7,22 @@ indent_size = 4
 trim_trailing_whitespace = true
 insert_final_newline = true
 end_of_line = lf
+
+[*.{kt, kts}]
+max_line_length = 120
+kotlin_imports_layout = idea
+no-unused-imports = true
+no-semi = true
+no-consecutive-blank-lines = true
+no-blank-line-before-rbrace = true
+no-trailing-spaces = true
+no-unit-return = true
+no-empty-class-body = true
+no-wildcard-imports = true
+chain-wrapping = false
+no-line-break-before-assignment = true
+string-template = true
+import-ordering = true
+
+[**/test/*.{kt, kts}]
+disabled_rules=import-ordering,no-unused-imports,no-semi

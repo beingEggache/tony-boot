@@ -6,11 +6,6 @@ import com.tony.core.exception.ApiException
 import com.tony.core.utils.defaultIfBlank
 import com.tony.core.utils.jsonToObj
 import com.tony.core.utils.toDeepLink
-import java.io.InputStream
-import java.security.cert.X509Certificate
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509TrustManager
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPost
@@ -24,7 +19,11 @@ import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager
 import org.apache.http.message.BasicHeader
-
+import java.io.InputStream
+import java.security.cert.X509Certificate
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 private val client = HttpClients.custom().apply {
 
@@ -56,23 +55,30 @@ private fun httpExecute(request: HttpUriRequest, headers: List<Pair<String, Stri
     }
 
 @JvmOverloads
-fun String.httpGet(params: Map<String, Any?>? = null,
-                   headers: List<Pair<String, String>>? = null): HttpResponseWrapper {
+fun String.httpGet(
+    params: Map<String, Any?>? = null,
+    headers: List<Pair<String, String>>? = null
+): HttpResponseWrapper {
     val query = params.let {
         "?".takeUnless { contains("?") }.orEmpty() + it.toDeepLink()
     }
     return HttpResponseWrapper(
-        httpExecute(HttpGet("$this$query"), headers))
+        httpExecute(HttpGet("$this$query"), headers)
+    )
 }
 
 @JvmOverloads
 fun String.httpPost(body: String? = null, headers: List<Pair<String, String>>? = null) =
     HttpResponseWrapper(
-        httpExecute(HttpPost(this).apply {
-            if (!body.isNullOrBlank()) {
-                entity = StringEntity(body, Charsets.UTF_8)
-            }
-        }, headers))
+        httpExecute(
+            HttpPost(this).apply {
+                if (!body.isNullOrBlank()) {
+                    entity = StringEntity(body, Charsets.UTF_8)
+                }
+            },
+            headers
+        )
+    )
 
 inline fun <R> CloseableHttpResponse.doWithContent(crossinline action: (InputStream) -> R): R =
     use { r -> r.entity.content.use(action) }
@@ -84,6 +90,3 @@ class HttpResponseWrapper(val response: CloseableHttpResponse) {
 
     fun string() = response.doWithContent { String(it.readBytes()) }
 }
-
-
-

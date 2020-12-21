@@ -4,14 +4,14 @@ package com.tony.webcore.utils
 
 import com.tony.core.utils.doIf
 import com.tony.webcore.WebContext
-import java.net.URL
-import java.net.URLEncoder
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import java.net.URL
+import java.net.URLEncoder
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 val HttpServletRequest.origin: String
     get() = run {
@@ -64,7 +64,8 @@ val HttpServletResponse.parsedMedia: MediaType?
 fun byteArrayResponse(
     bytes: ByteArray,
     fileName: String = "",
-    contentType: MediaType = MediaType.APPLICATION_OCTET_STREAM): ResponseEntity<ByteArray> =
+    contentType: MediaType = MediaType.APPLICATION_OCTET_STREAM
+): ResponseEntity<ByteArray> =
     ResponseEntity
         .ok()
         .contentType(contentType)

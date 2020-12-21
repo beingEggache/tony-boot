@@ -17,8 +17,8 @@ import com.tony.wechat.pay.request.WechatPayRequest
 import com.tony.wechat.pay.response.WechatPayOrderResponse
 import com.tony.wechat.xml.toXmlString
 import com.tony.wechat.xml.xmlToObj
-import java.time.LocalDateTime
 import org.apache.commons.codec.digest.DigestUtils
+import java.time.LocalDateTime
 
 @Suppress("unused")
 class WechatPayService(
@@ -26,7 +26,8 @@ class WechatPayService(
     private val miniProgramAppId: String,
     private val subscriptionAppId: String,
     private val mchId: String,
-    private val mchKey: String) {
+    private val mchKey: String
+) {
 
 //    fun enchashment(openId: String, amount: Long, ip: String): WechatTransferResponse {
 //        val charArray = mchId.toCharArray()
@@ -122,7 +123,8 @@ class WechatPayService(
         `package`: String,
         nonceStr: String,
         timestamp: String,
-        sign: String) =
+        sign: String
+    ) =
         WechatAppPayRequest(
             appId = appId,
             partnerId = partnerId,
@@ -130,7 +132,8 @@ class WechatPayService(
             `package` = `package`,
             nonceStr = nonceStr,
             timestamp = timestamp,
-            sign = sign)
+            sign = sign
+        )
 
     private fun getAppId(wechatSource: WechatSource) =
         when (wechatSource) {
@@ -142,7 +145,8 @@ class WechatPayService(
      * 返回统一下单响应对象
      */
     private fun getPayOrderResponse(
-        orderRequest: WechatPayOrderRequest): WechatPayOrderResponse {
+        orderRequest: WechatPayOrderRequest
+    ): WechatPayOrderResponse {
         val resultStr =
             unifiedOrderPath.httpPost(orderRequest.toXmlString()).string()
 
@@ -184,24 +188,27 @@ class WechatPayService(
 
         val tradeType = getTradeType(wechatSource)
 
-        val orderResponse = getPayOrderResponse(WechatPayOrderRequest(
-            appId = sourceAppId,
-            mchId = mchId,
-            nonceStr = genNonceStr(),
-            body = body,
-            detail = detail,
-            attach = attach,
-            signType = signType,
-            outTradeNo = outTradeNo,
-            totalFee = totalAmount,
-            spbillCreateIP = ip,
-            timeStart = timeStart?.toString("yyyyMMddHHmmss"),
-            timeExpire = timeExpire?.toString("yyyyMMddHHmmss"),
-            notifyUrl = notifyUrl,
-            tradeType = tradeType.name,
-            openId = openId).apply {
-            sign = genMd5UpperCaseSign(this, "key" to mchKey)
-        })
+        val orderResponse = getPayOrderResponse(
+            WechatPayOrderRequest(
+                appId = sourceAppId,
+                mchId = mchId,
+                nonceStr = genNonceStr(),
+                body = body,
+                detail = detail,
+                attach = attach,
+                signType = signType,
+                outTradeNo = outTradeNo,
+                totalFee = totalAmount,
+                spbillCreateIP = ip,
+                timeStart = timeStart?.toString("yyyyMMddHHmmss"),
+                timeExpire = timeExpire?.toString("yyyyMMddHHmmss"),
+                notifyUrl = notifyUrl,
+                tradeType = tradeType.name,
+                openId = openId
+            ).apply {
+                sign = genMd5UpperCaseSign(this, "key" to mchKey)
+            }
+        )
 
         val prePayId = orderResponse.prePayId
             ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}")

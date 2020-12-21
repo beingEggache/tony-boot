@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 
-
 @Configuration
 internal class JacksonConfig {
 
@@ -31,7 +30,6 @@ internal class JacksonConfig {
 
         MappingJackson2HttpMessageConverter(objectMapper)
     }
-
 }
 
 internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
@@ -39,7 +37,8 @@ internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
     override fun serialize(
         value: Any?,
         gen: JsonGenerator,
-        serializers: SerializerProvider) {
+        serializers: SerializerProvider
+    ) {
         if (value == null) {
             gen.writeStartArray()
             gen.writeEndArray()
@@ -51,7 +50,8 @@ internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
     override fun serialize(
         value: Any?,
         gen: JsonGenerator,
-        serializers: SerializerProvider?) {
+        serializers: SerializerProvider?
+    ) {
         if (value == null) {
             gen.writeStartObject()
             gen.writeEndObject()
@@ -63,7 +63,8 @@ internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
     override fun serialize(
         value: Any?,
         gen: JsonGenerator,
-        serializers: SerializerProvider) {
+        serializers: SerializerProvider
+    ) {
         gen.writeString("")
     }
 }
@@ -76,7 +77,8 @@ internal class NullValueBeanSerializerModifier : BeanSerializerModifier() {
     override fun changeProperties(
         config: SerializationConfig,
         beanDesc: BeanDescription,
-        beanProperties: MutableList<BeanPropertyWriter>) =
+        beanProperties: MutableList<BeanPropertyWriter>
+    ) =
         beanProperties.onEach {
             when {
                 it.type.isArrayLikeType() -> it.assignNullSerializer(nullArrayJsonSerializer)
@@ -113,10 +115,11 @@ class MaskSerializer : JsonSerializer<Any>() {
             .javaClass
             .getDeclaredField(gen.outputContext.currentName)
             .getAnnotation(MaskConverter::class.java)
-        gen.writeString(MaskConverter.getMaskFun(annotation.value)
-            .invoke(value.toString()))
+        gen.writeString(
+            MaskConverter.getMaskFun(annotation.value)
+                .invoke(value.toString())
+        )
     }
-
 }
 
 enum class MaskType {

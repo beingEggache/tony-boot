@@ -19,17 +19,17 @@ import com.tony.wechat.response.WechatQrCodeResponse
 import com.tony.wechat.response.WechatServerResponse
 import com.tony.wechat.response.WechatSnsTokenResponse
 import com.tony.wechat.response.WechatUserInfoResponse
+import org.apache.commons.codec.digest.DigestUtils
 import java.time.LocalTime
 import java.util.concurrent.ConcurrentHashMap
-import org.apache.commons.codec.digest.DigestUtils
 
 @Suppress("unused")
 class WechatService(
     private val miniProgramAppId: String,
     private val subscriptionAppId: String,
     private val appSecret: String,
-    private val miniProgramAppSecret: String) {
-
+    private val miniProgramAppSecret: String
+) {
 
     private val apiAccessTokenMap = ConcurrentHashMap<LocalTime, String>(1, 1F)
 
@@ -45,32 +45,42 @@ class WechatService(
 
     fun checkSignature(token: String, signature: String, nonce: String, timestamp: String) =
         DigestUtils
-            .sha1Hex(listOf(token, timestamp, nonce)
-                .sorted()
-                .joinToString("")) == signature
+            .sha1Hex(
+                listOf(token, timestamp, nonce)
+                    .sorted()
+                    .joinToString("")
+            ) == signature
 
     fun code2Session(code: String) =
-        jsCode2SessionPath.httpGet(mapOf(
-            "appid" to miniProgramAppId,
-            "secret" to miniProgramAppSecret,
-            "js_code" to code,
-            "grant_type" to "authorization_code"
-        )).json<WechatJs2CodeResponse>()
+        jsCode2SessionPath.httpGet(
+            mapOf(
+                "appid" to miniProgramAppId,
+                "secret" to miniProgramAppSecret,
+                "js_code" to code,
+                "grant_type" to "authorization_code"
+            )
+        ).json<WechatJs2CodeResponse>()
 
     fun createLimitQrCode(sceneStr: String) =
         "$apiPath/qrcode/create?access_token=${getApiAccessToken()}"
             .httpPost(
                 """
               {"action_name": "QR_LIMIT_STR_SCENE", "action_info": {"scene": {"scene_str": "$sceneStr"}}}
-            """.trimIndent())
+                """.trimIndent()
+            )
             .json<WechatQrCodeResponse>()
 
     fun createQrCode(sceneStr: String, expireSeconds: Int = 2592000) =
         "$apiPath/qrcode/create?access_token=${getApiAccessToken()}"
             .httpPost(
                 """
-                {"expire_seconds": $expireSeconds,"action_name": "QR_STR_SCENE", "action_info": {"scene": {"scene_str": "$sceneStr"}}}
-            """.trimIndent())
+                {
+                "expire_seconds": $expireSeconds,
+                "action_name": "QR_STR_SCENE",
+                "action_info": {"scene": {"scene_str": "$sceneStr"}}
+                }
+                """.trimIndent()
+            )
             .json<WechatQrCodeResponse>()
 
     fun deleteMenu(): Boolean {
@@ -87,10 +97,13 @@ class WechatService(
 
         val resultStr =
             "$apiPath/token"
-                .httpGet(mapOf(
-                    "grant_type" to "client_credential",
-                    "appid" to appId,
-                    "secret" to secret))
+                .httpGet(
+                    mapOf(
+                        "grant_type" to "client_credential",
+                        "appid" to appId,
+                        "secret" to secret
+                    )
+                )
                 .string()
 
         val (accessToken, expiresIn) =
@@ -117,21 +130,26 @@ class WechatService(
     }
 
     private fun getJsApiSignature(nonceStr: String, timestamp: Long, url: String) =
-        DigestUtils.sha1Hex(listOf(
-            "jsapi_ticket" to getJsApiTicket(),
-            "noncestr" to nonceStr,
-            "timestamp" to timestamp,
-            "url" to url
-        ).joinToString("&") {
-            "${it.first}=${it.second}"
-        })
+        DigestUtils.sha1Hex(
+            listOf(
+                "jsapi_ticket" to getJsApiTicket(),
+                "noncestr" to nonceStr,
+                "timestamp" to timestamp,
+                "url" to url
+            ).joinToString("&") {
+                "${it.first}=${it.second}"
+            }
+        )
 
     private fun getJsApiTicket() =
         synchronized(jsAPITicketMap) {
             val (_, _, ticket, expiresIn) =
-                "$apiPath/ticket/getticket".httpGet(mapOf(
-                    "access_token" to getApiAccessToken(),
-                    "type" to "jsapi")).json<WechatJsApiTicketResponse>()
+                "$apiPath/ticket/getticket".httpGet(
+                    mapOf(
+                        "access_token" to getApiAccessToken(),
+                        "type" to "jsapi"
+                    )
+                ).json<WechatJsApiTicketResponse>()
 
             val now = LocalTime.now()
             if (jsAPITicketMap.isEmpty()) {
@@ -142,19 +160,20 @@ class WechatService(
                     jsAPITicketMap.clear()
                     jsAPITicketMap[now] = ticket
                 }
-
             }
             ticket
         }
 
     fun getUserAccessTokenObj(code: String): WechatSnsTokenResponse {
 
-        val resultStr = "$snsApiPath/access_token".httpGet(mapOf(
-            "appid" to subscriptionAppId,
-            "secret" to appSecret,
-            "code" to code,
-            "grant_type" to "authorization_code"
-        )).string()
+        val resultStr = "$snsApiPath/access_token".httpGet(
+            mapOf(
+                "appid" to subscriptionAppId,
+                "secret" to appSecret,
+                "code" to code,
+                "grant_type" to "authorization_code"
+            )
+        ).string()
         val response = resultStr.jsonToObj<WechatSnsTokenResponse>()
 
         if (response.expiresIn == -1) {
@@ -177,7 +196,8 @@ class WechatService(
     fun initMenu(
         menu: WechatMenu,
         appId: String = subscriptionAppId,
-        secret: String = appSecret) =
+        secret: String = appSecret
+    ) =
         "$apiPath/menu/create?access_token=${getApiAccessToken(appId, secret)}"
             .httpPost(menu.toJsonString())
             .json<WechatServerResponse>()
@@ -200,6 +220,10 @@ class WechatService(
         "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=$ticket"
 
     private fun wechatRedirect(url: String): String =
-        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$subscriptionAppId&redirect_uri=${url.urlEncode()}&response_type=code&scope=snsapi_base&state=#wechat_redirect"
-
+        "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+            "appid=$subscriptionAppId" +
+            "&redirect_uri=${url.urlEncode()}" +
+            "&response_type=code" +
+            "&scope=snsapi_base" +
+            "&state=#wechat_redirect"
 }

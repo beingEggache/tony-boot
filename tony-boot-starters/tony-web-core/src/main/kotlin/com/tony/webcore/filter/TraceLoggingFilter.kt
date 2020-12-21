@@ -14,6 +14,13 @@ import com.tony.webcore.utils.headers
 import com.tony.webcore.utils.matchAny
 import com.tony.webcore.utils.parsedMedia
 import com.tony.webcore.utils.remoteIp
+import org.slf4j.MDC
+import org.springframework.core.PriorityOrdered
+import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
+import org.springframework.web.filter.OncePerRequestFilter
+import org.springframework.web.util.ContentCachingRequestWrapper
+import org.springframework.web.util.ContentCachingResponseWrapper
 import java.io.IOException
 import java.time.LocalDateTime
 import java.util.UUID
@@ -24,13 +31,6 @@ import javax.servlet.ServletException
 import javax.servlet.annotation.WebFilter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import org.slf4j.MDC
-import org.springframework.core.PriorityOrdered
-import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
-import org.springframework.web.filter.OncePerRequestFilter
-import org.springframework.web.util.ContentCachingRequestWrapper
-import org.springframework.web.util.ContentCachingResponseWrapper
 
 @WebFilter(filterName = "traceLoggingFilter", servletNames = ["dispatcherServlet"])
 @Priority(PriorityOrdered.HIGHEST_PRECEDENCE + 101)
@@ -44,19 +44,22 @@ internal class TraceLoggingFilter(
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain) =
+        filterChain: FilterChain
+    ) =
         doFilterTrace(
             ContentCachingRequestWrapper(request),
             ContentCachingResponseWrapper(response),
             filterChain,
-            LocalDateTime.now())
+            LocalDateTime.now()
+        )
 
     @Throws(IOException::class, ServletException::class)
     private fun doFilterTrace(
         requestWrapper: ContentCachingRequestWrapper,
         responseWrapper: ContentCachingResponseWrapper,
         filterChain: FilterChain,
-        startTime: LocalDateTime) {
+        startTime: LocalDateTime
+    ) {
 
         try {
             filterChain.doFilter(requestWrapper, responseWrapper)
@@ -73,7 +76,8 @@ internal class TraceLoggingFilter(
         requestWrapper: ContentCachingRequestWrapper,
         responseWrapper: ContentCachingResponseWrapper,
         startTime: LocalDateTime,
-        elapsedTime: Long) {
+        elapsedTime: Long
+    ) {
 
         try {
 
@@ -114,7 +118,6 @@ internal class TraceLoggingFilter(
                 "|$localIp"
 
             log.trace(logStr.removeLineBreak())
-
         } catch (e: Exception) {
             log.error(e.message, e)
         }
@@ -189,20 +192,20 @@ internal class TraceLoggingFilter(
         private fun shouldPrintResponse(response: HttpServletResponse) =
             TEXT_MEDIA_TYPES.any { it.includes(response.parsedMedia) }
     }
-
 }
 
 @WebFilter(filterName = "traceIdFilter", servletNames = ["dispatcherServlet"])
 internal class TraceIdFilter : OncePerRequestFilter() {
 
-    override fun doFilterInternal(request: HttpServletRequest,
-                                  response: HttpServletResponse,
-                                  filterChain: FilterChain) =
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
+    ) =
         try {
             MDC.put("X-B3-TraceId", UUID.randomUUID().toString())
             filterChain.doFilter(request, response)
         } finally {
             MDC.remove("X-B3-TraceId")
         }
-
 }

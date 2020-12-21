@@ -79,12 +79,12 @@ data class WechatAPIResponse(
     var errmsg: String
 )
 
-
 data class WechatApiTokenResponse(
     @JsonProperty("access_token")
     var accessToken: String = "",
     @JsonProperty("expires_in")
-    var expiresIn: Int = -1)
+    var expiresIn: Int = -1
+)
 
 data class WechatJsApiTicketResponse(
     @JsonProperty("errcode")
@@ -96,7 +96,6 @@ data class WechatJsApiTicketResponse(
     @JsonProperty("expires_in")
     var expiresIn: Int
 )
-
 
 data class WechatSnsTokenResponse(
     @JsonProperty("access_token") var accessToken: String?,
@@ -110,7 +109,8 @@ data class WechatServerResponse(
     @JsonProperty("errcode")
     var errCode: Int,
     @JsonProperty("errmsg")
-    var errMsg: String) {
+    var errMsg: String
+) {
     fun success(callback: (WechatServerResponse.() -> Unit)? = null): Boolean {
         if (errCode != 0) throw ApiException(errMsg)
         callback?.invoke(this)
@@ -122,4 +122,5 @@ data class WechatQrCodeResponse(
     var ticket: String,
     @JsonProperty("expire_seconds")
     var expireSeconds: Int,
-    var url: String)
+    var url: String
+)

@@ -14,11 +14,6 @@ import com.tony.webcore.utils.headers
 import com.tony.webcore.utils.origin
 import com.tony.webcore.utils.remoteIp
 import com.tony.webcore.utils.url
-import java.net.URI
-import java.net.URL
-import java.nio.file.Files
-import java.nio.file.Paths
-import javax.servlet.http.HttpServletRequest
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.error.ErrorAttributeOptions.Include
 import org.springframework.util.ResourceUtils
@@ -26,7 +21,11 @@ import org.springframework.web.context.request.RequestAttributes
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.context.request.ServletWebRequest
-
+import java.net.URI
+import java.net.URL
+import java.nio.file.Files
+import java.nio.file.Paths
+import javax.servlet.http.HttpServletRequest
 
 @Suppress("unused")
 object WebContext {
@@ -51,7 +50,9 @@ object WebContext {
     private val errorAttributes
         get() = current.getAttribute("errorAttribute", RequestAttributes.SCOPE_REQUEST)
             .asTo<Map<String, Any?>>().doIfNull {
-                val errorAttributes = WebApp.errorAttributes.getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
+                val errorAttributes = WebApp
+                    .errorAttributes
+                    .getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
                 current.setAttribute("errorAttribute", errorAttributes, RequestAttributes.SCOPE_REQUEST)
                 errorAttributes
             }
@@ -100,5 +101,4 @@ object WebContext {
 
     fun BaseException.toResponse() =
         ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
-
 }

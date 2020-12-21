@@ -26,7 +26,8 @@ class RedisCacheAspect {
         arguments: Array<Any>,
         paramsNames: Array<String>,
         cacheKey: String,
-        redisParamsNames: Array<String>): String {
+        redisParamsNames: Array<String>
+    ): String {
 
         if (paramsNames.isNullOrEmpty() ||
             redisParamsNames.isNullOrEmpty()
@@ -36,7 +37,8 @@ class RedisCacheAspect {
 
         val paramsValues =
             redisParamsNames.foldIndexed(
-                Array<Any?>(redisParamsNames.size) {}) { index, paramsValues, redisParamName ->
+                Array<Any?>(redisParamsNames.size) {}
+            ) { index, paramsValues, redisParamName ->
                 if (redisParamName.startsWith("#")) {
                     val indexOfDot = redisParamName.indexOf(".")
                     val indexOfFirst = paramsNames.indexOfFirst { it == redisParamName.substring(2, indexOfDot) }
@@ -51,7 +53,6 @@ class RedisCacheAspect {
                         this[index] = arguments[indexOfFirst]
                     }
                 }
-
             }
 
         return RedisUtils.genKey(cacheKey, *paramsValues)
@@ -89,9 +90,11 @@ class RedisCacheAspect {
             }
             return result
         }
-        return cachedValue.jsonToObj(TypeFactory
-            .defaultInstance()
-            .constructType(methodSignature.method.genericReturnType))
+        return cachedValue.jsonToObj(
+            TypeFactory
+                .defaultInstance()
+                .constructType(methodSignature.method.genericReturnType)
+        )
     }
 
     @Pointcut("@annotation(com.tony.cache.annotation.RedisCacheEvict)")
@@ -99,5 +102,4 @@ class RedisCacheAspect {
 
     @Pointcut("@annotation(com.tony.cache.annotation.RedisCacheable)")
     fun redisCacheable() = Unit
-
 }

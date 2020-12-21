@@ -2,13 +2,13 @@ package com.tony.webcore
 
 import com.tony.core.OK
 import com.tony.core.UNAUTHORIZED
-import java.util.regex.Pattern
-import javax.annotation.Resource
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.core.env.Environment
 import org.springframework.core.env.getProperty
 import org.springframework.stereotype.Component
+import java.util.regex.Pattern
+import javax.annotation.Resource
 
 @Component
 @ConditionalOnWebApplication
@@ -60,12 +60,14 @@ object WebApp {
     }
 
     private val errorPath by lazy {
-        environment.getProperty("server.error.path",
-            environment.getProperty("error.path", "/error"))
+        environment.getProperty(
+            "server.error.path",
+            environment.getProperty("error.path", "/error")
+        )
     }
 
-    fun ignoreUrlPatterns(ignoreContextPath:Boolean = false): List<String> {
-        val prefix = if(ignoreContextPath)"" else contextPath
+    fun ignoreUrlPatterns(ignoreContextPath: Boolean = false): List<String> {
+        val prefix = if (ignoreContextPath)"" else contextPath
         return listOf(
             removeDuplicateSlash("$prefix/actuator/**"),
             removeDuplicateSlash("$prefix/$errorPath"),
@@ -103,5 +105,4 @@ object WebApp {
 
     private fun removeDuplicateSlash(input: String): String =
         duplicateSlash.matcher(input).replaceAll("/")
-
 }

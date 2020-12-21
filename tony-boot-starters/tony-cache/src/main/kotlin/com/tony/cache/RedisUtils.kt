@@ -6,15 +6,15 @@ import com.tony.cache.config.RedisCacheProperties
 import com.tony.core.utils.OBJECT_MAPPER
 import com.tony.core.utils.doIf
 import com.tony.core.utils.jsonToObj
-import java.util.Date
-import java.util.concurrent.TimeUnit
-import javax.annotation.Resource
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
 import org.springframework.stereotype.Component
+import java.util.Date
+import java.util.concurrent.TimeUnit
+import javax.annotation.Resource
 
 @Component
 @Suppress("TooManyFunctions")
@@ -57,9 +57,10 @@ object RedisUtils {
 
     @JvmStatic
     @JvmOverloads
-    fun expire(key: String,
-               timeout: Long,
-               timeUnit: TimeUnit = TimeUnit.SECONDS
+    fun expire(
+        key: String,
+        timeout: Long,
+        timeUnit: TimeUnit = TimeUnit.SECONDS
     ): Boolean? =
         redisTemplate.expire(key, timeout, timeUnit)
 
@@ -158,10 +159,12 @@ object RedisUtils {
 
     @JvmStatic
     @JvmOverloads
-    fun <T> putAll(key: String,
-                   map: Map<String, T>,
-                   timeout: Long = 0,
-                   timeUnit: TimeUnit = TimeUnit.SECONDS) {
+    fun <T> putAll(
+        key: String,
+        map: Map<String, T>,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS
+    ) {
         if (timeout == 0L) {
             redisTemplate.boundHashOps<String, T>(key).putAll(map)
         } else {
@@ -186,28 +189,34 @@ object RedisUtils {
 
     @JvmStatic
     @JvmOverloads
-    fun set(key: String,
-            value: String,
-            timeout: Long = 0,
-            timeUnit: TimeUnit = TimeUnit.SECONDS) =
+    fun set(
+        key: String,
+        value: String,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS
+    ) =
         if (timeout == 0L) stringRedisTemplate.opsForValue().set(key, value)
         else stringRedisTemplate.opsForValue().set(key, value, timeout, timeUnit)
 
     @JvmStatic
     @JvmOverloads
-    fun set(key: String,
-            value: Number,
-            timeout: Long = 0,
-            timeUnit: TimeUnit = TimeUnit.SECONDS) =
+    fun set(
+        key: String,
+        value: Number,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS
+    ) =
         if (timeout == 0L) redisTemplate.opsForValue().set(key, value)
         else redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
 
     @JvmStatic
     @JvmOverloads
-    fun <T> set(key: String,
-                value: T,
-                timeout: Long = 0,
-                timeUnit: TimeUnit = TimeUnit.SECONDS) =
+    fun <T> set(
+        key: String,
+        value: T,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS
+    ) =
         if (timeout == 0L) redisTemplate.opsForValue().set(key, value)
         else redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
 

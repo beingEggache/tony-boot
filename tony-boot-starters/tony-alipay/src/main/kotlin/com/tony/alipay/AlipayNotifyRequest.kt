@@ -64,9 +64,7 @@ class AlipayNotifyRequest {
 
     var voucher_detail_list: String? = null
 
-
     private val logger = getLogger()
-
 
     fun process(signValid: Boolean, doOnTradeSuccess: () -> Unit): String {
 
@@ -85,5 +83,4 @@ class AlipayNotifyRequest {
         }
         return "success"
     }
-
 }

@@ -3,7 +3,6 @@ package com.tony.webcore.config
 import com.tony.webcore.WebApp
 import com.tony.webcore.auth.interceptor.DefaultLoginCheckInterceptor
 import com.tony.webcore.auth.interceptor.LoginCheckInterceptor
-import javax.annotation.Resource
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
@@ -16,6 +15,7 @@ import org.springframework.context.annotation.Lazy
 import org.springframework.core.PriorityOrdered
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import javax.annotation.Resource
 
 @Configuration
 @ConditionalOnWebApplication

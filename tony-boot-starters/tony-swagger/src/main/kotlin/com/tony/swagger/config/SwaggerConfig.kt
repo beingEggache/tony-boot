@@ -2,7 +2,6 @@ package com.tony.swagger.config
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j
 import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver
-import java.util.function.Predicate
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -17,6 +16,7 @@ import springfox.documentation.service.Contact
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc
+import java.util.function.Predicate
 
 @Configuration
 @EnableSwagger2WebMvc

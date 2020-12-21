@@ -10,15 +10,18 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @EnableConfigurationProperties(WechatProperties::class)
 internal class WechatAutoConfiguration(
-    private val wechatProperties: WechatProperties) {
+    private val wechatProperties: WechatProperties
+) {
 
     @Bean
     fun wechatService() =
         let {
-            val (subscriptionAppId,
+            val (
+                subscriptionAppId,
                 miniProgramAppId,
                 appSecret,
-                miniProgramAppSecret) = wechatProperties
+                miniProgramAppSecret
+            ) = wechatProperties
 
             WechatService(
                 miniProgramAppId,
@@ -36,4 +39,5 @@ data class WechatProperties(
     val subscriptionAppId: String,
     val miniProgramAppId: String,
     val appSecret: String,
-    val miniProgramAppSecret: String)
+    val miniProgramAppSecret: String
+)

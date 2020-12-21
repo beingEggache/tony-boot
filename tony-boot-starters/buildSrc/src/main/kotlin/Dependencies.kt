@@ -13,7 +13,7 @@ object Version {
     const val kotlinVersion = "1.4.20"
     const val mybatisSpringStarterVersion = "2.1.4"
     const val mybatisPlusVersion = "3.4.1"
-    const val nettyVersion = "4.1.55.Final"
+    const val nettyVersion = "4.1.56.Final"
     const val reactorVersion = "3.4.1"
     const val slf4jVersion = "1.7.30"
     const val springBootVersion = "2.4.1"
@@ -122,13 +122,13 @@ object Deps {
         const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:1.0.2"
         const val gson = "com.google.code.gson:gson:2.8.6"
-        const val xstream = "com.thoughtworks.xstream:xstream:1.4.14"
+        const val xstream = "com.thoughtworks.xstream:xstream:1.4.15"
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
         const val okhttp = "com.squareup.okhttp3:okhttp:4.9.0"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
-        const val guava = "com.google.guava:guava:30.0-jre"
-        const val javaJwt = "com.auth0:java-jwt:3.11.0"
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.10.204.ALL"
+        const val guava = "com.google.guava:guava:30.1-jre"
+        const val javaJwt = "com.auth0:java-jwt:3.12.0"
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.10.209.ALL"
         const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.17"
         const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.11.2"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
@@ -208,14 +208,15 @@ fun Project.forceDepsVersion() {
                 Deps::class.nestedClasses.flatMap {
                     it.staticFieldValues()
                 }.forEach {
+                    if (it.toString().contains("com.google.guava:guava")) {
+                        exclude("com.google.j2objc")
+                        exclude("com.google.errorprone")
+                        exclude("com.google.code.findbugs")
+                        exclude("com.google.guava", "listenablefuture")
+                        exclude("org.checkerframework", "checker-qual")
+                    }
                     force(it)
                 }
-                exclude("com.google.j2objc")
-                exclude("com.google.errorprone")
-                exclude("com.google.code.findbugs")
-                exclude("com.google.guava", "listenablefuture")
-                exclude("org.checkerframework", "checker-qual")
-
             }
         }
     }

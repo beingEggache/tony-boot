@@ -14,7 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @EnableConfigurationProperties(WebCorsProperties::class)
 @ConditionalOnExpression("\${web.cors.enabled:false}")
 internal class WebCorsConfig(
-    private val webCorsProperties: WebCorsProperties) : WebMvcConfigurer {
+    private val webCorsProperties: WebCorsProperties
+) : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
@@ -32,4 +33,5 @@ internal class WebCorsConfig(
 @ConditionalOnExpression("\${web.cors.enabled:false}")
 internal data class WebCorsProperties(
     val allowedOrigins: Array<String>,
-    val allowedHeaders: Array<String>)
+    val allowedHeaders: Array<String>
+)

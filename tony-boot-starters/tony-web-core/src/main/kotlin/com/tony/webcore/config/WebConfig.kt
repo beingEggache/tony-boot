@@ -38,4 +38,5 @@ internal data class WebProperties(
     val validationErrorMsg: String = "参数有误，请检查后输入",
     val validationErrorCode: Int = BAD_REQUEST,
     val bizErrorCode: Int = BIZ_ERROR,
-    val unauthorizedCode: Int = UNAUTHORIZED)
+    val unauthorizedCode: Int = UNAUTHORIZED
+)

@@ -12,7 +12,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 @Configuration
 @EnableConfigurationProperties(AlipayProperties::class)
 internal class AlipayAutoConfiguration(
-    private val alipayProperties: AlipayProperties) {
+    private val alipayProperties: AlipayProperties
+) {
 
     private val resourceResolver = PathMatchingResourcePatternResolver()
 
@@ -27,7 +28,8 @@ internal class AlipayAutoConfiguration(
             appId,
             publicKey,
             privateKey,
-            aliPublicKey)
+            aliPublicKey
+        )
     }
 
     private fun getKey(path: String?, name: String): String {
@@ -44,4 +46,5 @@ internal data class AlipayProperties(
     val appId: String,
     val publicKeyPath: String,
     val privateKeyPath: String,
-    val aliPublicKeyPath: String)
+    val aliPublicKeyPath: String
+)

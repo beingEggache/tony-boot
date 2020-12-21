@@ -1,10 +1,9 @@
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") apply false
     kotlin("plugin.spring") version "1.4.20" apply false
-    id("io.gitlab.arturbosch.detekt") version "1.14.0" apply false
+//    id("io.gitlab.arturbosch.detekt") version "1.14.0" apply false
 }
 
 forceDepsVersion()
@@ -36,27 +35,23 @@ configure(subprojects) {
 
     apply {
         plugin("kotlin")
-        plugin("io.gitlab.arturbosch.detekt")
+//        plugin("io.gitlab.arturbosch.detekt")
     }
 
-    configure<JavaPluginConvention> {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
 
-    tasks.withType<Detekt>().configureEach {
-        // Target version of the generated JVM bytecode. It is used for type resolution.
-        this.jvmTarget = "11"
-        this.parallel = true
-        this.ignoreFailures = true
-        this.config.from("$rootDir/detekt-config.yaml")
-        this.reports {
-            this.html {
-                enabled = true
-                destination = file("build/reports/detekt.html")
-            }
-        }
-    }
+//    tasks.withType<Detekt>().configureEach {
+//        // Target version of the generated JVM bytecode. It is used for type resolution.
+//        this.jvmTarget = "11"
+//        this.parallel = true
+//        this.ignoreFailures = true
+//        this.config.from("$rootDir/detekt-config.yaml")
+//        this.reports {
+//            this.html {
+//                enabled = true
+//                destination = file("build/reports/detekt.html")
+//            }
+//        }
+//    }
 
     tasks.withType<KotlinCompile>().configureEach {
         val isTest = this.name.contains("test", ignoreCase = true)
@@ -64,7 +59,9 @@ configure(subprojects) {
             jvmTarget = "11"
             allWarningsAsErrors = !isTest
             verbose = true
-            freeCompilerArgs = listOf("-Xjsr305=strict -Xlint:all -verbose -encoding=UTF8")
+            freeCompilerArgs = listOf(
+                "-Xjsr305=strict -Xlint:all -Werror -verbose -encoding=UTF8 -deprecation"
+            )
         }
     }
 }

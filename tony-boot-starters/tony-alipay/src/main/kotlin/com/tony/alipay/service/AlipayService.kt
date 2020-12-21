@@ -13,7 +13,8 @@ class AlipayService(
     private val appId: String,
     private val publicKey: String,
     private val privateKey: String,
-    private val aliPayPublicKey: String) {
+    private val aliPayPublicKey: String
+) {
 
     private val alipayGateway = "https://openapi.alipay.com/gateway.do"
 
@@ -40,22 +41,24 @@ class AlipayService(
         outTradeNo: String?,
         notifyURL: String,
         passBackParams: String? = null,
-        body: String? = null): String =
+        body: String? = null
+    ): String =
         try {
-            alipayClient.sdkExecute(AlipayTradeAppPayRequest().apply {
-                this.notifyUrl = notifyURL
-                bizModel = AlipayTradeAppPayModel().apply {
-                    this.totalAmount = totalAmount
-                    this.body = body
-                    this.subject = subject
-                    this.outTradeNo = outTradeNo
-                    this.timeoutExpress = "3m"
-                    this.passbackParams = passBackParams?.urlEncode()
-                    this.productCode = "QUICK_MSECURITY_PAY"
+            alipayClient.sdkExecute(
+                AlipayTradeAppPayRequest().apply {
+                    this.notifyUrl = notifyURL
+                    bizModel = AlipayTradeAppPayModel().apply {
+                        this.totalAmount = totalAmount
+                        this.body = body
+                        this.subject = subject
+                        this.outTradeNo = outTradeNo
+                        this.timeoutExpress = "3m"
+                        this.passbackParams = passBackParams?.urlEncode()
+                        this.productCode = "QUICK_MSECURITY_PAY"
+                    }
                 }
-            })
+            )
         } catch (e: AlipayApiException) {
             throw ApiException(e.message, e)
         }.body
-
 }

@@ -4,12 +4,12 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.tony.core.utils.toDate
 import com.tony.webcore.config.WebJwtProperties
-import java.time.LocalDateTime
-import java.util.Date
-import javax.annotation.Resource
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
+import java.util.Date
+import javax.annotation.Resource
 
 @Component
 @ConditionalOnWebApplication
@@ -58,5 +58,4 @@ object JwtToken {
             .now()
             .plusMinutes(expiredMinutes)
             .toDate()
-
 }

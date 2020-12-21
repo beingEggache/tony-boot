@@ -8,13 +8,15 @@ import com.tony.core.utils.toJsonString
 data class ApiResult<T> @JvmOverloads constructor(
     val data: T?,
     val code: Int,
-    val msg: String = "") {
+    val msg: String = ""
+) {
 
     fun toMap() =
         mutableMapOf(
             "code" to code.toString(),
             "data" to data.toJsonString(),
-            "msg" to msg)
+            "msg" to msg
+        )
 }
 
 val EMPTY_RESULT = EmptyResult()
@@ -32,11 +34,11 @@ data class PageResult<T>(
     val size: Long,
     val pages: Long,
     val total: Long,
-    val hasNext: Boolean) {
+    val hasNext: Boolean
+) {
 
     fun <E> map(transformer: (T) -> E) =
         PageResult(
             items.map(transformer), page, size, pages, total, hasNext
         )
-
 }

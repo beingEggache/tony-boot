@@ -1,4 +1,7 @@
-apply(plugin = "maven.publish")
+apply {
+    plugin("maven.publish")
+    plugin("ktlint")
+}
 
 dependencies {
     apiOf(

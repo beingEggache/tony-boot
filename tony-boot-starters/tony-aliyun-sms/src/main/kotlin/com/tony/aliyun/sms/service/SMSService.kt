@@ -8,8 +8,8 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse
 import com.aliyuncs.exceptions.ClientException
 import com.aliyuncs.http.MethodType
 import com.aliyuncs.profile.DefaultProfile
-import javax.annotation.PostConstruct
 import org.slf4j.LoggerFactory
+import javax.annotation.PostConstruct
 
 private const val regionId: String = "cn-hangzhou"
 private const val product: String = "Dysmsapi"
@@ -23,8 +23,10 @@ class SmsService(
 ) {
 
     private val acsClient: DefaultAcsClient by lazy {
-        val profile = DefaultProfile.getProfile(regionId, accessKeyId,
-            accessKeySecret)
+        val profile = DefaultProfile.getProfile(
+            regionId, accessKeyId,
+            accessKeySecret
+        )
 
         DefaultProfile.addEndpoint(regionId, product, endpoint)
         DefaultAcsClient(profile)
@@ -36,7 +38,6 @@ class SmsService(
     private fun initSmsClient() {
         System.setProperty("sun.net.client.defaultConnectTimeout", timeout)
         System.setProperty("sun.net.client.defaultReadTimeout", timeout)
-
     }
 
     /**
@@ -47,17 +48,18 @@ class SmsService(
      */
     fun send(mobile: String, templateCode: String, templateParam: String = ""): SendSmsResponse? {
         return try {
-            acsClient.getAcsResponse(SendSmsRequest().apply {
-                sysMethod = MethodType.POST
-                phoneNumbers = mobile
-                signName = smsSignName
-                this.templateCode = templateCode
-                this.templateParam = templateParam
-            })
+            acsClient.getAcsResponse(
+                SendSmsRequest().apply {
+                    sysMethod = MethodType.POST
+                    phoneNumbers = mobile
+                    signName = smsSignName
+                    this.templateCode = templateCode
+                    this.templateParam = templateParam
+                }
+            )
         } catch (e: ClientException) {
             logger.error("${e.errCode}:${e.errMsg}")
             null
         }
     }
-
 }

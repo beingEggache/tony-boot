@@ -3,7 +3,6 @@ package com.tony.core.enums
 import com.fasterxml.jackson.annotation.JsonValue
 import java.io.Serializable
 
-
 interface EnumValue<T : Serializable> {
     @get:JsonValue
     val value: T?
@@ -45,4 +44,3 @@ abstract class EnumCreator<out E, KEY>(
         clazz.enumConstants
     }
 }
-

@@ -19,4 +19,3 @@ fun errorResponse(msg: String = "", code: Int = INTERNAL_SERVER_ERROR) =
 @JvmOverloads
 fun badRequest(msg: String = "", code: Int = BAD_REQUEST) =
     ApiResult(EMPTY_RESULT, code, msg)
-

@@ -1,6 +1,8 @@
 package com.tony.webcore.filter
 
 import com.tony.core.utils.doIf
+import org.springframework.core.PriorityOrdered
+import org.springframework.http.HttpMethod
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -18,8 +20,6 @@ import javax.servlet.ServletResponse
 import javax.servlet.annotation.WebFilter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletRequestWrapper
-import org.springframework.core.PriorityOrdered
-import org.springframework.http.HttpMethod
 
 @WebFilter(filterName = "httpServletRequestReplacedFilter", servletNames = ["dispatcherServlet"])
 @Priority(PriorityOrdered.HIGHEST_PRECEDENCE + 102)
@@ -29,19 +29,23 @@ class HttpServletRequestReplacedFilter : Filter {
     override fun doFilter(
         request: ServletRequest?,
         response: ServletResponse?,
-        chain: FilterChain) =
+        chain: FilterChain
+    ) =
 
-        chain.doFilter(if (request is HttpServletRequest)
-            RepeatReadRequestWrapper(request)
-        else request, response)
-
+        chain.doFilter(
+            if (request is HttpServletRequest)
+                RepeatReadRequestWrapper(request)
+            else request,
+            response
+        )
 }
 
 class RepeatReadRequestWrapper(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
 
     private val cachedContent =
         ByteArrayOutputStream(
-            if (request.contentLength >= 0) request.contentLength else 1024)
+            if (request.contentLength >= 0) request.contentLength else 1024
+        )
             .apply {
                 (request.contentLength > 0 && !isFormPost()).doIf {
                     val bytes: ByteArray = request.inputStream.readBytes()

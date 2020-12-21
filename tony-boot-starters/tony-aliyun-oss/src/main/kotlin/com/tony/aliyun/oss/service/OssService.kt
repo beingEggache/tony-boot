@@ -9,7 +9,8 @@ class OssService(
     private val accessKeyId: String,
     private val accessKeySecret: String,
     private val bucketName: String,
-    private val endPoint: String) {
+    private val endPoint: String
+) {
 
     private val _reg: Regex = Regex("^[/\\\\]")
 

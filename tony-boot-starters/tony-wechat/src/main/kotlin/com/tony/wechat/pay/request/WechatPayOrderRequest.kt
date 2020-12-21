@@ -37,7 +37,6 @@ data class WechatPayOrderRequest(
     @JsonProperty("mch_id")
     var mchId: String,
 
-
     /**
      * ## 终端设备号(门店号或收银设备ID)
      * > 默认请传"WEB"
@@ -65,7 +64,6 @@ data class WechatPayOrderRequest(
     @XStreamAlias("sign")
     @JsonProperty("sign")
     var sign: String? = null,
-
 
     /**
      * ## 签名类型
@@ -104,7 +102,6 @@ data class WechatPayOrderRequest(
      */
     var attach: String? = null,
 
-
     /**
      * ## 商户系统内部订单号
      *
@@ -114,7 +111,6 @@ data class WechatPayOrderRequest(
     @XStreamAlias("out_trade_no")
     @JsonProperty("out_trade_no")
     var outTradeNo: String?,
-
 
     /**
      * ## 货币类型
@@ -126,7 +122,6 @@ data class WechatPayOrderRequest(
     @JsonProperty("fee_type")
     var feeType: String = "CNY",
 
-
     /**
      * ## 总金额
      * > 订单总金额，单位为分
@@ -136,7 +131,6 @@ data class WechatPayOrderRequest(
     @JsonProperty("total_fee")
     var totalFee: Long?,
 
-
     /**
      * ## 终端IP
      * > 用户端实际ip
@@ -144,7 +138,6 @@ data class WechatPayOrderRequest(
     @XStreamAlias("spbill_create_ip")
     @JsonProperty("spbill_create_ip")
     var spbillCreateIP: String,
-
 
     /**
      * ## 交易起始时间
@@ -158,7 +151,6 @@ data class WechatPayOrderRequest(
     @XStreamAlias("time_start")
     @JsonProperty("time_start")
     var timeStart: String? = null,
-
 
     /**
      * ## 交易结束时间
@@ -190,7 +182,6 @@ data class WechatPayOrderRequest(
     @JsonProperty("goods_tag")
     var goodsTag: String? = null,
 
-
     /**
      * ## 通知地址
      *    接收微信支付异步通知回调地址，
@@ -210,7 +201,6 @@ data class WechatPayOrderRequest(
     @JsonProperty("trade_type")
     var tradeType: String,
 
-
     /**
      * ## 商品ID
      *    trade_type=NATIVE时（即扫码支付）,
@@ -220,7 +210,6 @@ data class WechatPayOrderRequest(
     @XStreamAlias("product_id")
     @JsonProperty("product_id")
     var productId: String? = null,
-
 
     /**
      * ## 指定支付方式
@@ -257,4 +246,3 @@ data class WechatPayOrderRequest(
     @JsonProperty("openid")
     var openId: String? = null
 )
-
