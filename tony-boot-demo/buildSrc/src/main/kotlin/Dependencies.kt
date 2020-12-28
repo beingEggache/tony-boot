@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.project
 
 object Version {
-    const val byteBuddyVersion = "1.10.18"
+    const val byteBuddyVersion = "1.10.19"
     const val jacksonVersion = "2.12.0"
     const val knife4jVersion = "2.0.8"
     const val kotlinVersion = "1.4.20"
@@ -20,6 +20,7 @@ object Version {
     const val springVersion = "5.3.2"
     const val springfoxSwagger2Version = "2.10.5"
     const val swaggerVersion = "1.6.2"
+    const val tonyBootVersion = "0.1-SNAPSHOT"
 }
 
 object Deps {
@@ -128,7 +129,7 @@ object Deps {
         const val commonsCodec = "commons-codec:commons-codec:1.15"
         const val guava = "com.google.guava:guava:30.1-jre"
         const val javaJwt = "com.auth0:java-jwt:3.12.0"
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.10.209.ALL"
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.10.218.ALL"
         const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.17"
         const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.11.2"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
@@ -144,13 +145,21 @@ object Deps {
         const val jclOverSlf4J = "org.slf4j:jcl-over-slf4j:${Version.slf4jVersion}"
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${Version.reactorVersion}"
-        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:1.67"
+        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:1.68"
         const val fastjson = "com.alibaba:fastjson:1.2.75"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${Version.mybatisPlusVersion}"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${Version.mybatisPlusVersion}"
         const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter:${Version.mybatisPlusVersion}"
         const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${Version.mybatisPlusVersion}"
         const val easyExcel = "com.alibaba:easyexcel:2.2.7"
+    }
+
+    object TonyBoot{
+        const val core = "com.tony:tony-core:${Version.tonyBootVersion}"
+        const val webCore = "com.tony:tony-web-core:${Version.tonyBootVersion}"
+        const val swagger = "com.tony:tony-swagger:${Version.tonyBootVersion}"
+        const val aliyunOss = "com.tony:tony-aliyun-oss:${Version.tonyBootVersion}"
+        const val cache = "com.tony:tony-cache:${Version.tonyBootVersion}"
     }
 
     val canReplacedDependencies = mapOf(
