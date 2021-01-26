@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") apply false
-    kotlin("plugin.spring") version "1.4.20" apply false
+    kotlin("plugin.spring") version "1.4.21" apply false
 //    id("io.gitlab.arturbosch.detekt") version "1.14.0" apply false
 }
 

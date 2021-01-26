@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier
 import com.tony.core.utils.createObjectMapper
 import com.tony.core.utils.isArrayLikeType
+import com.tony.core.utils.isDateTimeLikeType
 import com.tony.core.utils.isObjLikeType
 import com.tony.core.utils.isStringLikeType
 import org.springframework.context.annotation.Bean
@@ -81,6 +82,7 @@ internal class NullValueBeanSerializerModifier : BeanSerializerModifier() {
     ) =
         beanProperties.onEach {
             when {
+                it.type.isDateTimeLikeType() -> Unit
                 it.type.isArrayLikeType() -> it.assignNullSerializer(nullArrayJsonSerializer)
                 it.type.isObjLikeType() -> it.assignNullSerializer(nullObjJsonSerializer)
                 it.type.isStringLikeType() -> it.assignNullSerializer(nullStrJsonSerializer)

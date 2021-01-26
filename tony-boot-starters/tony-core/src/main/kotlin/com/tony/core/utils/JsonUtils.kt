@@ -13,6 +13,8 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.IOException
 import java.io.InputStream
+import java.time.temporal.TemporalAccessor
+import java.util.Date
 import java.util.TimeZone
 
 @JvmField
@@ -45,6 +47,9 @@ inline fun <reified T> ByteArray.jsonToObj(): T =
 @Throws(IOException::class)
 inline fun <reified T> InputStream.jsonToObj(): T =
     OBJECT_MAPPER.readValue(this)
+
+fun JavaType.isDateTimeLikeType() =
+    isTypeOrSubTypeOf(Date::class.java) || isTypeOrSubTypeOf(TemporalAccessor::class.java)
 
 fun JavaType.isArrayLikeType() =
     isArrayType || isCollectionLikeType

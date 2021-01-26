@@ -1,3 +1,5 @@
+@file:JvmName("App")
+@file:Suppress("unused")
 package com.tony.api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication

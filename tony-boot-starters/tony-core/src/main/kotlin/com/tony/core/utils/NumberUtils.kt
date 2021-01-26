@@ -1,6 +1,10 @@
 @file:Suppress("unused", "FunctionName")
 @file:JvmName("NumberUtils")
-
+/**
+ *
+ * @author tangli
+ * @since 2020-12-14 13:49
+ */
 package com.tony.core.utils
 
 import com.tony.core.exception.ApiException
@@ -10,14 +14,8 @@ import java.security.SecureRandom
 import java.text.NumberFormat
 import kotlin.math.pow
 
-/**
- *
- * @author tangli
- * @since 2020-12-14 13:49
- */
-
 @JvmOverloads
-fun Number?.truncToBigDecimal(decimal: Int = 2): BigDecimal {
+fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
     if (decimal < 0) throw IllegalArgumentException("decimal must >= 0")
     return when (this) {
         null -> "0".toBigDecimal(decimal)
@@ -31,24 +29,32 @@ fun Number?.truncToBigDecimal(decimal: Int = 2): BigDecimal {
 
 private fun String?.toBigDecimal(decimal: Int = 2) = BigDecimal(this ?: "0").setScale(decimal, RoundingMode.DOWN)
 
-private fun formatToPercent(number: Number?, digit: Int): String {
+private fun formatToPercent(number: Number?, digit: Int, roundingMode: RoundingMode = RoundingMode.DOWN): String {
     return NumberFormat.getPercentInstance().apply {
         maximumFractionDigits = digit
+        this.roundingMode = roundingMode
     }.format(number ?: 0)
 }
 
 @JvmOverloads
+fun Number?.truncToBigDecimal(digit: Int = 2, decimal: Int = digit) =
+    toBigDecimal(decimal).div(10.toBigDecimal(decimal).pow(digit))
+
+@JvmOverloads
 fun Number?.truncToString(digit: Int = 2, decimal: Int = digit) =
-    truncToBigDecimal(decimal).div(10.truncToBigDecimal(decimal).pow(digit)).toString()
+    truncToBigDecimal(digit, decimal).toString()
 
 @JvmOverloads
-fun Float?.formatToPercent(digit: Int = 2): String = formatToPercent(this, digit)
+fun Float?.formatToPercent(digit: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+    formatToPercent(this, digit, roundingMode)
 
 @JvmOverloads
-fun Double?.formatToPercent(digit: Int = 2): String = formatToPercent(this, digit)
+fun Double?.formatToPercent(digit: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+    formatToPercent(this, digit, roundingMode)
 
 @JvmOverloads
-fun BigDecimal?.formatToPercent(digit: Int = 2): String = formatToPercent(this, digit)
+fun BigDecimal?.formatToPercent(digit: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+    formatToPercent(this, digit, roundingMode)
 
 private val secureRandom = SecureRandom()
 

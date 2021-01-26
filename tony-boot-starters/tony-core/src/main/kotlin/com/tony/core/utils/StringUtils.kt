@@ -40,9 +40,9 @@ fun String.base64ToString(): String = Base64.getDecoder().decode(toByteArray()).
 fun String?.defaultIfBlank(default: String = ""): String = this ?: default
 
 private val mobileRegex = Regex("^1[3-9][0-9]{9}$")
-private val intRegex = Regex("^[-]?[0-9]*$")
 fun String.isMobileNumber() = mobileRegex.matches(this)
-fun Serializable.isInt() = intRegex.matches(toString())
+fun String.isInt() = toIntOrNull() != null
+fun CharSequence.isInt() = toString().isInt()
 
 @JvmOverloads
 fun String?.urlEncode(charset: String = "UTF8"): String = URLEncoder.encode(defaultIfBlank(), charset)

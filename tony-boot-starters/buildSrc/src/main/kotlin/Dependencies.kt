@@ -7,19 +7,20 @@ import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.project
 
 object Version {
-    const val byteBuddyVersion = "1.10.19"
-    const val jacksonVersion = "2.12.0"
     const val knife4jVersion = "2.0.8"
-    const val kotlinVersion = "1.4.20"
-    const val mybatisSpringStarterVersion = "2.1.4"
-    const val mybatisPlusVersion = "3.4.1"
-    const val nettyVersion = "4.1.56.Final"
-    const val reactorVersion = "3.4.1"
-    const val slf4jVersion = "1.7.30"
-    const val springBootVersion = "2.4.1"
-    const val springVersion = "5.3.2"
     const val springfoxSwagger2Version = "2.10.5"
+    const val byteBuddyVersion = "1.10.19"
+    const val jacksonVersion = "2.12.1"
+    const val kotlinVersion = "1.4.21"
+    const val mybatisSpringStarterVersion = "2.1.4"
+    const val mybatisPlusVersion = "3.4.2"
+    const val nettyVersion = "4.1.58.Final"
+    const val reactorVersion = "3.4.2"
+    const val slf4jVersion = "1.7.30"
+    const val springBootVersion = "2.4.2"
+    const val springVersion = "5.3.3"
     const val swaggerVersion = "1.6.2"
+    const val tonyVersion = "0.1-SNAPSHOT"
 }
 
 object Deps {
@@ -133,9 +134,9 @@ object Deps {
         const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.11.2"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
         const val springfoxSwagger2 = "io.springfox:springfox-swagger2:${Version.springfoxSwagger2Version}"
+        const val knife4jApi = "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${Version.knife4jVersion}"
         const val knife4j = "com.github.xiaoymin:knife4j-spring-boot-starter:${Version.knife4jVersion}"
         const val postgresql = "org.postgresql:postgresql:42.2.18"
-        const val mssql = "com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre11"
         const val HikariCP = "com.zaxxer:HikariCP:3.4.5"
         const val byteBuddy = "net.bytebuddy:byte-buddy:${Version.byteBuddyVersion}"
         const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${Version.byteBuddyVersion}"
@@ -150,7 +151,10 @@ object Deps {
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${Version.mybatisPlusVersion}"
         const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter:${Version.mybatisPlusVersion}"
         const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${Version.mybatisPlusVersion}"
-        const val easyExcel = "com.alibaba:easyexcel:2.2.7"
+    }
+
+    object Tony {
+        const val knife4jApi = "com.tony:knife4j-api:${Version.tonyVersion}"
     }
 
     val canReplacedDependencies = mapOf(

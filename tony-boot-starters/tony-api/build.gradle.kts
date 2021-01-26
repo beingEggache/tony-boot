@@ -1,4 +1,3 @@
-version = "unspecified"
 
 apply(plugin = "kotlin-spring")
 dependencies {
@@ -9,6 +8,6 @@ dependencies {
     implementation("io.springfox:springfox-swagger-ui:${Version.springfoxSwagger2Version}")
 
     if (project.extra["profile"] != "prod") {
-        implementation(project(":tony-swagger"))
+        implementation(project(":tony-knife4j"))
     }
 }

@@ -43,6 +43,20 @@ fun String.toDate(pattern: String): Date =
         dateTimeFormatterWithDefaultOptions(pattern)
     }.parse(this).toDate()
 
+fun String.toLocalDate(pattern: String): LocalDate =
+    dateTimeFormatterMap.getOrPut(pattern) {
+        dateTimeFormatterWithDefaultOptions(pattern)
+    }.parse(this).run {
+        LocalDate.from(this)
+    }
+
+fun String.toLocalDateTime(pattern: String): LocalDateTime =
+    dateTimeFormatterMap.getOrPut(pattern) {
+        dateTimeFormatterWithDefaultOptions(pattern)
+    }.parse(this).run {
+        LocalDateTime.from(this)
+    }
+
 fun TemporalAccessor.toDate(): Date = LocalDateTime.from(this).toDate()
 
 fun Date.toLocalDate(): LocalDate = toInstant().atZone(defaultZoneId).toLocalDate()
@@ -54,5 +68,4 @@ fun LocalDateTime.toDate(): Date = Date.from(atZone(defaultZoneId).toInstant())
 fun secondOfTodayRest() =
     ChronoUnit.SECONDS.between(
         LocalDateTime.now(),
-        LocalDateTime.now().with(LocalTime.MAX)
-    )
+        LocalDateTime.now().with(LocalTime.MAX))

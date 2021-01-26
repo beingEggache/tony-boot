@@ -10,6 +10,6 @@ dependencies {
         Deps.SpringBoot.springBoot,
         Deps.Spring.web,
         Deps.Other.springfoxSwagger2,
-        Deps.Other.knife4j
+        Deps.Other.knife4jApi
     )
 }
