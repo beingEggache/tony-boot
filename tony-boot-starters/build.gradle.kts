@@ -7,6 +7,7 @@ plugins {
 }
 
 forceDepsVersion()
+copyProjectHookToGitHook("pre-commit","pre-push")
 
 configure(subprojects) {
     group = "com.tony"
