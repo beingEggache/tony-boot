@@ -35,6 +35,7 @@ configure(subprojects) {
 
     apply {
         plugin("kotlin")
+        plugin("ktlint")
 //        plugin("io.gitlab.arturbosch.detekt")
     }
 
@@ -56,6 +57,7 @@ configure(subprojects) {
     tasks.withType<KotlinCompile>().configureEach {
         val isTest = this.name.contains("test", ignoreCase = true)
         kotlinOptions {
+            languageVersion = "1.4"
             jvmTarget = "11"
             allWarningsAsErrors = !isTest
             verbose = true

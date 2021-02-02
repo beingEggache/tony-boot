@@ -68,4 +68,5 @@ fun LocalDateTime.toDate(): Date = Date.from(atZone(defaultZoneId).toInstant())
 fun secondOfTodayRest() =
     ChronoUnit.SECONDS.between(
         LocalDateTime.now(),
-        LocalDateTime.now().with(LocalTime.MAX))
+        LocalDateTime.now().with(LocalTime.MAX)
+    )

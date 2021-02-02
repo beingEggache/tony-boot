@@ -12,5 +12,3 @@ fun main(args: Array<String>) {
 
 @SpringBootApplication(scanBasePackages = ["com.tony.**"])
 class ApiWebApp : WebMvcConfigurer
-
-

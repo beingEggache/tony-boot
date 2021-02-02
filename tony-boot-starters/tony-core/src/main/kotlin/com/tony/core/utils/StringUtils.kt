@@ -4,7 +4,6 @@
 package com.tony.core.utils
 
 import org.apache.commons.codec.digest.DigestUtils
-import java.io.Serializable
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.Base64
