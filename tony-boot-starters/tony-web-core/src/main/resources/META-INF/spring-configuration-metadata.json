@@ -74,6 +74,12 @@
             "type": "java.lang.String[]"
         },
         {
+            "sourceType": "com.tony.webcore.config.WebCorsProperties",
+            "name": "web.cors.allowed-credentials",
+            "type": "java.lang.Boolean",
+            "defaultValue": true
+        },
+        {
             "sourceType": "com.tony.webcore.config.WebJwtProperties",
             "name": "web.jwt.enabled",
             "type": "java.lang.Boolean"

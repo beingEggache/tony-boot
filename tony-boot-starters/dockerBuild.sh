@@ -64,7 +64,6 @@ do
    fi
 done
 
-
 echo "docker run image ${image_name}"
 docker run -d --name="${project_name}" -p "${port}":"${port}" -e "SPRING_PROFILES_ACTIVE=${profile:=qa}" -v "${dir}"/logs:/logs "${image_name}"
 run_status=$?
@@ -85,6 +84,7 @@ container_id=$(docker ps| grep "${project_name}" | awk '{print $1}')
 if [ -z "$container_id" ]
 then
  echo "$project_name start failed.please check log"
+ docker logs --tail 100 "${project_name}"
  exit 1
 fi
 

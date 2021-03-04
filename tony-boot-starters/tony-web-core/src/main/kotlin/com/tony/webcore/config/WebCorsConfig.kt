@@ -22,7 +22,7 @@ internal class WebCorsConfig(
             .allowedOrigins(*webCorsProperties.allowedOrigins)
             .allowedMethods("*")
             .allowedHeaders(*webCorsProperties.allowedHeaders)
-            .allowCredentials(true)
+            .allowCredentials(webCorsProperties.allowCredentials)
     }
 }
 
@@ -33,5 +33,6 @@ internal class WebCorsConfig(
 @ConditionalOnExpression("\${web.cors.enabled:false}")
 internal data class WebCorsProperties(
     val allowedOrigins: Array<String>,
-    val allowedHeaders: Array<String>
+    val allowedHeaders: Array<String>,
+    val allowCredentials: Boolean = false
 )
