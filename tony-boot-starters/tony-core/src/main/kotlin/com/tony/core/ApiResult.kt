@@ -35,10 +35,4 @@ data class PageResult<T>(
     val pages: Long,
     val total: Long,
     val hasNext: Boolean
-) {
-
-    fun <E> map(transformer: (T) -> E) =
-        PageResult(
-            items.map(transformer), page, size, pages, total, hasNext
-        )
-}
+) : Iterable<T> by items

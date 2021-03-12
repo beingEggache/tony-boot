@@ -3,8 +3,11 @@
 
 package com.tony.core.utils
 
+import com.tony.core.exception.BizException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 
 @JvmField
 val logger: Logger = LoggerFactory.getLogger("web_extension")
@@ -34,4 +37,38 @@ inline fun Boolean.doUnless(crossinline block: () -> Any) {
 
 inline fun <reified T> T?.doIfNull(crossinline block: () -> T): T {
     return this ?: block()
+}
+
+@ExperimentalContracts
+inline fun checkBiz(value: Boolean, lazyMessage: () -> Any) {
+    contract {
+        returns() implies value
+    }
+    if (!value) {
+        throw BizException(lazyMessage().toString())
+    }
+}
+
+@ExperimentalContracts
+inline fun <T : Any> checkBizNotNull(value: T?, lazyMessage: () -> Any): T {
+    contract {
+        returns() implies (value != null)
+    }
+
+    if (value == null) {
+        throw BizException(lazyMessage().toString())
+    } else {
+        return value
+    }
+}
+
+@ExperimentalContracts
+inline fun checkStringBizNotBlank(value: String?, lazyMessage: () -> Any) {
+    contract {
+        returns() implies (value != null)
+    }
+
+    if (value.isNullOrBlank()) {
+        throw BizException(lazyMessage().toString())
+    }
 }
