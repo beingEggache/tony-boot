@@ -9,16 +9,16 @@ import org.gradle.kotlin.dsl.project
 object Version {
     const val knife4jVersion = "2.0.8"
     const val springfoxSwagger2Version = "2.10.5"
-    const val byteBuddyVersion = "1.10.21"
-    const val jacksonVersion = "2.12.1"
+    const val byteBuddyVersion = "1.10.22"
+    const val jacksonVersion = "2.12.2"
     const val kotlinVersion = "1.4.31"
     const val mybatisSpringStarterVersion = "2.1.4"
     const val mybatisPlusVersion = "3.4.2"
-    const val nettyVersion = "4.1.59.Final"
-    const val reactorVersion = "3.4.3"
+    const val nettyVersion = "4.1.60.Final"
+    const val reactorVersion = "3.4.4"
     const val slf4jVersion = "1.7.30"
-    const val springBootVersion = "2.4.2"
-    const val springVersion = "5.3.4"
+    const val springBootVersion = "2.4.4"
+    const val springVersion = "5.3.5"
     const val swaggerVersion = "1.6.2"
     const val tonyVersion = "0.1-SNAPSHOT"
 }
@@ -80,7 +80,7 @@ object Deps {
     object SpringData {
         const val springDataCommon = "org.springframework.data:spring-data-common:${Version.springBootVersion}"
         const val springDataRedis = "org.springframework.data:spring-data-redis:${Version.springBootVersion}"
-        const val lettuce = "io.lettuce:lettuce-core:6.0.2.RELEASE"
+        const val lettuce = "io.lettuce:lettuce-core:6.0.3.RELEASE"
     }
 
     object SpringBoot {
@@ -121,9 +121,9 @@ object Deps {
         const val elApi = "jakarta.el:jakarta.el-api:3.0.3"
         const val websocketApi = "jakarta.websocket:jakarta.websocket-api:1.1.2"
         const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3"
-        const val reactorNetty = "io.projectreactor.netty:reactor-netty:1.0.4"
+        const val reactorNetty = "io.projectreactor.netty:reactor-netty:1.0.5"
         const val gson = "com.google.code.gson:gson:2.8.6"
-        const val xstream = "com.thoughtworks.xstream:xstream:1.4.15"
+        const val xstream = "com.thoughtworks.xstream:xstream:1.4.16"
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
         const val okhttp = "com.squareup.okhttp3:okhttp:4.9.1"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
@@ -137,7 +137,7 @@ object Deps {
         const val knife4jApi = "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${Version.knife4jVersion}"
         const val knife4j = "com.github.xiaoymin:knife4j-spring-boot-starter:${Version.knife4jVersion}"
         const val postgresql = "org.postgresql:postgresql:42.2.19"
-        const val HikariCP = "com.zaxxer:HikariCP:4.0.2"
+        const val HikariCP = "com.zaxxer:HikariCP:4.0.3"
         const val byteBuddy = "net.bytebuddy:byte-buddy:${Version.byteBuddyVersion}"
         const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${Version.byteBuddyVersion}"
         const val slf4JApi = "org.slf4j:slf4j-api:${Version.slf4jVersion}"
@@ -157,7 +157,7 @@ object Deps {
     }
 
     object Tony {
-        const val knife4jApi = "com.tony:knife4j-api:${Version.tonyVersion}"
+        const val knife4jApi = "com.tony:tony-knife4j-api:${Version.tonyVersion}"
     }
 
     val canReplacedDependencies = mapOf(

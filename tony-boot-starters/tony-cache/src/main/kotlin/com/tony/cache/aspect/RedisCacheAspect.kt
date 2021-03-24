@@ -1,6 +1,7 @@
 package com.tony.cache.aspect
 
 import com.fasterxml.jackson.databind.type.TypeFactory
+import com.tony.cache.RedisKeys
 import com.tony.cache.RedisUtils
 import com.tony.cache.annotation.RedisCacheEvict
 import com.tony.cache.annotation.RedisCacheable
@@ -32,7 +33,7 @@ class RedisCacheAspect {
         if (paramsNames.isNullOrEmpty() ||
             redisParamsNames.isNullOrEmpty()
         ) {
-            return RedisUtils.genKey(cacheKey)
+            return RedisKeys.genKey(cacheKey)
         }
 
         val paramsValues =
@@ -55,7 +56,7 @@ class RedisCacheAspect {
                 }
             }
 
-        return RedisUtils.genKey(cacheKey, *paramsValues)
+        return RedisKeys.genKey(cacheKey, *paramsValues)
     }
 
     @After("redisCacheEvict()")
@@ -76,7 +77,7 @@ class RedisCacheAspect {
         val annotation = methodSignature.method.getAnnotation(RedisCacheable::class.java)
         val cacheKey = cacheKey(arguments, paramsNames, annotation.cacheKey, annotation.paramsNames)
         val timeout = if (annotation.expire == RedisCacheable.TODAY_END) secondOfTodayRest() else annotation.expire
-        val cachedValue = RedisUtils.getString(cacheKey)
+        val cachedValue = RedisUtils.values.getString(cacheKey)
         if ("{}" == cachedValue) return methodSignature
             .returnType
             .getDeclaredConstructor()
@@ -84,9 +85,9 @@ class RedisCacheAspect {
         if (cachedValue == null) {
             val result = joinPoint.proceed()
             if (result == null) {
-                annotation.cacheEmpty.doIf { RedisUtils.set(cacheKey, "{}", timeout) }
+                annotation.cacheEmpty.doIf { RedisUtils.values.set(cacheKey, "{}", timeout) }
             } else {
-                RedisUtils.set(cacheKey, result, timeout)
+                RedisUtils.values.set(cacheKey, result, timeout)
             }
             return result
         }

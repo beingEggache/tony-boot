@@ -54,6 +54,9 @@ fun JavaType.isDateTimeLikeType() =
 fun JavaType.isArrayLikeType() =
     isArrayType || isCollectionLikeType
 
+fun JavaType.isBooleanType() =
+    isTypeOrSubTypeOf(Boolean::class.java) || isTypeOrSubTypeOf(java.lang.Boolean::class.java)
+
 fun JavaType.isNumberType() =
     isTypeOrSubTypeOf(Number::class.java)
 
