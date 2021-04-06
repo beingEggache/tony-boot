@@ -5,7 +5,7 @@
  */
 val ktlint by configurations.creating
 dependencies {
-    ktlint("com.pinterest:ktlint:0.40.0")
+    ktlint("com.pinterest:ktlint:0.41.0")
     // ktlint(project(":custom-ktlint-ruleset")) // in case of custom ruleset
 }
 val outputDir = "${project.buildDir}/reports/ktlint/"
@@ -19,7 +19,7 @@ val ktlintCheck by tasks.creating(JavaExec::class) {
     group = "verification"
     classpath = ktlint
     main = "com.pinterest.ktlint.Main"
-    args = listOf("src/**/*.kt")
+    args = listOf("src/main/**/*.kt")
 }
 
 val ktlintFormat by tasks.creating(JavaExec::class) {
@@ -30,7 +30,7 @@ val ktlintFormat by tasks.creating(JavaExec::class) {
     group = "verification"
     classpath = ktlint
     main = "com.pinterest.ktlint.Main"
-    args = listOf("-F", "src/**/*.kt")
+    args = listOf("-F", "src/main/**/*.kt")
 }
 
 tasks.named("compileKotlin"){
