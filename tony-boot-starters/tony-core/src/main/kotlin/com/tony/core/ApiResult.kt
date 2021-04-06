@@ -3,10 +3,10 @@
 package com.tony.core
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.tony.core.utils.toJsonString
 
+@JsonPropertyOrder(value = ["code", "msg", "data"])
 data class ApiResult<T> @JvmOverloads constructor(
     val data: T?,
     val code: Int,
@@ -30,28 +30,15 @@ data class OneResult<T>(val result: T? = null)
 
 data class ListResult<T> @JvmOverloads constructor(val items: Collection<T>? = listOf())
 
+@JsonPropertyOrder(value = ["page", "size", "total", "pages", "hasNext", "items"])
 data class PageResult<T>(
     val items: Collection<T>,
     val page: Long,
-    @JsonProperty("size")
-    val sizes: Long,
+    val size: Long,
     val pages: Long,
     val total: Long,
     val hasNext: Boolean
-) : Collection<T> {
-
-    @get:JsonIgnore
-    override val size: Int
-        get() = items.size
-
+) {
     inline fun <R> map(transform: (T) -> R) =
-        PageResult(items.map(transform), page, sizes, pages, total, hasNext)
-
-    override fun contains(element: T): Boolean = items.contains(element)
-
-    override fun containsAll(elements: Collection<T>): Boolean = items.containsAll(elements)
-
-    override fun isEmpty() = items.isEmpty()
-
-    override fun iterator() = items.iterator()
+        PageResult(items.map(transform), page, size, pages, total, hasNext)
 }
