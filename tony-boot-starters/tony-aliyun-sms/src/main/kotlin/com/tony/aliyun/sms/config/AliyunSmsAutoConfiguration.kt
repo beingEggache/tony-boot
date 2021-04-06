@@ -8,19 +8,17 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableConfigurationProperties(AliyunSMSProperties::class)
-class AliyunSMSAutoConfiguration(
+class AliyunSmsAutoConfiguration(
     private val aliyunSMSProperties: AliyunSMSProperties
 ) {
 
     @Bean
-    fun smsService() = let {
-        SmsService(
-            aliyunSMSProperties.accessKeyId ?: "",
-            aliyunSMSProperties.accessKeySecret ?: "",
-            aliyunSMSProperties.signName ?: "",
-            aliyunSMSProperties.timeout ?: ""
-        )
-    }
+    fun smsService() = SmsService(
+        aliyunSMSProperties.accessKeyId ?: "",
+        aliyunSMSProperties.accessKeySecret ?: "",
+        aliyunSMSProperties.signName ?: "",
+        aliyunSMSProperties.timeout ?: ""
+    )
 }
 
 @ConfigurationProperties(prefix = "aliyun.sms")

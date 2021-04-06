@@ -30,14 +30,12 @@ class HttpServletRequestReplacedFilter : Filter {
         request: ServletRequest?,
         response: ServletResponse?,
         chain: FilterChain
-    ) =
-
-        chain.doFilter(
-            if (request is HttpServletRequest)
-                RepeatReadRequestWrapper(request)
-            else request,
-            response
-        )
+    ) = chain.doFilter(
+        if (request is HttpServletRequest)
+            RepeatReadRequestWrapper(request)
+        else request,
+        response
+    )
 }
 
 class RepeatReadRequestWrapper(request: HttpServletRequest) : HttpServletRequestWrapper(request) {

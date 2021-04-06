@@ -45,13 +45,12 @@ internal class TraceLoggingFilter(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain
-    ) =
-        doFilterTrace(
-            ContentCachingRequestWrapper(request),
-            ContentCachingResponseWrapper(response),
-            filterChain,
-            LocalDateTime.now()
-        )
+    ) = doFilterTrace(
+        ContentCachingRequestWrapper(request),
+        ContentCachingResponseWrapper(response),
+        filterChain,
+        LocalDateTime.now()
+    )
 
     @Throws(IOException::class, ServletException::class)
     private fun doFilterTrace(
@@ -60,7 +59,6 @@ internal class TraceLoggingFilter(
         filterChain: FilterChain,
         startTime: LocalDateTime
     ) {
-
         try {
             filterChain.doFilter(requestWrapper, responseWrapper)
         } finally {

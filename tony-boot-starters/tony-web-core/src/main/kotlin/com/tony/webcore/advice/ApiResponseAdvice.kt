@@ -28,20 +28,18 @@ internal class ApiResponseAdvice : ResponseBodyAdvice<Any?> {
         selectedConverterType: Class<out HttpMessageConverter<*>>,
         request: ServerHttpRequest,
         response: ServerHttpResponse
-    ) =
-        when {
-            antPathMatcher.matchAny(WebApp.excludeJsonResultUrlPatterns, request.uri.path) -> body
-            body == null -> ApiResult(EMPTY_RESULT, WebApp.successCode)
-            Collection::class.java.isAssignableFrom(body.javaClass) -> ApiResult(
-                ListResult(body.asTo<Collection<Any>>()), WebApp.successCode
-            )
-            else -> ApiResult(body, WebApp.successCode)
-        }
+    ) = when {
+        antPathMatcher.matchAny(WebApp.excludeJsonResultUrlPatterns, request.uri.path) -> body
+        body == null -> ApiResult(EMPTY_RESULT, WebApp.successCode)
+        Collection::class.java.isAssignableFrom(body.javaClass) -> ApiResult(
+            ListResult(body.asTo<Collection<Any>>()), WebApp.successCode
+        )
+        else -> ApiResult(body, WebApp.successCode)
+    }
 
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>
-    ) =
-        MappingJackson2HttpMessageConverter::class.java.isAssignableFrom(converterType) &&
-            !ApiResult::class.java.isAssignableFrom(returnType.parameterType)
+    ) = MappingJackson2HttpMessageConverter::class.java.isAssignableFrom(converterType) &&
+        !ApiResult::class.java.isAssignableFrom(returnType.parameterType)
 }
