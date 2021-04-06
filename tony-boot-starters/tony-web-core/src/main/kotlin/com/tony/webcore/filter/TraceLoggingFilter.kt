@@ -1,7 +1,7 @@
 package com.tony.webcore.filter
 
 import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.io.SerializedString
+import com.fasterxml.jackson.core.JsonToken
 import com.tony.core.utils.defaultIfBlank
 import com.tony.core.utils.defaultZoneOffset
 import com.tony.core.utils.getLogger
@@ -208,10 +208,17 @@ internal class TraceIdFilter : OncePerRequestFilter() {
         }
 }
 
-@Suppress("ControlFlowWithEmptyBody")
-internal fun String.getJsonRootValue(field: String) = JsonFactory().createParser(this).use {
-    while (!it.nextFieldName(SerializedString(field)) || !it.parsingContext.parent.inRoot()) {
+internal fun String.getJsonRootValue(field: String): String? {
+    JsonFactory().createParser(this).use {
+        while (it.nextToken() != null) {
+            if (it.currentToken == JsonToken.FIELD_NAME &&
+                it.currentName == field &&
+                it.parsingContext.parent.inRoot()
+            ) {
+                it.nextToken()
+                return it.valueAsString
+            }
+        }
     }
-    it.nextValue()
-    it.valueAsString
+    return null
 }
