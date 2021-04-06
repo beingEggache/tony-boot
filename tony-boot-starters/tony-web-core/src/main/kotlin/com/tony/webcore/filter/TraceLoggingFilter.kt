@@ -1,8 +1,7 @@
 package com.tony.webcore.filter
 
 import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.JsonToken
-import com.tony.core.exception.ApiException
+import com.fasterxml.jackson.core.io.SerializedString
 import com.tony.core.utils.defaultIfBlank
 import com.tony.core.utils.defaultZoneOffset
 import com.tony.core.utils.getLogger
@@ -25,8 +24,6 @@ import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
 import java.io.IOException
-import java.math.BigDecimal
-import java.math.BigInteger
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.annotation.Priority
@@ -126,9 +123,9 @@ internal class TraceLoggingFilter(
     }
 
     private fun resultCode(responseBody: String, status: Int) = let {
-        val codeFromResponseDirectly = responseBody.getJsonRootValue<Int>("code")
+        val codeFromResponseDirectly = responseBody.getJsonRootValue("code")
         when {
-            codeFromResponseDirectly != null -> codeFromResponseDirectly
+            codeFromResponseDirectly != null -> codeFromResponseDirectly.toInt()
             HTTP_SUCCESS_CODE.contains(status) -> webProperties.successCode
             else -> webProperties.errorCode
         }
@@ -211,27 +208,10 @@ internal class TraceIdFilter : OncePerRequestFilter() {
         }
 }
 
-internal inline fun <reified T> String.getJsonRootValue(field: String): T? {
-    JsonFactory().createParser(this).use {
-        while (it.nextToken() != null) {
-            if (it.currentToken == JsonToken.FIELD_NAME &&
-                it.currentName == field &&
-                it.parsingContext.parent.inRoot()
-            ) {
-                it.nextToken()
-                return when (T::class) {
-                    Byte::class -> it.byteValue
-                    Short::class -> it.shortValue
-                    Int::class -> it.intValue
-                    Long::class -> it.longValue
-                    BigInteger::class -> it.bigIntegerValue
-                    BigDecimal::class -> it.decimalValue
-                    Boolean::class -> it.booleanValue
-                    String::class -> it.text
-                    else -> throw ApiException("${T::class} does not support yet")
-                } as T?
-            }
-        }
+@Suppress("ControlFlowWithEmptyBody")
+internal fun String.getJsonRootValue(field: String) = JsonFactory().createParser(this).use {
+    while (!it.nextFieldName(SerializedString(field)) || !it.parsingContext.parent.inRoot()) {
     }
-    return null
+    it.nextValue()
+    it.valueAsString
 }
