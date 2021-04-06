@@ -1,5 +1,8 @@
 package com.tony.webcore.filter
 
+import com.fasterxml.jackson.core.JsonFactory
+import com.fasterxml.jackson.core.JsonToken
+import com.tony.core.exception.ApiException
 import com.tony.core.utils.defaultIfBlank
 import com.tony.core.utils.defaultZoneOffset
 import com.tony.core.utils.getLogger
@@ -22,9 +25,10 @@ import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
 import java.io.IOException
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.time.LocalDateTime
 import java.util.UUID
-import java.util.regex.Pattern
 import javax.annotation.Priority
 import javax.servlet.FilterChain
 import javax.servlet.ServletException
@@ -122,9 +126,9 @@ internal class TraceLoggingFilter(
     }
 
     private fun resultCode(responseBody: String, status: Int) = let {
-        val matcher = CODE_PATTERN.matcher(responseBody)
+        val codeFromResponseDirectly = responseBody.getJsonRootValue<Int>("code")
         when {
-            matcher.find() -> matcher.group("code").toInt()
+            codeFromResponseDirectly != null -> codeFromResponseDirectly
             HTTP_SUCCESS_CODE.contains(status) -> webProperties.successCode
             else -> webProperties.errorCode
         }
@@ -137,11 +141,10 @@ internal class TraceLoggingFilter(
 
         private const val BIZ_FAILED = "BIZ_FAILED"
 
-        private val CODE_PATTERN: Pattern = Pattern.compile(""""code":(?<code>[0-9]+)""")
-
         private val EXCLUDE_URLS by lazy {
             WebApp.excludeJsonResultUrlPatterns.plus(WebApp.ignoreUrlPatterns())
         }
+
         private const val FAILED = "FAILED"
 
         private val HTTP_SUCCESS_CODE = arrayOf(
@@ -206,4 +209,28 @@ internal class TraceIdFilter : OncePerRequestFilter() {
         } finally {
             MDC.remove("X-B3-TraceId")
         }
+}
+
+internal inline fun <reified T> String.getJsonRootValue(field: String): T? {
+    val parser = JsonFactory().createParser(this)
+    while (parser.nextToken() != null) {
+        if (parser.currentToken == JsonToken.FIELD_NAME &&
+            parser.currentName == field &&
+            parser.parsingContext.parent.inRoot()
+        ) {
+            parser.nextToken()
+            return when (T::class) {
+                Byte::class -> parser.byteValue
+                Short::class -> parser.shortValue
+                Int::class -> parser.intValue
+                Long::class -> parser.longValue
+                BigInteger::class -> parser.bigIntegerValue
+                BigDecimal::class -> parser.decimalValue
+                Boolean::class -> parser.booleanValue
+                String::class -> parser.text
+                else -> throw ApiException("${T::class} does not support yet")
+            } as T?
+        }
+    }
+    return null
 }
