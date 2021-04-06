@@ -14,7 +14,7 @@ object Version {
     const val kotlinVersion = "1.4.31"
     const val mybatisSpringStarterVersion = "2.1.4"
     const val mybatisPlusVersion = "3.4.2"
-    const val nettyVersion = "4.1.60.Final"
+    const val nettyVersion = "4.1.63.Final"
     const val reactorVersion = "3.4.4"
     const val slf4jVersion = "1.7.30"
     const val springBootVersion = "2.4.4"
@@ -80,7 +80,7 @@ object Deps {
     object SpringData {
         const val springDataCommon = "org.springframework.data:spring-data-common:${Version.springBootVersion}"
         const val springDataRedis = "org.springframework.data:spring-data-redis:${Version.springBootVersion}"
-        const val lettuce = "io.lettuce:lettuce-core:6.0.3.RELEASE"
+        const val lettuce = "io.lettuce:lettuce-core:6.1.0.RELEASE"
     }
 
     object SpringBoot {
@@ -127,10 +127,10 @@ object Deps {
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
         const val okhttp = "com.squareup.okhttp3:okhttp:4.9.1"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
-        const val guava = "com.google.guava:guava:30.1-jre"
+        const val guava = "com.google.guava:guava:30.1.1-jre"
         const val javaJwt = "com.auth0:java-jwt:3.14.0"
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.11.54.ALL"
-        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.18"
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.13.0.ALL"
+        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.20"
         const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.11.3"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
         const val springfoxSwagger2 = "io.springfox:springfox-swagger2:${Version.springfoxSwagger2Version}"
@@ -146,12 +146,12 @@ object Deps {
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${Version.reactorVersion}"
         const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:1.68"
-        const val fastjson = "com.alibaba:fastjson:1.2.75"
+        const val fastjson = "com.alibaba:fastjson:1.2.76"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${Version.mybatisPlusVersion}"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${Version.mybatisPlusVersion}"
         const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter:${Version.mybatisPlusVersion}"
         const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${Version.mybatisPlusVersion}"
-        const val easyExcel = "com.alibaba:easyexcel:2.2.7"
+        const val easyExcel = "com.alibaba:easyexcel:2.2.8"
         const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
         const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.14.0"
     }
