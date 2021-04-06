@@ -212,24 +212,25 @@ internal class TraceIdFilter : OncePerRequestFilter() {
 }
 
 internal inline fun <reified T> String.getJsonRootValue(field: String): T? {
-    val parser = JsonFactory().createParser(this)
-    while (parser.nextToken() != null) {
-        if (parser.currentToken == JsonToken.FIELD_NAME &&
-            parser.currentName == field &&
-            parser.parsingContext.parent.inRoot()
-        ) {
-            parser.nextToken()
-            return when (T::class) {
-                Byte::class -> parser.byteValue
-                Short::class -> parser.shortValue
-                Int::class -> parser.intValue
-                Long::class -> parser.longValue
-                BigInteger::class -> parser.bigIntegerValue
-                BigDecimal::class -> parser.decimalValue
-                Boolean::class -> parser.booleanValue
-                String::class -> parser.text
-                else -> throw ApiException("${T::class} does not support yet")
-            } as T?
+    JsonFactory().createParser(this).use {
+        while (it.nextToken() != null) {
+            if (it.currentToken == JsonToken.FIELD_NAME &&
+                it.currentName == field &&
+                it.parsingContext.parent.inRoot()
+            ) {
+                it.nextToken()
+                return when (T::class) {
+                    Byte::class -> it.byteValue
+                    Short::class -> it.shortValue
+                    Int::class -> it.intValue
+                    Long::class -> it.longValue
+                    BigInteger::class -> it.bigIntegerValue
+                    BigDecimal::class -> it.decimalValue
+                    Boolean::class -> it.booleanValue
+                    String::class -> it.text
+                    else -> throw ApiException("${T::class} does not support yet")
+                } as T?
+            }
         }
     }
     return null
