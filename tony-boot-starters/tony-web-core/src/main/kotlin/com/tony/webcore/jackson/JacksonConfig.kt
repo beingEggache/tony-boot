@@ -80,15 +80,14 @@ internal class NullValueBeanSerializerModifier : BeanSerializerModifier() {
         config: SerializationConfig,
         beanDesc: BeanDescription,
         beanProperties: MutableList<BeanPropertyWriter>
-    ) =
-        beanProperties.onEach {
-            when {
-                it.type.isDateTimeLikeType() || it.type.isBooleanType() || it.type.isEnumType -> Unit
-                it.type.isArrayLikeType() -> it.assignNullSerializer(nullArrayJsonSerializer)
-                it.type.isObjLikeType() -> it.assignNullSerializer(nullObjJsonSerializer)
-                it.type.isStringLikeType() -> it.assignNullSerializer(nullStrJsonSerializer)
-            }
+    ) = beanProperties.onEach {
+        when {
+            it.type.isDateTimeLikeType() || it.type.isBooleanType() || it.type.isEnumType -> Unit
+            it.type.isArrayLikeType() -> it.assignNullSerializer(nullArrayJsonSerializer)
+            it.type.isObjLikeType() -> it.assignNullSerializer(nullObjJsonSerializer)
+            it.type.isStringLikeType() -> it.assignNullSerializer(nullStrJsonSerializer)
         }
+    }
 }
 
 @Retention(AnnotationRetention.RUNTIME)
@@ -119,8 +118,7 @@ class MaskSerializer : JsonSerializer<Any>() {
             .getDeclaredField(gen.outputContext.currentName)
             .getAnnotation(MaskConverter::class.java)
         gen.writeString(
-            MaskConverter.getMaskFun(annotation.value)
-                .invoke(value.toString())
+            MaskConverter.getMaskFun(annotation.value)(value.toString())
         )
     }
 }

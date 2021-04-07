@@ -43,13 +43,13 @@ class RepeatReadRequestWrapper(request: HttpServletRequest) : HttpServletRequest
     private val cachedContent =
         ByteArrayOutputStream(
             if (request.contentLength >= 0) request.contentLength else 1024
-        )
-            .apply {
-                (request.contentLength > 0 && !isFormPost()).doIf {
-                    val bytes: ByteArray = request.inputStream.readBytes()
-                    bytes.isNotEmpty().doIf { writeBytes(bytes) }
-                }
+        ).apply {
+            (request.contentLength > 0 && !isFormPost()).doIf {
+                val bytes: ByteArray = request.inputStream.readBytes()
+                bytes.isNotEmpty().doIf { writeBytes(bytes) }
             }
+        }
+
     private val inputStream = ByteArrayInputStream(cachedContent.toByteArray())
 
     @Throws(IOException::class)

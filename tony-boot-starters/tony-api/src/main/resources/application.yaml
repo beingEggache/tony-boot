@@ -9,7 +9,6 @@ swagger:
         - "com.tony.api"
 knife4j:
     documents:
-        -
-            name: markdown说明
+        -   name: markdown说明
             locations: classpath:markdown/*
     enable: true
