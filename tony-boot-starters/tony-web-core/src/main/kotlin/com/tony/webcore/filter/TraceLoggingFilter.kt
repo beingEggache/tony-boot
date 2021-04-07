@@ -13,6 +13,7 @@ import com.tony.webcore.WebContext
 import com.tony.webcore.config.WebProperties
 import com.tony.webcore.utils.antPathMatcher
 import com.tony.webcore.utils.headers
+import com.tony.webcore.utils.isCorsPreflightRequest
 import com.tony.webcore.utils.matchAny
 import com.tony.webcore.utils.parsedMedia
 import com.tony.webcore.utils.remoteIp
@@ -132,7 +133,7 @@ internal class TraceLoggingFilter(
     }
 
     override fun shouldNotFilter(request: HttpServletRequest) =
-        antPathMatcher.matchAny(EXCLUDE_URLS, request.requestURI)
+        antPathMatcher.matchAny(EXCLUDE_URLS, request.requestURI) || request.isCorsPreflightRequest
 
     private companion object {
 
@@ -199,13 +200,12 @@ internal class TraceIdFilter : OncePerRequestFilter() {
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain
-    ) =
-        try {
-            MDC.put("X-B3-TraceId", UUID.randomUUID().toString())
-            filterChain.doFilter(request, response)
-        } finally {
-            MDC.remove("X-B3-TraceId")
-        }
+    ) = try {
+        MDC.put("X-B3-TraceId", UUID.randomUUID().toString())
+        filterChain.doFilter(request, response)
+    } finally {
+        MDC.remove("X-B3-TraceId")
+    }
 }
 
 internal fun String.getJsonRootValue(field: String): String? {

@@ -6,6 +6,7 @@ import com.tony.core.utils.doIf
 import com.tony.webcore.WebContext
 import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import java.net.URL
@@ -59,6 +60,11 @@ val HttpServletRequest.url: URL
 val HttpServletResponse.parsedMedia: MediaType?
     get() = if (contentType.isNullOrBlank()) null
     else MediaType.parseMediaType(contentType)
+
+val HttpServletRequest.isCorsPreflightRequest: Boolean
+    get() = method.equals(HttpMethod.OPTIONS.name, true) &&
+        !getHeader("Origin").isNullOrBlank() &&
+        !getHeader("Access-Control-Request-Method").isNullOrBlank()
 
 @Suppress("unused")
 fun byteArrayResponse(
