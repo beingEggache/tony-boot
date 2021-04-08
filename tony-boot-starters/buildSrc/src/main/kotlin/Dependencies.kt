@@ -128,7 +128,7 @@ object Deps {
         const val okhttp = "com.squareup.okhttp3:okhttp:4.9.1"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
         const val guava = "com.google.guava:guava:30.1.1-jre"
-        const val javaJwt = "com.auth0:java-jwt:3.14.0"
+        const val javaJwt = "com.auth0:java-jwt:3.15.0"
         const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.13.0.ALL"
         const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.20"
         const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.11.3"

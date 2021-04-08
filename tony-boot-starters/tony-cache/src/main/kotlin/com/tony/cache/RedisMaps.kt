@@ -7,6 +7,7 @@ import com.tony.core.utils.jsonToObj
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
+@Suppress("NULLABLE_TYPE_PARAMETER_AGAINST_NOT_NULL_TYPE_PARAMETER")
 object RedisMaps {
 
     @JvmStatic
@@ -22,7 +23,7 @@ object RedisMaps {
         RedisUtils.stringRedisTemplate.boundHashOps<String, T>(key).get(hashKey)
 
     @JvmStatic
-    fun getMap(key: String): Map<String, Any>? =
+    fun getMap(key: String): Map<String, Any> =
         RedisUtils.redisTemplate.opsForHash<String, Any>().entries(key)
 
     @JvmStatic
@@ -61,6 +62,38 @@ object RedisMaps {
     ) {
         RedisUtils.redisTemplate.boundHashOps<String, T>(key).apply {
             put(hashKey, value)
+            expireAt(date)
+        }
+    }
+
+    @JvmStatic
+    @JvmOverloads
+    fun <T> putIfAbsent(
+        key: String,
+        hashKey: String,
+        value: T,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS
+    ) {
+        if (timeout == 0L) {
+            RedisUtils.redisTemplate.boundHashOps<String, T>(key).putIfAbsent(hashKey, value)
+        } else {
+            RedisUtils.redisTemplate.boundHashOps<String, T>(key).apply {
+                putIfAbsent(hashKey, value)
+                expire(timeout, timeUnit)
+            }
+        }
+    }
+
+    @JvmStatic
+    fun <T> putIfAbsent(
+        key: String,
+        hashKey: String,
+        value: T,
+        date: Date
+    ) {
+        RedisUtils.redisTemplate.boundHashOps<String, T>(key).apply {
+            putIfAbsent(hashKey, value)
             expireAt(date)
         }
     }

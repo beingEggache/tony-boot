@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.tony.webcore
 
 import com.auth0.jwt.exceptions.JWTVerificationException

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.tony.wechat.response
 
 import com.fasterxml.jackson.annotation.JsonProperty

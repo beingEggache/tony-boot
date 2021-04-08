@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.tony.aliyun.oss.service
 
 import com.aliyun.oss.OSS

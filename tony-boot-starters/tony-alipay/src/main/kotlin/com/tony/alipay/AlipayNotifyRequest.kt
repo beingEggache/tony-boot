@@ -1,3 +1,5 @@
+@file:Suppress("PropertyName", "unused")
+
 package com.tony.alipay
 
 import com.tony.core.exception.BaseException

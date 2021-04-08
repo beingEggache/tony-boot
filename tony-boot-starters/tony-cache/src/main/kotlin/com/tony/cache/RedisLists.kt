@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.tony.cache
 
 import java.util.Date

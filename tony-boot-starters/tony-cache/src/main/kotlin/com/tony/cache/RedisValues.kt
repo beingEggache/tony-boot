@@ -43,7 +43,7 @@ object RedisValues {
         RedisUtils.stringRedisTemplate.boundHashOps<String, T>(key).get(hashKey)
 
     @JvmStatic
-    fun getMap(key: String): Map<String, Any>? =
+    fun getMap(key: String): Map<String, Any> =
         RedisUtils.redisTemplate.opsForHash<String, Any>().entries(key)
 
     @Suppress("UNCHECKED_CAST")

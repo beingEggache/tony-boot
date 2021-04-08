@@ -40,7 +40,7 @@ object RedisUtils {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
         val stringRedisSerializer = StringRedisSerializer()
         RedisTemplate<String, Any>().apply {
-            connectionFactory = factory
+            setConnectionFactory(factory)
             keySerializer = stringRedisSerializer
             hashKeySerializer = stringRedisSerializer
             valueSerializer = serializer
@@ -96,17 +96,17 @@ object RedisUtils {
         key: String,
         timeout: Long,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ): Boolean? =
+    ): Boolean =
         redisTemplate.expire(key, timeout, timeUnit)
 
     @JvmStatic
     @JvmOverloads
-    fun getExpire(key: String, timeUnit: TimeUnit = TimeUnit.SECONDS): Long? =
+    fun getExpire(key: String, timeUnit: TimeUnit = TimeUnit.SECONDS): Long =
         redisTemplate.getExpire(key, timeUnit)
 
     @JvmStatic
     fun delete(key: String) = redisTemplate.delete(keys(key)) > 0
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun keys(key: String): Collection<String> = redisTemplate.keys(key) ?: listOf()
+    fun keys(key: String): Collection<String> = redisTemplate.keys(key)
 }

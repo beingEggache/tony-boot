@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.tony.webcore
 
 import com.tony.core.OK
