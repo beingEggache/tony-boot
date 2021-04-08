@@ -1,9 +1,12 @@
 package com.tony.api
 
+import com.tony.core.PageResult
 import com.tony.webcore.auth.annotation.NoLoginCheck
-import io.swagger.annotations.ApiModel
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Date
 
 /**
  *
@@ -24,7 +27,48 @@ class IndexController {
     @NoLoginCheck
     @GetMapping("/boolean")
     fun boolean() = false
+
+    @NoLoginCheck
+    @GetMapping("/enum")
+    fun enum() = Gender.MALE
+
+    @NoLoginCheck
+    @GetMapping("/array")
+    fun array() = arrayOf(1)
+
+    @NoLoginCheck
+    @GetMapping("/intArray")
+    fun intArray() = IntArray(1) { 1 }
+
+    @NoLoginCheck
+    @GetMapping("/list")
+    fun list() = listOf(1)
+
+    @NoLoginCheck
+    @GetMapping("/obj")
+    fun obj() = Person()
+
+    @NoLoginCheck
+    @GetMapping("/date")
+    fun date() = Date()
+
+    @NoLoginCheck
+    @GetMapping("/local-date")
+    fun localDate() = LocalDate.now()
+
+    @NoLoginCheck
+    @GetMapping("/local-date-time")
+    fun localDateTime() = LocalDateTime.now()
+
+    @NoLoginCheck
+    @GetMapping("/page-result")
+    fun pageResult() = PageResult<Int>(IntArray(1) { 1 }, 1, 1, 1, 1, false)
 }
 
-@ApiModel("测试用")
-data class TestResp(val name: String, val age: Int)
+enum class Gender {
+    MALE
+}
+
+class Person {
+    var name = "Tony"
+}

@@ -16,6 +16,9 @@ import org.springframework.http.server.ServerHttpRequest
 import org.springframework.http.server.ServerHttpResponse
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
+import java.time.temporal.TemporalAccessor
+import java.util.Collections
+import java.util.Date
 
 @RestControllerAdvice
 @ConditionalOnWebApplication
@@ -31,15 +34,46 @@ internal class ApiResponseAdvice : ResponseBodyAdvice<Any?> {
     ) = when {
         antPathMatcher.matchAny(WebApp.excludeJsonResultUrlPatterns, request.uri.path) -> body
         body == null -> ApiResult(EMPTY_RESULT, WebApp.successCode)
-        Collection::class.java.isAssignableFrom(body.javaClass) -> ApiResult(
-            ListResult(body.asTo<Collection<Any>>()), WebApp.successCode
-        )
-        else -> ApiResult(body, WebApp.successCode)
+        body.isNotCollectionLike() -> ApiResult(body, WebApp.successCode)
+        else -> {
+            if (body.javaClass.isArray) {
+                ApiResult(toListResult(body), WebApp.successCode)
+            } else {
+                ApiResult(
+                    ListResult(body.asTo<Collection<*>>()), WebApp.successCode
+                )
+            }
+        }
     }
 
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>
     ) = MappingJackson2HttpMessageConverter::class.java.isAssignableFrom(converterType) &&
-        !ApiResult::class.java.isAssignableFrom(returnType.parameterType)
+        returnType.parameterType.isNotAssignableFrom(
+            ApiResult::class.java,
+            Number::class.java,
+            Enum::class.java,
+            Date::class.java,
+            TemporalAccessor::class.java
+        )
+}
+
+private fun Any.isNotCollectionLike() = !Collection::class.java.isAssignableFrom(javaClass) && !javaClass.isArray
+
+private fun Class<*>.isNotAssignableFrom(vararg clazzes: Class<*>) = clazzes.all {
+    !it.isAssignableFrom(this)
+}
+
+private fun toListResult(body: Any?) = when (body) {
+    is ByteArray -> ListResult<Byte>(body)
+    is ShortArray -> ListResult<Short>(body)
+    is IntArray -> ListResult<Int>(body)
+    is LongArray -> ListResult<Long>(body)
+    is FloatArray -> ListResult<Float>(body)
+    is DoubleArray -> ListResult<Double>(body)
+    is BooleanArray -> ListResult<Boolean>(body)
+    is CharArray -> ListResult<Char>(body)
+    is Array<*> -> ListResult<Any>(body)
+    else -> ListResult(Collections.EMPTY_LIST)
 }
