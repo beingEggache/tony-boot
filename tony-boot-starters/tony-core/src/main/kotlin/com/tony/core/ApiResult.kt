@@ -133,13 +133,11 @@ data class PageResult<T>(
         hasNext: Boolean
     ) : this(charArray.asList().asTo(), page, size, pages, total, hasNext)
 
-    inline fun <R> map(transform: (T) -> R) = apply {
-        items?.map(transform)
-    }
+    inline fun <R> map(transform: (T) -> R) =
+        PageResult(items?.map(transform), page, size, pages, total, hasNext)
 
-    inline fun onEach(action: (T) -> Unit) = apply {
-        items?.onEach(action)
-    }
+    inline fun onEach(action: (T) -> Unit) =
+        PageResult(items?.onEach(action), page, size, pages, total, hasNext)
 
     inline fun firstOrNull(predicate: (T) -> Boolean) = items?.firstOrNull(predicate)
 }
