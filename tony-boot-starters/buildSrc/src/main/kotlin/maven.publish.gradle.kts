@@ -18,6 +18,7 @@ configure<PublishingExtension> {
             val nexusPassword: String by project
 
             url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+            isAllowInsecureProtocol = true
             credentials {
                 username = nexusUsername
                 password = nexusPassword

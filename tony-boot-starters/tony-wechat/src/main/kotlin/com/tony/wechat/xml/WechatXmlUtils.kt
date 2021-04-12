@@ -16,9 +16,7 @@ private val xStreamMap = WeakHashMap<Class<*>, XStream>()
 private val processedClz: MutableSet<Class<*>> = Collections.newSetFromMap(WeakHashMap())
 
 internal class XStreamCDataConverter : StringConverter() {
-    override fun toString(obj: Any?): String {
-        return "<![CDATA[" + super.toString(obj) + "]]>"
-    }
+    override fun toString(obj: Any?) = "<![CDATA[" + super.toString(obj) + "]]>"
 }
 
 internal class WechatDriver : XppDriver() {
