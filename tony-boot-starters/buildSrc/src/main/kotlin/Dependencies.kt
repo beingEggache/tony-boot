@@ -1,3 +1,5 @@
+@file:Suppress("unused", "SpellCheckingInspection")
+
 import java.lang.reflect.Modifier
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
@@ -129,9 +131,9 @@ object Deps {
         const val commonsCodec = "commons-codec:commons-codec:1.15"
         const val guava = "com.google.guava:guava:30.1.1-jre"
         const val javaJwt = "com.auth0:java-jwt:3.15.0"
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.13.0.ALL"
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.13.32.ALL"
         const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.20"
-        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.11.3"
+        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.12.0"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
         const val springfoxSwagger2 = "io.springfox:springfox-swagger2:${Version.springfoxSwagger2Version}"
         const val knife4jApi = "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${Version.knife4jVersion}"
@@ -153,7 +155,7 @@ object Deps {
         const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${Version.mybatisPlusVersion}"
         const val easyExcel = "com.alibaba:easyexcel:2.2.8"
         const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
-        const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.14.0"
+        const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.15.0"
     }
 
     object Tony {
