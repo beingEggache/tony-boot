@@ -17,8 +17,7 @@ private val creators = HashMap<Class<*>, EnumCreator<*, *>>()
 @Suppress("UNCHECKED_CAST")
 fun <E, KEY> getCreator(clazz: Class<E>): EnumCreator<E, KEY>
     where E : EnumValue<KEY>,
-          KEY : Serializable =
-    creators[clazz] as EnumCreator<E, KEY>
+          KEY : Serializable = creators[clazz] as EnumCreator<E, KEY>
 
 abstract class EnumCreator<out E, KEY>(
     private val clazz: Class<out E>
@@ -36,8 +35,7 @@ abstract class EnumCreator<out E, KEY>(
         const val defaultStringValue = ""
     }
 
-    open fun create(value: KEY) =
-        enumValues.firstOrNull { value == it.value }
+    open fun create(value: KEY) = enumValues.firstOrNull { value == it.value }
 
     @Suppress("MemberVisibilityCanBePrivate")
     val enumValues: Array<out E> by lazy {

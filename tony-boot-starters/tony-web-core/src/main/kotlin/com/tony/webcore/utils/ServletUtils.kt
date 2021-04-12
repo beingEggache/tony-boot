@@ -14,7 +14,7 @@ import java.net.URLEncoder
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-val HttpServletRequest.origin: String
+val HttpServletRequest.origin
     get() = run {
         val protocol = url.protocol
         val host = url.host
@@ -54,14 +54,14 @@ val HttpServletRequest.remoteIp: String
         return remoteAddr
     }
 
-val HttpServletRequest.url: URL
+val HttpServletRequest.url
     get() = URL(requestURL.toString())
 
-val HttpServletResponse.parsedMedia: MediaType?
+val HttpServletResponse.parsedMedia
     get() = if (contentType.isNullOrBlank()) null
     else MediaType.parseMediaType(contentType)
 
-val HttpServletRequest.isCorsPreflightRequest: Boolean
+val HttpServletRequest.isCorsPreflightRequest
     get() = method.equals(HttpMethod.OPTIONS.name, true) &&
         !getHeader("Origin").isNullOrBlank() &&
         !getHeader("Access-Control-Request-Method").isNullOrBlank()

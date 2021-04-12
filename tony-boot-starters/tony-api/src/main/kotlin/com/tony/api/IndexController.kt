@@ -45,8 +45,16 @@ class IndexController {
     fun list() = listOf(1)
 
     @NoLoginCheck
+    @GetMapping("/empty-list")
+    fun emptyList() = listOf<Any>()
+
+    @NoLoginCheck
+    @GetMapping("/empty-array")
+    fun emptyArray() = arrayOf<Any>()
+
+    @NoLoginCheck
     @GetMapping("/obj")
-    fun obj() = Person()
+    fun obj(): Person? = null
 
     @NoLoginCheck
     @GetMapping("/date")

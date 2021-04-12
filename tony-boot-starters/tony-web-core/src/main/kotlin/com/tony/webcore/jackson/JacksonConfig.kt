@@ -23,14 +23,12 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 internal class JacksonConfig {
 
     @Bean
-    fun mappingJackson2HttpMessageConverter() = let {
-        val objectMapper = createObjectMapper().apply {
+    fun mappingJackson2HttpMessageConverter() = MappingJackson2HttpMessageConverter().apply {
+        objectMapper = createObjectMapper().apply {
             serializerFactory =
                 serializerFactory
                     .withSerializerModifier(NullValueBeanSerializerModifier())
         }
-
-        MappingJackson2HttpMessageConverter(objectMapper)
     }
 }
 
@@ -42,8 +40,7 @@ internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
         serializers: SerializerProvider
     ) {
         if (value == null) {
-            gen.writeStartArray()
-            gen.writeEndArray()
+            gen.writeRaw("[]")
         }
     }
 }
@@ -55,8 +52,7 @@ internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
         serializers: SerializerProvider?
     ) {
         if (value == null) {
-            gen.writeStartObject()
-            gen.writeEndObject()
+            gen.writeRaw("{}")
         }
     }
 }

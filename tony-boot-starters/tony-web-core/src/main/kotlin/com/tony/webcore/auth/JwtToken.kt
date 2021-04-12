@@ -49,8 +49,7 @@ object JwtToken {
             }.sign(algorithm)
 
     @JvmStatic
-    internal fun parse(jwt: String) =
-        JWT.require(algorithm).build().verify(jwt)
+    internal fun parse(jwt: String) = JWT.require(algorithm).build().verify(jwt)
 
     @JvmStatic
     private fun getExpireAt() =

@@ -24,8 +24,7 @@ val defaultZoneId: ZoneId = TimeZone.getDefault().toZoneId()
 val defaultZoneOffset: ZoneOffset = OffsetDateTime.now(defaultZoneId).offset
 
 @JvmField
-internal val dateTimeFormatterMap: WeakHashMap<String, DateTimeFormatter> =
-    WeakHashMap()
+internal val dateTimeFormatterMap: WeakHashMap<String, DateTimeFormatter> = WeakHashMap()
 
 internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =
     DateTimeFormatter

@@ -96,13 +96,13 @@ object RedisUtils {
         key: String,
         timeout: Long,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ): Boolean =
-        redisTemplate.expire(key, timeout, timeUnit)
+    ) = redisTemplate.expire(key, timeout, timeUnit)
 
     @JvmStatic
     @JvmOverloads
-    fun getExpire(key: String, timeUnit: TimeUnit = TimeUnit.SECONDS): Long =
-        redisTemplate.getExpire(key, timeUnit)
+    fun getExpire(
+        key: String,
+        timeUnit: TimeUnit = TimeUnit.SECONDS) = redisTemplate.getExpire(key, timeUnit)
 
     @JvmStatic
     fun delete(key: String) = redisTemplate.delete(keys(key)) > 0
