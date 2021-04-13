@@ -208,8 +208,9 @@ internal class TraceIdFilter : OncePerRequestFilter() {
     }
 }
 
+private val jsonFactory = JsonFactory()
 internal fun String.getJsonRootValue(field: String): String? {
-    JsonFactory().createParser(this).use {
+    jsonFactory.createParser(this).use {
         while (it.nextToken() != null) {
             if (it.currentToken == JsonToken.FIELD_NAME &&
                 it.currentName == field &&
