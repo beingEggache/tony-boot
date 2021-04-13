@@ -9,7 +9,7 @@ import com.tony.core.utils.toDeepLink
 private const val TRADE_SUCCESS = "TRADE_SUCCESS"
 
 private const val TRADE_CLOSED = "TRADE_CLOSED"
-@Suppress("VariableNaming")
+@Suppress("VariableNaming", "MemberVisibilityCanBePrivate")
 class AlipayNotifyRequest {
 
     var app_id: String? = null

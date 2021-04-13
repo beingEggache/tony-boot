@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.tony.cache.aspect
 
 import com.fasterxml.jackson.databind.type.TypeFactory

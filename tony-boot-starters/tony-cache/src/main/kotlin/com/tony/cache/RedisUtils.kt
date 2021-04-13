@@ -68,6 +68,7 @@ object RedisUtils {
     |end
 """.trimMargin()
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun lockKey(key: String, timeout: Long): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
         val script = script
