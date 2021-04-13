@@ -5,15 +5,11 @@ apply {
 }
 
 dependencies {
-    apiOf(
-        Deps.SpringBoot.starterLogging,
-        Deps.Other.aliyunJavaSdkDysmsapi
-    )
-    implementationOf(
-        Deps.Other.annotationApi,
-        Deps.Other.aliyunJavaSdkCore,
-        Deps.SpringBoot.springBoot
-    )
+    api(Deps.SpringBoot.starterLogging)
+    api(Deps.Other.aliyunJavaSdkDysmsapi)
+    implementation(Deps.Other.annotationApi)
+    implementation(Deps.Other.aliyunJavaSdkCore)
+    implementation(Deps.SpringBoot.springBoot)
 
     addTestDependencies()
 }

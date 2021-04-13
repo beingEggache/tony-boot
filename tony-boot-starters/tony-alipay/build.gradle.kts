@@ -5,10 +5,7 @@ apply {
 }
 
 dependencies {
-
-    api(project(":tony-core"))
-    implementationOf(
-        Deps.SpringBoot.springBoot,
-        Deps.Other.alipaySdkJava
-    )
+    api(projects.tonyCore)
+    implementation(Deps.SpringBoot.springBoot)
+    implementation(Deps.Other.alipaySdkJava)
 }

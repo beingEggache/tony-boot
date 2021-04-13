@@ -5,11 +5,9 @@ apply {
 }
 
 dependencies {
-
     api(project(":tony-core"))
-    apiOf(
-        Deps.Other.javaJwt,
-        Deps.SpringBoot.starterWeb,
-        Deps.SpringBoot.starterValidation
-    )
+    api(projects.tonyCore)
+    api(Deps.Other.javaJwt)
+    api(Deps.SpringBoot.starterWeb)
+    api(Deps.SpringBoot.starterValidation)
 }

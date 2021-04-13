@@ -6,7 +6,6 @@ import kotlin.reflect.KClass
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.exclude
-import org.gradle.kotlin.dsl.project
 
 object Version {
     const val knife4jVersion = "2.0.8"
@@ -173,22 +172,6 @@ object Deps {
         "javax.xml.bind:jaxb-api" to Other.bindApi,
         "commons-logging:commons-logging" to Spring.jcl
     )
-}
-
-fun DependencyHandler.apiOf(vararg dependencies: Any) {
-    dependencies.forEach { add("api", it) }
-}
-
-fun DependencyHandler.implementationOf(vararg dependencies: Any) {
-    dependencies.forEach { add("implementation", it) }
-}
-
-fun DependencyHandler.apiProjects(vararg dependencies: String) {
-    dependencies.forEach { add("api", project(it)) }
-}
-
-fun DependencyHandler.implementationProjects(vararg dependencies: String) {
-    dependencies.forEach { add("implementation", project(it)) }
 }
 
 fun DependencyHandler.addTestDependencies(configuration: String = "testImplementation") {

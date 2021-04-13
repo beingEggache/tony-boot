@@ -6,10 +6,8 @@ apply {
 
 dependencies {
 
-    apiOf(
-        project(":tony-core"),
-        Deps.Other.aliyunSdkOss
-    )
+    api(projects.tonyCore)
+    api(Deps.Other.aliyunSdkOss)
     implementation(Deps.SpringBoot.springBoot)
     addTestDependencies()
 }

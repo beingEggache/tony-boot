@@ -4,19 +4,17 @@ apply {
 }
 
 dependencies {
-    apiOf(
-        Deps.Kotlin.stdlib,
-        Deps.Other.commonsCodec,
-        Deps.SpringBoot.starterLogging,
-        Deps.Other.validationApi,
-        Deps.Jackson.annotations,
-        Deps.Jackson.core,
-        Deps.Jackson.databind,
-        Deps.Jackson.datatypeJdk8,
-        Deps.Jackson.datatypeJsr310,
-        Deps.Jackson.moduleKotlin,
-        Deps.Jackson.moduleParameterNames
-    )
+    api(Deps.Kotlin.stdlib)
+    api(Deps.Other.commonsCodec)
+    api(Deps.SpringBoot.starterLogging)
+    api(Deps.Other.validationApi)
+    api(Deps.Jackson.annotations)
+    api(Deps.Jackson.core)
+    api(Deps.Jackson.databind)
+    api(Deps.Jackson.datatypeJdk8)
+    api(Deps.Jackson.datatypeJsr310)
+    api(Deps.Jackson.moduleKotlin)
+    api(Deps.Jackson.moduleParameterNames)
 }
 
 

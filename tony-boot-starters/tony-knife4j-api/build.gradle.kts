@@ -5,11 +5,8 @@ apply {
 }
 
 dependencies {
-
-    implementationOf(
-        Deps.SpringBoot.springBoot,
-        Deps.Spring.web,
-        Deps.Other.springfoxSwagger2,
-        Deps.Other.knife4jApi
-    )
+    implementation(Deps.SpringBoot.springBoot)
+    implementation(Deps.Spring.web)
+    implementation(Deps.Other.springfoxSwagger2)
+    implementation(Deps.Other.knife4jApi)
 }

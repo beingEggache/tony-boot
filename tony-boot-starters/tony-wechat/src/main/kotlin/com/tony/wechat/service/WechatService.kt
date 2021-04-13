@@ -198,9 +198,9 @@ class WechatService(
         appId: String = subscriptionAppId,
         secret: String = appSecret
     ) = "$apiPath/menu/create?access_token=${getApiAccessToken(appId, secret)}"
-            .httpPost(menu.toJsonString())
-            .json<WechatServerResponse>()
-            .success()
+        .httpPost(menu.toJsonString())
+        .json<WechatServerResponse>()
+        .success()
 
     fun jsSdkConfig(url: String, debug: Boolean = false) =
         run {

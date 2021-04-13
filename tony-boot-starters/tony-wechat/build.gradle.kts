@@ -6,10 +6,8 @@ apply {
 
 dependencies {
 
-    apiOf(
-        project(":tony-http"),
-        Deps.Other.xstream
-    )
+    api(projects.tonyHttp)
+    api(Deps.Other.xstream)
     implementation(Deps.SpringBoot.springBoot)
     addTestDependencies()
 }

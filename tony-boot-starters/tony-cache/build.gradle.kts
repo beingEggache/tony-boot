@@ -5,9 +5,7 @@ apply {
 }
 
 dependencies {
-    api(project(":tony-core"))
-    implementationOf(
-        Deps.SpringBoot.starterDataRedis,
-        Deps.SpringBoot.starterAop
-    )
+    api(projects.tonyCore)
+    implementation(Deps.SpringBoot.starterDataRedis)
+    implementation(Deps.SpringBoot.starterAop)
 }

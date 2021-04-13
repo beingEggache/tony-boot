@@ -103,7 +103,8 @@ object RedisUtils {
     @JvmOverloads
     fun getExpire(
         key: String,
-        timeUnit: TimeUnit = TimeUnit.SECONDS) = redisTemplate.getExpire(key, timeUnit)
+        timeUnit: TimeUnit = TimeUnit.SECONDS
+    ) = redisTemplate.getExpire(key, timeUnit)
 
     @JvmStatic
     fun delete(key: String) = redisTemplate.delete(keys(key)) > 0

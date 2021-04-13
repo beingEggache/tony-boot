@@ -4,10 +4,6 @@ apply {
 }
 
 dependencies {
-
-    apiOf(
-        project(":tony-core"),
-        Deps.Other.httpclient
-    )
-
+    api(projects.tonyCore)
+    api(Deps.Other.httpclient)
 }
