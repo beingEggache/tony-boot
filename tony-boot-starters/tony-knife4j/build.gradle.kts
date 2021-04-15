@@ -5,6 +5,6 @@ apply {
 }
 
 dependencies {
-    implementation(Deps.Tony.knife4jApi)
+    implementation(projects.tonyKnife4jApi)
     implementation(Deps.Other.knife4j)
 }

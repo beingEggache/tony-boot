@@ -5,7 +5,6 @@ apply {
 }
 
 dependencies {
-
     api(projects.tonyHttp)
     api(Deps.Other.xstream)
     implementation(Deps.SpringBoot.springBoot)

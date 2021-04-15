@@ -2,8 +2,8 @@ apply(plugin = "kotlin-spring")
 dependencies {
 
     //while execute gradle task, use -Pprofile=prod
-    implementation(project(":tony-web-core"))
+    implementation(projects.tonyWebCore)
     if (project.extra["profile"] != "prod") {
-        implementation(project(":tony-knife4j"))
+        implementation(projects.tonyKnife4j)
     }
 }

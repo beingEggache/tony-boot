@@ -5,7 +5,6 @@ apply {
 }
 
 dependencies {
-
     api(projects.tonyCore)
     api(Deps.Other.aliyunSdkOss)
     implementation(Deps.SpringBoot.springBoot)

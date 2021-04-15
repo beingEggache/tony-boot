@@ -5,7 +5,6 @@ apply {
 }
 
 dependencies {
-    api(project(":tony-core"))
     api(projects.tonyCore)
     api(Deps.Other.javaJwt)
     api(Deps.SpringBoot.starterWeb)
