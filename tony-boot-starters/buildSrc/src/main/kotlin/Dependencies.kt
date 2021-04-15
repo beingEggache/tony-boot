@@ -11,17 +11,16 @@ object Version {
     const val knife4jVersion = "2.0.8"
     const val springfoxSwagger2Version = "2.10.5"
     const val byteBuddyVersion = "1.10.22"
-    const val jacksonVersion = "2.12.2"
+    const val jacksonVersion = "2.12.3"
     const val kotlinVersion = "1.4.31"
     const val mybatisSpringStarterVersion = "2.1.4"
     const val mybatisPlusVersion = "3.4.2"
     const val nettyVersion = "4.1.63.Final"
-    const val reactorVersion = "3.4.4"
+    const val reactorVersion = "3.4.5"
     const val slf4jVersion = "1.7.30"
     const val springBootVersion = "2.4.4"
-    const val springVersion = "5.3.5"
+    const val springVersion = "5.3.6"
     const val swaggerVersion = "1.6.2"
-    const val tonyVersion = "0.1-SNAPSHOT"
 }
 
 object Deps {
@@ -122,7 +121,7 @@ object Deps {
         const val elApi = "jakarta.el:jakarta.el-api:3.0.3"
         const val websocketApi = "jakarta.websocket:jakarta.websocket-api:1.1.2"
         const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3"
-        const val reactorNetty = "io.projectreactor.netty:reactor-netty:1.0.5"
+        const val reactorNetty = "io.projectreactor.netty:reactor-netty:1.0.6"
         const val gson = "com.google.code.gson:gson:2.8.6"
         const val xstream = "com.thoughtworks.xstream:xstream:1.4.16"
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
@@ -130,7 +129,7 @@ object Deps {
         const val commonsCodec = "commons-codec:commons-codec:1.15"
         const val guava = "com.google.guava:guava:30.1.1-jre"
         const val javaJwt = "com.auth0:java-jwt:3.15.0"
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.13.32.ALL"
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.13.33.ALL"
         const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.20"
         const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.12.0"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
@@ -155,10 +154,6 @@ object Deps {
         const val easyExcel = "com.alibaba:easyexcel:2.2.8"
         const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
         const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.15.0"
-    }
-
-    object Tony {
-        const val knife4jApi = "com.tony:tony-knife4j-api:${Version.tonyVersion}"
     }
 
     val canReplacedDependencies = mapOf(
