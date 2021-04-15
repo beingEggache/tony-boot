@@ -3,6 +3,9 @@ package com.tony.api
 import com.tony.core.PageResult
 import com.tony.webcore.auth.annotation.NoLoginCheck
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -71,12 +74,19 @@ class IndexController {
     @NoLoginCheck
     @GetMapping("/page-result")
     fun pageResult() = PageResult<Int>(IntArray(1) { 1 }, 1, 1, 1, 1, false)
+
+    @NoLoginCheck
+    @PostMapping("/test-post-param")
+    fun testPostParam(@RequestBody person: Person) =
+        0
+
+    @NoLoginCheck
+    @GetMapping("/test-param")
+    fun testGetParam(@RequestParam int: Int) = 0
 }
 
 enum class Gender {
     MALE
 }
 
-class Person {
-    var name = "Tony"
-}
+data class Person(val gender: Gender)

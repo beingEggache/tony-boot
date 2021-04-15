@@ -23,6 +23,3 @@ chain-wrapping = false
 no-line-break-before-assignment = true
 string-template = true
 import-ordering = true
-
-[**/test/*.{kt, kts}]
-disabled_rules=import-ordering,no-unused-imports,no-semi

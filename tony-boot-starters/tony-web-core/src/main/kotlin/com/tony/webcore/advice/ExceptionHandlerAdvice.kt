@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindException
 import org.springframework.validation.BindingResult
+import org.springframework.web.bind.MissingRequestValueException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -41,6 +43,12 @@ internal class ExceptionHandlerAdvice(
             e.toResponse()
         }
 
+    @ExceptionHandler(Exception::class)
+    fun exception(e: Exception) = run {
+        logger.error(e.message, e)
+        errorResponse(webProperties.errorMsg)
+    }
+
     private fun bindingResultMessages(bindingResult: BindingResult) =
         bindingResult.fieldErrors.first().let {
             if (it.isBindingFailure) webProperties.validationErrorMsg
@@ -55,10 +63,10 @@ internal class ExceptionHandlerAdvice(
     fun constraintViolationException(e: ConstraintViolationException) =
         badRequest(e.constraintViolations.first().message)
 
-    @ExceptionHandler(Exception::class)
-    fun exception(e: Exception) = run {
-        logger.error(e.message, e)
-        errorResponse(webProperties.errorMsg)
+    @ExceptionHandler(value = [MissingRequestValueException::class, HttpMessageNotReadableException::class])
+    fun badRequestException(e: Exception) = run {
+        logger.warn(e.localizedMessage)
+        badRequest(webProperties.validationErrorMsg)
     }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
