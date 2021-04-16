@@ -55,7 +55,11 @@ internal class ApiResponseAdvice : ResponseBodyAdvice<Any?> {
             Number::class.java,
             Enum::class.java,
             Date::class.java,
-            TemporalAccessor::class.java
+            TemporalAccessor::class.java,
+            java.lang.Character::class.java,
+            Char::class.java,
+            java.lang.Boolean::class.java,
+            Boolean::class.java
         )
 }
 

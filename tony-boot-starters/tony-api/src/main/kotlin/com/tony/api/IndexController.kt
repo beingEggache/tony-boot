@@ -32,6 +32,10 @@ class IndexController {
     fun boolean() = false
 
     @NoLoginCheck
+    @GetMapping("/char")
+    fun char() = 'a'
+
+    @NoLoginCheck
     @GetMapping("/enum")
     fun enum() = Gender.MALE
 
