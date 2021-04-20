@@ -5,13 +5,17 @@ import com.tony.core.BIZ_ERROR
 import com.tony.core.INTERNAL_SERVER_ERROR
 import com.tony.core.OK
 import com.tony.core.UNAUTHORIZED
+import com.tony.webcore.auth.ApiSession
+import com.tony.webcore.auth.DefaultApiSession
 import com.tony.webcore.converter.EnumIntValueConverterFactory
 import com.tony.webcore.converter.EnumStringValueConverterFactory
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.ServletComponentScan
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.format.FormatterRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
@@ -26,6 +30,10 @@ internal class WebConfig : WebMvcConfigurer {
         registry.addConverterFactory(EnumIntValueConverterFactory())
         registry.addConverterFactory(EnumStringValueConverterFactory())
     }
+
+    @ConditionalOnMissingBean(ApiSession::class)
+    @Bean
+    fun apiSession() = DefaultApiSession()
 }
 
 @ConstructorBinding

@@ -1,6 +1,8 @@
 package com.tony.api
 
 import com.tony.core.PageResult
+import com.tony.webcore.WebContext
+import com.tony.webcore.auth.JwtToken
 import com.tony.webcore.auth.annotation.NoLoginCheck
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -81,12 +83,18 @@ class IndexController {
 
     @NoLoginCheck
     @PostMapping("/test-post-param")
-    fun testPostParam(@RequestBody person: Person) =
-        0
+    fun testPostParam(@RequestBody person: Person) = 0
 
     @NoLoginCheck
     @GetMapping("/test-param")
     fun testGetParam(@RequestParam int: Int) = 0
+
+    @NoLoginCheck
+    @GetMapping("/login")
+    fun login(userId: String?) = JwtToken.gen("userId" to "tony")
+
+    @GetMapping("/user-id")
+    fun userId() = WebContext.userId
 }
 
 enum class Gender {

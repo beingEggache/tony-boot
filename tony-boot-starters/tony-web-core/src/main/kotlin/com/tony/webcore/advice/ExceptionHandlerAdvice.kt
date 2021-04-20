@@ -1,5 +1,6 @@
 package com.tony.webcore.advice
 
+import com.tony.core.exception.ApiException
 import com.tony.core.exception.BizException
 import com.tony.core.utils.getLogger
 import com.tony.webcore.WebContext
@@ -35,13 +36,15 @@ internal class ExceptionHandlerAdvice(
     private val logger = getLogger()
 
     @ExceptionHandler(BizException::class)
-    fun bizException(e: BizException) =
-        run {
-            e.cause?.apply {
-                logger.warn(message, cause)
-            }
-            e.toResponse()
+    fun bizException(e: BizException) = e.toResponse()
+
+    @ExceptionHandler(ApiException::class)
+    fun apiException(e: ApiException) = run {
+        e.cause?.apply {
+            logger.warn(message, cause)
         }
+        e.toResponse()
+    }
 
     @ExceptionHandler(Exception::class)
     fun exception(e: Exception) = run {

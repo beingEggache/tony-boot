@@ -70,7 +70,6 @@ internal class TraceLoggingFilter(
         responseWrapper.copyBodyToResponse()
     }
 
-
     private fun log(
         requestWrapper: ContentCachingRequestWrapper,
         responseWrapper: ContentCachingResponseWrapper,
@@ -118,7 +117,6 @@ internal class TraceLoggingFilter(
     } catch (e: Exception) {
         log.error(e.message, e)
     }
-
 
     private fun resultCode(responseBody: String, status: Int) = let {
         val codeFromResponseDirectly = responseBody.getJsonRootValue("code")

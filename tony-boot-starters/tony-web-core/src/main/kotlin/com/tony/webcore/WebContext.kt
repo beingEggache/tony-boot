@@ -2,16 +2,13 @@
 
 package com.tony.webcore
 
-import com.auth0.jwt.exceptions.JWTVerificationException
-import com.auth0.jwt.interfaces.DecodedJWT
 import com.tony.core.ApiResult
 import com.tony.core.EMPTY_RESULT
-import com.tony.core.exception.ApiException
 import com.tony.core.exception.BaseException
 import com.tony.core.utils.asTo
 import com.tony.core.utils.defaultIfBlank
 import com.tony.core.utils.doIfNull
-import com.tony.webcore.auth.JwtToken
+import com.tony.webcore.WebApp.apiSession
 import com.tony.webcore.utils.headers
 import com.tony.webcore.utils.origin
 import com.tony.webcore.utils.remoteIp
@@ -68,19 +65,11 @@ object WebContext {
     internal val request: HttpServletRequest
         get() = current.request
 
-    val token: DecodedJWT
-        get() = try {
-            JwtToken.parse(request.getHeader("x-token").defaultIfBlank())
-        } catch (e: JWTVerificationException) {
-            throw ApiException("请登录", WebApp.unauthorizedCode, e)
-        }
-
     val url: URL
         get() = request.url
 
     val userId: String
-        get() = token.getClaim("userId").asString()
-            ?: throw ApiException("请登录", WebApp.unauthorizedCode)
+        get() = apiSession.userId
 
     /**
      * Springboot下获得项目根目录的实际路径

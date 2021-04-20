@@ -4,6 +4,7 @@ package com.tony.webcore
 
 import com.tony.core.OK
 import com.tony.core.UNAUTHORIZED
+import com.tony.webcore.auth.ApiSession
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.core.env.Environment
@@ -93,16 +94,21 @@ object WebApp {
         environment.getProperty<Int>("web.unauthorized-code") ?: UNAUTHORIZED
     }
 
-    @Suppress("unused")
     @Resource
     private fun environment(environment: Environment) {
         WebApp.environment = environment
     }
 
-    @Suppress("unused")
     @Resource
     private fun errorAttributes(errorAttributes: ErrorAttributes) {
         WebApp.errorAttributes = errorAttributes
+    }
+
+    internal lateinit var apiSession: ApiSession
+
+    @Resource
+    private fun apiSession(apiSession: ApiSession) {
+        WebApp.apiSession = apiSession
     }
 
     private fun removeDuplicateSlash(input: String): String =
