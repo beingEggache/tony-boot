@@ -10,7 +10,7 @@ import org.gradle.kotlin.dsl.exclude
 object Version {
     const val knife4jVersion = "2.0.8"
     const val springfoxSwagger2Version = "2.10.5"
-    const val byteBuddyVersion = "1.10.22"
+    const val byteBuddyVersion = "1.10.23"
     const val jacksonVersion = "2.12.3"
     const val kotlinVersion = "1.4.31"
     const val mybatisSpringStarterVersion = "2.1.4"

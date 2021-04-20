@@ -60,68 +60,65 @@ internal class TraceLoggingFilter(
         responseWrapper: ContentCachingResponseWrapper,
         filterChain: FilterChain,
         startTime: LocalDateTime
-    ) {
-        try {
-            filterChain.doFilter(requestWrapper, responseWrapper)
-        } finally {
-            val elapsedTime = System.currentTimeMillis() - startTime.toInstant(defaultZoneOffset).toEpochMilli()
+    ) = try {
+        filterChain.doFilter(requestWrapper, responseWrapper)
+    } finally {
+        val elapsedTime = System.currentTimeMillis() - startTime.toInstant(defaultZoneOffset).toEpochMilli()
 
-            log(requestWrapper, responseWrapper, startTime, elapsedTime)
+        log(requestWrapper, responseWrapper, startTime, elapsedTime)
 
-            responseWrapper.copyBodyToResponse()
-        }
+        responseWrapper.copyBodyToResponse()
     }
+
 
     private fun log(
         requestWrapper: ContentCachingRequestWrapper,
         responseWrapper: ContentCachingResponseWrapper,
         startTime: LocalDateTime,
         elapsedTime: Long
-    ) {
+    ) = try {
 
-        try {
-
-            val url = requestWrapper.requestURL?.toString()
-            val path = requestWrapper.requestURI.removePrefix(WebContext.contextPath)
-            val httpMethod = requestWrapper.method
-            val remoteIp = requestWrapper.remoteIp
-            val localIp = requestWrapper.localAddr
-            val query = requestWrapper.queryString ?: NULL
-            val requestParam = requestParam(requestWrapper)
-            val headers = requestWrapper.headers.toJsonString()
-            val responseBody = responseBody(responseWrapper)
-            val resultCode = resultCode(responseBody.defaultIfBlank(), responseWrapper.status)
-            val resultStatus = when (resultCode) {
-                webProperties.successCode -> SUCCESS
-                webProperties.validationErrorCode -> VALIDATE_FAILED
-                webProperties.bizErrorCode -> BIZ_FAILED
-                webProperties.unauthorizedCode -> UNAUTHORIZED
-                in 400 * 100..499 * 100 -> VALIDATE_FAILED
-                else -> FAILED
-            }
-            val protocol = requestWrapper.protocol
-            val startTimeStr = startTime.toString("yyyy-MM-dd HH:mm:ss.SSS")
-
-            val logStr = startTimeStr +
-                "|$elapsedTime" +
-                "|$resultCode" +
-                "|$resultStatus" +
-                "|$protocol" +
-                "|$httpMethod" +
-                "|$url" +
-                "|$path" +
-                "|$query" +
-                "|$headers" +
-                "|$requestParam" +
-                "|$responseBody" +
-                "|$remoteIp" +
-                "|$localIp"
-
-            log.trace(logStr.removeLineBreak())
-        } catch (e: Exception) {
-            log.error(e.message, e)
+        val url = requestWrapper.requestURL?.toString()
+        val path = requestWrapper.requestURI.removePrefix(WebContext.contextPath)
+        val httpMethod = requestWrapper.method
+        val remoteIp = requestWrapper.remoteIp
+        val localIp = requestWrapper.localAddr
+        val query = requestWrapper.queryString ?: NULL
+        val requestParam = requestParam(requestWrapper)
+        val headers = requestWrapper.headers.toJsonString()
+        val responseBody = responseBody(responseWrapper)
+        val resultCode = resultCode(responseBody.defaultIfBlank(), responseWrapper.status)
+        val resultStatus = when (resultCode) {
+            webProperties.successCode -> SUCCESS
+            webProperties.validationErrorCode -> VALIDATE_FAILED
+            webProperties.bizErrorCode -> BIZ_FAILED
+            webProperties.unauthorizedCode -> UNAUTHORIZED
+            in 400 * 100..499 * 100 -> VALIDATE_FAILED
+            else -> FAILED
         }
+        val protocol = requestWrapper.protocol
+        val startTimeStr = startTime.toString("yyyy-MM-dd HH:mm:ss.SSS")
+
+        val logStr = startTimeStr +
+            "|$elapsedTime" +
+            "|$resultCode" +
+            "|$resultStatus" +
+            "|$protocol" +
+            "|$httpMethod" +
+            "|$url" +
+            "|$path" +
+            "|$query" +
+            "|$headers" +
+            "|$requestParam" +
+            "|$responseBody" +
+            "|$remoteIp" +
+            "|$localIp"
+
+        log.trace(logStr.removeLineBreak())
+    } catch (e: Exception) {
+        log.error(e.message, e)
     }
+
 
     private fun resultCode(responseBody: String, status: Int) = let {
         val codeFromResponseDirectly = responseBody.getJsonRootValue("code")
