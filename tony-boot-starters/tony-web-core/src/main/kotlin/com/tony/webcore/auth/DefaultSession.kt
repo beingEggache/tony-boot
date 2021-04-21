@@ -20,12 +20,14 @@ interface ApiSession {
 }
 
 internal class DefaultApiSession : ApiSession {
+
     override val token: DecodedJWT
         get() = try {
             JwtToken.parse(WebContext.request.getHeader("x-token").defaultIfBlank())
         } catch (e: JWTVerificationException) {
             throw ApiException("请登录", WebApp.unauthorizedCode, e)
         }
+
     override val userId: String
         get() = token.getClaim("userId").asString()
             ?: throw ApiException("请登录", WebApp.unauthorizedCode)

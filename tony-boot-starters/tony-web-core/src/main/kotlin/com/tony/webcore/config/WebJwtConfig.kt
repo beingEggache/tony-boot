@@ -1,8 +1,8 @@
 package com.tony.webcore.config
 
 import com.tony.webcore.WebApp
-import com.tony.webcore.auth.interceptor.DefaultLoginCheckInterceptor
-import com.tony.webcore.auth.interceptor.LoginCheckInterceptor
+import com.tony.webcore.auth.DefaultLoginCheckInterceptor
+import com.tony.webcore.auth.LoginCheckInterceptor
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication

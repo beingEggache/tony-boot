@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.kotlin.dsl.exclude
 
 object Version {
     const val knife4jVersion = "2.0.8"
@@ -32,7 +31,8 @@ object Deps {
         const val datatypeJdk8 = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${Version.jacksonVersion}"
         const val datatypeJsr310 = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${Version.jacksonVersion}"
         const val moduleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Version.jacksonVersion}"
-        const val moduleParameterNames = "com.fasterxml.jackson.module:jackson-module-parameter-names:${Version.jacksonVersion}"
+        const val moduleParameterNames =
+            "com.fasterxml.jackson.module:jackson-module-parameter-names:${Version.jacksonVersion}"
     }
 
     object Kotlin {
@@ -80,40 +80,46 @@ object Deps {
     object SpringData {
         const val springDataCommon = "org.springframework.data:spring-data-common:${Version.springBootVersion}"
         const val springDataRedis = "org.springframework.data:spring-data-redis:${Version.springBootVersion}"
-        const val lettuce = "io.lettuce:lettuce-core:6.1.0.RELEASE"
+        const val lettuce = "io.lettuce:lettuce-core:6.1.1.RELEASE"
     }
 
     object SpringBoot {
         const val springBoot = "org.springframework.boot:spring-boot:${Version.springBootVersion}"
         const val autoconfigure = "org.springframework.boot:spring-boot-autoconfigure:${Version.springBootVersion}"
-        const val configurationProcessor = "org.springframework.boot:spring-boot-configuration-processor:${Version.springBootVersion}"
+        const val configurationProcessor =
+            "org.springframework.boot:spring-boot-configuration-processor:${Version.springBootVersion}"
         const val devtools = "org.springframework.boot:spring-boot-devtools:${Version.springBootVersion}"
         const val starterActuator = "org.springframework.boot:spring-boot-starter-actuator:${Version.springBootVersion}"
         const val starterAmqp = "org.springframework.boot:spring-boot-starter-amqp:${Version.springBootVersion}"
         const val starterAop = "org.springframework.boot:spring-boot-starter-aop:${Version.springBootVersion}"
-        const val starterDataRedis = "org.springframework.boot:spring-boot-starter-data-redis:${Version.springBootVersion}"
+        const val starterDataRedis =
+            "org.springframework.boot:spring-boot-starter-data-redis:${Version.springBootVersion}"
         const val starterJdbc = "org.springframework.boot:spring-boot-starter-jdbc:${Version.springBootVersion}"
         const val starterJson = "org.springframework.boot:spring-boot-starter-json:${Version.springBootVersion}"
         const val starterLogging = "org.springframework.boot:spring-boot-starter-logging:${Version.springBootVersion}"
         const val starterTest = "org.springframework.boot:spring-boot-starter-test:${Version.springBootVersion}"
         const val starterTomcat = "org.springframework.boot:spring-boot-starter-tomcat:${Version.springBootVersion}"
         const val starterUndertow = "org.springframework.boot:spring-boot-starter-undertow:${Version.springBootVersion}"
-        const val starterValidation = "org.springframework.boot:spring-boot-starter-validation:${Version.springBootVersion}"
+        const val starterValidation =
+            "org.springframework.boot:spring-boot-starter-validation:${Version.springBootVersion}"
         const val starterWeb = "org.springframework.boot:spring-boot-starter-web:${Version.springBootVersion}"
-        const val starterWebsocket = "org.springframework.boot:spring-boot-starter-websocket:${Version.springBootVersion}"
+        const val starterWebsocket =
+            "org.springframework.boot:spring-boot-starter-websocket:${Version.springBootVersion}"
     }
 
     object Test {
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${Version.kotlinVersion}"
         const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test:${Version.kotlinVersion}"
-        const val springBootStarterTest = "org.springframework.boot:spring-boot-starter-test:${Version.springBootVersion}"
+        const val springBootStarterTest =
+            "org.springframework.boot:spring-boot-starter-test:${Version.springBootVersion}"
     }
 
     object Other {
         const val pageHelperStarter = "com.github.pagehelper:pagehelper-spring-boot-starter:1.3.0"
         const val swaggerAnnotations = "io.swagger:swagger-annotations:${Version.swaggerVersion}"
         const val swaggerModels = "io.swagger:swagger-models:${Version.swaggerVersion}"
-        const val mybatisStarter = "org.mybatis.spring.boot:mybatis-spring-boot-starter:${Version.mybatisSpringStarterVersion}"
+        const val mybatisStarter =
+            "org.mybatis.spring.boot:mybatis-spring-boot-starter:${Version.mybatisSpringStarterVersion}"
         const val mybatisTypehandlersJsr310 = "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"
         const val validationApi = "jakarta.validation:jakarta.validation-api:2.0.2"
         const val annotationApi = "jakarta.annotation:jakarta.annotation-api:1.3.5"
@@ -182,28 +188,20 @@ private fun KClass<*>.staticFieldValues() = this.java.declaredFields.filter {
 }
 
 fun Project.forceDepsVersion() {
-    allprojects {
-        configurations.all {
-            resolutionStrategy {
-                //disable cache
-                cacheChangingModulesFor(0, TimeUnit.NANOSECONDS)
-                dependencySubstitution {
-                    Deps.canReplacedDependencies.forEach { (sourceDependency, targetDependency) ->
-                        substitute(module(sourceDependency)).with(module(targetDependency))
-                    }
+    configurations.all {
+        resolutionStrategy {
+            //disable cache
+            cacheChangingModulesFor(0, TimeUnit.NANOSECONDS)
+            dependencySubstitution {
+                Deps.canReplacedDependencies.forEach { (sourceDependency, targetDependency) ->
+                    substitute(module(sourceDependency)).with(module(targetDependency))
                 }
-                Deps::class.nestedClasses.flatMap {
-                    it.staticFieldValues()
-                }.forEach {
-                    if (it.toString().contains("com.google.guava:guava")) {
-                        exclude("com.google.j2objc")
-                        exclude("com.google.errorprone")
-                        exclude("com.google.code.findbugs")
-                        exclude("com.google.guava", "listenablefuture")
-                        exclude("org.checkerframework", "checker-qual")
-                    }
-                    force(it)
-                }
+            }
+
+            Deps::class.nestedClasses.flatMap {
+                it.staticFieldValues()
+            }.forEach {
+                force(it)
             }
         }
     }

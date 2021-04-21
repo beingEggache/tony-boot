@@ -6,7 +6,7 @@ plugins {
 //    id("io.gitlab.arturbosch.detekt") version "1.14.0" apply false
 }
 
-forceDepsVersion()
+
 copyProjectHookToGitHook("pre-commit","pre-push")
 
 configure(subprojects) {
@@ -33,6 +33,7 @@ configure(subprojects) {
         }
         mavenCentral()
     }
+    forceDepsVersion()
 
     apply {
         plugin("kotlin")

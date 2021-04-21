@@ -3,7 +3,7 @@ package com.tony.api
 import com.tony.core.PageResult
 import com.tony.webcore.WebContext
 import com.tony.webcore.auth.JwtToken
-import com.tony.webcore.auth.annotation.NoLoginCheck
+import com.tony.webcore.auth.NoLoginCheck
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

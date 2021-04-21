@@ -1,17 +1,22 @@
-package com.tony.webcore.auth.interceptor
-
-import com.tony.webcore.WebApp
-import com.tony.webcore.auth.annotation.NoLoginCheck
-import org.springframework.web.method.HandlerMethod
-import org.springframework.web.servlet.HandlerInterceptor
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-
 /**
  *
  * @author tangli
  * @since 2020-11-04 13:33
  */
+
+package com.tony.webcore.auth
+
+import com.tony.webcore.WebApp
+import org.springframework.web.method.HandlerMethod
+import org.springframework.web.servlet.HandlerInterceptor
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.RUNTIME)
+@MustBeDocumented
+annotation class NoLoginCheck
+
 interface LoginCheckInterceptor : HandlerInterceptor
 
 internal class DefaultLoginCheckInterceptor : LoginCheckInterceptor {
