@@ -101,4 +101,8 @@ enum class Gender {
     MALE
 }
 
-data class Person(val gender: Gender)
+data class Person(
+    val gender: Gender,
+    val name: String,
+    val mobile: String
+)

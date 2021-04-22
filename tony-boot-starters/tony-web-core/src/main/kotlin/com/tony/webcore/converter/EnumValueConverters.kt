@@ -58,8 +58,7 @@ internal class EnumStringValueConverter(enumType: Class<out EnumStringValue>) :
     override fun convertSource(source: String) = source
 
     override fun convert(source: String): EnumStringValue? {
-        val intSource = convertSource(source)
-        return if (intSource == EnumCreator.defaultStringValue) null
+        return if (source == EnumCreator.defaultStringValue) null
         else super.convert(source)
     }
 }

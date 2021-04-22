@@ -9,7 +9,9 @@ import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier
+import com.tony.core.exception.ApiException
 import com.tony.core.utils.createObjectMapper
+import com.tony.core.utils.getLogger
 import com.tony.core.utils.isArrayLikeType
 import com.tony.core.utils.isBooleanType
 import com.tony.core.utils.isDateTimeLikeType
@@ -72,6 +74,7 @@ internal class NullValueBeanSerializerModifier : BeanSerializerModifier() {
     private val nullArrayJsonSerializer = NullArrayJsonSerializer()
     private val nullObjJsonSerializer = NullObjJsonSerializer()
     private val nullStrJsonSerializer = NullStrJsonSerializer()
+
     override fun changeProperties(
         config: SerializationConfig,
         beanDesc: BeanDescription,
@@ -91,20 +94,25 @@ internal class NullValueBeanSerializerModifier : BeanSerializerModifier() {
 @JacksonAnnotationsInside
 @JsonSerialize(using = MaskSerializer::class)
 annotation class MaskConverter(
-    val value: MaskType = MaskType.NAME
+    val value: String = NAME
 ) {
     companion object {
-
-        fun getMaskFun(maskType: MaskType) = when (maskType) {
-            MaskType.MOBILE -> { input: String ->
-                "${input.substring(0, 2)}****${input.substring(input.length - 4, input.length)}"
-            }
-            MaskType.NAME -> { input: String ->
-                input.replaceRange(1 until input.length, "**")
-            }
-        }
+        fun getMaskFun(maskType: String) =
+            maskConverters[maskType.toLowerCase()] ?: throw ApiException("$maskType converter not found")
     }
 }
+
+const val MOBILE = "mobile"
+const val NAME = "name"
+
+private val maskConverters: MutableMap<String, (String) -> String> = mutableMapOf(
+    MOBILE to { input: String ->
+        "${input.substring(0, 2)}****${input.substring(input.length - 4, input.length)}"
+    },
+    NAME to { input: String ->
+        input.replaceRange(1 until input.length, "**")
+    }
+)
 
 class MaskSerializer : JsonSerializer<Any>() {
 
@@ -113,13 +121,22 @@ class MaskSerializer : JsonSerializer<Any>() {
             .javaClass
             .getDeclaredField(gen.outputContext.currentName)
             .getAnnotation(MaskConverter::class.java)
-        gen.writeString(
-            MaskConverter.getMaskFun(annotation.value)(value.toString())
-        )
-    }
-}
 
-enum class MaskType {
-    MOBILE,
-    NAME
+        val maskFun = annotation.value.toLowerCase()
+        val function = maskConverters[maskFun.toLowerCase()] ?: throw ApiException("$maskFun converter not found")
+        gen.writeString(function(value.toString()))
+    }
+
+    companion object {
+
+        private val logger = getLogger()
+
+        fun registerMaskFun(maskType: String, maskFun: (String) -> String) {
+            if (maskConverters.containsKey(maskType)) throw ApiException("$maskType already exists")
+            synchronized(maskConverters) {
+                logger.info("register $maskType convert function")
+                maskConverters[maskType] = maskFun
+            }
+        }
+    }
 }
