@@ -4,6 +4,9 @@ import com.tony.core.PageResult
 import com.tony.webcore.WebContext
 import com.tony.webcore.auth.JwtToken
 import com.tony.webcore.auth.NoLoginCheck
+import com.tony.webcore.jackson.MaskConverter
+import com.tony.webcore.jackson.MobileMaskFun
+import com.tony.webcore.jackson.NameMaskFun
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -95,6 +98,9 @@ class IndexController {
 
     @GetMapping("/user-id")
     fun userId() = WebContext.userId
+
+    @GetMapping("/person")
+    fun person() = Person(Gender.MALE, "aa", "123")
 }
 
 enum class Gender {
@@ -103,6 +109,8 @@ enum class Gender {
 
 data class Person(
     val gender: Gender,
+    @MaskConverter(NameMaskFun::class)
     val name: String,
+    @MaskConverter(MobileMaskFun::class)
     val mobile: String
 )

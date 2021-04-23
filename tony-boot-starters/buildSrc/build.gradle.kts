@@ -12,15 +12,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.31")
 }
 
-allprojects {
-    configurations.all {
-        resolutionStrategy {
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.31")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31")
-        }
-    }
-}
-
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     val isTest = this.name.contains("test", ignoreCase = true)
     kotlinOptions {
