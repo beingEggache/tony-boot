@@ -17,6 +17,7 @@ import com.tony.webcore.WebApp
 import com.tony.webcore.WebContext
 import com.tony.webcore.WebContext.getOrPut
 import com.tony.webcore.config.WebJwtProperties
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.stereotype.Component
@@ -57,9 +58,10 @@ internal class JwtApiSession : ApiSession {
     override fun hasLogin() = token != null
 }
 
-@Component
+@ConditionalOnClass(JWT::class)
 @ConditionalOnWebApplication
 @ConditionalOnExpression("\${web.jwt.enabled:false}")
+@Component
 internal object JwtToken {
 
     @JvmStatic

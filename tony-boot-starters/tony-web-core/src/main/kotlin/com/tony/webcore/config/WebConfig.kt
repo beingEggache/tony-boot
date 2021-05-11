@@ -1,5 +1,6 @@
 package com.tony.webcore.config
 
+import com.auth0.jwt.JWT
 import com.tony.core.BAD_REQUEST
 import com.tony.core.BIZ_ERROR
 import com.tony.core.INTERNAL_SERVER_ERROR
@@ -9,6 +10,7 @@ import com.tony.webcore.auth.ApiSession
 import com.tony.webcore.auth.JwtApiSession
 import com.tony.webcore.converter.EnumIntValueConverterFactory
 import com.tony.webcore.converter.EnumStringValueConverterFactory
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
@@ -32,6 +34,7 @@ internal class WebConfig : WebMvcConfigurer {
         registry.addConverterFactory(EnumStringValueConverterFactory())
     }
 
+    @ConditionalOnClass(JWT::class)
     @ConditionalOnMissingBean(ApiSession::class)
     @ConditionalOnWebApplication
     @ConditionalOnExpression("\${web.jwt.enabled:false}")
