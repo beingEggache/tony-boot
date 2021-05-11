@@ -6,4 +6,6 @@ dependencies {
     if (project.extra["profile"] != "prod") {
         implementation(projects.tonyKnife4j)
     }
+    implementation("net.sourceforge.tess4j:tess4j:4.5.4")
+    implementation("commons-fileupload:commons-fileupload:1.4")
 }

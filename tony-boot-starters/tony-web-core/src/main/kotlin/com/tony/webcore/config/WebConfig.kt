@@ -6,9 +6,10 @@ import com.tony.core.INTERNAL_SERVER_ERROR
 import com.tony.core.OK
 import com.tony.core.UNAUTHORIZED
 import com.tony.webcore.auth.ApiSession
-import com.tony.webcore.auth.DefaultApiSession
+import com.tony.webcore.auth.JwtApiSession
 import com.tony.webcore.converter.EnumIntValueConverterFactory
 import com.tony.webcore.converter.EnumStringValueConverterFactory
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -32,8 +33,10 @@ internal class WebConfig : WebMvcConfigurer {
     }
 
     @ConditionalOnMissingBean(ApiSession::class)
+    @ConditionalOnWebApplication
+    @ConditionalOnExpression("\${web.jwt.enabled:false}")
     @Bean
-    fun apiSession() = DefaultApiSession()
+    fun apiSession() = JwtApiSession()
 }
 
 @ConstructorBinding

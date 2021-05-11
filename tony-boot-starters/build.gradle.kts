@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") apply false
-    kotlin("plugin.spring") version "1.4.32" apply false
+    kotlin("plugin.spring") version "1.5.0" apply false
 //    id("io.gitlab.arturbosch.detekt") version "1.14.0" apply false
 }
 
@@ -28,6 +28,10 @@ configure(subprojects) {
             isAllowInsecureProtocol = true
         }
         maven(url = privateMavenRepoUrl) {
+            @Suppress("UnstableApiUsage")
+            isAllowInsecureProtocol = true
+        }
+        maven(url = "http://maven.geotoolkit.org/") {
             @Suppress("UnstableApiUsage")
             isAllowInsecureProtocol = true
         }

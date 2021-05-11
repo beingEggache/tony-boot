@@ -6,7 +6,7 @@ apply {
 
 dependencies {
     api(projects.tonyCore)
-    api(Deps.Other.javaJwt)
+    implementation(Deps.Other.javaJwt)
     api(Deps.SpringBoot.starterWeb)
     api(Deps.SpringBoot.starterValidation)
 }

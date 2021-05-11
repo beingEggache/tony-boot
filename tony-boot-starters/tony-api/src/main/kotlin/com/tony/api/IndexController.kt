@@ -1,17 +1,21 @@
 package com.tony.api
 
 import com.tony.core.PageResult
+import com.tony.core.utils.uuid
 import com.tony.webcore.WebContext
-import com.tony.webcore.auth.JwtToken
+import com.tony.webcore.auth.ApiSession
 import com.tony.webcore.auth.NoLoginCheck
 import com.tony.webcore.jackson.MaskConverter
 import com.tony.webcore.jackson.MobileMaskFun
 import com.tony.webcore.jackson.NameMaskFun
+import net.sourceforge.tess4j.Tesseract
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Date
@@ -22,7 +26,9 @@ import java.util.Date
  * @since 2020-11-05 9:08
  */
 @RestController
-class IndexController {
+class IndexController(
+    private val apiSession: ApiSession
+) {
 
     @NoLoginCheck
     @GetMapping("/string")
@@ -94,14 +100,30 @@ class IndexController {
 
     @NoLoginCheck
     @GetMapping("/login")
-    fun login(userId: String?) = JwtToken.gen("userId" to "tony")
+    fun login(userId: String?) = apiSession.genTokenString("userId" to "tony")
 
     @GetMapping("/user-id")
     fun userId() = WebContext.userId
 
     @GetMapping("/person")
     fun person() = Person(Gender.MALE, "aa", "123")
+
+    @PostMapping("/file")
+    fun file(multipartFile: MultipartFile): String? {
+        val tesseract = Tesseract()
+        val tempFile = File.createTempFile(
+            "temp${uuid()}",
+            ".${getSuffix(multipartFile.originalFilename)}"
+        )
+        multipartFile.transferTo(tempFile)
+        val ocr = tesseract.doOCR(
+            tempFile
+        )
+        return ocr
+    }
 }
+
+fun getSuffix(originalFilename: String?) = originalFilename?.split('.')?.last()
 
 enum class Gender {
     MALE

@@ -17,6 +17,7 @@ import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.error.ErrorAttributeOptions.Include
 import org.springframework.util.ResourceUtils
 import org.springframework.web.context.request.RequestAttributes
+import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.context.request.ServletWebRequest
@@ -31,6 +32,14 @@ object WebContext {
 
     val current: ServletRequestAttributes
         get() = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+
+    fun <T : Any> ServletRequestAttributes.getOrPut(
+        key: String,
+        scope: Int = SCOPE_REQUEST,
+        callback: () -> T
+    ) = getAttribute(key, scope).asTo() ?: callback().apply {
+        setAttribute(key, this, scope)
+    }
 
     val contextPath: String
         get() = WebApp.contextPath
