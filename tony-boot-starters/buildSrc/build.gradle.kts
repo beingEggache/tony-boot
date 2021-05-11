@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `kotlin-dsl`
 }
@@ -8,14 +9,9 @@ repositories {
     mavenLocal()
 }
 
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.31")
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+tasks.withType<KotlinCompile>().configureEach {
     val isTest = this.name.contains("test", ignoreCase = true)
     kotlinOptions {
-        languageVersion = "1.4"
         jvmTarget = "11"
         allWarningsAsErrors = !isTest
         verbose = true

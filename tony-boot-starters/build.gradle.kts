@@ -1,11 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") apply false
-    kotlin("plugin.spring") version "1.5.0" apply false
+    kotlin("jvm") version Version.kotlinVersion apply false
+    kotlin("plugin.spring") version Version.kotlinVersion apply false
 //    id("io.gitlab.arturbosch.detekt") version "1.14.0" apply false
 }
-
 
 copyProjectHookToGitHook("pre-commit","pre-push")
 
@@ -63,7 +62,6 @@ configure(subprojects) {
     tasks.withType<KotlinCompile>().configureEach {
         val isTest = this.name.contains("test", ignoreCase = true)
         kotlinOptions {
-            languageVersion = "1.4"
             jvmTarget = "11"
             allWarningsAsErrors = !isTest
             verbose = true

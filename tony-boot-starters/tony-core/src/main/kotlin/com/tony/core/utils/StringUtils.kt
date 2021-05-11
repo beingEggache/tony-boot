@@ -9,7 +9,7 @@ import java.net.URLEncoder
 import java.util.Base64
 import java.util.UUID
 
-fun uuid() = UUID.randomUUID().toString().toUpperCase().replace("-", "")
+fun uuid() = UUID.randomUUID().toString().uppercase().replace("-", "")
 
 fun <T> T.toDeepLink() =
     toJsonString()
@@ -31,7 +31,7 @@ inline fun <reified T> String.deepLinkToObj() =
         .toJsonString()
         .jsonToObj<T>()
 
-fun String.toMd5UppercaseString(): String = DigestUtils.md5Hex(toByteArray()).toUpperCase()
+fun String.toMd5UppercaseString(): String = DigestUtils.md5Hex(toByteArray()).uppercase()
 fun String.toBase64String(): String = Base64.getEncoder().encode(toByteArray()).toString(Charsets.UTF_8)
 fun String.base64ToString(): String = Base64.getDecoder().decode(toByteArray()).toString(Charsets.UTF_8)
 
