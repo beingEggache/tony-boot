@@ -18,7 +18,11 @@ import javax.servlet.http.HttpServletResponse
 annotation class NoLoginCheck
 
 interface LoginCheckInterceptor : HandlerInterceptor {
-    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+    override fun preHandle(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        handler: Any
+    ): Boolean {
         if (handler !is HandlerMethod) return true
         return handleIsLogin(request, response, handler)
     }
@@ -31,12 +35,6 @@ interface LoginCheckInterceptor : HandlerInterceptor {
 }
 
 internal class DefaultLoginCheckInterceptor : LoginCheckInterceptor {
-
-    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        if (handler !is HandlerMethod) return true
-        if (handler.method.getAnnotation(NoLoginCheck::class.java) != null) return true
-        return WebApp.apiSession.hasLogin()
-    }
 
     override fun handleIsLogin(
         request: HttpServletRequest,
