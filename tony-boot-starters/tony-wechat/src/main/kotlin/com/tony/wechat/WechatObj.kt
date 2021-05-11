@@ -46,7 +46,7 @@ enum class Event {
     CLICK, LOCATION, SCAN, SUBSCRIBE, UNSUBSCRIBE, VIEW;
 
     override fun toString(): String {
-        return super.toString().toLowerCase()
+        return super.toString().lowercase()
     }
 }
 
@@ -55,7 +55,7 @@ enum class MsgType {
     EVENT, IMAGE, LINK, LOCATION, MUSIC, NEWS, SHORTVIDEO, TEXT, VIDEO, VOICE;
 
     override fun toString(): String {
-        return super.toString().toLowerCase()
+        return super.toString().lowercase()
     }
 }
 
@@ -115,5 +115,5 @@ enum class WechatButtonType {
     VIEW_LIMITED;
 
     @JsonValue
-    override fun toString() = super.toString().toLowerCase()
+    override fun toString() = super.toString().lowercase()
 }

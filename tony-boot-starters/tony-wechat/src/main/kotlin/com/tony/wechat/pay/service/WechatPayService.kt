@@ -113,7 +113,7 @@ class WechatPayService(
             "transaction_id=${notifyRequest.transactionId}&" +
             "key=$mchKey"
 
-        return DigestUtils.md5Hex(deepLink).toUpperCase() == notifyRequest.sign
+        return DigestUtils.md5Hex(deepLink).uppercase() == notifyRequest.sign
     }
 
     fun genPayParams(

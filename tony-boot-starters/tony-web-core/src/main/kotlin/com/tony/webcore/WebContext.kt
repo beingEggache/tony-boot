@@ -16,7 +16,6 @@ import com.tony.webcore.utils.url
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.error.ErrorAttributeOptions.Include
 import org.springframework.util.ResourceUtils
-import org.springframework.web.context.request.RequestAttributes
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
@@ -56,12 +55,12 @@ object WebContext {
         get() = errorAttributes["status"] as Int
 
     private val errorAttributes
-        get() = current.getAttribute("errorAttribute", RequestAttributes.SCOPE_REQUEST)
+        get() = current.getAttribute("errorAttribute", SCOPE_REQUEST)
             .asTo<Map<String, Any?>>().doIfNull {
                 val errorAttributes = WebApp
                     .errorAttributes
                     .getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
-                current.setAttribute("errorAttribute", errorAttributes, RequestAttributes.SCOPE_REQUEST)
+                current.setAttribute("errorAttribute", errorAttributes, SCOPE_REQUEST)
                 errorAttributes
             }
 

@@ -35,5 +35,5 @@ object RedisLists {
         return rightPush
     }
 
-    fun rightPop(key: String) = RedisUtils.stringRedisTemplate.opsForList().rightPop(key)
+    fun rightPop(key: String): String? = RedisUtils.stringRedisTemplate.opsForList().rightPop(key)
 }

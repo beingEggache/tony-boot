@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.UUID
 
-internal fun genNonceStr() = UUID.randomUUID().toString().replace("-", "").toUpperCase()
+internal fun genNonceStr() = UUID.randomUUID().toString().replace("-", "").uppercase()
 
 internal fun genTimeStamp() = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
 
@@ -32,5 +32,5 @@ internal fun <T> genMd5UpperCaseSign(obj: T, vararg params: Pair<String, Any>): 
     val deepLink = obj.toDeepLink(*params) {
         it.value !is String && it.value.toString().isNotBlank()
     }
-    return DigestUtils.md5Hex(deepLink).toUpperCase()
+    return DigestUtils.md5Hex(deepLink).uppercase()
 }

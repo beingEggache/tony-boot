@@ -16,7 +16,7 @@ tasks.withType<KotlinCompile>().configureEach {
         allWarningsAsErrors = !isTest
         verbose = true
         freeCompilerArgs = listOf(
-            "-Xjsr305=strict -Xlint:all -Werror -verbose -encoding=UTF8 -deprecation"
+            "-Xjsr305=strict -Xlint:all -Werror -verbose -encoding=UTF8 -deprecation -version -progressive"
         )
     }
 }

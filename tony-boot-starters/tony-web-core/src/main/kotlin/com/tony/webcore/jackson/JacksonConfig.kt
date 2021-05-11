@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.tony.webcore.jackson
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside

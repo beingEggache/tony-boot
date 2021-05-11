@@ -1,3 +1,4 @@
+@file:JvmName("ServletUtils")
 @file:Suppress("unused")
 
 package com.tony.webcore.utils
@@ -67,8 +68,7 @@ val HttpServletRequest.isCorsPreflightRequest
         !getHeader("Access-Control-Request-Method").isNullOrBlank()
 
 @Suppress("unused")
-fun byteArrayResponse(
-    bytes: ByteArray,
+fun ByteArray.responseEntity(
     fileName: String = "",
     contentType: MediaType = MediaType.APPLICATION_OCTET_STREAM
 ): ResponseEntity<ByteArray> =
@@ -84,4 +84,4 @@ fun byteArrayResponse(
             }
             headers(httpHeaders)
         }
-        .body(bytes)
+        .body(this)

@@ -3,13 +3,13 @@
  * @author tangli
  * @since 2020-12-18 10:53
  */
-val ktlint by configurations.creating
+val ktlint: Configuration by configurations.creating
 dependencies {
     ktlint("com.pinterest:ktlint:0.41.0")
     // ktlint(project(":custom-ktlint-ruleset")) // in case of custom ruleset
 }
 val outputDir = "${project.buildDir}/reports/ktlint/"
-val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
+val inputFiles: ConfigurableFileTree = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
 
 val ktlintCheck by tasks.creating(JavaExec::class) {
     inputs.files(inputFiles)

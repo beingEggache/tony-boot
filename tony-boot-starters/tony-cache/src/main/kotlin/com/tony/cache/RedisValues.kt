@@ -55,16 +55,16 @@ object RedisValues {
     inline fun <reified T> getObject(key: String): T? = getString(key)?.jsonToObj()
 
     @JvmStatic
-    fun getString(key: String) = RedisUtils.stringRedisTemplate.opsForValue().get(key)
+    fun getString(key: String): String? = RedisUtils.stringRedisTemplate.opsForValue().get(key)
 
     @JvmStatic
-    fun hasKey(key: String) = RedisUtils.redisTemplate.hasKey(key)
-
-    @JvmStatic
-    @JvmOverloads
-    fun increment(key: String, delta: Long = 1L) = RedisUtils.redisTemplate.boundValueOps(key).increment(delta)
+    fun hasKey(key: String): Boolean = RedisUtils.redisTemplate.hasKey(key)
 
     @JvmStatic
     @JvmOverloads
-    fun increment(key: String, delta: Double = 1.0) = RedisUtils.redisTemplate.boundValueOps(key).increment(delta)
+    fun increment(key: String, delta: Long = 1L): Long? = RedisUtils.redisTemplate.boundValueOps(key).increment(delta)
+
+    @JvmStatic
+    @JvmOverloads
+    fun increment(key: String, delta: Double = 1.0): Double? = RedisUtils.redisTemplate.boundValueOps(key).increment(delta)
 }
