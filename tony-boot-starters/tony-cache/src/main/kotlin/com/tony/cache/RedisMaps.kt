@@ -19,7 +19,8 @@ object RedisMaps {
             }
 
     @JvmStatic
-    fun <T> get(key: String, hashKey: String): T? = RedisUtils.stringRedisTemplate.boundHashOps<String, T>(key).get(hashKey)
+    fun <T> get(key: String, hashKey: String): T? =
+        RedisUtils.stringRedisTemplate.boundHashOps<String, T>(key).get(hashKey)
 
     @JvmStatic
     fun getMap(key: String): Map<String, Any> =
@@ -31,7 +32,7 @@ object RedisMaps {
 
     @JvmStatic
     fun hasKey(key: String, hashKey: String): Boolean =
-        RedisUtils.stringRedisTemplate.boundHashOps<String, Any>(key).hasKey(hashKey) ?: false
+        true == RedisUtils.stringRedisTemplate.boundHashOps<String, Any>(key).hasKey(hashKey)
 
     @JvmStatic
     @JvmOverloads
