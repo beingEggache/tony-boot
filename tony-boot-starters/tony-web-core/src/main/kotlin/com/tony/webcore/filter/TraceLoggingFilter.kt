@@ -14,13 +14,13 @@ import com.tony.webcore.config.WebProperties
 import com.tony.webcore.utils.antPathMatcher
 import com.tony.webcore.utils.headers
 import com.tony.webcore.utils.isCorsPreflightRequest
+import com.tony.webcore.utils.isTextMediaTypes
 import com.tony.webcore.utils.matchAny
 import com.tony.webcore.utils.parsedMedia
 import com.tony.webcore.utils.remoteIp
 import org.slf4j.MDC
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
@@ -152,18 +152,13 @@ internal class TraceLoggingFilter(
 
         private const val SUCCESS = "SUCCESS"
 
-        private val TEXT_MEDIA_TYPES = listOf(
-            MediaType.TEXT_XML,
-            MediaType.TEXT_HTML,
-            MediaType.TEXT_PLAIN,
-            MediaType.APPLICATION_JSON
-        )
         private const val UNAUTHORIZED = "UNAUTHORIZED"
 
         private const val VALIDATE_FAILED = "VALIDATE_FAILED"
 
         private fun requestParam(request: ContentCachingRequestWrapper) =
-            if (request.method.equals(HttpMethod.POST.name, true)) {
+            if (!isTextMediaTypes(request.parsedMedia)) "[${request.getHeader("Content-Type")}]"
+            else if (request.method.equals(HttpMethod.POST.name, true)) {
                 val bytes = request.contentAsByteArray
                 when {
                     bytes.isEmpty() -> NULL
@@ -173,18 +168,15 @@ internal class TraceLoggingFilter(
             } else NULL
 
         private fun responseBody(response: ContentCachingResponseWrapper) =
-            response.contentAsByteArray.let { bytes ->
+            if (!isTextMediaTypes(response.parsedMedia)) "[${response.getHeader("Content-Type")}]"
+            else response.contentAsByteArray.let { bytes ->
                 val size = bytes.size
                 when {
-                    !shouldPrintResponse(response) -> "[${response.getHeader("Content-Type")}]"
                     size in 1..65535 -> String(bytes)
                     size >= 65536 -> "[too long content, length = $size]"
                     else -> NULL
                 }
             }
-
-        private fun shouldPrintResponse(response: HttpServletResponse) =
-            TEXT_MEDIA_TYPES.any { it.includes(response.parsedMedia) }
     }
 }
 

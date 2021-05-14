@@ -25,6 +25,7 @@ import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Paths
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @Suppress("unused")
 object WebContext {
@@ -72,6 +73,9 @@ object WebContext {
 
     internal val request: HttpServletRequest
         get() = current.request
+
+    internal val response: HttpServletResponse?
+        get() = current.response
 
     val url: URL
         get() = request.url

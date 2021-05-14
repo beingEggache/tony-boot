@@ -67,8 +67,10 @@ class RedisCacheAspect {
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
         val annotation = methodSignature.method.getAnnotation(RedisCacheEvict::class.java)
-        val cacheKey = cacheKey(arguments, paramsNames, annotation.cacheKey, annotation.paramsNames)
-        RedisUtils.delete(cacheKey)
+        annotation.cacheKeys.forEach { cacheKeyName ->
+            val cacheKey = cacheKey(arguments, paramsNames, cacheKeyName, annotation.paramsNames)
+            RedisUtils.delete(cacheKey)
+        }
     }
 
     @Around("redisCacheable()")

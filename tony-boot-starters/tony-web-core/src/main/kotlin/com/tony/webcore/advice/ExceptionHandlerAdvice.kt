@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import java.lang.Exception
 import javax.validation.ConstraintViolationException
 
 @RestControllerAdvice
@@ -49,6 +48,8 @@ internal class ExceptionHandlerAdvice(
     @ExceptionHandler(Exception::class)
     fun exception(e: Exception) = run {
         logger.error(e.message, e)
+        // handle the json generate exception
+        WebContext.response?.resetBuffer()
         errorResponse(webProperties.errorMsg)
     }
 

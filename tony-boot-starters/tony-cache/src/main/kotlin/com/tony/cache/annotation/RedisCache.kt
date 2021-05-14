@@ -1,8 +1,7 @@
 package com.tony.cache.annotation
 
 @Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.SOURCE)
-@Repeatable
+@Retention(AnnotationRetention.RUNTIME)
 annotation class RedisCacheable(
     val cacheKey: String,
     val paramsNames: Array<String> = [],
@@ -15,9 +14,8 @@ annotation class RedisCacheable(
 }
 
 @Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.SOURCE)
-@Repeatable
+@Retention(AnnotationRetention.RUNTIME)
 annotation class RedisCacheEvict(
-    val cacheKey: String,
+    val cacheKeys: Array<String>,
     val paramsNames: Array<String> = []
 )

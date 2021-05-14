@@ -58,9 +58,23 @@ val HttpServletRequest.remoteIp: String
 val HttpServletRequest.url
     get() = URL(requestURL.toString())
 
-val HttpServletResponse.parsedMedia
+private val TEXT_MEDIA_TYPES = listOf(
+    MediaType.TEXT_XML,
+    MediaType.TEXT_HTML,
+    MediaType.TEXT_PLAIN,
+    MediaType.APPLICATION_JSON
+)
+
+val HttpServletResponse.parsedMedia: MediaType?
     get() = if (contentType.isNullOrBlank()) null
     else MediaType.parseMediaType(contentType)
+
+val HttpServletRequest.parsedMedia: MediaType?
+    get() = if (contentType.isNullOrBlank()) null
+    else MediaType.parseMediaType(contentType)
+
+fun isTextMediaTypes(mediaType: MediaType?) =
+    TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 
 val HttpServletRequest.isCorsPreflightRequest
     get() = method.equals(HttpMethod.OPTIONS.name, true) &&
