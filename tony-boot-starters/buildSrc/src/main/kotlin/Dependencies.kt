@@ -81,7 +81,7 @@ object Deps {
     object SpringData {
         const val springDataCommon = "org.springframework.data:spring-data-common:${Version.springBootVersion}"
         const val springDataRedis = "org.springframework.data:spring-data-redis:${Version.springBootVersion}"
-        const val lettuce = "io.lettuce:lettuce-core:6.1.1.RELEASE"
+        const val lettuce = "io.lettuce:lettuce-core:6.1.2.RELEASE"
     }
 
     object SpringBoot {
@@ -136,7 +136,7 @@ object Deps {
         const val commonsCodec = "commons-codec:commons-codec:1.15"
         const val guava = "com.google.guava:guava:30.1.1-jre"
         const val javaJwt = "com.auth0:java-jwt:3.16.0"
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.13.45.ALL"
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.13.50.ALL"
         const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.20"
         const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.12.0"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
@@ -158,9 +158,9 @@ object Deps {
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${Version.mybatisPlusVersion}"
         const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter:${Version.mybatisPlusVersion}"
         const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${Version.mybatisPlusVersion}"
-        const val easyExcel = "com.alibaba:easyexcel:2.2.8"
+        const val easyExcel = "com.alibaba:easyexcel:2.2.10"
         const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
-        const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.15.0"
+        const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.14.0"
     }
 
     val canReplacedDependencies = mapOf(
