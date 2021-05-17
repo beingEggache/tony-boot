@@ -3,6 +3,7 @@
 
 package com.tony.core.utils
 
+import com.tony.core.exception.ApiException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -69,3 +70,19 @@ fun secondOfTodayRest() =
         LocalDateTime.now(),
         LocalDateTime.now().with(LocalTime.MAX)
     )
+
+fun LocalDateTime.isBetween(
+    start: LocalDateTime?,
+    end: LocalDateTime?
+) = if (start == null || end == null) {
+    throw ApiException("start or end is null,start:$start end:$end")
+} else isAfter(start) && isBefore(end)
+
+fun LocalDate.isBetween(
+    start: LocalDate?,
+    end: LocalDate?
+) = if (start == null || end == null) {
+    throw ApiException("start or end is null,start:$start end:$end")
+} else isAfter(start) && isBefore(end)
+
+fun LocalDate.atEndOfDay(): LocalDateTime = LocalDateTime.of(this, LocalTime.MAX)
