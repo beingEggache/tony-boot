@@ -4,6 +4,7 @@ package com.tony.cache
 
 import com.tony.core.exception.ApiException
 import com.tony.core.utils.OBJECT_MAPPER
+import org.springframework.context.annotation.Lazy
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.StringRedisTemplate
@@ -30,6 +31,7 @@ object RedisUtils {
     @JvmStatic
     private lateinit var factory: RedisConnectionFactory
 
+    @Lazy
     @Resource
     private fun factory(factory: RedisConnectionFactory) {
         RedisUtils.factory = factory
@@ -52,21 +54,23 @@ object RedisUtils {
     @JvmStatic
     internal lateinit var stringRedisTemplate: StringRedisTemplate
 
+    @Lazy
     @Resource
     private fun stringRedisTemplate(stringRedisTemplate: StringRedisTemplate) {
         RedisUtils.stringRedisTemplate = stringRedisTemplate
     }
 
-    private val script: String = """if redis.call('setNx',KEYS[1],ARGV[1])==1 then
-    |   if redis.call('get',KEYS[1])==ARGV[1] then
-    |      return redis.call('expire',KEYS[1],ARGV[2])
-    |   else
-    |      return 0
-    |   end
-    |else
-    |   return 0
-    |end
-""".trimMargin()
+    private val script: String =
+        """ |if redis.call('setNx',KEYS[1],ARGV[1])==1 then
+            |   if redis.call('get',KEYS[1])==ARGV[1] then
+            |      return redis.call('expire',KEYS[1],ARGV[2])
+            |   else
+            |      return 0
+            |   end
+            |else
+            |   return 0
+            |end
+        """.trimMargin()
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun lockKey(key: String, timeout: Long): Boolean {
