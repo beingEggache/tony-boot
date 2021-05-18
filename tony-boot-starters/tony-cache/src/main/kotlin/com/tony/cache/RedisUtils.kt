@@ -75,7 +75,6 @@ object RedisUtils {
     @Suppress("MemberVisibilityCanBePrivate")
     fun lockKey(key: String, timeout: Long): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
-        val script = script
         val redisScript = DefaultRedisScript(script, Long::class.java)
         return redisTemplate.execute(redisScript, Collections.singletonList(key), 1L, timeout) == 1L
     }
