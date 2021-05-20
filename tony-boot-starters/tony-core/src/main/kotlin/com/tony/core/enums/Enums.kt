@@ -15,9 +15,9 @@ interface EnumStringValue : EnumValue<String>
 private val creators = HashMap<Class<*>, EnumCreator<*, *>>()
 
 @Suppress("UNCHECKED_CAST")
-fun <E, KEY> getCreator(clazz: Class<E>): EnumCreator<E, KEY>
+fun <E, KEY> getCreator(clazz: Class<E>): EnumCreator<E, KEY>?
     where E : EnumValue<KEY>,
-          KEY : Serializable = creators[clazz] as EnumCreator<E, KEY>
+          KEY : Serializable = creators[clazz] as EnumCreator<E, KEY>?
 
 abstract class EnumCreator<out E, KEY>(
     private val clazz: Class<out E>

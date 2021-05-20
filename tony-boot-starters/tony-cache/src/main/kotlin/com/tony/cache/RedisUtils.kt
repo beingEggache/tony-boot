@@ -17,6 +17,7 @@ import java.util.Random
 import java.util.concurrent.TimeUnit
 import javax.annotation.Resource
 
+@Suppress("MemberVisibilityCanBePrivate")
 @Component
 object RedisUtils {
 
@@ -34,11 +35,13 @@ object RedisUtils {
     @Lazy
     @Resource
     private fun factory(factory: RedisConnectionFactory) {
-        RedisUtils.factory = factory
+        this.factory = factory
     }
 
     @JvmStatic
-    internal val redisTemplate: RedisTemplate<String, Any> by lazy {
+    lateinit var stringRedisTemplate: StringRedisTemplate
+
+    val redisTemplate: RedisTemplate<String, Any> by lazy {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
         val stringRedisSerializer = StringRedisSerializer()
         RedisTemplate<String, Any>().apply {
@@ -51,13 +54,10 @@ object RedisUtils {
         }
     }
 
-    @JvmStatic
-    internal lateinit var stringRedisTemplate: StringRedisTemplate
-
     @Lazy
     @Resource
     private fun stringRedisTemplate(stringRedisTemplate: StringRedisTemplate) {
-        RedisUtils.stringRedisTemplate = stringRedisTemplate
+        this.stringRedisTemplate = stringRedisTemplate
     }
 
     private val script: String =
@@ -69,10 +69,8 @@ object RedisUtils {
             |   end
             |else
             |   return 0
-            |end
-        """.trimMargin()
+            |end""".trimMargin()
 
-    @Suppress("MemberVisibilityCanBePrivate")
     fun lockKey(key: String, timeout: Long): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
         val redisScript = DefaultRedisScript(script, Long::class.java)
@@ -104,10 +102,8 @@ object RedisUtils {
 
     @JvmStatic
     @JvmOverloads
-    fun getExpire(
-        key: String,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
-    ): Long = redisTemplate.getExpire(key, timeUnit)
+    fun getExpire(key: String, timeUnit: TimeUnit = TimeUnit.SECONDS): Long =
+        redisTemplate.getExpire(key, timeUnit)
 
     @JvmStatic
     fun delete(key: String) = redisTemplate.delete(keys(key)) > 0
