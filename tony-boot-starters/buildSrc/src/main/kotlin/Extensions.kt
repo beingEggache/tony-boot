@@ -56,3 +56,5 @@ private fun Project.getProjectGitHook(hookName: String): String {
     }
     return hook.absolutePath
 }
+
+fun getProfiles(): String = System.getProperty("profile", "dev")

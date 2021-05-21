@@ -6,16 +6,11 @@ plugins {
 //    id("io.gitlab.arturbosch.detekt") version "1.14.0" apply false
 }
 
-copyProjectHookToGitHook("pre-commit","pre-push")
+copyProjectHookToGitHook("pre-commit", "pre-push")
 
 configure(subprojects) {
     group = "com.tony"
     version = "0.1-SNAPSHOT"
-
-    //avoid UnknownPropertyException
-    if (!extra.has("profile")) {
-        extra.set("profile", "dev")
-    }
 
     val privateMavenRepoUrl: String by project
     val aliyunMavenRepoUrl: String by project
