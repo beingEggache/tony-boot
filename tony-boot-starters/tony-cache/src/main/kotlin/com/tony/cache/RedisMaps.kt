@@ -168,7 +168,7 @@ object RedisMaps {
         where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
         val value = RedisUtils.redisTemplate.boundHashOps<String, KEY>(key).get(hashKey)
             ?: return null
-        return getCreator(E::class.java)?.create(value)
+        return getCreator(E::class.java).create(value)
     }
 
     @JvmStatic

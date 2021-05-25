@@ -26,7 +26,7 @@ internal class EnumStringValueConverterFactory :
         converters.getOrPut(targetType) { EnumStringValueConverter(targetType) } as Converter<String, E>
 }
 
-internal abstract class EnumValueConverter<out E, K>(enumType: Class<out E>) :
+internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
     Converter<String, EnumValue<K>>
     where E : EnumValue<K>,
           K : Serializable {

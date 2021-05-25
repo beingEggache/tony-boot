@@ -94,6 +94,6 @@ object RedisValues {
         where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
         val value = RedisUtils.redisTemplate.opsForValue().get(key)
             ?: return null
-        return getCreator(E::class.java)?.create(value as KEY)
+        return getCreator(E::class.java).create(value as KEY)
     }
 }

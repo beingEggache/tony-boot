@@ -15,6 +15,12 @@ dependencies {
     api(Deps.Jackson.datatypeJsr310)
     api(Deps.Jackson.moduleKotlin)
     api(Deps.Jackson.moduleParameterNames)
+
+    addTestDependencies()
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
 }
 
 
