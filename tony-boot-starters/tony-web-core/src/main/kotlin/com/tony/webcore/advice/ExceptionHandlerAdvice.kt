@@ -8,7 +8,6 @@ import com.tony.webcore.WebContext.toResponse
 import com.tony.webcore.badRequest
 import com.tony.webcore.config.WebProperties
 import com.tony.webcore.errorResponse
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
@@ -27,9 +26,7 @@ import javax.validation.ConstraintViolationException
 @ConditionalOnWebApplication
 @RestController
 internal class ExceptionHandlerAdvice(
-    private val webProperties: WebProperties,
-    @Value("\${server.error.path:\${error.path:/error}}")
-    private val errorPath: String
+    private val webProperties: WebProperties
 ) : ErrorController {
 
     private val logger = getLogger()
@@ -87,6 +84,4 @@ internal class ExceptionHandlerAdvice(
             else -> WebContext.httpStatus * 100
         }
     )
-
-    override fun getErrorPath(): String = errorPath
 }

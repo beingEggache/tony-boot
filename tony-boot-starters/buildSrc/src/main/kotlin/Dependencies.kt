@@ -17,7 +17,7 @@ object Version {
     const val nettyVersion = "4.1.65.Final"
     const val reactorVersion = "3.4.6"
     const val slf4jVersion = "1.7.30"
-    const val springBootVersion = "2.4.5"
+    const val springBootVersion = "2.5.0"
     const val springVersion = "5.3.7"
     const val swaggerVersion = "1.6.2"
 }
