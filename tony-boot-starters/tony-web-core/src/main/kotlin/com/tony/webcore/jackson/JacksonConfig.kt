@@ -45,7 +45,8 @@ internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
         serializers: SerializerProvider
     ) {
         if (value == null) {
-            gen.writeRaw("[]")
+            gen.writeStartArray()
+            gen.writeEndArray()
         }
     }
 }
@@ -57,7 +58,8 @@ internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
         serializers: SerializerProvider?
     ) {
         if (value == null) {
-            gen.writeRaw("{}")
+            gen.writeStartObject()
+            gen.writeEndObject()
         }
     }
 }
