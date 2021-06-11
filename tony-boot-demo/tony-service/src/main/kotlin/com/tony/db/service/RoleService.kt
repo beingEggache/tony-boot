@@ -1,17 +1,18 @@
 package com.tony.db.service
 
+import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
-import com.lx.core.exception.BizException
-import com.lx.core.utils.defaultIfBlank
-import com.lx.water.platform.db.dao.ModuleDao
-import com.lx.water.platform.db.dao.RoleDao
-import com.lx.water.platform.db.dao.UserDao
-import com.lx.water.platform.db.po.Role
-import com.lx.water.platform.pojo.req.ModuleAssignReq
-import com.lx.water.platform.pojo.req.RoleAssignReq
-import com.lx.water.platform.pojo.req.RoleCreateReq
-import com.lx.water.platform.pojo.req.RoleUpdateReq
+import com.tony.core.exception.BizException
+import com.tony.core.utils.defaultIfBlank
+import com.tony.db.dao.ModuleDao
+import com.tony.db.dao.RoleDao
+import com.tony.db.dao.UserDao
+import com.tony.db.po.Role
+import com.tony.dto.req.ModuleAssignReq
+import com.tony.dto.req.RoleAssignReq
+import com.tony.dto.req.RoleCreateReq
+import com.tony.dto.req.RoleUpdateReq
 import javax.validation.Valid
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,7 +27,7 @@ class RoleService(
     private val roleDao: RoleDao,
     private val userDao: UserDao,
     private val moduleDao: ModuleDao
-): ServiceImpl<RoleDao, Role>() {
+) : ServiceImpl<RoleDao, Role>() {
 
     @Transactional
     fun add(@Valid req: RoleCreateReq, appId: String): Int {
@@ -57,7 +58,11 @@ class RoleService(
     }
 
     fun page(query: String?, page: Long = 1, size: Long = 10) =
-        roleDao.selectPage(Page(page,size),Where<Role>().like(!query.isNullOrBlank(), Role.ROLE_NAME,query)).toPageResult()
+        roleDao.selectPage(
+            Page(page, size),
+            KtQueryWrapper(Role::class.java).like(!query.isNullOrBlank(), Role::roleName, query)
+        )
+            .toPageResult()
 
     @Transactional
     fun assignRole(req: RoleAssignReq) {

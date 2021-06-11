@@ -9,16 +9,16 @@ import kotlin.reflect.KClass
 object Version {
     const val knife4jVersion = "2.0.8"
     const val springfoxSwagger2Version = "2.10.5"
-    const val byteBuddyVersion = "1.11.0"
+    const val byteBuddyVersion = "1.11.1"
     const val jacksonVersion = "2.12.3"
     const val kotlinVersion = "1.5.10"
-    const val mybatisSpringStarterVersion = "2.1.4"
-    const val mybatisPlusVersion = "3.4.2"
+    const val mybatisSpringStarterVersion = "2.2.0"
+    const val mybatisPlusVersion = "3.4.3"
     const val nettyVersion = "4.1.65.Final"
     const val reactorVersion = "3.4.6"
     const val slf4jVersion = "1.7.30"
-    const val springBootVersion = "2.5.0"
-    const val springVersion = "5.3.7"
+    const val springBootVersion = "2.5.1"
+    const val springVersion = "5.3.8"
     const val swaggerVersion = "1.6.2"
 }
 
@@ -119,6 +119,7 @@ object Deps {
         const val pageHelperStarter = "com.github.pagehelper:pagehelper-spring-boot-starter:1.3.0"
         const val swaggerAnnotations = "io.swagger:swagger-annotations:${Version.swaggerVersion}"
         const val swaggerModels = "io.swagger:swagger-models:${Version.swaggerVersion}"
+        const val mybatis = "org.mybatis:mybatis:3.5.7"
         const val mybatisStarter =
             "org.mybatis.spring.boot:mybatis-spring-boot-starter:${Version.mybatisSpringStarterVersion}"
         const val mybatisTypehandlersJsr310 = "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"
@@ -136,7 +137,7 @@ object Deps {
         const val commonsCodec = "commons-codec:commons-codec:1.15"
         const val guava = "com.google.guava:guava:30.1.1-jre"
         const val javaJwt = "com.auth0:java-jwt:3.16.0"
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.13.50.ALL"
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.13.58.ALL"
         const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.20"
         const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.12.0"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"

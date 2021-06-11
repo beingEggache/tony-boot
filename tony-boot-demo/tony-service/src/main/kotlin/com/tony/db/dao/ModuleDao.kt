@@ -1,10 +1,11 @@
 package com.tony.db.dao
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
+import com.tony.cache.RedisKeys
 import com.tony.cache.RedisUtils
 import com.tony.db.CacheKeys
 import com.tony.db.po.Module
-import com.tony.pojo.enums.ModuleType
+import com.tony.dto.enums.ModuleType
 import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository
 
@@ -23,8 +24,8 @@ interface ModuleDao : BaseMapper<Module> {
     companion object {
         fun clearModuleCache(userId: String = "*") {
 
-            RedisUtils.delete(RedisUtils.genKey(CacheKeys.USER_FRONTEND_MODULES_CACHE_KEY, userId))
-            RedisUtils.delete(RedisUtils.genKey(CacheKeys.USER_API_MODULES_CACHE_KEY, userId))
+            RedisUtils.delete(RedisKeys.genKey(CacheKeys.USER_FRONTEND_MODULES_CACHE_KEY, userId))
+            RedisUtils.delete(RedisKeys.genKey(CacheKeys.USER_API_MODULES_CACHE_KEY, userId))
 
         }
     }

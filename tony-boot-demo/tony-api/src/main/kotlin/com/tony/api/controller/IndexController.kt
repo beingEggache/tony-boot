@@ -4,7 +4,7 @@ import com.tony.api.permission.NoPermissionCheck
 import com.tony.core.utils.defaultZoneId
 import com.tony.core.utils.toString
 import com.tony.db.service.UserService
-import com.tony.pojo.req.UserLoginReq
+import com.tony.dto.req.UserLoginReq
 import com.tony.webcore.WebApp
 import com.tony.webcore.auth.JwtToken
 import com.tony.webcore.auth.annotation.NoLoginCheck

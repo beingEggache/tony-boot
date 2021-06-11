@@ -9,10 +9,10 @@ import com.tony.db.CacheKeys
 import com.tony.db.dao.ModuleDao
 import com.tony.db.po.Module
 import com.tony.db.po.Module.Companion.MODULE_TYPE
-import com.tony.pojo.enums.ModuleType
-import com.tony.pojo.resp.ModuleResp
-import com.tony.pojo.resp.RouteAndComponentModuleResp
-import com.tony.pojo.trait.listAndSetChildren
+import com.tony.dto.enums.ModuleType
+import com.tony.dto.resp.ModuleResp
+import com.tony.dto.resp.RouteAndComponentModuleResp
+import com.tony.dto.trait.listAndSetChildren
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

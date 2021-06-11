@@ -40,7 +40,7 @@ tasks.register("dockerLogin", Exec::class) {
 
 configure<DockerExtension> {
     //final name:my.registry.com/username/my-app:version
-    name = "$dockerRegistry/$dockerUserName/${project.name}"
+    name = "$dockerRegistry/$dockerUserName/${getImageName()}"
     val today = yyyyMMdd.format(Date())
     tag("today", "$name:$today")
     tag("latest", "$name:latest")
@@ -52,5 +52,5 @@ configure<DockerExtension> {
 }
 
 tasks.getByName("docker") {
-    dependsOn("dockerClean", "dockerLogin")
+    dependsOn("dockerLogin")
 }

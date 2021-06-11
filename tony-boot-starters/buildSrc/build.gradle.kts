@@ -1,12 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     `kotlin-dsl`
 }
 
 repositories {
+    val aliyunGradleRepoUrl: String by project
+    maven(url = aliyunGradleRepoUrl)
     gradlePluginPortal() // so that external plugins can be resolved in dependencies section
-    mavenCentral()
-    mavenLocal()
 }
 
 tasks.withType<KotlinCompile>().configureEach {

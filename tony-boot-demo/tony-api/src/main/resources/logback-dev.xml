@@ -147,12 +147,15 @@
         <appender-ref ref="error"/>
     </root>
 
-    <logger name="com.tony.db.dao" level="DEBUG">
+    <logger name="com.lx.platform.db.dao" level="DEBUG">
         <appender-ref ref="stdout"/>
     </logger>
 
+    <logger name="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
 
-    <logger name="com.tony.webcore.filter.TraceLoggingFilter" level="TRACE" additivity="false">
+    <logger name="com.lx.webcore.filter.TraceLoggingFilter" level="TRACE" additivity="false">
         <appender-ref ref="trace"/>
     </logger>
 

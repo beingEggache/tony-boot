@@ -3,10 +3,10 @@ package com.tony.db.service
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
-import com.lx.water.platform.pojo.req.ModuleAssignReq
-import com.lx.water.platform.pojo.req.RoleAssignReq
-import com.lx.water.platform.pojo.req.UserCreateReq
-import com.lx.water.platform.pojo.req.UserUpdateReq
+import com.tony.dto.req.ModuleAssignReq
+import com.tony.dto.req.RoleAssignReq
+import com.tony.dto.req.UserCreateReq
+import com.tony.dto.req.UserUpdateReq
 import com.tony.core.exception.BizException
 import com.tony.core.utils.toMd5UppercaseString
 import com.tony.core.utils.uuid
@@ -14,8 +14,8 @@ import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
 import com.tony.db.po.User
-import com.tony.pojo.req.UserLoginReq
-import com.tony.pojo.resp.UserInfoResp
+import com.tony.dto.req.UserLoginReq
+import com.tony.dto.resp.UserInfoResp
 import java.util.Objects
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

@@ -7,7 +7,7 @@ import com.tony.core.utils.defaultIfBlank
 import com.tony.db.po.Module
 import com.tony.db.service.ModuleService
 import com.tony.db.service.UserService
-import com.tony.pojo.enums.ModuleType
+import com.tony.dto.enums.ModuleType
 import com.tony.webcore.WebApp
 import io.swagger.annotations.ApiOperation
 import javax.annotation.Resource

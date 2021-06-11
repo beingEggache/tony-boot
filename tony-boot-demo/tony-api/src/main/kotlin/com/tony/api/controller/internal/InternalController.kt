@@ -4,8 +4,8 @@ import com.tony.api.ApiWebApp
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.po.Module
 import com.tony.db.service.ModuleService
-import com.tony.pojo.enums.ModuleType
-import com.tony.pojo.req.internal.FrontEndModuleReq
+import com.tony.dto.enums.ModuleType
+import com.tony.dto.req.internal.FrontEndModuleReq
 import com.tony.webcore.WebApp
 import com.tony.webcore.auth.annotation.NoLoginCheck
 import io.swagger.annotations.Api

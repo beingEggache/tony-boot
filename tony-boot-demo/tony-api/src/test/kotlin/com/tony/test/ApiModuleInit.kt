@@ -7,7 +7,7 @@ import com.tony.core.utils.defaultIfBlank
 import com.tony.core.utils.toJsonString
 import com.tony.db.dao.ModuleDao
 import com.tony.db.po.Module
-import com.tony.pojo.enums.ModuleType
+import com.tony.dto.enums.ModuleType
 import com.tony.webcore.WebApp
 import io.swagger.annotations.ApiOperation
 import javax.annotation.Resource

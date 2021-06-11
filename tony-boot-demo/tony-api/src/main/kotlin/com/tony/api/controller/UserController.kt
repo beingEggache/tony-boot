@@ -2,7 +2,7 @@ package com.tony.api.controller
 
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
-import com.tony.pojo.req.UserCreateReq
+import com.tony.dto.req.UserCreateReq
 import com.tony.webcore.WebApp
 import com.tony.webcore.WebContext
 import io.swagger.annotations.Api

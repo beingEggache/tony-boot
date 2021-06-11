@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") apply false
-    kotlin("plugin.spring") version "1.4.20" apply false
+    kotlin("jvm") version Version.kotlinVersion apply false
+    kotlin("plugin.spring") version Version.kotlinVersion apply false
 }
 
 forceDepsVersion()
@@ -11,29 +11,24 @@ configure(subprojects) {
     group = "com.tony"
     version = "0.1"
 
-    //avoid UnknownPropertyException
-    if (!extra.has("profile")) {
-        extra.set("profile", "dev")
-    }
-
     val aliyunMavenRepoUrl: String by project
     val privateMavenRepoUrl: String by project
 
     repositories {
-        mavenLocal()
-        maven(url = aliyunMavenRepoUrl) {
-            @Suppress("UnstableApiUsage")
-            isAllowInsecureProtocol = true
-        }
+        mavenCentral()
         maven(url = privateMavenRepoUrl) {
             @Suppress("UnstableApiUsage")
             isAllowInsecureProtocol = true
         }
-        mavenCentral()
+        maven(url = aliyunMavenRepoUrl) {
+            @Suppress("UnstableApiUsage")
+            isAllowInsecureProtocol = true
+        }
     }
 
     apply {
         plugin("kotlin")
+        plugin("ktlint")
     }
 
     tasks.withType<KotlinCompile>().configureEach {
@@ -42,7 +37,9 @@ configure(subprojects) {
             jvmTarget = "11"
             allWarningsAsErrors = !isTest
             verbose = true
-            freeCompilerArgs = listOf("-Xjsr305=strict -Xlint:all -verbose -encoding=UTF8")
+            freeCompilerArgs = listOf(
+                "-Xjsr305=strict -Xlint:all -Werror -verbose -encoding=UTF8 -deprecation -version -progressive"
+            )
         }
     }
 }

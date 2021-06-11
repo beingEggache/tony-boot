@@ -25,10 +25,6 @@ configure(subprojects) {
             @Suppress("UnstableApiUsage")
             isAllowInsecureProtocol = true
         }
-        maven(url = "http://maven.geotoolkit.org/") {
-            @Suppress("UnstableApiUsage")
-            isAllowInsecureProtocol = true
-        }
         mavenCentral()
     }
     forceDepsVersion()

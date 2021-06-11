@@ -1,11 +1,11 @@
 package com.tony.db.service
 
 import com.baomidou.mybatisplus.core.metadata.IPage
-import com.lx.water.platform.pojo.resp.RoleResp
+import com.tony.dto.resp.RoleResp
 import com.tony.core.PageResult
 import com.tony.db.po.Role
 import com.tony.db.po.User
-import com.tony.pojo.resp.UserResp
+import com.tony.dto.resp.UserResp
 
 /**
  *
