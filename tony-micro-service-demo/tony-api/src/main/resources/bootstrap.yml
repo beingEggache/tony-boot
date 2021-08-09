@@ -1,0 +1,13 @@
+server:
+  port: 10101
+  shutdown: graceful
+  servlet:
+    context-path: /demo
+spring:
+  application:
+    name: tony-micro-service-demo
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.quzhu.com:8848
+        namespace: reservation
