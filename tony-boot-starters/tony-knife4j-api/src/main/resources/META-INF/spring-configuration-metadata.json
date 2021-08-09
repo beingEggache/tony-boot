@@ -1,0 +1,53 @@
+{
+    "hints": [],
+    "groups": [
+        {
+            "sourceType": "com.tony.swagger.config.SwaggerProperties",
+            "name": "swagger",
+            "type": "com.tony.swagger.config.SwaggerProperties"
+        },
+        {
+            "sourceType": "springfox.documentation.service.Contact",
+            "name": "swagger.contact",
+            "type": "springfox.documentation.service.Contact"
+        }
+    ],
+    "properties": [
+        {
+            "sourceType": "com.tony.swagger.config.SwaggerProperties",
+            "name": "swagger.title",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "com.tony.swagger.config.SwaggerProperties",
+            "name": "swagger.version",
+            "type": "java.lang.String",
+            "defaultValue": "1.0"
+        },
+        {
+            "sourceType": "com.tony.swagger.config.SwaggerProperties",
+            "name": "swagger.description",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "com.tony.swagger.config.SwaggerProperties",
+            "name": "swagger.basePackages",
+            "type": "java.lang.String[]"
+        },
+        {
+            "sourceType": "springfox.documentation.service.Contact",
+            "name": "swagger.contact.name",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "springfox.documentation.service.Contact",
+            "name": "swagger.contact.url",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "springfox.documentation.service.Contact",
+            "name": "swagger.contact.email",
+            "type": "java.lang.String"
+        }
+    ]
+}

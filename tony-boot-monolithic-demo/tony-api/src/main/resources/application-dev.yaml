@@ -1,0 +1,22 @@
+spring:
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://localhost:5432/tony_api
+        username: tony_api
+        password: sacd21g#BGdfshj234@%4
+        driver-class-name: org.postgresql.Driver
+    config:
+        import: classpath:swagger.yaml
+web:
+    cors:
+        allowed-origins:
+            - "http://localhost:3000"
+            - "http://127.0.0.1:3000"
+        enabled: on
+debug: off
+logging:
+    config: classpath:logback-dev.xml
+jwt:
+    enabled: on
+    secret: xckn349^*&*hcdbnqw.,;
+

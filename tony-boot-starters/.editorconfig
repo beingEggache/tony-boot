@@ -1,0 +1,25 @@
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
+end_of_line = lf
+
+[*.{kt, kts}]
+max_line_length = 120
+ij_kotlin_imports_layout = *,java.**,javax.**,kotlin.**,^
+no-unused-imports = true
+no-semi = true
+no-consecutive-blank-lines = true
+no-blank-line-before-rbrace = true
+no-trailing-spaces = true
+no-unit-return = true
+no-empty-class-body = true
+no-wildcard-imports = true
+chain-wrapping = false
+no-line-break-before-assignment = true
+string-template = true
+import-ordering = true

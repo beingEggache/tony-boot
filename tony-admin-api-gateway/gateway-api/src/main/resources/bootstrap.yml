@@ -1,0 +1,51 @@
+server:
+  port: 10100
+  shutdown: graceful
+spring:
+  aop:
+    proxy-target-class: true
+    auto: true
+  application:
+    name: quzhu4-admin-api-gateway
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 5s
+      discovery:
+        locator:
+          enabled: true
+      default-filters:
+        - PreserveHostHeader #发送原主机头
+      #  - StripPrefix=1 #去掉- Path=前缀
+      #        - name: RequestRateLimiter
+      #          args:
+      #            key-resolver: "#{@ipKeyResolver}"
+      #            redis-rate-limiter.replenishRate: 1  #令牌桶每秒填充平均速率
+      #            redis-rate-limiter.burstCapacity: 1  #令牌桶总容量
+      routes:
+        - id: quzhu4-test-api
+          uri: lb://quzhu4-test-api
+          predicates:
+            - Path=/test/**
+        - id: quzhu4-test-api2
+          uri: lb://quzhu4-test-api2
+          predicates:
+            - Path=/test2/**
+    nacos:
+      discovery:
+        server-addr: nacos.quzhu.com:8848
+        namespace: reservation
+      config:
+        server-addr: nacos.quzhu.com:8848
+        namespace: reservation
+        shared-configs:
+          - data-id: redis-all.yml
+            refresh: false
+          - data-id: quzhu4-admin-gateway.yml
+            refresh: true
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+jwt:
+  enabled: true
+  secret: 4465651

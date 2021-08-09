@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tony.db.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.tony.db.po.User">
+        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="pwd" jdbcType="VARCHAR" property="pwd"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="states" jdbcType="SMALLINT" property="states"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id, user_name, real_name, mobile, pwd, create_time, states, remark
+    </sql>
+    <select id="selectByPk" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select 'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from public.tb_sys_user
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPk" parameterType="java.lang.String">
+        delete
+        from public.tb_sys_user
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.tony.db.po.User">
+        insert into public.tb_sys_user (user_id, user_name, real_name,
+                                        mobile, pwd, create_time,
+                                        states, remark)
+        values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
+                #{mobile,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{states,jdbcType=SMALLINT}, #{remark,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertDynamic" parameterType="com.tony.db.po.User">
+        insert into public.tb_sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="!@kotlin.text.StringsKt@isBlank(userId)">
+                user_id,
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(userName)">
+                user_name,
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(realName)">
+                real_name,
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(mobile)">
+                mobile,
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(pwd)">
+                pwd,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="states != null">
+                states,
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(remark)">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="!@kotlin.text.StringsKt@isBlank(userId)">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(userName)">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(realName)">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(mobile)">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(pwd)">
+                #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="states != null">
+                #{states,jdbcType=SMALLINT},
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(remark)">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPkDynamic" parameterType="com.tony.db.po.User">
+        update public.tb_sys_user
+        <set>
+            <if test="!@kotlin.text.StringsKt@isBlank(userName)">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(realName)">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(mobile)">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(pwd)">
+                pwd = #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="states != null">
+                states = #{states,jdbcType=SMALLINT},
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(remark)">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPk" parameterType="com.tony.db.po.User">
+        update public.tb_sys_user
+        set user_name   = #{userName,jdbcType=VARCHAR},
+            real_name   = #{realName,jdbcType=VARCHAR},
+            mobile      = #{mobile,jdbcType=VARCHAR},
+            pwd         = #{pwd,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            states      = #{states,jdbcType=SMALLINT},
+            remark      = #{remark,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select user_id,
+               user_name,
+               real_name,
+               mobile,
+               pwd,
+               create_time,
+               states,
+               remark
+        from public.tb_sys_user
+    </select>
+    <select id="getByNameOrPhone" resultMap="BaseResultMap">
+        select user_id,
+        user_name,
+        real_name,
+        mobile,
+        pwd,
+        create_time,
+        states,
+        remark
+        from public.tb_sys_user
+        <trim prefix="where" suffixOverrides="or">
+            <if test="!@kotlin.text.StringsKt@isBlank(userName)">
+                user_name = #{userName,jdbcType=VARCHAR} or
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(mobile)">
+                mobile = #{mobile,jdbcType=VARCHAR} or
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <select id="getByUserNameAndPwd" parameterType="hashmap" resultMap="BaseResultMap">
+        select user_id,
+               user_name,
+               real_name,
+               mobile,
+               pwd,
+               create_time,
+               states,
+               remark
+        from public.tb_sys_user
+        where user_name = #{userName,jdbcType=VARCHAR}
+        and pwd = #{pwd,jdbcType=VARCHAR}
+        and states = 1
+    </select>
+</mapper>

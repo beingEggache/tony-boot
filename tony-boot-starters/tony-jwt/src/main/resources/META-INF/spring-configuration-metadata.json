@@ -1,0 +1,29 @@
+{
+    "hints": [],
+    "groups": [
+        {
+            "sourceType": "com.tony.jwt.config.JwtProperties",
+            "name": "jwt",
+            "type": "com.tony.jwt.config.JwtProperties"
+        }
+    ],
+    "properties": [
+        {
+            "sourceType": "com.tony.jwt.config.JwtProperties",
+            "name": "jwt.enabled",
+            "type": "java.lang.Boolean"
+        },
+        {
+            "sourceType": "com.tony.jwt.config.JwtProperties",
+            "name": "jwt.secret",
+            "type": "java.lang.String"
+        },
+        {
+            "sourceType": "com.tony.jwt.config.JwtProperties",
+            "name": "jwt.expired-minutes",
+            "type": "java.lang.Long",
+            "defaultValue": 525600,
+            "description": "jwt token expired minutes, default value is one year."
+        }
+    ]
+}
