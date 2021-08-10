@@ -11,8 +11,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @Configuration
 @ComponentScan(
     basePackages = ["com.tony.db"],
-    includeFilters = [ComponentScan.Filter(type = FilterType.ANNOTATION,
-        classes = [Service::class, Repository::class])])
+    includeFilters = [
+        ComponentScan.Filter(
+            type = FilterType.ANNOTATION,
+            classes = [Service::class, Repository::class]
+        )
+    ]
+)
 @EnableTransactionManagement(proxyTargetClass = true)
 @MapperScan("com.tony.db.dao")
 class DbConfig

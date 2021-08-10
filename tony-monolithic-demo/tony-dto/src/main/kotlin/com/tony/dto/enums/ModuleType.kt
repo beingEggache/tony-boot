@@ -26,5 +26,4 @@ enum class ModuleType(
         override fun create(value: Int) =
             super.create(value)
     }
-
 }

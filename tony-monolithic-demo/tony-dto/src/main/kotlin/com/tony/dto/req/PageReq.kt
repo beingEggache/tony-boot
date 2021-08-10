@@ -2,8 +2,8 @@ package com.tony.dto.req
 
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
-import javax.validation.constraints.Positive
 import org.springframework.web.bind.annotation.RequestParam
+import javax.validation.constraints.Positive
 
 /**
  *

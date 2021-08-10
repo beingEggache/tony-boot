@@ -12,13 +12,15 @@ interface RoleDao : BaseMapper<Role> {
         @Param("userId")
         userId: String?,
         @Param("appId")
-        appId: String): List<Role>
+        appId: String
+    ): List<Role>
 
     fun insertUserRole(
         @Param("userId")
         userId: String,
         @Param("roleId")
-        roleId: String)
+        roleId: String
+    )
 
     fun insertRoleModule(
         @Param("roleId")

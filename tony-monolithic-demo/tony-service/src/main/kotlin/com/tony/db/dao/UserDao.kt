@@ -7,9 +7,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface UserDao : BaseMapper<User> {
 
-
     fun selectUserProjectIdList(userId: String?): List<String>
 
     fun delUserProjectByUserId(userId: String)
-
 }

@@ -13,9 +13,9 @@ import com.tony.dto.req.ModuleAssignReq
 import com.tony.dto.req.RoleAssignReq
 import com.tony.dto.req.RoleCreateReq
 import com.tony.dto.req.RoleUpdateReq
-import javax.validation.Valid
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import javax.validation.Valid
 
 /**
  *
@@ -37,12 +37,14 @@ class RoleService(
             throw BizException("角色ID已重复")
         }
 
-        return roleDao.insert(Role().apply {
-            this.roleId = req.roleId
-            this.roleName = req.roleName
-            this.remark = req.remark
-            this.appId = appId
-        })
+        return roleDao.insert(
+            Role().apply {
+                this.roleId = req.roleId
+                this.roleName = req.roleName
+                this.remark = req.remark
+                this.appId = appId
+            }
+        )
     }
 
     @Transactional
@@ -68,9 +70,9 @@ class RoleService(
     fun assignRole(req: RoleAssignReq) {
         req.userIdList.forEach { userId ->
             roleDao.deleteUserRoleByUserId(userId)
-            userDao.selectById(userId) ?: throw BizException("不存在的用户:${userId}")
+            userDao.selectById(userId) ?: throw BizException("不存在的用户:$userId")
             req.roleIdList.forEach { roleId ->
-                roleDao.selectById(roleId) ?: throw BizException("不存在的角色:${roleId}")
+                roleDao.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
                 roleDao.insertUserRole(userId, roleId)
                 ModuleDao.clearModuleCache(userId)
             }
@@ -87,13 +89,12 @@ class RoleService(
         }
         req.roleIdList.forEach { roleId ->
             roleDao.deleteRoleModuleByRoleId(roleId)
-            roleDao.selectById(roleId) ?: throw BizException("不存在的角色:${roleId}")
+            roleDao.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
             moduleIdList.forEach { moduleId ->
-                roleDao.selectById(roleId) ?: throw BizException("不存在的模块:${moduleId}")
+                roleDao.selectById(roleId) ?: throw BizException("不存在的模块:$moduleId")
                 roleDao.insertRoleModule(roleId, moduleId)
                 ModuleDao.clearModuleCache()
             }
         }
     }
 }
-

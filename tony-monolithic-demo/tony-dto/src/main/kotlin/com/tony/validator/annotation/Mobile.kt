@@ -13,9 +13,16 @@ import kotlin.reflect.KClass
  */
 @MustBeDocumented
 @Constraint(validatedBy = [MobileValidator::class])
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER, AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.VALUE_PARAMETER
+)
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 annotation class Mobile(
     val message: String = "手机号格式不正确",
     val groups: Array<KClass<*>> = [],
-    val payload: Array<KClass<out Payload>> = [])
+    val payload: Array<KClass<out Payload>> = []
+)

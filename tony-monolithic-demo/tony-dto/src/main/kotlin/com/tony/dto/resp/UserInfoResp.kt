@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiModelProperty
  * @since 2020-11-04 14:49
  */
 
-
 @ApiModel("登录用户信息")
 data class UserInfoResp(
 
@@ -22,7 +21,7 @@ data class UserInfoResp(
     @ApiModelProperty("模块/权限")
     val modules: RouteAndComponentModuleResp,
 
-    )
+)
 
 /**
  *
@@ -39,6 +38,3 @@ data class RouteAndComponentModuleResp(
     val components: List<ModuleResp>
 
 )
-
-
-

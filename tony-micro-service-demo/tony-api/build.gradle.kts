@@ -7,5 +7,5 @@ dependencies {
     implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2020.0.3"))
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
-    api(Deps.Tony.tonyWebcore)
+    api(Deps.Tony.tonyWebCore)
 }

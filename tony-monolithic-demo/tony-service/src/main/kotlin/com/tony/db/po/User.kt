@@ -13,7 +13,7 @@ import java.time.LocalDateTime
  * @author tangli
  * @since 2020-11-15
  */
-@TableName("tb_sys_user")
+@TableName("t_sys_user")
 class User {
 
     /**
@@ -64,33 +64,22 @@ class User {
     @TableField("remark")
     var remark: String? = null
 
-
     companion object {
 
-        const val USER_ID : String = "user_id"
+        const val USER_ID: String = "user_id"
 
+        const val USER_NAME: String = "user_name"
 
-        const val USER_NAME : String = "user_name"
+        const val REAL_NAME: String = "real_name"
 
+        const val MOBILE: String = "mobile"
 
-        const val REAL_NAME : String = "real_name"
+        const val PWD: String = "pwd"
 
+        const val CREATE_TIME: String = "create_time"
 
-        const val MOBILE : String = "mobile"
+        const val STATES: String = "states"
 
-
-        const val PWD : String = "pwd"
-
-
-        const val CREATE_TIME : String = "create_time"
-
-
-        const val STATES : String = "states"
-
-
-        const val REMARK : String = "remark"
-
-
-
+        const val REMARK: String = "remark"
     }
 }

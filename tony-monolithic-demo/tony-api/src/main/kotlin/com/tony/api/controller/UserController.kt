@@ -1,6 +1,7 @@
 package com.tony.api.controller
 
 import com.tony.api.permission.NoPermissionCheck
+import com.tony.auth.extensions.Extensions.userId
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserCreateReq
 import com.tony.webcore.WebApp
@@ -25,7 +26,7 @@ class UserController(
     @ApiOperation("创建用户", notes = "测试创建用户")
     @PostMapping("/user/create")
     fun create(req: UserCreateReq) =
-        userService.create(req)
+        userService.add(req)
 
     @ApiOperation("登录用户信息", notes = "当前用户权限")
     @NoPermissionCheck

@@ -40,7 +40,7 @@ internal class WebJwtConfig : WebMvcConfigurer {
     @ConditionalOnClass(JWT::class)
     @ConditionalOnMissingBean(ApiSession::class)
     @ConditionalOnWebApplication
-    @ConditionalOnExpression("\${web.jwt.enabled:false}")
+    @ConditionalOnExpression("\${jwt.enabled:false}")
     @Bean
     fun apiSession() = JwtApiSession()
 }

@@ -15,7 +15,8 @@ interface ModuleDao : BaseMapper<Module> {
     fun selectModulesByUserIdAndAppId(
         @Param("userId") userId: String,
         @Param("appId") appId: String,
-        @Param("types") types: List<ModuleType>): List<Module>
+        @Param("types") types: List<ModuleType>
+    ): List<Module>
 
     fun selectByModuleGroups(moduleGroups: List<String>): List<Module>
 
@@ -26,7 +27,6 @@ interface ModuleDao : BaseMapper<Module> {
 
             RedisUtils.delete(RedisKeys.genKey(CacheKeys.USER_FRONTEND_MODULES_CACHE_KEY, userId))
             RedisUtils.delete(RedisKeys.genKey(CacheKeys.USER_API_MODULES_CACHE_KEY, userId))
-
         }
     }
 }

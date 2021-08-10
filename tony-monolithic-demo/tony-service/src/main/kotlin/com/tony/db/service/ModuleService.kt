@@ -35,9 +35,12 @@ class ModuleService(
         paramsNames = ["userId"]
     )
     fun listRouteAndComponentModules(userId: String, appId: String): RouteAndComponentModuleResp {
-        val modules = moduleDao.selectModulesByUserIdAndAppId(userId, appId, listOf(
-            ModuleType.ROUTE, ModuleType.COMPONENT
-        )).map { it.toDto() }
+        val modules = moduleDao.selectModulesByUserIdAndAppId(
+            userId, appId,
+            listOf(
+                ModuleType.ROUTE, ModuleType.COMPONENT
+            )
+        ).map { it.toDto() }
 
         val routeModules = modules.filter { it.moduleType == ModuleType.ROUTE }
 
@@ -90,5 +93,6 @@ class ModuleService(
             moduleName.defaultIfBlank(),
             moduleValue.defaultIfBlank(),
             moduleType,
-            moduleGroup.defaultIfBlank())
+            moduleGroup.defaultIfBlank()
+        )
 }

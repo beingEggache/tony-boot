@@ -20,7 +20,7 @@ object Version {
     const val springBootVersion = "2.5.3"
     const val springVersion = "5.3.9"
     const val swaggerVersion = "1.6.2"
-    const val quzhuVersion = "0.1-SNAPSHOT"
+    const val tonyVersion = "0.1-SNAPSHOT"
 }
 
 object Deps {
@@ -114,11 +114,14 @@ object Deps {
         const val nacosConfig = "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2021.1"
     }
 
-    object Quzhu {
-        const val quzhuCore = "com.quzhu:quzhu-core:${Version.quzhuVersion}"
-        const val quzhuJwt = "com.quzhu:quzhu-jwt:${Version.quzhuVersion}"
-        const val quzhuWebcore = "com.quzhu:quzhu-web-core:${Version.quzhuVersion}"
-
+    object Tony {
+        const val tonyCore = "com.tony:tony-core:${Version.tonyVersion}"
+        const val tonyJwt = "com.tony:tony-jwt:${Version.tonyVersion}"
+        const val tonySimpleAuth = "com.tony:tony-simple-auth:${Version.tonyVersion}"
+        const val tonyKnife4j = "com.tony:tony-knife4j:${Version.tonyVersion}"
+        const val tonyKnife4jApi = "com.tony:tony-knife4j-api:${Version.tonyVersion}"
+        const val tonyWebCore = "com.tony:tony-web-core:${Version.tonyVersion}"
+        const val tonyCache = "com.tony:tony-cache:${Version.tonyVersion}"
     }
 
     object Test {

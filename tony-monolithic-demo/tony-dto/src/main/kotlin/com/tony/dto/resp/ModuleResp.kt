@@ -28,7 +28,7 @@ data class ModuleResp(
     @ApiModelProperty("模块/权限分组")
     val moduleGroup: String?,
 
-    ) : TreeLike<ModuleResp> {
+) : TreeLike<ModuleResp> {
 
     override val code: String
         get() = moduleId

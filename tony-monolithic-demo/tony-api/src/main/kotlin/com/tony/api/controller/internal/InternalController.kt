@@ -1,6 +1,5 @@
 package com.tony.api.controller.internal
 
-import com.tony.api.ApiWebApp
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.auth.NoLoginCheck
 import com.tony.db.po.Module

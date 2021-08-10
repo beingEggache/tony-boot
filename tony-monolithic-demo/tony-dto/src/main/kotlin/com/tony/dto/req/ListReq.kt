@@ -2,7 +2,6 @@ package com.tony.dto.req
 
 import javax.validation.Valid
 
-
 /**
  *
  * @author tangli

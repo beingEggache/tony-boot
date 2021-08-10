@@ -19,10 +19,10 @@ internal class WebCorsConfig(
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-            .allowedOrigins(*webCorsProperties.allowedOrigins)
+            .allowedOrigins(*(webCorsProperties.allowedOrigins ?: arrayOf()))
             .allowedMethods("*")
-            .allowedHeaders(*webCorsProperties.allowedHeaders)
-            .allowCredentials(webCorsProperties.allowCredentials)
+            .allowedHeaders(*(webCorsProperties.allowedHeaders ?: arrayOf()))
+            .allowCredentials(webCorsProperties.allowCredentials ?: false)
     }
 }
 
@@ -32,7 +32,7 @@ internal class WebCorsConfig(
 @ConfigurationProperties(prefix = "web.cors")
 @ConditionalOnExpression("\${web.cors.enabled:false}")
 internal data class WebCorsProperties(
-    val allowedOrigins: Array<String>,
-    val allowedHeaders: Array<String>,
-    val allowCredentials: Boolean = false
+    val allowedOrigins: Array<String>?,
+    val allowedHeaders: Array<String>?,
+    val allowCredentials: Boolean? = false
 )
