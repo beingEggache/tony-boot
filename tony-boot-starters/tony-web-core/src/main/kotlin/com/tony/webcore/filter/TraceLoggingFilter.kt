@@ -1,6 +1,7 @@
 package com.tony.webcore.filter
 
 import com.fasterxml.jackson.core.JsonFactory
+import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.core.JsonToken
 import com.tony.core.utils.defaultIfBlank
 import com.tony.core.utils.defaultZoneOffset
@@ -119,9 +120,9 @@ internal class TraceLoggingFilter(
     }
 
     private fun resultCode(responseBody: String, status: Int) = let {
-        val codeFromResponseDirectly = responseBody.getJsonRootValue("code")
+        val codeFromResponseDirectly = responseBody.codeFromResponseDirectly("code")
         when {
-            codeFromResponseDirectly != null -> codeFromResponseDirectly.toInt()
+            codeFromResponseDirectly != null -> codeFromResponseDirectly
             HTTP_SUCCESS_CODE.contains(status) -> webProperties.successCode
             else -> webProperties.errorCode
         }
@@ -178,6 +179,27 @@ internal class TraceLoggingFilter(
                 }
             }
     }
+
+    private val jsonFactory = JsonFactory()
+    private fun String.codeFromResponseDirectly(field: String): Int? {
+        jsonFactory.createParser(this).use {
+            while (try {
+                it.nextToken()
+            } catch (e: JsonParseException) {
+                    return webProperties.errorCode
+                } != null
+            ) {
+                if (it.currentToken == JsonToken.FIELD_NAME &&
+                    it.currentName == field &&
+                    it.parsingContext.parent.inRoot()
+                ) {
+                    it.nextToken()
+                    return it.valueAsString.toInt()
+                }
+            }
+        }
+        return null
+    }
 }
 
 @WebFilter(filterName = "traceIdFilter", servletNames = ["dispatcherServlet"])
@@ -193,20 +215,4 @@ internal class TraceIdFilter : OncePerRequestFilter() {
     } finally {
         MDC.remove("X-B3-TraceId")
     }
-}
-
-private val jsonFactory = JsonFactory()
-internal fun String.getJsonRootValue(field: String): String? {
-    jsonFactory.createParser(this).use {
-        while (it.nextToken() != null) {
-            if (it.currentToken == JsonToken.FIELD_NAME &&
-                it.currentName == field &&
-                it.parsingContext.parent.inRoot()
-            ) {
-                it.nextToken()
-                return it.valueAsString
-            }
-        }
-    }
-    return null
 }

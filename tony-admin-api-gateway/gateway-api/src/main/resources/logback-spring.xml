@@ -147,7 +147,7 @@
         <appender-ref ref="error"/>
     </root>
 
-    <logger name="com.lx.webcore.filter.TraceLoggingFilter" level="TRACE" additivity="false">
+    <logger name="com.tony.webcore.filter.TraceLoggingFilter" level="TRACE" additivity="false">
         <appender-ref ref="trace"/>
     </logger>
 

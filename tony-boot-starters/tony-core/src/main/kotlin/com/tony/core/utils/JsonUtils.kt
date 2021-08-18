@@ -34,14 +34,6 @@ fun createObjectMapper() = ObjectMapper().apply {
 fun <T> T?.toJsonString(): String = if (this != null) OBJECT_MAPPER.writeValueAsString(this) else ""
 
 @Throws(IOException::class)
-inline fun <reified T> String.jsonToObj(): T =
-    OBJECT_MAPPER.readValue(this)
-
-@Throws(IOException::class)
-fun <T> String.jsonToObj(javaType: JavaType): T =
-    OBJECT_MAPPER.readValue(this, javaType)
-
-@Throws(IOException::class)
 inline fun <reified T> ByteArray.jsonToObj(): T =
     OBJECT_MAPPER.readValue(this)
 

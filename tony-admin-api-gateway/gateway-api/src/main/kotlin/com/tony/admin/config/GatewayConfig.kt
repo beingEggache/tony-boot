@@ -42,9 +42,9 @@ class GatewayConfig {
 @Component
 @RefreshScope
 @NacosConfigurationProperties(
-    properties = NacosProperties(serverAddr = "nacos.quzhu.com:8848"),
-    dataId = "quzhu4-admin-gateway.yml",
-    prefix = "quzhu.admin.gateway"
+    properties = NacosProperties(serverAddr = "nacos.tony.com:8848"),
+    dataId = "tony-admin-gateway.yml",
+    prefix = "tony.admin.gateway"
 )
 class GatewayRouteConfigProperties {
 

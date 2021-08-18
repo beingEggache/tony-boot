@@ -9,5 +9,5 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: nacos.quzhu.com:8848
+        server-addr: nacos.tony.com:8848
         namespace: reservation

@@ -3,13 +3,32 @@
 
 package com.tony.core.utils
 
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.JavaType
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.apache.commons.codec.digest.DigestUtils
+import java.io.IOException
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.Base64
 import java.util.UUID
 
 fun uuid() = UUID.randomUUID().toString().uppercase().replace("-", "")
+
+fun String.isJson() = try {
+    OBJECT_MAPPER.readTree(this)
+    true
+} catch (e: JsonProcessingException) {
+    false
+}
+
+@Throws(IOException::class)
+inline fun <reified T> String.jsonToObj(): T =
+    OBJECT_MAPPER.readValue(this)
+
+@Throws(IOException::class)
+fun <T> String.jsonToObj(javaType: JavaType): T =
+    OBJECT_MAPPER.readValue(this, javaType)
 
 fun <T> T.toDeepLink() =
     toJsonString()

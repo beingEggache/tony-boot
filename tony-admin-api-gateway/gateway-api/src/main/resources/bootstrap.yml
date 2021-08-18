@@ -6,7 +6,7 @@ spring:
     proxy-target-class: true
     auto: true
   application:
-    name: quzhu4-admin-api-gateway
+    name: tony-admin-api-gateway
   cloud:
     gateway:
       httpclient:
@@ -24,25 +24,25 @@ spring:
       #            redis-rate-limiter.replenishRate: 1  #令牌桶每秒填充平均速率
       #            redis-rate-limiter.burstCapacity: 1  #令牌桶总容量
       routes:
-        - id: quzhu4-test-api
-          uri: lb://quzhu4-test-api
+        - id: tony-test-api
+          uri: lb://tony-test-api
           predicates:
             - Path=/test/**
-        - id: quzhu4-test-api2
-          uri: lb://quzhu4-test-api2
+        - id: tony-test-api2
+          uri: lb://tony-test-api2
           predicates:
             - Path=/test2/**
     nacos:
       discovery:
-        server-addr: nacos.quzhu.com:8848
+        server-addr: nacos.tony.com:8848
         namespace: reservation
       config:
-        server-addr: nacos.quzhu.com:8848
+        server-addr: nacos.tony.com:8848
         namespace: reservation
         shared-configs:
           - data-id: redis-all.yml
             refresh: false
-          - data-id: quzhu4-admin-gateway.yml
+          - data-id: tony-admin-gateway.yml
             refresh: true
   lifecycle:
     timeout-per-shutdown-phase: 20s
