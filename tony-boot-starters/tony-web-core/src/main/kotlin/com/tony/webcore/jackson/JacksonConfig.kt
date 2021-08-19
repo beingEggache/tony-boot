@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier
+import com.tony.core.EMPTY_RESULT
 import com.tony.core.exception.ApiException
 import com.tony.core.utils.createObjectMapper
 import com.tony.core.utils.getLogger
@@ -45,8 +46,7 @@ internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
         serializers: SerializerProvider
     ) {
         if (value == null) {
-            gen.writeStartArray()
-            gen.writeEndArray()
+            gen.writeArray(emptyArray(), 0, 0)
         }
     }
 }
@@ -58,8 +58,7 @@ internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
         serializers: SerializerProvider?
     ) {
         if (value == null) {
-            gen.writeStartObject()
-            gen.writeEndObject()
+            gen.writeObject(EMPTY_RESULT)
         }
     }
 }
