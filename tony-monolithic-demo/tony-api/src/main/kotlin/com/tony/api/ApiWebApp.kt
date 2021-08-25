@@ -2,6 +2,7 @@ package com.tony.api
 
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.api.permission.PermissionInterceptor
+import com.tony.core.annotation.EnableTonyBoot
 import com.tony.core.exception.ApiException
 import com.tony.core.utils.defaultIfBlank
 import com.tony.db.po.Module
@@ -74,7 +75,8 @@ open class InitApp(
     }
 }
 
-@SpringBootApplication(scanBasePackages = ["com.tony.**"])
+@EnableTonyBoot
+@SpringBootApplication
 class ApiWebApp(
     private val permissionInterceptor: PermissionInterceptor
 ) : WebMvcConfigurer {

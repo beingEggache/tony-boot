@@ -6,8 +6,11 @@ apply {
 dependencies {
     api(Deps.Kotlin.stdlib)
     api(Deps.Other.commonsCodec)
-    api(Deps.SpringBoot.starterLogging)
     api(Deps.Other.validationApi)
+
+    api(Deps.Spring.context)
+    api(Deps.SpringBoot.starterLogging)
+
     api(Deps.Jackson.annotations)
     api(Deps.Jackson.core)
     api(Deps.Jackson.databind)
