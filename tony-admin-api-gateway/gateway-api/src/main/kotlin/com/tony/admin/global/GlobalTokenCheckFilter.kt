@@ -6,10 +6,10 @@
 package com.tony.admin.global
 
 import com.auth0.jwt.exceptions.JWTVerificationException
-import com.quzhu.core.ApiResult
-import com.quzhu.core.UNAUTHORIZED
-import com.quzhu.core.utils.defaultIfBlank
-import com.quzhu.jwt.config.JwtToken
+import com.tony.core.ApiResult
+import com.tony.core.UNAUTHORIZED
+import com.tony.core.utils.defaultIfBlank
+import com.tony.jwt.config.JwtToken
 import com.tony.admin.TokenHeaderName
 import com.tony.admin.UserIdHeaderName
 import com.tony.admin.config.GatewayRouteConfigProperties

@@ -5,7 +5,7 @@
  */
 package com.tony.admin.global
 
-import com.quzhu.core.ApiResult
+import com.tony.core.ApiResult
 import com.tony.admin.config.GatewayRouteConfigProperties
 import com.tony.admin.utils.jsonBody
 import org.springframework.cloud.gateway.filter.GatewayFilterChain

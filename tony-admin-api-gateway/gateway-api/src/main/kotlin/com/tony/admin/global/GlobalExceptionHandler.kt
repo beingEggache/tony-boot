@@ -5,10 +5,10 @@
  */
 package com.tony.admin.global
 
-import com.quzhu.core.ApiResult
-import com.quzhu.core.EMPTY_RESULT
-import com.quzhu.core.INTERNAL_SERVER_ERROR
-import com.quzhu.core.utils.getLogger
+import com.tony.core.ApiResult
+import com.tony.core.EMPTY_RESULT
+import com.tony.core.INTERNAL_SERVER_ERROR
+import com.tony.core.utils.getLogger
 import com.tony.admin.utils.jsonBody
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
 import org.springframework.core.annotation.Order

@@ -5,6 +5,7 @@
  */
 package com.tony.admin
 
+import com.tony.core.annotation.EnableTonyBoot
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
@@ -14,5 +15,6 @@ fun main(args: Array<String>) {
 }
 
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = ["com.tony.**"])
+@EnableTonyBoot
+@SpringBootApplication
 class ApiWebApp

@@ -7,7 +7,7 @@ package com.tony.admin.config
 
 import com.alibaba.nacos.api.annotation.NacosProperties
 import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties
-import com.quzhu.core.utils.defaultIfBlank
+import com.tony.core.utils.defaultIfBlank
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.cloud.context.config.annotation.RefreshScope
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
@@ -38,7 +38,7 @@ class GatewayConfig {
     }
 }
 
-@ConfigurationProperties(prefix = "quzhu.admin.gateway")
+@ConfigurationProperties(prefix = "tony.admin.gateway")
 @Component
 @RefreshScope
 @NacosConfigurationProperties(
