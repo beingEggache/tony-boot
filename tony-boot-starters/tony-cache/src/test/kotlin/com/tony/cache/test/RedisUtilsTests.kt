@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest
  */
 
 @SpringBootTest(classes = [TestCacheApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class RedisTemplateTests {
+class RedisUtilsTests {
 
     @Test
     fun testRedisValues() {
