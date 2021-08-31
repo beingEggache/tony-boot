@@ -1,2 +1,3 @@
-cache:
-    key-prefix: tony-cache-test
+spring:
+    application:
+        name: tony-cache

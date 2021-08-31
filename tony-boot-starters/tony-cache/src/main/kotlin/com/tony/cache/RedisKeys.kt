@@ -2,22 +2,24 @@
 
 package com.tony.cache
 
-import com.tony.cache.config.RedisCacheProperties
+import com.tony.core.utils.defaultIfBlank
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import javax.annotation.Resource
 
 @Component
 object RedisKeys {
 
-    private val keyPrefix: String by lazy {
-        redisCacheProperties.keyPrefix
-    }
-    private lateinit var redisCacheProperties: RedisCacheProperties
+    private lateinit var environment: Environment
 
-    @Suppress("unused")
+    private val keyPrefix: String by lazy {
+        environment.getProperty("cache.key-prefix")
+            .defaultIfBlank(environment.getProperty("spring.application.name", ""))
+    }
+
     @Resource
-    private fun prop(redisCacheProperties: RedisCacheProperties) {
-        RedisKeys.redisCacheProperties = redisCacheProperties
+    private fun environment(environment: Environment) {
+        RedisKeys.environment = environment
     }
 
     fun genKey(template: String, vararg args: Any?) =

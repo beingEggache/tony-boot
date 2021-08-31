@@ -21,7 +21,7 @@ object WebApp {
     internal lateinit var errorAttributes: ErrorAttributes
 
     val appId: String by lazy {
-        environment.getProperty("web.app-id", "")
+        environment.getProperty("spring.application.name", "")
     }
 
     internal val contextPath: String by lazy {

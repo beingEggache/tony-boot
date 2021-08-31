@@ -2,6 +2,7 @@ package com.tony.cache.test
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
+import com.tony.cache.RedisKeys
 import com.tony.cache.RedisUtils
 import com.tony.core.enums.EnumCreator
 import com.tony.core.enums.EnumIntValue
@@ -20,15 +21,15 @@ class RedisUtilsTests {
 
     @Test
     fun testRedisValues() {
-        val booleanKey = "test:value_test_boolean"
-        val incrementKey = "test:value_test_increment"
-        val intKey = "test:value_test_int"
-        val longKey = "test:value_test_long"
-        val doubleKey = "test:value_test_double"
-        val stringKey = "test:value_test_string"
-        val objKey = "test:value_test_obj"
-        val intEnumKey = "test:value_test_int_enum"
-        val stringEnumKey = "test:value_test_string_enum"
+        val booleanKey = RedisKeys.genKey("value_test_boolean")
+        val incrementKey = RedisKeys.genKey("value_test_increment")
+        val intKey = RedisKeys.genKey("value_test_int")
+        val longKey = RedisKeys.genKey("value_test_long")
+        val doubleKey = RedisKeys.genKey("value_test_double")
+        val stringKey = RedisKeys.genKey("value_test_string")
+        val objKey = RedisKeys.genKey("value_test_obj")
+        val intEnumKey = RedisKeys.genKey("value_test_int_enum")
+        val stringEnumKey = RedisKeys.genKey("value_test_string_enum")
 
         RedisUtils.values.set(booleanKey, false)
         RedisUtils.values.increment(incrementKey, 66)
@@ -64,16 +65,16 @@ class RedisUtilsTests {
 
     @Test
     fun testRedisMaps() {
-        val testMapKey = "test:map"
-        val testMapKey2 = "test:map2"
-        val booleanKey = "value_test_boolean"
-        val intKey = "value_test_int"
-        val longKey = "value_test_long"
-        val doubleKey = "value_test_double"
-        val stringKey = "value_test_string"
-        val objKey = "value_test_obj"
-        val intEnumKey = "value_test_int_enum"
-        val stringEnumKey = "value_test_string_enum"
+        val testMapKey = RedisKeys.genKey("map")
+        val testMapKey2 = RedisKeys.genKey("map2")
+        val booleanKey = RedisKeys.genKey("value_test_boolean")
+        val intKey = RedisKeys.genKey("value_test_int")
+        val longKey = RedisKeys.genKey("value_test_long")
+        val doubleKey = RedisKeys.genKey("value_test_double")
+        val stringKey = RedisKeys.genKey("value_test_string")
+        val objKey = RedisKeys.genKey("value_test_obj")
+        val intEnumKey = RedisKeys.genKey("value_test_int_enum")
+        val stringEnumKey = RedisKeys.genKey("value_test_string_enum")
 
         RedisUtils.maps.put(testMapKey, booleanKey, false)
         RedisUtils.maps.putNumber(testMapKey, intKey, 1)
@@ -129,11 +130,11 @@ class RedisUtilsTests {
 
     @Test
     fun myEnumTests() {
-        RedisUtils.values.set("test:value_test_my_int_enum", MyIntEnum.ONE)
-        RedisUtils.values.set("test:value_test_my_string_enum", MyStringEnum.NO)
+        RedisUtils.values.set(RedisKeys.genKey("value_test_my_int_enum"), MyIntEnum.ONE)
+        RedisUtils.values.set(RedisKeys.genKey("value_test_my_string_enum"), MyStringEnum.NO)
 
-        val myIntEnum = RedisUtils.values.getEnum<MyIntEnum, Int>("test:value_test_my_int_enum")
-        val myStringEnum = RedisUtils.values.getEnum<MyStringEnum, String>("test:value_test_my_string_enum")
+        val myIntEnum = RedisUtils.values.getEnum<MyIntEnum, Int>(RedisKeys.genKey("value_test_my_int_enum"))
+        val myStringEnum = RedisUtils.values.getEnum<MyStringEnum, String>(RedisKeys.genKey("value_test_my_string_enum"))
 
         println(myIntEnum)
         println(myStringEnum)
