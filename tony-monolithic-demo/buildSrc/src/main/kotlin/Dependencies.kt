@@ -12,7 +12,6 @@ object Version {
     const val byteBuddyVersion = "1.11.13"
     const val jacksonVersion = "2.12.5"
     const val kotlinVersion = "1.5.30"
-    const val mybatisSpringStarterVersion = "2.2.0"
     const val mybatisPlusVersion = "3.4.3.2"
     const val nettyVersion = "4.1.67.Final"
     const val reactorVersion = "3.4.9"
@@ -142,8 +141,6 @@ object Deps {
     object Other {
         const val pageHelperStarter = "com.github.pagehelper:pagehelper-spring-boot-starter:1.3.0"
         const val mybatis = "org.mybatis:mybatis:3.5.7"
-        const val mybatisStarter =
-            "org.mybatis.spring.boot:mybatis-spring-boot-starter:${Version.mybatisSpringStarterVersion}"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${Version.mybatisPlusVersion}"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${Version.mybatisPlusVersion}"
         const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter:${Version.mybatisPlusVersion}"
