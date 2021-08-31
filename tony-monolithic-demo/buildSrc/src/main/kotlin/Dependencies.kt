@@ -10,16 +10,28 @@ object Version {
     const val knife4jVersion = "2.0.9"
     const val springfoxSwagger2Version = "2.10.5"
     const val byteBuddyVersion = "1.11.13"
-    const val jacksonVersion = "2.12.4"
+    const val jacksonVersion = "2.12.5"
     const val kotlinVersion = "1.5.30"
     const val mybatisSpringStarterVersion = "2.2.0"
     const val mybatisPlusVersion = "3.4.3.2"
     const val nettyVersion = "4.1.67.Final"
     const val reactorVersion = "3.4.9"
     const val slf4jVersion = "1.7.32"
-    const val springBootVersion = "2.5.3"
+    const val springBootVersion = "2.5.4"
     const val springVersion = "5.3.9"
     const val swaggerVersion = "1.6.2"
+    const val reactorNettyVersion = "1.0.10"
+    const val gsonVersion = "2.8.8"
+    const val guavaVersion = "30.1.1-jre"
+    const val javaJwtVersion = "3.18.1"
+    const val alipaySdkJavaVersion = "4.16.21.ALL"
+    const val aliyunJavaSdkCoreVersion = "4.5.25"
+    const val aliyunSdkOssVersion = "3.13.1"
+    const val postgresqlVersion = "42.2.23"
+    const val mysqlVersion = "8.0.26"
+    const val hikariCPVersion = "5.0.0"
+    const val fastjsonVersion = "1.2.78"
+    const val lettuceCoreVersion = "6.1.4.RELEASE"
     const val tonyVersion = "0.1-SNAPSHOT"
 }
 
@@ -82,7 +94,7 @@ object Deps {
     object SpringData {
         const val springDataCommon = "org.springframework.data:spring-data-common:${Version.springBootVersion}"
         const val springDataRedis = "org.springframework.data:spring-data-redis:${Version.springBootVersion}"
-        const val lettuce = "io.lettuce:lettuce-core:6.1.4.RELEASE"
+        const val lettuce = "io.lettuce:lettuce-core:${Version.lettuceCoreVersion}"
     }
 
     object SpringBoot {
@@ -129,11 +141,14 @@ object Deps {
 
     object Other {
         const val pageHelperStarter = "com.github.pagehelper:pagehelper-spring-boot-starter:1.3.0"
-        const val swaggerAnnotations = "io.swagger:swagger-annotations:${Version.swaggerVersion}"
-        const val swaggerModels = "io.swagger:swagger-models:${Version.swaggerVersion}"
         const val mybatis = "org.mybatis:mybatis:3.5.7"
         const val mybatisStarter =
             "org.mybatis.spring.boot:mybatis-spring-boot-starter:${Version.mybatisSpringStarterVersion}"
+        const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${Version.mybatisPlusVersion}"
+        const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${Version.mybatisPlusVersion}"
+        const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter:${Version.mybatisPlusVersion}"
+        const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${Version.mybatisPlusVersion}"
+
         const val mybatisTypehandlersJsr310 = "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"
         const val validationApi = "jakarta.validation:jakarta.validation-api:2.0.2"
         const val annotationApi = "jakarta.annotation:jakarta.annotation-api:1.3.5"
@@ -141,36 +156,44 @@ object Deps {
         const val elApi = "jakarta.el:jakarta.el-api:3.0.3"
         const val websocketApi = "jakarta.websocket:jakarta.websocket-api:1.1.2"
         const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3"
-        const val reactorNetty = "io.projectreactor.netty:reactor-netty:1.0.10"
-        const val gson = "com.google.code.gson:gson:2.8.8"
+
+        const val gson = "com.google.code.gson:gson:${Version.gsonVersion}"
+        const val fastjson = "com.alibaba:fastjson:${Version.fastjsonVersion}"
+
         const val xstream = "com.thoughtworks.xstream:xstream:1.4.18"
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
         const val okhttp = "com.squareup.okhttp3:okhttp:4.9.1"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
-        const val guava = "com.google.guava:guava:30.1.1-jre"
-        const val javaJwt = "com.auth0:java-jwt:3.18.1"
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:4.15.14.ALL"
-        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:4.5.22"
-        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:3.13.0"
+
+        const val guava = "com.google.guava:guava:${Version.guavaVersion}"
+        const val javaJwt = "com.auth0:java-jwt:${Version.javaJwtVersion}"
+
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:${Version.alipaySdkJavaVersion}"
+        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:${Version.aliyunJavaSdkCoreVersion}"
+        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:${Version.aliyunSdkOssVersion}"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
+
+        const val swaggerAnnotations = "io.swagger:swagger-annotations:${Version.swaggerVersion}"
+        const val swaggerModels = "io.swagger:swagger-models:${Version.swaggerVersion}"
         const val springfoxSwagger2 = "io.springfox:springfox-swagger2:${Version.springfoxSwagger2Version}"
         const val knife4jApi = "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${Version.knife4jVersion}"
         const val knife4j = "com.github.xiaoymin:knife4j-spring-boot-starter:${Version.knife4jVersion}"
-        const val postgresql = "org.postgresql:postgresql:42.2.23"
-        const val HikariCP = "com.zaxxer:HikariCP:4.0.3"
-        const val byteBuddy = "net.bytebuddy:byte-buddy:${Version.byteBuddyVersion}"
-        const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${Version.byteBuddyVersion}"
+
+        const val postgresql = "org.postgresql:postgresql:${Version.postgresqlVersion}"
+        const val mysql = "mysql:mysql-connector-java::${Version.mysqlVersion}"
+        const val HikariCP = "com.zaxxer:HikariCP:${Version.hikariCPVersion}"
+
         const val slf4JApi = "org.slf4j:slf4j-api:${Version.slf4jVersion}"
         const val julToSlf4J = "org.slf4j:jul-to-slf4j:${Version.slf4jVersion}"
         const val jclOverSlf4J = "org.slf4j:jcl-over-slf4j:${Version.slf4jVersion}"
+
+        const val byteBuddy = "net.bytebuddy:byte-buddy:${Version.byteBuddyVersion}"
+        const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${Version.byteBuddyVersion}"
+        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:1.69"
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${Version.reactorVersion}"
-        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:1.69"
-        const val fastjson = "com.alibaba:fastjson:1.2.78"
-        const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${Version.mybatisPlusVersion}"
-        const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${Version.mybatisPlusVersion}"
-        const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter:${Version.mybatisPlusVersion}"
-        const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${Version.mybatisPlusVersion}"
+        const val reactorNetty = "io.projectreactor.netty:reactor-netty:${Version.reactorNettyVersion}"
+
         const val easyExcel = "com.alibaba:easyexcel:2.2.10"
         const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
         const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.14.0"

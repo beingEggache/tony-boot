@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest
  * @since 2021-05-19 15:22
  */
 
-@SpringBootTest(classes = [TestApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(classes = [TestCacheApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class RedisTemplateTests {
 
     @Test
