@@ -33,7 +33,4 @@ data class UserCreateReq(
     @ApiModelProperty("重复", required = true)
     @get:NotBlank(message = "请重复密码")
     val confirmPwd: String?,
-
-    @ApiModelProperty("水库工程ID", required = false)
-    val proIdList: List<String>?
 )

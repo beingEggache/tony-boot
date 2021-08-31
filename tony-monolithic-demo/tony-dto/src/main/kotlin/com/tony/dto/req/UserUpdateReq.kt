@@ -29,7 +29,4 @@ data class UserUpdateReq(
     @get:NotBlank(message = "请输入手机号")
     @get:Mobile
     val mobile: String?,
-
-    @ApiModelProperty("水库工程ID", required = false)
-    val proIdList: List<String>?
 )
