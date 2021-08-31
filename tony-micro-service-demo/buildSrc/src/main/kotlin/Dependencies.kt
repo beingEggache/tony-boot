@@ -184,7 +184,7 @@ object Deps {
         const val knife4j = "com.github.xiaoymin:knife4j-spring-boot-starter:${Version.knife4jVersion}"
 
         const val postgresql = "org.postgresql:postgresql:${Version.postgresqlVersion}"
-        const val mysql = "mysql:mysql-connector-java::${Version.mysqlVersion}"
+        const val mysql = "mysql:mysql-connector-java:${Version.mysqlVersion}"
         const val HikariCP = "com.zaxxer:HikariCP:${Version.hikariCPVersion}"
 
         const val slf4JApi = "org.slf4j:slf4j-api:${Version.slf4jVersion}"
