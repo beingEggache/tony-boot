@@ -2,12 +2,12 @@
 
 package com.tony.webcore
 
-import com.tony.core.OK
-import com.tony.core.UNAUTHORIZED
+import com.tony.core.ApiCode
+import com.tony.core.ApiResult
+import com.tony.core.EMPTY_RESULT
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.core.env.Environment
-import org.springframework.core.env.getProperty
 import org.springframework.stereotype.Component
 import java.util.regex.Pattern
 import javax.annotation.Resource
@@ -85,14 +85,6 @@ object WebApp {
 
     private val duplicateSlash = Pattern.compile("/{2,}")
 
-    val successCode by lazy {
-        environment.getProperty<Int>("web.success-code") ?: OK
-    }
-
-    val unauthorizedCode by lazy {
-        environment.getProperty<Int>("web.unauthorized-code") ?: UNAUTHORIZED
-    }
-
     @Resource
     private fun environment(environment: Environment) {
         WebApp.environment = environment
@@ -106,3 +98,11 @@ object WebApp {
     private fun removeDuplicateSlash(input: String): String =
         duplicateSlash.matcher(input).replaceAll("/")
 }
+
+@JvmOverloads
+fun errorResponse(msg: String = "", code: Int = ApiCode.errorCode) =
+    ApiResult(EMPTY_RESULT, code, msg)
+
+@JvmOverloads
+fun badRequest(msg: String = "", code: Int = ApiCode.validationErrorCode) =
+    ApiResult(EMPTY_RESULT, code, msg)

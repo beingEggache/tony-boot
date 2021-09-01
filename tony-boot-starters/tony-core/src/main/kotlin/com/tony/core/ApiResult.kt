@@ -29,6 +29,8 @@ class EmptyResult
 
 data class OneResult<T>(val result: T? = null)
 
+fun <T> T?.toOneResult() = OneResult(this)
+
 data class ListResult<T> @JvmOverloads constructor(val items: Collection<T>? = listOf()) {
 
     constructor(array: Array<*>) : this(array.asList().asTo())
@@ -141,14 +143,3 @@ data class PageResult<T>(
 
     inline fun firstOrNull(predicate: (T) -> Boolean) = items?.firstOrNull(predicate)
 }
-
-fun <T> T?.toOneResult() =
-    OneResult(this)
-
-@JvmOverloads
-fun errorResponse(msg: String = "", code: Int = INTERNAL_SERVER_ERROR) =
-    ApiResult(EMPTY_RESULT, code, msg)
-
-@JvmOverloads
-fun badRequest(msg: String = "", code: Int = BAD_REQUEST) =
-    ApiResult(EMPTY_RESULT, code, msg)

@@ -35,8 +35,6 @@ fun Project.copyProjectHookToGitHook(vararg hookNames: String) {
         hookFile.copyTo(gitHookFile)
         logger.info("$hookName has already copy to ${gitHookDir.absolutePath}")
     }
-
-
 }
 
 private fun Project.getProjectGitHooksPath(): String {

@@ -1,13 +1,13 @@
 package com.tony.webcore.advice
 
-import com.tony.core.badRequest
-import com.tony.core.errorResponse
+import com.tony.core.ApiCode
 import com.tony.core.exception.ApiException
 import com.tony.core.exception.BizException
 import com.tony.core.utils.getLogger
 import com.tony.webcore.WebContext
 import com.tony.webcore.WebContext.toResponse
-import com.tony.webcore.config.WebProperties
+import com.tony.webcore.badRequest
+import com.tony.webcore.errorResponse
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
@@ -25,9 +25,7 @@ import javax.validation.ConstraintViolationException
 @RestControllerAdvice
 @ConditionalOnWebApplication
 @RestController
-internal class ExceptionHandlerAdvice(
-    private val webProperties: WebProperties
-) : ErrorController {
+internal class ExceptionHandlerAdvice : ErrorController {
 
     private val logger = getLogger()
 
@@ -47,12 +45,12 @@ internal class ExceptionHandlerAdvice(
         logger.error(e.message, e)
         // handle the json generate exception
         WebContext.response?.resetBuffer()
-        errorResponse(webProperties.errorMsg)
+        errorResponse(ApiCode.errorMsg)
     }
 
     private fun bindingResultMessages(bindingResult: BindingResult) =
         bindingResult.fieldErrors.first().let {
-            if (it.isBindingFailure) webProperties.validationErrorMsg
+            if (it.isBindingFailure) ApiCode.validationErrorMsg
             else it.defaultMessage ?: ""
         }
 
@@ -67,7 +65,7 @@ internal class ExceptionHandlerAdvice(
     @ExceptionHandler(value = [MissingRequestValueException::class, HttpMessageNotReadableException::class])
     fun badRequestException(e: Exception) = run {
         logger.warn(e.localizedMessage)
-        badRequest(webProperties.validationErrorMsg)
+        badRequest(ApiCode.validationErrorMsg)
     }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
@@ -75,12 +73,12 @@ internal class ExceptionHandlerAdvice(
     fun error() = errorResponse(
         when {
             WebContext.httpStatus == 999 -> ""
-            WebContext.httpStatus >= 500 -> webProperties.errorMsg
+            WebContext.httpStatus >= 500 -> ApiCode.errorMsg
             else -> WebContext.error
         },
         when {
-            WebContext.httpStatus == 999 -> webProperties.successCode
-            WebContext.httpStatus >= 500 -> webProperties.errorCode
+            WebContext.httpStatus == 999 -> ApiCode.successCode
+            WebContext.httpStatus >= 500 -> ApiCode.errorCode
             else -> WebContext.httpStatus * 100
         }
     )

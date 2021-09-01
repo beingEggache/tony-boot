@@ -1,4 +1,4 @@
-mybatis:
+mybatis-plus:
     mapper-locations: classpath*:mappers/*.mapper.xml
     configuration:
         default-enum-type-handler: com.tony.db.typehandler.EnumValueTypeHandler
@@ -7,5 +7,6 @@ spring:
         active: dev
 cache:
     key-prefix: tony
-web:
-    app-id: Lx-Api
+core:
+    success-code: 0
+    error-code: 666

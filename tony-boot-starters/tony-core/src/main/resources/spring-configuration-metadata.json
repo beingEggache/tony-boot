@@ -2,14 +2,7 @@
     "hints": [],
     "groups": [
         {
-            "sourceType": "com.tony.webcore.config.ApiCodeProperties",
-            "name": "core",
-            "type": "com.tony.webcore.config.ApiCodeProperties"
-        },
-        {
-            "sourceType": "com.tony.webcore.config.WebCorsProperties",
-            "name": "web.cors",
-            "type": "com.tony.webcore.config.WebCorsProperties"
+            "name": "core"
         }
     ],
     "properties": [
@@ -42,7 +35,6 @@
             "name": "core.validation-error-code",
             "type": "java.lang.Integer",
             "defaultValue": 40000
-
         },
         {
             "sourceType": "com.tony.webcore.config.ApiCodeProperties",
@@ -55,27 +47,6 @@
             "name": "core.unauthorized-code",
             "type": "java.lang.Integer",
             "defaultValue": 40100
-        },
-        {
-            "sourceType": "com.tony.webcore.config.WebCorsProperties",
-            "name": "web.cors.enabled",
-            "type": "java.lang.Boolean"
-        },
-        {
-            "sourceType": "com.tony.webcore.config.WebCorsProperties",
-            "name": "web.cors.allowed-origins",
-            "type": "java.lang.String[]"
-        },
-        {
-            "sourceType": "com.tony.webcore.config.WebCorsProperties",
-            "name": "web.cors.allowed-headers",
-            "type": "java.lang.String[]"
-        },
-        {
-            "sourceType": "com.tony.webcore.config.WebCorsProperties",
-            "name": "web.cors.allowed-credentials",
-            "type": "java.lang.Boolean",
-            "defaultValue": true
         }
     ]
 }

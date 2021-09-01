@@ -10,6 +10,7 @@ dependencies {
 
     api(Deps.Spring.context)
     api(Deps.SpringBoot.starterLogging)
+    api(Deps.Other.annotationApi)
 
     api(Deps.Jackson.annotations)
     api(Deps.Jackson.core)

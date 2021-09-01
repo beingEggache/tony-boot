@@ -2,8 +2,7 @@
 
 package com.tony.core.exception
 
-import com.tony.core.BIZ_ERROR
-import com.tony.core.INTERNAL_SERVER_ERROR
+import com.tony.core.ApiCode
 
 open class BaseException @JvmOverloads constructor(
     override val message: String? = "",
@@ -16,11 +15,11 @@ open class BaseException @JvmOverloads constructor(
  */
 open class ApiException @JvmOverloads constructor(
     override val message: String? = "",
-    override val code: Int = INTERNAL_SERVER_ERROR,
+    override val code: Int = ApiCode.errorCode,
     throwable: Throwable? = null
 ) : BaseException(message, code, throwable) {
 
-    constructor(message: String?, throwable: Throwable) : this(message, INTERNAL_SERVER_ERROR, throwable)
+    constructor(message: String?, throwable: Throwable) : this(message, ApiCode.errorCode, throwable)
 }
 
 /**
@@ -28,5 +27,5 @@ open class ApiException @JvmOverloads constructor(
  */
 open class BizException @JvmOverloads constructor(
     override val message: String,
-    override val code: Int = BIZ_ERROR
+    override val code: Int = ApiCode.bizErrorCode
 ) : BaseException(message, code)

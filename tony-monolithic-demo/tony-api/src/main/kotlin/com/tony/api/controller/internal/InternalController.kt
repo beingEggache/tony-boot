@@ -8,8 +8,8 @@ import com.tony.db.po.Module
 import com.tony.db.service.ModuleService
 import com.tony.dto.enums.ModuleType
 import com.tony.dto.req.internal.FrontEndModuleReq
+import com.tony.webcore.ListReq
 import com.tony.webcore.WebApp
-import com.tony.webcore.req.ListReq
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.context.annotation.Lazy

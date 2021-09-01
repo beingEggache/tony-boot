@@ -3,6 +3,7 @@ package com.tony.webcore.filter
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.core.JsonToken
+import com.tony.core.ApiCode
 import com.tony.core.utils.defaultIfBlank
 import com.tony.core.utils.defaultZoneOffset
 import com.tony.core.utils.getLogger
@@ -11,7 +12,6 @@ import com.tony.core.utils.toJsonString
 import com.tony.core.utils.toString
 import com.tony.webcore.WebApp
 import com.tony.webcore.WebContext
-import com.tony.webcore.config.WebProperties
 import com.tony.webcore.utils.antPathMatcher
 import com.tony.webcore.utils.headers
 import com.tony.webcore.utils.isCorsPreflightRequest
@@ -37,9 +37,7 @@ import javax.servlet.http.HttpServletResponse
 
 @WebFilter(filterName = "traceLoggingFilter", servletNames = ["dispatcherServlet"])
 @Priority(PriorityOrdered.HIGHEST_PRECEDENCE + 101)
-internal class TraceLoggingFilter(
-    private val webProperties: WebProperties,
-) : OncePerRequestFilter() {
+internal class TraceLoggingFilter : OncePerRequestFilter() {
 
     private val log = getLogger()
 
@@ -89,10 +87,10 @@ internal class TraceLoggingFilter(
         val responseBody = responseBody(responseWrapper)
         val resultCode = resultCode(responseBody.defaultIfBlank(), responseWrapper.status)
         val resultStatus = when (resultCode) {
-            webProperties.successCode -> SUCCESS
-            webProperties.validationErrorCode -> VALIDATE_FAILED
-            webProperties.bizErrorCode -> BIZ_FAILED
-            webProperties.unauthorizedCode -> UNAUTHORIZED
+            ApiCode.successCode -> SUCCESS
+            ApiCode.validationErrorCode -> VALIDATE_FAILED
+            ApiCode.bizErrorCode -> BIZ_FAILED
+            ApiCode.unauthorizedCode -> UNAUTHORIZED
             in 400 * 100..499 * 100 -> VALIDATE_FAILED
             else -> FAILED
         }
@@ -123,8 +121,8 @@ internal class TraceLoggingFilter(
         val codeFromResponseDirectly = responseBody.codeFromResponseDirectly("code")
         when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
-            HTTP_SUCCESS_CODE.contains(status) -> webProperties.successCode
-            else -> webProperties.errorCode
+            HTTP_SUCCESS_CODE.contains(status) -> ApiCode.successCode
+            else -> ApiCode.errorCode
         }
     }
 
@@ -186,7 +184,7 @@ internal class TraceLoggingFilter(
             while (try {
                 it.nextToken()
             } catch (e: JsonParseException) {
-                    return webProperties.errorCode
+                    return ApiCode.errorCode
                 } != null
             ) {
                 if (it.currentToken == JsonToken.FIELD_NAME &&

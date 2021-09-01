@@ -43,8 +43,8 @@ class DefaultRedisCacheAspect : RedisCacheAspect() {
         redisParamsNames: Array<String>
     ): String {
 
-        if (paramsNames.isNullOrEmpty() ||
-            redisParamsNames.isNullOrEmpty()
+        if (paramsNames.isEmpty() ||
+            redisParamsNames.isEmpty()
         ) {
             return RedisKeys.genKey(cacheKey)
         }

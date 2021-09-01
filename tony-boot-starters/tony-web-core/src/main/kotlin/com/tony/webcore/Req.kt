@@ -1,4 +1,4 @@
-package com.tony.webcore.req
+package com.tony.webcore
 
 import org.springframework.web.bind.annotation.RequestParam
 import javax.validation.Valid
