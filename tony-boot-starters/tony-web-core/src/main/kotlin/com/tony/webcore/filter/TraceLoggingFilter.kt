@@ -55,37 +55,37 @@ internal class TraceLoggingFilter : OncePerRequestFilter() {
 
     @Throws(IOException::class, ServletException::class)
     private fun doFilterTrace(
-        requestWrapper: ContentCachingRequestWrapper,
-        responseWrapper: ContentCachingResponseWrapper,
-        filterChain: FilterChain,
+        request: ContentCachingRequestWrapper,
+        response: ContentCachingResponseWrapper,
+        chain: FilterChain,
         startTime: LocalDateTime
     ) = try {
-        filterChain.doFilter(requestWrapper, responseWrapper)
+        chain.doFilter(request, response)
     } finally {
         val elapsedTime = System.currentTimeMillis() - startTime.toInstant(defaultZoneOffset).toEpochMilli()
 
-        log(requestWrapper, responseWrapper, startTime, elapsedTime)
+        log(request, response, startTime, elapsedTime)
 
-        responseWrapper.copyBodyToResponse()
+        response.copyBodyToResponse()
     }
 
     private fun log(
-        requestWrapper: ContentCachingRequestWrapper,
-        responseWrapper: ContentCachingResponseWrapper,
+        request: ContentCachingRequestWrapper,
+        response: ContentCachingResponseWrapper,
         startTime: LocalDateTime,
         elapsedTime: Long
     ) = try {
 
-        val url = requestWrapper.requestURL?.toString()
-        val path = requestWrapper.requestURI.removePrefix(WebContext.contextPath)
-        val httpMethod = requestWrapper.method
-        val remoteIp = requestWrapper.remoteIp
-        val localIp = requestWrapper.localAddr
-        val query = requestWrapper.queryString ?: NULL
-        val requestParam = requestParam(requestWrapper)
-        val headers = requestWrapper.headers.toJsonString()
-        val responseBody = responseBody(responseWrapper)
-        val resultCode = resultCode(responseBody.defaultIfBlank(), responseWrapper.status)
+        val url = request.requestURL?.toString()
+        val path = request.requestURI.removePrefix(WebContext.contextPath)
+        val httpMethod = request.method
+        val remoteIp = request.remoteIp
+        val localIp = request.localAddr
+        val query = request.queryString ?: NULL
+        val requestParam = requestParam(request)
+        val headers = request.headers.toJsonString()
+        val responseBody = responseBody(response)
+        val resultCode = resultCode(responseBody.defaultIfBlank(), response.status)
         val resultStatus = when (resultCode) {
             ApiCode.successCode -> SUCCESS
             ApiCode.validationErrorCode -> VALIDATE_FAILED
@@ -94,7 +94,7 @@ internal class TraceLoggingFilter : OncePerRequestFilter() {
             in 400 * 100..499 * 100 -> VALIDATE_FAILED
             else -> FAILED
         }
-        val protocol = requestWrapper.protocol
+        val protocol = request.protocol
         val startTimeStr = startTime.toString("yyyy-MM-dd HH:mm:ss.SSS")
 
         val logStr = startTimeStr +
@@ -117,27 +117,26 @@ internal class TraceLoggingFilter : OncePerRequestFilter() {
         log.error(e.message, e)
     }
 
-    private fun resultCode(responseBody: String, status: Int) = let {
-        val codeFromResponseDirectly = responseBody.codeFromResponseDirectly("code")
-        when {
-            codeFromResponseDirectly != null -> codeFromResponseDirectly
-            HTTP_SUCCESS_CODE.contains(status) -> ApiCode.successCode
-            else -> ApiCode.errorCode
-        }
-    }
-
     override fun shouldNotFilter(request: HttpServletRequest) =
         antPathMatcher.matchAny(EXCLUDE_URLS, request.requestURI) || request.isCorsPreflightRequest
 
     private companion object {
 
+        private const val SUCCESS = "SUCCESS"
+
+        private const val FAILED = "FAILED"
+
         private const val BIZ_FAILED = "BIZ_FAILED"
+
+        private const val VALIDATE_FAILED = "VALIDATE_FAILED"
+
+        private const val UNAUTHORIZED = "UNAUTHORIZED"
+
+        private const val NULL = "[null]"
 
         private val EXCLUDE_URLS by lazy {
             WebApp.excludeJsonResultUrlPatterns.plus(WebApp.ignoreUrlPatterns())
         }
-
-        private const val FAILED = "FAILED"
 
         private val HTTP_SUCCESS_CODE = arrayOf(
             HttpServletResponse.SC_OK,
@@ -146,14 +145,6 @@ internal class TraceLoggingFilter : OncePerRequestFilter() {
             HttpServletResponse.SC_MOVED_PERMANENTLY,
             HttpServletResponse.SC_MOVED_TEMPORARILY
         )
-
-        private const val NULL = "[null]"
-
-        private const val SUCCESS = "SUCCESS"
-
-        private const val UNAUTHORIZED = "UNAUTHORIZED"
-
-        private const val VALIDATE_FAILED = "VALIDATE_FAILED"
 
         private fun requestParam(request: ContentCachingRequestWrapper) =
             if (!isTextMediaTypes(request.parsedMedia)) "[${request.getHeader("Content-Type")}]"
@@ -166,6 +157,15 @@ internal class TraceLoggingFilter : OncePerRequestFilter() {
                 }
             } else NULL
 
+        private fun resultCode(responseBody: String, status: Int) = let {
+            val codeFromResponseDirectly = responseBody.codeFromResponseDirectly("code")
+            when {
+                codeFromResponseDirectly != null -> codeFromResponseDirectly
+                HTTP_SUCCESS_CODE.contains(status) -> ApiCode.successCode
+                else -> ApiCode.errorCode
+            }
+        }
+
         private fun responseBody(response: ContentCachingResponseWrapper) =
             if (!isTextMediaTypes(response.parsedMedia)) "[${response.getHeader("Content-Type")}]"
             else response.contentAsByteArray.let { bytes ->
@@ -176,27 +176,27 @@ internal class TraceLoggingFilter : OncePerRequestFilter() {
                     else -> NULL
                 }
             }
-    }
 
-    private val jsonFactory = JsonFactory()
-    private fun String.codeFromResponseDirectly(field: String): Int? {
-        jsonFactory.createParser(this).use {
-            while (try {
-                it.nextToken()
-            } catch (e: JsonParseException) {
-                    return ApiCode.errorCode
-                } != null
-            ) {
-                if (it.currentToken == JsonToken.FIELD_NAME &&
-                    it.currentName == field &&
-                    it.parsingContext.parent.inRoot()
-                ) {
+        private val jsonFactory = JsonFactory()
+        private fun String.codeFromResponseDirectly(field: String): Int? {
+            jsonFactory.createParser(this).use {
+                while (try {
                     it.nextToken()
-                    return it.valueAsString.toInt()
+                } catch (e: JsonParseException) {
+                        return ApiCode.errorCode
+                    } != null
+                ) {
+                    if (it.currentToken == JsonToken.FIELD_NAME &&
+                        it.currentName == field &&
+                        it.parsingContext.parent.inRoot()
+                    ) {
+                        it.nextToken()
+                        return it.valueAsString.toInt()
+                    }
                 }
             }
+            return null
         }
-        return null
     }
 }
 
@@ -206,10 +206,10 @@ internal class TraceIdFilter : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        chain: FilterChain
     ) = try {
         MDC.put("X-B3-TraceId", UUID.randomUUID().toString())
-        filterChain.doFilter(request, response)
+        chain.doFilter(request, response)
     } finally {
         MDC.remove("X-B3-TraceId")
     }

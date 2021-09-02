@@ -38,32 +38,25 @@ class HttpServletRequestReplacedFilter : Filter {
     )
 }
 
-class RepeatReadRequestWrapper(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
+class RepeatReadRequestWrapper
+@Throws(IOException::class)
+constructor(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
 
     private val cachedContent =
-        ByteArrayOutputStream(
-            if (request.contentLength >= 0) request.contentLength else 1024
-        ).apply {
-            (request.contentLength > 0 && !isFormPost()).doIf {
-                val bytes: ByteArray = request.inputStream.readBytes()
-                bytes.isNotEmpty().doIf { writeBytes(bytes) }
-            }
+        ByteArrayOutputStream(request.contentLength.coerceAtLeast(0)).doIf(!isFormPost()) {
+            writeBytes(request.inputStream.readBytes())
         }
 
     private val inputStream = ByteArrayInputStream(cachedContent.toByteArray())
 
-    @Throws(IOException::class)
     override fun getInputStream() =
         object : ServletInputStream() {
             override fun isFinished() = true
             override fun isReady() = true
             override fun setReadListener(listener: ReadListener?) = Unit
-
-            @Throws(IOException::class)
             override fun read() = inputStream.read()
         }
 
-    @Throws(IOException::class)
     override fun getReader() =
         BufferedReader(InputStreamReader(inputStream, StandardCharsets.UTF_8))
 
