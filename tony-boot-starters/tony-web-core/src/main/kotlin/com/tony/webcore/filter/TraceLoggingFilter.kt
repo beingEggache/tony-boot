@@ -97,20 +97,22 @@ internal class TraceLoggingFilter : OncePerRequestFilter() {
         val protocol = request.protocol
         val startTimeStr = startTime.toString("yyyy-MM-dd HH:mm:ss.SSS")
 
-        val logStr = startTimeStr +
-            "|$elapsedTime" +
-            "|$resultCode" +
-            "|$resultStatus" +
-            "|$protocol" +
-            "|$httpMethod" +
-            "|$url" +
-            "|$path" +
-            "|$query" +
-            "|$headers" +
-            "|$requestParam" +
-            "|$responseBody" +
-            "|$remoteIp" +
-            "|$localIp"
+        val logStr =
+            """
+            |$startTimeStr|
+            |$elapsedTime|
+            |$resultCode|
+            |$resultStatus|
+            |$protocol|
+            |$httpMethod|
+            |$url|
+            |$path|
+            |$query|
+            |$headers|
+            |$requestParam|
+            |$responseBody|
+            |$remoteIp|
+            |$localIp""".trimMargin()
 
         log.trace(logStr.removeLineBreak())
     } catch (e: Exception) {
