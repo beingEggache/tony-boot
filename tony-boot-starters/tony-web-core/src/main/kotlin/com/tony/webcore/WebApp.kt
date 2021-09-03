@@ -33,30 +33,11 @@ object WebApp {
             environment.getProperty("management.endpoints.web.base-path", "/actuator")
         val actuatorPrefix = removeDuplicateSlash("$contextPath/$actuatorBasePath")
         listOf(
-            removeDuplicateSlash("$contextPath/swagger-resources"),
-            removeDuplicateSlash("$contextPath/swagger-resources/configuration/*"),
-            removeDuplicateSlash("$contextPath/v2/api-docs*"),
+            removeDuplicateSlash("$contextPath/swagger-resources/**"),
+            removeDuplicateSlash("$contextPath/v2/api-docs/**"),
             removeDuplicateSlash("$contextPath/**/*.js"),
             removeDuplicateSlash("$contextPath/**/*.css"),
-            removeDuplicateSlash("$actuatorPrefix/beans"),
-            removeDuplicateSlash("$actuatorPrefix/caches"),
-            removeDuplicateSlash("$actuatorPrefix/caches/*"),
-            removeDuplicateSlash("$actuatorPrefix/health"),
-            removeDuplicateSlash("$actuatorPrefix/health/*"),
-            removeDuplicateSlash("$actuatorPrefix/info"),
-            removeDuplicateSlash("$actuatorPrefix/conditions"),
-            removeDuplicateSlash("$actuatorPrefix/shutdown"),
-            removeDuplicateSlash("$actuatorPrefix/configprops"),
-            removeDuplicateSlash("$actuatorPrefix/env"),
-            removeDuplicateSlash("$actuatorPrefix/env/*"),
-            removeDuplicateSlash("$actuatorPrefix/loggers"),
-            removeDuplicateSlash("$actuatorPrefix/loggers/*"),
-            removeDuplicateSlash("$actuatorPrefix/heapdump"),
-            removeDuplicateSlash("$actuatorPrefix/threaddump"),
-            removeDuplicateSlash("$actuatorPrefix/metrics"),
-            removeDuplicateSlash("$actuatorPrefix/metrics/*"),
-            removeDuplicateSlash("$actuatorPrefix/scheduledtasks"),
-            removeDuplicateSlash("$actuatorPrefix/mappings"),
+            removeDuplicateSlash("$actuatorPrefix/**"),
             removeDuplicateSlash("$contextPath/$errorPath")
         )
     }
@@ -70,13 +51,15 @@ object WebApp {
 
     fun ignoreUrlPatterns(ignoreContextPath: Boolean = false): List<String> {
         val prefix = if (ignoreContextPath)"" else contextPath
+        val actuatorBasePath =
+            environment.getProperty("management.endpoints.web.base-path", "/actuator")
+        val actuatorPrefix = removeDuplicateSlash("$prefix/$actuatorBasePath")
         return listOf(
-            removeDuplicateSlash("$prefix/actuator/**"),
+            removeDuplicateSlash("$actuatorPrefix/**"),
             removeDuplicateSlash("$prefix/$errorPath"),
-            removeDuplicateSlash("$prefix/swagger-resources**"),
             removeDuplicateSlash("$prefix/swagger-resources/**"),
             removeDuplicateSlash("$prefix/webjars/**"),
-            removeDuplicateSlash("$prefix/v2/api-docs**"),
+            removeDuplicateSlash("$prefix/v2/api-docs/**"),
             removeDuplicateSlash("$prefix/error"),
             removeDuplicateSlash("$prefix/doc.html"),
             removeDuplicateSlash("$prefix/favicon.ico")

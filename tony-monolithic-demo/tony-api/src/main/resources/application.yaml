@@ -5,8 +5,6 @@ mybatis-plus:
 spring:
     profiles:
         active: dev
-cache:
-    key-prefix: tony
-core:
-    success-code: 0
-    error-code: 666
+    application:
+        name: tony-api
+

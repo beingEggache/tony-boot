@@ -2,7 +2,6 @@ package com.tony.api.controller.internal
 
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.auth.NoLoginCheck
-import com.tony.core.utils.doIf
 import com.tony.core.utils.getLogger
 import com.tony.db.po.Module
 import com.tony.db.service.ModuleService
@@ -79,9 +78,6 @@ class InternalController(
             val mappingInfo = RequestMappingInfo
                 .paths(annot?.path?.first())
                 .methods(annot?.method?.first())
-                .doIf(!annot?.params.isNullOrEmpty()) {
-                    params(annot?.params?.first())
-                }
                 .build()
             handlerMapping.unregisterMapping(mappingInfo)
         }

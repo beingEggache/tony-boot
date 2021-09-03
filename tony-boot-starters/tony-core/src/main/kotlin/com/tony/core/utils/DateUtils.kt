@@ -4,6 +4,7 @@
 package com.tony.core.utils
 
 import com.tony.core.exception.ApiException
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -64,6 +65,8 @@ fun Date.toLocalDateTime(): LocalDateTime = toInstant().atZone(defaultZoneId).to
 
 fun LocalDate.toDate(): Date = Date.from(atStartOfDay(defaultZoneId).toInstant())
 fun LocalDateTime.toDate(): Date = Date.from(atZone(defaultZoneId).toInstant())
+
+fun LocalDateTime.toInstant(): Instant = toInstant(defaultZoneOffset)
 
 fun secondOfTodayRest() =
     ChronoUnit.SECONDS.between(

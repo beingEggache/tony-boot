@@ -1,7 +1,6 @@
 package com.tony.webcore.log
 
-import com.tony.core.utils.defaultZoneOffset
-import com.tony.core.utils.getLogger
+import com.tony.core.utils.toInstant
 import com.tony.core.utils.toString
 import com.tony.webcore.WebApp
 import com.tony.webcore.utils.antPathMatcher
@@ -28,8 +27,6 @@ internal class TraceLoggingFilter(
     private val requestTraceLogger: RequestTraceLogger
 ) : OncePerRequestFilter() {
 
-    private val log = getLogger()
-
     @Throws(IOException::class, ServletException::class)
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -51,7 +48,8 @@ internal class TraceLoggingFilter(
     ) = try {
         chain.doFilter(request, response)
     } finally {
-        val elapsedTime = System.currentTimeMillis() - startTime.toInstant(defaultZoneOffset).toEpochMilli()
+
+        val elapsedTime = System.currentTimeMillis() - startTime.toInstant().toEpochMilli()
 
         log(request, response, startTime, elapsedTime)
 
@@ -72,17 +70,14 @@ internal class TraceLoggingFilter(
             elapsedTime
         )
     } catch (e: Exception) {
-        log.error(e.message, e)
+        logger.error(e.message, e)
     }
 
     override fun shouldNotFilter(request: HttpServletRequest) =
-        antPathMatcher.matchAny(EXCLUDE_URLS, request.requestURI) || request.isCorsPreflightRequest
+        antPathMatcher.matchAny(excludedUrls, request.requestURI) || request.isCorsPreflightRequest
 
-    private companion object {
-
-        private val EXCLUDE_URLS by lazy {
-            WebApp.excludeJsonResultUrlPatterns.plus(WebApp.ignoreUrlPatterns())
-        }
+    private val excludedUrls by lazy {
+        WebApp.excludeJsonResultUrlPatterns.plus(WebApp.ignoreUrlPatterns())
     }
 }
 

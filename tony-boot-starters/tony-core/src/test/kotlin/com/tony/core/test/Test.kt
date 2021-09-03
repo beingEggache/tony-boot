@@ -1,5 +1,7 @@
 package com.tony.core.test
 
+import com.tony.core.utils.formatToPercent
+import com.tony.core.utils.println
 import org.junit.jupiter.api.Test
 
 /**
@@ -11,6 +13,7 @@ class Test {
 
     @Test
     fun testIfNullOrEmpty() {
+        500.123f.formatToPercent().println()
     }
 
 

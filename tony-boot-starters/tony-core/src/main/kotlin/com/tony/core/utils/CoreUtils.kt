@@ -7,9 +7,6 @@ import com.tony.core.exception.BizException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-@JvmField
-val logger: Logger = LoggerFactory.getLogger("web_extension")
-
 fun <T> T?.println() = println(this)
 
 @JvmOverloads

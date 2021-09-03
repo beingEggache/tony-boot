@@ -14,6 +14,10 @@ import java.security.SecureRandom
 import java.text.NumberFormat
 import kotlin.math.pow
 
+/**
+ * 数字类型转为 [BigDecimal]
+ * @param decimal 小数点后保留几位
+ */
 @JvmOverloads
 fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
     if (decimal < 0) throw IllegalArgumentException("decimal must >= 0")
@@ -36,25 +40,50 @@ private fun formatToPercent(number: Number?, digit: Int, roundingMode: RoundingM
     }.format(number ?: 0)
 }
 
+/**
+ * 数字截断并转为 [BigDecimal]
+ * @param digit 截断位数
+ * @param decimal 保留几位小数
+ */
 @JvmOverloads
 fun Number?.truncToBigDecimal(digit: Int = 2, decimal: Int = digit) =
     toBigDecimal(decimal).div(10.toBigDecimal(decimal).pow(digit))
 
+/**
+ * 数字截断并转为 [String]
+ * @param digit 截断位数
+ * @param decimal 保留几位小数
+ */
 @JvmOverloads
 fun Number?.truncToString(digit: Int = 2, decimal: Int = digit) =
     truncToBigDecimal(digit, decimal).toString()
 
+/**
+ * 百分比表示
+ * @param decimal 保留几位小数
+ * @param roundingMode see [RoundingMode]
+ */
 @JvmOverloads
-fun Float?.formatToPercent(digit: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
-    formatToPercent(this, digit, roundingMode)
+fun Float?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+    formatToPercent(this, decimal, roundingMode)
 
+/**
+ * 百分比表示
+ * @param decimal 保留几位小数
+ * @param roundingMode see [RoundingMode]
+ */
 @JvmOverloads
-fun Double?.formatToPercent(digit: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
-    formatToPercent(this, digit, roundingMode)
+fun Double?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+    formatToPercent(this, decimal, roundingMode)
 
+/**
+ * 百分比表示
+ * @param decimal 保留几位小数
+ * @param roundingMode see [RoundingMode]
+ */
 @JvmOverloads
-fun BigDecimal?.formatToPercent(digit: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
-    formatToPercent(this, digit, roundingMode)
+fun BigDecimal?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+    formatToPercent(this, decimal, roundingMode)
 
 private val secureRandom = SecureRandom()
 
