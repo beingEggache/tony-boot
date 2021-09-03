@@ -1,13 +1,11 @@
-package com.tony.webcore.filter
+package com.tony.webcore.log
 
 import com.tony.core.utils.doIf
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpMethod
-import java.io.BufferedReader
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import javax.annotation.Priority
 import javax.servlet.Filter
@@ -42,12 +40,12 @@ class RepeatReadRequestWrapper
 @Throws(IOException::class)
 constructor(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
 
-    private val cachedContent =
+    private val inputStream =
         ByteArrayOutputStream(request.contentLength.coerceAtLeast(0)).doIf(!isFormPost()) {
             writeBytes(request.inputStream.readBytes())
+        }.run {
+            ByteArrayInputStream(toByteArray())
         }
-
-    private val inputStream = ByteArrayInputStream(cachedContent.toByteArray())
 
     override fun getInputStream() =
         object : ServletInputStream() {
@@ -57,8 +55,7 @@ constructor(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
             override fun read() = inputStream.read()
         }
 
-    override fun getReader() =
-        BufferedReader(InputStreamReader(inputStream, StandardCharsets.UTF_8))
+    override fun getReader() = inputStream.bufferedReader(StandardCharsets.UTF_8)
 
     private fun isFormPost() =
         contentType in formPostContentTypes && HttpMethod.POST.matches(method)
