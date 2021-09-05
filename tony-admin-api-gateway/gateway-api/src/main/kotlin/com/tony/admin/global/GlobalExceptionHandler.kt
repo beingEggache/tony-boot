@@ -6,10 +6,10 @@
 package com.tony.admin.global
 
 import com.tony.core.ApiResult
-import com.tony.core.EMPTY_RESULT
-import com.tony.core.INTERNAL_SERVER_ERROR
 import com.tony.core.utils.getLogger
 import com.tony.admin.utils.jsonBody
+import com.tony.core.ApiProperty
+import com.tony.core.ApiResult.Companion.EMPTY_RESULT
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
 import org.springframework.core.annotation.Order
 import org.springframework.http.MediaType
@@ -44,7 +44,7 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
         } else response.jsonBody(
             ApiResult(
                 EMPTY_RESULT,
-                INTERNAL_SERVER_ERROR,
+                ApiProperty.errorCode,
                 "访客太多，请稍后再试"
             )
         )

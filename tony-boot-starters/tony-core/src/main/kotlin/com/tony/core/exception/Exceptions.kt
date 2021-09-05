@@ -2,7 +2,7 @@
 
 package com.tony.core.exception
 
-import com.tony.core.ApiCode
+import com.tony.core.ApiProperty
 
 open class BaseException @JvmOverloads constructor(
     override val message: String? = "",
@@ -15,11 +15,11 @@ open class BaseException @JvmOverloads constructor(
  */
 open class ApiException @JvmOverloads constructor(
     override val message: String? = "",
-    override val code: Int = ApiCode.errorCode,
+    override val code: Int = ApiProperty.errorCode,
     throwable: Throwable? = null
 ) : BaseException(message, code, throwable) {
 
-    constructor(message: String?, throwable: Throwable) : this(message, ApiCode.errorCode, throwable)
+    constructor(message: String?, throwable: Throwable) : this(message, ApiProperty.errorCode, throwable)
 }
 
 /**
@@ -27,5 +27,5 @@ open class ApiException @JvmOverloads constructor(
  */
 open class BizException @JvmOverloads constructor(
     override val message: String,
-    override val code: Int = ApiCode.bizErrorCode
+    override val code: Int = ApiProperty.bizErrorCode
 ) : BaseException(message, code)

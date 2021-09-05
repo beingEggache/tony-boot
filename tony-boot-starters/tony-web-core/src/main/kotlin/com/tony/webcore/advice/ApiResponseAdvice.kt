@@ -1,6 +1,6 @@
 package com.tony.webcore.advice
 
-import com.tony.core.ApiCode
+import com.tony.core.ApiProperty
 import com.tony.core.ApiResult
 import com.tony.core.ApiResult.Companion.EMPTY_RESULT
 import com.tony.core.ListResult
@@ -34,14 +34,14 @@ internal class ApiResponseAdvice : ResponseBodyAdvice<Any?> {
         response: ServerHttpResponse
     ) = when {
         antPathMatcher.matchAny(WebApp.excludeJsonResultUrlPatterns, request.uri.path) -> body
-        body == null -> ApiResult(EMPTY_RESULT, ApiCode.successCode)
-        body.isNotCollectionLike() -> ApiResult(body, ApiCode.successCode)
+        body == null -> ApiResult(EMPTY_RESULT, ApiProperty.successCode)
+        body.isNotCollectionLike() -> ApiResult(body, ApiProperty.successCode)
         else -> {
             if (body.javaClass.isArray) {
-                ApiResult(toListResult(body), ApiCode.successCode)
+                ApiResult(toListResult(body), ApiProperty.successCode)
             } else {
                 ApiResult(
-                    ListResult(body.asTo<Collection<*>>()), ApiCode.successCode
+                    ListResult(body.asTo<Collection<*>>()), ApiProperty.successCode
                 )
             }
         }

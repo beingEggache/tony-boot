@@ -7,7 +7,7 @@ package com.tony.auth
 
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
-import com.tony.core.ApiCode
+import com.tony.core.ApiProperty
 import com.tony.core.exception.ApiException
 import com.tony.core.utils.defaultIfBlank
 import com.tony.core.utils.getLogger
@@ -35,13 +35,13 @@ internal class JwtApiSession : ApiSession {
                 JwtToken.parse(WebContext.request.getHeader("x-token").defaultIfBlank())
             } catch (e: JWTVerificationException) {
                 logger.warn(e.message)
-                throw ApiException("请登录", ApiCode.unauthorizedCode)
+                throw ApiException("请登录", ApiProperty.unauthorizedCode)
             }
         }
 
     override val userId: String
         get() = token?.getClaim("userId")?.asString()
-            ?: throw ApiException("请登录", ApiCode.unauthorizedCode)
+            ?: throw ApiException("请登录", ApiProperty.unauthorizedCode)
 
     override fun genTokenString(vararg params: Pair<String, String?>) = JwtToken.gen(*params)
 

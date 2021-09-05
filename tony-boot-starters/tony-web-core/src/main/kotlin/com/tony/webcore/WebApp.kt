@@ -2,7 +2,7 @@
 
 package com.tony.webcore
 
-import com.tony.core.ApiCode
+import com.tony.core.ApiProperty
 import com.tony.core.ApiResult
 import com.tony.core.ApiResult.Companion.EMPTY_RESULT
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
@@ -67,11 +67,11 @@ object WebApp {
     }
 
     @JvmOverloads
-    fun errorResponse(msg: String = "", code: Int = ApiCode.errorCode) =
+    fun errorResponse(msg: String = "", code: Int = ApiProperty.errorCode) =
         ApiResult(EMPTY_RESULT, code, msg)
 
     @JvmOverloads
-    fun badRequest(msg: String = "", code: Int = ApiCode.validationErrorCode) =
+    fun badRequest(msg: String = "", code: Int = ApiProperty.validationErrorCode) =
         ApiResult(EMPTY_RESULT, code, msg)
 
     @Resource

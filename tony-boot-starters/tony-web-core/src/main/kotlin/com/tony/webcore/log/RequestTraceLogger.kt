@@ -3,7 +3,7 @@ package com.tony.webcore.log
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.core.JsonToken
-import com.tony.core.ApiCode
+import com.tony.core.ApiProperty
 import com.tony.core.utils.getLogger
 import com.tony.core.utils.removeLineBreak
 import com.tony.core.utils.toJsonString
@@ -123,17 +123,17 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         val codeFromResponseDirectly = responseBody.codeFromResponseDirectly("code")
         return when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
-            HTTP_SUCCESS_CODE.contains(status) -> ApiCode.successCode
-            else -> ApiCode.errorCode
+            HTTP_SUCCESS_CODE.contains(status) -> ApiProperty.successCode
+            else -> ApiProperty.errorCode
         }
     }
 
     private fun resultStatus(resultCode: Int): String {
         return when (resultCode) {
-            ApiCode.successCode -> SUCCESS
-            ApiCode.validationErrorCode -> VALIDATE_FAILED
-            ApiCode.bizErrorCode -> BIZ_FAILED
-            ApiCode.unauthorizedCode -> UNAUTHORIZED
+            ApiProperty.successCode -> SUCCESS
+            ApiProperty.validationErrorCode -> VALIDATE_FAILED
+            ApiProperty.bizErrorCode -> BIZ_FAILED
+            ApiProperty.unauthorizedCode -> UNAUTHORIZED
             in 400 * 100..499 * 100 -> VALIDATE_FAILED
             else -> FAILED
         }
@@ -146,7 +146,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
                 while (try {
                     it.nextToken()
                 } catch (e: JsonParseException) {
-                        return ApiCode.errorCode
+                        return ApiProperty.errorCode
                     } != null
                 ) {
                     if (it.currentToken == JsonToken.FIELD_NAME &&

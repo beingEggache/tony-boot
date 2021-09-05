@@ -1,6 +1,6 @@
 package com.tony.webcore.advice
 
-import com.tony.core.ApiCode
+import com.tony.core.ApiProperty
 import com.tony.core.exception.ApiException
 import com.tony.core.exception.BizException
 import com.tony.core.utils.getLogger
@@ -45,12 +45,12 @@ internal class ExceptionHandlerAdvice : ErrorController {
         logger.error(e.message, e)
         // handle the json generate exception
         WebContext.response?.resetBuffer()
-        errorResponse(ApiCode.errorMsg)
+        errorResponse(ApiProperty.errorMsg)
     }
 
     private fun bindingResultMessages(bindingResult: BindingResult) =
         bindingResult.fieldErrors.first().let {
-            if (it.isBindingFailure) ApiCode.validationErrorMsg
+            if (it.isBindingFailure) ApiProperty.validationErrorMsg
             else it.defaultMessage ?: ""
         }
 
@@ -65,7 +65,7 @@ internal class ExceptionHandlerAdvice : ErrorController {
     @ExceptionHandler(value = [MissingRequestValueException::class, HttpMessageNotReadableException::class])
     fun badRequestException(e: Exception) = run {
         logger.warn(e.localizedMessage)
-        badRequest(ApiCode.validationErrorMsg)
+        badRequest(ApiProperty.validationErrorMsg)
     }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
@@ -73,12 +73,12 @@ internal class ExceptionHandlerAdvice : ErrorController {
     fun error() = errorResponse(
         when {
             WebContext.httpStatus == 999 -> ""
-            WebContext.httpStatus >= 500 -> ApiCode.errorMsg
+            WebContext.httpStatus >= 500 -> ApiProperty.errorMsg
             else -> WebContext.error
         },
         when {
-            WebContext.httpStatus == 999 -> ApiCode.successCode
-            WebContext.httpStatus >= 500 -> ApiCode.errorCode
+            WebContext.httpStatus == 999 -> ApiProperty.successCode
+            WebContext.httpStatus >= 500 -> ApiProperty.errorCode
             else -> WebContext.httpStatus * 100
         }
     )

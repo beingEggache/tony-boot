@@ -2,7 +2,7 @@ package com.tony.api.controller
 
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.auth.NoLoginCheck
-import com.tony.core.toOneResult
+import com.tony.core.ApiResult.Companion.toOneResult
 import com.tony.core.utils.defaultZoneId
 import com.tony.core.utils.toString
 import com.tony.db.service.UserService

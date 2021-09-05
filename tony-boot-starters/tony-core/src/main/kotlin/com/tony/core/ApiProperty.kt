@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component
 import javax.annotation.Resource
 
 @Component
-object ApiCode {
+object ApiProperty {
 
     private lateinit var environment: Environment
 
     @Resource
     private fun environment(environment: Environment) {
-        ApiCode.environment = environment
+        ApiProperty.environment = environment
     }
 
     val successCode: Int by lazy {

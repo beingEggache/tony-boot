@@ -7,13 +7,13 @@ package com.tony.admin.global
 
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.tony.core.ApiResult
-import com.tony.core.UNAUTHORIZED
 import com.tony.core.utils.defaultIfBlank
 import com.tony.jwt.config.JwtToken
 import com.tony.admin.TokenHeaderName
 import com.tony.admin.UserIdHeaderName
 import com.tony.admin.config.GatewayRouteConfigProperties
 import com.tony.admin.utils.jsonBody
+import com.tony.core.ApiProperty
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
@@ -36,7 +36,7 @@ class GlobalTokenCheckFilter(
             JwtToken.parse(request.headers.getFirst(TokenHeaderName).defaultIfBlank())
         } catch (e: JWTVerificationException) {
             null
-        } ?: return exchange.response.jsonBody(ApiResult("请登录", UNAUTHORIZED))
+        } ?: return exchange.response.jsonBody(ApiResult("请登录", ApiProperty.unauthorizedCode))
         val mutReq = request.mutate().header(UserIdHeaderName, token.getClaim("userId").asString()).build()
         return chain.filter(exchange.mutate().request(mutReq).build())
     }
