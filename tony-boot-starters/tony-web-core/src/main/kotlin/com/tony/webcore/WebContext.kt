@@ -25,9 +25,12 @@ import javax.servlet.http.HttpServletResponse
 @Suppress("unused")
 object WebContext {
 
+    @JvmStatic
     val current: ServletRequestAttributes
         get() = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
 
+    @JvmStatic
+    @JvmSynthetic
     fun <T : Any> ServletRequestAttributes.getOrPut(
         key: String,
         scope: Int = SCOPE_REQUEST,
@@ -36,18 +39,46 @@ object WebContext {
         setAttribute(key, this, scope)
     }
 
+    @JvmStatic
     val contextPath: String
         get() = WebApp.contextPath
 
+    @JvmStatic
     val headers: Map<String, String>
         get() = request.headers
+
+    @JvmStatic
+    val origin: String
+        get() = request.origin
+
+    @JvmStatic
+    val remoteIP: String
+        get() = request.remoteIp
+
+    @JvmStatic
+    val request: HttpServletRequest
+        get() = current.request
+
+    @JvmStatic
+    val url: URL
+        get() = request.url
+
+    @JvmSynthetic
+    fun BaseException.toResponse() =
+        ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
+
+    internal val response: HttpServletResponse?
+        @JvmSynthetic
+        get() = current.response
 
     private val errorAttributeOptions = ErrorAttributeOptions.of(Include.MESSAGE)
 
     internal val error: String
+        @JvmSynthetic
         get() = errorAttributes["error"].asTo() ?: ""
 
     internal val httpStatus: Int
+        @JvmSynthetic
         get() = errorAttributes["status"] as Int
 
     private val errorAttributes
@@ -59,22 +90,4 @@ object WebContext {
                 current.setAttribute("errorAttribute", errorAttributes, SCOPE_REQUEST)
                 errorAttributes
             }
-
-    val origin: String
-        get() = request.origin
-
-    val remoteIP: String
-        get() = request.remoteIp
-
-    val request: HttpServletRequest
-        get() = current.request
-
-    internal val response: HttpServletResponse?
-        get() = current.response
-
-    val url: URL
-        get() = request.url
-
-    fun BaseException.toResponse() =
-        ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
 }

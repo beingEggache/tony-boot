@@ -18,7 +18,7 @@ import java.time.temporal.TemporalAccessor
 import java.util.Date
 import java.util.TimeZone
 
-@JvmField
+@JvmSynthetic
 val OBJECT_MAPPER: ObjectMapper = createObjectMapper()
 
 fun createObjectMapper() = ObjectMapper().apply {

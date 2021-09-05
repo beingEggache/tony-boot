@@ -33,11 +33,13 @@ abstract class EnumCreator<out E, KEY>(
     companion object {
 
         const val defaultIntValue = 40404
+
         const val defaultStringValue = ""
 
         private val creators = HashMap<Class<*>, EnumCreator<*, *>>()
 
         @Suppress("UNCHECKED_CAST")
+        @JvmStatic
         fun <T, R> getCreator(clazz: Class<T>): EnumCreator<T, R>
             where T : EnumValue<R>,
                   R : Serializable = creators[clazz] as EnumCreator<T, R>

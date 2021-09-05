@@ -34,6 +34,7 @@ interface RequestTraceLogger {
     )
 
     companion object Const {
+
         const val SUCCESS = "SUCCESS"
 
         const val FAILED = "FAILED"
@@ -46,6 +47,7 @@ interface RequestTraceLogger {
 
         const val NULL = "[null]"
 
+        @JvmSynthetic
         internal val HTTP_SUCCESS_CODE = arrayOf(
             HttpServletResponse.SC_OK,
             HttpServletResponse.SC_CREATED,
@@ -57,8 +59,6 @@ interface RequestTraceLogger {
 }
 
 internal class DefaultRequestTraceLogger : RequestTraceLogger {
-
-    private val logger = getLogger("request-trace-log")
 
     override fun requestTraceLog(
         request: ContentCachingRequestWrapper,
@@ -140,7 +140,11 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
     }
 
     private companion object {
+
         private val jsonFactory = JsonFactory()
+
+        private val logger = getLogger("request-trace-log")
+
         private fun String.codeFromResponseDirectly(field: String): Int? {
             jsonFactory.createParser(this).use {
                 while (try {

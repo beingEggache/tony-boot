@@ -26,8 +26,10 @@ val defaultZoneId: ZoneId = TimeZone.getDefault().toZoneId()
 val defaultZoneOffset: ZoneOffset = OffsetDateTime.now(defaultZoneId).offset
 
 @JvmField
+@JvmSynthetic
 internal val dateTimeFormatterMap: WeakHashMap<String, DateTimeFormatter> = WeakHashMap()
 
+@JvmSynthetic
 internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =
     DateTimeFormatter
         .ofPattern(pattern)
@@ -61,9 +63,11 @@ fun String.toLocalDateTime(pattern: String): LocalDateTime =
 fun TemporalAccessor.toDate(): Date = LocalDateTime.from(this).toDate()
 
 fun Date.toLocalDate(): LocalDate = toInstant().atZone(defaultZoneId).toLocalDate()
+
 fun Date.toLocalDateTime(): LocalDateTime = toInstant().atZone(defaultZoneId).toLocalDateTime()
 
 fun LocalDate.toDate(): Date = Date.from(atStartOfDay(defaultZoneId).toInstant())
+
 fun LocalDateTime.toDate(): Date = Date.from(atZone(defaultZoneId).toInstant())
 
 fun LocalDateTime.toInstant(): Instant = toInstant(defaultZoneOffset)

@@ -22,8 +22,10 @@ data class ApiResult<T> @JvmOverloads constructor(
         )
 
     companion object {
+        @JvmField
         val EMPTY_RESULT = EmptyResult()
 
+        @JvmSynthetic
         fun <T> T?.toOneResult() = OneResult(this)
     }
 }

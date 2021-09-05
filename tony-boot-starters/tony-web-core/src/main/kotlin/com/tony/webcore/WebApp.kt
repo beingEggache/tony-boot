@@ -18,8 +18,10 @@ object WebApp {
 
     private lateinit var environment: Environment
 
+    @JvmSynthetic
     internal lateinit var errorAttributes: ErrorAttributes
 
+    @JvmStatic
     val appId: String by lazy {
         environment.getProperty("spring.application.name", "")
     }
@@ -49,6 +51,7 @@ object WebApp {
         )
     }
 
+    @JvmStatic
     fun ignoreUrlPatterns(ignoreContextPath: Boolean = false): List<String> {
         val prefix = if (ignoreContextPath)"" else contextPath
         val actuatorBasePath =
@@ -67,19 +70,23 @@ object WebApp {
     }
 
     @JvmOverloads
+    @JvmStatic
     fun errorResponse(msg: String = "", code: Int = ApiProperty.errorCode) =
         ApiResult(EMPTY_RESULT, code, msg)
 
     @JvmOverloads
+    @JvmStatic
     fun badRequest(msg: String = "", code: Int = ApiProperty.validationErrorCode) =
         ApiResult(EMPTY_RESULT, code, msg)
 
     @Resource
+    @JvmSynthetic
     private fun environment(environment: Environment) {
         WebApp.environment = environment
     }
 
     @Resource
+    @JvmSynthetic
     private fun errorAttributes(errorAttributes: ErrorAttributes) {
         WebApp.errorAttributes = errorAttributes
     }

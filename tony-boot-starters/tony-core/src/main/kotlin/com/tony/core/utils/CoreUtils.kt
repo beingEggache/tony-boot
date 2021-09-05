@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 fun <T> T?.println() = println(this)
 
 @JvmOverloads
+@JvmSynthetic
 fun <T> T.getLogger(name: String? = null): Logger where T : Any =
     if (name.isNullOrBlank()) LoggerFactory.getLogger(this::class.java.name)
     else LoggerFactory.getLogger(name)

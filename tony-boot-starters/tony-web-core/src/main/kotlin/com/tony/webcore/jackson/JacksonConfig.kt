@@ -1,3 +1,4 @@
+@file:JvmName("JacksonConfig")
 @file:Suppress("unused")
 
 package com.tony.webcore.jackson
@@ -20,6 +21,7 @@ import com.tony.core.utils.isBooleanType
 import com.tony.core.utils.isDateTimeLikeType
 import com.tony.core.utils.isObjLikeType
 import com.tony.core.utils.isStringLikeType
+import com.tony.webcore.jackson.JacksonConfig.Companion.maskConverters
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
@@ -35,6 +37,15 @@ internal class JacksonConfig {
                 serializerFactory
                     .withSerializerModifier(NullValueBeanSerializerModifier())
         }
+    }
+
+    companion object {
+
+        @JvmSynthetic
+        internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> = mutableMapOf(
+            MobileMaskFun::class.java to MobileMaskFun(),
+            NameMaskFun::class.java to NameMaskFun()
+        )
     }
 }
 
@@ -125,11 +136,6 @@ class MobileMaskFun : MaskConvertFunc {
         else input
 }
 
-private val maskConverters: MutableMap<Class<*>, MaskConvertFunc> = mutableMapOf(
-    MobileMaskFun::class.java to MobileMaskFun(),
-    NameMaskFun::class.java to NameMaskFun()
-)
-
 class MaskSerializer : JsonSerializer<Any>() {
 
     override fun serialize(value: Any, gen: JsonGenerator, serializers: SerializerProvider) {
@@ -145,6 +151,7 @@ class MaskSerializer : JsonSerializer<Any>() {
 
     companion object {
 
+        @JvmStatic
         private val logger = getLogger()
 
         fun registerMaskFun(maskType: Class<*>, maskFun: MaskConvertFunc) {
