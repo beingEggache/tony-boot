@@ -2,7 +2,7 @@ package com.tony.webcore.advice
 
 import com.tony.core.ApiCode
 import com.tony.core.ApiResult
-import com.tony.core.EMPTY_RESULT
+import com.tony.core.ApiResult.Companion.EMPTY_RESULT
 import com.tony.core.ListResult
 import com.tony.core.utils.asTo
 import com.tony.webcore.WebApp
@@ -62,23 +62,26 @@ internal class ApiResponseAdvice : ResponseBodyAdvice<Any?> {
             java.lang.Boolean::class.java,
             Boolean::class.java
         )
-}
 
-private fun Any.isNotCollectionLike() = !Collection::class.java.isAssignableFrom(javaClass) && !javaClass.isArray
+    private companion object Utils {
+        private fun Any.isNotCollectionLike() =
+            !Collection::class.java.isAssignableFrom(javaClass) && !javaClass.isArray
 
-private fun Class<*>.isNotAssignableFrom(vararg clazzes: Class<*>) = clazzes.all {
-    !it.isAssignableFrom(this)
-}
+        private fun Class<*>.isNotAssignableFrom(vararg clazzes: Class<*>) = clazzes.all {
+            !it.isAssignableFrom(this)
+        }
 
-private fun toListResult(body: Any?) = when (body) {
-    is ByteArray -> ListResult<Byte>(body)
-    is ShortArray -> ListResult<Short>(body)
-    is IntArray -> ListResult<Int>(body)
-    is LongArray -> ListResult<Long>(body)
-    is FloatArray -> ListResult<Float>(body)
-    is DoubleArray -> ListResult<Double>(body)
-    is BooleanArray -> ListResult<Boolean>(body)
-    is CharArray -> ListResult<Char>(body)
-    is Array<*> -> ListResult<Any>(body)
-    else -> ListResult(Collections.EMPTY_LIST)
+        private fun toListResult(body: Any?) = when (body) {
+            is ByteArray -> ListResult<Byte>(body)
+            is ShortArray -> ListResult<Short>(body)
+            is IntArray -> ListResult<Int>(body)
+            is LongArray -> ListResult<Long>(body)
+            is FloatArray -> ListResult<Float>(body)
+            is DoubleArray -> ListResult<Double>(body)
+            is BooleanArray -> ListResult<Boolean>(body)
+            is CharArray -> ListResult<Char>(body)
+            is Array<*> -> ListResult<Any>(body)
+            else -> ListResult(Collections.EMPTY_LIST)
+        }
+    }
 }

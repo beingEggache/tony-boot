@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier
-import com.tony.core.EMPTY_RESULT
+import com.tony.core.ApiResult.Companion.EMPTY_RESULT
 import com.tony.core.exception.ApiException
 import com.tony.core.utils.createObjectMapper
 import com.tony.core.utils.getLogger

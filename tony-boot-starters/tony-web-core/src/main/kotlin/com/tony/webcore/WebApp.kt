@@ -4,7 +4,7 @@ package com.tony.webcore
 
 import com.tony.core.ApiCode
 import com.tony.core.ApiResult
-import com.tony.core.EMPTY_RESULT
+import com.tony.core.ApiResult.Companion.EMPTY_RESULT
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.core.env.Environment
@@ -66,7 +66,13 @@ object WebApp {
         )
     }
 
-    private val duplicateSlash = Pattern.compile("/{2,}")
+    @JvmOverloads
+    fun errorResponse(msg: String = "", code: Int = ApiCode.errorCode) =
+        ApiResult(EMPTY_RESULT, code, msg)
+
+    @JvmOverloads
+    fun badRequest(msg: String = "", code: Int = ApiCode.validationErrorCode) =
+        ApiResult(EMPTY_RESULT, code, msg)
 
     @Resource
     private fun environment(environment: Environment) {
@@ -78,14 +84,8 @@ object WebApp {
         WebApp.errorAttributes = errorAttributes
     }
 
+    private val duplicateSlash = Pattern.compile("/{2,}")
+
     private fun removeDuplicateSlash(input: String): String =
         duplicateSlash.matcher(input).replaceAll("/")
 }
-
-@JvmOverloads
-fun errorResponse(msg: String = "", code: Int = ApiCode.errorCode) =
-    ApiResult(EMPTY_RESULT, code, msg)
-
-@JvmOverloads
-fun badRequest(msg: String = "", code: Int = ApiCode.validationErrorCode) =
-    ApiResult(EMPTY_RESULT, code, msg)

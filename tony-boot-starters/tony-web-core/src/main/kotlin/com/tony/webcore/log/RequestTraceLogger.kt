@@ -8,6 +8,13 @@ import com.tony.core.utils.getLogger
 import com.tony.core.utils.removeLineBreak
 import com.tony.core.utils.toJsonString
 import com.tony.webcore.WebContext
+import com.tony.webcore.log.RequestTraceLogger.Const.BIZ_FAILED
+import com.tony.webcore.log.RequestTraceLogger.Const.FAILED
+import com.tony.webcore.log.RequestTraceLogger.Const.HTTP_SUCCESS_CODE
+import com.tony.webcore.log.RequestTraceLogger.Const.NULL
+import com.tony.webcore.log.RequestTraceLogger.Const.SUCCESS
+import com.tony.webcore.log.RequestTraceLogger.Const.UNAUTHORIZED
+import com.tony.webcore.log.RequestTraceLogger.Const.VALIDATE_FAILED
 import com.tony.webcore.utils.headers
 import com.tony.webcore.utils.isTextMediaTypes
 import com.tony.webcore.utils.parsedMedia
@@ -15,6 +22,7 @@ import com.tony.webcore.utils.remoteIp
 import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
+import javax.servlet.http.HttpServletResponse
 
 interface RequestTraceLogger {
 
@@ -24,6 +32,28 @@ interface RequestTraceLogger {
         startTimeStr: String,
         elapsedTime: Long
     )
+
+    companion object Const {
+        const val SUCCESS = "SUCCESS"
+
+        const val FAILED = "FAILED"
+
+        const val BIZ_FAILED = "BIZ_FAILED"
+
+        const val VALIDATE_FAILED = "VALIDATE_FAILED"
+
+        const val UNAUTHORIZED = "UNAUTHORIZED"
+
+        const val NULL = "[null]"
+
+        internal val HTTP_SUCCESS_CODE = arrayOf(
+            HttpServletResponse.SC_OK,
+            HttpServletResponse.SC_CREATED,
+            HttpServletResponse.SC_NOT_MODIFIED,
+            HttpServletResponse.SC_MOVED_PERMANENTLY,
+            HttpServletResponse.SC_MOVED_TEMPORARILY
+        )
+    }
 }
 
 internal class DefaultRequestTraceLogger : RequestTraceLogger {
@@ -108,25 +138,27 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
             else -> FAILED
         }
     }
-}
 
-private val jsonFactory = JsonFactory()
-private fun String.codeFromResponseDirectly(field: String): Int? {
-    jsonFactory.createParser(this).use {
-        while (try {
-            it.nextToken()
-        } catch (e: JsonParseException) {
-                return ApiCode.errorCode
-            } != null
-        ) {
-            if (it.currentToken == JsonToken.FIELD_NAME &&
-                it.currentName == field &&
-                it.parsingContext.parent.inRoot()
-            ) {
-                it.nextToken()
-                return it.valueAsString.toInt()
+    private companion object {
+        private val jsonFactory = JsonFactory()
+        private fun String.codeFromResponseDirectly(field: String): Int? {
+            jsonFactory.createParser(this).use {
+                while (try {
+                    it.nextToken()
+                } catch (e: JsonParseException) {
+                        return ApiCode.errorCode
+                    } != null
+                ) {
+                    if (it.currentToken == JsonToken.FIELD_NAME &&
+                        it.currentName == field &&
+                        it.parsingContext.parent.inRoot()
+                    ) {
+                        it.nextToken()
+                        return it.valueAsString.toInt()
+                    }
+                }
             }
+            return null
         }
     }
-    return null
 }

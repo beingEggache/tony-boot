@@ -2,8 +2,8 @@
 
 package com.tony.cache
 
+import com.tony.core.enums.EnumCreator.Companion.getCreator
 import com.tony.core.enums.EnumValue
-import com.tony.core.enums.getCreator
 import com.tony.core.utils.doIf
 import com.tony.core.utils.getLogger
 import com.tony.core.utils.jsonToObj

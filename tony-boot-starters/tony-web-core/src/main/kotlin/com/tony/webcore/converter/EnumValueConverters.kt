@@ -1,10 +1,10 @@
 package com.tony.webcore.converter
 
 import com.tony.core.enums.EnumCreator
+import com.tony.core.enums.EnumCreator.Companion.getCreator
 import com.tony.core.enums.EnumIntValue
 import com.tony.core.enums.EnumStringValue
 import com.tony.core.enums.EnumValue
-import com.tony.core.enums.getCreator
 import org.springframework.core.convert.converter.Converter
 import org.springframework.core.convert.converter.ConverterFactory
 import java.io.Serializable

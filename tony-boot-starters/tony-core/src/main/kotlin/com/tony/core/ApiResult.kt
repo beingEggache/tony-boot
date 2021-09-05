@@ -20,16 +20,18 @@ data class ApiResult<T> @JvmOverloads constructor(
             "data" to data.toJsonString(),
             "msg" to msg
         )
-}
 
-val EMPTY_RESULT = EmptyResult()
+    companion object {
+        val EMPTY_RESULT = EmptyResult()
+
+        fun <T> T?.toOneResult() = OneResult(this)
+    }
+}
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
 class EmptyResult
 
 data class OneResult<T>(val result: T? = null)
-
-fun <T> T?.toOneResult() = OneResult(this)
 
 data class ListResult<T> @JvmOverloads constructor(val items: Collection<T>? = listOf()) {
 

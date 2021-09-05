@@ -38,18 +38,16 @@ class UserService(
             QueryWrapper<User>()
                 .eq(User.USER_NAME, req.userName)
                 .eq(User.PWD, "${req.pwd}${req.userName}".toMd5UppercaseString())
-        )
-            ?: throw BizException("用户名或密码错误")
+        ) ?: throw BizException("用户名或密码错误")
 
-    fun info(userId: String, appId: String): UserInfoResp {
-        val user = userDao.selectById(userId)
-            ?: throw BizException("没有此用户")
-        return UserInfoResp(
-            user.realName,
-            user.mobile,
-            moduleService.listRouteAndComponentModules(user.userId ?: "", appId)
-        )
-    }
+    fun info(userId: String, appId: String) = (userDao.selectById(userId)
+            ?: throw BizException("没有此用户")).run {
+            UserInfoResp(
+                realName,
+                mobile,
+                moduleService.listRouteAndComponentModules(userId, appId)
+            )
+        }
 
     fun list(query: String?, page: Long = 1, size: Long = 10) =
         userDao.selectPage(

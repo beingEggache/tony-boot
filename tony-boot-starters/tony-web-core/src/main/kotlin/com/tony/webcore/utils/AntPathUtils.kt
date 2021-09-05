@@ -1,3 +1,4 @@
+@file:JvmName("AntPathUtils")
 package com.tony.webcore.utils
 
 import com.tony.core.utils.defaultIfBlank

@@ -3,7 +3,7 @@
 package com.tony.webcore
 
 import com.tony.core.ApiResult
-import com.tony.core.EMPTY_RESULT
+import com.tony.core.ApiResult.Companion.EMPTY_RESULT
 import com.tony.core.exception.BaseException
 import com.tony.core.utils.asTo
 import com.tony.core.utils.defaultIfBlank

@@ -4,10 +4,10 @@ import com.tony.core.ApiCode
 import com.tony.core.exception.ApiException
 import com.tony.core.exception.BizException
 import com.tony.core.utils.getLogger
+import com.tony.webcore.WebApp.badRequest
+import com.tony.webcore.WebApp.errorResponse
 import com.tony.webcore.WebContext
 import com.tony.webcore.WebContext.toResponse
-import com.tony.webcore.badRequest
-import com.tony.webcore.errorResponse
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
