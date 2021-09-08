@@ -66,13 +66,13 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         startTimeStr: String,
         elapsedTime: Long
     ) {
-        val url = request.requestURL?.toString() ?: ""
+        val origin = request.requestURL?.toString() ?: ""
         val path = request.requestURI.removePrefix(WebContext.contextPath)
         val httpMethod = request.method
         val remoteIp = request.remoteIp
         val localIp = request.localAddr
         val query = request.queryString ?: NULL
-        val requestParam = requestParam(request)
+        val requestBody = requestBody(request)
         val headers = request.headers.toJsonString()
         val responseBody = responseBody(response)
         val protocol = request.protocol
@@ -86,18 +86,18 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
             |$resultStatus|
             |$protocol|
             |$httpMethod|
-            |$url|
+            |$origin|
             |$path|
             |$query|
             |$headers|
-            |$requestParam|
+            |$requestBody|
             |$responseBody|
             |$remoteIp|
             |$localIp""".trimMargin()
         logger.trace(logStr.removeLineBreak())
     }
 
-    private fun requestParam(request: ContentCachingRequestWrapper) =
+    private fun requestBody(request: ContentCachingRequestWrapper) =
         if (!isTextMediaTypes(request.parsedMedia)) "[${request.getHeader("Content-Type")}]"
         else if (request.method.equals(HttpMethod.POST.name, true)) {
             val bytes = request.contentAsByteArray

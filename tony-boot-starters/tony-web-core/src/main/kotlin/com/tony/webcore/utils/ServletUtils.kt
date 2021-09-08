@@ -62,7 +62,8 @@ private val TEXT_MEDIA_TYPES = listOf(
     MediaType.TEXT_XML,
     MediaType.TEXT_HTML,
     MediaType.TEXT_PLAIN,
-    MediaType.APPLICATION_JSON
+    MediaType.APPLICATION_JSON,
+    MediaType.APPLICATION_FORM_URLENCODED
 )
 
 val HttpServletResponse.parsedMedia: MediaType?

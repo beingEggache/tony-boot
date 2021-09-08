@@ -7,30 +7,41 @@ import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 object Version {
-    const val knife4jVersion = "2.0.9"
-    const val springfoxSwagger2Version = "2.10.5"
-    const val byteBuddyVersion = "1.11.13"
-    const val jacksonVersion = "2.12.5"
     const val kotlinVersion = "1.5.30"
-    const val mybatisPlusVersion = "3.4.3.2"
-    const val nettyVersion = "4.1.67.Final"
-    const val reactorVersion = "3.4.9"
-    const val slf4jVersion = "1.7.32"
-    const val springBootVersion = "2.5.4"
+
     const val springVersion = "5.3.9"
-    const val swaggerVersion = "1.6.2"
-    const val reactorNettyVersion = "1.0.10"
-    const val gsonVersion = "2.8.8"
-    const val guavaVersion = "30.1.1-jre"
-    const val javaJwtVersion = "3.18.1"
-    const val alipaySdkJavaVersion = "4.16.21.ALL"
-    const val aliyunJavaSdkCoreVersion = "4.5.25"
-    const val aliyunSdkOssVersion = "3.13.1"
+    const val springBootVersion = "2.5.4"
+    const val springCloudOpenFeignVersion = "3.0.3"
+
+    const val openFeignVersion = "11.6"
+
     const val postgresqlVersion = "42.2.23"
     const val mysqlVersion = "8.0.26"
     const val hikariCPVersion = "5.0.0"
-    const val fastjsonVersion = "1.2.78"
+    const val mybatisPlusVersion = "3.4.3.2"
     const val lettuceCoreVersion = "6.1.4.RELEASE"
+
+    const val swaggerVersion = "1.6.2"
+    const val springfoxSwagger2Version = "2.10.5"
+    const val knife4jVersion = "2.0.9"
+
+    const val jacksonVersion = "2.12.5"
+    const val gsonVersion = "2.8.8"
+    const val fastjsonVersion = "1.2.78"
+
+    const val nettyVersion = "4.1.67.Final"
+    const val reactorVersion = "3.4.9"
+    const val reactorNettyVersion = "1.0.10"
+
+    const val slf4jVersion = "1.7.32"
+    const val byteBuddyVersion = "1.11.13"
+    const val javaJwtVersion = "3.18.1"
+    const val guavaVersion = "30.1.1-jre"
+
+    const val alipaySdkJavaVersion = "4.16.21.ALL"
+    const val aliyunJavaSdkCoreVersion = "4.5.25"
+    const val aliyunSdkOssVersion = "3.13.1"
+
 }
 
 object Deps {
@@ -87,12 +98,21 @@ object Deps {
         const val tx = "org.springframework:spring-tx:${Version.springVersion}"
         const val web = "org.springframework:spring-web:${Version.springVersion}"
         const val webmvc = "org.springframework:spring-webmvc:${Version.springVersion}"
+        const val webflux = "org.springframework:spring-webflux:${Version.springVersion}"
     }
 
     object SpringData {
         const val springDataCommon = "org.springframework.data:spring-data-common:${Version.springBootVersion}"
         const val springDataRedis = "org.springframework.data:spring-data-redis:${Version.springBootVersion}"
         const val lettuce = "io.lettuce:lettuce-core:${Version.lettuceCoreVersion}"
+    }
+
+    object OpenFeign {
+        const val starterOpenFeign = "org.springframework.cloud:spring-cloud-starter-openfeign:${Version.springCloudOpenFeignVersion}"
+        const val openFeignCore = "io.github.openfeign:feign-core:${Version.openFeignVersion}"
+        const val openFeignSl4j = "io.github.openfeign:feign-slf4j:${Version.openFeignVersion}"
+        const val openFeignOkhttp = "io.github.openfeign:feign-okhttp:${Version.openFeignVersion}"
+        const val openFeignJackson = "io.github.openfeign:feign-jackson:${Version.openFeignVersion}"
     }
 
     object SpringBoot {
@@ -115,6 +135,7 @@ object Deps {
         const val starterValidation =
             "org.springframework.boot:spring-boot-starter-validation:${Version.springBootVersion}"
         const val starterWeb = "org.springframework.boot:spring-boot-starter-web:${Version.springBootVersion}"
+        const val starterWebflux = "org.springframework.boot:spring-boot-starter-webflux:${Version.springBootVersion}"
         const val starterWebsocket =
             "org.springframework.boot:spring-boot-starter-websocket:${Version.springBootVersion}"
     }

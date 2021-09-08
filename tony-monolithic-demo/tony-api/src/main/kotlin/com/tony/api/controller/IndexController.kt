@@ -4,6 +4,7 @@ import com.tony.api.permission.NoPermissionCheck
 import com.tony.auth.NoLoginCheck
 import com.tony.core.ApiResult.Companion.toOneResult
 import com.tony.core.utils.defaultZoneId
+import com.tony.core.utils.println
 import com.tony.core.utils.toString
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserLoginReq
@@ -57,4 +58,36 @@ class IndexController(
         @RequestBody
         loginReq: UserLoginReq
     ) = JwtToken.gen("userId" to userService.login(loginReq).userId).toOneResult()
+
+    @NoLoginCheck
+    @NoPermissionCheck
+    @GetMapping("/test")
+    fun test() = Person(
+        null,
+        null,
+        null,
+        null
+    )
+
+    @NoLoginCheck
+    @NoPermissionCheck
+    @GetMapping("/test-url-get")
+    fun test1(person: Person) = person.println()
+
+    @NoLoginCheck
+    @NoPermissionCheck
+    @PostMapping("/test-url-post")
+    fun test2(person: Person) = person.println()
+
+    @NoLoginCheck
+    @NoPermissionCheck
+    @PostMapping("/test-json-post")
+    fun test3(@RequestBody person: Person) = person.println()
 }
+
+data class Person(
+    val array: IntArray?,
+    val number: Int?,
+    val string: String?,
+    val map: Map<String, *>?
+)

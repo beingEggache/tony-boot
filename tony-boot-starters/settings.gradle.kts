@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        mavenCentral()
         val privateGradleRepoUrl: String by settings
         maven(url = privateGradleRepoUrl) {
             isAllowInsecureProtocol = true
@@ -20,5 +21,5 @@ include("tony-alipay")
 include("tony-wechat")
 include("tony-jwt")
 include("tony-simple-auth")
+include("tony-open-feign")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-

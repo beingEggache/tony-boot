@@ -19,6 +19,3 @@ logging:
 jwt:
     enabled: on
     secret: xckn349^*&*hcdbnqw.,;
-core:
-    error-code: 888
-    error-msg: '错了，我错了'

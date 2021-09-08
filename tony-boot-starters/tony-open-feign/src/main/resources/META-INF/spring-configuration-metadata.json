@@ -1,0 +1,47 @@
+{
+    "hints": [],
+    "groups": [
+        {
+            "sourceType": "com.tony.openfeign.config.OpenFeignConfigProperties",
+            "name": "open-feign",
+            "type": "com.tony.openfeign.config.OpenFeignConfigProperties"
+        }
+    ],
+    "properties": [
+        {
+            "name": "open-feign.call-timeout",
+            "type": "java.lang.Integer",
+            "defaultValue": 0
+        },
+        {
+            "name": "open-feign.connect-timeout",
+            "type": "java.lang.Integer",
+            "defaultValue": 10000
+        },
+        {
+            "name": "open-feign.read-timeout",
+            "type": "java.lang.Integer",
+            "defaultValue": 10000
+        },
+        {
+            "name": "open-feign.write-timeout",
+            "type": "java.lang.Integer",
+            "defaultValue": 10000
+        },
+        {
+            "name": "open-feign.ping-interval",
+            "type": "java.lang.Integer",
+            "defaultValue": 0
+        },
+        {
+            "name": "open-feign.follow-redirects",
+            "type": "java.lang.Boolean",
+            "defaultValue": true
+        },
+        {
+            "name": "open-feign.retry-on-connection-failure",
+            "type": "java.lang.Boolean",
+            "defaultValue": true
+        }
+    ]
+}
