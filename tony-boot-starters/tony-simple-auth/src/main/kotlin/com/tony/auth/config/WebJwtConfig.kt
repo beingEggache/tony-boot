@@ -25,7 +25,7 @@ internal class WebJwtConfig : WebMvcConfigurer {
 
     @ConditionalOnMissingBean(LoginCheckInterceptor::class)
     @Bean
-    fun authenticationInterceptor() = DefaultLoginCheckInterceptor()
+    fun authenticationInterceptor(): LoginCheckInterceptor = DefaultLoginCheckInterceptor()
 
     @Lazy
     @Resource
@@ -42,5 +42,5 @@ internal class WebJwtConfig : WebMvcConfigurer {
     @ConditionalOnWebApplication
     @ConditionalOnExpression("\${jwt.enabled:false}")
     @Bean
-    fun apiSession() = JwtApiSession()
+    fun apiSession(): ApiSession = JwtApiSession()
 }

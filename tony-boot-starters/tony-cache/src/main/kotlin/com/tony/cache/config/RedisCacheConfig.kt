@@ -11,5 +11,5 @@ internal class RedisCacheConfig {
 
     @Bean
     @ConditionalOnMissingBean(RedisCacheAspect::class)
-    fun redisCacheAspect() = DefaultRedisCacheAspect()
+    fun redisCacheAspect(): RedisCacheAspect = DefaultRedisCacheAspect()
 }

@@ -24,5 +24,5 @@ internal class WebConfig : WebMvcConfigurer {
 
     @ConditionalOnMissingBean(RequestTraceLogger::class)
     @Bean
-    fun defaultRequestTraceLogger() = DefaultRequestTraceLogger()
+    fun defaultRequestTraceLogger(): RequestTraceLogger = DefaultRequestTraceLogger()
 }
