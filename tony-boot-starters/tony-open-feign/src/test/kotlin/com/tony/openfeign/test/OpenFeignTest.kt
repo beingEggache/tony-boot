@@ -111,7 +111,6 @@ interface TestFeignClient {
         "/test-url-post",
         consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
     )
-    @Headers("Content-Type: application/x-www-form-urlencoded")
     fun test2(@RequestBody person: Map<String, *>)
 
     @PostMapping("/test-json-post")
