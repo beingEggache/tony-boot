@@ -7,7 +7,7 @@
 package com.tony.auth
 
 import com.tony.auth.extensions.Extensions.apiSession
-import com.tony.webcore.WebApp
+import com.tony.webcore.WebContext
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
 import javax.servlet.http.HttpServletRequest
@@ -35,7 +35,15 @@ interface LoginCheckInterceptor : HandlerInterceptor {
     ): Boolean
 }
 
-internal class DefaultLoginCheckInterceptor : LoginCheckInterceptor {
+class NoopLoginCheckInterceptor : LoginCheckInterceptor {
+    override fun handleIsLogin(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        handler: HandlerMethod
+    ): Boolean = true
+}
+
+internal class DefaultJwtLoginCheckInterceptor : LoginCheckInterceptor {
 
     override fun handleIsLogin(
         request: HttpServletRequest,
@@ -43,6 +51,6 @@ internal class DefaultLoginCheckInterceptor : LoginCheckInterceptor {
         handler: HandlerMethod
     ): Boolean {
         if (handler.method.getAnnotation(NoLoginCheck::class.java) != null) return true
-        return WebApp.apiSession.hasLogin()
+        return WebContext.apiSession.hasLogin()
     }
 }

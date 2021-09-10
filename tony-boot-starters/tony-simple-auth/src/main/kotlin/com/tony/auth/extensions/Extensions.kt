@@ -1,8 +1,8 @@
 package com.tony.auth.extensions
 
 import com.tony.auth.ApiSession
-import com.tony.webcore.WebApp
 import com.tony.webcore.WebContext
+import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Component
 import javax.annotation.Resource
 
@@ -11,6 +11,7 @@ object Extensions {
 
     private lateinit var apiSession: ApiSession
 
+    @Lazy
     @Resource
     private fun apiSession(apiSession: ApiSession) {
         Extensions.apiSession = apiSession
@@ -19,6 +20,6 @@ object Extensions {
     val WebContext.userId: String
         get() = apiSession.userId
 
-    val WebApp.apiSession: ApiSession
+    val WebContext.apiSession: ApiSession
         get() = Extensions.apiSession
 }

@@ -25,6 +25,19 @@ interface ApiSession {
     fun hasLogin(): Boolean
 }
 
+internal class NoopApiSession : ApiSession {
+    override val userId: String
+        get() = TODO("Not yet implemented")
+
+    override fun genTokenString(vararg params: Pair<String, String?>): String {
+        TODO("Not yet implemented")
+    }
+
+    override fun hasLogin(): Boolean {
+        TODO("Not yet implemented")
+    }
+}
+
 internal class JwtApiSession : ApiSession {
 
     private val logger = getLogger()
