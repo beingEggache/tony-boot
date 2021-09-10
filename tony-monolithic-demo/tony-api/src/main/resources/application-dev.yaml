@@ -16,6 +16,3 @@ web:
 debug: off
 logging:
     config: classpath:logback-dev.xml
-jwt:
-    enabled: on
-    secret: xckn349^*&*hcdbnqw.,;

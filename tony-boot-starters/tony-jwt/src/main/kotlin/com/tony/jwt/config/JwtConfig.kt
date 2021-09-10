@@ -23,9 +23,9 @@ internal class JwtConfig
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "jwt")
-@ConditionalOnExpression("\${jwt.enabled:false}")
-internal data class JwtProperties(
-    val secret: String,
+data class JwtProperties(
+    val secret: String = "",
+    val enabled: Boolean = false,
     val expiredMinutes: Long = 525600L
 )
 

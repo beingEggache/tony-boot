@@ -33,9 +33,7 @@ internal class NoopApiSession : ApiSession {
         TODO("Not yet implemented")
     }
 
-    override fun hasLogin(): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun hasLogin(): Boolean = true
 }
 
 internal class JwtApiSession : ApiSession {
