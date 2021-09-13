@@ -143,7 +143,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
 
         private val jsonFactory = JsonFactory()
 
-        private val logger = getLogger("request-trace-log")
+        private val logger = getLogger("trace-logger")
 
         private fun String.codeFromResponseDirectly(field: String): Int? {
             jsonFactory.createParser(this).use {

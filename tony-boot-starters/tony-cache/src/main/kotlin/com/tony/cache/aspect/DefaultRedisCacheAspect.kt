@@ -19,22 +19,14 @@ import org.aspectj.lang.annotation.Pointcut
 import org.aspectj.lang.reflect.MethodSignature
 import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.expression.spel.support.StandardEvaluationContext
-
-abstract class RedisCacheAspect {
-
-    protected open fun doCacheEvict(joinPoint: JoinPoint) = Unit
-
-    protected open fun doCacheable(joinPoint: ProceedingJoinPoint): Any? = null
+@Aspect
+class DefaultRedisCacheAspect {
 
     @Pointcut("@annotation(com.tony.cache.annotation.RedisCacheEvict)")
-    protected fun redisCacheEvict() = Unit
+    fun redisCacheEvict() = Unit
 
     @Pointcut("@annotation(com.tony.cache.annotation.RedisCacheable)")
-    protected fun redisCacheable() = Unit
-}
-
-@Aspect
-class DefaultRedisCacheAspect : RedisCacheAspect() {
+    fun redisCacheable() = Unit
 
     private fun cacheKey(
         arguments: Array<Any>,
@@ -73,7 +65,7 @@ class DefaultRedisCacheAspect : RedisCacheAspect() {
     }
 
     @After("redisCacheEvict()")
-    override fun doCacheEvict(joinPoint: JoinPoint) {
+    fun doCacheEvict(joinPoint: JoinPoint) {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
@@ -85,7 +77,7 @@ class DefaultRedisCacheAspect : RedisCacheAspect() {
     }
 
     @Around("redisCacheable()")
-    override fun doCacheable(joinPoint: ProceedingJoinPoint): Any? {
+    fun doCacheable(joinPoint: ProceedingJoinPoint): Any? {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames

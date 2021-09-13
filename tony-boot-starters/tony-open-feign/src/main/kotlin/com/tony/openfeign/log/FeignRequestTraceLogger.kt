@@ -36,7 +36,7 @@ internal class OpenFeignLogInterceptor(
 
 internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 
-    private val logger = getLogger()
+    private val logger = getLogger("request-logger")
 
     override fun log(request: Request, response: Response, startTime: String, elapsedTime: Long) {
         val url = request.url.toUri().toURL()

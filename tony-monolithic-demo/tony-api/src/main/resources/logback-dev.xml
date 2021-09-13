@@ -155,8 +155,12 @@
         <appender-ref ref="stdout"/>
     </logger>
 
-    <logger name="request-trace-log" level="TRACE" additivity="false">
+    <logger name="trace-logger" level="TRACE" additivity="false">
         <appender-ref ref="trace"/>
+    </logger>
+
+    <logger name="request-logger" level="TRACE" additivity="false">
+        <appender-ref ref="feign_trace"/>
     </logger>
 
     <logger name="springfox.documentation" level="WARN" additivity="false">
