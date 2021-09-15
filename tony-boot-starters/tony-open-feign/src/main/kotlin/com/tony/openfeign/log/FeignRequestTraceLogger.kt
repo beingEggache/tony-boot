@@ -64,9 +64,8 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             |$requestBody|
             |$responseBody|
             |[remoteIp]|
-            |[localIp]"""
-                .trimMargin()
-        logger.info(logStr.removeLineBreak())
+            |[localIp]""".trimMargin()
+        logger.trace(logStr.removeLineBreak())
     }
 
     private val URL.origin: String

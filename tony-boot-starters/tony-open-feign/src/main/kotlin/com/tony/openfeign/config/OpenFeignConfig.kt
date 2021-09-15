@@ -1,11 +1,12 @@
 package com.tony.openfeign.config
 
-import com.tony.core.utils.createObjectMapper
+import com.tony.openfeign.decoder.DefaultErrorDecoder
 import com.tony.openfeign.log.DefaultFeignRequestTraceLogger
 import com.tony.openfeign.log.FeignRequestTraceLogger
 import feign.Client
 import feign.codec.Decoder
 import feign.codec.Encoder
+import feign.codec.ErrorDecoder
 import feign.form.spring.SpringFormEncoder
 import feign.okhttp.OkHttpClient
 import okhttp3.Interceptor
@@ -17,24 +18,12 @@ import org.springframework.cloud.openfeign.support.SpringEncoder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.stereotype.Component
 import java.util.concurrent.TimeUnit
-import javax.annotation.PostConstruct
 import javax.annotation.Resource
 
 @Configuration
 class OpenFeignConfig {
-
-    private val objectMapper = createObjectMapper()
-
-    @Resource
-    lateinit var mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter
-
-    @PostConstruct
-    fun init() {
-        mappingJackson2HttpMessageConverter.objectMapper = objectMapper
-    }
 
     @Bean
     fun encoder(messageConverters: ObjectFactory<HttpMessageConverters>): Encoder =
@@ -43,6 +32,10 @@ class OpenFeignConfig {
     @Bean
     fun decoder(messageConverters: ObjectFactory<HttpMessageConverters>): Decoder =
         SpringDecoder(messageConverters)
+
+    @ConditionalOnMissingBean(ErrorDecoder::class)
+    @Bean
+    fun errorDecoder() = DefaultErrorDecoder()
 
     @ConditionalOnMissingBean(FeignRequestTraceLogger::class)
     @Bean

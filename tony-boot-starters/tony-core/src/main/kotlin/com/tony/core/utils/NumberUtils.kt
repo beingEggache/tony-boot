@@ -96,8 +96,7 @@ fun genRandomNumber(digit: Int): Int {
     if (digit == 1) {
         return secureRandom.nextInt(10)
     }
-    val bound1 = (9 * 10).toDouble().pow((digit - 1).toDouble()).toInt()
-    val bound2 = 10.toDouble().pow((digit - 1).toDouble()).toInt()
-
-    return secureRandom.nextInt(bound1) + bound2
+    val base = 9 * ((10).toDouble().pow((digit - 1).toDouble()).toInt())
+    val fix = 10.toDouble().pow((digit - 1).toDouble()).toInt()
+    return secureRandom.nextInt(base) + fix
 }

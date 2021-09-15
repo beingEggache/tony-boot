@@ -22,17 +22,21 @@ import com.tony.core.utils.isDateTimeLikeType
 import com.tony.core.utils.isObjLikeType
 import com.tony.core.utils.isStringLikeType
 import com.tony.webcore.jackson.JacksonConfig.Companion.maskConverters
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import javax.annotation.PostConstruct
+import javax.annotation.Resource
 import kotlin.reflect.KClass
 
 @Configuration
 internal class JacksonConfig {
 
-    @Bean
-    fun mappingJackson2HttpMessageConverter() = MappingJackson2HttpMessageConverter().apply {
-        objectMapper = createObjectMapper().apply {
+    @Resource
+    lateinit var mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter
+
+    @PostConstruct
+    fun init() {
+        mappingJackson2HttpMessageConverter.objectMapper = createObjectMapper().apply {
             serializerFactory =
                 serializerFactory
                     .withSerializerModifier(NullValueBeanSerializerModifier())
