@@ -9,14 +9,16 @@ import kotlin.reflect.KClass
 object Version {
     const val kotlinVersion = "1.5.30"
 
-    const val springVersion = "5.3.9"
+    const val springVersion = "5.3.10"
     const val springBootVersion = "2.5.4"
     const val springCloudOpenFeignVersion = "3.0.3"
+
+    const val openFeignVersion = "11.6"
 
     const val postgresqlVersion = "42.2.23"
     const val mysqlVersion = "8.0.26"
     const val hikariCPVersion = "5.0.0"
-    const val mybatisPlusVersion = "3.4.3.2"
+    const val mybatisPlusVersion = "3.4.3.3"
     const val lettuceCoreVersion = "6.1.4.RELEASE"
 
     const val swaggerVersion = "1.6.2"
@@ -27,16 +29,16 @@ object Version {
     const val gsonVersion = "2.8.8"
     const val fastjsonVersion = "1.2.78"
 
-    const val nettyVersion = "4.1.67.Final"
-    const val reactorVersion = "3.4.9"
-    const val reactorNettyVersion = "1.0.10"
+    const val nettyVersion = "4.1.68.Final"
+    const val reactorVersion = "3.4.10"
+    const val reactorNettyVersion = "1.0.11"
 
     const val slf4jVersion = "1.7.32"
-    const val byteBuddyVersion = "1.11.13"
+    const val byteBuddyVersion = "1.11.15"
     const val javaJwtVersion = "3.18.1"
     const val guavaVersion = "30.1.1-jre"
 
-    const val alipaySdkJavaVersion = "4.16.21.ALL"
+    const val alipaySdkJavaVersion = "4.16.44.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.25"
     const val aliyunSdkOssVersion = "3.13.1"
 
