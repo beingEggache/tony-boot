@@ -5,10 +5,10 @@ spring:
                 - PreserveHostHeader #发送原主机头
             routes:
                 - id: community-user-service
-                  uri: lb://community-user-service
+                  uri: lb://tony-user-service
                   predicates:
                       - Path=/user/**
                 - id: community-user-service2
-                  uri: lb://community-user-service2
+                  uri: lb://tony-user-service2
                   predicates:
                       - Path=/user2/**

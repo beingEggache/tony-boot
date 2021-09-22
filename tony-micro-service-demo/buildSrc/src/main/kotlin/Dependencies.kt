@@ -19,7 +19,7 @@ object Version {
     const val mysqlVersion = "8.0.26"
     const val hikariCPVersion = "5.0.0"
     const val mybatisPlusVersion = "3.4.3.3"
-    const val lettuceCoreVersion = "6.1.4.RELEASE"
+    const val lettuceCoreVersion = "6.1.5.RELEASE"
 
     const val swaggerVersion = "1.6.2"
     const val springfoxSwagger2Version = "2.10.5"
@@ -34,11 +34,11 @@ object Version {
     const val reactorNettyVersion = "1.0.11"
 
     const val slf4jVersion = "1.7.32"
-    const val byteBuddyVersion = "1.11.15"
-    const val javaJwtVersion = "3.18.1"
+    const val byteBuddyVersion = "1.11.16"
+    const val javaJwtVersion = "3.18.2"
     const val guavaVersion = "30.1.1-jre"
 
-    const val alipaySdkJavaVersion = "4.16.44.ALL"
+    const val alipaySdkJavaVersion = "4.16.50.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.25"
     const val aliyunSdkOssVersion = "3.13.1"
 
