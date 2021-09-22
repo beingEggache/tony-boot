@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 object Version {
-    const val kotlinVersion = "1.5.30"
+    const val kotlinVersion = "1.5.31"
 
     const val springVersion = "5.3.10"
     const val springBootVersion = "2.5.4"

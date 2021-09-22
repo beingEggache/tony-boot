@@ -147,7 +147,7 @@
         <appender-ref ref="error"/>
     </root>
 
-    <logger name="com.lx.platform.db.dao" level="DEBUG">
+    <logger name="com.tony.db.dao" level="DEBUG">
         <appender-ref ref="stdout"/>
     </logger>
 

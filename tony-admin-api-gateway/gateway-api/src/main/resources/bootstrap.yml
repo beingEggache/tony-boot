@@ -2,50 +2,27 @@ server:
   port: 10100
   shutdown: graceful
 spring:
-  aop:
-    proxy-target-class: true
-    auto: true
   application:
-    name: tony-admin-api-gateway
+    name: tony-admin-gateway
   cloud:
     gateway:
       httpclient:
         connect-timeout: 1000
-        response-timeout: 5s
+        response-timeout: 5000s
       discovery:
         locator:
           enabled: true
-      default-filters:
-        - PreserveHostHeader #发送原主机头
-      #  - StripPrefix=1 #去掉- Path=前缀
-      #        - name: RequestRateLimiter
-      #          args:
-      #            key-resolver: "#{@ipKeyResolver}"
-      #            redis-rate-limiter.replenishRate: 1  #令牌桶每秒填充平均速率
-      #            redis-rate-limiter.burstCapacity: 1  #令牌桶总容量
-      routes:
-        - id: tony-test-api
-          uri: lb://tony-test-api
-          predicates:
-            - Path=/test/**
-        - id: tony-test-api2
-          uri: lb://tony-test-api2
-          predicates:
-            - Path=/test2/**
     nacos:
       discovery:
         server-addr: nacos.tony.com:8848
-        namespace: reservation
       config:
-        server-addr: nacos.tony.com:8848
-        namespace: reservation
-        shared-configs:
-          - data-id: redis-all.yml
-            refresh: false
-          - data-id: tony-admin-gateway.yml
-            refresh: true
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        extension-configs:
+          - data-id: tony-admin-gateway-routes.yaml
+          - data-id: tony-admin-gateway-routes-auth.yaml
   lifecycle:
     timeout-per-shutdown-phase: 20s
 jwt:
   enabled: true
-  secret: 4465651
+  secret: '4465651'

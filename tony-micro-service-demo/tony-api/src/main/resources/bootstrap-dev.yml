@@ -1,0 +1,7 @@
+spring:
+    cloud:
+        nacos:
+            discovery:
+                namespace: "dev"
+logging:
+    config: classpath:logback-dev.xml

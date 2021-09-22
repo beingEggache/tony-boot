@@ -6,8 +6,36 @@ server:
 spring:
   application:
     name: tony-micro-service-demo
+  profiles:
+    active: dev
   cloud:
     nacos:
       discovery:
         server-addr: nacos.tony.com:8848
-        namespace: reservation
+        namespace: "dev"
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        shared-configs:
+          - data-id: db-and-redis.yaml
+mybatis-plus:
+  mapper-locations: classpath*:mappers/*.mapper.xml
+  configuration:
+    default-enum-type-handler: com.tony.db.typehandler.EnumValueTypeHandler
+swagger:
+  base-packages:
+    - "com.tony.api"
+  title: "tony-micro-service-demo"
+knife4j:
+  enable: true
+  setting:
+    enable-host: true
+    enable-reload-cache-parameter: true
+    enable-footer: false
+    enable-home-custom: true
+    enable-swagger-models: false
+feign:
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false

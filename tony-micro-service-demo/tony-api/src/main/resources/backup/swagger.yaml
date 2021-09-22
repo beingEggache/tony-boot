@@ -1,0 +1,13 @@
+swagger:
+    base-packages:
+        - "com.tony.community.api"
+    title: "tony-micro-service-demo"
+knife4j:
+    enable: true
+    setting:
+        enable-host: true
+        enable-reload-cache-parameter: true
+        enable-footer: false
+        enable-home-custom: true
+        enable-swagger-models: false
+        home-custom-location: classpath:markdown/HOME.md

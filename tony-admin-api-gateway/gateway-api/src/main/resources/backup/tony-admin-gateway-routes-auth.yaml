@@ -1,0 +1,10 @@
+tony:
+    admin:
+        gateway:
+            noLoginCheckUrls:
+                - "/user/redis-get"
+                - "/user2/feign-echo"
+                - "/user/test-feign"
+                - "/user/feign-404"
+            noPermissionCheckUrls:
+                - "/dev-noPermission"

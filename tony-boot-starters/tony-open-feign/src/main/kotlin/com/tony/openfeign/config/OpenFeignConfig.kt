@@ -3,12 +3,10 @@ package com.tony.openfeign.config
 import com.tony.openfeign.decoder.DefaultErrorDecoder
 import com.tony.openfeign.log.DefaultFeignRequestTraceLogger
 import com.tony.openfeign.log.FeignRequestTraceLogger
-import feign.Client
 import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
 import feign.form.spring.SpringFormEncoder
-import feign.okhttp.OkHttpClient
 import okhttp3.Interceptor
 import org.springframework.beans.factory.ObjectFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
@@ -41,9 +39,11 @@ class OpenFeignConfig {
     @Bean
     fun feignRequestTraceLogger(): FeignRequestTraceLogger = DefaultFeignRequestTraceLogger()
 
-    @ConditionalOnMissingBean(Client::class)
+    @ConditionalOnMissingBean(okhttp3.OkHttpClient::class)
     @Bean
-    fun okHttpClient(interceptors: List<Interceptor>): Client {
+    fun okHttpClient(
+        interceptors: List<Interceptor>
+    ): okhttp3.OkHttpClient {
         val okHttpClient = okhttp3.OkHttpClient.Builder()
             .callTimeout(OpenFeignConfigProperties.callTimeout, TimeUnit.SECONDS)
             .connectTimeout(OpenFeignConfigProperties.connectTimeout, TimeUnit.SECONDS)
@@ -56,7 +56,7 @@ class OpenFeignConfig {
                 interceptors.forEach(::addInterceptor)
             }
             .build()
-        return OkHttpClient(okHttpClient)
+        return okHttpClient
     }
 }
 

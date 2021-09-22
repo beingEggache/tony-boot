@@ -71,7 +71,7 @@
         <encoder>
             <!-- pattern节点，用来设置日志的输入格式 -->
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L %X{X-B3-TraceId:-} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%X{X-B3-TraceId:-}|%msg%n
             </pattern>
             <!-- 记录日志的编码:此处设置字符集 - -->
             <charset>UTF-8</charset>
@@ -102,7 +102,7 @@
         <encoder>
             <!-- pattern节点，用来设置日志的输入格式 -->
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L %X{X-B3-TraceId:-} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%X{X-B3-TraceId:-}|%msg%n
             </pattern>
             <!-- 记录日志的编码:此处设置字符集 - -->
             <charset>UTF-8</charset>
@@ -147,15 +147,19 @@
         <appender-ref ref="error"/>
     </root>
 
-    <logger name="com.tony.webcore.filter.TraceLoggingFilter" level="TRACE" additivity="false">
-        <appender-ref ref="trace"/>
-    </logger>
-
-    <logger name="springfox.documentation" level="WARN" additivity="false">
+    <logger name="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor" level="ERROR" additivity="false">
         <appender-ref ref="stdout"/>
     </logger>
 
-    <logger name="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor" level="ERROR" additivity="false">
+    <logger name="trace-logger" level="TRACE" additivity="false">
+        <appender-ref ref="trace"/>
+    </logger>
+
+    <logger name="request-logger" level="TRACE" additivity="false">
+        <appender-ref ref="feign_trace"/>
+    </logger>
+
+    <logger name="springfox.documentation" level="WARN" additivity="false">
         <appender-ref ref="stdout"/>
     </logger>
 
