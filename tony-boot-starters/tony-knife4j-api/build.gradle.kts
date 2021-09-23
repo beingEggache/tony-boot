@@ -5,7 +5,7 @@ apply {
 }
 
 dependencies {
-    implementation(Deps.SpringBoot.springBoot)
+    implementation(Deps.SpringBoot.autoconfigure)
     implementation(Deps.Spring.web)
     implementation(Deps.Other.springfoxSwagger2)
     implementation(Deps.Other.knife4jApi)

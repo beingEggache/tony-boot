@@ -17,7 +17,7 @@ import javax.annotation.Resource
 
 @Configuration
 @ConditionalOnWebApplication
-@ConditionalOnExpression("\${jwt.enabled:false}")
+@ConditionalOnExpression("'\${jwt.secret:}'.trim() > ''")
 @EnableConfigurationProperties(JwtProperties::class)
 internal class JwtConfig
 
@@ -25,13 +25,12 @@ internal class JwtConfig
 @ConfigurationProperties(prefix = "jwt")
 data class JwtProperties(
     val secret: String = "",
-    val enabled: Boolean = false,
     val expiredMinutes: Long = 525600L
 )
 
 @ConditionalOnClass(JWT::class)
 @ConditionalOnWebApplication
-@ConditionalOnExpression("\${jwt.enabled:false}")
+@ConditionalOnExpression("'\${jwt.secret:}'.trim() > ''")
 @Component
 object JwtToken {
 

@@ -2,6 +2,7 @@ package com.tony.swagger.config
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j
 import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -18,21 +19,22 @@ import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc
 import java.util.function.Predicate
 
-@Configuration
 @EnableSwagger2WebMvc
 @EnableKnife4j
 @Import(BeanValidatorPluginsConfiguration::class)
-@EnableConfigurationProperties(SwaggerProperties::class)
-internal class SwaggerConfig(
-    private val swaggerProperties: SwaggerProperties,
+@EnableConfigurationProperties(Knife4jExtensionProperties::class)
+@ConditionalOnExpression("\${knife4j.enable:false}")
+@Configuration
+internal class Knife4jExtensionConfig(
+    private val knife4jExtensionProperties: Knife4jExtensionProperties,
     private val openApiExtensionResolver: OpenApiExtensionResolver
 ) {
 
     private fun apiInfo() = ApiInfoBuilder()
-        .contact(swaggerProperties.contact)
-        .title(swaggerProperties.title)
-        .version(swaggerProperties.version)
-        .description(swaggerProperties.description)
+        .contact(knife4jExtensionProperties.contact)
+        .title(knife4jExtensionProperties.title)
+        .version(knife4jExtensionProperties.version)
+        .description(knife4jExtensionProperties.description)
         .build()
 
     @Bean
@@ -40,7 +42,7 @@ internal class SwaggerConfig(
         .useDefaultResponseMessages(false)
         .apiInfo(apiInfo())
         .select()
-        .apis(basePackages(swaggerProperties.basePackages))
+        .apis(basePackages(knife4jExtensionProperties.basePackages))
         .paths(PathSelectors.any())
         .build()
         .extensions(openApiExtensionResolver.buildExtensions(null))
@@ -55,8 +57,8 @@ internal class SwaggerConfig(
 
 @Suppress("ArrayInDataClass")
 @ConstructorBinding
-@ConfigurationProperties(prefix = "swagger")
-internal data class SwaggerProperties(
+@ConfigurationProperties(prefix = "knife4j.extension")
+internal data class Knife4jExtensionProperties(
     val title: String = "Tony-Api",
     val version: String = "1.0",
     val description: String = "",

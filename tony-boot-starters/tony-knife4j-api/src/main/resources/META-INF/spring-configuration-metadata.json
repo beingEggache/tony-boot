@@ -2,51 +2,51 @@
     "hints": [],
     "groups": [
         {
-            "sourceType": "com.tony.swagger.config.SwaggerProperties",
-            "name": "swagger",
-            "type": "com.tony.swagger.config.SwaggerProperties"
+            "sourceType": "com.tony.swagger.config.Knife4jExtensionProperties",
+            "name": "knife4j.extension",
+            "type": "com.tony.swagger.config.Knife4jExtensionProperties"
         },
         {
             "sourceType": "springfox.documentation.service.Contact",
-            "name": "swagger.contact",
+            "name": "knife4j.extension.contact",
             "type": "springfox.documentation.service.Contact"
         }
     ],
     "properties": [
         {
-            "sourceType": "com.tony.swagger.config.SwaggerProperties",
-            "name": "swagger.title",
+            "sourceType": "com.tony.swagger.config.Knife4jExtensionProperties",
+            "name": "knife4j.extension.title",
             "type": "java.lang.String"
         },
         {
-            "sourceType": "com.tony.swagger.config.SwaggerProperties",
-            "name": "swagger.version",
+            "sourceType": "com.tony.swagger.config.Knife4jExtensionProperties",
+            "name": "knife4j.extension.version",
             "type": "java.lang.String",
             "defaultValue": "1.0"
         },
         {
-            "sourceType": "com.tony.swagger.config.SwaggerProperties",
-            "name": "swagger.description",
+            "sourceType": "com.tony.swagger.config.Knife4jExtensionProperties",
+            "name": "knife4j.extension.description",
             "type": "java.lang.String"
         },
         {
-            "sourceType": "com.tony.swagger.config.SwaggerProperties",
-            "name": "swagger.basePackages",
+            "sourceType": "com.tony.swagger.config.Knife4jExtensionProperties",
+            "name": "knife4j.extension.basePackages",
             "type": "java.lang.String[]"
         },
         {
             "sourceType": "springfox.documentation.service.Contact",
-            "name": "swagger.contact.name",
+            "name": "knife4j.extension.contact.name",
             "type": "java.lang.String"
         },
         {
             "sourceType": "springfox.documentation.service.Contact",
-            "name": "swagger.contact.url",
+            "name": "knife4j.extension.contact.url",
             "type": "java.lang.String"
         },
         {
             "sourceType": "springfox.documentation.service.Contact",
-            "name": "swagger.contact.email",
+            "name": "knife4j.extension.contact.email",
             "type": "java.lang.String"
         }
     ]

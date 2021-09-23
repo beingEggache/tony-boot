@@ -10,11 +10,6 @@
     "properties": [
         {
             "sourceType": "com.tony.jwt.config.JwtProperties",
-            "name": "jwt.enabled",
-            "type": "java.lang.Boolean"
-        },
-        {
-            "sourceType": "com.tony.jwt.config.JwtProperties",
             "name": "jwt.secret",
             "type": "java.lang.String"
         },
