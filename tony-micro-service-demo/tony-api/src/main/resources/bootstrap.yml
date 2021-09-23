@@ -22,10 +22,6 @@ mybatis-plus:
   mapper-locations: classpath*:mappers/*.mapper.xml
   configuration:
     default-enum-type-handler: com.tony.db.typehandler.EnumValueTypeHandler
-swagger:
-  base-packages:
-    - "com.tony.api"
-  title: "tony-micro-service-demo"
 knife4j:
   enable: true
   setting:
@@ -34,6 +30,10 @@ knife4j:
     enable-footer: false
     enable-home-custom: true
     enable-swagger-models: false
+  extension:
+    basePackages:
+      - "com.tony.api"
+    title: "tony-micro-service-demo"
 feign:
   okhttp:
     enabled: true

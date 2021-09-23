@@ -24,5 +24,4 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 20s
 jwt:
-  enabled: true
   secret: '4465651'

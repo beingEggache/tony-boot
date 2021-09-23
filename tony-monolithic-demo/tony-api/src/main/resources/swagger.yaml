@@ -1,7 +1,3 @@
-swagger:
-    base-packages:
-        - "com.tony.api"
-    title: "tony-api"
 knife4j:
     enable: true
     setting:
@@ -11,3 +7,8 @@ knife4j:
         enable-home-custom: true
         enable-swagger-models: false
         home-custom-location: classpath:markdown/HOME.md
+    extension:
+        base-packages:
+            - "com.tony.api"
+        title: "tony-api"
+
