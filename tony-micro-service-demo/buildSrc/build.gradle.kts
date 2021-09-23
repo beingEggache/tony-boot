@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation("com.palantir.gradle.docker:gradle-docker:0.25.0")
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.5.4")
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.5.5")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

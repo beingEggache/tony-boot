@@ -10,7 +10,7 @@ object Version {
     const val kotlinVersion = "1.5.31"
 
     const val springVersion = "5.3.10"
-    const val springBootVersion = "2.5.4"
+    const val springBootVersion = "2.5.5"
     const val springCloudOpenFeignVersion = "3.0.3"
 
     const val openFeignVersion = "11.6"
