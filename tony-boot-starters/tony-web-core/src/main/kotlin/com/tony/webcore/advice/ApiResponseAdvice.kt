@@ -8,6 +8,7 @@ import com.tony.core.utils.asTo
 import com.tony.webcore.WebApp
 import com.tony.webcore.utils.antPathMatcher
 import com.tony.webcore.utils.matchAny
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
@@ -21,8 +22,9 @@ import java.time.temporal.TemporalAccessor
 import java.util.Collections
 import java.util.Date
 
-@RestControllerAdvice
 @ConditionalOnWebApplication
+@ConditionalOnExpression("\${web.response-wrap-enabled:true}")
+@RestControllerAdvice
 internal class ApiResponseAdvice : ResponseBodyAdvice<Any?> {
 
     override fun beforeBodyWrite(

@@ -9,22 +9,22 @@
   ],
   "properties": [
     {
-      "sourceType": "com.tony.aliyun.sms.config.AliyunSMSProperties",
+      "sourceType": "com.tony.aliyun.sms.config.AliyunSmsProperties",
       "name": "aliyun.sms.access-key-id",
       "type": "java.lang.String"
     },
     {
-      "sourceType": "com.tony.aliyun.sms.config.AliyunSMSProperties",
+      "sourceType": "com.tony.aliyun.sms.config.AliyunSmsProperties",
       "name": "aliyun.sms.access-key-secret",
       "type": "java.lang.String"
     },
     {
-      "sourceType": "com.tony.aliyun.sms.config.AliyunSMSProperties",
+      "sourceType": "com.tony.aliyun.sms.config.AliyunSmsProperties",
       "name": "aliyun.sms.sign-name",
       "type": "java.lang.String"
     },
     {
-      "sourceType": "com.tony.aliyun.sms.config.AliyunSMSProperties",
+      "sourceType": "com.tony.aliyun.sms.config.AliyunSmsProperties",
       "name": "aliyun.sms.timeout",
       "type": "java.lang.String"
     }

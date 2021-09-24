@@ -11,12 +11,10 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.Response
 import okio.Buffer
-import org.springframework.stereotype.Component
 import java.net.URL
 import java.time.LocalDateTime
 import javax.annotation.Priority
 
-@Component
 @Priority(Int.MAX_VALUE)
 internal class OpenFeignLogInterceptor(
     private val feignRequestTraceLogger: FeignRequestTraceLogger

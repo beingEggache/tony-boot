@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@EnableConfigurationProperties(AliyunSMSProperties::class)
+@EnableConfigurationProperties(AliyunSmsProperties::class)
 class AliyunSmsAutoConfiguration(
-    private val aliyunSMSProperties: AliyunSMSProperties
+    private val aliyunSMSProperties: AliyunSmsProperties
 ) {
 
     @Bean
@@ -22,7 +22,7 @@ class AliyunSmsAutoConfiguration(
 }
 
 @ConfigurationProperties(prefix = "aliyun.sms")
-class AliyunSMSProperties {
+class AliyunSmsProperties {
     var accessKeyId: String? = null
     var accessKeySecret: String? = null
     var signName: String? = null

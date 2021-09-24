@@ -14,18 +14,14 @@ import org.springframework.web.util.ContentCachingResponseWrapper
 import java.io.IOException
 import java.time.LocalDateTime
 import java.util.UUID
-import javax.annotation.Priority
 import javax.servlet.FilterChain
 import javax.servlet.ServletException
-import javax.servlet.annotation.WebFilter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@WebFilter(filterName = "traceLoggingFilter", servletNames = ["dispatcherServlet"])
-@Priority(PriorityOrdered.HIGHEST_PRECEDENCE + 101)
 internal class TraceLoggingFilter(
     private val requestTraceLogger: RequestTraceLogger
-) : OncePerRequestFilter() {
+) : OncePerRequestFilter(), PriorityOrdered {
 
     @Throws(IOException::class, ServletException::class)
     override fun doFilterInternal(
@@ -79,10 +75,11 @@ internal class TraceLoggingFilter(
     private val excludedUrls by lazy {
         WebApp.excludeJsonResultUrlPatterns.plus(WebApp.ignoreUrlPatterns())
     }
+
+    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 101
 }
 
-@WebFilter(filterName = "traceIdFilter", servletNames = ["dispatcherServlet"])
-internal class TraceIdFilter : OncePerRequestFilter() {
+internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -94,4 +91,6 @@ internal class TraceIdFilter : OncePerRequestFilter() {
     } finally {
         MDC.remove("X-B3-TraceId")
     }
+
+    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 101
 }

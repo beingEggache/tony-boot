@@ -1,6 +1,6 @@
 package com.tony.api.permission
 
-import com.tony.auth.extensions.Extensions.userId
+import com.tony.auth.extensions.WebContextExtensions.userId
 import com.tony.core.exception.BizException
 import com.tony.db.service.ModuleService
 import com.tony.webcore.WebApp

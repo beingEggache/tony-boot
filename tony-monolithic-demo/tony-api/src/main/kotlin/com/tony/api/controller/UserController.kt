@@ -1,7 +1,7 @@
 package com.tony.api.controller
 
 import com.tony.api.permission.NoPermissionCheck
-import com.tony.auth.extensions.Extensions.userId
+import com.tony.auth.extensions.WebContextExtensions.userId
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserCreateReq
 import com.tony.webcore.WebApp

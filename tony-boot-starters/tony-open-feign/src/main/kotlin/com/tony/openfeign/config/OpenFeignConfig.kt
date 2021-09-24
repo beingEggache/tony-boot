@@ -3,6 +3,7 @@ package com.tony.openfeign.config
 import com.tony.openfeign.decoder.DefaultErrorDecoder
 import com.tony.openfeign.log.DefaultFeignRequestTraceLogger
 import com.tony.openfeign.log.FeignRequestTraceLogger
+import com.tony.openfeign.log.OpenFeignLogInterceptor
 import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
@@ -40,6 +41,11 @@ class OpenFeignConfig {
     @ConditionalOnMissingBean(FeignRequestTraceLogger::class)
     @Bean
     fun feignRequestTraceLogger(): FeignRequestTraceLogger = DefaultFeignRequestTraceLogger()
+
+    @Bean
+    internal fun openFeignLogInterceptor(
+        feignRequestTraceLogger: FeignRequestTraceLogger
+    ) = OpenFeignLogInterceptor(feignRequestTraceLogger)
 
     @ConditionalOnMissingBean(OkHttpClient::class)
     @Bean

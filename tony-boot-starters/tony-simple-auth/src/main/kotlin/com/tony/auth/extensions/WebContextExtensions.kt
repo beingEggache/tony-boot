@@ -7,19 +7,19 @@ import org.springframework.stereotype.Component
 import javax.annotation.Resource
 
 @Component
-object Extensions {
+object WebContextExtensions {
 
     private lateinit var apiSession: ApiSession
 
     @Lazy
     @Resource
     private fun apiSession(apiSession: ApiSession) {
-        Extensions.apiSession = apiSession
+        WebContextExtensions.apiSession = apiSession
     }
 
     val WebContext.userId: String
         get() = apiSession.userId
 
     val WebContext.apiSession: ApiSession
-        get() = Extensions.apiSession
+        get() = WebContextExtensions.apiSession
 }

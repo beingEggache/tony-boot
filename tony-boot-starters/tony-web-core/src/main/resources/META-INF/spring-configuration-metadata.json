@@ -45,6 +45,24 @@
             "defaultValue": 40100
         },
         {
+            "sourceType": "com.tony.webcore.advice.ApiResponseAdvice",
+            "name": "web.response-wrap-enabled",
+            "type": "java.lang.Boolean",
+            "defaultValue": true
+        },
+        {
+            "sourceType": "com.tony.webcore.log.TraceLoggingFilter",
+            "name": "web.trace-logger-enabled",
+            "type": "java.lang.Boolean",
+            "defaultValue": true
+        },
+        {
+            "sourceType": "com.tony.webcore.jackson.JacksonConfig",
+            "name": "web.json-null-value-optimized-enabled",
+            "type": "java.lang.Boolean",
+            "defaultValue": true
+        },
+        {
             "sourceType": "com.tony.webcore.config.WebCorsProperties",
             "name": "web.cors.enabled",
             "type": "java.lang.Boolean"

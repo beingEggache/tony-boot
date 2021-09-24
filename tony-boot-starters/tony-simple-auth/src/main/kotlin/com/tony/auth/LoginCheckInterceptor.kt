@@ -6,7 +6,7 @@
 
 package com.tony.auth
 
-import com.tony.auth.extensions.Extensions.apiSession
+import com.tony.auth.extensions.WebContextExtensions.apiSession
 import com.tony.webcore.WebContext
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor

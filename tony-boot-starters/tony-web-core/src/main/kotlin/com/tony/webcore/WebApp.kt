@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component
 import java.util.regex.Pattern
 import javax.annotation.Resource
 
-@Component
 @ConditionalOnWebApplication
+@Component
 object WebApp {
 
     private lateinit var environment: Environment
@@ -79,15 +79,15 @@ object WebApp {
     fun badRequest(msg: String = "", code: Int = ApiProperty.validationErrorCode) =
         ApiResult(EMPTY_RESULT, code, msg)
 
-    @Resource
     @JvmSynthetic
-    private fun environment(environment: Environment) {
+    @Resource
+    internal fun environment(environment: Environment) {
         WebApp.environment = environment
     }
 
-    @Resource
     @JvmSynthetic
-    private fun errorAttributes(errorAttributes: ErrorAttributes) {
+    @Resource
+    internal fun errorAttributes(errorAttributes: ErrorAttributes) {
         WebApp.errorAttributes = errorAttributes
     }
 

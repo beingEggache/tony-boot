@@ -22,6 +22,7 @@ import com.tony.core.utils.isDateTimeLikeType
 import com.tony.core.utils.isObjLikeType
 import com.tony.core.utils.isStringLikeType
 import com.tony.webcore.jackson.JacksonConfig.Companion.maskConverters
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import javax.annotation.PostConstruct
@@ -34,12 +35,17 @@ internal class JacksonConfig {
     @Resource
     lateinit var mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter
 
+    @Value("\${web.json-null-value-optimized-enabled:true}")
+    private var jsonNullValueOptimizeEnabled: Boolean = true
+
     @PostConstruct
     fun init() {
-        mappingJackson2HttpMessageConverter.objectMapper = createObjectMapper().apply {
-            serializerFactory =
-                serializerFactory
-                    .withSerializerModifier(NullValueBeanSerializerModifier())
+        if (jsonNullValueOptimizeEnabled) {
+            mappingJackson2HttpMessageConverter.objectMapper = createObjectMapper().apply {
+                serializerFactory =
+                    serializerFactory
+                        .withSerializerModifier(NullValueBeanSerializerModifier())
+            }
         }
     }
 
