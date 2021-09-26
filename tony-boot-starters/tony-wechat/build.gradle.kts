@@ -7,7 +7,7 @@ apply {
 dependencies {
     api(Deps.Other.xstream)
     implementation(Deps.SpringBoot.springBoot)
-    implementation(projects.tonyOpenFeign)
+    api(projects.tonyOpenFeign)
     addTestDependencies()
 }
 

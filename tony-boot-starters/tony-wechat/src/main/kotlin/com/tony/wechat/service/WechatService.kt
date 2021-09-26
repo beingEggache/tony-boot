@@ -37,16 +37,18 @@ class WechatService(
         jsCode
     ).check()
 
+    @JvmOverloads
     fun createQrCode(
         @Validated
-        req: WechatQrCodeCreateReq
-    ) = wechatClient.createQrCode(req, accessToken()).check()
+        req: WechatQrCodeCreateReq,
+        accessToken: String? = accessToken().accessToken
+    ) = wechatClient.createQrCode(req, accessToken).check()
 
-    private fun accessToken() = wechatClient.accessToken(
+    fun accessToken() = wechatClient.accessToken(
         wechatProperties.subscriptionAppId,
         wechatProperties.appSecret,
         "client_credential"
-    ).check().accessToken
+    ).check()
 
     fun userAccessToken(code: String?) = wechatClient.userAccessToken(
         wechatProperties.subscriptionAppId,
@@ -55,15 +57,25 @@ class WechatService(
         "authorization_code"
     ).check()
 
-    fun createMenu(menu: WechatMenu) = wechatClient.createMenu(accessToken(), menu).check()
+    @JvmOverloads
+    fun createMenu(
+        menu: WechatMenu,
+        accessToken: String? = accessToken().accessToken
+    ) = wechatClient.createMenu(accessToken, menu).check()
 
-    fun deleteMenu() = wechatClient.deleteMenu(accessToken()).check()
+    @JvmOverloads
+    fun deleteMenu(accessToken: String? = accessToken().accessToken) =
+        wechatClient.deleteMenu(accessToken).check()
 
-    fun userInfo(openId: String?) = wechatClient.userInfo(accessToken(), openId).check()
+    @JvmOverloads
+    fun userInfo(openId: String?, accessToken: String? = accessToken().accessToken) =
+        wechatClient.userInfo(accessToken, openId).check()
 
-    private fun getTicket() = wechatClient.getTicket(accessToken(), "jsapi").check().ticket
+    @JvmOverloads
+    fun getTicket(accessToken: String? = accessToken().accessToken) =
+        wechatClient.getTicket(accessToken, "jsapi").check().ticket
 
-    private fun getJsApiSignature(nonceStr: String, timestamp: Long, url: String) =
+    fun getJsApiSignature(nonceStr: String, timestamp: Long, url: String) =
         DigestUtils.sha1Hex(
             listOf(
                 "jsapi_ticket" to getTicket(),
@@ -75,6 +87,7 @@ class WechatService(
             }
         )
 
+    @JvmOverloads
     fun jsSdkConfig(url: String, debug: Boolean = false) =
         run {
             val timestamp = genTimeStamp()
