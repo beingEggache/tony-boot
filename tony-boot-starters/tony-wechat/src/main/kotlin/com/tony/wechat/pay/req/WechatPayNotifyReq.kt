@@ -1,12 +1,12 @@
 @file:Suppress("unused")
 
-package com.tony.wechat.pay.request
+package com.tony.wechat.pay.req
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
 import com.tony.core.exception.BaseException
 import com.tony.core.utils.getLogger
-import com.tony.wechat.pay.response.WechatPayNotifyResponse
+import com.tony.wechat.pay.resp.WechatPayNotifyResp
 import com.tony.wechat.xml.XStreamCDataConverter
 import com.tony.wechat.xml.toXmlString
 
@@ -206,7 +206,7 @@ data class WechatPayNotifyRequest(
                     "wechat pay order ${notifyRequest.outTradeNo} " +
                         "sign invalid,notify request:${notifyRequest.toXmlString()}"
                 )
-                return WechatPayNotifyResponse().toXmlString()
+                return WechatPayNotifyResp().toXmlString()
             }
             try {
                 if (notifyRequest.returnCode == SUCCESS && notifyRequest.resultCode == SUCCESS) {
@@ -219,7 +219,7 @@ data class WechatPayNotifyRequest(
             } catch (e: BaseException) {
                 logger.error(e.message)
             }
-            return WechatPayNotifyResponse().toXmlString()
+            return WechatPayNotifyResp().toXmlString()
         }
     }
 }

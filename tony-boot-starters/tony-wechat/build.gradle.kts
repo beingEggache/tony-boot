@@ -5,8 +5,12 @@ apply {
 }
 
 dependencies {
-    api(projects.tonyHttp)
     api(Deps.Other.xstream)
     implementation(Deps.SpringBoot.springBoot)
+    implementation(projects.tonyOpenFeign)
     addTestDependencies()
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
 }

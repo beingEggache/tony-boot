@@ -1,4 +1,4 @@
-package com.tony.wechat.pay.response
+package com.tony.wechat.pay.resp
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
@@ -9,7 +9,7 @@ import com.tony.wechat.xml.XStreamCDataConverter
  * >  收到微信支付结果通知后，返回该对象给微信
  */
 @XStreamAlias("xml")
-data class WechatPayNotifyResponse(
+data class WechatPayNotifyResp(
 
     /**
      * ## 返回状态码

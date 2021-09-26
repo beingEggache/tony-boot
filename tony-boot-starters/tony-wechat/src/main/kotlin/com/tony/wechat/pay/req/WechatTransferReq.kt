@@ -1,4 +1,4 @@
-package com.tony.wechat.pay.request
+package com.tony.wechat.pay.req
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.thoughtworks.xstream.annotations.XStreamAlias
@@ -8,15 +8,15 @@ import com.thoughtworks.xstream.annotations.XStreamAlias
  */
 @Suppress("unused")
 @XStreamAlias("xml")
-data class WechatTransferRequest(
+data class WechatTransferReq(
 
     @XStreamAlias("mch_appid")
     @JsonProperty("mch_appid")
-    var mchAppId: String,
+    var mchAppId: String?,
 
     @XStreamAlias("mchid")
     @JsonProperty("mchid")
-    var mchId: String,
+    var mchId: String?,
 
     @XStreamAlias("nonce_str")
     @JsonProperty("nonce_str")

@@ -1,17 +1,15 @@
 @file:Suppress("ArrayInDataClass", "unused")
 
-package com.tony.wechat.response
+package com.tony.wechat.xml.resp
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
-import com.tony.core.exception.ApiException
-import com.tony.wechat.WechatArticleItem
-import com.tony.wechat.WechatObj
+import com.tony.wechat.xml.WechatArticleItem
+import com.tony.wechat.xml.WechatObj
 import com.tony.wechat.xml.XStreamCDataConverter
 
 @XStreamAlias("xml")
-data class WechatXmlResponse(
+data class WechatXmlResp(
     @XStreamAlias("ToUserName")
     @XStreamConverter(value = XStreamCDataConverter::class)
     var toUserName: String,
@@ -73,54 +71,3 @@ data class WechatXmlResponse(
     var articles: Array<WechatArticleItem>? = null
 
 ) : WechatObj
-
-data class WechatAPIResponse(
-    var errcode: Int,
-    var errmsg: String
-)
-
-data class WechatApiTokenResponse(
-    @JsonProperty("access_token")
-    var accessToken: String = "",
-    @JsonProperty("expires_in")
-    var expiresIn: Int = -1
-)
-
-data class WechatJsApiTicketResponse(
-    @JsonProperty("errcode")
-    var errCode: Int,
-    @JsonProperty("errmsg")
-    var errMsg: String,
-    @JsonProperty("ticket")
-    var ticket: String,
-    @JsonProperty("expires_in")
-    var expiresIn: Int
-)
-
-data class WechatSnsTokenResponse(
-    @JsonProperty("access_token") var accessToken: String?,
-    @JsonProperty("expires_in") var expiresIn: Int = -1,
-    @JsonProperty("refresh_token") var refreshToken: String?,
-    @JsonProperty("openid") var openId: String?,
-    @JsonProperty("scope") var scope: String?
-)
-
-data class WechatServerResponse(
-    @JsonProperty("errcode")
-    var errCode: Int,
-    @JsonProperty("errmsg")
-    var errMsg: String
-) {
-    fun success(callback: (WechatServerResponse.() -> Unit)? = null): Boolean {
-        if (errCode != 0) throw ApiException(errMsg)
-        callback?.invoke(this)
-        return true
-    }
-}
-
-data class WechatQrCodeResponse(
-    var ticket: String,
-    @JsonProperty("expire_seconds")
-    var expireSeconds: Int,
-    var url: String
-)

@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.tony.wechat.pay.response
+package com.tony.wechat.pay.resp
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 
@@ -8,7 +8,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias
  * 微信提现响应对象
  */
 @XStreamAlias("xml")
-data class WechatTransferResponse(
+data class WechatTransferResp(
 
     @XStreamAlias("return_code")
     var returnCode: String,

@@ -14,7 +14,7 @@ internal fun genNonceStr() = UUID.randomUUID().toString().replace("-", "").upper
 internal fun genTimeStamp() = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
 
 fun <T> T.toDeepLink(
-    vararg params: Pair<String, Any>,
+    vararg params: Pair<String, Any?>,
     filter: ((Map.Entry<String, Any>) -> Boolean)
 ) = toJsonString()
     .jsonToObj<Map<String, Any>>()
@@ -27,7 +27,7 @@ fun <T> T.toDeepLink(
         "${it.first}=${it.second}"
     }
 
-internal fun <T> genMd5UpperCaseSign(obj: T, vararg params: Pair<String, Any>): String {
+internal fun <T> genMd5UpperCaseSign(obj: T, vararg params: Pair<String, Any?>): String {
 
     val deepLink = obj.toDeepLink(*params) {
         it.value !is String && it.value.toString().isNotBlank()

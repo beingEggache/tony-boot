@@ -1,14 +1,14 @@
-package com.tony.wechat.request
+package com.tony.wechat.xml.req
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
-import com.tony.wechat.ScanCodeInfo
-import com.tony.wechat.WechatObj
+import com.tony.wechat.xml.ScanCodeInfo
+import com.tony.wechat.xml.WechatObj
 import com.tony.wechat.xml.XStreamCDataConverter
 
 @Suppress("unused")
 @XStreamAlias("xml")
-data class WechatXmlRequest(
+data class WechatXmlReq(
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("ToUserName")
     var toUserName: String,

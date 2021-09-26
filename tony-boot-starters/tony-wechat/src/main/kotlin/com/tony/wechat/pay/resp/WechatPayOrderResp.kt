@@ -1,4 +1,4 @@
-package com.tony.wechat.pay.response
+package com.tony.wechat.pay.resp
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
@@ -8,7 +8,7 @@ import com.tony.wechat.xml.XStreamCDataConverter
  * 统一下单响应对象
  */
 @XStreamAlias("xml")
-data class WechatPayOrderResponse(
+data class WechatPayOrderResp(
 
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("return_code")

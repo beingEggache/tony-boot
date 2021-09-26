@@ -1,4 +1,4 @@
-package com.tony.wechat.pay.request
+package com.tony.wechat.pay.req
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.thoughtworks.xstream.annotations.XStreamAlias
@@ -9,7 +9,7 @@ import com.tony.wechat.xml.XStreamCDataConverter
  * 统一下单请求对象
  */
 @XStreamAlias("xml")
-data class WechatPayOrderRequest(
+data class WechatPayOrderReq(
 
     /**
      * ### 公众账号ID
@@ -28,14 +28,14 @@ data class WechatPayOrderRequest(
      */
     @XStreamAlias("appid")
     @JsonProperty("appid")
-    var appId: String,
+    var appId: String?,
 
     /**
      * 微信支付分配的商户号
      */
     @XStreamAlias("mch_id")
     @JsonProperty("mch_id")
-    var mchId: String,
+    var mchId: String?,
 
     /**
      * ## 终端设备号(门店号或收银设备ID)
