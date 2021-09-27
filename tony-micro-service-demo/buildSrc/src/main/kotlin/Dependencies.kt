@@ -11,14 +11,14 @@ object Version {
 
     const val springVersion = "5.3.10"
     const val springBootVersion = "2.5.5"
-    const val springCloudOpenFeignVersion = "3.0.3"
+    const val springCloudOpenFeignVersion = "3.0.4"
 
     const val openFeignVersion = "11.6"
 
-    const val postgresqlVersion = "42.2.23"
+    const val postgresqlVersion = "42.2.24"
     const val mysqlVersion = "8.0.26"
     const val hikariCPVersion = "5.0.0"
-    const val mybatisPlusVersion = "3.4.3.3"
+    const val mybatisPlusVersion = "3.4.3.4"
     const val lettuceCoreVersion = "6.1.5.RELEASE"
 
     const val swaggerVersion = "1.6.2"
@@ -34,11 +34,11 @@ object Version {
     const val reactorNettyVersion = "1.0.11"
 
     const val slf4jVersion = "1.7.32"
-    const val byteBuddyVersion = "1.11.16"
+    const val byteBuddyVersion = "1.11.18"
     const val javaJwtVersion = "3.18.2"
-    const val guavaVersion = "30.1.1-jre"
+    const val guavaVersion = "31.0-jre"
 
-    const val alipaySdkJavaVersion = "4.16.50.ALL"
+    const val alipaySdkJavaVersion = "4.16.57.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.25"
     const val aliyunSdkOssVersion = "3.13.1"
 
