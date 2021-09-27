@@ -1,23 +1,21 @@
 @file:Suppress("unused")
 
-package com.tony.wechat.pay.req
+package com.tony.wechat.pay.xml.req
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
 import com.tony.core.exception.BaseException
 import com.tony.core.utils.getLogger
-import com.tony.wechat.pay.resp.WechatPayNotifyResp
+import com.tony.wechat.pay.xml.resp.WechatPayNotifyResp
 import com.tony.wechat.xml.XStreamCDataConverter
 import com.tony.wechat.xml.toXmlString
-
-const val SUCCESS = "SUCCESS"
 
 /**
  * ## 支付回调请求对象
  * >  客户端支付成功后，微信会请求我方设置的notifyURL，请求体就是该对象
  */
 @XStreamAlias("xml")
-data class WechatPayNotifyRequest(
+data class WechatPayNotifyReq(
 
     /**
      * ## 返回状态码
@@ -195,7 +193,7 @@ data class WechatPayNotifyRequest(
         private val logger = getLogger()
 
         fun process(
-            notifyRequest: WechatPayNotifyRequest,
+            notifyRequest: WechatPayNotifyReq,
             signValid: Boolean,
             doOnSuccess: () -> Unit,
             doOnFailed: (String) -> Unit
@@ -209,7 +207,7 @@ data class WechatPayNotifyRequest(
                 return WechatPayNotifyResp().toXmlString()
             }
             try {
-                if (notifyRequest.returnCode == SUCCESS && notifyRequest.resultCode == SUCCESS) {
+                if (notifyRequest.returnCode == "SUCCESS" && notifyRequest.resultCode == "SUCCESS") {
                     doOnSuccess()
                 } else {
                     val errorDetail = "${notifyRequest.errCode}:${notifyRequest.errCodeDes}"

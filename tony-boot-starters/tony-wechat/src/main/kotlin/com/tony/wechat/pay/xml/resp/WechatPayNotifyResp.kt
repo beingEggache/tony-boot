@@ -1,4 +1,4 @@
-package com.tony.wechat.pay.resp
+package com.tony.wechat.pay.xml.resp
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter

@@ -20,7 +20,7 @@ import javax.annotation.Resource
 @EnableFeignClients("com.tony.wechat.client")
 @Configuration
 @EnableConfigurationProperties(WechatProperties::class)
-internal class WechatAutoConfiguration {
+internal class WechatConfig {
 
     @Resource
     lateinit var mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter

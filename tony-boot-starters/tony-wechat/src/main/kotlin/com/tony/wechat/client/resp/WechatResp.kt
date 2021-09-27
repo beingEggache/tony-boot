@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Date
 
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
-open class WechatResp {
+sealed class WechatResp {
     @JsonProperty("errcode")
     var errCode: String? = null
     @JsonProperty("errmsg")
