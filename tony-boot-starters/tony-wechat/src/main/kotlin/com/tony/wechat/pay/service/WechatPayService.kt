@@ -12,9 +12,9 @@ import com.tony.wechat.pay.config.WechatPayProperties
 import com.tony.wechat.pay.enums.TradeType
 import com.tony.wechat.pay.req.WechatAppPayReq
 import com.tony.wechat.pay.req.WechatMiniProgramPayReq
-import com.tony.wechat.pay.xml.req.WechatPayNotifyReq
 import com.tony.wechat.pay.req.WechatPayOrderReq
 import com.tony.wechat.pay.req.WechatPayReq
+import com.tony.wechat.pay.xml.req.WechatPayNotifyReq
 import com.tony.wechat.pay.xml.resp.WechatPayOrderResp
 import com.tony.wechat.xml.toXmlString
 import com.tony.wechat.xml.xmlToObj
