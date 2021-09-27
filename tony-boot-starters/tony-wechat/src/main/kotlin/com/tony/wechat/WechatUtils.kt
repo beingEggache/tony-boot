@@ -2,8 +2,10 @@
 
 package com.tony.wechat
 
+import com.tony.core.exception.ApiException
 import com.tony.core.utils.jsonToObj
 import com.tony.core.utils.toJsonString
+import com.tony.wechat.client.resp.WechatResp
 import org.apache.commons.codec.digest.DigestUtils
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -33,4 +35,11 @@ internal fun <T> genMd5UpperCaseSign(obj: T, vararg params: Pair<String, Any?>):
         it.value !is String && it.value.toString().isNotBlank()
     }
     return DigestUtils.md5Hex(deepLink).uppercase()
+}
+
+fun <T : WechatResp> T.check(): T {
+    if (!success()) {
+        throw ApiException("errcode: $errCode, errmsg: $errMsg")
+    }
+    return this
 }

@@ -1,13 +1,14 @@
 package com.tony.wechat.service
 
-import com.tony.core.exception.ApiException
 import com.tony.core.utils.getLogger
 import com.tony.core.utils.urlEncode
+import com.tony.wechat.check
 import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
+import com.tony.wechat.client.resp.WechatApiTokenResp
 import com.tony.wechat.client.resp.WechatJsSdkConfigResp
-import com.tony.wechat.client.resp.WechatResp
+import com.tony.wechat.client.resp.WechatUserTokenResp
 import com.tony.wechat.config.WechatProperties
 import com.tony.wechat.genNonceStr
 import com.tony.wechat.genTimeStamp
@@ -17,7 +18,8 @@ import org.springframework.validation.annotation.Validated
 @Suppress("unused")
 class WechatService(
     private val wechatProperties: WechatProperties,
-    private val wechatClient: WechatClient
+    private val wechatClient: WechatClient,
+    private val apiAccessTokenProviderWrapper: ApiAccessTokenProviderWrapper
 ) {
 
     private val logger = getLogger()
@@ -44,18 +46,16 @@ class WechatService(
         accessToken: String? = accessToken().accessToken
     ) = wechatClient.createQrCode(req, accessToken).check()
 
-    fun accessToken() = wechatClient.accessToken(
+    fun accessToken() = apiAccessTokenProviderWrapper.accessToken(
         wechatProperties.subscriptionAppId,
-        wechatProperties.appSecret,
-        "client_credential"
-    ).check()
+        wechatProperties.appSecret
+    )
 
-    fun userAccessToken(code: String?) = wechatClient.userAccessToken(
+    fun userAccessToken(code: String?) = apiAccessTokenProviderWrapper.userAccessToken(
         wechatProperties.subscriptionAppId,
         wechatProperties.appSecret,
-        code,
-        "authorization_code"
-    ).check()
+        code
+    )
 
     @JvmOverloads
     fun createMenu(
@@ -110,11 +110,66 @@ class WechatService(
             "&response_type=code" +
             "&scope=snsapi_base" +
             "&state=#wechat_redirect"
+}
 
-    private fun <T : WechatResp> T.check(): T {
-        if (!success()) {
-            throw ApiException("errcode: $errCode, errmsg: $errMsg")
-        }
-        return this
-    }
+interface ApiAccessTokenProviderWrapper {
+
+    fun accessToken(
+        appId: String?,
+        appSecret: String?
+    ): WechatApiTokenResp
+
+    fun userAccessToken(
+        appId: String?,
+        secret: String?,
+        code: String?,
+    ): WechatUserTokenResp
+}
+
+internal class DefaultApiAccessTokenProviderWrapper(
+    private val apiAccessTokenProvider: ApiAccessTokenProvider
+) : ApiAccessTokenProviderWrapper {
+
+    override fun accessToken(
+        appId: String?,
+        appSecret: String?
+    ) = apiAccessTokenProvider.accessToken(
+        appId,
+        appSecret
+    )
+
+    override fun userAccessToken(
+        appId: String?,
+        secret: String?,
+        code: String?,
+    ) = apiAccessTokenProvider.userAccessToken(
+        appId,
+        secret,
+        code
+    )
+}
+
+class ApiAccessTokenProvider(
+    private val wechatClient: WechatClient
+) {
+
+    fun accessToken(
+        appId: String?,
+        appSecret: String?
+    ) = wechatClient.accessToken(
+        appId,
+        appSecret,
+        "client_credential"
+    ).check()
+
+    fun userAccessToken(
+        appId: String?,
+        secret: String?,
+        code: String?,
+    ) = wechatClient.userAccessToken(
+        appId,
+        secret,
+        code,
+        "authorization_code"
+    ).check()
 }

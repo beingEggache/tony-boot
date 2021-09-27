@@ -1,7 +1,11 @@
 package com.tony.wechat.config
 
 import com.tony.wechat.client.WechatClient
+import com.tony.wechat.service.ApiAccessTokenProvider
+import com.tony.wechat.service.ApiAccessTokenProviderWrapper
+import com.tony.wechat.service.DefaultApiAccessTokenProviderWrapper
 import com.tony.wechat.service.WechatService
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -29,10 +33,19 @@ internal class WechatAutoConfiguration {
     }
 
     @Bean
+    fun apiAccessTokenProvider(wechatClient: WechatClient) = ApiAccessTokenProvider(wechatClient)
+
+    @ConditionalOnMissingBean(ApiAccessTokenProviderWrapper::class)
+    @Bean
+    fun apiAccessTokenProviderWrapper(apiAccessTokenProvider: ApiAccessTokenProvider): ApiAccessTokenProviderWrapper =
+        DefaultApiAccessTokenProviderWrapper(apiAccessTokenProvider)
+
+    @Bean
     fun wechatService(
         wechatProperties: WechatProperties,
-        wechatClient: WechatClient
-    ) = WechatService(wechatProperties, wechatClient)
+        wechatClient: WechatClient,
+        apiAccessTokenProviderWrapper: ApiAccessTokenProviderWrapper
+    ) = WechatService(wechatProperties, wechatClient, apiAccessTokenProviderWrapper)
 }
 
 @Suppress("ConfigurationProperties")

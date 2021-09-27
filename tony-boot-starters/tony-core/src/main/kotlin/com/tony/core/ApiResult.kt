@@ -5,21 +5,14 @@ package com.tony.core
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.tony.core.utils.asTo
-import com.tony.core.utils.toJsonString
+import com.tony.core.utils.defaultIfBlank
 
 @JsonPropertyOrder(value = ["code", "msg", "data"])
 data class ApiResult<T> @JvmOverloads constructor(
     val data: T?,
-    val code: Int,
+    val code: Int = ApiProperty.successCode,
     val msg: String = ""
 ) {
-
-    fun toMap() =
-        mutableMapOf(
-            "code" to code.toString(),
-            "data" to data.toJsonString(),
-            "msg" to msg
-        )
 
     companion object {
         @JvmField
@@ -27,6 +20,8 @@ data class ApiResult<T> @JvmOverloads constructor(
 
         @JvmSynthetic
         fun <T> T?.toOneResult() = OneResult(this)
+
+        fun message(message: String?) = ApiResult(Unit, ApiProperty.successCode, message.defaultIfBlank())
     }
 }
 
