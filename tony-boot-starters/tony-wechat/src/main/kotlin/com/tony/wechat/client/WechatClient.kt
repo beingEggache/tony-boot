@@ -29,21 +29,47 @@ import org.springframework.web.bind.annotation.RequestParam
 @FeignClient("wechatClient", url = "https://api.weixin.qq.com")
 interface WechatClient {
 
+    /**
+     * ## 获取Access token
+     * @param appId 第三方用户唯一凭证
+     * @param secret 第三方用户唯一凭证密钥，即appsecret
+     * @param grantType 获取access_token填写client_credential
+     * @see <a href="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html">获取Access token</a>
+     */
     @GetMapping("/cgi-bin/token")
     fun accessToken(
-        @RequestParam("appid") appId: String?,
-        @RequestParam("secret") secret: String?,
-        @RequestParam("grant_type") grantType: String?
+        @RequestParam("appid", required = true) appId: String?,
+        @RequestParam("secret", required = true) secret: String?,
+        @RequestParam(
+            "grant_type",
+            required = true,
+            defaultValue = "client_credential"
+        ) grantType: String? = "client_credential"
     ): WechatApiTokenResp
 
+    /**
+     * ## 网页授权
+     * @param appId 公众号的唯一标识
+     * @param secret 公众号的appsecret
+     * @param code 填写第一步获取的code参数
+     * @param grantType 填写为authorization_code
+     * @see <a href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html">网页授权</a>
+     */
     @GetMapping("/sns/oauth2/access_token")
     fun userAccessToken(
-        @RequestParam("appid") appId: String?,
-        @RequestParam("secret") secret: String?,
-        @RequestParam("code") code: String?,
-        @RequestParam("grant_type") grantType: String?,
+        @RequestParam("appid", required = true) appId: String?,
+        @RequestParam("secret", required = true) secret: String?,
+        @RequestParam("code", required = true) code: String?,
+        @RequestParam(
+            "grant_type",
+            required = true,
+            defaultValue = "authorization_code"
+        ) grantType: String? = "authorization_code"
     ): WechatUserTokenResp
 
+    /**
+     * ## 获取调用微信JS接口的临时票据
+     */
     @GetMapping("/cgi-bin/ticket/getticket")
     fun getTicket(
         @RequestParam("access_token") accessToken: String?,

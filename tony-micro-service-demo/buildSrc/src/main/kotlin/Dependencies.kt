@@ -120,6 +120,8 @@ object Deps {
         const val starterAop = "org.springframework.boot:spring-boot-starter-aop:${Version.springBootVersion}"
         const val starterDataRedis =
             "org.springframework.boot:spring-boot-starter-data-redis:${Version.springBootVersion}"
+		const val starterDataRedisReactive =
+            "org.springframework.boot:spring-boot-starter-data-redis-reactive:${Version.springBootVersion}"
         const val starterJdbc = "org.springframework.boot:spring-boot-starter-jdbc:${Version.springBootVersion}"
         const val starterJson = "org.springframework.boot:spring-boot-starter-json:${Version.springBootVersion}"
         const val starterLogging = "org.springframework.boot:spring-boot-starter-logging:${Version.springBootVersion}"
