@@ -7,19 +7,6 @@ plugins {
     id("org.springframework.boot")
 }
 
-tasks.register("unpack", Copy::class) {
-    dependsOn("bootJar")
-    group = "docker"
-    from(zipTree(tasks.getByPath("bootJar").outputs.files.singleFile))
-    into("build/unpack")
-    doLast {
-        file("build/unpack/BOOT-INF/classes")
-            .renameTo(file("build/unpack/app"))
-        file("build/unpack/BOOT-INF/lib")
-            .renameTo(file("build/unpack/app/libs"))
-    }
-}
-
 val yyyyMMdd = SimpleDateFormat("yyyyMMdd")
 val dockerRegistry: String by project
 val dockerUserName: String by project
@@ -47,14 +34,18 @@ configure<DockerExtension> {
     tag("today", "$name:$today")
     tag("latest", "$name:latest")
     setDockerfile(File("Dockerfile"))
-    copySpec.from(tasks.getByPath("unpack").outputs).into("dependency")
+    // implicit task dep
+    val outputs = tasks.getByPath("bootJar").outputs
+    copySpec
+        .from(outputs)
+        .into("")
     buildArgs(
         mapOf(
-            "DEPENDENCY" to "dependency"
+            "JAR_FILE" to outputs.files.singleFile.name
         )
     )
 }
 
 tasks.getByName("docker") {
-    dependsOn("dockerClean", "dockerLogin")
+    dependsOn("dockerLogin")
 }

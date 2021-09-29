@@ -211,6 +211,7 @@ object Deps {
         "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to Other.annotationApi,
         "javax.activation:javax.activation-api" to Other.activationApi,
         "org.glassfish:jakarta.el" to Other.elApi,
+        "org.apache.tomcat.embed:tomcat-embed-el" to Other.elApi,
         "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to Other.websocketApi,
         "javax.validation:validation-api" to Other.validationApi,
         "javax.xml.bind:jaxb-api" to Other.bindApi,

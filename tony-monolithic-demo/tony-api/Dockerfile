@@ -1,7 +1,15 @@
-FROM 127.0.0.1:8082/publisher/minimal-jre11:latest
+FROM openjdk:11.0.12-jre-slim as builder
+WORKDIR application
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} application.jar
+RUN java -Djarmode=layertools -jar application.jar extract
+
+FROM openjdk:11.0.12-jre-slim
+WORKDIR application
 VOLUME ["/tmp","/secrets","/logs"]
-ARG DEPENDENCY=target/unpack
-COPY ["$DEPENDENCY/app","/app"]
-ENV TZ='Asia/Shanghai' LANG='C.UTF-8'
-EXPOSE 8080
-ENTRYPOINT ["java","-noverify","-cp","app:app/libs/*","com.tony.api.ApiWebAppKt"]
+
+COPY --from=builder application/dependencies/ ./
+COPY --from=builder application/spring-boot-loader/ ./
+COPY --from=builder application/snapshot-dependencies/ ./
+COPY --from=builder application/application/ ./
+ENTRYPOINT ["java", "-noverify","org.springframework.boot.loader.JarLauncher"]
