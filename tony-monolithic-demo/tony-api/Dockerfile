@@ -12,4 +12,4 @@ COPY --from=builder application/dependencies/ ./
 COPY --from=builder application/spring-boot-loader/ ./
 COPY --from=builder application/snapshot-dependencies/ ./
 COPY --from=builder application/application/ ./
-ENTRYPOINT ["java", "-noverify","org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["java", "-noverify","-XX:TieredStopAtLevel=1","org.springframework.boot.loader.JarLauncher"]

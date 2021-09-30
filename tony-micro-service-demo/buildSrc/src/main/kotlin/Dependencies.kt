@@ -89,6 +89,7 @@ object Deps {
         const val beans = "org.springframework:spring-beans:${Version.springVersion}"
         const val context = "org.springframework:spring-context:${Version.springVersion}"
         const val contextSupport = "org.springframework:spring-context-support:${Version.springVersion}"
+		const val contextIndexer = "org.springframework:spring-context-indexer:${Version.springVersion}"
         const val core = "org.springframework:spring-core:${Version.springVersion}"
         const val expression = "org.springframework:spring-expression:${Version.springVersion}"
         const val jcl = "org.springframework:spring-jcl:${Version.springVersion}"

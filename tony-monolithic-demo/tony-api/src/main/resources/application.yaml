@@ -7,4 +7,3 @@ spring:
         active: dev
     application:
         name: tony-api
-

@@ -10,6 +10,6 @@ dependencies {
         val list = Deps.SpringBoot.starterTomcat.split(":")
         exclude(list[0],list[1])
     }
-    implementation(Deps.SpringBoot.starterUndertow)
+    api(Deps.SpringBoot.starterUndertow)
     api(Deps.SpringBoot.starterValidation)
 }
