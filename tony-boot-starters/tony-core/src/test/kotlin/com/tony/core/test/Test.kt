@@ -1,8 +1,12 @@
 package com.tony.core.test
 
+import com.tony.core.ApiProperty
+import com.tony.core.ApiResult
 import com.tony.core.utils.formatToPercent
 import com.tony.core.utils.println
 import org.junit.jupiter.api.Test
+import kotlin.reflect.javaType
+import kotlin.reflect.typeOf
 
 /**
  *
@@ -11,10 +15,13 @@ import org.junit.jupiter.api.Test
  */
 class Test {
 
+    @ExperimentalStdlibApi
     @Test
     fun testIfNullOrEmpty() {
-        500.123f.formatToPercent().println()
+        val kType = typeOf<ApiResult<Map<String, List<String>>>>()
+
+        kType.arguments.forEach {
+            it.type?.javaType.println()
+        }
     }
-
-
 }

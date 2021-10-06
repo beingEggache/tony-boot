@@ -29,9 +29,9 @@ configure(subprojects) {
         plugin("ktlint")
     }
 
-    dependencies {
-        add("kapt",Deps.Spring.contextIndexer)
-    }
+//    dependencies {
+//        add("kapt",Deps.Spring.contextIndexer)
+//    }
 
     tasks.withType<KotlinCompile>().configureEach {
         val isTest = this.name.contains("test", ignoreCase = true)
