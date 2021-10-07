@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version Version.kotlinVersion apply false
-    kotlin("kapt") version Version.kotlinVersion apply false
     kotlin("plugin.spring") version Version.kotlinVersion apply false
 }
 
@@ -23,13 +22,8 @@ configure(subprojects) {
 
     apply {
         plugin("kotlin")
-        plugin("kotlin-kapt")
         plugin("ktlint")
     }
-
-//    dependencies {
-//        add("kapt",Deps.Spring.contextIndexer)
-//    }
 
     tasks.withType<KotlinCompile>().configureEach {
         val isTest = this.name.contains("test", ignoreCase = true)
