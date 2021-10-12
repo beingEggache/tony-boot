@@ -25,7 +25,7 @@ object Version {
     const val springfoxSwagger2Version = "2.10.5"
     const val knife4jVersion = "2.0.9"
 
-    const val jacksonVersion = "2.12.5"
+    const val jacksonVersion = "2.13.0"
     const val gsonVersion = "2.8.8"
     const val fastjsonVersion = "1.2.78"
 
@@ -34,11 +34,11 @@ object Version {
     const val reactorNettyVersion = "1.0.11"
 
     const val slf4jVersion = "1.7.32"
-    const val byteBuddyVersion = "1.11.18"
+    const val byteBuddyVersion = "1.11.20"
     const val javaJwtVersion = "3.18.2"
-    const val guavaVersion = "31.0-jre"
+    const val guavaVersion = "31.0.1-jre"
 
-    const val alipaySdkJavaVersion = "4.16.57.ALL"
+    const val alipaySdkJavaVersion = "4.17.0.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.25"
     const val aliyunSdkOssVersion = "3.13.1"
 

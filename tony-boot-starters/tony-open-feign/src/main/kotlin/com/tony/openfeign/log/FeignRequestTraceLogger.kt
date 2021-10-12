@@ -44,7 +44,7 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val origin = url.origin
         val query = url.query.defaultIfBlank("[null]")
         val path = url.path
-        val headers = response.headers.toMultimap().toMap().mapValues { it.value.joinToString() }.toJsonString()
+        val headers = request.headers.toMultimap().toMap().mapValues { it.value.joinToString() }.toJsonString()
         val responseBody = response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).string()
         val requestBody = request.body?.string()
         val logStr =
