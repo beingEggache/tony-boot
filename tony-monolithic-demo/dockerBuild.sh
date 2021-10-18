@@ -73,9 +73,7 @@ do
    fi
 done
 
-echo "docker run image ${image_name}:${image_tag} on ${port}:${port}, profile=${profile}"
-
-docker run -d --name="${project_name}" -p "${port}":"${port}" -e "SPRING_PROFILES_ACTIVE=${profile:=qa}" -v "${dir}"/logs:/logs "${image_name}"
+docker run -d --name="${project_name}" -p "${port}":"${port}" -e "JAVA_OPTS=-Dspring.profiles.active=${profile:=qa}" -v "${dir}"/logs:/logs "${image_name}"
 
 run_status=$?
 if [ $run_status != 0 ]

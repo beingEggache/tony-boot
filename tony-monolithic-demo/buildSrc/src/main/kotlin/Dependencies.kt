@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 object Version {
     const val kotlinVersion = "1.5.31"
 
-    const val springVersion = "5.3.10"
+    const val springVersion = "5.3.11"
     const val springBootVersion = "2.5.5"
     const val springCloudOpenFeignVersion = "3.0.4"
 
@@ -107,6 +107,14 @@ object Deps {
         const val springDataCommon = "org.springframework.data:spring-data-common:${Version.springBootVersion}"
         const val springDataRedis = "org.springframework.data:spring-data-redis:${Version.springBootVersion}"
         const val lettuce = "io.lettuce:lettuce-core:${Version.lettuceCoreVersion}"
+    }
+
+    object OpenFeign {
+        const val starterOpenFeign = "org.springframework.cloud:spring-cloud-starter-openfeign:${Version.springCloudOpenFeignVersion}"
+        const val openFeignCore = "io.github.openfeign:feign-core:${Version.openFeignVersion}"
+        const val openFeignSl4j = "io.github.openfeign:feign-slf4j:${Version.openFeignVersion}"
+        const val openFeignOkhttp = "io.github.openfeign:feign-okhttp:${Version.openFeignVersion}"
+        const val openFeignJackson = "io.github.openfeign:feign-jackson:${Version.openFeignVersion}"
     }
 
     object SpringBoot {

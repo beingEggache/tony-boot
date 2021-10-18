@@ -22,7 +22,7 @@ import java.util.TimeZone
 val OBJECT_MAPPER: ObjectMapper = createObjectMapper()
 
 fun createObjectMapper() = ObjectMapper().apply {
-    registerModules(KotlinModule(), JavaTimeModule())
+    registerModules(KotlinModule.Builder().build(), JavaTimeModule())
     setTimeZone(TimeZone.getDefault())
     setSerializationInclusion(JsonInclude.Include.ALWAYS)
     enable(JsonGenerator.Feature.IGNORE_UNKNOWN)

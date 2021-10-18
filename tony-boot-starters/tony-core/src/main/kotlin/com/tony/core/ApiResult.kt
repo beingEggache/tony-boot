@@ -2,7 +2,6 @@
 
 package com.tony.core
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.tony.core.utils.asTo
 import com.tony.core.utils.defaultIfBlank
@@ -16,7 +15,7 @@ data class ApiResult<T> @JvmOverloads constructor(
 
     companion object {
         @JvmField
-        val EMPTY_RESULT = EmptyResult()
+        val EMPTY_RESULT = emptyMap<Any?, Any?>()
 
         @JvmSynthetic
         fun <T> T?.toOneResult() = OneResult(this)
@@ -24,9 +23,6 @@ data class ApiResult<T> @JvmOverloads constructor(
         fun message(message: String?) = ApiResult(Unit, ApiProperty.successCode, message.defaultIfBlank())
     }
 }
-
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
-class EmptyResult
 
 data class OneResult<T>(val result: T? = null)
 

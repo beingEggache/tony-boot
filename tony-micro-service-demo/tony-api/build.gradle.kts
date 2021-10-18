@@ -18,7 +18,7 @@ dependencies {
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
 
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2020.0.3"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2020.0.4"))
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation(Deps.Tony.tonyWebCore)
 
