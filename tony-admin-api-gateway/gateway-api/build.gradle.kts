@@ -4,7 +4,7 @@ apply {
 
 dependencies {
     implementation(platform("com.alibaba.cloud:spring-cloud-alibaba-dependencies:2021.1"))
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2020.0.3"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2020.0.4"))
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")

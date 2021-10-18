@@ -29,16 +29,16 @@ object Version {
     const val gsonVersion = "2.8.8"
     const val fastjsonVersion = "1.2.78"
 
-    const val nettyVersion = "4.1.68.Final"
-    const val reactorVersion = "3.4.10"
-    const val reactorNettyVersion = "1.0.11"
+    const val nettyVersion = "4.1.69.Final"
+    const val reactorVersion = "3.4.11"
+    const val reactorNettyVersion = "1.0.12"
 
     const val slf4jVersion = "1.7.32"
     const val byteBuddyVersion = "1.11.20"
     const val javaJwtVersion = "3.18.2"
     const val guavaVersion = "31.0.1-jre"
 
-    const val alipaySdkJavaVersion = "4.17.0.ALL"
+    const val alipaySdkJavaVersion = "4.17.5.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.25"
     const val aliyunSdkOssVersion = "3.13.1"
 
@@ -72,6 +72,8 @@ object Deps {
         const val buffer = "io.netty:netty-buffer:${Version.nettyVersion}"
         const val common = "io.netty:netty-common:${Version.nettyVersion}"
         const val resolver = "io.netty:netty-resolver:${Version.nettyVersion}"
+        const val resolverDns = "io.netty:netty-resolver-dns:${Version.nettyVersion}"
+        const val resolverDnsMacOs = "io.netty:netty-resolver-dns-native-macos:${Version.nettyVersion}"
         const val transport = "io.netty:netty-transport:${Version.nettyVersion}"
         const val transportNativeUnixCommon = "io.netty:netty-transport-native-unix-common:${Version.nettyVersion}"
         const val transportNativeEpoll = "io.netty:netty-transport-native-epoll:${Version.nettyVersion}"
