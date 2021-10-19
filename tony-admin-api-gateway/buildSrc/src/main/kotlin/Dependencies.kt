@@ -204,6 +204,7 @@ object Deps {
         const val byteBuddy = "net.bytebuddy:byte-buddy:${Version.byteBuddyVersion}"
         const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${Version.byteBuddyVersion}"
         const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:1.69"
+        const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on:1.69"
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${Version.reactorVersion}"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:${Version.reactorNettyVersion}"
