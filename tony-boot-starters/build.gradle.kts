@@ -27,6 +27,11 @@ configure(subprojects) {
         plugin("ktlint")
     }
 
+    dependencies {
+        add("implementation", platform(Deps.SpringCloudDeps.springCloudDependencies))
+        add("implementation", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
+    }
+
     tasks.withType<KotlinCompile>().configureEach {
         val isTest = this.name.contains("test", ignoreCase = true)
         kotlinOptions {

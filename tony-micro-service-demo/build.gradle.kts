@@ -20,11 +20,18 @@ configure(subprojects) {
         }
         mavenCentral()
     }
+
+
     forceDepsVersion()
 
     apply {
         plugin("kotlin")
         plugin("ktlint")
+    }
+
+    dependencies {
+        add("implementation", platform(Deps.SpringCloudDeps.springCloudDependencies))
+        add("implementation", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
     }
 
     tasks.withType<KotlinCompile>().configureEach {
@@ -34,7 +41,7 @@ configure(subprojects) {
             allWarningsAsErrors = !isTest
             verbose = true
             freeCompilerArgs = listOf(
-                    "-Xjsr305=strict -Xlint:all -Werror -verbose -encoding=UTF8 -deprecation -version -progressive"
+                "-Xjsr305=strict -Xlint:all -Werror -verbose -encoding=UTF8 -deprecation -version -progressive"
             )
         }
     }

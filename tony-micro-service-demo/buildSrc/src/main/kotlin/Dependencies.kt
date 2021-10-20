@@ -11,7 +11,9 @@ object Version {
 
     const val springVersion = "5.3.11"
     const val springBootVersion = "2.5.5"
-    const val springCloudOpenFeignVersion = "3.0.4"
+
+    const val springCloudAlibabaVersion = "2021.1"
+    const val springCloudVersion = "2020.0.4"
 
     const val openFeignVersion = "11.6"
 
@@ -91,7 +93,7 @@ object Deps {
         const val beans = "org.springframework:spring-beans:${Version.springVersion}"
         const val context = "org.springframework:spring-context:${Version.springVersion}"
         const val contextSupport = "org.springframework:spring-context-support:${Version.springVersion}"
-		const val contextIndexer = "org.springframework:spring-context-indexer:${Version.springVersion}"
+        const val contextIndexer = "org.springframework:spring-context-indexer:${Version.springVersion}"
         const val core = "org.springframework:spring-core:${Version.springVersion}"
         const val expression = "org.springframework:spring-expression:${Version.springVersion}"
         const val jcl = "org.springframework:spring-jcl:${Version.springVersion}"
@@ -112,7 +114,6 @@ object Deps {
     }
 
     object OpenFeign {
-        const val starterOpenFeign = "org.springframework.cloud:spring-cloud-starter-openfeign:${Version.springCloudOpenFeignVersion}"
         const val openFeignCore = "io.github.openfeign:feign-core:${Version.openFeignVersion}"
         const val openFeignSl4j = "io.github.openfeign:feign-slf4j:${Version.openFeignVersion}"
         const val openFeignOkhttp = "io.github.openfeign:feign-okhttp:${Version.openFeignVersion}"
@@ -129,9 +130,10 @@ object Deps {
         const val starterActuator = "org.springframework.boot:spring-boot-starter-actuator:${Version.springBootVersion}"
         const val starterAmqp = "org.springframework.boot:spring-boot-starter-amqp:${Version.springBootVersion}"
         const val starterAop = "org.springframework.boot:spring-boot-starter-aop:${Version.springBootVersion}"
+        const val starterCache = "org.springframework.boot:spring-boot-starter-cache:${Version.springBootVersion}"
         const val starterDataRedis =
             "org.springframework.boot:spring-boot-starter-data-redis:${Version.springBootVersion}"
-		const val starterDataRedisReactive =
+        const val starterDataRedisReactive =
             "org.springframework.boot:spring-boot-starter-data-redis-reactive:${Version.springBootVersion}"
         const val starterJdbc = "org.springframework.boot:spring-boot-starter-jdbc:${Version.springBootVersion}"
         const val starterJson = "org.springframework.boot:spring-boot-starter-json:${Version.springBootVersion}"
@@ -147,10 +149,6 @@ object Deps {
             "org.springframework.boot:spring-boot-starter-websocket:${Version.springBootVersion}"
     }
 
-    object SpringCloud {
-        const val nacosConfig = "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2021.1"
-    }
-
     object Tony {
         const val tonyCore = "com.tony:tony-core:${Version.tonyVersion}"
         const val tonyJwt = "com.tony:tony-jwt:${Version.tonyVersion}"
@@ -160,6 +158,13 @@ object Deps {
         const val tonyOpenFeign = "com.tony:tony-open-feign:${Version.tonyVersion}"
         const val tonyWebCore = "com.tony:tony-web-core:${Version.tonyVersion}"
         const val tonyCache = "com.tony:tony-cache:${Version.tonyVersion}"
+    }
+
+    object SpringCloudDeps {
+        const val springCloudAlibabaDenpendencies =
+            "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${Version.springCloudAlibabaVersion}"
+        const val springCloudDependencies =
+            "org.springframework.cloud:spring-cloud-dependencies:${Version.springCloudVersion}"
     }
 
     object Test {

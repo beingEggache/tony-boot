@@ -2,18 +2,18 @@ package com.tony.db.typehandler
 
 import com.tony.core.enums.EnumValue
 import com.tony.core.utils.asTo
-import org.apache.ibatis.type.BaseTypeHandler
-import org.apache.ibatis.type.JdbcType
 import java.io.Serializable
 import java.sql.CallableStatement
 import java.sql.PreparedStatement
 import java.sql.ResultSet
+import org.apache.ibatis.type.BaseTypeHandler
+import org.apache.ibatis.type.JdbcType
 
 open class EnumValueTypeHandler<E, KEY>(private val enumClass: Class<E>) :
     BaseTypeHandler<Enum<E>>()
     where E : Enum<E>,
-           KEY : Serializable,
-           E : EnumValue<KEY> {
+          KEY : Serializable,
+          E : EnumValue<KEY> {
 
     private fun getValue(obj: Enum<E>) =
         obj.asTo<EnumValue<KEY>>()?.value
