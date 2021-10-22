@@ -5,7 +5,7 @@ import com.alipay.api.DefaultAlipayClient
 import com.alipay.api.domain.AlipayTradeAppPayModel
 import com.alipay.api.internal.util.AlipaySignature
 import com.alipay.api.request.AlipayTradeAppPayRequest
-import com.tony.core.exception.ApiException
+import com.tony.alipay.exception.AlipayException
 import com.tony.core.utils.urlEncode
 
 @Suppress("unused")
@@ -31,7 +31,7 @@ class AlipayService(
         return try {
             AlipaySignature.rsaCheckV1(params, aliPayPublicKey, requestCharset, requestSignType)
         } catch (e: AlipayApiException) {
-            throw ApiException(e.message, e)
+            throw AlipayException(e.message, e)
         }
     }
 
@@ -59,6 +59,6 @@ class AlipayService(
                 }
             )
         } catch (e: AlipayApiException) {
-            throw ApiException(e.message, e)
+            throw AlipayException(e.message, e)
         }.body
 }
