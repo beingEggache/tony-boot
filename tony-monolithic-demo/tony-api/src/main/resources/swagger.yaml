@@ -6,7 +6,7 @@ knife4j:
         enable-footer: false
         enable-home-custom: true
         enable-swagger-models: false
-        home-custom-location: classpath:markdown/HOME.md
+        home-custom-location: classpath:markdown/README.md
     extension:
         base-packages:
             - "com.tony.api"

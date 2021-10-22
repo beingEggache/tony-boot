@@ -30,6 +30,11 @@ configure(subprojects) {
         add("implementation", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
     }
 
+    configure<JavaPluginExtension> {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
     tasks.withType<KotlinCompile>().configureEach {
         val isTest = this.name.contains("test", ignoreCase = true)
         kotlinOptions {

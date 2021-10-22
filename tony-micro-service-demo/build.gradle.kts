@@ -5,11 +5,9 @@ plugins {
     kotlin("plugin.spring") version Version.kotlinVersion apply false
 }
 
-copyProjectHookToGitHook("pre-commit", "pre-push")
-
 configure(subprojects) {
     group = "com.tony"
-    version = "0.1-SNAPSHOT"
+    version = "0.1"
 
     val privateMavenRepoUrl: String by project
     repositories {
@@ -20,8 +18,6 @@ configure(subprojects) {
         }
         mavenCentral()
     }
-
-
     forceDepsVersion()
 
     apply {
@@ -32,6 +28,11 @@ configure(subprojects) {
     dependencies {
         add("implementation", platform(Deps.SpringCloudDeps.springCloudDependencies))
         add("implementation", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
+    }
+
+    configure<JavaPluginExtension> {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     tasks.withType<KotlinCompile>().configureEach {
