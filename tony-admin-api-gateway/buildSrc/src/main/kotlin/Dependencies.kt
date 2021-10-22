@@ -9,16 +9,16 @@ import kotlin.reflect.KClass
 object Version {
     const val kotlinVersion = "1.5.31"
 
-    const val springVersion = "5.3.11"
-    const val springBootVersion = "2.5.5"
+    const val springVersion = "5.3.12"
+    const val springBootVersion = "2.5.6"
 
     const val springCloudAlibabaVersion = "2021.1"
     const val springCloudVersion = "2020.0.4"
 
     const val openFeignVersion = "11.6"
 
-    const val postgresqlVersion = "42.2.24"
-    const val mysqlVersion = "8.0.26"
+    const val postgresqlVersion = "42.3.0"
+    const val mysqlVersion = "8.0.27"
     const val hikariCPVersion = "5.0.0"
     const val mybatisPlusVersion = "3.4.3.4"
     const val lettuceCoreVersion = "6.1.5.RELEASE"
@@ -36,11 +36,11 @@ object Version {
     const val reactorNettyVersion = "1.0.12"
 
     const val slf4jVersion = "1.7.32"
-    const val byteBuddyVersion = "1.11.20"
+    const val byteBuddyVersion = "1.11.21"
     const val javaJwtVersion = "3.18.2"
     const val guavaVersion = "31.0.1-jre"
 
-    const val alipaySdkJavaVersion = "4.17.5.ALL"
+    const val alipaySdkJavaVersion = "4.17.9.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.25"
     const val aliyunSdkOssVersion = "3.13.1"
 
@@ -194,7 +194,7 @@ object Deps {
 
         const val xstream = "com.thoughtworks.xstream:xstream:1.4.18"
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
-        const val okhttp = "com.squareup.okhttp3:okhttp:4.9.1"
+        const val okhttp = "com.squareup.okhttp3:okhttp:4.9.2"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
 
         const val guava = "com.google.guava:guava:${Version.guavaVersion}"
