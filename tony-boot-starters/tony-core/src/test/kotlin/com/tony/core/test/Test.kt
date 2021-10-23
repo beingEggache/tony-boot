@@ -1,12 +1,9 @@
 package com.tony.core.test
 
-import com.tony.core.ApiProperty
-import com.tony.core.ApiResult
-import com.tony.core.utils.formatToPercent
 import com.tony.core.utils.println
+import com.tony.core.utils.toMd5UppercaseString
 import org.junit.jupiter.api.Test
-import kotlin.reflect.javaType
-import kotlin.reflect.typeOf
+import java.security.MessageDigest
 
 /**
  *
@@ -15,13 +12,12 @@ import kotlin.reflect.typeOf
  */
 class Test {
 
-    @ExperimentalStdlibApi
-    @Test
     fun testIfNullOrEmpty() {
-        val kType = typeOf<ApiResult<Map<String, List<String>>>>()
 
-        kType.arguments.forEach {
-            it.type?.javaType.println()
-        }
     }
+}
+
+fun main() {
+    "123456".toMd5UppercaseString().println()
+    MessageDigest.getInstance("md5").digest()
 }
