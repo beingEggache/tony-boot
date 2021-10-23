@@ -1,10 +1,5 @@
-apply {
-    plugin("kotlin-spring")
-    plugin("maven.publish")
-    plugin("ktlint")
-}
-
 dependencies {
+    implementation(platform(rootProject))
     implementation(projects.tonyKnife4jApi)
     implementation(Deps.Other.knife4j)
 }

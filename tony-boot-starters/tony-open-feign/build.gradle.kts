@@ -1,10 +1,6 @@
-apply {
-    plugin("kotlin-spring")
-    plugin("maven.publish")
-    plugin("ktlint")
-}
-
 dependencies {
+    implementation(platform(rootProject))
+    implementation(platform(Deps.SpringCloudDeps.springCloudDependencies))
     api(projects.tonyCore)
     api(Deps.OpenFeign.openFeignOkhttp)
     api(Deps.OpenFeign.openFeignJackson)

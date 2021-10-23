@@ -1,10 +1,5 @@
-apply {
-    plugin("kotlin-spring")
-    plugin("maven.publish")
-    plugin("ktlint")
-}
-
 dependencies {
+    implementation(platform(rootProject))
     implementation(Deps.SpringBoot.autoconfigure)
     implementation(Deps.Spring.web)
     implementation(Deps.Other.springfoxSwagger2)

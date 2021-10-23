@@ -7,29 +7,69 @@ plugins {
 
 copyProjectHookToGitHook("pre-commit", "pre-push")
 
-configure(subprojects) {
+configure(allprojects) {
     group = "com.tony"
     version = "0.1-SNAPSHOT"
 
-    val privateMavenRepoUrl: String by project
     repositories {
         mavenLocal()
+        val privateMavenRepoUrl: String by project
         maven(url = privateMavenRepoUrl) {
             @Suppress("UnstableApiUsage")
             isAllowInsecureProtocol = true
         }
         mavenCentral()
     }
-    forceDepsVersion()
+}
 
-    apply {
-        plugin("kotlin")
-        plugin("ktlint")
+configure(listOf(rootProject)) {
+    apply(plugin = "org.gradle.java-platform")
+    apply(plugin = "org.gradle.maven-publish")
+
+    configure<PublishingExtension> {
+        repositories {
+            maven {
+
+                val releasesRepoUrl: String by project
+                val snapshotsRepoUrl: String by project
+                val nexusUsername: String by project
+                val nexusPassword: String by project
+
+                url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+                isAllowInsecureProtocol = true
+                credentials {
+                    username = nexusUsername
+                    password = nexusPassword
+                }
+            }
+        }
+        publications {
+            register("mavenJava", MavenPublication::class) {
+                from(components["javaPlatform"])
+            }
+        }
     }
 
     dependencies {
-        add("implementation", platform(Deps.SpringCloudDeps.springCloudDependencies))
-        add("implementation", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
+        constraints {
+            DepManagement::class.nestedClasses.flatMap {
+                it.staticFieldValues()
+            }.forEach {
+                add("api", it)
+            }
+        }
+    }
+}
+
+configure(subprojects) {
+
+    substituteDeps()
+
+    apply {
+        plugin("kotlin")
+        plugin("kotlin-spring")
+        plugin("ktlint")
+        plugin("maven.publish")
     }
 
     configure<JavaPluginExtension> {

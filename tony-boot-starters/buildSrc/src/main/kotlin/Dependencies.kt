@@ -2,9 +2,7 @@
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import java.lang.reflect.Modifier
 import java.util.concurrent.TimeUnit
-import kotlin.reflect.KClass
 
 object Version {
     const val kotlinVersion = "1.5.31"
@@ -14,255 +12,213 @@ object Version {
 
     const val springCloudAlibabaVersion = "2021.1"
     const val springCloudVersion = "2020.0.4"
-
-    const val openFeignVersion = "11.6"
-
-    const val postgresqlVersion = "42.3.0"
-    const val mysqlVersion = "8.0.27"
-    const val hikariCPVersion = "5.0.0"
-    const val mybatisPlusVersion = "3.4.3.4"
-    const val lettuceCoreVersion = "6.1.5.RELEASE"
-
-    const val swaggerVersion = "1.6.2"
-    const val springfoxSwagger2Version = "2.10.5"
-    const val knife4jVersion = "2.0.9"
-
-    const val jacksonVersion = "2.13.0"
-    const val gsonVersion = "2.8.8"
-    const val fastjsonVersion = "1.2.78"
-
-    const val nettyVersion = "4.1.69.Final"
-    const val reactorVersion = "3.4.11"
-    const val reactorNettyVersion = "1.0.12"
-
-    const val slf4jVersion = "1.7.32"
-    const val byteBuddyVersion = "1.11.21"
-    const val javaJwtVersion = "3.18.2"
-    const val guavaVersion = "31.0.1-jre"
-
-    const val alipaySdkJavaVersion = "4.17.9.ALL"
-    const val aliyunJavaSdkCoreVersion = "4.5.25"
-    const val aliyunSdkOssVersion = "3.13.1"
-
 }
 
 object Deps {
 
     object Jackson {
-        const val annotations = "com.fasterxml.jackson.core:jackson-annotations:${Version.jacksonVersion}"
-        const val core = "com.fasterxml.jackson.core:jackson-core:${Version.jacksonVersion}"
-        const val databind = "com.fasterxml.jackson.core:jackson-databind:${Version.jacksonVersion}"
-        const val datatypeJdk8 = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${Version.jacksonVersion}"
-        const val datatypeJsr310 = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${Version.jacksonVersion}"
-        const val moduleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Version.jacksonVersion}"
+        const val annotations = "com.fasterxml.jackson.core:jackson-annotations"
+        const val core = "com.fasterxml.jackson.core:jackson-core"
+        const val databind = "com.fasterxml.jackson.core:jackson-databind"
+        const val datatypeJdk8 = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
+        const val datatypeJsr310 = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+        const val moduleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
         const val moduleParameterNames =
-            "com.fasterxml.jackson.module:jackson-module-parameter-names:${Version.jacksonVersion}"
+            "com.fasterxml.jackson.module:jackson-module-parameter-names"
     }
 
     object Kotlin {
-        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Version.kotlinVersion}"
-        const val stdlibCommon = "org.jetbrains.kotlin:kotlin-stdlib-common:${Version.kotlinVersion}"
-        const val stdlibJdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Version.kotlinVersion}"
-        const val stdlibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Version.kotlinVersion}"
-        const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${Version.kotlinVersion}"
-        const val test = "org.jetbrains.kotlin:kotlin-test:${Version.kotlinVersion}"
-        const val testJunit = "org.jetbrains.kotlin:kotlin-test-junit:${Version.kotlinVersion}"
+        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib"
+        const val stdlibCommon = "org.jetbrains.kotlin:kotlin-stdlib-common"
+        const val stdlibJdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
+        const val stdlibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+        const val reflect = "org.jetbrains.kotlin:kotlin-reflect"
+        const val test = "org.jetbrains.kotlin:kotlin-test"
+        const val testJunit = "org.jetbrains.kotlin:kotlin-test-junit"
     }
 
     object Netty {
-        const val all = "io.netty:netty-all:${Version.nettyVersion}"
-        const val buffer = "io.netty:netty-buffer:${Version.nettyVersion}"
-        const val common = "io.netty:netty-common:${Version.nettyVersion}"
-        const val resolver = "io.netty:netty-resolver:${Version.nettyVersion}"
-        const val resolverDns = "io.netty:netty-resolver-dns:${Version.nettyVersion}"
-        const val resolverDnsMacOs = "io.netty:netty-resolver-dns-native-macos:${Version.nettyVersion}"
-        const val transport = "io.netty:netty-transport:${Version.nettyVersion}"
-        const val transportNativeUnixCommon = "io.netty:netty-transport-native-unix-common:${Version.nettyVersion}"
-        const val transportNativeEpoll = "io.netty:netty-transport-native-epoll:${Version.nettyVersion}"
-        const val handler = "io.netty:netty-handler:${Version.nettyVersion}"
-        const val handlerProxy = "io.netty:netty-handler-proxy:${Version.nettyVersion}"
-        const val codec = "io.netty:netty-codec:${Version.nettyVersion}"
-        const val codecHttp = "io.netty:netty-codec-http:${Version.nettyVersion}"
-        const val codecHttp2 = "io.netty:netty-codec-http2:${Version.nettyVersion}"
-        const val codecSocks = "io.netty:netty-codec-socks:${Version.nettyVersion}"
+        const val all = "io.netty:netty-all"
+        const val buffer = "io.netty:netty-buffer"
+        const val common = "io.netty:netty-common"
+        const val resolver = "io.netty:netty-resolver"
+        const val resolverDns = "io.netty:netty-resolver-dns"
+        const val resolverDnsMacOs = "io.netty:netty-resolver-dns-native-macos"
+        const val transport = "io.netty:netty-transport"
+        const val transportNativeUnixCommon = "io.netty:netty-transport-native-unix-common"
+        const val transportNativeEpoll = "io.netty:netty-transport-native-epoll"
+        const val handler = "io.netty:netty-handler"
+        const val handlerProxy = "io.netty:netty-handler-proxy"
+        const val codec = "io.netty:netty-codec"
+        const val codecHttp = "io.netty:netty-codec-http"
+        const val codecHttp2 = "io.netty:netty-codec-http2"
+        const val codecSocks = "io.netty:netty-codec-socks"
     }
 
     object Spring {
-        const val aop = "org.springframework:spring-aop:${Version.springVersion}"
-        const val beans = "org.springframework:spring-beans:${Version.springVersion}"
-        const val context = "org.springframework:spring-context:${Version.springVersion}"
-        const val contextSupport = "org.springframework:spring-context-support:${Version.springVersion}"
-        const val contextIndexer = "org.springframework:spring-context-indexer:${Version.springVersion}"
-        const val core = "org.springframework:spring-core:${Version.springVersion}"
-        const val expression = "org.springframework:spring-expression:${Version.springVersion}"
-        const val jcl = "org.springframework:spring-jcl:${Version.springVersion}"
-        const val jdbc = "org.springframework:spring-jdbc:${Version.springVersion}"
-        const val orm = "org.springframework:spring-orm:${Version.springVersion}"
-        const val oxm = "org.springframework:spring-oxm:${Version.springVersion}"
-        const val test = "org.springframework:spring-test:${Version.springVersion}"
-        const val tx = "org.springframework:spring-tx:${Version.springVersion}"
-        const val web = "org.springframework:spring-web:${Version.springVersion}"
-        const val webmvc = "org.springframework:spring-webmvc:${Version.springVersion}"
-        const val webflux = "org.springframework:spring-webflux:${Version.springVersion}"
+        const val aop = "org.springframework:spring-aop"
+        const val beans = "org.springframework:spring-beans"
+        const val context = "org.springframework:spring-context"
+        const val contextSupport = "org.springframework:spring-context-support"
+        const val contextIndexer = "org.springframework:spring-context-indexer"
+        const val core = "org.springframework:spring-core"
+        const val expression = "org.springframework:spring-expression"
+        const val jcl = "org.springframework:spring-jcl"
+        const val jdbc = "org.springframework:spring-jdbc"
+        const val orm = "org.springframework:spring-orm"
+        const val oxm = "org.springframework:spring-oxm"
+        const val test = "org.springframework:spring-test"
+        const val tx = "org.springframework:spring-tx"
+        const val web = "org.springframework:spring-web"
+        const val webmvc = "org.springframework:spring-webmvc"
+        const val webflux = "org.springframework:spring-webflux"
     }
 
     object SpringData {
-        const val springDataCommon = "org.springframework.data:spring-data-common:${Version.springBootVersion}"
-        const val springDataRedis = "org.springframework.data:spring-data-redis:${Version.springBootVersion}"
-        const val lettuce = "io.lettuce:lettuce-core:${Version.lettuceCoreVersion}"
+        const val springDataCommon = "org.springframework.data:spring-data-common"
+        const val springDataRedis = "org.springframework.data:spring-data-redis"
+        const val lettuce = "io.lettuce:lettuce-core"
     }
 
     object OpenFeign {
-        const val openFeignCore = "io.github.openfeign:feign-core:${Version.openFeignVersion}"
-        const val openFeignSl4j = "io.github.openfeign:feign-slf4j:${Version.openFeignVersion}"
-        const val openFeignOkhttp = "io.github.openfeign:feign-okhttp:${Version.openFeignVersion}"
-        const val openFeignJackson = "io.github.openfeign:feign-jackson:${Version.openFeignVersion}"
+        const val openFeignCore = "io.github.openfeign:feign-core"
+        const val openFeignSl4j = "io.github.openfeign:feign-slf4j"
+        const val openFeignOkhttp = "io.github.openfeign:feign-okhttp"
+        const val openFeignJackson = "io.github.openfeign:feign-jackson"
     }
 
     object SpringBoot {
-        const val springBoot = "org.springframework.boot:spring-boot:${Version.springBootVersion}"
-        const val springBootStarter = "org.springframework.boot:spring-boot-starter:${Version.springBootVersion}"
-        const val autoconfigure = "org.springframework.boot:spring-boot-autoconfigure:${Version.springBootVersion}"
+        const val springBoot = "org.springframework.boot:spring-boot"
+        const val springBootStarter = "org.springframework.boot:spring-boot-starter"
+        const val autoconfigure = "org.springframework.boot:spring-boot-autoconfigure"
         const val configurationProcessor =
-            "org.springframework.boot:spring-boot-configuration-processor:${Version.springBootVersion}"
-        const val devtools = "org.springframework.boot:spring-boot-devtools:${Version.springBootVersion}"
-        const val starterActuator = "org.springframework.boot:spring-boot-starter-actuator:${Version.springBootVersion}"
-        const val starterAmqp = "org.springframework.boot:spring-boot-starter-amqp:${Version.springBootVersion}"
-        const val starterAop = "org.springframework.boot:spring-boot-starter-aop:${Version.springBootVersion}"
-        const val starterCache = "org.springframework.boot:spring-boot-starter-cache:${Version.springBootVersion}"
+            "org.springframework.boot:spring-boot-configuration-processor"
+        const val devtools = "org.springframework.boot:spring-boot-devtools"
+        const val starterActuator = "org.springframework.boot:spring-boot-starter-actuator"
+        const val starterAmqp = "org.springframework.boot:spring-boot-starter-amqp"
+        const val starterAop = "org.springframework.boot:spring-boot-starter-aop"
+        const val starterCache = "org.springframework.boot:spring-boot-starter-cache"
         const val starterDataRedis =
-            "org.springframework.boot:spring-boot-starter-data-redis:${Version.springBootVersion}"
+            "org.springframework.boot:spring-boot-starter-data-redis"
         const val starterDataRedisReactive =
-            "org.springframework.boot:spring-boot-starter-data-redis-reactive:${Version.springBootVersion}"
-        const val starterJdbc = "org.springframework.boot:spring-boot-starter-jdbc:${Version.springBootVersion}"
-        const val starterJson = "org.springframework.boot:spring-boot-starter-json:${Version.springBootVersion}"
-        const val starterLogging = "org.springframework.boot:spring-boot-starter-logging:${Version.springBootVersion}"
-        const val starterTest = "org.springframework.boot:spring-boot-starter-test:${Version.springBootVersion}"
-        const val starterTomcat = "org.springframework.boot:spring-boot-starter-tomcat:${Version.springBootVersion}"
-        const val starterUndertow = "org.springframework.boot:spring-boot-starter-undertow:${Version.springBootVersion}"
+            "org.springframework.boot:spring-boot-starter-data-redis-reactive"
+        const val starterJdbc = "org.springframework.boot:spring-boot-starter-jdbc"
+        const val starterJson = "org.springframework.boot:spring-boot-starter-json"
+        const val starterLogging = "org.springframework.boot:spring-boot-starter-logging"
+        const val starterTest = "org.springframework.boot:spring-boot-starter-test"
+        const val starterTomcat = "org.springframework.boot:spring-boot-starter-tomcat"
+        const val starterUndertow = "org.springframework.boot:spring-boot-starter-undertow"
         const val starterValidation =
-            "org.springframework.boot:spring-boot-starter-validation:${Version.springBootVersion}"
-        const val starterWeb = "org.springframework.boot:spring-boot-starter-web:${Version.springBootVersion}"
-        const val starterWebflux = "org.springframework.boot:spring-boot-starter-webflux:${Version.springBootVersion}"
+            "org.springframework.boot:spring-boot-starter-validation"
+        const val starterWeb = "org.springframework.boot:spring-boot-starter-web"
+        const val starterWebflux = "org.springframework.boot:spring-boot-starter-webflux"
         const val starterWebsocket =
-            "org.springframework.boot:spring-boot-starter-websocket:${Version.springBootVersion}"
+            "org.springframework.boot:spring-boot-starter-websocket"
     }
 
     object SpringCloudDeps {
         const val springCloudAlibabaDenpendencies =
-            "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${Version.springCloudAlibabaVersion}"
+            "com.alibaba.cloud:spring-cloud-alibaba-dependencies"
         const val springCloudDependencies =
-            "org.springframework.cloud:spring-cloud-dependencies:${Version.springCloudVersion}"
+            "org.springframework.cloud:spring-cloud-dependencies"
     }
 
     object Test {
-        const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${Version.kotlinVersion}"
-        const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test:${Version.kotlinVersion}"
+        const val kotlinTest = "org.jetbrains.kotlin:kotlin-test"
+        const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test"
         const val springBootStarterTest =
-            "org.springframework.boot:spring-boot-starter-test:${Version.springBootVersion}"
+            "org.springframework.boot:spring-boot-starter-test"
     }
 
     object Other {
         const val pageHelperStarter = "com.github.pagehelper:pagehelper-spring-boot-starter:1.3.0"
-        const val mybatis = "org.mybatis:mybatis:3.5.7"
-        const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${Version.mybatisPlusVersion}"
-        const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${Version.mybatisPlusVersion}"
-        const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter:${Version.mybatisPlusVersion}"
-        const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${Version.mybatisPlusVersion}"
+        const val mybatis = "org.mybatis:mybatis"
+        const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation"
+        const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension"
+        const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter"
+        const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator"
 
-        const val mybatisTypehandlersJsr310 = "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"
-        const val validationApi = "jakarta.validation:jakarta.validation-api:2.0.2"
-        const val annotationApi = "jakarta.annotation:jakarta.annotation-api:1.3.5"
-        const val activationApi = "jakarta.activation:jakarta.activation-api:1.2.2"
-        const val elApi = "jakarta.el:jakarta.el-api:3.0.3"
-        const val websocketApi = "jakarta.websocket:jakarta.websocket-api:1.1.2"
-        const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3"
+        const val mybatisTypehandlersJsr310 = "org.mybatis:mybatis-typehandlers-jsr310"
+        const val validationApi = "jakarta.validation:jakarta.validation-api"
+        const val annotationApi = "jakarta.annotation:jakarta.annotation-api"
+        const val activationApi = "jakarta.activation:jakarta.activation-api"
+        const val elApi = "jakarta.el:jakarta.el-api"
+        const val websocketApi = "jakarta.websocket:jakarta.websocket-api"
+        const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api"
 
-        const val gson = "com.google.code.gson:gson:${Version.gsonVersion}"
-        const val fastjson = "com.alibaba:fastjson:${Version.fastjsonVersion}"
+        const val gson = "com.google.code.gson:gson"
+        const val fastjson = "com.alibaba:fastjson"
 
-        const val xstream = "com.thoughtworks.xstream:xstream:1.4.18"
-        const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
-        const val okhttp = "com.squareup.okhttp3:okhttp:4.9.2"
-        const val commonsCodec = "commons-codec:commons-codec:1.15"
+        const val xstream = "com.thoughtworks.xstream:xstream"
+        const val httpclient = "org.apache.httpcomponents:httpclient"
+        const val okhttp = "com.squareup.okhttp3:okhttp"
+        const val commonsCodec = "commons-codec:commons-codec"
 
-        const val guava = "com.google.guava:guava:${Version.guavaVersion}"
-        const val javaJwt = "com.auth0:java-jwt:${Version.javaJwtVersion}"
+        const val guava = "com.google.guava:guava"
+        const val javaJwt = "com.auth0:java-jwt"
 
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:${Version.alipaySdkJavaVersion}"
-        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:${Version.aliyunJavaSdkCoreVersion}"
-        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:${Version.aliyunSdkOssVersion}"
-        const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java"
+        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core"
+        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss"
+        const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi"
 
-        const val swaggerAnnotations = "io.swagger:swagger-annotations:${Version.swaggerVersion}"
-        const val swaggerModels = "io.swagger:swagger-models:${Version.swaggerVersion}"
-        const val springfoxSwagger2 = "io.springfox:springfox-swagger2:${Version.springfoxSwagger2Version}"
-        const val knife4jApi = "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${Version.knife4jVersion}"
-        const val knife4j = "com.github.xiaoymin:knife4j-spring-boot-starter:${Version.knife4jVersion}"
+        const val swaggerAnnotations = "io.swagger:swagger-annotations"
+        const val swaggerModels = "io.swagger:swagger-models"
+        const val springfoxSwagger2 = "io.springfox:springfox-swagger2"
+        const val knife4jApi = "com.github.xiaoymin:knife4j-micro-spring-boot-starter"
+        const val knife4j = "com.github.xiaoymin:knife4j-spring-boot-starter"
 
-        const val postgresql = "org.postgresql:postgresql:${Version.postgresqlVersion}"
-        const val mysql = "mysql:mysql-connector-java:${Version.mysqlVersion}"
-        const val HikariCP = "com.zaxxer:HikariCP:${Version.hikariCPVersion}"
+        const val postgresql = "org.postgresql:postgresql"
+        const val mysql = "mysql:mysql-connector-java"
+        const val HikariCP = "com.zaxxer:HikariCP"
 
-        const val slf4JApi = "org.slf4j:slf4j-api:${Version.slf4jVersion}"
-        const val julToSlf4J = "org.slf4j:jul-to-slf4j:${Version.slf4jVersion}"
-        const val jclOverSlf4J = "org.slf4j:jcl-over-slf4j:${Version.slf4jVersion}"
+        const val slf4JApi = "org.slf4j:slf4j-api"
+        const val julToSlf4J = "org.slf4j:jul-to-slf4j"
+        const val jclOverSlf4J = "org.slf4j:jcl-over-slf4j"
 
-        const val byteBuddy = "net.bytebuddy:byte-buddy:${Version.byteBuddyVersion}"
-        const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${Version.byteBuddyVersion}"
-        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:1.69"
-        const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on:1.69"
-        const val classmate = "com.fasterxml:classmate:1.5.1"
-        const val reactor = "io.projectreactor:reactor-core:${Version.reactorVersion}"
-        const val reactorNetty = "io.projectreactor.netty:reactor-netty:${Version.reactorNettyVersion}"
+        const val byteBuddy = "net.bytebuddy:byte-buddy"
+        const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent"
+        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on"
+        const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on"
+        const val classmate = "com.fasterxml:classmate"
+        const val reactor = "io.projectreactor:reactor-core"
+        const val reactorNetty = "io.projectreactor.netty:reactor-netty"
 
         const val easyExcel = "com.alibaba:easyexcel:2.2.11"
         const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
         const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.14.0"
     }
-
-    val canReplacedDependencies = mapOf(
-        "org.apache.tomcat:tomcat-annotations-api" to Other.annotationApi,
-        "javax.annotation:javax.annotation-api" to Other.annotationApi,
-        "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to Other.annotationApi,
-        "javax.activation:javax.activation-api" to Other.activationApi,
-        "org.glassfish:jakarta.el" to Other.elApi,
-        "org.apache.tomcat.embed:tomcat-embed-el" to Other.elApi,
-        "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to Other.websocketApi,
-        "javax.validation:validation-api" to Other.validationApi,
-        "javax.xml.bind:jaxb-api" to Other.bindApi,
-        "commons-logging:commons-logging" to Spring.jcl
-    )
 }
 
 fun DependencyHandler.addTestDependencies(configuration: String = "testImplementation") {
-    Deps.Test::class.staticFieldValues().forEach {
-        add(configuration, it)
-    }
+    add(configuration,"org.jetbrains.kotlin:kotlin-test")
+    add(configuration,"org.jetbrains.kotlin:kotlin-test")
+    add(configuration,"org.springframework.boot:spring-boot-starter-test")
 }
 
-private fun KClass<*>.staticFieldValues() = this.java.declaredFields.filter {
-    it.name != "INSTANCE" && Modifier.isStatic(it.modifiers)
-}.map {
-    it.get(null)
-}
-
-fun Project.forceDepsVersion() {
+fun Project.substituteDeps(){
     configurations.all {
         resolutionStrategy {
             //disable cache
             cacheChangingModulesFor(0, TimeUnit.NANOSECONDS)
             dependencySubstitution {
-                Deps.canReplacedDependencies.forEach { (sourceDependency, targetDependency) ->
+                canReplacedDependencies.forEach { (sourceDependency, targetDependency) ->
                     substitute(module(sourceDependency)).using(module(targetDependency))
                 }
-            }
-
-            Deps::class.nestedClasses.flatMap {
-                it.staticFieldValues()
-            }.forEach {
-                force(it)
             }
         }
     }
 }
+
+private val canReplacedDependencies = mapOf(
+    "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
+    "javax.annotation:javax.annotation-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
+    "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
+    "javax.activation:javax.activation-api" to "jakarta.activation:jakarta.activation-api:1.2.2",
+    "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:3.0.3",
+    "org.apache.tomcat.embed:tomcat-embed-el" to "jakarta.el:jakarta.el-api:3.0.3",
+    "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:1.1.2",
+    "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:2.0.2",
+    "javax.xml.bind:jaxb-api" to "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3",
+    "commons-logging:commons-logging" to "org.springframework:spring-jcl:5.3.12"
+)
