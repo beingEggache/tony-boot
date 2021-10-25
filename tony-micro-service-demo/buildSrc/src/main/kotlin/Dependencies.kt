@@ -16,9 +16,14 @@ object Version {
     const val tonyVersion = "0.1-SNAPSHOT"
 }
 
-
-
 object Deps {
+
+    object SpringCloudDeps {
+        const val springCloudAlibabaDenpendencies =
+            "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${Version.springCloudAlibabaVersion}"
+        const val springCloudDependencies =
+            "org.springframework.cloud:spring-cloud-dependencies:${Version.springCloudVersion}"
+    }
 
     object Tony {
         const val tonyStaters = "com.tony:tony-boot-starters:${Version.tonyVersion}"
@@ -94,7 +99,6 @@ object Deps {
     object SpringData {
         const val springDataCommon = "org.springframework.data:spring-data-common"
         const val springDataRedis = "org.springframework.data:spring-data-redis"
-        const val lettuce = "io.lettuce:lettuce-core"
     }
 
     object OpenFeign {
@@ -123,21 +127,12 @@ object Deps {
         const val starterJson = "org.springframework.boot:spring-boot-starter-json"
         const val starterLogging = "org.springframework.boot:spring-boot-starter-logging"
         const val starterTest = "org.springframework.boot:spring-boot-starter-test"
-        const val starterTomcat = "org.springframework.boot:spring-boot-starter-tomcat"
-        const val starterUndertow = "org.springframework.boot:spring-boot-starter-undertow"
         const val starterValidation =
             "org.springframework.boot:spring-boot-starter-validation"
         const val starterWeb = "org.springframework.boot:spring-boot-starter-web"
         const val starterWebflux = "org.springframework.boot:spring-boot-starter-webflux"
         const val starterWebsocket =
             "org.springframework.boot:spring-boot-starter-websocket"
-    }
-
-    object SpringCloudDeps {
-        const val springCloudAlibabaDenpendencies =
-            "com.alibaba.cloud:spring-cloud-alibaba-dependencies"
-        const val springCloudDependencies =
-            "org.springframework.cloud:spring-cloud-dependencies"
     }
 
     object Test {
@@ -148,36 +143,22 @@ object Deps {
     }
 
     object Other {
-        const val pageHelperStarter = "com.github.pagehelper:pagehelper-spring-boot-starter:1.3.0"
         const val mybatis = "org.mybatis:mybatis"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation"
-        const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension"
         const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter"
-        const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator"
 
         const val mybatisTypehandlersJsr310 = "org.mybatis:mybatis-typehandlers-jsr310"
         const val validationApi = "jakarta.validation:jakarta.validation-api"
         const val annotationApi = "jakarta.annotation:jakarta.annotation-api"
-        const val activationApi = "jakarta.activation:jakarta.activation-api"
-        const val elApi = "jakarta.el:jakarta.el-api"
-        const val websocketApi = "jakarta.websocket:jakarta.websocket-api"
-        const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api"
 
         const val gson = "com.google.code.gson:gson"
         const val fastjson = "com.alibaba:fastjson"
 
         const val xstream = "com.thoughtworks.xstream:xstream"
-        const val httpclient = "org.apache.httpcomponents:httpclient"
         const val okhttp = "com.squareup.okhttp3:okhttp"
         const val commonsCodec = "commons-codec:commons-codec"
 
         const val guava = "com.google.guava:guava"
-        const val javaJwt = "com.auth0:java-jwt"
-
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java"
-        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core"
-        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss"
-        const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi"
 
         const val swaggerAnnotations = "io.swagger:swagger-annotations"
         const val swaggerModels = "io.swagger:swagger-models"
@@ -189,21 +170,6 @@ object Deps {
         const val mysql = "mysql:mysql-connector-java"
         const val HikariCP = "com.zaxxer:HikariCP"
 
-        const val slf4JApi = "org.slf4j:slf4j-api"
-        const val julToSlf4J = "org.slf4j:jul-to-slf4j"
-        const val jclOverSlf4J = "org.slf4j:jcl-over-slf4j"
-
-        const val byteBuddy = "net.bytebuddy:byte-buddy"
-        const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent"
-        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on"
-        const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on"
-        const val classmate = "com.fasterxml:classmate"
-        const val reactor = "io.projectreactor:reactor-core"
-        const val reactorNetty = "io.projectreactor.netty:reactor-netty"
-
-        const val easyExcel = "com.alibaba:easyexcel:2.2.11"
-        const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
-        const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.14.0"
     }
 }
 

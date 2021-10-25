@@ -12,9 +12,27 @@ object Version {
 
     const val springCloudAlibabaVersion = "2021.1"
     const val springCloudVersion = "2020.0.4"
+
+    const val alipaySdkJavaVersion = "4.17.9.ALL"
+    const val aliyunJavaSdkCoreVersion = "4.5.25"
+    const val aliyunSdkOssVersion = "3.13.1"
 }
 
 object Deps {
+
+    object SpringCloudDeps {
+        const val springCloudAlibabaDenpendencies =
+            "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${Version.springCloudAlibabaVersion}"
+        const val springCloudDependencies =
+            "org.springframework.cloud:spring-cloud-dependencies:${Version.springCloudVersion}"
+    }
+
+    object Aliyun {
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:${Version.alipaySdkJavaVersion}"
+        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:${Version.aliyunJavaSdkCoreVersion}"
+        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:${Version.aliyunSdkOssVersion}"
+        const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
+    }
 
     object Jackson {
         const val annotations = "com.fasterxml.jackson.core:jackson-annotations"
@@ -116,13 +134,6 @@ object Deps {
             "org.springframework.boot:spring-boot-starter-websocket"
     }
 
-    object SpringCloudDeps {
-        const val springCloudAlibabaDenpendencies =
-            "com.alibaba.cloud:spring-cloud-alibaba-dependencies"
-        const val springCloudDependencies =
-            "org.springframework.cloud:spring-cloud-dependencies"
-    }
-
     object Test {
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test"
         const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test"
@@ -131,7 +142,6 @@ object Deps {
     }
 
     object Other {
-        const val pageHelperStarter = "com.github.pagehelper:pagehelper-spring-boot-starter:1.3.0"
         const val mybatis = "org.mybatis:mybatis"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension"
@@ -157,11 +167,6 @@ object Deps {
         const val guava = "com.google.guava:guava"
         const val javaJwt = "com.auth0:java-jwt"
 
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java"
-        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core"
-        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss"
-        const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi"
-
         const val swaggerAnnotations = "io.swagger:swagger-annotations"
         const val swaggerModels = "io.swagger:swagger-models"
         const val springfoxSwagger2 = "io.springfox:springfox-swagger2"
@@ -183,10 +188,6 @@ object Deps {
         const val classmate = "com.fasterxml:classmate"
         const val reactor = "io.projectreactor:reactor-core"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty"
-
-        const val easyExcel = "com.alibaba:easyexcel:2.2.11"
-        const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
-        const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.14.0"
     }
 }
 

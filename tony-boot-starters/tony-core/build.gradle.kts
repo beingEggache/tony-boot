@@ -1,5 +1,4 @@
 dependencies {
-    implementation(platform(rootProject))
     api(Deps.Kotlin.stdlib)
     api(Deps.Other.commonsCodec)
     api(Deps.Other.validationApi)

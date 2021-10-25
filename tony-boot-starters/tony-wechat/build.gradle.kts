@@ -1,5 +1,4 @@
 dependencies {
-    implementation(platform(rootProject))
     implementation(platform(Deps.SpringCloudDeps.springCloudDependencies))
     api(Deps.Other.xstream)
     implementation(Deps.SpringBoot.springBoot)

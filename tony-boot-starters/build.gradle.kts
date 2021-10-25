@@ -52,7 +52,7 @@ configure(listOf(rootProject)) {
             }
         }
         publications {
-            register("mavenJava", MavenPublication::class) {
+            register("mavenPom", MavenPublication::class) {
                 from(components["javaPlatform"])
             }
         }
@@ -83,6 +83,10 @@ configure(subprojects) {
     configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    dependencies {
+        add("implementation",platform(rootProject))
     }
 
     tasks.withType<KotlinCompile>().configureEach {

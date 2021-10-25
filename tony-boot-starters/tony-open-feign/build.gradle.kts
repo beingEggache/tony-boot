@@ -1,5 +1,4 @@
 dependencies {
-    implementation(platform(rootProject))
     implementation(platform(Deps.SpringCloudDeps.springCloudDependencies))
     api(projects.tonyCore)
     api(Deps.OpenFeign.openFeignOkhttp)

@@ -8,9 +8,6 @@ object VersionManagement {
     const val springVersion = "5.3.12"
     const val springBootVersion = "2.5.6"
 
-    const val springCloudAlibabaVersion = "2021.1"
-    const val springCloudVersion = "2020.0.4"
-
     const val openFeignVersion = "11.6"
 
     const val postgresqlVersion = "42.3.0"
@@ -33,12 +30,9 @@ object VersionManagement {
 
     const val slf4jVersion = "1.7.32"
     const val byteBuddyVersion = "1.11.21"
+    const val bouncycastleVersion = "1.69"
     const val javaJwtVersion = "3.18.2"
     const val guavaVersion = "31.0.1-jre"
-
-    const val alipaySdkJavaVersion = "4.17.9.ALL"
-    const val aliyunJavaSdkCoreVersion = "4.5.25"
-    const val aliyunSdkOssVersion = "3.13.1"
 
 }
 
@@ -144,13 +138,6 @@ object DepManagement {
             "org.springframework.boot:spring-boot-starter-websocket:${VersionManagement.springBootVersion}"
     }
 
-    object SpringCloudDeps {
-        const val springCloudAlibabaDenpendencies =
-            "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${VersionManagement.springCloudAlibabaVersion}"
-        const val springCloudDependencies =
-            "org.springframework.cloud:spring-cloud-dependencies:${VersionManagement.springCloudVersion}"
-    }
-
     object Test {
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${VersionManagement.kotlinVersion}"
         const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test:${VersionManagement.kotlinVersion}"
@@ -159,7 +146,6 @@ object DepManagement {
     }
 
     object Other {
-        const val pageHelperStarter = "com.github.pagehelper:pagehelper-spring-boot-starter:1.3.0"
         const val mybatis = "org.mybatis:mybatis:3.5.7"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${VersionManagement.mybatisPlusVersion}"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${VersionManagement.mybatisPlusVersion}"
@@ -185,11 +171,6 @@ object DepManagement {
         const val guava = "com.google.guava:guava:${VersionManagement.guavaVersion}"
         const val javaJwt = "com.auth0:java-jwt:${VersionManagement.javaJwtVersion}"
 
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:${VersionManagement.alipaySdkJavaVersion}"
-        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:${VersionManagement.aliyunJavaSdkCoreVersion}"
-        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:${VersionManagement.aliyunSdkOssVersion}"
-        const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
-
         const val swaggerAnnotations = "io.swagger:swagger-annotations:${VersionManagement.swaggerVersion}"
         const val swaggerModels = "io.swagger:swagger-models:${VersionManagement.swaggerVersion}"
         const val springfoxSwagger2 = "io.springfox:springfox-swagger2:${VersionManagement.springfoxSwagger2Version}"
@@ -206,15 +187,12 @@ object DepManagement {
 
         const val byteBuddy = "net.bytebuddy:byte-buddy:${VersionManagement.byteBuddyVersion}"
         const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${VersionManagement.byteBuddyVersion}"
-        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:1.69"
-        const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on:1.69"
+        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:${VersionManagement.bouncycastleVersion}"
+        const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on:${VersionManagement.bouncycastleVersion}"
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${VersionManagement.reactorVersion}"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:${VersionManagement.reactorNettyVersion}"
 
-        const val easyExcel = "com.alibaba:easyexcel:2.2.11"
-        const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
-        const val camundaStarter = "org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter:7.14.0"
     }
 }
 

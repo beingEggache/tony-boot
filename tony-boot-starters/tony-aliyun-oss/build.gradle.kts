@@ -1,7 +1,6 @@
 dependencies {
-    implementation(platform(rootProject))
     api(projects.tonyCore)
-    api(Deps.Other.aliyunSdkOss)
+    api(Deps.Aliyun.aliyunSdkOss)
     implementation(Deps.SpringBoot.springBoot)
     addTestDependencies()
 }
