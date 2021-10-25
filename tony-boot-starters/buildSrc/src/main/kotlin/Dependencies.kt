@@ -183,8 +183,10 @@ object Deps {
 
         const val byteBuddy = "net.bytebuddy:byte-buddy"
         const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent"
+        const val jasypt = "org.jasypt:jasypt"
         const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on"
         const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on"
+        const val bctlsJdk15On = "org.bouncycastle:bctls-jdk15on"
         const val classmate = "com.fasterxml:classmate"
         const val reactor = "io.projectreactor:reactor-core"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty"

@@ -170,6 +170,10 @@ object Deps {
         const val mysql = "mysql:mysql-connector-java"
         const val HikariCP = "com.zaxxer:HikariCP"
 
+        const val jasypt = "org.jasypt:jasypt"
+        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on"
+        const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on"
+        const val bctlsJdk15On = "org.bouncycastle:bctls-jdk15on"
     }
 }
 

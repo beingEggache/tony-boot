@@ -89,7 +89,7 @@ class UserService(
                 userName = req.userName
                 realName = req.realName
                 mobile = req.mobile
-                pwd = "${req.pwd}${req.userName}".toMd5UppercaseString()
+                pwd = "${req.pwd}"
             }
         )
 
