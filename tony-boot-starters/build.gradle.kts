@@ -1,5 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version Version.kotlinVersion apply false
@@ -52,7 +52,7 @@ configure(listOf(rootProject)) {
             }
         }
         publications {
-            register("mavenPom", MavenPublication::class) {
+            register("pom", MavenPublication::class) {
                 from(components["javaPlatform"])
             }
         }
@@ -86,7 +86,7 @@ configure(subprojects) {
     }
 
     dependencies {
-        add("implementation",platform(rootProject))
+        add("implementation", platform(rootProject))
     }
 
     tasks.withType<KotlinCompile>().configureEach {

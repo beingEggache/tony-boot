@@ -26,7 +26,7 @@ configure<PublishingExtension> {
         }
     }
     publications {
-        register("mavenJava", MavenPublication::class) {
+        register("jar", MavenPublication::class) {
             from(components["java"])
             artifact(sourcesJar.get())
         }

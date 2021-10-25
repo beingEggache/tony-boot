@@ -192,12 +192,12 @@ object Deps {
 }
 
 fun DependencyHandler.addTestDependencies(configuration: String = "testImplementation") {
-    add(configuration,"org.jetbrains.kotlin:kotlin-test")
-    add(configuration,"org.jetbrains.kotlin:kotlin-test")
-    add(configuration,"org.springframework.boot:spring-boot-starter-test")
+    add(configuration, "org.jetbrains.kotlin:kotlin-test")
+    add(configuration, "org.jetbrains.kotlin:kotlin-test")
+    add(configuration, "org.springframework.boot:spring-boot-starter-test")
 }
 
-fun Project.substituteDeps(){
+fun Project.substituteDeps() {
     configurations.all {
         resolutionStrategy {
             //disable cache
