@@ -1,5 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version Version.kotlinVersion apply false
@@ -23,7 +23,7 @@ configure(subprojects) {
     repositories {
         mavenLocal()
         maven(url = privateMavenRepoUrl) {
-			name = "private"
+            name = "private"
             @Suppress("UnstableApiUsage")
             isAllowInsecureProtocol = true
         }
