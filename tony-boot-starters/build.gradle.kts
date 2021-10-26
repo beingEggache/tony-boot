@@ -23,6 +23,7 @@ configure(allprojects) {
         mavenLocal()
         val privateMavenRepoUrl: String by project
         maven(url = privateMavenRepoUrl) {
+            name = "private"
             @Suppress("UnstableApiUsage")
             isAllowInsecureProtocol = true
         }
@@ -31,31 +32,12 @@ configure(allprojects) {
 }
 
 configure(listOf(rootProject)) {
-    apply(plugin = "org.gradle.java-platform")
-    apply(plugin = "org.gradle.maven-publish")
 
-    configure<PublishingExtension> {
-        repositories {
-            maven {
+    ext.set("pom", true)
 
-                val releasesRepoUrl: String by project
-                val snapshotsRepoUrl: String by project
-                val nexusUsername: String by project
-                val nexusPassword: String by project
-
-                url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
-                isAllowInsecureProtocol = true
-                credentials {
-                    username = nexusUsername
-                    password = nexusPassword
-                }
-            }
-        }
-        publications {
-            register("pom", MavenPublication::class) {
-                from(components["javaPlatform"])
-            }
-        }
+    apply {
+        plugin("org.gradle.java-platform")
+        plugin("maven.publish")
     }
 
     dependencies {
@@ -68,7 +50,6 @@ configure(listOf(rootProject)) {
         }
     }
 }
-
 configure(subprojects) {
 
     substituteDeps()

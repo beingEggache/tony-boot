@@ -26,7 +26,7 @@ object Deps {
     }
 
     object Tony {
-        const val tonyStaters = "com.tony:tony-boot-starters:${Version.tonyVersion}"
+        const val tonyDependencies = "com.tony:tony-dependencies:${Version.tonyVersion}"
         const val tonyCore = "com.tony:tony-core:${Version.tonyVersion}"
         const val tonyJwt = "com.tony:tony-jwt:${Version.tonyVersion}"
         const val tonySimpleAuth = "com.tony:tony-simple-auth:${Version.tonyVersion}"

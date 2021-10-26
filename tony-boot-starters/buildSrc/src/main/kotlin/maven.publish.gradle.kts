@@ -2,16 +2,20 @@ plugins {
     `maven-publish`
 }
 
-val sourceSets: SourceSetContainer = extensions.getByType(SourceSetContainer::class.java)
-val sourcesJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets.getByName("main").allSource)
+val isPom = project.ext.has("pom")
+
+if (!isPom) {
+    configure<JavaPluginExtension> {
+        withSourcesJar()
+        withJavadocJar()
+    }
 }
 
 configure<PublishingExtension> {
     repositories {
-        maven {
 
+        maven {
+            name = "private"
             val releasesRepoUrl: String by project
             val snapshotsRepoUrl: String by project
             val nexusUsername: String by project
@@ -26,9 +30,20 @@ configure<PublishingExtension> {
         }
     }
     publications {
-        register("jar", MavenPublication::class) {
-            from(components["java"])
-            artifact(sourcesJar.get())
+        if (!isPom) {
+            register("binary", MavenPublication::class) {
+                from(components["java"])
+            }
+
+            register("binaryAndSources", MavenPublication::class) {
+                from(components["java"])
+                artifact(tasks["sourcesJar"])
+            }
+
+        } else {
+            register("pom", MavenPublication::class) {
+                from(components["javaPlatform"])
+            }
         }
     }
 }

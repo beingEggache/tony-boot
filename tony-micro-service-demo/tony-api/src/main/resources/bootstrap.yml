@@ -6,6 +6,8 @@ server:
 spring:
   application:
     name: tony-micro-service-demo
+  main:
+    banner-mode: off
   profiles:
     active: dev
   cloud:

@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: tony-admin-gateway
+  main:
+    banner-mode: off
   cloud:
     gateway:
       httpclient:

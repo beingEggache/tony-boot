@@ -8,6 +8,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+rootProject.name = "tony-dependencies"
+
 include("tony-aliyun-oss")
 include("tony-aliyun-sms")
 include("tony-web-core")

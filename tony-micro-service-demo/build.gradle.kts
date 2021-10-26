@@ -23,6 +23,7 @@ configure(subprojects) {
     repositories {
         mavenLocal()
         maven(url = privateMavenRepoUrl) {
+			name = "private"
             @Suppress("UnstableApiUsage")
             isAllowInsecureProtocol = true
         }
@@ -37,7 +38,7 @@ configure(subprojects) {
     }
 
     dependencies {
-        add("implementation", platform(Deps.Tony.tonyStaters))
+        add("implementation", platform(Deps.Tony.tonyDependencies))
         add("implementation", platform(Deps.SpringCloudDeps.springCloudDependencies))
         add("implementation", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
     }
