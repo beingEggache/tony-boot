@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 /**
  *
  * @author tangli

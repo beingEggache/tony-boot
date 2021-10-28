@@ -43,7 +43,7 @@ fi
 dir=/data/java-instances/"${profile}"-"${port}"
 
 mkdir -p "${dir}"
-echo "mkdir project_path锛�${dir}"
+echo "mkdir project_path ${dir}"
 
 container_id=$(docker ps | grep "${project_name}" | awk '{print $1}')
 
