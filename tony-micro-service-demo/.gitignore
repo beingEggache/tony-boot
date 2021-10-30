@@ -26,7 +26,6 @@ hs_err_pid*
 out
 /**/logs
 /build/
-/tony-*/build/
 *.iml
 buildSrc/build
 

@@ -40,7 +40,7 @@ internal class JwtApiSession : ApiSession {
 
     private val logger = getLogger()
 
-    private val token: DecodedJWT?
+    private val token: DecodedJWT
         get() = WebContext.current.getOrPut("token", SCOPE_REQUEST) {
             try {
                 JwtToken.parse(WebContext.request.getHeader("x-token").defaultIfBlank())
@@ -51,10 +51,11 @@ internal class JwtApiSession : ApiSession {
         }
 
     override val userId: String
-        get() = token?.getClaim("userId")?.asString()
+        get() = token.getClaim("userId")?.asString()
             ?: throw ApiException("请登录", ApiProperty.unauthorizedCode)
 
     override fun genTokenString(vararg params: Pair<String, String?>) = JwtToken.gen(*params)
 
+    @Suppress("SENSELESS_COMPARISON")
     override fun hasLogin() = token != null
 }

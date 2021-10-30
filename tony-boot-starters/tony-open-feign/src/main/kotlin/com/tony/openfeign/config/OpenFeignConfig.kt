@@ -52,21 +52,18 @@ class OpenFeignConfig {
     fun okHttpClient(
         interceptors: List<Interceptor>,
         openFeignConfigProperties: OpenFeignConfigProperties
-    ): OkHttpClient {
-        val okHttpClient = OkHttpClient.Builder()
-            .callTimeout(openFeignConfigProperties.callTimeout, TimeUnit.SECONDS)
-            .connectTimeout(openFeignConfigProperties.connectTimeout, TimeUnit.SECONDS)
-            .readTimeout(openFeignConfigProperties.readTimeout, TimeUnit.SECONDS)
-            .writeTimeout(openFeignConfigProperties.writeTimeout, TimeUnit.SECONDS)
-            .pingInterval(openFeignConfigProperties.pingInterval, TimeUnit.SECONDS)
-            .retryOnConnectionFailure(openFeignConfigProperties.retryOnConnectionFailure)
-            .followRedirects(openFeignConfigProperties.followRedirects)
-            .apply {
-                interceptors.forEach(::addInterceptor)
-            }
-            .build()
-        return okHttpClient
-    }
+    ): OkHttpClient = OkHttpClient.Builder()
+        .callTimeout(openFeignConfigProperties.callTimeout, TimeUnit.SECONDS)
+        .connectTimeout(openFeignConfigProperties.connectTimeout, TimeUnit.SECONDS)
+        .readTimeout(openFeignConfigProperties.readTimeout, TimeUnit.SECONDS)
+        .writeTimeout(openFeignConfigProperties.writeTimeout, TimeUnit.SECONDS)
+        .pingInterval(openFeignConfigProperties.pingInterval, TimeUnit.SECONDS)
+        .retryOnConnectionFailure(openFeignConfigProperties.retryOnConnectionFailure)
+        .followRedirects(openFeignConfigProperties.followRedirects)
+        .apply {
+            interceptors.forEach(::addInterceptor)
+        }
+        .build()
 }
 
 @ConstructorBinding
