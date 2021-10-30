@@ -11,6 +11,7 @@ end_of_line = lf
 [*.{yml, yaml}]
 indent_size = 2
 
+# noinspection EditorConfigKeyCorrectness
 [*.{kt, kts}]
 max_line_length = 120
 ij_kotlin_imports_layout = *, java.**, javax.**, kotlin.**, ^
