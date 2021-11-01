@@ -5,6 +5,7 @@ package com.tony.webcore
 import com.tony.core.ApiProperty
 import com.tony.core.ApiResult
 import com.tony.core.ApiResult.Companion.EMPTY_RESULT
+import com.tony.webcore.config.WebProperties
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.core.env.Environment
@@ -21,6 +22,9 @@ object WebApp {
     @JvmSynthetic
     internal lateinit var errorAttributes: ErrorAttributes
 
+    @JvmSynthetic
+    internal lateinit var webProperties: WebProperties
+
     @JvmStatic
     val appId: String by lazy {
         environment.getProperty("spring.application.name", "")
@@ -30,7 +34,7 @@ object WebApp {
         environment.getProperty("server.servlet.context-path", "")
     }
 
-    internal val excludeJsonResultUrlPatterns by lazy {
+    internal val responseWrapExcludePatterns by lazy {
         val actuatorBasePath =
             environment.getProperty("management.endpoints.web.base-path", "/actuator")
         val actuatorPrefix = removeDuplicateSlash("$contextPath/$actuatorBasePath")
@@ -40,7 +44,8 @@ object WebApp {
             removeDuplicateSlash("$contextPath/**/*.js"),
             removeDuplicateSlash("$contextPath/**/*.css"),
             removeDuplicateSlash("$actuatorPrefix/**"),
-            removeDuplicateSlash("$contextPath/$errorPath")
+            removeDuplicateSlash("$contextPath/$errorPath"),
+            *webProperties.responseWrapExcludePatterns.map { removeDuplicateSlash("$contextPath/$it") }.toTypedArray()
         )
     }
 
@@ -53,7 +58,7 @@ object WebApp {
 
     @JvmStatic
     fun ignoreUrlPatterns(ignoreContextPath: Boolean = false): List<String> {
-        val prefix = if (ignoreContextPath)"" else contextPath
+        val prefix = if (ignoreContextPath) "" else contextPath
         val actuatorBasePath =
             environment.getProperty("management.endpoints.web.base-path", "/actuator")
         val actuatorPrefix = removeDuplicateSlash("$prefix/$actuatorBasePath")
@@ -89,6 +94,12 @@ object WebApp {
     @Resource
     internal fun errorAttributes(errorAttributes: ErrorAttributes) {
         WebApp.errorAttributes = errorAttributes
+    }
+
+    @Resource
+    @JvmSynthetic
+    private fun webProperties(webProperties: WebProperties) {
+        WebApp.webProperties = webProperties
     }
 
     private val duplicateSlash = Pattern.compile("/{2,}")

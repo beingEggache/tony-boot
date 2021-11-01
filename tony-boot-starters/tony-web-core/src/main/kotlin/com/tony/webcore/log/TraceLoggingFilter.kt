@@ -73,7 +73,7 @@ internal class TraceLoggingFilter(
         antPathMatcher.matchAny(excludedUrls, request.requestURI) || request.isCorsPreflightRequest
 
     private val excludedUrls by lazy {
-        WebApp.excludeJsonResultUrlPatterns.plus(WebApp.ignoreUrlPatterns())
+        WebApp.responseWrapExcludePatterns.plus(WebApp.ignoreUrlPatterns())
     }
 
     override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 101

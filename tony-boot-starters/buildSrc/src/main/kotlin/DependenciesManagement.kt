@@ -9,7 +9,7 @@ object VersionManagement {
     const val springVersion = "5.3.12"
     const val springBootVersion = "2.5.6"
 
-    const val openFeignVersion = "11.6"
+    const val openFeignVersion = "11.7"
 
     const val postgresqlVersion = "42.3.0"
     const val mysqlVersion = "8.0.27"

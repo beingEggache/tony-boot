@@ -35,7 +35,7 @@ internal class ApiResponseAdvice : ResponseBodyAdvice<Any?> {
         request: ServerHttpRequest,
         response: ServerHttpResponse
     ) = when {
-        antPathMatcher.matchAny(WebApp.excludeJsonResultUrlPatterns, request.uri.path) -> body
+        antPathMatcher.matchAny(WebApp.responseWrapExcludePatterns, request.uri.path) -> body
         body == null -> ApiResult(EMPTY_RESULT, ApiProperty.successCode)
         body.isNotCollectionLike() -> ApiResult(body, ApiProperty.successCode)
         else -> {
