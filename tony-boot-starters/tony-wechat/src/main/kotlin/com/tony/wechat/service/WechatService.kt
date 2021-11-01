@@ -75,7 +75,7 @@ class WechatService(
     fun getTicket(accessToken: String? = accessToken().accessToken) =
         wechatClient.getTicket(accessToken, "jsapi").check().ticket
 
-    fun getJsApiSignature(nonceStr: String, timestamp: Long, url: String) =
+    fun getJsApiSignature(nonceStr: String, timestamp: Long, url: String): String =
         DigestUtils.sha1Hex(
             listOf(
                 "jsapi_ticket" to getTicket(),

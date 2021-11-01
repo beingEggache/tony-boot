@@ -25,7 +25,6 @@ hs_err_pid*
 /**/build/
 /**/logs
 /build/
-/tony-*/build/
 .gradle
 out
 *.iml
