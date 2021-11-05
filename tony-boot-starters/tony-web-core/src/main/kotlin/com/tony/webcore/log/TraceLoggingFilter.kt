@@ -2,6 +2,7 @@ package com.tony.webcore.log
 
 import com.tony.core.utils.toInstant
 import com.tony.core.utils.toString
+import com.tony.core.utils.uuid
 import com.tony.webcore.WebApp
 import com.tony.webcore.utils.antPathMatcher
 import com.tony.webcore.utils.isCorsPreflightRequest
@@ -13,7 +14,6 @@ import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
 import java.io.IOException
 import java.time.LocalDateTime
-import java.util.UUID
 import javax.servlet.FilterChain
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
@@ -76,7 +76,7 @@ internal class TraceLoggingFilter(
         WebApp.responseWrapExcludePatterns.plus(WebApp.ignoreUrlPatterns())
     }
 
-    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 101
+    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 1
 }
 
 internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
@@ -86,11 +86,11 @@ internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
         response: HttpServletResponse,
         chain: FilterChain
     ) = try {
-        MDC.put("X-B3-TraceId", UUID.randomUUID().toString())
+        MDC.put("X-B3-TraceId", uuid())
         chain.doFilter(request, response)
     } finally {
         MDC.remove("X-B3-TraceId")
     }
 
-    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 101
+    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE
 }

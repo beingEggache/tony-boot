@@ -3,7 +3,6 @@ package com.tony.webcore.config
 import com.tony.webcore.converter.EnumIntValueConverterFactory
 import com.tony.webcore.converter.EnumStringValueConverterFactory
 import com.tony.webcore.log.DefaultRequestTraceLogger
-import com.tony.webcore.log.HttpServletRequestReplacedFilter
 import com.tony.webcore.log.RequestTraceLogger
 import com.tony.webcore.log.TraceIdFilter
 import com.tony.webcore.log.TraceLoggingFilter
@@ -36,10 +35,6 @@ internal class WebConfig : WebMvcConfigurer {
 
     @Bean
     fun traceIdFilter() = TraceIdFilter()
-
-    @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
-    @Bean
-    fun httpServletRequestReplacedFilter() = HttpServletRequestReplacedFilter()
 
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean

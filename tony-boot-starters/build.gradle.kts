@@ -42,11 +42,7 @@ configure(listOf(rootProject)) {
 
     dependencies {
         constraints {
-            DepManagement::class.nestedClasses.flatMap {
-                it.staticFieldValues()
-            }.forEach {
-                add("api", it)
-            }
+            addDepsManagement()
         }
     }
 }

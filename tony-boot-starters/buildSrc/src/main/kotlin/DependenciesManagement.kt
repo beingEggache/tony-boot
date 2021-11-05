@@ -1,5 +1,6 @@
 @file:Suppress("unused", "SpellCheckingInspection")
 
+import org.gradle.kotlin.dsl.DependencyConstraintHandlerScope
 import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
 
@@ -11,7 +12,7 @@ object VersionManagement {
 
     const val openFeignVersion = "11.7"
 
-    const val postgresqlVersion = "42.3.0"
+    const val postgresqlVersion = "42.3.1"
     const val mysqlVersion = "8.0.27"
     const val hikariCPVersion = "5.0.0"
     const val mybatisPlusVersion = "3.4.3.4"
@@ -22,15 +23,15 @@ object VersionManagement {
     const val knife4jVersion = "2.0.9"
 
     const val jacksonVersion = "2.13.0"
-    const val gsonVersion = "2.8.8"
+    const val gsonVersion = "2.8.9"
     const val fastjsonVersion = "1.2.78"
 
-    const val nettyVersion = "4.1.69.Final"
+    const val nettyVersion = "4.1.70.Final"
     const val reactorVersion = "3.4.11"
     const val reactorNettyVersion = "1.0.12"
 
     const val slf4jVersion = "1.7.32"
-    const val byteBuddyVersion = "1.11.21"
+    const val byteBuddyVersion = "1.11.22"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.69"
     const val javaJwtVersion = "3.18.2"
@@ -38,7 +39,7 @@ object VersionManagement {
 
 }
 
-object DepManagement {
+object DepsManagement {
 
     object Jackson {
         const val annotations = "com.fasterxml.jackson.core:jackson-annotations:${VersionManagement.jacksonVersion}"
@@ -219,8 +220,16 @@ object DepManagement {
     }
 }
 
-fun KClass<*>.staticFieldValues() = this.java.declaredFields.filter {
+private fun KClass<*>.staticFieldValues() = this.java.declaredFields.filter {
     it.name != "INSTANCE" && Modifier.isStatic(it.modifiers)
 }.map {
     it.get(null)
+}
+
+fun DependencyConstraintHandlerScope.addDepsManagement(){
+    DepsManagement::class.nestedClasses.flatMap {
+        it.staticFieldValues()
+    }.forEach {
+        add("api", it)
+    }
 }

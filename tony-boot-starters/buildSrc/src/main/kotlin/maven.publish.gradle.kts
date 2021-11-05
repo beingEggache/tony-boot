@@ -32,11 +32,11 @@ configure<PublishingExtension> {
     publications {
         if (!isPom) {
             register("binary", MavenPublication::class) {
-                from(components["java"])
+                from(components["kotlin"])
             }
 
             register("binaryAndSources", MavenPublication::class) {
-                from(components["java"])
+                from(components["kotlin"])
                 artifact(tasks["sourcesJar"])
             }
 
