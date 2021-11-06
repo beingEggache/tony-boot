@@ -1,7 +1,7 @@
 package com.tony.dto.req.internal
 
-import com.tony.core.enums.validate.SimpleIntEnum
 import com.tony.dto.enums.ModuleType
+import com.tony.enums.validate.SimpleIntEnum
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import javax.validation.constraints.NotBlank

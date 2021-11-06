@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.tony.core.enums.EnumCreator
-import com.tony.core.enums.EnumStringValue
+import com.tony.enums.EnumCreator
+import com.tony.enums.EnumStringValue
 import javax.validation.constraints.Max
 import javax.validation.constraints.Positive
 

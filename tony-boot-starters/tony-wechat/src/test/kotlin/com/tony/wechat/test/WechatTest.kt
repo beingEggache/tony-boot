@@ -1,8 +1,8 @@
 package com.tony.wechat.test
 
-import com.tony.core.annotation.EnableTonyBoot
-import com.tony.core.utils.println
-import com.tony.core.utils.toJsonString
+import com.tony.annotation.EnableTonyBoot
+import com.tony.utils.println
+import com.tony.utils.toJsonString
 import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu
 import com.tony.wechat.client.req.WechatMenuButton

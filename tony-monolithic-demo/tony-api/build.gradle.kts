@@ -11,7 +11,7 @@ dependencies {
         implementation(Deps.Tony.tonyKnife4j)
         implementation(Deps.SpringBoot.devtools)
     }
-    implementation(Deps.Tony.tonySimpleAuth) { isChanging = true }
+    implementation(Deps.Tony.tonyWebAuth) { isChanging = true }
     implementation(project(":tony-service"))
     addTestDependencies()
 //    implementation(Deps.SpringBoot.starterActuator)

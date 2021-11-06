@@ -7,7 +7,7 @@ package com.tony.admin.config
 
 import com.alibaba.nacos.api.annotation.NacosProperties
 import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties
-import com.tony.core.utils.defaultIfBlank
+import com.tony.utils.defaultIfBlank
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.cloud.context.config.annotation.RefreshScope
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver

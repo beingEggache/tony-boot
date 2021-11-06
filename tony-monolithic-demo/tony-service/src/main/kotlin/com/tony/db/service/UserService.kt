@@ -3,9 +3,6 @@ package com.tony.db.service
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
-import com.tony.core.exception.BizException
-import com.tony.core.utils.toMd5UppercaseString
-import com.tony.core.utils.uuid
 import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
@@ -16,9 +13,11 @@ import com.tony.dto.req.UserCreateReq
 import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
 import com.tony.dto.resp.UserInfoResp
+import com.tony.exception.BizException
+import com.tony.utils.toMd5UppercaseString
+import com.tony.utils.uuid
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.Objects
 
 /**
  *
@@ -43,13 +42,14 @@ class UserService(
     fun info(userId: String, appId: String) = (
         userDao.selectById(userId)
             ?: throw BizException("没有此用户")
-        ).run {
-        UserInfoResp(
-            realName,
-            mobile,
-            moduleService.listRouteAndComponentModules(userId, appId)
         )
-    }
+        .run {
+            UserInfoResp(
+                realName,
+                mobile,
+                moduleService.listRouteAndComponentModules(userId, appId)
+            )
+        }
 
     fun list(query: String?, page: Long = 1, size: Long = 10) =
         userDao.selectPage(
@@ -69,7 +69,7 @@ class UserService(
 
     @Transactional
     fun add(req: UserCreateReq): Boolean {
-        if (!Objects.equals(req.pwd, req.confirmPwd)) {
+        if (req.pwd != req.confirmPwd) {
             throw BizException("两次密码不相等")
         }
 
@@ -82,10 +82,9 @@ class UserService(
             throw BizException("用户名或手机号已重复")
         }
 
-        val userId = uuid()
         val insertUser = userDao.insert(
             User().apply {
-                this.userId = userId
+                this.userId = uuid()
                 userName = req.userName
                 realName = req.realName
                 mobile = req.mobile
@@ -110,7 +109,7 @@ class UserService(
                 .eq(User.USER_NAME, req.userName)
                 .or().eq(User.MOBILE, req.mobile)
         )
-        if (exists != null && !Objects.equals(exists.userId, userId)) {
+        if (exists?.userId != userId) {
             throw BizException("用户名或手机号已重复")
         }
 

@@ -1,7 +1,7 @@
 package com.tony.dto.trait
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.tony.core.utils.defaultIfBlank
+import com.tony.utils.defaultIfBlank
 
 /**
  *

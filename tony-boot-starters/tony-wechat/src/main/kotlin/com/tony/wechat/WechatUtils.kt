@@ -2,8 +2,8 @@
 
 package com.tony.wechat
 
-import com.tony.core.utils.jsonToObj
-import com.tony.core.utils.toJsonString
+import com.tony.utils.jsonToObj
+import com.tony.utils.toJsonString
 import com.tony.wechat.client.resp.WechatResp
 import com.tony.wechat.exception.WechatException
 import org.apache.commons.codec.digest.DigestUtils

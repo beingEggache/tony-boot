@@ -9,8 +9,8 @@
  */
 package com.tony.alipay.exception
 
-import com.tony.core.ApiProperty
-import com.tony.core.exception.ApiException
+import com.tony.ApiProperty
+import com.tony.exception.ApiException
 
 class AlipayException @JvmOverloads constructor(
     override val message: String? = "",

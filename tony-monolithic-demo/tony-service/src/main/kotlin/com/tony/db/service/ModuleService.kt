@@ -3,8 +3,6 @@ package com.tony.db.service
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.tony.cache.RedisUtils
 import com.tony.cache.annotation.RedisCacheable
-import com.tony.core.exception.BizException
-import com.tony.core.utils.defaultIfBlank
 import com.tony.db.CacheKeys
 import com.tony.db.dao.ModuleDao
 import com.tony.db.po.Module
@@ -13,6 +11,8 @@ import com.tony.dto.enums.ModuleType
 import com.tony.dto.resp.ModuleResp
 import com.tony.dto.resp.RouteAndComponentModuleResp
 import com.tony.dto.trait.listAndSetChildren
+import com.tony.exception.BizException
+import com.tony.utils.defaultIfBlank
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

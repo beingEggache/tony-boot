@@ -11,8 +11,8 @@ package com.tony.wechat.client.req
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.tony.core.enums.EnumCreator
-import com.tony.core.enums.EnumStringValue
+import com.tony.enums.EnumCreator
+import com.tony.enums.EnumStringValue
 
 data class WechatMenu(val button: List<WechatButton>)
 

@@ -4,8 +4,8 @@ package com.tony.wechat.pay.xml.req
 
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
-import com.tony.core.exception.BaseException
-import com.tony.core.utils.getLogger
+import com.tony.exception.BaseException
+import com.tony.utils.getLogger
 import com.tony.wechat.pay.xml.resp.WechatPayNotifyResp
 import com.tony.wechat.xml.XStreamCDataConverter
 import com.tony.wechat.xml.toXmlString

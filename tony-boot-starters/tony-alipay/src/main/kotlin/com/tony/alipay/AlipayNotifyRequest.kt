@@ -2,9 +2,9 @@
 
 package com.tony.alipay
 
-import com.tony.core.exception.BaseException
-import com.tony.core.utils.getLogger
-import com.tony.core.utils.toDeepLink
+import com.tony.exception.BaseException
+import com.tony.utils.getLogger
+import com.tony.utils.toDeepLink
 
 private const val TRADE_SUCCESS = "TRADE_SUCCESS"
 

@@ -29,11 +29,11 @@ object Deps {
         const val tonyDependencies = "com.tony:tony-dependencies:${Version.tonyVersion}"
         const val tonyCore = "com.tony:tony-core:${Version.tonyVersion}"
         const val tonyJwt = "com.tony:tony-jwt:${Version.tonyVersion}"
-        const val tonySimpleAuth = "com.tony:tony-simple-auth:${Version.tonyVersion}"
+        const val tonyWebAuth = "com.tony:tony-web-auth:${Version.tonyVersion}"
         const val tonyOpenFeign = "com.tony:tony-open-feign:${Version.tonyVersion}"
         const val tonyKnife4j = "com.tony:tony-knife4j:${Version.tonyVersion}"
         const val tonyKnife4jApi = "com.tony:tony-knife4j-api:${Version.tonyVersion}"
-        const val tonyWebCore = "com.tony:tony-web-core:${Version.tonyVersion}"
+        const val tonyWeb = "com.tony:tony-web:${Version.tonyVersion}"
         const val tonyCache = "com.tony:tony-cache:${Version.tonyVersion}"
 
     }

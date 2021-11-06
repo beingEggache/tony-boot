@@ -1,10 +1,9 @@
 package com.tony.openfeign.test
 
-import com.tony.core.ApiResult
-import com.tony.core.utils.deepLinkToMap
-import com.tony.core.utils.println
-import com.tony.core.utils.toDeepLink
-import feign.Headers
+import com.tony.ApiResult
+import com.tony.utils.deepLinkToMap
+import com.tony.utils.println
+import com.tony.utils.toDeepLink
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cloud.openfeign.FeignClient

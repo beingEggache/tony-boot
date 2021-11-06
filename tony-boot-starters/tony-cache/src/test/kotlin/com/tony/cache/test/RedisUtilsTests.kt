@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.tony.cache.RedisKeys
 import com.tony.cache.RedisUtils
-import com.tony.core.enums.EnumCreator
-import com.tony.core.enums.EnumIntValue
-import com.tony.core.enums.EnumStringValue
+import com.tony.enums.EnumCreator
+import com.tony.enums.EnumIntValue
+import com.tony.enums.EnumStringValue
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 

@@ -2,8 +2,8 @@
 
 package com.tony.cache
 
-import com.tony.core.exception.ApiException
-import com.tony.core.utils.OBJECT_MAPPER
+import com.tony.exception.ApiException
+import com.tony.utils.OBJECT_MAPPER
 import org.springframework.context.annotation.Lazy
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate

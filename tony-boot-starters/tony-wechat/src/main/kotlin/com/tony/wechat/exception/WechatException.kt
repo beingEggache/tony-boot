@@ -9,8 +9,8 @@
  */
 package com.tony.wechat.exception
 
-import com.tony.core.ApiProperty
-import com.tony.core.exception.ApiException
+import com.tony.ApiProperty
+import com.tony.exception.ApiException
 
 class WechatException @JvmOverloads constructor(
     override val message: String? = "",

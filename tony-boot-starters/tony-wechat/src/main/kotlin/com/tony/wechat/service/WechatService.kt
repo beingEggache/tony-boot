@@ -1,7 +1,7 @@
 package com.tony.wechat.service
 
-import com.tony.core.utils.getLogger
-import com.tony.core.utils.urlEncode
+import com.tony.utils.getLogger
+import com.tony.utils.urlEncode
 import com.tony.wechat.check
 import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu

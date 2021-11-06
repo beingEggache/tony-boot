@@ -1,6 +1,6 @@
 package com.tony.openfeign.decoder
 
-import com.tony.core.exception.ApiException
+import com.tony.exception.ApiException
 import feign.FeignException
 import feign.Response
 import feign.codec.ErrorDecoder

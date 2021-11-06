@@ -1,11 +1,11 @@
 package com.tony.openfeign.log
 
-import com.tony.core.utils.defaultIfBlank
-import com.tony.core.utils.getLogger
-import com.tony.core.utils.removeLineBreak
-import com.tony.core.utils.toInstant
-import com.tony.core.utils.toJsonString
-import com.tony.core.utils.toString
+import com.tony.utils.defaultIfBlank
+import com.tony.utils.getLogger
+import com.tony.utils.removeLineBreak
+import com.tony.utils.toInstant
+import com.tony.utils.toJsonString
+import com.tony.utils.toString
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.RequestBody

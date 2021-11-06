@@ -2,10 +2,10 @@
 
 package com.tony.cache
 
-import com.tony.core.enums.EnumCreator.Companion.getCreator
-import com.tony.core.enums.EnumValue
-import com.tony.core.utils.asTo
-import com.tony.core.utils.jsonToObj
+import com.tony.enums.EnumCreator.Companion.getCreator
+import com.tony.enums.EnumValue
+import com.tony.utils.asTo
+import com.tony.utils.jsonToObj
 import java.io.Serializable
 import java.util.concurrent.TimeUnit
 

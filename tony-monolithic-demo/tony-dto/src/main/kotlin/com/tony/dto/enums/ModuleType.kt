@@ -2,8 +2,8 @@ package com.tony.dto.enums
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
-import com.tony.core.enums.EnumCreator
-import com.tony.core.enums.EnumIntValue
+import com.tony.enums.EnumCreator
+import com.tony.enums.EnumIntValue
 
 /**
  *

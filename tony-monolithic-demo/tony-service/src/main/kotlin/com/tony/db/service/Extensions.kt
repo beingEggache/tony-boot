@@ -1,7 +1,7 @@
 package com.tony.db.service
 
 import com.baomidou.mybatisplus.core.metadata.IPage
-import com.tony.core.PageResult
+import com.tony.PageResult
 import com.tony.db.po.Role
 import com.tony.db.po.User
 import com.tony.dto.resp.RoleResp

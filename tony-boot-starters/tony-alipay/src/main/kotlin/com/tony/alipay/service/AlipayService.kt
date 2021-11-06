@@ -6,7 +6,7 @@ import com.alipay.api.domain.AlipayTradeAppPayModel
 import com.alipay.api.internal.util.AlipaySignature
 import com.alipay.api.request.AlipayTradeAppPayRequest
 import com.tony.alipay.exception.AlipayException
-import com.tony.core.utils.urlEncode
+import com.tony.utils.urlEncode
 
 @Suppress("unused")
 class AlipayService(

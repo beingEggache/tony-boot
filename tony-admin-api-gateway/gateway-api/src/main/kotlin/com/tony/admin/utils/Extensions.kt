@@ -5,7 +5,7 @@
  */
 package com.tony.admin.utils
 
-import com.tony.core.utils.OBJECT_MAPPER
+import com.tony.utils.OBJECT_MAPPER
 import org.springframework.http.MediaType
 import org.springframework.http.server.reactive.ServerHttpResponse
 import reactor.core.publisher.Mono

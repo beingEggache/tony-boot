@@ -1,7 +1,7 @@
 package com.tony.db.typehandler
 
-import com.tony.core.enums.EnumValue
-import com.tony.core.utils.asTo
+import com.tony.enums.EnumValue
+import com.tony.utils.asTo
 import java.io.Serializable
 import java.sql.CallableStatement
 import java.sql.PreparedStatement

@@ -1,8 +1,7 @@
 package com.tony.core.test
 
-import com.tony.core.utils.println
-import com.tony.core.utils.toMd5UppercaseString
-import org.junit.jupiter.api.Test
+import com.tony.utils.println
+import com.tony.utils.toMd5UppercaseString
 import java.security.MessageDigest
 
 /**
