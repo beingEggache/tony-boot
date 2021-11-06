@@ -1,4 +1,4 @@
-package com.tony.openfeign.log
+package com.tony.feign.log
 
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger

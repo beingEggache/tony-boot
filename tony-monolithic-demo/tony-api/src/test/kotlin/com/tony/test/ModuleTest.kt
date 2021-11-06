@@ -1,7 +1,7 @@
 package com.tony.test
 
 import com.tony.api.ApiWebApp
-import com.tony.core.utils.toJsonString
+import com.tony.utils.toJsonString
 import com.tony.db.service.ModuleService
 import javax.annotation.Resource
 import org.junit.jupiter.api.Test

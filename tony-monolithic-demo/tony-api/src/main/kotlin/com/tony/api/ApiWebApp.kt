@@ -1,15 +1,15 @@
 package com.tony.api
 
+import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.api.permission.PermissionInterceptor
-import com.tony.core.annotation.EnableTonyBoot
-import com.tony.core.exception.ApiException
-import com.tony.core.utils.defaultIfBlank
 import com.tony.db.po.Module
 import com.tony.db.service.ModuleService
 import com.tony.db.service.UserService
 import com.tony.dto.enums.ModuleType
-import com.tony.webcore.WebApp
+import com.tony.exception.ApiException
+import com.tony.utils.defaultIfBlank
+import com.tony.web.WebApp
 import io.swagger.annotations.ApiOperation
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication

@@ -1,4 +1,4 @@
-package com.tony.openfeign.decoder
+package com.tony.feign.decoder
 
 import com.tony.exception.ApiException
 import feign.FeignException

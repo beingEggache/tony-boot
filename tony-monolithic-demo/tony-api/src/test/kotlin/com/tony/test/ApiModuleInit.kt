@@ -2,13 +2,13 @@ package com.tony.test
 
 import com.tony.api.ApiWebApp
 import com.tony.api.permission.NoPermissionCheck
-import com.tony.core.exception.ApiException
-import com.tony.core.utils.defaultIfBlank
-import com.tony.core.utils.toJsonString
+import com.tony.exception.ApiException
+import com.tony.utils.defaultIfBlank
+import com.tony.utils.toJsonString
 import com.tony.db.dao.ModuleDao
 import com.tony.db.po.Module
 import com.tony.dto.enums.ModuleType
-import com.tony.webcore.WebApp
+import com.tony.web.WebApp
 import io.swagger.annotations.ApiOperation
 import javax.annotation.Resource
 import org.junit.jupiter.api.Test

@@ -6,7 +6,7 @@ dependencies {
     implementation(Deps.Other.HikariCP)
     implementation(Deps.Other.mybatisTypehandlersJsr310)
     implementation(Deps.Tony.tonyCache) { isChanging = true }
-    implementation(Deps.Tony.tonyOpenFeign) { isChanging = true }
+    implementation(Deps.Tony.tonyFeign) { isChanging = true }
     api(Deps.Other.mybatisPlusBootStarter)
     api(Deps.Spring.web)
 

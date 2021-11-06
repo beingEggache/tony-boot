@@ -1,9 +1,9 @@
-package com.tony.openfeign.config
+package com.tony.feign.config
 
-import com.tony.openfeign.decoder.DefaultErrorDecoder
-import com.tony.openfeign.log.DefaultFeignRequestTraceLogger
-import com.tony.openfeign.log.FeignRequestTraceLogger
-import com.tony.openfeign.log.OpenFeignLogInterceptor
+import com.tony.feign.decoder.DefaultErrorDecoder
+import com.tony.feign.log.DefaultFeignRequestTraceLogger
+import com.tony.feign.log.FeignRequestTraceLogger
+import com.tony.feign.log.OpenFeignLogInterceptor
 import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
@@ -22,9 +22,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.util.concurrent.TimeUnit
 
-@EnableConfigurationProperties(OpenFeignConfigProperties::class)
+@EnableConfigurationProperties(FeignConfigProperties::class)
 @Configuration
-class OpenFeignConfig {
+class FeignConfig {
 
     @Bean
     fun encoder(messageConverters: ObjectFactory<HttpMessageConverters>): Encoder =
@@ -51,15 +51,15 @@ class OpenFeignConfig {
     @Bean
     fun okHttpClient(
         interceptors: List<Interceptor>,
-        openFeignConfigProperties: OpenFeignConfigProperties
+        feignConfigProperties: FeignConfigProperties
     ): OkHttpClient = OkHttpClient.Builder()
-        .callTimeout(openFeignConfigProperties.callTimeout, TimeUnit.SECONDS)
-        .connectTimeout(openFeignConfigProperties.connectTimeout, TimeUnit.SECONDS)
-        .readTimeout(openFeignConfigProperties.readTimeout, TimeUnit.SECONDS)
-        .writeTimeout(openFeignConfigProperties.writeTimeout, TimeUnit.SECONDS)
-        .pingInterval(openFeignConfigProperties.pingInterval, TimeUnit.SECONDS)
-        .retryOnConnectionFailure(openFeignConfigProperties.retryOnConnectionFailure)
-        .followRedirects(openFeignConfigProperties.followRedirects)
+        .callTimeout(feignConfigProperties.callTimeout, TimeUnit.SECONDS)
+        .connectTimeout(feignConfigProperties.connectTimeout, TimeUnit.SECONDS)
+        .readTimeout(feignConfigProperties.readTimeout, TimeUnit.SECONDS)
+        .writeTimeout(feignConfigProperties.writeTimeout, TimeUnit.SECONDS)
+        .pingInterval(feignConfigProperties.pingInterval, TimeUnit.SECONDS)
+        .retryOnConnectionFailure(feignConfigProperties.retryOnConnectionFailure)
+        .followRedirects(feignConfigProperties.followRedirects)
         .apply {
             interceptors.forEach(::addInterceptor)
         }
@@ -67,8 +67,8 @@ class OpenFeignConfig {
 }
 
 @ConstructorBinding
-@ConfigurationProperties(prefix = "open-feign")
-class OpenFeignConfigProperties(
+@ConfigurationProperties(prefix = "feign")
+class FeignConfigProperties(
     val callTimeout: Long = 0,
     val connectTimeout: Long = 10000,
     val readTimeout: Long = 10000,
