@@ -1,10 +1,10 @@
 package com.tony.api.permission
 
-import com.tony.auth.extensions.WebContextExtensions.userId
-import com.tony.core.exception.BizException
 import com.tony.db.service.ModuleService
-import com.tony.webcore.WebApp
-import com.tony.webcore.WebContext
+import com.tony.exception.BizException
+import com.tony.web.WebApp
+import com.tony.web.WebContext
+import com.tony.web.WebContextExtensions.userId
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod

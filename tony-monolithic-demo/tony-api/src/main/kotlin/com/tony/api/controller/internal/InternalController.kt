@@ -1,14 +1,14 @@
 package com.tony.api.controller.internal
 
 import com.tony.api.permission.NoPermissionCheck
-import com.tony.auth.NoLoginCheck
-import com.tony.core.utils.getLogger
 import com.tony.db.po.Module
 import com.tony.db.service.ModuleService
 import com.tony.dto.enums.ModuleType
 import com.tony.dto.req.internal.FrontEndModuleReq
-import com.tony.webcore.ListReq
-import com.tony.webcore.WebApp
+import com.tony.utils.getLogger
+import com.tony.web.ListReq
+import com.tony.web.WebApp
+import com.tony.web.interceptor.NoLoginCheck
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.context.annotation.Lazy

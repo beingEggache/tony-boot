@@ -45,7 +45,6 @@ internal class Knife4jExtensionConfig(
         .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation::class.java))
         .build()
         .extensions(openApiExtensionResolver.buildExtensions(null))
-
 }
 
 @Suppress("ArrayInDataClass")
