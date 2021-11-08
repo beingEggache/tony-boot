@@ -33,8 +33,6 @@ knife4j:
     enable-home-custom: true
     enable-swagger-models: false
   extension:
-    basePackages:
-      - "com.tony.api"
     title: "tony-micro-service-demo"
 feign:
   okhttp:

@@ -30,11 +30,6 @@
             "type": "java.lang.String"
         },
         {
-            "sourceType": "com.tony.swagger.config.Knife4jExtensionProperties",
-            "name": "knife4j.extension.basePackages",
-            "type": "java.lang.String[]"
-        },
-        {
             "sourceType": "springfox.documentation.service.Contact",
             "name": "knife4j.extension.contact.name",
             "type": "java.lang.String"

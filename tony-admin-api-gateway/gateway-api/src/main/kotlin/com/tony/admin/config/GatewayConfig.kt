@@ -43,7 +43,7 @@ class GatewayConfig {
 @RefreshScope
 @NacosConfigurationProperties(
     properties = NacosProperties(serverAddr = "\${spring.cloud.nacos.discovery.server-addr}"),
-    dataId = "tony-admin-gateway-routes-auth.yaml",
+    dataId = "tony-admin-gateway-routes-auth.yml",
     prefix = "tony.admin.gateway"
 )
 class GatewayRouteConfigProperties {

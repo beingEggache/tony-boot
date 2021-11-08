@@ -6,7 +6,7 @@ spring:
         password: root
         driver-class-name: com.mysql.cj.jdbc.Driver
     config:
-        import: classpath:swagger.yaml
+        import: classpath:swagger.yml
 web:
     cors:
         allowed-origins:

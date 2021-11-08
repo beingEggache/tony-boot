@@ -21,8 +21,8 @@ spring:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         namespace: ${spring.cloud.nacos.discovery.namespace}
         extension-configs:
-          - data-id: tony-admin-gateway-routes.yaml
-          - data-id: tony-admin-gateway-routes-auth.yaml
+          - data-id: tony-admin-gateway-routes.yml
+          - data-id: tony-admin-gateway-routes-auth.yml
   lifecycle:
     timeout-per-shutdown-phase: 20s
 jwt:
