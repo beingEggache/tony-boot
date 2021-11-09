@@ -11,8 +11,9 @@ import com.tony.dto.enums.ModuleType
 import com.tony.dto.resp.ModuleResp
 import com.tony.dto.resp.RouteAndComponentModuleResp
 import com.tony.dto.trait.listAndSetChildren
-import com.tony.exception.BizException
 import com.tony.utils.defaultIfBlank
+import com.tony.utils.throwIf
+import com.tony.utils.throwIfAndReturn
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -58,7 +59,7 @@ class ModuleService(
 
     @Transactional
     fun saveModules(modules: List<Module>, moduleType: List<ModuleType>, appId: String) {
-        if (modules.isEmpty()) throw BizException("模块列表为空")
+        throwIf(modules.isEmpty(), "模块列表为空")
         moduleDao.delete(QueryWrapper<Module>().`in`(MODULE_TYPE, moduleType))
         modules.forEach {
             it.appId = appId
@@ -67,10 +68,9 @@ class ModuleService(
         ModuleDao.clearModuleCache()
     }
 
-    fun tree(moduleTypes: List<ModuleType>): List<ModuleResp> {
-        val modules = moduleDao.selectList(QueryWrapper<Module>().`in`(MODULE_TYPE, moduleTypes)).map { it.toDto() }
-        return modules.listAndSetChildren()
-    }
+    fun tree(moduleTypes: List<ModuleType>) =
+        moduleDao.selectList(QueryWrapper<Module>().`in`(MODULE_TYPE, moduleTypes)).map { it.toDto() }
+            .listAndSetChildren()
 
     fun listModuleGroups(appId: String) =
         moduleDao.selectList(QueryWrapper<Module>().eq(Module.APP_ID, appId))
@@ -78,9 +78,8 @@ class ModuleService(
             .flatMap { it.moduleGroup.defaultIfBlank().split(",") }
             .distinct()
 
-    fun listByRoleId(roleId: String): List<String?> {
-        if (roleId.isBlank()) throw BizException("请选择角色")
-        return moduleDao.selectModuleByRoleId(roleId)
+    fun listByRoleId(roleId: String) = throwIfAndReturn(roleId.isBlank(), "请选择角色") {
+        moduleDao.selectModuleByRoleId(roleId)
             .filter { it.moduleType in frontEndModuleTypes }
             .map { it.moduleId }
     }

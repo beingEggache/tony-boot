@@ -14,6 +14,8 @@ import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
 import com.tony.dto.resp.UserInfoResp
 import com.tony.exception.BizException
+import com.tony.utils.throwIf
+import com.tony.utils.throwIfNull
 import com.tony.utils.toMd5UppercaseString
 import com.tony.utils.uuid
 import org.springframework.stereotype.Service
@@ -39,17 +41,14 @@ class UserService(
                 .eq(User.PWD, "${req.pwd}${req.userName}".toMd5UppercaseString())
         ) ?: throw BizException("用户名或密码错误")
 
-    fun info(userId: String, appId: String) = (
-        userDao.selectById(userId)
-            ?: throw BizException("没有此用户")
-        )
-        .run {
+    fun info(userId: String, appId: String) =
+        userDao.selectById(userId)?.run {
             UserInfoResp(
                 realName,
                 mobile,
                 moduleService.listRouteAndComponentModules(userId, appId)
             )
-        }
+        } ?: throw BizException("没有此用户")
 
     fun list(query: String?, page: Long = 1, size: Long = 10) =
         userDao.selectPage(
@@ -69,20 +68,16 @@ class UserService(
 
     @Transactional
     fun add(req: UserCreateReq): Boolean {
-        if (req.pwd != req.confirmPwd) {
-            throw BizException("两次密码不相等")
-        }
-
-        val exists = userDao.selectOne(
-            QueryWrapper<User>()
-                .eq(User.USER_NAME, req.userName)
-                .or().eq(User.MOBILE, req.mobile)
+        throwIf(req.pwd != req.confirmPwd, "两次密码不相等")
+        throwIf(
+            userDao.selectOne(
+                QueryWrapper<User>()
+                    .eq(User.USER_NAME, req.userName)
+                    .or().eq(User.MOBILE, req.mobile)
+            ) != null, "用户名或手机号已重复"
         )
-        if (exists != null) {
-            throw BizException("用户名或手机号已重复")
-        }
 
-        val insertUser = userDao.insert(
+        return userDao.insert(
             User().apply {
                 this.userId = uuid()
                 userName = req.userName
@@ -90,28 +85,21 @@ class UserService(
                 mobile = req.mobile
                 pwd = "${req.pwd}"
             }
-        )
-
-        return insertUser > 0
+        ) > 0
     }
 
     @Transactional
     fun update(req: UserUpdateReq): Boolean {
 
-        val userId = req.userId ?: throw BizException("userId null")
+        val userId = checkNotNull(req.userId)
+        userDao.selectById(userId).throwIfNull("没有此用户")
 
-        if (userDao.selectById(userId) == null) {
-            throw BizException("没有此用户")
-        }
-
-        val exists = userDao.selectOne(
-            QueryWrapper<User>()
-                .eq(User.USER_NAME, req.userName)
-                .or().eq(User.MOBILE, req.mobile)
-        )
-        if (exists?.userId != userId) {
-            throw BizException("用户名或手机号已重复")
-        }
+        throwIf(
+            userDao.selectOne(
+                QueryWrapper<User>()
+                    .eq(User.USER_NAME, req.userName)
+                    .or().eq(User.MOBILE, req.mobile)
+            )?.userId != userId, "用户名或手机号已重复")
 
         userDao.delUserProjectByUserId(userId)
 

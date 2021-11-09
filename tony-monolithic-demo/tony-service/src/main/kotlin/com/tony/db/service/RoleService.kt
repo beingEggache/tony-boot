@@ -13,6 +13,9 @@ import com.tony.dto.req.RoleCreateReq
 import com.tony.dto.req.RoleUpdateReq
 import com.tony.exception.BizException
 import com.tony.utils.defaultIfBlank
+import com.tony.utils.throwIf
+import com.tony.utils.throwIfAndReturn
+import com.tony.utils.throwIfNullAndReturn
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import javax.validation.Valid
@@ -30,27 +33,21 @@ class RoleService(
 ) : ServiceImpl<RoleDao, Role>() {
 
     @Transactional
-    fun add(@Valid req: RoleCreateReq, appId: String): Int {
-
-        val exists = roleDao.selectById(req.roleId)
-        if (exists != null) {
-            throw BizException("角色ID已重复")
+    fun add(@Valid req: RoleCreateReq, appId: String) =
+        throwIfAndReturn(roleDao.selectById(req.roleId) != null, "角色ID已重复") {
+            roleDao.insert(
+                Role().apply {
+                    this.roleId = req.roleId
+                    this.roleName = req.roleName
+                    this.remark = req.remark
+                    this.appId = appId
+                }
+            )
         }
 
-        return roleDao.insert(
-            Role().apply {
-                this.roleId = req.roleId
-                this.roleName = req.roleName
-                this.remark = req.remark
-                this.appId = appId
-            }
-        )
-    }
-
     @Transactional
-    fun update(@Valid req: RoleUpdateReq): Int {
-        roleDao.selectById(req.roleId) ?: throw BizException("不存在此角色")
-        return roleDao.updateById(
+    fun update(@Valid req: RoleUpdateReq) = roleDao.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
+        roleDao.updateById(
             Role().apply {
                 this.roleId = req.roleId
                 this.roleName = req.roleName
@@ -63,8 +60,7 @@ class RoleService(
         roleDao.selectPage(
             Page(page, size),
             KtQueryWrapper(Role::class.java).like(!query.isNullOrBlank(), Role::roleName, query)
-        )
-            .toPageResult()
+        ).toPageResult()
 
     @Transactional
     fun assignRole(req: RoleAssignReq) {
@@ -84,9 +80,8 @@ class RoleService(
         val moduleIdList = moduleDao.selectByModuleGroups(req.moduleGroupList).map {
             it.moduleId.defaultIfBlank()
         }
-        if (!moduleIdList.any()) {
-            throw BizException("没找到对应模块:${req.moduleGroupList.joinToString()}")
-        }
+        throwIf(!moduleIdList.any(), "没找到对应模块:${req.moduleGroupList.joinToString()}")
+
         req.roleIdList.forEach { roleId ->
             roleDao.deleteRoleModuleByRoleId(roleId)
             roleDao.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")

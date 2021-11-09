@@ -22,35 +22,25 @@ inline fun Boolean.doIf(crossinline block: () -> Any) {
     if (this) block()
 }
 
-inline fun <T> T.doIf(flag: Boolean, crossinline block: T.() -> Unit): T {
-    if (flag) block()
+inline fun <T> T.doIf(condition: Boolean, crossinline block: T.() -> Unit): T {
+    if (condition) block()
     return this
 }
 
-inline fun Boolean.doUnless(crossinline block: () -> Any) {
-    if (!this) block()
+fun throwIf(condition: Boolean, message: String) {
+    if (condition) throw BizException(message)
 }
 
-inline fun <reified T> T?.doIfNull(crossinline block: () -> T): T {
-    return this ?: block()
+fun <T> T?.throwIfNull(message: String) {
+    throwIf(this == null, message)
 }
 
-inline fun checkBiz(value: Boolean, lazyMessage: () -> Any) {
-    if (value) {
-        throw BizException(lazyMessage().toString())
-    }
+inline fun <R> throwIfAndReturn(condition: Boolean, message: String, crossinline block: () -> R): R {
+    if (condition) throw BizException(message)
+    return block()
 }
 
-inline fun <T : Any> checkBizNotNull(value: T?, lazyMessage: () -> Any): T {
-    if (value == null) {
-        throw BizException(lazyMessage().toString())
-    } else {
-        return value
-    }
-}
+inline fun <T, R> T?.throwIfNullAndReturn(message: String, crossinline block: () -> R) =
+    throwIfAndReturn(this == null, message, block)
 
-inline fun checkStringBizNotBlank(value: String?, lazyMessage: () -> Any) {
-    if (value.isNullOrBlank()) {
-        throw BizException(lazyMessage().toString())
-    }
-}
+inline fun <reified T> T?.returnIfNull(crossinline block: () -> T) = this ?: block()

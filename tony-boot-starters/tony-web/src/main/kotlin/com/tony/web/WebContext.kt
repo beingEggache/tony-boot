@@ -7,7 +7,7 @@ import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.exception.BaseException
 import com.tony.utils.asTo
 import com.tony.utils.defaultIfBlank
-import com.tony.utils.doIfNull
+import com.tony.utils.returnIfNull
 import com.tony.web.utils.headers
 import com.tony.web.utils.origin
 import com.tony.web.utils.remoteIp
@@ -83,7 +83,7 @@ object WebContext {
 
     private val errorAttributes
         get() = current.getAttribute("errorAttribute", SCOPE_REQUEST)
-            .asTo<Map<String, Any?>>().doIfNull {
+            .asTo<Map<String, Any?>>().returnIfNull {
                 val errorAttributes = WebApp.errorAttributes
                     .getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
                 current.setAttribute("errorAttribute", errorAttributes, SCOPE_REQUEST)
