@@ -27,15 +27,14 @@ import javax.validation.Valid
  */
 @Service
 class RoleService(
-    private val roleDao: RoleDao,
     private val userDao: UserDao,
     private val moduleDao: ModuleDao
 ) : ServiceImpl<RoleDao, Role>() {
 
     @Transactional
     fun add(@Valid req: RoleCreateReq, appId: String) =
-        throwIfAndReturn(roleDao.selectById(req.roleId) != null, "角色ID已重复") {
-            roleDao.insert(
+        throwIfAndReturn(baseMapper.selectById(req.roleId) != null, "角色ID已重复") {
+            baseMapper.insert(
                 Role().apply {
                     this.roleId = req.roleId
                     this.roleName = req.roleName
@@ -46,8 +45,8 @@ class RoleService(
         }
 
     @Transactional
-    fun update(@Valid req: RoleUpdateReq) = roleDao.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
-        roleDao.updateById(
+    fun update(@Valid req: RoleUpdateReq) = baseMapper.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
+        baseMapper.updateById(
             Role().apply {
                 this.roleId = req.roleId
                 this.roleName = req.roleName
@@ -57,7 +56,7 @@ class RoleService(
     }
 
     fun page(query: String?, page: Long = 1, size: Long = 10) =
-        roleDao.selectPage(
+        baseMapper.selectPage(
             Page(page, size),
             KtQueryWrapper(Role::class.java).like(!query.isNullOrBlank(), Role::roleName, query)
         ).toPageResult()
@@ -65,11 +64,11 @@ class RoleService(
     @Transactional
     fun assignRole(req: RoleAssignReq) {
         req.userIdList.forEach { userId ->
-            roleDao.deleteUserRoleByUserId(userId)
+            baseMapper.deleteUserRoleByUserId(userId)
             userDao.selectById(userId) ?: throw BizException("不存在的用户:$userId")
             req.roleIdList.forEach { roleId ->
-                roleDao.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
-                roleDao.insertUserRole(userId, roleId)
+                baseMapper.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
+                baseMapper.insertUserRole(userId, roleId)
                 ModuleDao.clearModuleCache(userId)
             }
         }
@@ -83,11 +82,11 @@ class RoleService(
         throwIf(!moduleIdList.any(), "没找到对应模块:${req.moduleGroupList.joinToString()}")
 
         req.roleIdList.forEach { roleId ->
-            roleDao.deleteRoleModuleByRoleId(roleId)
-            roleDao.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
+            baseMapper.deleteRoleModuleByRoleId(roleId)
+            baseMapper.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
             moduleIdList.forEach { moduleId ->
-                roleDao.selectById(roleId) ?: throw BizException("不存在的模块:$moduleId")
-                roleDao.insertRoleModule(roleId, moduleId)
+                baseMapper.selectById(roleId) ?: throw BizException("不存在的模块:$moduleId")
+                baseMapper.insertRoleModule(roleId, moduleId)
                 ModuleDao.clearModuleCache()
             }
         }

@@ -28,21 +28,20 @@ import org.springframework.transaction.annotation.Transactional
  */
 @Service
 class UserService(
-    private val userDao: UserDao,
     private val roleDao: RoleDao,
     private val roleService: RoleService,
     private val moduleService: ModuleService
 ) : ServiceImpl<UserDao, User>() {
 
     fun login(req: UserLoginReq) =
-        userDao.selectOne(
+        baseMapper.selectOne(
             QueryWrapper<User>()
                 .eq(User.USER_NAME, req.userName)
                 .eq(User.PWD, "${req.pwd}${req.userName}".toMd5UppercaseString())
         ) ?: throw BizException("用户名或密码错误")
 
     fun info(userId: String, appId: String) =
-        userDao.selectById(userId)?.run {
+        baseMapper.selectById(userId)?.run {
             UserInfoResp(
                 realName,
                 mobile,
@@ -51,7 +50,7 @@ class UserService(
         } ?: throw BizException("没有此用户")
 
     fun list(query: String?, page: Long = 1, size: Long = 10) =
-        userDao.selectPage(
+        baseMapper.selectPage(
             Page(page, size),
             QueryWrapper<User>().like(
                 !query.isNullOrBlank(),
@@ -70,14 +69,14 @@ class UserService(
     fun add(req: UserCreateReq): Boolean {
         throwIf(req.pwd != req.confirmPwd, "两次密码不相等")
         throwIf(
-            userDao.selectOne(
+            baseMapper.selectOne(
                 QueryWrapper<User>()
                     .eq(User.USER_NAME, req.userName)
                     .or().eq(User.MOBILE, req.mobile)
             ) != null, "用户名或手机号已重复"
         )
 
-        return userDao.insert(
+        return baseMapper.insert(
             User().apply {
                 this.userId = uuid()
                 userName = req.userName
@@ -92,18 +91,18 @@ class UserService(
     fun update(req: UserUpdateReq): Boolean {
 
         val userId = checkNotNull(req.userId)
-        userDao.selectById(userId).throwIfNull("没有此用户")
+        baseMapper.selectById(userId).throwIfNull("没有此用户")
 
         throwIf(
-            userDao.selectOne(
+            baseMapper.selectOne(
                 QueryWrapper<User>()
                     .eq(User.USER_NAME, req.userName)
                     .or().eq(User.MOBILE, req.mobile)
             )?.userId != userId, "用户名或手机号已重复")
 
-        userDao.delUserProjectByUserId(userId)
+        baseMapper.delUserProjectByUserId(userId)
 
-        return userDao.updateById(
+        return baseMapper.updateById(
             User().apply {
                 this.userId = userId
                 userName = req.userName
@@ -124,8 +123,8 @@ class UserService(
             mobile = "13984842424"
             pwd = "lxkj123!@#admin".toMd5UppercaseString()
         }
-        userDao.deleteById(superAdmin)
-        userDao.insert(user)
+        baseMapper.deleteById(superAdmin)
+        baseMapper.insert(user)
         roleDao.deleteById(superAdmin)
         roleDao.insert(
             Role().apply {
@@ -135,7 +134,7 @@ class UserService(
             }
         )
 
-        userDao.delUserProjectByUserId(superAdmin)
+        baseMapper.delUserProjectByUserId(superAdmin)
 
         roleService.assignRole(RoleAssignReq(listOf(superAdmin), listOf(superAdmin)))
         val moduleGroups = moduleService.listModuleGroups(appId)
