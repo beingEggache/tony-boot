@@ -5,9 +5,9 @@ mybatis-plus:
     global-config:
         banner: off
 spring:
-    profiles:
+  profiles:
         active: dev
-    application:
-        name: tony-api
-    main:
-        banner-mode: off
+  application:
+      name: tony-api
+  main:
+      banner-mode: off

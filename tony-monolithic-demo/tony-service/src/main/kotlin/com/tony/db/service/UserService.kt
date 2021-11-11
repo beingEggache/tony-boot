@@ -73,7 +73,8 @@ class UserService(
                 QueryWrapper<User>()
                     .eq(User.USER_NAME, req.userName)
                     .or().eq(User.MOBILE, req.mobile)
-            ) != null, "用户名或手机号已重复"
+            ) != null,
+            "用户名或手机号已重复"
         )
 
         return baseMapper.insert(
@@ -98,7 +99,9 @@ class UserService(
                 QueryWrapper<User>()
                     .eq(User.USER_NAME, req.userName)
                     .or().eq(User.MOBILE, req.mobile)
-            )?.userId != userId, "用户名或手机号已重复")
+            )?.userId != userId,
+            "用户名或手机号已重复"
+        )
 
         baseMapper.delUserProjectByUserId(userId)
 
