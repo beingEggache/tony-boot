@@ -93,5 +93,5 @@ fun String.removeLineBreak(): String = this.replace(lineBreakRegex, "")
 
 private val antPathMatcher = AntPathMatcher()
 
-fun String.antPathMatchAny(patterns: List<String>?) =
+fun String?.antPathMatchAny(patterns: List<String>?) =
     patterns?.any { antPathMatcher.match(it, defaultIfBlank()) } ?: false

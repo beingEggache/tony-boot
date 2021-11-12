@@ -7,14 +7,13 @@ package com.tony.gateway.config
 
 import com.alibaba.nacos.api.annotation.NacosProperties
 import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties
-import com.tony.utils.defaultIfBlank
+import com.tony.utils.antPathMatchAny
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.cloud.context.config.annotation.RefreshScope
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Component
-import org.springframework.util.AntPathMatcher
 import reactor.core.publisher.Mono
 
 /**
@@ -51,13 +50,8 @@ class GatewayRouteConfigProperties {
     var noLoginCheckUrls: List<String>? = null
     var noPermissionCheckUrls: List<String>? = null
 
-    private val antPathMatcher = AntPathMatcher()
-
-    private fun AntPathMatcher.matchAny(patterns: List<String>?, path: String?) =
-        patterns?.any { match(it, path.defaultIfBlank()) } ?: false
-
-    fun noLoginCheck(path: String?) = antPathMatcher.matchAny(noLoginCheckUrls, path)
+    fun noLoginCheck(path: String?) = path.antPathMatchAny(noLoginCheckUrls)
 
     fun noPermissionCheck(path: String?) = if (noLoginCheck(path)) true
-    else antPathMatcher.matchAny(noPermissionCheckUrls, path)
+    else path.antPathMatchAny(noPermissionCheckUrls)
 }
