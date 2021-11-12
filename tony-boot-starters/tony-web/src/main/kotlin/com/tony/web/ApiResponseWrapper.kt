@@ -36,15 +36,8 @@ internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {
         request.uri.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) -> body
         body == null -> ApiResult(EMPTY_RESULT, ApiProperty.successCode)
         body.isNotCollectionLike() -> ApiResult(body, ApiProperty.successCode)
-        else -> {
-            if (body.javaClass.isArray) {
-                ApiResult(toListResult(body), ApiProperty.successCode)
-            } else {
-                ApiResult(
-                    ListResult(body.asTo<Collection<*>>()), ApiProperty.successCode
-                )
-            }
-        }
+        else -> if (body.javaClass.isArray) ApiResult(toListResult(body), ApiProperty.successCode)
+        else ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.successCode)
     }
 
     override fun supports(

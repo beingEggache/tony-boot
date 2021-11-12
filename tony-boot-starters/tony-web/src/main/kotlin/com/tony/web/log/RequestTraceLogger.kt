@@ -128,15 +128,13 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         }
     }
 
-    private fun resultStatus(resultCode: Int): String {
-        return when (resultCode) {
-            ApiProperty.successCode -> SUCCESS
-            ApiProperty.validationErrorCode -> VALIDATE_FAILED
-            ApiProperty.bizErrorCode -> BIZ_FAILED
-            ApiProperty.unauthorizedCode -> UNAUTHORIZED
-            in 400 * 100..499 * 100 -> VALIDATE_FAILED
-            else -> FAILED
-        }
+    private fun resultStatus(resultCode: Int): String = when (resultCode) {
+        ApiProperty.successCode -> SUCCESS
+        ApiProperty.validationErrorCode -> VALIDATE_FAILED
+        ApiProperty.bizErrorCode -> BIZ_FAILED
+        ApiProperty.unauthorizedCode -> UNAUTHORIZED
+        in 400 * 100..499 * 100 -> VALIDATE_FAILED
+        else -> FAILED
     }
 
     private companion object {
