@@ -3,7 +3,7 @@
  * @author tangli
  * @since 2021/8/5 14:29
  */
-package com.tony.admin.utils
+package com.tony.gateway.utils
 
 import com.tony.utils.OBJECT_MAPPER
 import org.springframework.http.MediaType

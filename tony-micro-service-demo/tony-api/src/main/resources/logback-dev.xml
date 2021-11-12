@@ -147,6 +147,33 @@
         <appender-ref ref="error"/>
     </root>
 
+    <!-- hide some startup info -->
+    <logger name="org.hibernate.validator.internal.util.Version" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.springframework.data.repository.config.RepositoryConfigurationDelegate" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.apache.coyote.http11.Http11NioProtocol" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.apache.catalina.core.StandardService" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.apache.catalina.core.ContainerBase" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.apache.catalina.core.StandardEngine" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.springframework.boot.web.embedded.tomcat.TomcatWebServer" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <!-- hide info end-->
+
     <logger name="com.tony.db.dao" level="DEBUG">
         <appender-ref ref="stdout"/>
     </logger>

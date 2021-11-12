@@ -3,7 +3,7 @@ apply(plugin = "docker.publish")
 
 dependencies {
 
-    val profile = getProfiles()
+    val profile = getProfile()
     //while execute gradle task, use -Dprofile=prod
     if (profile == "qa") {
         implementation(Deps.Tony.tonyKnife4jApi)

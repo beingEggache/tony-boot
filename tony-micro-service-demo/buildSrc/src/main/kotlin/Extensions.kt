@@ -57,6 +57,6 @@ private fun Project.getProjectGitHook(hookName: String): String {
     return hook.absolutePath
 }
 
-fun getProfiles(): String = System.getProperty("profile", "dev")
+fun getProfile(): String = System.getProperty("profile", "dev")
 
 fun Project.getImageName(): String = System.getProperty("project_name", rootProject.name)

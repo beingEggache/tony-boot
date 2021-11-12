@@ -2,7 +2,7 @@ apply(plugin = "kotlin-spring")
 apply(plugin = "docker.publish")
 dependencies {
 
-    val profile = getProfiles()
+    val profile = getProfile()
     //while execute gradle task, use -Pprofile=prod
     if (profile == "qa") {
         implementation(Deps.Tony.tonyKnife4jApi)

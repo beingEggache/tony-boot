@@ -1,6 +1,6 @@
 package com.tony.test
 
-import com.tony.admin.ApiWebApp
+import com.tony.gateway.ApiWebApp
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 

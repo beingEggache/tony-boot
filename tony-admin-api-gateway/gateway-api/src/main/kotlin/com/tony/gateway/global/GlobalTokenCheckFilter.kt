@@ -3,15 +3,15 @@
  * @author tangli
  * @since 2021/8/5 14:29
  */
-package com.tony.admin.global
+package com.tony.gateway.global
 
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.tony.ApiProperty
 import com.tony.ApiResult
-import com.tony.admin.TokenHeaderName
-import com.tony.admin.UserIdHeaderName
-import com.tony.admin.config.GatewayRouteConfigProperties
-import com.tony.admin.utils.jsonBody
+import com.tony.gateway.TokenHeaderName
+import com.tony.gateway.UserIdHeaderName
+import com.tony.gateway.config.GatewayRouteConfigProperties
+import com.tony.gateway.utils.jsonBody
 import com.tony.jwt.config.JwtToken
 import com.tony.utils.defaultIfBlank
 import org.springframework.cloud.gateway.filter.GatewayFilterChain

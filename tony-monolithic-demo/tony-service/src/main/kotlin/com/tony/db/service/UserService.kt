@@ -121,10 +121,10 @@ class UserService(
         val superAdmin = "SUPER_ADMIN"
         val user = User().apply {
             this.userId = superAdmin
-            userName = "admin"
+            userName = "gateway"
             realName = "超级管理员"
             mobile = "13984842424"
-            pwd = "lxkj123!@#admin".toMd5UppercaseString()
+            pwd = "lxkj123!@#gateway".toMd5UppercaseString()
         }
         baseMapper.deleteById(superAdmin)
         baseMapper.insert(user)

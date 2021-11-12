@@ -24,7 +24,8 @@ class SmsService(
 
     private val acsClient: DefaultAcsClient by lazy {
         val profile = DefaultProfile.getProfile(
-            regionId, accessKeyId,
+            regionId,
+            accessKeyId,
             accessKeySecret
         )
 

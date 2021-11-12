@@ -3,7 +3,7 @@
  * @author tangli
  * @since 2021/8/5 14:29
  */
-package com.tony.admin
+package com.tony.gateway
 
 import com.tony.annotation.EnableTonyBoot
 import org.springframework.boot.autoconfigure.SpringBootApplication

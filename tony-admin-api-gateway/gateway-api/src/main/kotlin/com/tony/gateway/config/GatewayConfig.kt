@@ -3,7 +3,7 @@
  * @author tangli
  * @since 2021/8/5 14:29
  */
-package com.tony.admin.config
+package com.tony.gateway.config
 
 import com.alibaba.nacos.api.annotation.NacosProperties
 import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties
@@ -38,13 +38,13 @@ class GatewayConfig {
     }
 }
 
-@ConfigurationProperties(prefix = "tony.admin.gateway")
+@ConfigurationProperties(prefix = "tony.gateway")
 @Component
 @RefreshScope
 @NacosConfigurationProperties(
     properties = NacosProperties(serverAddr = "\${spring.cloud.nacos.discovery.server-addr}"),
-    dataId = "tony-admin-gateway-routes-auth.yml",
-    prefix = "tony.admin.gateway"
+    dataId = "tony-gateway-routes-auth.yml",
+    prefix = "tony.gateway"
 )
 class GatewayRouteConfigProperties {
 

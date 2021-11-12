@@ -29,8 +29,12 @@ fun main(args: Array<String>) {
     runApplication<ApiWebApp>(*args) {
         setHeadless(true)
     }
-    val info = "${WebApp.appId} http://${WebApp.ip}:${WebApp.port}/${WebApp.contextPath} started success. " +
-        "He who has a why to live can bear almost any how."
+    val info =
+        "${WebApp.appId} " +
+            "http://${WebApp.ip}:${WebApp.port}${WebApp.contextPath.padStart(1, '/')} " +
+            "started success. " +
+            "profiles: ${WebApp.profiles.joinToString()}. " +
+            "He who has a why to live can bear almost any how."
     LoggerFactory.getLogger(ApiWebApp::class.java).info(info)
 }
 
