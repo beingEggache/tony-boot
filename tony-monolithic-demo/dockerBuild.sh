@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-TEMP=$(getopt -o r:p:n:P:N:t: --long docker-registry:,port:,project-name:,profile:,docker-org-name:,docker-org-name: \
+TEMP=$(getopt -o \
+    r:p:n:P:N:t: --long \
+    docker-registry:,port:,project-name:,profile:,docker-org-name:,docker-org-name: \
      -n 'dockerBuild.bash' -- "$@")
 
 eval set -- "$TEMP"
@@ -22,58 +24,42 @@ docker_org_name=${docker_org_name:=publisher}
 profile=${profile:=qa}
 image_tag=${image_tag:=latest}
 
-if [ -z "$docker_registry" ]
-then
- echo "-r|--docker-registry must be set"
- exit 1
-fi
+check_arg(){
+   if [ -z "$1" ]
+   then
+    echo "$2 must be set"
+    exit 1
+   fi
+}
 
-if [ -z "$port" ]
-then
- echo "-p|--port must be set"
- exit 1
-fi
+check_arg "$docker_registry" "-r|--docker-registry"
+check_arg "$port" "-p|--port"
+check_arg "$project_name" "-n|--project-name"
 
-if [ -z "$project_name" ]
-then
- echo "-n|--project-name must be set"
- exit 1
-fi
-
-dir=/data/java-instances/"${profile}"-"${port}"
+dir=/data/java-instances/"${project_name}"
 
 mkdir -p "${dir}"
-echo "mkdir project_path ${dir}"
+echo "mkdir ${dir}"
 
-container_id=$(docker ps | grep "${project_name}" | awk '{print $1}')
+container_id=$(docker ps -a | grep -w "${project_name}" | awk '{print $1}')
 
-if [ -n "$container_id" ]
-then
-  echo "docker stop container_id:${container_id}"
-  docker stop "${container_id}";
-fi
-
-container_id=$(docker ps -a | grep "${project_name}" | awk '{print $1}')
-
-if [ -n "$container_id" ]
+if [ "$container_id" ]
 then
   echo "docker rm container_id:${container_id}"
-  docker rm "${container_id}";
+  docker rm -f "${container_id}";
 fi
 
 image_name="${docker_registry}/${docker_org_name}/${project_name}"
-image_ids=$(docker images | grep -w "${image_name}" | grep -w "${image_tag}" | awk '{print $3}')
-
-for image_id in $image_ids
-do
-   if [ -n "$image_id" ]
-   then
-	 echo "docker rmi ${image_id}"
-	 docker rmi "${image_id}"
-   fi
-done
-
-docker run -d --name="${project_name}" -p "${port}":"${port}" -e "JAVA_OPTS=-Dspring.profiles.active=${profile:=qa}" -v "${dir}"/logs:/logs "${image_name}"
+# pull latest images
+docker pull "${image_name}"
+# prune docker
+docker system prune -f
+# run the latest image
+docker run -d --name="${project_name}" \
+-p "${port}":"${port}" \
+-v "${dir}"/logs:/logs \
+-e "JAVA_OPTS=-Dspring.profiles.active=${profile:=qa}" \
+"${image_name}"
 
 run_status=$?
 if [ $run_status != 0 ]

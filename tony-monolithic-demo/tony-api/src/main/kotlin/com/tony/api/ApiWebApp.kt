@@ -1,3 +1,4 @@
+@file:JvmName("App")
 package com.tony.api
 
 import com.tony.annotation.EnableTonyBoot
@@ -11,6 +12,7 @@ import com.tony.exception.ApiException
 import com.tony.utils.defaultIfBlank
 import com.tony.web.WebApp
 import io.swagger.annotations.ApiOperation
+import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -22,8 +24,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
 import javax.annotation.Resource
 
+@Suppress("HttpUrlsUsage")
 fun main(args: Array<String>) {
-    runApplication<ApiWebApp>(*args)
+    runApplication<ApiWebApp>(*args) {
+        setHeadless(true)
+    }
+    val info = "${WebApp.appId} http://${WebApp.ip}:${WebApp.port}/${WebApp.contextPath} started success. " +
+        "He who has a why to live can bear almost any how."
+    LoggerFactory.getLogger(ApiWebApp::class.java).info(info)
 }
 
 // @Profile(value = ["!prod"])

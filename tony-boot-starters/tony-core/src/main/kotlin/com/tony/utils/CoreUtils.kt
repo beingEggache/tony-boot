@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory
 
 fun <T> T?.println() = println(this)
 
-@JvmOverloads
 @JvmSynthetic
-fun <T> T.getLogger(name: String? = null): Logger where T : Any =
-    if (name.isNullOrBlank()) LoggerFactory.getLogger(this::class.java.name)
-    else LoggerFactory.getLogger(name)
+fun <T> T.getLogger(): Logger where T : Any =
+    LoggerFactory.getLogger(this::class.java)
+
+fun getLogger(name: String?): Logger = LoggerFactory.getLogger(name)
 
 @Suppress("UNCHECKED_CAST")
 fun <E> Any?.asTo(): E? where E : Any = this as E?

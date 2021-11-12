@@ -11,17 +11,11 @@ import com.tony.web.WebApp
 import com.tony.web.interceptor.NoLoginCheck
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import org.springframework.context.annotation.Lazy
 import org.springframework.context.annotation.Profile
-import org.springframework.core.annotation.AnnotatedElementUtils
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
-import javax.annotation.Resource
 
 /**
  *
@@ -64,7 +58,7 @@ class InternalController(
         }
     }
 
-    @Lazy
+/*    @Lazy
     @Resource
     lateinit var handlerMapping: RequestMappingHandlerMapping
 
@@ -76,11 +70,11 @@ class InternalController(
         this.javaClass.methods.forEach {
             val annot = AnnotatedElementUtils.findMergedAnnotation(it, RequestMapping::class.java)
             val mappingInfo = RequestMappingInfo
-                .paths(annot?.path?.first())
-                .methods(annot?.method?.first())
+                .paths(*(annot?.path ?: arrayOf()))
+                .methods(*(annot?.method ?: arrayOf()))
                 .build()
             handlerMapping.unregisterMapping(mappingInfo)
         }
         logger.info("internal api closed")
-    }
+    }*/
 }

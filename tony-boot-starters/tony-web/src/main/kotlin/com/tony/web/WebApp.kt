@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
+import java.net.InetAddress
 import java.util.regex.Pattern
 import javax.annotation.Resource
 
@@ -30,8 +31,22 @@ object WebApp {
         environment.getProperty("spring.application.name", "")
     }
 
-    internal val contextPath: String by lazy {
+    val ip: String
+        @JvmStatic
+        get() = InetAddress.getLocalHost().hostAddress
+
+    @JvmStatic
+    val port: String by lazy {
+        environment.getProperty("server.port", "8080")
+    }
+
+    @JvmStatic
+    val contextPath: String by lazy {
         environment.getProperty("server.servlet.context-path", "")
+    }
+
+    val profiles: Array<String> by lazy {
+        environment.activeProfiles
     }
 
     internal val responseWrapExcludePatterns by lazy {
