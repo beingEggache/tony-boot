@@ -3,8 +3,10 @@ package com.tony.demo
 import com.tony.annotation.EnableTonyBoot
 import com.tony.web.WebApp
 import org.slf4j.LoggerFactory
+
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 
 @Suppress("HttpUrlsUsage")

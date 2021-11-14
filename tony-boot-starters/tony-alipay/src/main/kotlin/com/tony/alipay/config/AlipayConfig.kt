@@ -2,12 +2,14 @@ package com.tony.alipay.config
 
 import com.tony.alipay.service.AlipayService
 import com.tony.exception.ApiException
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
+
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.ConstructorBinding
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @Configuration
 @EnableConfigurationProperties(AlipayProperties::class)

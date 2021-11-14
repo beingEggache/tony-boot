@@ -5,15 +5,19 @@ import com.tony.wechat.service.ApiAccessTokenProvider
 import com.tony.wechat.service.ApiAccessTokenProviderWrapper
 import com.tony.wechat.service.DefaultApiAccessTokenProviderWrapper
 import com.tony.wechat.service.WechatService
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.cloud.openfeign.EnableFeignClients
+
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.ConstructorBinding
+import org.springframework.boot.context.properties.EnableConfigurationProperties
+
+import org.springframework.cloud.openfeign.EnableFeignClients
+
 import javax.annotation.PostConstruct
 import javax.annotation.Resource
 

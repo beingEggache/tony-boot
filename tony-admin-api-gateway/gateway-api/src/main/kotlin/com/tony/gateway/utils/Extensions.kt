@@ -6,9 +6,10 @@
 package com.tony.gateway.utils
 
 import com.tony.utils.OBJECT_MAPPER
+import reactor.core.publisher.Mono
+
 import org.springframework.http.MediaType
 import org.springframework.http.server.reactive.ServerHttpResponse
-import reactor.core.publisher.Mono
 
 fun ServerHttpResponse.jsonBody(obj: Any?): Mono<Void> = run {
     headers.contentType = MediaType.APPLICATION_JSON

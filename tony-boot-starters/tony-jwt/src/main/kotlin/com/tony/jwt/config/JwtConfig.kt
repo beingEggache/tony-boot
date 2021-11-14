@@ -4,16 +4,20 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.tony.utils.toDate
+
+import org.springframework.context.annotation.Configuration
+import org.springframework.stereotype.Component
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.context.annotation.Configuration
-import org.springframework.stereotype.Component
+
 import java.time.LocalDateTime
 import java.util.Date
+
 import javax.annotation.Resource
 
 @Configuration

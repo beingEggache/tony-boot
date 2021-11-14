@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumStringValue
+
 import javax.validation.constraints.Max
 import javax.validation.constraints.Positive
 

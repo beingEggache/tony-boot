@@ -2,12 +2,13 @@ package com.tony.db.typehandler
 
 import com.tony.enums.EnumValue
 import com.tony.utils.asTo
+import org.apache.ibatis.type.BaseTypeHandler
+import org.apache.ibatis.type.JdbcType
+
 import java.io.Serializable
 import java.sql.CallableStatement
 import java.sql.PreparedStatement
 import java.sql.ResultSet
-import org.apache.ibatis.type.BaseTypeHandler
-import org.apache.ibatis.type.JdbcType
 
 open class EnumValueTypeHandler<E, KEY>(private val enumClass: Class<E>) :
     BaseTypeHandler<Enum<E>>()

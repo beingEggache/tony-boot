@@ -7,6 +7,7 @@ package com.tony.enums.validate
 
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumValue
+
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 

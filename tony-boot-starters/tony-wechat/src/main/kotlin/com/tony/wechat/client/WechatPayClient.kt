@@ -9,9 +9,12 @@
  */
 package com.tony.wechat.client
 
-import org.springframework.cloud.openfeign.FeignClient
+
+
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+
+import org.springframework.cloud.openfeign.FeignClient
 
 @FeignClient("wechatPayClient", url = "https://api.mch.weixin.qq.com")
 interface WechatPayClient {

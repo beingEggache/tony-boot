@@ -7,8 +7,7 @@ import com.tony.utils.getLogger
 import com.tony.web.WebApp.badRequest
 import com.tony.web.WebApp.errorResponse
 import com.tony.web.WebContext.toResponse
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
-import org.springframework.boot.web.servlet.error.ErrorController
+
 import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindException
@@ -19,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
+import org.springframework.boot.web.servlet.error.ErrorController
+
 import javax.validation.ConstraintViolationException
 
 @RestControllerAdvice

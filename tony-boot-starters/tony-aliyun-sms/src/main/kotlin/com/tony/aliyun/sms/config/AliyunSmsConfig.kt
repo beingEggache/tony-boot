@@ -1,10 +1,12 @@
 package com.tony.aliyun.sms.config
 
 import com.tony.aliyun.sms.service.SmsService
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @Configuration
 @EnableConfigurationProperties(AliyunSmsProperties::class)

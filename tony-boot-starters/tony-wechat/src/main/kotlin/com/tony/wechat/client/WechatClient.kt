@@ -18,13 +18,15 @@ import com.tony.wechat.client.resp.WechatQrCodeResp
 import com.tony.wechat.client.resp.WechatResp
 import com.tony.wechat.client.resp.WechatUserInfoResp
 import com.tony.wechat.client.resp.WechatUserTokenResp
-import org.springframework.cloud.openfeign.FeignClient
+
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
+
+import org.springframework.cloud.openfeign.FeignClient
 
 @FeignClient("wechatClient", url = "https://api.weixin.qq.com")
 interface WechatClient {

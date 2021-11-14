@@ -10,16 +10,20 @@ import feign.codec.ErrorDecoder
 import feign.form.spring.SpringFormEncoder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+
 import org.springframework.beans.factory.ObjectFactory
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+
 import org.springframework.cloud.openfeign.support.SpringDecoder
 import org.springframework.cloud.openfeign.support.SpringEncoder
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
+
 import java.util.concurrent.TimeUnit
 
 @EnableConfigurationProperties(FeignConfigProperties::class)

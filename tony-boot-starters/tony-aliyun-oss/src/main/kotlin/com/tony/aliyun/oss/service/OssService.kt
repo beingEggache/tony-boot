@@ -5,6 +5,7 @@ package com.tony.aliyun.oss.service
 import com.aliyun.oss.OSS
 import com.aliyun.oss.OSSClientBuilder
 import com.aliyun.oss.model.ObjectMetadata
+
 import java.io.InputStream
 
 class OssService(

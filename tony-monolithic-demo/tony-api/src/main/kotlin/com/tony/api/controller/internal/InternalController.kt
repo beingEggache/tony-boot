@@ -11,6 +11,7 @@ import com.tony.web.WebApp
 import com.tony.web.interceptor.NoLoginCheck
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+
 import org.springframework.context.annotation.Profile
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping

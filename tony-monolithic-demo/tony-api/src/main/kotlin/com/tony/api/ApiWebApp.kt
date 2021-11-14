@@ -13,15 +13,18 @@ import com.tony.utils.defaultIfBlank
 import com.tony.web.WebApp
 import io.swagger.annotations.ApiOperation
 import org.slf4j.LoggerFactory
-import org.springframework.boot.CommandLineRunner
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
+
 import org.springframework.context.annotation.Lazy
 import org.springframework.core.PriorityOrdered
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+
+import org.springframework.boot.CommandLineRunner
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+
 import javax.annotation.Resource
 
 @Suppress("HttpUrlsUsage")

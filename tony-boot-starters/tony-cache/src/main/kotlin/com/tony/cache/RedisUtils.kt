@@ -4,6 +4,7 @@ package com.tony.cache
 
 import com.tony.exception.ApiException
 import com.tony.utils.OBJECT_MAPPER
+
 import org.springframework.context.annotation.Lazy
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
@@ -12,9 +13,11 @@ import org.springframework.data.redis.core.script.DefaultRedisScript
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
 import org.springframework.stereotype.Component
+
 import java.util.Collections
 import java.util.Random
 import java.util.concurrent.TimeUnit
+
 import javax.annotation.Resource
 
 @Suppress("MemberVisibilityCanBePrivate")
