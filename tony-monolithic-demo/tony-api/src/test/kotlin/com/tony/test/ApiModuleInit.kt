@@ -1,6 +1,6 @@
 package com.tony.test
 
-import com.tony.api.ApiWebApp
+import com.tony.api.MonoApiWebApp
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.exception.ApiException
 import com.tony.utils.defaultIfBlank
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  * @author tangli
  * @since 2020-11-04 16:54
  */
-@SpringBootTest(classes = [ApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(classes = [MonoApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class ApiModuleInit {
 
 

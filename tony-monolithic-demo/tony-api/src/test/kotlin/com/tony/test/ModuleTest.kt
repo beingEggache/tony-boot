@@ -1,6 +1,6 @@
 package com.tony.test
 
-import com.tony.api.ApiWebApp
+import com.tony.api.MonoApiWebApp
 import com.tony.utils.toJsonString
 import com.tony.db.service.ModuleService
 import javax.annotation.Resource
@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest
  * @author tangli
  * @since 2020-11-04 16:03
  */
-@SpringBootTest(classes = [ApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(classes = [MonoApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class ModuleTest {
 
     @Resource

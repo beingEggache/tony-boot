@@ -9,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 
 @Suppress("HttpUrlsUsage")
 fun main(args: Array<String>) {
-    runApplication<ApiWebApp>(*args) {
+    runApplication<MicroApiWebApp>(*args) {
         setHeadless(true)
     }
     val info =
@@ -18,10 +18,10 @@ fun main(args: Array<String>) {
             "started success. " +
             "profiles: ${WebApp.profiles.joinToString()}. " +
             "He who has a why to live can bear almost any how."
-    LoggerFactory.getLogger(ApiWebApp::class.java).info(info)
+    LoggerFactory.getLogger(MicroApiWebApp::class.java).info(info)
 }
 
 @EnableDiscoveryClient
 @EnableTonyBoot
 @SpringBootApplication
-class ApiWebApp
+class MicroApiWebApp

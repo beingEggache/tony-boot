@@ -4,11 +4,7 @@ spring:
             default-filters:
                 - PreserveHostHeader #发送原主机头
             routes:
-                -   id: community-user-service
-                    uri: lb://tony-user-service
+                -   id: tony-micro-service-demo
+                    uri: lb://tony-micro-service-demo
                     predicates:
-                        - Path=/user/**
-                -   id: community-user-service2
-                    uri: lb://tony-user-service2
-                    predicates:
-                        - Path=/user2/**
+                        - Path=/demo/**

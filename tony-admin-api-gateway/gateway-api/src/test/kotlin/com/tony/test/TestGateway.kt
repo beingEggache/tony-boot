@@ -1,11 +1,11 @@
 package com.tony.test
 
-import com.tony.gateway.ApiWebApp
+import com.tony.gateway.GatewayWebApp
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(
-    classes = [ApiWebApp::class],
+    classes = [GatewayWebApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.MOCK,
 )
 class TestGateway {

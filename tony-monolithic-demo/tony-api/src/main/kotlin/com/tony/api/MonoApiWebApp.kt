@@ -26,7 +26,7 @@ import javax.annotation.Resource
 
 @Suppress("HttpUrlsUsage")
 fun main(args: Array<String>) {
-    runApplication<ApiWebApp>(*args) {
+    runApplication<MonoApiWebApp>(*args) {
         setHeadless(true)
     }
     val info =
@@ -35,7 +35,7 @@ fun main(args: Array<String>) {
             "started success. " +
             "profiles: ${WebApp.profiles.joinToString()}. " +
             "He who has a why to live can bear almost any how."
-    LoggerFactory.getLogger(ApiWebApp::class.java).info(info)
+    LoggerFactory.getLogger(MonoApiWebApp::class.java).info(info)
 }
 
 // @Profile(value = ["!prod"])
@@ -89,7 +89,7 @@ open class InitApp(
 
 @EnableTonyBoot
 @SpringBootApplication
-class ApiWebApp(
+class MonoApiWebApp(
     private val permissionInterceptor: PermissionInterceptor
 ) : WebMvcConfigurer {
 
