@@ -35,8 +35,8 @@ class GatewayConfig {
     }
 }
 
-@ConfigurationProperties(prefix = "tony.gateway")
 @Component
+@ConfigurationProperties(prefix = "tony.gateway")
 @NacosConfigurationProperties(dataId = "tony-gateway-routes-auth.yml")
 class GatewayRouteConfigProperties {
 
