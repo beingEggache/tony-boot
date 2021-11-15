@@ -11,7 +11,6 @@ package com.tony.wechat.client.resp
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-
 import java.util.Date
 
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)

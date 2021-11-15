@@ -8,10 +8,8 @@ package com.tony.web.interceptor
 
 import com.tony.web.WebContext
 import com.tony.web.WebContextExtensions.apiSession
-
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
-
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 

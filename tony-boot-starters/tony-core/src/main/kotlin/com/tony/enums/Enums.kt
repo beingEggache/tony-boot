@@ -1,7 +1,6 @@
 package com.tony.enums
 
 import com.fasterxml.jackson.annotation.JsonValue
-
 import java.io.Serializable
 
 sealed interface EnumValue<T : Serializable> {

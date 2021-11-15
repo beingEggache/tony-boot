@@ -11,7 +11,7 @@ end_of_line = lf
 # noinspection EditorConfigKeyCorrectness
 [*.{kt, kts}]
 max_line_length = 120
-ij_kotlin_imports_layout = *,|,org.springframework.**,|,org.springframework.boot.**,|,org.springframework.cloud.**,|,java.**,|,javax.**,|,kotlin.**,^
+ij_kotlin_imports_layout = *,java.**,javax.**,kotlin.**,^
 no-unused-imports = true
 no-semi = true
 no-consecutive-blank-lines = true

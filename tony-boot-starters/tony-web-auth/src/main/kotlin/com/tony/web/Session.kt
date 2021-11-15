@@ -13,7 +13,6 @@ import com.tony.jwt.config.JwtToken
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
 import com.tony.web.WebContext.getOrPut
-
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
 
 interface ApiSession {

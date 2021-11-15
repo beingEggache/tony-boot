@@ -9,7 +9,6 @@ import com.aliyuncs.exceptions.ClientException
 import com.aliyuncs.http.MethodType
 import com.aliyuncs.profile.DefaultProfile
 import org.slf4j.LoggerFactory
-
 import javax.annotation.PostConstruct
 
 private const val regionId: String = "cn-hangzhou"

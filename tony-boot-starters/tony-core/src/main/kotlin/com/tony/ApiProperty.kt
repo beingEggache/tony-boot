@@ -1,10 +1,7 @@
 package com.tony
 
-
-
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
-
 import javax.annotation.Resource
 
 @Component

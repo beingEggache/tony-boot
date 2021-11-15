@@ -8,12 +8,10 @@
 package com.tony.utils
 
 import com.tony.exception.ApiException
-
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.security.SecureRandom
 import java.text.NumberFormat
-
 import kotlin.math.pow
 
 /**

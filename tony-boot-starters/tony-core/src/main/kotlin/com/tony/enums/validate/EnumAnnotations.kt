@@ -5,11 +5,8 @@
  */
 package com.tony.enums.validate
 
-
-
 import javax.validation.Constraint
 import javax.validation.Payload
-
 import kotlin.reflect.KClass
 
 @MustBeDocumented

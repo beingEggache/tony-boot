@@ -6,16 +6,12 @@ import com.tony.ApiProperty
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.web.config.WebProperties
-
-import org.springframework.core.env.Environment
-import org.springframework.stereotype.Component
-
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorAttributes
-
+import org.springframework.core.env.Environment
+import org.springframework.stereotype.Component
 import java.net.InetAddress
 import java.util.regex.Pattern
-
 import javax.annotation.Resource
 
 @ConditionalOnWebApplication

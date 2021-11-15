@@ -18,7 +18,7 @@ object VersionManagement {
     const val mybatisPlusVersion = "3.4.3.4"
     const val lettuceCoreVersion = "6.1.5.RELEASE"
 
-    const val swaggerVersion = "1.6.2"
+    const val swaggerVersion = "1.6.3"
     const val springfoxSwagger2Version = "2.10.5"
     const val knife4jVersion = "2.0.9"
 

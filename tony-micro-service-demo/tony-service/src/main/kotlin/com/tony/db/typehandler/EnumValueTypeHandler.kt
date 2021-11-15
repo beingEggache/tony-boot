@@ -4,7 +4,6 @@ import com.tony.enums.EnumValue
 import com.tony.utils.asTo
 import org.apache.ibatis.type.BaseTypeHandler
 import org.apache.ibatis.type.JdbcType
-
 import java.io.Serializable
 import java.sql.CallableStatement
 import java.sql.PreparedStatement

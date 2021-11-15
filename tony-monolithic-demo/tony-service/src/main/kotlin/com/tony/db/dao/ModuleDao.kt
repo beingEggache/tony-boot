@@ -7,7 +7,6 @@ import com.tony.db.CacheKeys
 import com.tony.db.po.Module
 import com.tony.dto.enums.ModuleType
 import org.apache.ibatis.annotations.Param
-
 import org.springframework.stereotype.Repository
 
 @Repository

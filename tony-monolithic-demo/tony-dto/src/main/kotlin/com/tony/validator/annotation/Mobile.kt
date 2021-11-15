@@ -1,10 +1,8 @@
 package com.tony.validator.annotation
 
 import com.tony.validator.MobileValidator
-
 import javax.validation.Constraint
 import javax.validation.Payload
-
 import kotlin.reflect.KClass
 
 /**

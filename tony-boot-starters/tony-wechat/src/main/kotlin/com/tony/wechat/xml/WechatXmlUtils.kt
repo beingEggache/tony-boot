@@ -8,7 +8,6 @@ import com.thoughtworks.xstream.core.util.QuickWriter
 import com.thoughtworks.xstream.io.naming.NameCoder
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter
 import com.thoughtworks.xstream.io.xml.XppDriver
-
 import java.io.Writer
 import java.util.Collections
 import java.util.WeakHashMap

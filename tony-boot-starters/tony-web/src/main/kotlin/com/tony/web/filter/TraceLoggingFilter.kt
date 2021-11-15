@@ -8,15 +8,12 @@ import com.tony.web.WebApp
 import com.tony.web.log.RequestTraceLogger
 import com.tony.web.utils.isCorsPreflightRequest
 import org.slf4j.MDC
-
 import org.springframework.core.PriorityOrdered
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
-
 import java.io.IOException
 import java.time.LocalDateTime
-
 import javax.servlet.FilterChain
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest

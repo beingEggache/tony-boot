@@ -19,11 +19,9 @@ import com.tony.web.utils.headers
 import com.tony.web.utils.isTextMediaTypes
 import com.tony.web.utils.parsedMedia
 import com.tony.web.utils.remoteIp
-
 import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
-
 import javax.servlet.http.HttpServletResponse
 
 interface RequestTraceLogger {

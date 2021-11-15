@@ -20,7 +20,6 @@ import com.tony.utils.isBooleanType
 import com.tony.utils.isDateTimeLikeType
 import com.tony.utils.isObjLikeType
 import com.tony.utils.isStringLikeType
-
 import kotlin.reflect.KClass
 
 @JvmSynthetic

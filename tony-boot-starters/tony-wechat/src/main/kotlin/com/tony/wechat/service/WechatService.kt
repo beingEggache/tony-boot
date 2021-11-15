@@ -13,7 +13,6 @@ import com.tony.wechat.config.WechatProperties
 import com.tony.wechat.genNonceStr
 import com.tony.wechat.genTimeStamp
 import org.apache.commons.codec.digest.DigestUtils
-
 import org.springframework.validation.annotation.Validated
 
 @Suppress("unused")

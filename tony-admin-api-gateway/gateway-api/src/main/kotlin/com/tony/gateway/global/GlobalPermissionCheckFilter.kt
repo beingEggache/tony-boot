@@ -8,14 +8,12 @@ package com.tony.gateway.global
 import com.tony.ApiResult
 import com.tony.gateway.config.GatewayRouteConfigProperties
 import com.tony.gateway.utils.jsonBody
-import reactor.core.publisher.Mono
-
+import org.springframework.cloud.gateway.filter.GatewayFilterChain
+import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
-
-import org.springframework.cloud.gateway.filter.GatewayFilterChain
-import org.springframework.cloud.gateway.filter.GlobalFilter
+import reactor.core.publisher.Mono
 
 @Component
 class GlobalPermissionCheckFilter(

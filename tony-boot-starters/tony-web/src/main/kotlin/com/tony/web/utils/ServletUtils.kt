@@ -5,16 +5,13 @@ package com.tony.web.utils
 
 import com.tony.utils.doIf
 import com.tony.web.WebContext
-
 import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-
 import java.net.URL
 import java.net.URLEncoder
-
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 

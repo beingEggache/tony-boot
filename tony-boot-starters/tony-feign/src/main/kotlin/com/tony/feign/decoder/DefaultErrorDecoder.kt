@@ -4,7 +4,6 @@ import com.tony.exception.ApiException
 import feign.FeignException
 import feign.Response
 import feign.codec.ErrorDecoder
-
 import java.lang.Exception
 
 class DefaultErrorDecoder : ErrorDecoder {

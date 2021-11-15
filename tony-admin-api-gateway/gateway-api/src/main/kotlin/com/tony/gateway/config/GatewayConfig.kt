@@ -8,16 +8,13 @@ package com.tony.gateway.config
 import com.alibaba.nacos.api.annotation.NacosProperties
 import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties
 import com.tony.utils.antPathMatchAny
-import reactor.core.publisher.Mono
-
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.cloud.context.config.annotation.RefreshScope
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Component
-
-import org.springframework.boot.context.properties.ConfigurationProperties
-
-import org.springframework.cloud.context.config.annotation.RefreshScope
-import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
+import reactor.core.publisher.Mono
 
 /**
  * 限流配置
