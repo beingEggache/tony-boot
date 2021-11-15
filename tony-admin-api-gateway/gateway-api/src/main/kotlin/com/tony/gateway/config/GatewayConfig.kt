@@ -5,11 +5,9 @@
  */
 package com.tony.gateway.config
 
-import com.alibaba.nacos.api.annotation.NacosProperties
 import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties
 import com.tony.utils.antPathMatchAny
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.cloud.context.config.annotation.RefreshScope
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -39,12 +37,7 @@ class GatewayConfig {
 
 @ConfigurationProperties(prefix = "tony.gateway")
 @Component
-@RefreshScope
-@NacosConfigurationProperties(
-    properties = NacosProperties(serverAddr = "\${spring.cloud.nacos.discovery.server-addr}"),
-    dataId = "tony-gateway-routes-auth.yml",
-    prefix = "tony.gateway"
-)
+@NacosConfigurationProperties(dataId = "tony-gateway-routes-auth.yml")
 class GatewayRouteConfigProperties {
 
     var noLoginCheckUrls: List<String>? = null
