@@ -8,6 +8,9 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 end_of_line = lf
 
+[*.{yml, yaml}]
+indent_size = 2
+
 # noinspection EditorConfigKeyCorrectness
 [*.{kt, kts}]
 max_line_length = 120

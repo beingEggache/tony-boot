@@ -1,10 +1,10 @@
 spring:
-    cloud:
-        gateway:
-            default-filters:
-                - PreserveHostHeader #发送原主机头
-            routes:
-                -   id: tony-micro-service-demo
-                    uri: lb://tony-micro-service-demo
-                    predicates:
-                        - Path=/demo/**
+  cloud:
+    gateway:
+      default-filters:
+        - PreserveHostHeader #发送原主机头
+      routes:
+        - id: tony-micro-service-demo
+          uri: lb://tony-micro-service-demo
+          predicates:
+            - Path=/demo/**

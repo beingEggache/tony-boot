@@ -1,40 +1,40 @@
 server:
-    port: 10101
-    shutdown: graceful
-    servlet:
-        context-path: /demo
+  port: 10101
+  shutdown: graceful
+  servlet:
+    context-path: /demo
 spring:
-    application:
-        name: tony-micro-service-demo
-    main:
-        banner-mode: off
-    profiles:
-        active: dev
-    cloud:
-        nacos:
-            discovery:
-                server-addr: 192.168.51.25:8848
-            config:
-                server-addr: ${spring.cloud.nacos.discovery.server-addr}
-                namespace: ${spring.cloud.nacos.discovery.namespace}
-                shared-configs:
-                    -   data-id: db-and-redis.yaml
+  application:
+    name: tony-micro-service-demo
+  main:
+    banner-mode: off
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.51.25:8848
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        shared-configs:
+          - data-id: db-and-redis.yaml
 mybatis-plus:
-    mapper-locations: classpath*:mappers/*.mapper.xml
-    configuration:
-        default-enum-type-handler: com.tony.db.typehandler.EnumValueTypeHandler
+  mapper-locations: classpath*:mappers/*.mapper.xml
+  configuration:
+    default-enum-type-handler: com.tony.db.typehandler.EnumValueTypeHandler
 knife4j:
-    enable: true
-    setting:
-        enable-host: true
-        enable-reload-cache-parameter: true
-        enable-footer: false
-        enable-home-custom: true
-        enable-swagger-models: false
-    extension:
-        title: "tony-micro-service-demo"
+  enable: true
+  setting:
+    enable-host: true
+    enable-reload-cache-parameter: true
+    enable-footer: false
+    enable-home-custom: true
+    enable-swagger-models: false
+  extension:
+    title: "tony-micro-service-demo"
 feign:
-    okhttp:
-        enabled: true
-    httpclient:
-        enabled: false
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false

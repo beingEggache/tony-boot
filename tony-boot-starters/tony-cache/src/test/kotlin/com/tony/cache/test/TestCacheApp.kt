@@ -10,5 +10,4 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 @SpringBootApplication(
     scanBasePackages = ["com.tony.cache"]
 )
-class TestCacheApp {
-}
+class TestCacheApp

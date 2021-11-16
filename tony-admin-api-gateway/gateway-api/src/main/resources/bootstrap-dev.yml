@@ -1,5 +1,5 @@
 spring:
-    cloud:
-        nacos:
-            discovery:
-                namespace: "dev"
+  cloud:
+    nacos:
+      discovery:
+        namespace: "dev"

@@ -1,6 +1,6 @@
 tony:
-    gateway:
-        noLoginCheckUrls:
-            - "/demo/**"
-        noPermissionCheckUrls:
-            - "/dev-noPermission"
+  gateway:
+    noLoginCheckUrls:
+      - "/demo/**"
+    noPermissionCheckUrls:
+      - "/dev-noPermission"

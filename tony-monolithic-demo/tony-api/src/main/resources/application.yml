@@ -1,13 +1,13 @@
 mybatis-plus:
-    mapper-locations: classpath*:mappers/*.mapper.xml
-    configuration:
-        default-enum-type-handler: com.tony.db.typehandler.EnumValueTypeHandler
-    global-config:
-        banner: off
+  mapper-locations: classpath*:mappers/*.mapper.xml
+  configuration:
+    default-enum-type-handler: com.tony.db.typehandler.EnumValueTypeHandler
+  global-config:
+    banner: off
 spring:
   profiles:
-        active: dev
+    active: dev
   application:
-      name: tony-api
+    name: tony-api
   main:
-      banner-mode: off
+    banner-mode: off

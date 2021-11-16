@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.tony.utils.asTo
 import com.tony.utils.defaultIfBlank
 
-@JsonPropertyOrder(value = ["code", "msg", "data"])
+@JsonPropertyOrder(value = ["code", "message", "data"])
 data class ApiResult<T> @JvmOverloads constructor(
     val data: T?,
     val code: Int = ApiProperty.successCode,
-    val msg: String = ""
+    val message: String = ""
 ) {
 
     companion object {

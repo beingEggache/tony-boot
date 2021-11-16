@@ -1,9 +1,9 @@
 spring:
-    cloud:
-        nacos:
-            username: nacos
-            password: Nacos@ktwl
-            discovery:
-                namespace: "dev"
+  cloud:
+    nacos:
+      username: nacos
+      password: Nacos@ktwl
+      discovery:
+        namespace: "dev"
 logging:
-    config: classpath:logback-dev.xml
+  config: classpath:logback-dev.xml
