@@ -13,8 +13,7 @@ repositories {
 }
 
 configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    toolchain.languageVersion.set(JavaLanguageVersion.of(11))
 }
 
 tasks.withType<KotlinCompile>().configureEach {
