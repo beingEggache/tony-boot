@@ -3,6 +3,8 @@ package com.tony.test
 import com.tony.api.MonoApiWebApp
 import com.tony.utils.toJsonString
 import com.tony.db.service.ModuleService
+import com.tony.jwt.config.JwtToken
+import com.tony.utils.println
 import javax.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -22,7 +24,10 @@ class ModuleTest {
     fun test() {
         val modules = moduleService.listRouteAndComponentModules("b066a8a6dc2a4bdbb6013043df8400b2", "Lx-Api")
         println(modules.toJsonString())
-
+    }
+    @Test
+    fun test1() {
+        JwtToken.gen("userId" to "99efd6bbc03b491191ca3206bd20046f").println()
     }
 
 }

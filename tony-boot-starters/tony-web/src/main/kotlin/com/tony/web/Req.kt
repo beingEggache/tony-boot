@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.tony.web
 
 import org.springframework.web.bind.annotation.RequestParam

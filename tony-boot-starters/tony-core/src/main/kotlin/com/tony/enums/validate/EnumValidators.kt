@@ -3,6 +3,8 @@
  * @author tangli
  * @since 2021-05-19 10:58
  */
+@file:Suppress("unused")
+
 package com.tony.enums.validate
 
 import com.tony.enums.EnumCreator

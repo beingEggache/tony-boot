@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.tony.wechat.service
 
 import com.tony.utils.getLogger

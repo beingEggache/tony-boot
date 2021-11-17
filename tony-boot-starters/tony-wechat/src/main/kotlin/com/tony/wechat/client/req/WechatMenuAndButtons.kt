@@ -7,6 +7,8 @@
  * @author tangli
  * @since 2021/9/26 12:49
  */
+@file:Suppress("unused")
+
 package com.tony.wechat.client.req
 
 import com.fasterxml.jackson.annotation.JsonCreator

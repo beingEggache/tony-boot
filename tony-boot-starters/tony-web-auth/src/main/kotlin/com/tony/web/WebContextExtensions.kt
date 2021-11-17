@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.tony.web
 
 import org.springframework.context.annotation.Lazy
