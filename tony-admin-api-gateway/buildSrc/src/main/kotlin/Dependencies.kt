@@ -8,7 +8,7 @@ object Version {
     const val kotlinVersion = "1.6.0"
 
     const val springVersion = "5.3.13"
-    const val springBootVersion = "2.5.6"
+    const val springBootVersion = "2.5.7"
 
     const val springCloudAlibabaVersion = "2021.1"
     const val springCloudVersion = "2020.0.4"
