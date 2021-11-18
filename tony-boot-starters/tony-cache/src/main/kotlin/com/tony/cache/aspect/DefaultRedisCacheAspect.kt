@@ -23,7 +23,7 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
 @Aspect
 class DefaultRedisCacheAspect {
 
-    @Pointcut("@annotation(com.tony.cache.annotation.RedisCacheEvict)")
+    @Pointcut("@annotation(com.tony.cache.annotation.RedisCacheEvict.Container)")
     fun redisCacheEvict() = Unit
 
     @Pointcut("@annotation(com.tony.cache.annotation.RedisCacheable)")
@@ -70,9 +70,9 @@ class DefaultRedisCacheAspect {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
-        val annotation = methodSignature.method.getAnnotation(RedisCacheEvict::class.java)
-        annotation.cacheKeys.forEach { cacheKeyName ->
-            val cacheKey = cacheKey(arguments, paramsNames, cacheKeyName, annotation.paramsNames)
+        val annotations = methodSignature.method.getAnnotationsByType(RedisCacheEvict::class.java)
+        annotations.forEach { annotation ->
+            val cacheKey = cacheKey(arguments, paramsNames, annotation.cacheKey, annotation.paramsNames)
             RedisUtils.delete(cacheKey)
         }
     }

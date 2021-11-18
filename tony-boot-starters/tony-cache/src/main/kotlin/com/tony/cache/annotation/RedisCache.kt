@@ -15,7 +15,8 @@ annotation class RedisCacheable(
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
+@Repeatable
 annotation class RedisCacheEvict(
-    val cacheKeys: Array<String>,
+    val cacheKey: String,
     val paramsNames: Array<String> = []
 )

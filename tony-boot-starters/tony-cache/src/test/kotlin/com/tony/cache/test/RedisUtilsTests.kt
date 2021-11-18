@@ -9,6 +9,7 @@ import com.tony.enums.EnumIntValue
 import com.tony.enums.EnumStringValue
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import javax.annotation.Resource
 
 /**
  *
@@ -134,10 +135,25 @@ class RedisUtilsTests {
         RedisUtils.values.set(RedisKeys.genKey("value_test_my_string_enum"), MyStringEnum.NO)
 
         val myIntEnum = RedisUtils.values.getEnum<MyIntEnum, Int>(RedisKeys.genKey("value_test_my_int_enum"))
-        val myStringEnum = RedisUtils.values.getEnum<MyStringEnum, String>(RedisKeys.genKey("value_test_my_string_enum"))
+        val myStringEnum =
+            RedisUtils.values.getEnum<MyStringEnum, String>(RedisKeys.genKey("value_test_my_string_enum"))
 
         println(myIntEnum)
         println(myStringEnum)
+    }
+
+    @Resource
+    private lateinit var testCacheService: TestCacheService
+
+    @Test
+    fun testCacheAnno() {
+        testCacheService.testCache1()
+        testCacheService.testCache2()
+    }
+
+    @Test
+    fun testRCacheAnno() {
+        testCacheService.rTestCache()
     }
 }
 
