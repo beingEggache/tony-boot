@@ -143,15 +143,12 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
 
         private val logger = getLogger("trace-logger")
 
-        private val anotherLogger = getLogger()
-
         private fun String.codeFromResponseDirectly(field: String): Int? {
             jsonFactory.createParser(this).use {
                 while (
                     try {
                         it.nextToken()
                     } catch (e: JsonParseException) {
-                        anotherLogger.warn(""""$this" is not a json string.""")
                         return null
                     } != null
                 ) {

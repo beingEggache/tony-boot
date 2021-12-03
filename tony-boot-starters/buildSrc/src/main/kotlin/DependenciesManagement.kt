@@ -31,9 +31,9 @@ object VersionManagement {
     const val reactorNettyVersion = "1.0.13"
 
     const val slf4jVersion = "1.7.32"
-    const val byteBuddyVersion = "1.12.1"
+    const val byteBuddyVersion = "1.12.2"
     const val jasyptVersion = "1.9.3"
-    const val bouncycastleVersion = "1.69"
+    const val bouncycastleVersion = "1.70"
     const val javaJwtVersion = "3.18.2"
     const val guavaVersion = "31.0.1-jre"
 
@@ -209,10 +209,15 @@ object DepsManagement {
 
         const val byteBuddy = "net.bytebuddy:byte-buddy:${VersionManagement.byteBuddyVersion}"
         const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${VersionManagement.byteBuddyVersion}"
+
         const val jasypt = "org.jasypt:jasypt:${VersionManagement.jasyptVersion}"
+
         const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:${VersionManagement.bouncycastleVersion}"
         const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on:${VersionManagement.bouncycastleVersion}"
         const val bctlsJdk15On = "org.bouncycastle:bctls-jdk15on:${VersionManagement.bouncycastleVersion}"
+        const val bctspJdk15On = "org.bouncycastle:bctsp-jdk15on:${VersionManagement.bouncycastleVersion}"
+        const val bcmailJdk15On = "org.bouncycastle:bcmail-jdk15on:${VersionManagement.bouncycastleVersion}"
+
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${VersionManagement.reactorVersion}"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:${VersionManagement.reactorNettyVersion}"

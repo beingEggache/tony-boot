@@ -183,10 +183,15 @@ object Deps {
 
         const val byteBuddy = "net.bytebuddy:byte-buddy"
         const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent"
+
         const val jasypt = "org.jasypt:jasypt"
+
         const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on"
         const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on"
         const val bctlsJdk15On = "org.bouncycastle:bctls-jdk15on"
+        const val bctspJdk15On = "org.bouncycastle:bctsp-jdk15on"
+        const val bcmailJdk15On = "org.bouncycastle:bcmail-jdk15on"
+
         const val classmate = "com.fasterxml:classmate"
         const val reactor = "io.projectreactor:reactor-core"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty"
@@ -213,6 +218,13 @@ fun Project.substituteDeps() {
 }
 
 private val canReplacedDependencies = mapOf(
+    "bouncycastle:bcprov-jdk14" to DepsManagement.Other.bcprovJdk15On,
+    "bouncycastle:bcmail-jdk14" to DepsManagement.Other.bcmailJdk15On,
+    "bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
+    "org.bouncycastle:bcprov-jdk14" to DepsManagement.Other.bcprovJdk15On,
+    "org.bouncycastle:bcmail-jdk14" to DepsManagement.Other.bcmailJdk15On,
+    "org.bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
+
     "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
     "javax.annotation:javax.annotation-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
     "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
@@ -222,5 +234,5 @@ private val canReplacedDependencies = mapOf(
     "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:1.1.2",
     "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:2.0.2",
     "javax.xml.bind:jaxb-api" to "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3",
-    "commons-logging:commons-logging" to "org.springframework:spring-jcl:5.3.12"
+    "commons-logging:commons-logging" to DepsManagement.Spring.jcl
 )
