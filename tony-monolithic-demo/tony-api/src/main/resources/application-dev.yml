@@ -5,8 +5,6 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-  config:
-    import: classpath:swagger.yml
 web:
   cors:
     allowed-origins:
@@ -15,3 +13,9 @@ web:
     enabled: on
 logging:
   config: classpath:logback-dev.xml
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    display-request-duration: true
+  paths-to-exclude:
+    - ${server.error.path:${error.path:/error}}

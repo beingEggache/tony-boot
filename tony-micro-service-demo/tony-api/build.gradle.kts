@@ -6,10 +6,12 @@ dependencies {
     val profile = getProfile()
     //while execute gradle task, use -Dprofile=prod
     if (profile == "qa") {
-        implementation(Deps.Tony.tonyKnife4jApi)
+        implementation(Deps.Other.springdocCommon)
+        implementation(Deps.Other.springdocKotlin)
     }
     if (profile == "dev") {
-        implementation(Deps.Tony.tonyKnife4j)
+        implementation(Deps.Other.springdocKotlin)
+        implementation(Deps.Other.springdocUi)
         implementation(Deps.SpringBoot.devtools)
     }
 

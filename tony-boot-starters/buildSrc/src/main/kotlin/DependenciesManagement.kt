@@ -8,7 +8,7 @@ object VersionManagement {
     const val kotlinVersion = "1.6.0"
 
     const val springVersion = "5.3.13"
-    const val springBootVersion = "2.5.7"
+    const val springBootVersion = "2.6.1"
 
     const val openFeignVersion = "11.7"
 
@@ -18,24 +18,24 @@ object VersionManagement {
     const val mybatisPlusVersion = "3.4.3.4"
     const val lettuceCoreVersion = "6.1.5.RELEASE"
 
-    const val swaggerVersion = "1.6.3"
-    const val springfoxSwagger2Version = "2.10.5"
-    const val knife4jVersion = "2.0.9"
-
     const val jacksonVersion = "2.13.0"
+
     const val gsonVersion = "2.8.9"
     const val fastjsonVersion = "1.2.78"
-
     const val nettyVersion = "4.1.70.Final"
+
     const val reactorVersion = "3.4.12"
     const val reactorNettyVersion = "1.0.13"
-
     const val slf4jVersion = "1.7.32"
+
     const val byteBuddyVersion = "1.12.2"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
     const val javaJwtVersion = "3.18.2"
     const val guavaVersion = "31.0.1-jre"
+
+    const val swaggerV3Version = "2.1.11"
+    const val springdocVersion = "1.5.13"
 
 }
 
@@ -103,13 +103,6 @@ object DepsManagement {
         const val webflux = "org.springframework:spring-webflux:${VersionManagement.springVersion}"
     }
 
-    object SpringData {
-        const val springDataCommon =
-            "org.springframework.data:spring-data-common:${VersionManagement.springBootVersion}"
-        const val springDataRedis = "org.springframework.data:spring-data-redis:${VersionManagement.springBootVersion}"
-        const val lettuce = "io.lettuce:lettuce-core:${VersionManagement.lettuceCoreVersion}"
-    }
-
     object OpenFeign {
         const val openFeignCore = "io.github.openfeign:feign-core:${VersionManagement.openFeignVersion}"
         const val openFeignSl4j = "io.github.openfeign:feign-slf4j:${VersionManagement.openFeignVersion}"
@@ -166,6 +159,8 @@ object DepsManagement {
     }
 
     object Other {
+        const val lettuce = "io.lettuce:lettuce-core:${VersionManagement.lettuceCoreVersion}"
+
         const val mybatis = "org.mybatis:mybatis:3.5.7"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${VersionManagement.mybatisPlusVersion}"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${VersionManagement.mybatisPlusVersion}"
@@ -192,13 +187,6 @@ object DepsManagement {
         const val guava = "com.google.guava:guava:${VersionManagement.guavaVersion}"
         const val javaJwt = "com.auth0:java-jwt:${VersionManagement.javaJwtVersion}"
 
-        const val swaggerAnnotations = "io.swagger:swagger-annotations:${VersionManagement.swaggerVersion}"
-        const val swaggerModels = "io.swagger:swagger-models:${VersionManagement.swaggerVersion}"
-        const val springfoxSwagger2 = "io.springfox:springfox-swagger2:${VersionManagement.springfoxSwagger2Version}"
-        const val knife4jApi =
-            "com.github.xiaoymin:knife4j-micro-spring-boot-starter:${VersionManagement.knife4jVersion}"
-        const val knife4j = "com.github.xiaoymin:knife4j-spring-boot-starter:${VersionManagement.knife4jVersion}"
-
         const val postgresql = "org.postgresql:postgresql:${VersionManagement.postgresqlVersion}"
         const val mysql = "mysql:mysql-connector-java:${VersionManagement.mysqlVersion}"
         const val HikariCP = "com.zaxxer:HikariCP:${VersionManagement.hikariCPVersion}"
@@ -221,6 +209,11 @@ object DepsManagement {
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${VersionManagement.reactorVersion}"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:${VersionManagement.reactorNettyVersion}"
+
+        const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations:${VersionManagement.swaggerV3Version}"
+        const val springdocUi = "org.springdoc:springdoc-openapi-ui:${VersionManagement.springdocVersion}"
+        const val springdocCommon = "org.springdoc:springdoc-openapi-common:${VersionManagement.springdocVersion}"
+        const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin:${VersionManagement.springdocVersion}"
 
     }
 }

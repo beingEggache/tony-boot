@@ -1,7 +1,6 @@
 package com.tony.dto.resp
 
-import io.swagger.annotations.ApiModel
-import io.swagger.annotations.ApiModelProperty
+import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  *
@@ -9,18 +8,17 @@ import io.swagger.annotations.ApiModelProperty
  * @since 2020-11-04 14:49
  */
 
-@ApiModel("登录用户信息")
+@Schema(title = "登录用户信息")
 data class UserInfoResp(
 
-    @ApiModelProperty("真实姓名")
+    @Schema(title = "真实姓名")
     val realName: String?,
 
-    @ApiModelProperty("手机号")
+    @Schema(title = "手机号")
     val mobile: String?,
 
-    @ApiModelProperty("模块/权限")
-    val modules: RouteAndComponentModuleResp,
-
+    @Schema(title = "模块/权限")
+    val modules: RouteAndComponentModuleResp
 )
 
 /**
@@ -28,13 +26,12 @@ data class UserInfoResp(
  * @author tangli
  * @since 2020-11-04 14:49
  */
-@ApiModel("路由和控件")
+@Schema(title = "路由和控件")
 data class RouteAndComponentModuleResp(
 
-    @ApiModelProperty("路由")
+    @Schema(title = "路由")
     val routes: List<ModuleResp>,
 
-    @ApiModelProperty("控件")
+    @Schema(title = "控件")
     val components: List<ModuleResp>
-
 )

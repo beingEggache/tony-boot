@@ -9,8 +9,8 @@ import com.tony.utils.getLogger
 import com.tony.web.ListReq
 import com.tony.web.WebApp
 import com.tony.web.interceptor.NoLoginCheck
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.context.annotation.Profile
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
  * @author tangli
  * @since 2020-11-06 9:09
  */
-@Api(tags = ["内部接口"])
+@Tag(name = "内部接口")
 @Validated
 @RestController
 @Profile(value = ["dev", "qa"])
@@ -32,7 +32,7 @@ class InternalController(
 
     private val logger = getLogger()
 
-    @ApiOperation("初始化前端权限数据")
+    @Operation(summary = "初始化前端权限数据")
     @NoLoginCheck
     @NoPermissionCheck
     @PostMapping("/internal/frontend-modules-init")
@@ -62,7 +62,7 @@ class InternalController(
     @Resource
     lateinit var handlerMapping: RequestMappingHandlerMapping
 
-    @ApiOperation("关闭内部接口")
+    @Operation(summary = "关闭内部接口")
     @NoLoginCheck
     @NoPermissionCheck
     @PostMapping("/internal/close-internal-api")

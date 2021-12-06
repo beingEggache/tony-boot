@@ -5,10 +5,10 @@ package com.tony.web
 import com.tony.ApiProperty
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
+import com.tony.Env
 import com.tony.web.config.WebProperties
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorAttributes
-import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import java.net.InetAddress
 import java.util.regex.Pattern
@@ -18,8 +18,6 @@ import javax.annotation.Resource
 @Component
 object WebApp {
 
-    private lateinit var environment: Environment
-
     @JvmSynthetic
     internal lateinit var errorAttributes: ErrorAttributes
 
@@ -28,7 +26,7 @@ object WebApp {
 
     @JvmStatic
     val appId: String by lazy {
-        environment.getProperty("spring.application.name", "")
+        Env.prop("spring.application.name", "")
     }
 
     val ip: String
@@ -37,55 +35,51 @@ object WebApp {
 
     @JvmStatic
     val port: String by lazy {
-        environment.getProperty("server.port", "8080")
+        Env.prop("server.port", "8080")
     }
 
     @JvmStatic
     val contextPath: String by lazy {
-        environment.getProperty("server.servlet.context-path", "")
+        Env.prop("server.servlet.context-path", "")
+    }
+
+    @JvmStatic
+    val actuatorBasePath: String by lazy {
+        Env.prop("management.endpoints.web.base-path", "/actuator")
     }
 
     val profiles: Array<String> by lazy {
-        environment.activeProfiles
+        Env.activeProfiles()
     }
 
     internal val responseWrapExcludePatterns by lazy {
-        val actuatorBasePath =
-            environment.getProperty("management.endpoints.web.base-path", "/actuator")
-        val actuatorPrefix = removeDuplicateSlash("$contextPath/$actuatorBasePath")
-        listOf(
-            removeDuplicateSlash("$contextPath/swagger-resources/**"),
-            removeDuplicateSlash("$contextPath/v2/api-docs/**"),
-            removeDuplicateSlash("$contextPath/**/*.js"),
-            removeDuplicateSlash("$contextPath/**/*.css"),
-            removeDuplicateSlash("$actuatorPrefix/**"),
-            removeDuplicateSlash("$contextPath/$errorPath"),
-            *webProperties.responseWrapExcludePatterns.map { removeDuplicateSlash("$contextPath/$it") }.toTypedArray()
+        setOf(
+            *whiteUrlPatterns(prefix = contextPath).toTypedArray(),
+            *webProperties.responseWrapExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray()
         )
     }
 
     private val errorPath by lazy {
-        environment.getProperty(
-            "server.error.path",
-            environment.getProperty("error.path", "/error")
-        )
+        Env.prop("server.error.path", Env.prop("error.path", "/error"))
     }
 
     @JvmStatic
-    fun ignoreUrlPatterns(ignoreContextPath: Boolean = false): List<String> {
-        val prefix = if (ignoreContextPath) "" else contextPath
-        val actuatorBasePath =
-            environment.getProperty("management.endpoints.web.base-path", "/actuator")
-        val actuatorPrefix = removeDuplicateSlash("$prefix/$actuatorBasePath")
-        return listOf(
-            removeDuplicateSlash("$actuatorPrefix/**"),
-            removeDuplicateSlash("$prefix/$errorPath"),
-            removeDuplicateSlash("$prefix/swagger-resources/**"),
-            removeDuplicateSlash("$prefix/webjars/**"),
-            removeDuplicateSlash("$prefix/v2/api-docs/**"),
-            removeDuplicateSlash("$prefix/error"),
-            removeDuplicateSlash("$prefix/doc.html"),
-            removeDuplicateSlash("$prefix/favicon.ico")
+    fun whiteUrlPatterns(prefix: String): Set<String> {
+        val actuatorPrefix = sanitizedPath("$prefix/$actuatorBasePath")
+        return setOf(
+            sanitizedPath("$actuatorPrefix/**"),
+            sanitizedPath("$prefix/$errorPath"),
+            sanitizedPath("$prefix/swagger-resources/**"),
+            sanitizedPath("$prefix/v2/api-docs/**"),
+            sanitizedPath("$prefix/webjars/**"),
+            sanitizedPath("$prefix/**/*.html"),
+            sanitizedPath("$prefix/**/*.ico"),
+            sanitizedPath("$prefix/**/*.png"),
+            sanitizedPath("$prefix/**/*.js"),
+            sanitizedPath("$prefix/**/*.js.map"),
+            sanitizedPath("$prefix/**/*.css"),
+            sanitizedPath("$prefix/**/*.css.map"),
+            *(springdocUrls.map { "$prefix/$it" }.toTypedArray())
         )
     }
 
@@ -101,12 +95,6 @@ object WebApp {
 
     @JvmSynthetic
     @Resource
-    internal fun environment(environment: Environment) {
-        WebApp.environment = environment
-    }
-
-    @JvmSynthetic
-    @Resource
     internal fun errorAttributes(errorAttributes: ErrorAttributes) {
         WebApp.errorAttributes = errorAttributes
     }
@@ -117,8 +105,17 @@ object WebApp {
         WebApp.webProperties = webProperties
     }
 
+    private val springdocUrls by lazy {
+        arrayOf(
+            Env.prop("springdoc.swagger-ui.path", "/swagger-ui.html"),
+            Env.prop("springdoc.swagger-ui.config-url", "/v3/api-docs/swagger-config"),
+            Env.prop("springdoc.swagger-ui.oauth2-redirect-url", "/swagger-ui/oauth2-redirect.html"),
+            Env.prop("springdoc.api-docs.path", "/v3/api-docs")
+        )
+    }
+
     private val duplicateSlash = Pattern.compile("/{2,}")
 
-    private fun removeDuplicateSlash(input: String): String =
+    private fun sanitizedPath(input: String): String =
         duplicateSlash.matcher(input).replaceAll("/")
 }

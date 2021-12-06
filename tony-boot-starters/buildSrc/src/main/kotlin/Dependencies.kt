@@ -8,10 +8,10 @@ object Version {
     const val kotlinVersion = "1.6.0"
 
     const val springVersion = "5.3.13"
-    const val springBootVersion = "2.5.7"
+    const val springBootVersion = "2.6.1"
 
     const val springCloudAlibabaVersion = "2021.1"
-    const val springCloudVersion = "2020.0.4"
+    const val springCloudVersion = "2021.0.0"
 
     const val alipaySdkJavaVersion = "4.17.9.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.25"
@@ -92,12 +92,6 @@ object Deps {
         const val webflux = "org.springframework:spring-webflux"
     }
 
-    object SpringData {
-        const val springDataCommon = "org.springframework.data:spring-data-common"
-        const val springDataRedis = "org.springframework.data:spring-data-redis"
-        const val lettuce = "io.lettuce:lettuce-core"
-    }
-
     object OpenFeign {
         const val openFeignCore = "io.github.openfeign:feign-core"
         const val openFeignSl4j = "io.github.openfeign:feign-slf4j"
@@ -142,6 +136,8 @@ object Deps {
     }
 
     object Other {
+        const val lettuce = "io.lettuce:lettuce-core"
+
         const val mybatis = "org.mybatis:mybatis"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension"
@@ -167,12 +163,6 @@ object Deps {
         const val guava = "com.google.guava:guava"
         const val javaJwt = "com.auth0:java-jwt"
 
-        const val swaggerAnnotations = "io.swagger:swagger-annotations"
-        const val swaggerModels = "io.swagger:swagger-models"
-        const val springfoxSwagger2 = "io.springfox:springfox-swagger2"
-        const val knife4jApi = "com.github.xiaoymin:knife4j-micro-spring-boot-starter"
-        const val knife4j = "com.github.xiaoymin:knife4j-spring-boot-starter"
-
         const val postgresql = "org.postgresql:postgresql"
         const val mysql = "mysql:mysql-connector-java"
         const val HikariCP = "com.zaxxer:HikariCP"
@@ -195,6 +185,11 @@ object Deps {
         const val classmate = "com.fasterxml:classmate"
         const val reactor = "io.projectreactor:reactor-core"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty"
+
+        const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations"
+        const val springdocUi = "org.springdoc:springdoc-openapi-ui"
+        const val springdocCommon = "org.springdoc:springdoc-openapi-common"
+        const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin"
     }
 }
 
@@ -218,11 +213,11 @@ fun Project.substituteDeps() {
 }
 
 private val canReplacedDependencies = mapOf(
-    "bouncycastle:bcprov-jdk14" to DepsManagement.Other.bcprovJdk15On,
-    "bouncycastle:bcmail-jdk14" to DepsManagement.Other.bcmailJdk15On,
+    "bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk15on:${VersionManagement.bouncycastleVersion}",
+    "bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk15on:${VersionManagement.bouncycastleVersion}",
     "bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
-    "org.bouncycastle:bcprov-jdk14" to DepsManagement.Other.bcprovJdk15On,
-    "org.bouncycastle:bcmail-jdk14" to DepsManagement.Other.bcmailJdk15On,
+    "org.bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk15on:${VersionManagement.bouncycastleVersion}",
+    "org.bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk15on:${VersionManagement.bouncycastleVersion}",
     "org.bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
 
     "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
@@ -234,5 +229,5 @@ private val canReplacedDependencies = mapOf(
     "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:1.1.2",
     "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:2.0.2",
     "javax.xml.bind:jaxb-api" to "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3",
-    "commons-logging:commons-logging" to DepsManagement.Spring.jcl
+    "commons-logging:commons-logging" to "org.springframework:spring-jcl:${VersionManagement.springVersion}"
 )

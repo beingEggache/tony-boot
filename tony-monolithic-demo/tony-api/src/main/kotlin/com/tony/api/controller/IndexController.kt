@@ -9,7 +9,7 @@ import com.tony.utils.defaultZoneId
 import com.tony.utils.toString
 import com.tony.web.WebApp
 import com.tony.web.interceptor.NoLoginCheck
-import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -24,31 +24,31 @@ class IndexController(
     private val userService: UserService
 ) {
 
-    @ApiOperation("首页")
+    @Operation(summary = "首页")
     @GetMapping("/")
     @NoLoginCheck
     @NoPermissionCheck
     fun index(): String = WebApp.appId
 
-    @ApiOperation("区域")
+    @Operation(summary = "区域")
     @GetMapping("/locale")
     @NoLoginCheck
     @NoPermissionCheck
     fun locale(): String = Locale.getDefault().toLanguageTag()
 
-    @ApiOperation("zoneId")
+    @Operation(summary = "zoneId")
     @GetMapping("/zone-id")
     @NoLoginCheck
     @NoPermissionCheck
     fun zoneId(): String = defaultZoneId.toString()
 
-    @ApiOperation("时间戳")
+    @Operation(summary = "时间戳")
     @GetMapping("/now")
     @NoLoginCheck
     @NoPermissionCheck
     fun now(): String = LocalDateTime.now().toString("yyyy-MM-dd HH:mm:ss")
 
-    @ApiOperation("登录")
+    @Operation(summary = "登录")
     @NoLoginCheck
     @NoPermissionCheck
     @PostMapping("/login")

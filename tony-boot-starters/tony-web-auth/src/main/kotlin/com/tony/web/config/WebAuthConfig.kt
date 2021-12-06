@@ -37,7 +37,7 @@ internal class WebAuthConfig(
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(loginCheckInterceptor())
-            .excludePathPatterns(*WebApp.ignoreUrlPatterns(true).toTypedArray())
+            .excludePathPatterns(*WebApp.whiteUrlPatterns(prefix = "").toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE)
     }
 }

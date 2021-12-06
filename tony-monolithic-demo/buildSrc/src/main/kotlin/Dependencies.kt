@@ -8,10 +8,12 @@ object Version {
     const val kotlinVersion = "1.6.0"
 
     const val springVersion = "5.3.13"
-    const val springBootVersion = "2.5.7"
+    const val springBootVersion = "2.6.1"
 
     const val springCloudAlibabaVersion = "2021.1"
-    const val springCloudVersion = "2020.0.4"
+    const val springCloudVersion = "2021.0.0"
+
+    const val bouncycastleVersion = "1.70"
 
     const val tonyVersion = "0.1-SNAPSHOT"
 }
@@ -31,8 +33,6 @@ object Deps {
         const val tonyJwt = "com.tony:tony-jwt:${Version.tonyVersion}"
         const val tonyWebAuth = "com.tony:tony-web-auth:${Version.tonyVersion}"
         const val tonyFeign = "com.tony:tony-feign:${Version.tonyVersion}"
-        const val tonyKnife4j = "com.tony:tony-knife4j:${Version.tonyVersion}"
-        const val tonyKnife4jApi = "com.tony:tony-knife4j-api:${Version.tonyVersion}"
         const val tonyWeb = "com.tony:tony-web:${Version.tonyVersion}"
         const val tonyCache = "com.tony:tony-cache:${Version.tonyVersion}"
 
@@ -96,11 +96,6 @@ object Deps {
         const val webflux = "org.springframework:spring-webflux"
     }
 
-    object SpringData {
-        const val springDataCommon = "org.springframework.data:spring-data-common"
-        const val springDataRedis = "org.springframework.data:spring-data-redis"
-    }
-
     object OpenFeign {
         const val openFeignCore = "io.github.openfeign:feign-core"
         const val openFeignSl4j = "io.github.openfeign:feign-slf4j"
@@ -145,35 +140,56 @@ object Deps {
     object Other {
         const val mybatis = "org.mybatis:mybatis"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation"
+        const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension"
         const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter"
+        const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator"
 
         const val mybatisTypehandlersJsr310 = "org.mybatis:mybatis-typehandlers-jsr310"
         const val validationApi = "jakarta.validation:jakarta.validation-api"
         const val annotationApi = "jakarta.annotation:jakarta.annotation-api"
+        const val activationApi = "jakarta.activation:jakarta.activation-api"
+        const val elApi = "jakarta.el:jakarta.el-api"
+        const val websocketApi = "jakarta.websocket:jakarta.websocket-api"
+        const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api"
 
         const val gson = "com.google.code.gson:gson"
         const val fastjson = "com.alibaba:fastjson"
 
         const val xstream = "com.thoughtworks.xstream:xstream"
+        const val httpclient = "org.apache.httpcomponents:httpclient"
         const val okhttp = "com.squareup.okhttp3:okhttp"
         const val commonsCodec = "commons-codec:commons-codec"
 
         const val guava = "com.google.guava:guava"
-
-        const val swaggerAnnotations = "io.swagger:swagger-annotations"
-        const val swaggerModels = "io.swagger:swagger-models"
-        const val springfoxSwagger2 = "io.springfox:springfox-swagger2"
-        const val knife4jApi = "com.github.xiaoymin:knife4j-micro-spring-boot-starter"
-        const val knife4j = "com.github.xiaoymin:knife4j-spring-boot-starter"
+        const val javaJwt = "com.auth0:java-jwt"
 
         const val postgresql = "org.postgresql:postgresql"
         const val mysql = "mysql:mysql-connector-java"
         const val HikariCP = "com.zaxxer:HikariCP"
 
+        const val slf4JApi = "org.slf4j:slf4j-api"
+        const val julToSlf4J = "org.slf4j:jul-to-slf4j"
+        const val jclOverSlf4J = "org.slf4j:jcl-over-slf4j"
+
+        const val byteBuddy = "net.bytebuddy:byte-buddy"
+        const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent"
+
         const val jasypt = "org.jasypt:jasypt"
+
         const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on"
         const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on"
         const val bctlsJdk15On = "org.bouncycastle:bctls-jdk15on"
+        const val bctspJdk15On = "org.bouncycastle:bctsp-jdk15on"
+        const val bcmailJdk15On = "org.bouncycastle:bcmail-jdk15on"
+
+        const val classmate = "com.fasterxml:classmate"
+        const val reactor = "io.projectreactor:reactor-core"
+        const val reactorNetty = "io.projectreactor.netty:reactor-netty"
+
+        const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations"
+        const val springdocUi = "org.springdoc:springdoc-openapi-ui"
+        const val springdocCommon = "org.springdoc:springdoc-openapi-common"
+        const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin"
     }
 }
 
@@ -198,6 +214,13 @@ fun Project.substituteDeps(){
 }
 
 private val canReplacedDependencies = mapOf(
+    "bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk15on:${Version.bouncycastleVersion}",
+    "bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk15on:${Version.bouncycastleVersion}",
+    "bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
+    "org.bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk15on:${Version.bouncycastleVersion}",
+    "org.bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk15on:${Version.bouncycastleVersion}",
+    "org.bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
+
     "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
     "javax.annotation:javax.annotation-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
     "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
@@ -207,5 +230,5 @@ private val canReplacedDependencies = mapOf(
     "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:1.1.2",
     "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:2.0.2",
     "javax.xml.bind:jaxb-api" to "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3",
-    "commons-logging:commons-logging" to "org.springframework:spring-jcl:5.3.12"
+    "commons-logging:commons-logging" to "org.springframework:spring-jcl:${Version.springVersion}"
 )

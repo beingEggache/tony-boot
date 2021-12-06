@@ -2,27 +2,14 @@
 package com.tony.api
 
 import com.tony.annotation.EnableTonyBoot
-import com.tony.api.permission.NoPermissionCheck
 import com.tony.api.permission.PermissionInterceptor
-import com.tony.db.po.Module
-import com.tony.db.service.ModuleService
-import com.tony.db.service.UserService
-import com.tony.dto.enums.ModuleType
-import com.tony.exception.ApiException
-import com.tony.utils.defaultIfBlank
 import com.tony.web.WebApp
-import io.swagger.annotations.ApiOperation
 import org.slf4j.LoggerFactory
-import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.context.annotation.Lazy
 import org.springframework.core.PriorityOrdered
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
-import javax.annotation.Resource
 
 @Suppress("HttpUrlsUsage")
 fun main(args: Array<String>) {
@@ -40,7 +27,7 @@ fun main(args: Array<String>) {
 
 // @Profile(value = ["!prod"])
 // @Component
-open class InitApp(
+/*open class InitApp(
     private val moduleService: ModuleService,
     private val userService: UserService
 ) : CommandLineRunner {
@@ -85,7 +72,7 @@ open class InitApp(
 
         userService.initSuperAdmin(WebApp.appId)
     }
-}
+}*/
 
 @EnableTonyBoot
 @SpringBootApplication
@@ -95,7 +82,7 @@ class MonoApiWebApp(
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(permissionInterceptor)
-            .excludePathPatterns(*WebApp.ignoreUrlPatterns(true).toTypedArray())
+            .excludePathPatterns(*WebApp.whiteUrlPatterns(WebApp.contextPath).toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE + 1)
     }
 }
