@@ -28,7 +28,7 @@ object VersionManagement {
     const val reactorNettyVersion = "1.0.13"
     const val slf4jVersion = "1.7.32"
 
-    const val byteBuddyVersion = "1.12.2"
+    const val byteBuddyVersion = "1.12.3"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
     const val javaJwtVersion = "3.18.2"
