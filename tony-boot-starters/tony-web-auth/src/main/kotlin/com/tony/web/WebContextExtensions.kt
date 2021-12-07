@@ -2,19 +2,12 @@
 
 package com.tony.web
 
-import org.springframework.context.annotation.Lazy
-import org.springframework.stereotype.Component
-import javax.annotation.Resource
+import com.tony.Env
 
-@Component
 object WebContextExtensions {
 
-    private lateinit var apiSession: ApiSession
-
-    @Lazy
-    @Resource
-    private fun apiSession(apiSession: ApiSession) {
-        WebContextExtensions.apiSession = apiSession
+    private val apiSession: ApiSession by lazy {
+        Env.bean()
     }
 
     val WebContext.userId: String

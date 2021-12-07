@@ -7,22 +7,19 @@ import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.Env
 import com.tony.web.config.WebProperties
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.web.servlet.error.ErrorAttributes
-import org.springframework.stereotype.Component
 import java.net.InetAddress
 import java.util.regex.Pattern
-import javax.annotation.Resource
 
-@ConditionalOnWebApplication
-@Component
 object WebApp {
 
-    @JvmSynthetic
-    internal lateinit var errorAttributes: ErrorAttributes
+    internal val errorAttributes: ErrorAttributes by lazy {
+        Env.bean()
+    }
 
-    @JvmSynthetic
-    internal lateinit var webProperties: WebProperties
+    private val webProperties: WebProperties by lazy {
+        Env.bean()
+    }
 
     @JvmStatic
     val appId: String by lazy {
@@ -92,18 +89,6 @@ object WebApp {
     @JvmStatic
     fun badRequest(msg: String = "", code: Int = ApiProperty.validationErrorCode) =
         ApiResult(EMPTY_RESULT, code, msg)
-
-    @JvmSynthetic
-    @Resource
-    internal fun errorAttributes(errorAttributes: ErrorAttributes) {
-        WebApp.errorAttributes = errorAttributes
-    }
-
-    @Resource
-    @JvmSynthetic
-    private fun webProperties(webProperties: WebProperties) {
-        WebApp.webProperties = webProperties
-    }
 
     private val springdocUrls by lazy {
         arrayOf(

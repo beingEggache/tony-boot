@@ -2,23 +2,19 @@
 
 package com.tony.cache
 
+import com.tony.Env
 import com.tony.exception.ApiException
 import com.tony.utils.OBJECT_MAPPER
-import org.springframework.context.annotation.Lazy
-import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.script.DefaultRedisScript
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
-import org.springframework.stereotype.Component
 import java.util.Collections
 import java.util.Random
 import java.util.concurrent.TimeUnit
-import javax.annotation.Resource
 
 @Suppress("MemberVisibilityCanBePrivate")
-@Component
 object RedisUtils {
 
     val values = RedisValues
@@ -30,34 +26,21 @@ object RedisUtils {
     val keys = RedisKeys
 
     @JvmStatic
-    private lateinit var factory: RedisConnectionFactory
-
-    @Lazy
-    @Resource
-    private fun factory(factory: RedisConnectionFactory) {
-        this.factory = factory
+    val stringRedisTemplate: StringRedisTemplate by lazy {
+        Env.bean()
     }
-
-    @JvmStatic
-    lateinit var stringRedisTemplate: StringRedisTemplate
 
     val redisTemplate: RedisTemplate<String, Any> by lazy {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
         val stringRedisSerializer = StringRedisSerializer()
         RedisTemplate<String, Any>().apply {
-            connectionFactory = factory
+            connectionFactory = Env.bean()
             keySerializer = stringRedisSerializer
             hashKeySerializer = stringRedisSerializer
             valueSerializer = serializer
             hashValueSerializer = serializer
             afterPropertiesSet()
         }
-    }
-
-    @Lazy
-    @Resource
-    private fun stringRedisTemplate(stringRedisTemplate: StringRedisTemplate) {
-        this.stringRedisTemplate = stringRedisTemplate
     }
 
     private val script: String =

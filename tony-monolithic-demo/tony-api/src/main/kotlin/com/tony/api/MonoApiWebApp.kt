@@ -3,11 +3,14 @@ package com.tony.api
 
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
+import com.tony.web.ApiSession
 import com.tony.web.WebApp
+import com.tony.web.WebContext
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.core.PriorityOrdered
+import org.springframework.stereotype.Component
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -85,4 +88,14 @@ class MonoApiWebApp(
             .excludePathPatterns(*WebApp.whiteUrlPatterns(WebApp.contextPath).toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE + 1)
     }
+}
+
+@Component
+class StaticApiSession : ApiSession {
+    override val userId: String
+        get() = WebContext.request.getParameter("userId")
+
+    override fun genTokenString(vararg params: Pair<String, String?>): String = "I'm token"
+
+    override fun hasLogin(): Boolean = true
 }
