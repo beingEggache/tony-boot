@@ -3,7 +3,6 @@ package com.tony.db.service
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
-import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
 import com.tony.db.po.User
@@ -28,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional
  */
 @Service
 class UserService(
-    private val roleDao: RoleDao,
     private val roleService: RoleService,
     private val moduleService: ModuleService
 ) : ServiceImpl<UserDao, User>() {
@@ -63,7 +61,7 @@ class UserService(
         }
 
     fun listRolesByUserId(userId: String?, appId: String) =
-        roleDao.selectByUserId(userId, appId).map { it.toDto() }
+        roleService.selectByUserId(userId, appId).map { it.toDto() }
 
     @Transactional
     fun add(req: UserCreateReq): Boolean {
@@ -128,8 +126,8 @@ class UserService(
         }
         baseMapper.deleteById(superAdmin)
         baseMapper.insert(user)
-        roleDao.deleteById(superAdmin)
-        roleDao.insert(
+        roleService.removeById(superAdmin)
+        roleService.save(
             Role().apply {
                 roleId = superAdmin
                 this.appId = appId

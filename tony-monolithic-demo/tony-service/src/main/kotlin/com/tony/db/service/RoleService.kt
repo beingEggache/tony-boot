@@ -61,6 +61,8 @@ class RoleService(
             KtQueryWrapper(Role::class.java).like(!query.isNullOrBlank(), Role::roleName, query)
         ).toPageResult()
 
+    fun selectByUserId(userId: String?, appId: String): List<Role> = baseMapper.selectByUserId(userId, appId)
+
     @Transactional
     fun assignRole(req: RoleAssignReq) {
         req.userIdList.forEach { userId ->
