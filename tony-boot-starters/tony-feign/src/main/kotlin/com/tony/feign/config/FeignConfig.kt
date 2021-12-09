@@ -2,8 +2,9 @@ package com.tony.feign.config
 
 import com.tony.feign.decoder.DefaultErrorDecoder
 import com.tony.feign.log.DefaultFeignRequestTraceLogger
+import com.tony.feign.log.FeignLogInterceptor
 import com.tony.feign.log.FeignRequestTraceLogger
-import com.tony.feign.log.OpenFeignLogInterceptor
+import com.tony.feign.misc.SignatureFeignInterceptor
 import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
@@ -47,9 +48,12 @@ class FeignConfig {
     fun feignRequestTraceLogger(): FeignRequestTraceLogger = DefaultFeignRequestTraceLogger()
 
     @Bean
-    internal fun openFeignLogInterceptor(
+    internal fun feignLogInterceptor(
         feignRequestTraceLogger: FeignRequestTraceLogger
-    ) = OpenFeignLogInterceptor(feignRequestTraceLogger)
+    ) = FeignLogInterceptor(feignRequestTraceLogger)
+
+    @Bean
+    internal fun signatureFeignInterceptor() = SignatureFeignInterceptor()
 
     @ConditionalOnMissingBean(OkHttpClient::class)
     @Bean

@@ -9,6 +9,7 @@
  */
 package com.tony.wechat.client
 
+import com.tony.feign.misc.SIGNATURE_IMPL
 import com.tony.wechat.client.req.WechatMenu
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
 import com.tony.wechat.client.resp.WechatApiTokenResp
@@ -36,7 +37,7 @@ interface WechatClient {
      * @param grantType 获取access_token填写client_credential
      * @see <a href="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html">获取Access token</a>
      */
-    @GetMapping("/cgi-bin/token")
+    @GetMapping("/cgi-bin/token", headers = ["$SIGNATURE_IMPL=testSignatureImpl"])
     fun accessToken(
         @RequestParam("appid", required = true) appId: String?,
         @RequestParam("secret", required = true) secret: String?,

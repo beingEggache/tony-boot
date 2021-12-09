@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 import javax.annotation.Priority
 
 @Priority(Int.MAX_VALUE)
-internal class OpenFeignLogInterceptor(
+internal class FeignLogInterceptor(
     private val feignRequestTraceLogger: FeignRequestTraceLogger
 ) : Interceptor {
 
