@@ -33,6 +33,11 @@ object Env : ApplicationContextAware {
         environment.getProperty(key, T::class.java, defaultValue)
 
     @JvmStatic
+    inline fun <reified T> envPropByLazy(key: String, defaultValue: T): Lazy<T> = lazy {
+        environment.getProperty(key, T::class.java, defaultValue)
+    }
+
+    @JvmStatic
     fun prop(key: String, defaultValue: String): String = environment.getProperty(key, defaultValue)
 
     @JvmStatic
@@ -40,6 +45,9 @@ object Env : ApplicationContextAware {
 
     @JvmStatic
     inline fun <reified T> bean(): T = springContext.getBean(T::class.java)
+
+    @JvmStatic
+    inline fun <reified T> beanByLazy(): Lazy<T> = lazy { springContext.getBean(T::class.java) }
 
     @JvmStatic
     fun <T> bean(type: Class<T>): T = springContext.getBean(type)

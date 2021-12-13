@@ -2,13 +2,11 @@
 
 package com.tony.web
 
-import com.tony.Env
+import com.tony.Env.beanByLazy
 
 object WebContextExtensions {
 
-    private val apiSession: ApiSession by lazy {
-        Env.bean()
-    }
+    private val apiSession: ApiSession by beanByLazy()
 
     val WebContext.userId: String
         get() = apiSession.userId

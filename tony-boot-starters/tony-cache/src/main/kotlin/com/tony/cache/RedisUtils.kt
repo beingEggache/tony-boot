@@ -3,6 +3,7 @@
 package com.tony.cache
 
 import com.tony.Env
+import com.tony.Env.beanByLazy
 import com.tony.exception.ApiException
 import com.tony.utils.OBJECT_MAPPER
 import org.springframework.data.redis.core.RedisTemplate
@@ -26,9 +27,7 @@ object RedisUtils {
     val keys = RedisKeys
 
     @JvmStatic
-    val stringRedisTemplate: StringRedisTemplate by lazy {
-        Env.bean()
-    }
+    val stringRedisTemplate: StringRedisTemplate by beanByLazy()
 
     val redisTemplate: RedisTemplate<String, Any> by lazy {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
@@ -85,8 +84,10 @@ object RedisUtils {
 
     @JvmStatic
     @JvmOverloads
-    fun getExpire(key: String, timeUnit: TimeUnit = TimeUnit.SECONDS): Long =
-        redisTemplate.getExpire(key, timeUnit)
+    fun getExpire(
+        key: String,
+        timeUnit: TimeUnit = TimeUnit.SECONDS
+    ): Long = redisTemplate.getExpire(key, timeUnit)
 
     @JvmStatic
     fun delete(key: String) = redisTemplate.delete(keys(key)) > 0

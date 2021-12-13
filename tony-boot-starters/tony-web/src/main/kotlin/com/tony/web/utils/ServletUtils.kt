@@ -7,9 +7,9 @@ import com.tony.utils.doIf
 import com.tony.web.WebContext
 import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.web.cors.CorsUtils
 import java.net.URL
 import java.net.URLEncoder
 import javax.servlet.http.HttpServletRequest
@@ -78,9 +78,7 @@ fun isTextMediaTypes(mediaType: MediaType?) =
     TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 
 val HttpServletRequest.isCorsPreflightRequest
-    get() = method.equals(HttpMethod.OPTIONS.name, true) &&
-        !getHeader("Origin").isNullOrBlank() &&
-        !getHeader("Access-Control-Request-Method").isNullOrBlank()
+    get() = CorsUtils.isPreFlightRequest(this)
 
 @Suppress("unused")
 fun ByteArray.responseEntity(

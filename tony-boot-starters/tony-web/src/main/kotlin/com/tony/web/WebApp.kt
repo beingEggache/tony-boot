@@ -6,6 +6,8 @@ import com.tony.ApiProperty
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.Env
+import com.tony.Env.beanByLazy
+import com.tony.Env.envPropByLazy
 import com.tony.web.config.WebProperties
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import java.net.InetAddress
@@ -13,37 +15,25 @@ import java.util.regex.Pattern
 
 object WebApp {
 
-    internal val errorAttributes: ErrorAttributes by lazy {
-        Env.bean()
-    }
+    internal val errorAttributes: ErrorAttributes by beanByLazy()
 
-    private val webProperties: WebProperties by lazy {
-        Env.bean()
-    }
+    private val webProperties: WebProperties by beanByLazy()
 
     @JvmStatic
-    val appId: String by lazy {
-        Env.prop("spring.application.name", "")
-    }
+    val appId: String by envPropByLazy("spring.application.name", "")
 
     val ip: String
         @JvmStatic
         get() = InetAddress.getLocalHost().hostAddress
 
     @JvmStatic
-    val port: String by lazy {
-        Env.prop("server.port", "8080")
-    }
+    val port: String by envPropByLazy("server.port", "8080")
 
     @JvmStatic
-    val contextPath: String by lazy {
-        Env.prop("server.servlet.context-path", "")
-    }
+    val contextPath: String by envPropByLazy("server.servlet.context-path", "")
 
     @JvmStatic
-    val actuatorBasePath: String by lazy {
-        Env.prop("management.endpoints.web.base-path", "/actuator")
-    }
+    val actuatorBasePath: String by envPropByLazy("management.endpoints.web.base-path", "/actuator")
 
     val profiles: Array<String> by lazy {
         Env.activeProfiles()
@@ -56,9 +46,7 @@ object WebApp {
         )
     }
 
-    private val errorPath by lazy {
-        Env.prop("server.error.path", Env.prop("error.path", "/error"))
-    }
+    private val errorPath by envPropByLazy("server.error.path", Env.prop("error.path", "/error"))
 
     @JvmStatic
     fun whiteUrlPatterns(prefix: String): Set<String> {

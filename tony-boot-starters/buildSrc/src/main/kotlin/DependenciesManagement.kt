@@ -181,7 +181,7 @@ object DepsManagement {
 
         const val xstream = "com.thoughtworks.xstream:xstream:1.4.18"
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
-        const val okhttp = "com.squareup.okhttp3:okhttp:4.9.2"
+        const val okhttp = "com.squareup.okhttp3:okhttp:4.9.3"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
 
         const val guava = "com.google.guava:guava:${VersionManagement.guavaVersion}"
