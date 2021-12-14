@@ -46,7 +46,8 @@ internal class WechatConfig {
 
     @ConditionalOnMissingBean(WechatPropProvider::class)
     @Bean
-    fun wechatApiPropProvider(wechatProperties: WechatProperties) = DefaultWechatPropProvider(wechatProperties)
+    fun wechatApiPropProvider(wechatProperties: WechatProperties) =
+        DefaultWechatPropProvider(wechatProperties)
 
     @Bean
     fun wechatService(
@@ -66,7 +67,7 @@ data class WechatProperties(
     val mchSecretKey: String?,
     val app: Map<String, WechatAppProperties>
 ) {
-    fun sourceByAppId(appId: String) = app.entries.filter { it.value.appId == appId }.firstOrNull()?.key
+    fun sourceByAppId(appId: String) = app.entries.firstOrNull { it.value.appId == appId }?.key
 }
 
 data class WechatAppProperties(
