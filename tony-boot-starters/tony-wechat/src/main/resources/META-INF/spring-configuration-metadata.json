@@ -10,27 +10,12 @@
     "properties": [
         {
             "sourceType": "com.tony.wechat.config.WechatProperties",
-            "name": "wechat.token",
-            "type": "java.lang.String"
-        },
-        {
-            "sourceType": "com.tony.wechat.config.WechatProperties",
-            "name": "wechat.subscription-app-id",
-            "type": "java.lang.String"
-        },
-        {
-            "sourceType": "com.tony.wechat.config.WechatProperties",
-            "name": "wechat.mini-program-app-id",
+            "name": "wechat.app-id",
             "type": "java.lang.String"
         },
         {
             "sourceType": "com.tony.wechat.config.WechatProperties",
             "name": "wechat.app-secret",
-            "type": "java.lang.String"
-        },
-        {
-            "sourceType": "com.tony.wechat.config.WechatProperties",
-            "name": "wechat.mini-program-app-secret",
             "type": "java.lang.String"
         },
         {
@@ -42,6 +27,11 @@
             "sourceType": "com.tony.wechat.config.WechatProperties",
             "name": "wechat.mch-secret-key",
             "type": "java.lang.String"
+        },
+        {
+            "sourceType": "com.tony.wechat.config.WechatAppProperties",
+            "name": "wechat.app",
+            "type": "java.util.Map<java.lang.String,com.tony.wechat.config.WechatAppProperties>"
         }
     ]
 }

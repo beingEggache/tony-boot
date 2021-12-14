@@ -3,3 +3,10 @@ feign:
         enabled: true
     httpclient:
         enabled: false
+wechat:
+  app-id: qwe
+  app-secret: sdfsd
+  app:
+    test:
+      app-id: wx35db161a25e35a89
+      app-secret: 9715603578fb8ad6cd510b1566642b68

@@ -1,6 +1,5 @@
 package com.tony.wechat.test
 
-import com.tony.annotation.EnableTonyBoot
 import com.tony.feign.misc.SignatureInterceptor
 import com.tony.utils.println
 import com.tony.utils.toJsonString
@@ -13,15 +12,10 @@ import com.tony.wechat.client.req.WechatQrCodeType
 import com.tony.wechat.client.req.WechatScanCodeButton
 import okhttp3.Request
 import org.junit.jupiter.api.Test
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.stereotype.Component
 import javax.annotation.Resource
 
-@EnableTonyBoot
-@SpringBootApplication
-@SpringBootTest
-class WechatTest {
+class WechatClientTest {
 
     @Resource
     private lateinit var wechatClient: WechatClient

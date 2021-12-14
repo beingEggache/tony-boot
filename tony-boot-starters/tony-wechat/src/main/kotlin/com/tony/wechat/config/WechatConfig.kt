@@ -1,9 +1,11 @@
 package com.tony.wechat.config
 
 import com.tony.wechat.client.WechatClient
-import com.tony.wechat.service.ApiAccessTokenProvider
-import com.tony.wechat.service.ApiAccessTokenProviderWrapper
-import com.tony.wechat.service.DefaultApiAccessTokenProviderWrapper
+import com.tony.wechat.service.DefaultWechatApiAccessTokenProviderWrapper
+import com.tony.wechat.service.DefaultWechatPropProvider
+import com.tony.wechat.service.WechatApiAccessTokenProvider
+import com.tony.wechat.service.WechatApiAccessTokenProviderWrapper
+import com.tony.wechat.service.WechatPropProvider
 import com.tony.wechat.service.WechatService
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -33,27 +35,43 @@ internal class WechatConfig {
     }
 
     @Bean
-    fun apiAccessTokenProvider(wechatClient: WechatClient) = ApiAccessTokenProvider(wechatClient)
+    fun apiAccessTokenProvider(wechatClient: WechatClient) = WechatApiAccessTokenProvider(wechatClient)
 
-    @ConditionalOnMissingBean(ApiAccessTokenProviderWrapper::class)
+    @ConditionalOnMissingBean(WechatApiAccessTokenProviderWrapper::class)
     @Bean
-    fun apiAccessTokenProviderWrapper(apiAccessTokenProvider: ApiAccessTokenProvider): ApiAccessTokenProviderWrapper =
-        DefaultApiAccessTokenProviderWrapper(apiAccessTokenProvider)
+    fun apiAccessTokenProviderWrapper(
+        apiAccessTokenProvider: WechatApiAccessTokenProvider
+    ): WechatApiAccessTokenProviderWrapper =
+        DefaultWechatApiAccessTokenProviderWrapper(apiAccessTokenProvider)
+
+    @ConditionalOnMissingBean(WechatPropProvider::class)
+    @Bean
+    fun wechatApiPropProvider(wechatProperties: WechatProperties) = DefaultWechatPropProvider(wechatProperties)
 
     @Bean
     fun wechatService(
-        wechatProperties: WechatProperties,
         wechatClient: WechatClient,
-        apiAccessTokenProviderWrapper: ApiAccessTokenProviderWrapper
-    ) = WechatService(wechatProperties, wechatClient, apiAccessTokenProviderWrapper)
+        wechatPropProvider: WechatPropProvider,
+        apiAccessTokenProviderWrapper: WechatApiAccessTokenProviderWrapper
+    ) = WechatService(wechatClient, wechatPropProvider, apiAccessTokenProviderWrapper)
 }
 
 @Suppress("ConfigurationProperties")
 @ConstructorBinding
 @ConfigurationProperties(prefix = "wechat")
 data class WechatProperties(
-    val subscriptionAppId: String?,
-    val miniProgramAppId: String?,
+    val appId: String?,
     val appSecret: String?,
-    val miniProgramAppSecret: String?
+    val mchId: String?,
+    val mchSecretKey: String?,
+    val app: Map<String, WechatAppProperties>
+) {
+    fun sourceByAppId(appId: String) = app.entries.filter { it.value.appId == appId }.firstOrNull()?.key
+}
+
+data class WechatAppProperties(
+    val appId: String?,
+    val appSecret: String?,
+    val mchId: String?,
+    val mchSecretKey: String?
 )
