@@ -15,8 +15,6 @@ import com.tony.wechat.client.resp.WechatUserTokenResp
 import com.tony.wechat.config.WechatProperties
 import com.tony.wechat.genNonceStr
 import com.tony.wechat.genTimeStamp
-import com.tony.wechat.sourceMiniProgram
-import com.tony.wechat.sourceSubscription
 import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.validation.annotation.Validated
 
@@ -37,7 +35,7 @@ class WechatService(
                     .joinToString("")
             ) == signature
 
-    fun jsCode2Session(jsCode: String, source: String = sourceMiniProgram) = wechatClient.jsCode2Session(
+    fun jsCode2Session(jsCode: String, source: String = "") = wechatClient.jsCode2Session(
         wechatPropProvider.appId(source),
         wechatPropProvider.appSecret(source),
         "authorization_code",
@@ -48,18 +46,18 @@ class WechatService(
     fun createQrCode(
         @Validated
         req: WechatQrCodeCreateReq,
-        source: String = sourceSubscription,
+        source: String = "",
         accessToken: String? = accessToken(source).accessToken
     ) = wechatClient.createQrCode(req, accessToken).check()
 
-    fun accessToken(source: String = sourceSubscription) = apiAccessTokenProviderWrapper.accessToken(
+    fun accessToken(source: String = "") = apiAccessTokenProviderWrapper.accessToken(
         wechatPropProvider.appId(source),
         wechatPropProvider.appSecret(source)
     )
 
     fun userAccessToken(
         code: String?,
-        source: String = sourceSubscription,
+        source: String = "",
     ) = apiAccessTokenProviderWrapper.userAccessToken(
         wechatPropProvider.appId(source),
         wechatPropProvider.appSecret(source),
@@ -69,33 +67,33 @@ class WechatService(
     @JvmOverloads
     fun createMenu(
         menu: WechatMenu,
-        source: String = sourceSubscription,
+        source: String = "",
         accessToken: String? = accessToken(source).accessToken
     ) = wechatClient.createMenu(accessToken, menu).check()
 
     @JvmOverloads
     fun deleteMenu(
-        source: String = sourceSubscription,
+        source: String = "",
         accessToken: String? = accessToken(source).accessToken
     ) = wechatClient.deleteMenu(accessToken).check()
 
     @JvmOverloads
     fun userInfo(
         openId: String?,
-        source: String = sourceSubscription,
+        source: String = "",
         accessToken: String? = accessToken(source).accessToken
     ) = wechatClient.userInfo(accessToken, openId).check()
 
     @JvmOverloads
     fun getTicket(
-        source: String = sourceMiniProgram,
+        source: String,
         accessToken: String? = accessToken(source).accessToken
     ) = wechatClient.getTicket(accessToken, "jsapi").check().ticket
 
-    fun getJsApiSignature(nonceStr: String, timestamp: Long, url: String): String =
+    fun getJsApiSignature(nonceStr: String, timestamp: Long, url: String, source: String): String =
         DigestUtils.sha1Hex(
             listOf(
-                "jsapi_ticket" to getTicket(),
+                "jsapi_ticket" to getTicket(source),
                 "noncestr" to nonceStr,
                 "timestamp" to timestamp,
                 "url" to url
@@ -107,7 +105,7 @@ class WechatService(
     @JvmOverloads
     fun jsSdkConfig(
         url: String,
-        source: String = sourceSubscription,
+        source: String,
         debug: Boolean = false
     ) = run {
         val timestamp = genTimeStamp()
@@ -117,13 +115,13 @@ class WechatService(
             appId = source,
             timestamp = timestamp,
             nonceStr = nonceStr,
-            signature = getJsApiSignature(nonceStr, timestamp, url)
+            signature = getJsApiSignature(nonceStr, timestamp, url, source)
         )
     }
 
     fun showQrCode(ticket: String) = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=$ticket"
 
-    private fun wechatRedirect(url: String, source: String = sourceSubscription): String =
+    private fun wechatRedirect(url: String, source: String = ""): String =
         "https://open.weixin.qq.com/connect/oauth2/authorize?" +
             "appid=$source" +
             "&redirect_uri=${url.urlEncode()}" +

@@ -9,6 +9,5 @@
  */
 package com.tony.wechat
 
-const val sourceSubscription = "subscription"
 const val sourceMiniProgram = "mini-program"
 const val app = "app"

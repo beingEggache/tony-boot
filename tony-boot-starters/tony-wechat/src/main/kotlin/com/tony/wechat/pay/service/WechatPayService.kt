@@ -147,6 +147,7 @@ class WechatPayService(
         return orderResponse
     }
 
+    //TODO
     private fun getTradeType(source: String) =
         when (source) {
             app -> "APP"
