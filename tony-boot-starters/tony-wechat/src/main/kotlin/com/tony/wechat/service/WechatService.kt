@@ -35,9 +35,9 @@ class WechatService(
                     .joinToString("")
             ) == signature
 
-    fun jsCode2Session(jsCode: String, source: String = "") = wechatClient.jsCode2Session(
-        wechatPropProvider.appId(source),
-        wechatPropProvider.appSecret(source),
+    fun jsCode2Session(jsCode: String, app: String = "") = wechatClient.jsCode2Session(
+        wechatPropProvider.appId(app),
+        wechatPropProvider.appSecret(app),
         "authorization_code",
         jsCode
     ).check()
@@ -46,54 +46,54 @@ class WechatService(
     fun createQrCode(
         @Validated
         req: WechatQrCodeCreateReq,
-        source: String = "",
-        accessToken: String? = accessToken(source).accessToken
+        app: String = "",
+        accessToken: String? = accessToken(app).accessToken
     ) = wechatClient.createQrCode(req, accessToken).check()
 
-    fun accessToken(source: String = "") = apiAccessTokenProviderWrapper.accessToken(
-        wechatPropProvider.appId(source),
-        wechatPropProvider.appSecret(source)
+    fun accessToken(app: String = "") = apiAccessTokenProviderWrapper.accessToken(
+        wechatPropProvider.appId(app),
+        wechatPropProvider.appSecret(app)
     )
 
     fun userAccessToken(
         code: String?,
-        source: String = "",
+        app: String = "",
     ) = apiAccessTokenProviderWrapper.userAccessToken(
-        wechatPropProvider.appId(source),
-        wechatPropProvider.appSecret(source),
+        wechatPropProvider.appId(app),
+        wechatPropProvider.appSecret(app),
         code
     )
 
     @JvmOverloads
     fun createMenu(
         menu: WechatMenu,
-        source: String = "",
-        accessToken: String? = accessToken(source).accessToken
+        app: String = "",
+        accessToken: String? = accessToken(app).accessToken
     ) = wechatClient.createMenu(accessToken, menu).check()
 
     @JvmOverloads
     fun deleteMenu(
-        source: String = "",
-        accessToken: String? = accessToken(source).accessToken
+        app: String = "",
+        accessToken: String? = accessToken(app).accessToken
     ) = wechatClient.deleteMenu(accessToken).check()
 
     @JvmOverloads
     fun userInfo(
         openId: String?,
-        source: String = "",
-        accessToken: String? = accessToken(source).accessToken
+        app: String = "",
+        accessToken: String? = accessToken(app).accessToken
     ) = wechatClient.userInfo(accessToken, openId).check()
 
     @JvmOverloads
     fun getTicket(
-        source: String,
-        accessToken: String? = accessToken(source).accessToken
+        app: String,
+        accessToken: String? = accessToken(app).accessToken
     ) = wechatClient.getTicket(accessToken, "jsapi").check().ticket
 
-    fun getJsApiSignature(nonceStr: String, timestamp: Long, url: String, source: String): String =
+    fun getJsApiSignature(nonceStr: String, timestamp: Long, url: String, app: String): String =
         DigestUtils.sha1Hex(
             listOf(
-                "jsapi_ticket" to getTicket(source),
+                "jsapi_ticket" to getTicket(app),
                 "noncestr" to nonceStr,
                 "timestamp" to timestamp,
                 "url" to url
@@ -105,25 +105,25 @@ class WechatService(
     @JvmOverloads
     fun jsSdkConfig(
         url: String,
-        source: String,
+        app: String,
         debug: Boolean = false
     ) = run {
         val timestamp = genTimeStamp()
         val nonceStr = genNonceStr()
         WechatJsSdkConfigResp(
             debug = debug,
-            appId = source,
+            appId = app,
             timestamp = timestamp,
             nonceStr = nonceStr,
-            signature = getJsApiSignature(nonceStr, timestamp, url, source)
+            signature = getJsApiSignature(nonceStr, timestamp, url, app)
         )
     }
 
     fun showQrCode(ticket: String) = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=$ticket"
 
-    private fun wechatRedirect(url: String, source: String = ""): String =
+    private fun wechatRedirect(url: String, app: String = ""): String =
         "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-            "appid=$source" +
+            "appid=$app" +
             "&redirect_uri=${url.urlEncode()}" +
             "&response_type=code" +
             "&scope=snsapi_base" +
@@ -132,33 +132,61 @@ class WechatService(
 
 interface WechatPropProvider {
 
-    fun appId(source: String): String?
+    fun appId(app: String): String?
 
-    fun appSecret(source: String): String?
+    fun appSecret(app: String): String?
 
-    fun mchId(source: String): String?
+    fun mchId(app: String): String?
 
-    fun mchSecretKey(source: String): String?
+    fun mchSecretKey(app: String): String?
 }
 
 internal class DefaultWechatPropProvider(
     private val wechatProperties: WechatProperties
 ) : WechatPropProvider {
-    override fun appId(source: String) =
-        wechatProperties.app[source]?.appId ?: wechatProperties.appId
-            ?: throw ApiException("$source app-id not found")
 
-    override fun appSecret(source: String) =
-        wechatProperties.app[source]?.appSecret ?: wechatProperties.appSecret
-            ?: throw ApiException("$source app-secret not found")
+    private val logger = getLogger()
 
-    override fun mchId(source: String) =
-        wechatProperties.app[source]?.mchId ?: wechatProperties.mchId
-            ?: throw ApiException("$source mch-id not found")
+    override fun appId(app: String): String {
+        val properties = wechatProperties.app[app]
+        return if (properties == null) {
+            logger.warn("wechat.app.$app prop not found.Use root prop.")
+            wechatProperties.appId
+        } else {
+            properties.appId
+        } ?: throw ApiException("$app app-id not found")
+    }
 
-    override fun mchSecretKey(source: String) =
-        wechatProperties.app[source]?.mchSecretKey ?: wechatProperties.mchSecretKey
-            ?: throw ApiException("$source mch-secret-key not found")
+
+    override fun appSecret(app: String): String {
+        val properties = wechatProperties.app[app]
+        return if (properties == null) {
+            logger.warn("wechat.app.$app prop not found.Use root prop.")
+            wechatProperties.appSecret
+        } else {
+            properties.appSecret
+        } ?: throw ApiException("$app app-secret not found")
+    }
+
+    override fun mchId(app: String): String {
+        val properties = wechatProperties.app[app]
+        return if (properties == null) {
+            logger.warn("wechat.app.$app prop not found.Use root prop.")
+            wechatProperties.mchId
+        } else {
+            properties.mchId
+        } ?: throw ApiException("$app mchId not found")
+    }
+
+    override fun mchSecretKey(app: String): String {
+        val properties = wechatProperties.app[app]
+        return if (properties == null) {
+            logger.warn("wechat.app.$app prop not found.Use root prop.")
+            wechatProperties.mchSecretKey
+        } else {
+            properties.mchSecretKey
+        } ?: throw ApiException("$app mch-secret-key not found")
+    }
 }
 
 interface WechatApiAccessTokenProviderWrapper {
