@@ -71,7 +71,7 @@ fun String.toBase64String(): String = Base64.getEncoder().encode(toByteArray()).
 fun String.base64ToString(): String = Base64.getDecoder().decode(toByteArray()).toString(Charsets.UTF_8)
 
 @JvmOverloads
-fun String?.defaultIfBlank(default: String = ""): String = this ?: default
+fun String?.defaultIfBlank(default: String = ""): String = if (this.isNullOrBlank()) default else this
 
 private val mobileRegex = Regex("^1[3-9][0-9]{9}$")
 

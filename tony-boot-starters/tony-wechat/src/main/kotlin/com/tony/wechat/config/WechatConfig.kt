@@ -65,9 +65,9 @@ data class WechatProperties(
     val appSecret: String?,
     val mchId: String?,
     val mchSecretKey: String?,
-    val app: Map<String, WechatAppProperties>
+    val app: LinkedHashMap<String, WechatAppProperties>
 ) {
-    fun sourceByAppId(appId: String) = app.entries.firstOrNull { it.value.appId == appId }?.key
+    fun getAppByAppId(appId: String) = app.entries.firstOrNull { it.value.appId == appId }?.key
 }
 
 data class WechatAppProperties(

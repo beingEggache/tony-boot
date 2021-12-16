@@ -9,7 +9,6 @@
  */
 package com.tony.wechat.client
 
-import com.tony.feign.misc.SIGNATURE_IMPL
 import com.tony.wechat.client.req.WechatMenu
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
 import com.tony.wechat.client.resp.WechatApiTokenResp

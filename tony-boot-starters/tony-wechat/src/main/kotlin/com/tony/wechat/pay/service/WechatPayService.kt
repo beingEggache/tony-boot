@@ -81,7 +81,7 @@ class WechatPayService(
 
     fun checkSign(notifyRequest: WechatPayNotifyReq): Boolean {
 
-        val source = wechatProperties.sourceByAppId(notifyRequest.appId)
+        val app = wechatProperties.getAppByAppId(notifyRequest.appId)
         val deepLink = "appid=${notifyRequest.appId}&" +
             "bank_type=${notifyRequest.bankType}&" +
             "cash_fee=${notifyRequest.cashFee}&" +
@@ -97,7 +97,7 @@ class WechatPayService(
             "total_fee=${notifyRequest.totalFee}&" +
             "trade_type=${notifyRequest.tradeType}&" +
             "transaction_id=${notifyRequest.transactionId}&" +
-            "key=${wechatPropProvider.mchSecretKey(source.defaultIfBlank())}"
+            "key=${wechatPropProvider.getMchSecretKey(app.defaultIfBlank())}"
 
         return DigestUtils.md5Hex(deepLink).uppercase() == notifyRequest.sign
     }
@@ -110,16 +110,15 @@ class WechatPayService(
         nonceStr: String,
         timestamp: String,
         sign: String
-    ) =
-        WechatAppPayReq(
-            appId = appId,
-            partnerId = partnerId,
-            prepayId = prepayId,
-            `package` = `package`,
-            nonceStr = nonceStr,
-            timestamp = timestamp,
-            sign = sign
-        )
+    ) = WechatAppPayReq(
+        appId = appId,
+        partnerId = partnerId,
+        prepayId = prepayId,
+        `package` = `package`,
+        nonceStr = nonceStr,
+        timestamp = timestamp,
+        sign = sign
+    )
 
     /**
      * 返回统一下单响应对象
@@ -158,8 +157,8 @@ class WechatPayService(
         timeStart: LocalDateTime? = LocalDateTime.now(),
         timeExpire: LocalDateTime? = timeStart?.plusMinutes(2)
     ): WechatPayReq {
-        val appId = wechatPropProvider.appId(app)
-        val mchId = wechatPropProvider.mchId(app)
+        val appId = wechatPropProvider.getAppId(app)
+        val mchId = wechatPropProvider.getMchId(app)
         val orderResponse = getPayOrderResponse(
             WechatPayOrderReq(
                 appId = appId,
@@ -178,7 +177,7 @@ class WechatPayService(
                 tradeType = "APP",
                 openId = openId
             ).apply {
-                sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.mchSecretKey(app))
+                sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
             }
         )
 
@@ -190,7 +189,7 @@ class WechatPayService(
             nonceStr = genNonceStr(),
             timestamp = genTimeStamp().toString()
         ).apply {
-            sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.mchSecretKey(app))
+            sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
         }
     }
 
@@ -209,8 +208,8 @@ class WechatPayService(
         timeExpire: LocalDateTime? = timeStart?.plusMinutes(2)
     ): WechatPayReq {
 
-        val appId = wechatPropProvider.appId(app)
-        val mchId = wechatPropProvider.mchId(app)
+        val appId = wechatPropProvider.getAppId(app)
+        val mchId = wechatPropProvider.getMchId(app)
         val orderResponse = getPayOrderResponse(
             WechatPayOrderReq(
                 appId = appId,
@@ -229,7 +228,7 @@ class WechatPayService(
                 tradeType = "JSAPI",
                 openId = openId
             ).apply {
-                sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.mchSecretKey(app))
+                sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
             }
         )
 
@@ -238,12 +237,11 @@ class WechatPayService(
             timeStamp = genTimeStamp().toString(),
             nonceStr = genNonceStr(),
             `package` = "prepay_id=${
-                orderResponse.prePayId
-                    ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}")
+            orderResponse.prePayId ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}")
             }",
             signType = signType
         ).apply {
-            paySign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.mchSecretKey(app))
+            paySign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
         }
     }
 }

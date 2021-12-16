@@ -10,3 +10,6 @@ wechat:
     test:
       app-id: wx35db161a25e35a89
       app-secret: 9715603578fb8ad6cd510b1566642b68
+logging:
+  level:
+    web: debug

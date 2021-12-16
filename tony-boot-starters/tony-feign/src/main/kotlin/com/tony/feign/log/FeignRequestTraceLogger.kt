@@ -1,11 +1,13 @@
 package com.tony.feign.log
 
+import com.tony.feign.interceptor.NetworkInterceptor
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toInstant
 import com.tony.utils.toJsonString
 import com.tony.utils.toString
+import okhttp3.Connection
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -18,16 +20,16 @@ import javax.annotation.Priority
 @Priority(Int.MAX_VALUE)
 internal class FeignLogInterceptor(
     private val feignRequestTraceLogger: FeignRequestTraceLogger
-) : Interceptor {
+) : NetworkInterceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val startTime = LocalDateTime.now()
         val startTimeStr = startTime.toString("yyyy-MM-dd HH:mm:ss.SSS")
-        val originRequest = chain.request()
-        val response = chain.proceed(originRequest)
-        val request = response.networkResponse?.request ?: response.cacheResponse?.request ?: originRequest
+        val request = chain.request()
+        val response = chain.proceed(request)
         val elapsedTime = System.currentTimeMillis() - startTime.toInstant().toEpochMilli()
-        feignRequestTraceLogger.log(request, response, startTimeStr, elapsedTime)
+
+        feignRequestTraceLogger.log(chain.connection(), request, response, startTimeStr, elapsedTime)
         return response
     }
 }
@@ -36,7 +38,13 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 
     private val logger = getLogger("request-logger")
 
-    override fun log(request: Request, response: Response, startTime: String, elapsedTime: Long) {
+    override fun log(
+        connection: Connection?,
+        request: Request,
+        response: Response,
+        startTime: String,
+        elapsedTime: Long
+    ) {
         val url = request.url.toUri().toURL()
         val resultCode = response.code
         val protocol = url.protocol
@@ -47,6 +55,8 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val headers = request.headers.toMultimap().toMap().mapValues { it.value.joinToString() }.toJsonString()
         val responseBody = response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).string()
         val requestBody = request.body?.string()
+        val remoteIp = connection?.socket()?.inetAddress?.hostAddress
+        val localIp = connection?.socket()?.localAddress?.hostAddress
         val logStr =
             """
             |$startTime|
@@ -61,8 +71,8 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             |$headers|
             |$requestBody|
             |$responseBody|
-            |[remoteIp]|
-            |[localIp]""".trimMargin()
+            |$remoteIp|
+            |$localIp""".trimMargin()
         logger.trace(logStr.removeLineBreak())
     }
 
@@ -82,5 +92,11 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 }
 
 interface FeignRequestTraceLogger {
-    fun log(request: Request, response: Response, startTime: String, elapsedTime: Long)
+    fun log(
+        connection: Connection?,
+        request: Request,
+        response: Response,
+        startTime: String,
+        elapsedTime: Long
+    )
 }

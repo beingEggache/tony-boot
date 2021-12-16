@@ -1,6 +1,8 @@
 package com.tony.feign.config
 
 import com.tony.feign.decoder.DefaultErrorDecoder
+import com.tony.feign.interceptor.AppInterceptor
+import com.tony.feign.interceptor.NetworkInterceptor
 import com.tony.feign.log.DefaultFeignRequestTraceLogger
 import com.tony.feign.log.FeignLogInterceptor
 import com.tony.feign.log.FeignRequestTraceLogger
@@ -9,7 +11,6 @@ import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
 import feign.form.spring.SpringFormEncoder
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.ObjectFactory
 import org.springframework.beans.factory.ObjectProvider
@@ -58,7 +59,8 @@ class FeignConfig {
     @ConditionalOnMissingBean(OkHttpClient::class)
     @Bean
     fun okHttpClient(
-        interceptors: List<Interceptor>,
+        appInterceptors: List<AppInterceptor>,
+        networkInterceptors: List<NetworkInterceptor>,
         feignConfigProperties: FeignConfigProperties
     ): OkHttpClient = OkHttpClient.Builder()
         .callTimeout(feignConfigProperties.callTimeout, TimeUnit.SECONDS)
@@ -69,7 +71,8 @@ class FeignConfig {
         .retryOnConnectionFailure(feignConfigProperties.retryOnConnectionFailure)
         .followRedirects(feignConfigProperties.followRedirects)
         .apply {
-            interceptors.forEach(::addInterceptor)
+            appInterceptors.forEach(::addInterceptor)
+            networkInterceptors.forEach(::addNetworkInterceptor)
         }
         .build()
 }

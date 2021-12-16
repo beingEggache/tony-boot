@@ -31,7 +31,7 @@
         {
             "sourceType": "com.tony.wechat.config.WechatAppProperties",
             "name": "wechat.app",
-            "type": "java.util.Map<java.lang.String,com.tony.wechat.config.WechatAppProperties>"
+            "type": "java.util.LinkedHashMap<java.lang.String,com.tony.wechat.config.WechatAppProperties>"
         }
     ]
 }

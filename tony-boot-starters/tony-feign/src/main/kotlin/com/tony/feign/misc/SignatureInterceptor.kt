@@ -10,6 +10,7 @@
 package com.tony.feign.misc
 
 import com.tony.Env
+import com.tony.feign.interceptor.AppInterceptor
 import com.tony.utils.getLogger
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -24,7 +25,7 @@ interface SignatureInterceptor {
 }
 
 @Priority(Int.MAX_VALUE - 1)
-internal class SignatureFeignInterceptor : Interceptor {
+internal class SignatureFeignInterceptor : AppInterceptor {
 
     private val logger = getLogger()
 
