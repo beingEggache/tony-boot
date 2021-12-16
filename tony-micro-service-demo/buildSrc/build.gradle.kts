@@ -28,6 +28,6 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 dependencies {
-    implementation("com.palantir.gradle.docker:gradle-docker:0.30.0")
+    implementation("com.palantir.gradle.docker:gradle-docker:0.31.0")
     implementation("org.springframework.boot:spring-boot-gradle-plugin:2.6.1")
 }

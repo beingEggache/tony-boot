@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
 
 object VersionManagement {
-    const val kotlinVersion = "1.6.0"
+    const val kotlinVersion = "1.6.10"
 
     const val springVersion = "5.3.13"
     const val springBootVersion = "2.6.1"
@@ -22,10 +22,10 @@ object VersionManagement {
 
     const val gsonVersion = "2.8.9"
     const val fastjsonVersion = "1.2.78"
-    const val nettyVersion = "4.1.70.Final"
+    const val nettyVersion = "4.1.72.Final"
 
-    const val reactorVersion = "3.4.12"
-    const val reactorNettyVersion = "1.0.13"
+    const val reactorVersion = "3.4.13"
+    const val reactorNettyVersion = "1.0.14"
     const val slf4jVersion = "1.7.32"
 
     const val byteBuddyVersion = "1.12.3"
@@ -35,7 +35,7 @@ object VersionManagement {
     const val guavaVersion = "31.0.1-jre"
 
     const val swaggerV3Version = "2.1.11"
-    const val springdocVersion = "1.5.13"
+    const val springdocVersion = "1.6.1"
 
 }
 

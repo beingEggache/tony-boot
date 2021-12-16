@@ -71,7 +71,7 @@
         <encoder>
             <!-- pattern节点，用来设置日志的输入格式 -->
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%X{X-B3-TraceId:-}|%msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-}|%msg%n
             </pattern>
             <!-- 记录日志的编码:此处设置字符集 - -->
             <charset>UTF-8</charset>
@@ -102,7 +102,7 @@
         <encoder>
             <!-- pattern节点，用来设置日志的输入格式 -->
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level|%X{X-B3-TraceId:-}|%msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-}|%msg%n
             </pattern>
             <!-- 记录日志的编码:此处设置字符集 - -->
             <charset>UTF-8</charset>
@@ -146,6 +146,33 @@
         <appender-ref ref="stdout"/>
         <appender-ref ref="error"/>
     </root>
+
+    <!-- hide some startup info -->
+    <logger name="org.hibernate.validator.internal.util.Version" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.springframework.data.repository.config.RepositoryConfigurationDelegate" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.apache.coyote.http11.Http11NioProtocol" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.apache.catalina.core.StandardService" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.apache.catalina.core.ContainerBase" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.apache.catalina.core.StandardEngine" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <logger name="org.springframework.boot.web.embedded.tomcat.TomcatWebServer" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <!-- hide info end-->
 
     <logger name="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor" level="ERROR" additivity="false">
         <appender-ref ref="stdout"/>
