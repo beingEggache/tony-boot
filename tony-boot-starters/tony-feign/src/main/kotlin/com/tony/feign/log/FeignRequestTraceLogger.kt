@@ -81,7 +81,7 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             val protocol = protocol
             val host = host
             val port = port
-            "$protocol://$host${if (port == 80 || port < 0) "" else ":$port"}"
+            "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}"
         }
 
     private fun RequestBody.string() = run {

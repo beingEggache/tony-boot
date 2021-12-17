@@ -21,7 +21,7 @@ val HttpServletRequest.origin
         val host = url.host
         val port = url.port
         val contextPath = WebContext.request.contextPath
-        "$protocol://$host${if (port == 80 || port < 0) "" else ":$port"}$contextPath"
+        "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}$contextPath"
     }
 
 val HttpServletRequest.headers: Map<String, String>
