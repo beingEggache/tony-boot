@@ -27,6 +27,7 @@ object VersionManagement {
     const val reactorVersion = "3.4.13"
     const val reactorNettyVersion = "1.0.14"
     const val slf4jVersion = "1.7.32"
+    const val log4jVersion = "2.16.0"
 
     const val byteBuddyVersion = "1.12.3"
     const val jasyptVersion = "1.9.3"
@@ -161,7 +162,7 @@ object DepsManagement {
     object Other {
         const val lettuce = "io.lettuce:lettuce-core:${VersionManagement.lettuceCoreVersion}"
 
-        const val mybatis = "org.mybatis:mybatis:3.5.7"
+        const val mybatis = "org.mybatis:mybatis:3.5.8"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${VersionManagement.mybatisPlusVersion}"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${VersionManagement.mybatisPlusVersion}"
         const val mybatisPlusBootStarter =
@@ -181,6 +182,8 @@ object DepsManagement {
 
         const val xstream = "com.thoughtworks.xstream:xstream:1.4.18"
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
+        const val httpcore = "org.apache.httpcomponents:httpcore:4.4.15"
+        const val httpcoreNio = "org.apache.httpcomponents:httpcore-nio:4.4.15"
         const val okhttp = "com.squareup.okhttp3:okhttp:4.9.3"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
 
@@ -194,6 +197,8 @@ object DepsManagement {
         const val slf4JApi = "org.slf4j:slf4j-api:${VersionManagement.slf4jVersion}"
         const val julToSlf4J = "org.slf4j:jul-to-slf4j:${VersionManagement.slf4jVersion}"
         const val jclOverSlf4J = "org.slf4j:jcl-over-slf4j:${VersionManagement.slf4jVersion}"
+        const val log4jToSlf4j = "org.apache.logging.log4j:log4j-to-slf4j:${VersionManagement.log4jVersion}"
+        const val log4jApi = "org.apache.logging.log4j:log4j-api:${VersionManagement.log4jVersion}"
 
         const val byteBuddy = "net.bytebuddy:byte-buddy:${VersionManagement.byteBuddyVersion}"
         const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${VersionManagement.byteBuddyVersion}"
