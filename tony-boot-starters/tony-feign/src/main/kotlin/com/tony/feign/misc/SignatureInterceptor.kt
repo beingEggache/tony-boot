@@ -20,8 +20,7 @@ import org.springframework.beans.factory.getBean
 import javax.annotation.Priority
 import kotlin.reflect.jvm.jvmName
 
-@FunctionalInterface
-interface SignatureInterceptor {
+fun interface SignatureInterceptor {
     fun process(builder: Request.Builder): Request
 }
 

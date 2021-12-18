@@ -153,7 +153,5 @@ class WechatClientTest {
 
 @Component
 class TestSignatureImpl : SignatureInterceptor {
-    override fun process(builder: Request.Builder): Request {
-        return builder.addHeader("X-Foo", "bar").build()
-    }
+    override fun process(builder: Request.Builder): Request = builder.addHeader("X-Foo", "bar").build()
 }

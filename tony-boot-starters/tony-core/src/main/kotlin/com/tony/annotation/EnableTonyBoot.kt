@@ -10,4 +10,4 @@ import org.springframework.context.annotation.Import
 annotation class EnableTonyBoot
 
 @ComponentScan(basePackages = ["com.tony.**"])
-class TonyBootConfiguration
+internal class TonyBootConfiguration

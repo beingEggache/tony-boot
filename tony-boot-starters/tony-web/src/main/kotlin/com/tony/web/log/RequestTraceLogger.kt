@@ -24,7 +24,7 @@ import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
 import javax.servlet.http.HttpServletResponse
 
-interface RequestTraceLogger {
+fun interface RequestTraceLogger {
 
     fun requestTraceLog(
         request: ContentCachingRequestWrapper,
