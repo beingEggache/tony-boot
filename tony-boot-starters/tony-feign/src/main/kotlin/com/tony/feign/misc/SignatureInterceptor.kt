@@ -9,13 +9,14 @@
  */
 package com.tony.feign.misc
 
-import com.tony.Env
+import com.tony.Beans
 import com.tony.feign.interceptor.AppInterceptor
 import com.tony.utils.getLogger
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
+import org.springframework.beans.factory.getBean
 import javax.annotation.Priority
 import kotlin.reflect.jvm.jvmName
 
@@ -35,7 +36,7 @@ internal class SignatureFeignInterceptor : AppInterceptor {
         if (signatureImpl.isNullOrBlank()) return chain.proceed(request)
         val interceptor =
             try {
-                Env.bean<SignatureInterceptor>(signatureImpl)
+                Beans.getBean<SignatureInterceptor>(signatureImpl)
             } catch (e: NoSuchBeanDefinitionException) {
                 logger.warn(e.localizedMessage)
                 null

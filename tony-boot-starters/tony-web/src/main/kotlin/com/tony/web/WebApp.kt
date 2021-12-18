@@ -5,9 +5,9 @@ package com.tony.web
 import com.tony.ApiProperty
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
+import com.tony.Beans.getBeanByLazy
 import com.tony.Env
-import com.tony.Env.beanByLazy
-import com.tony.Env.envPropByLazy
+import com.tony.Env.getPropertyByLazy
 import com.tony.web.config.WebProperties
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import java.net.InetAddress
@@ -15,29 +15,25 @@ import java.util.regex.Pattern
 
 object WebApp {
 
-    internal val errorAttributes: ErrorAttributes by beanByLazy()
+    internal val errorAttributes: ErrorAttributes by getBeanByLazy()
 
-    private val webProperties: WebProperties by beanByLazy()
+    private val webProperties: WebProperties by getBeanByLazy()
 
     @JvmStatic
-    val appId: String by envPropByLazy("spring.application.name", "")
+    val appId: String by getPropertyByLazy("spring.application.name", "")
 
     val ip: String
         @JvmStatic
         get() = InetAddress.getLocalHost().hostAddress
 
     @JvmStatic
-    val port: String by envPropByLazy("server.port", "8080")
+    val port: String by getPropertyByLazy("server.port", "8080")
 
     @JvmStatic
-    val contextPath: String by envPropByLazy("server.servlet.context-path", "")
+    val contextPath: String by getPropertyByLazy("server.servlet.context-path", "")
 
     @JvmStatic
-    val actuatorBasePath: String by envPropByLazy("management.endpoints.web.base-path", "/actuator")
-
-    val profiles: Array<String> by lazy {
-        Env.activeProfiles()
-    }
+    val actuatorBasePath: String by getPropertyByLazy("management.endpoints.web.base-path", "/actuator")
 
     internal val responseWrapExcludePatterns by lazy {
         setOf(
@@ -46,7 +42,7 @@ object WebApp {
         )
     }
 
-    private val errorPath by envPropByLazy("server.error.path", Env.prop("error.path", "/error"))
+    private val errorPath by getPropertyByLazy("server.error.path", Env.getProperty("error.path", "/error"))
 
     @JvmStatic
     fun whiteUrlPatterns(prefix: String): Set<String> {
@@ -80,10 +76,10 @@ object WebApp {
 
     private val springdocUrls by lazy {
         arrayOf(
-            Env.prop("springdoc.swagger-ui.path", "/swagger-ui.html"),
-            Env.prop("springdoc.swagger-ui.config-url", "/v3/api-docs/swagger-config"),
-            Env.prop("springdoc.swagger-ui.oauth2-redirect-url", "/swagger-ui/oauth2-redirect.html"),
-            Env.prop("springdoc.api-docs.path", "/v3/api-docs")
+            Env.getProperty("springdoc.swagger-ui.path", "/swagger-ui.html"),
+            Env.getProperty("springdoc.swagger-ui.config-url", "/v3/api-docs/swagger-config"),
+            Env.getProperty("springdoc.swagger-ui.oauth2-redirect-url", "/swagger-ui/oauth2-redirect.html"),
+            Env.getProperty("springdoc.api-docs.path", "/v3/api-docs")
         )
     }
 

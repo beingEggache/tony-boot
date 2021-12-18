@@ -2,10 +2,11 @@
 
 package com.tony.cache
 
-import com.tony.Env
-import com.tony.Env.beanByLazy
+import com.tony.Beans
+import com.tony.Beans.getBeanByLazy
 import com.tony.exception.ApiException
 import com.tony.utils.OBJECT_MAPPER
+import org.springframework.beans.factory.getBean
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.script.DefaultRedisScript
@@ -27,13 +28,13 @@ object RedisUtils {
     val keys = RedisKeys
 
     @JvmStatic
-    val stringRedisTemplate: StringRedisTemplate by beanByLazy()
+    val stringRedisTemplate: StringRedisTemplate by getBeanByLazy()
 
     val redisTemplate: RedisTemplate<String, Any> by lazy {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
         val stringRedisSerializer = StringRedisSerializer()
         RedisTemplate<String, Any>().apply {
-            connectionFactory = Env.bean()
+            connectionFactory = Beans.getBean()
             keySerializer = stringRedisSerializer
             hashKeySerializer = stringRedisSerializer
             valueSerializer = serializer

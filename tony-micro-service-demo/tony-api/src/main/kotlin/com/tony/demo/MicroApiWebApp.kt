@@ -1,5 +1,6 @@
 package com.tony.demo
 
+import com.tony.Env
 import com.tony.annotation.EnableTonyBoot
 import com.tony.web.WebApp
 import org.slf4j.LoggerFactory
@@ -16,7 +17,7 @@ fun main(args: Array<String>) {
         "${WebApp.appId} " +
             "http://${WebApp.ip}:${WebApp.port}${WebApp.contextPath.padStart(1, '/')} " +
             "started success. " +
-            "profiles: ${WebApp.profiles.joinToString()}. " +
+            "profiles: ${Env.activeProfiles.joinToString()}. " +
             "He who has a why to live can bear almost any how."
     LoggerFactory.getLogger(MicroApiWebApp::class.java).info(info)
 }

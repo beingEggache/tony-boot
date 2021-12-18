@@ -1,6 +1,7 @@
 @file:JvmName("App")
 package com.tony.api
 
+import com.tony.Env
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
 import com.tony.web.ApiSession
@@ -23,7 +24,7 @@ fun main(args: Array<String>) {
         "${WebApp.appId} " +
             "http://${WebApp.ip}:${WebApp.port}${WebApp.contextPath.padStart(1, '/')} " +
             "started success. " +
-            "profiles: ${WebApp.profiles.joinToString()}. " +
+            "profiles: ${Env.activeProfiles.joinToString()}. " +
             "He who has a why to live can bear almost any how."
     LoggerFactory.getLogger(MonoApiWebApp::class.java).info(info)
 }
