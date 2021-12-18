@@ -63,23 +63,4 @@ class User {
      */
     @TableField("remark")
     var remark: String? = null
-
-    companion object {
-
-        const val USER_ID: String = "user_id"
-
-        const val USER_NAME: String = "user_name"
-
-        const val REAL_NAME: String = "real_name"
-
-        const val MOBILE: String = "mobile"
-
-        const val PWD: String = "pwd"
-
-        const val CREATE_TIME: String = "create_time"
-
-        const val STATES: String = "states"
-
-        const val REMARK: String = "remark"
-    }
 }

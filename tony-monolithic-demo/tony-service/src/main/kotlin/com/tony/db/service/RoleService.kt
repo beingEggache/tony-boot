@@ -1,6 +1,5 @@
 package com.tony.db.service
 
-import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import com.tony.db.dao.ModuleDao
@@ -58,7 +57,7 @@ class RoleService(
     fun page(query: String?, page: Long = 1, size: Long = 10) =
         baseMapper.selectPage(
             Page(page, size),
-            KtQueryWrapper(Role::class.java).like(!query.isNullOrBlank(), Role::roleName, query)
+            where<Role>().like(!query.isNullOrBlank(), Role::roleName, query)
         ).toPageResult()
 
     fun selectByUserId(userId: String?, appId: String): List<Role> = baseMapper.selectByUserId(userId, appId)

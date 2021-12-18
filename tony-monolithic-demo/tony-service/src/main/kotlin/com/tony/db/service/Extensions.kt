@@ -1,6 +1,7 @@
 package com.tony.db.service
 
 import com.baomidou.mybatisplus.core.metadata.IPage
+import com.baomidou.mybatisplus.extension.kotlin.KtQueryWrapper
 import com.tony.PageResult
 import com.tony.db.po.Role
 import com.tony.db.po.User
@@ -30,5 +31,7 @@ fun User.toDto() = UserResp(
     remark,
     states
 )
+
+inline fun <reified T : Any> where() = KtQueryWrapper(T::class.java)
 
 fun Role.toDto() = RoleResp(roleId, roleName, remark)

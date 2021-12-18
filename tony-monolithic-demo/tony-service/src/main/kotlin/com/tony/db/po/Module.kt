@@ -57,20 +57,4 @@ class Module {
      */
     @TableField("module_description")
     var moduleDescription: String? = null
-    companion object {
-
-        const val MODULE_ID: String = "module_id"
-
-        const val APP_ID: String = "app_id"
-
-        const val MODULE_NAME: String = "module_name"
-
-        const val MODULE_VALUE: String = "module_value"
-
-        const val MODULE_TYPE: String = "module_type"
-
-        const val MODULE_GROUP: String = "module_group"
-
-        const val MODULE_DESCRIPTION: String = "module_description"
-    }
 }

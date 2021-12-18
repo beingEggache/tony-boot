@@ -1,6 +1,5 @@
 package com.tony.db.service
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import com.tony.db.dao.UserDao
@@ -33,9 +32,9 @@ class UserService(
 
     fun login(req: UserLoginReq) =
         baseMapper.selectOne(
-            QueryWrapper<User>()
-                .eq(User.USER_NAME, req.userName)
-                .eq(User.PWD, "${req.pwd}${req.userName}".toMd5UppercaseString())
+            where<User>()
+                .eq(User::userName, req.userName)
+                .eq(User::pwd, "${req.pwd}${req.userName}".toMd5UppercaseString())
         ) ?: throw BizException("用户名或密码错误")
 
     fun info(userId: String, appId: String) =
@@ -50,11 +49,11 @@ class UserService(
     fun list(query: String?, page: Long = 1, size: Long = 10) =
         baseMapper.selectPage(
             Page(page, size),
-            QueryWrapper<User>().like(
+            where<User>().like(
                 !query.isNullOrBlank(),
-                User.USER_NAME, query
+                User::userName, query
             ).or(!query.isNullOrBlank()) {
-                it.like(User.REAL_NAME, query)
+                it.like(User::realName, query)
             }
         ).toPageResult().map {
             it.toDto()
@@ -66,11 +65,12 @@ class UserService(
     @Transactional
     fun add(req: UserCreateReq): Boolean {
         throwIf(req.pwd != req.confirmPwd, "两次密码不相等")
+
         throwIf(
             baseMapper.selectOne(
-                QueryWrapper<User>()
-                    .eq(User.USER_NAME, req.userName)
-                    .or().eq(User.MOBILE, req.mobile)
+                where<User>()
+                    .eq(User::userName, req.userName)
+                    .or().eq(User::mobile, req.mobile)
             ) != null,
             "用户名或手机号已重复"
         )
@@ -94,9 +94,9 @@ class UserService(
 
         throwIf(
             baseMapper.selectOne(
-                QueryWrapper<User>()
-                    .eq(User.USER_NAME, req.userName)
-                    .or().eq(User.MOBILE, req.mobile)
+                where<User>()
+                    .eq(User::userName, req.userName)
+                    .or().eq(User::mobile, req.mobile)
             )?.userId != userId,
             "用户名或手机号已重复"
         )
