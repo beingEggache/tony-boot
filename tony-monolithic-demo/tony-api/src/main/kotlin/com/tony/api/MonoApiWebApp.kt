@@ -5,6 +5,7 @@ package com.tony.api
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.core.JsonToken
+import com.tony.ApiProperty
 import com.tony.Env
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
@@ -12,6 +13,7 @@ import com.tony.exception.BizException
 import com.tony.feign.genSign
 import com.tony.feign.sortRequestBody
 import com.tony.utils.getLogger
+import com.tony.utils.isBetween
 import com.tony.utils.toLocalDateTime
 import com.tony.web.ApiSession
 import com.tony.web.WebApp
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -117,19 +120,21 @@ class SignatureInterceptor : HandlerInterceptor {
         val timestampStrFromReq = string.getStringFromRoot("timestamp")
 
         if (timestampStrFromHeader != timestampStrFromReq) {
-            throw BizException("验签失败，请检查签名")
+            throw BizException("验签失败，请检查签名", ApiProperty.validationErrorCode)
         }
 
         val requestTime = timestampStrFromHeader.toLocalDateTime("yyyy-MM-dd HH:mm:ss")
-        if (requestTime.isAfter(requestTime.plusSeconds(3 * 60))) {
-            throw BizException("签名已过期，请检查签名")
+
+        val now = LocalDateTime.now()
+        if (!now.isBetween(requestTime.minusSeconds(3 * 60), requestTime.plusSeconds(3 * 60))) {
+            throw BizException("签名已过期，请检查签名", ApiProperty.validationErrorCode)
         }
 
         val signatureRemote = request.getHeader("x-signature")
         logger.info(string)
         val signatureLocal = string.sortRequestBody(timestampStrFromHeader).genSign("appId", "secret")
         if (signatureRemote != signatureLocal) {
-            throw BizException("验签失败，请检查签名")
+            throw BizException("验签失败，请检查签名", ApiProperty.validationErrorCode)
         }
         return super.preHandle(request, response, handler)
     }
