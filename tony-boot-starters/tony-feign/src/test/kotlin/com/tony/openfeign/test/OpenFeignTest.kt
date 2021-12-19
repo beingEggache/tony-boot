@@ -1,5 +1,6 @@
 package com.tony.openfeign.test
 
+import com.tony.ApiProperty
 import com.tony.ApiResult
 import com.tony.feign.genSign
 import com.tony.feign.interceptor.ByHeaderRequestProcessor
@@ -38,11 +39,17 @@ class OpenFeignTest {
     @Resource
     lateinit var baiduFeignClient: BaiduFeignClient
 
+    private val logger = getLogger()
+
     @Test
-    fun test1() {
+    fun testSignature() {
         val person = Person(listOf(1, 2, 3).toIntArray(), 123, "432", mapOf("qwe" to 123))
-        val result = testFeignClient.test3(person)
-        println(result.toJsonString())
+        val result = testFeignClient.testSignature(person)
+        if (result.code != ApiProperty.successCode) {
+            logger.error(result.toJsonString())
+            throw RuntimeException("error")
+        }
+        logger.info(result.toJsonString())
     }
 
     @Test
@@ -120,7 +127,7 @@ interface TestFeignClient {
     fun test2(@RequestBody person: Map<String, *>): ApiResult<Any>
 
     @PostMapping("/test/test-json-post", headers = ["X-Header-Process=byHeaderRequestProcessor"])
-    fun test3(@RequestBody person: Person): ApiResult<Any>
+    fun testSignature(@RequestBody person: Person): ApiResult<Any>
 }
 
 @FeignClient(name = "baidu", url = "www.baidu.com")
