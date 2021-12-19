@@ -56,9 +56,9 @@ internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(re
 
     override fun getInputStream() =
         object : ServletInputStream() {
-            override fun isFinished() = true
             override fun isReady() = true
             override fun setReadListener(listener: ReadListener?) = Unit
+            override fun isFinished() = cachedContent.available() == 0
             override fun read() = cachedContent.read()
             override fun reset() = cachedContent.reset()
             override fun markSupported() = cachedContent.markSupported()
