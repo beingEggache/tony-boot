@@ -1,6 +1,7 @@
 package com.tony.feign.log
 
 import com.tony.feign.interceptor.NetworkInterceptor
+import com.tony.feign.string
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
@@ -10,9 +11,7 @@ import com.tony.utils.toString
 import okhttp3.Connection
 import okhttp3.Interceptor
 import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.Response
-import okio.Buffer
 import java.net.URL
 import java.time.LocalDateTime
 import javax.annotation.Priority
@@ -83,12 +82,6 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             val port = port
             "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}"
         }
-
-    private fun RequestBody.string() = run {
-        val buffer = Buffer()
-        writeTo(buffer)
-        String(buffer.readByteArray())
-    }
 }
 
 interface FeignRequestTraceLogger {

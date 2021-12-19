@@ -1,9 +1,16 @@
 package com.tony.openfeign.test
 
 import com.tony.ApiResult
-import com.tony.utils.deepLinkToMap
+import com.tony.feign.genSign
+import com.tony.feign.interceptor.ByHeaderRequestProcessor
+import com.tony.feign.jsonNode
+import com.tony.feign.sortRequestBody
+import com.tony.utils.getLogger
 import com.tony.utils.println
-import com.tony.utils.toDeepLink
+import com.tony.utils.toJsonString
+import com.tony.utils.toString
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cloud.openfeign.FeignClient
@@ -18,6 +25,7 @@ import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.net.InetSocketAddress
 import java.net.Socket
+import java.time.LocalDateTime
 import javax.annotation.Resource
 import kotlin.streams.toList
 
@@ -32,11 +40,9 @@ class OpenFeignTest {
 
     @Test
     fun test1() {
-//        testFeignClient.test()
-        val person = Person(null, 123, "432", null)
-//        testFeignClient.test1(person)
-        testFeignClient.test2(person.toDeepLink().deepLinkToMap())
-//        testFeignClient.test3(person)
+        val person = Person(listOf(1, 2, 3).toIntArray(), 123, "432", mapOf("qwe" to 123))
+        val result = testFeignClient.test3(person)
+        println(result.toJsonString())
     }
 
     @Test
@@ -108,12 +114,13 @@ interface TestFeignClient {
 
     @PostMapping(
         "/test-url-post",
-        consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
+        consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE],
+        headers = ["X-Header-Process=byHeaderRequestProcessor"]
     )
-    fun test2(@RequestBody person: Map<String, *>)
+    fun test2(@RequestBody person: Map<String, *>): ApiResult<Any>
 
-    @PostMapping("/test-json-post")
-    fun test3(@RequestBody person: Person)
+    @PostMapping("/test/test-json-post", headers = ["X-Header-Process=byHeaderRequestProcessor"])
+    fun test3(@RequestBody person: Person): ApiResult<Any>
 }
 
 @FeignClient(name = "baidu", url = "www.baidu.com")
@@ -121,6 +128,29 @@ interface BaiduFeignClient {
 
     @GetMapping("")
     fun index(): String
+}
+
+class MyByHeaderRequestProcessor : ByHeaderRequestProcessor {
+
+    private val logger = getLogger()
+
+    override fun process(request: Request): Request {
+        val requestBody = request.body
+        if (requestBody == null) {
+            logger.warn("request body is null")
+            return request
+        }
+
+        val timestampStr = LocalDateTime.now().toString("yyyy-MM-dd HH:mm:ss")
+        val sortedJsonStr = requestBody.jsonNode().sortRequestBody(timestampStr)
+        val sign = sortedJsonStr.genSign("appId", "secret")
+        return request.newBuilder()
+            .addHeader("x-signature", sign)
+            .addHeader("x-timestamp", timestampStr)
+            .method(request.method, sortedJsonStr.toRequestBody(requestBody.contentType()))
+            .build()
+    }
+
 }
 
 data class Person(

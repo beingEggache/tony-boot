@@ -8,6 +8,7 @@ import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toJsonString
 import com.tony.web.WebContext
+import com.tony.web.filter.RepeatReadRequestWrapper
 import com.tony.web.log.RequestTraceLogger.Const.BIZ_FAILED
 import com.tony.web.log.RequestTraceLogger.Const.FAILED
 import com.tony.web.log.RequestTraceLogger.Const.HTTP_SUCCESS_CODE
@@ -20,14 +21,13 @@ import com.tony.web.utils.isTextMediaTypes
 import com.tony.web.utils.parsedMedia
 import com.tony.web.utils.remoteIp
 import org.springframework.http.HttpMethod
-import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
 import javax.servlet.http.HttpServletResponse
 
 fun interface RequestTraceLogger {
 
     fun requestTraceLog(
-        request: ContentCachingRequestWrapper,
+        request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         startTimeStr: String,
         elapsedTime: Long
@@ -61,7 +61,7 @@ fun interface RequestTraceLogger {
 internal class DefaultRequestTraceLogger : RequestTraceLogger {
 
     override fun requestTraceLog(
-        request: ContentCachingRequestWrapper,
+        request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         startTimeStr: String,
         elapsedTime: Long
@@ -97,7 +97,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         logger.trace(logStr.removeLineBreak())
     }
 
-    private fun requestBody(request: ContentCachingRequestWrapper) =
+    private fun requestBody(request: RepeatReadRequestWrapper) =
         if (!isTextMediaTypes(request.parsedMedia)) "[${request.getHeader("Content-Type")}]"
         else if (request.method.equals(HttpMethod.POST.name, true)) {
             val bytes = request.contentAsByteArray
