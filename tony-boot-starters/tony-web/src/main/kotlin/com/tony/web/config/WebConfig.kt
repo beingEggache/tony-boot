@@ -3,7 +3,7 @@ package com.tony.web.config
 import com.tony.utils.createObjectMapper
 import com.tony.web.converter.EnumIntValueConverterFactory
 import com.tony.web.converter.EnumStringValueConverterFactory
-import com.tony.web.filter.RequestReplacedFilter
+import com.tony.web.filter.RequestReplaceToRepeatReadFilter
 import com.tony.web.filter.TraceIdFilter
 import com.tony.web.filter.TraceLoggingFilter
 import com.tony.web.jackson.NullValueBeanSerializerModifier
@@ -48,7 +48,7 @@ internal class WebConfig(
     fun traceIdFilter() = TraceIdFilter()
 
     @Bean
-    fun requestReplacedFilter() = RequestReplacedFilter()
+    fun requestReplaceToRepeatReadFilter() = RequestReplaceToRepeatReadFilter()
 
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean

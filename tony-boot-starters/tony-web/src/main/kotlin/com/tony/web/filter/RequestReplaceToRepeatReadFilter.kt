@@ -18,7 +18,7 @@ import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletRequestWrapper
 
-internal class RequestReplacedFilter : Filter, PriorityOrdered {
+internal class RequestReplaceToRepeatReadFilter : Filter, PriorityOrdered {
 
     @Throws(IOException::class, ServletException::class)
     override fun doFilter(
