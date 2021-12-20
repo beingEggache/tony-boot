@@ -13,8 +13,6 @@ web:
     enabled: off
 logging:
   config: classpath:logback-dev.xml
-  level:
-    web: debug
 springdoc:
   swagger-ui:
     disable-swagger-default-url: true

@@ -5,11 +5,10 @@ package com.tony.api
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.core.JsonToken
-import com.tony.ApiProperty
 import com.tony.Env
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
-import com.tony.exception.BizException
+import com.tony.feign.exception.SignInvalidException
 import com.tony.feign.genSign
 import com.tony.feign.sortRequestBody
 import com.tony.utils.getLogger
@@ -115,28 +114,54 @@ class SignatureInterceptor : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val repeatReadRequestWrapper = request.toRepeatRead()
-        val string = String(repeatReadRequestWrapper.contentAsByteArray)
+        val bodyStr = String(repeatReadRequestWrapper.contentAsByteArray)
+
         val timestampStrFromHeader = request.getHeader("x-timestamp")
-        val timestampStrFromReq = string.getStringFromRoot("timestamp")
+        if (timestampStrFromHeader.isNullOrBlank()) {
+            logger.warn("check signature: timestamp from header is null or blank.")
+            throw SignInvalidException("验签失败")
+        }
+
+        val timestampStrFromReq = bodyStr.getStringFromRoot("timestamp")
+        if (timestampStrFromReq.isNullOrBlank()) {
+            logger.warn("check signature: timestamp from request body is null or blank.")
+            throw SignInvalidException("验签失败")
+        }
 
         if (timestampStrFromHeader != timestampStrFromReq) {
-            throw BizException("验签失败，请检查签名", ApiProperty.validationErrorCode)
+            logger.warn("check signature: timestamp from request body != timestamp from header")
+            throw SignInvalidException("验签失败")
         }
 
         val requestTime = timestampStrFromHeader.toLocalDateTime("yyyy-MM-dd HH:mm:ss")
 
         val now = LocalDateTime.now()
         if (!now.isBetween(requestTime.minusSeconds(3 * 60), requestTime.plusSeconds(3 * 60))) {
-            throw BizException("签名已过期，请检查签名", ApiProperty.validationErrorCode)
+            throw SignInvalidException("签名已过期")
         }
 
-        val signatureRemote = request.getHeader("x-signature")
-        logger.info(string)
-        val signatureLocal = string.sortRequestBody(timestampStrFromHeader).genSign("appId", "secret")
-        if (signatureRemote != signatureLocal) {
-            throw BizException("验签失败，请检查签名", ApiProperty.validationErrorCode)
+        val appId = request.getHeader("x-app-id")
+        if (appId.isNullOrBlank()) {
+            logger.warn("check signature: appId from header is null or blank.")
+            throw SignInvalidException("验签失败")
         }
-        return super.preHandle(request, response, handler)
+
+        // TODO
+        val secret = "secret"
+
+        val signatureRemote = request.getHeader("x-signature")
+        val signatureLocal = bodyStr.sortRequestBody(timestampStrFromHeader).genSign(appId, secret)
+
+        logger.debug("check signature: request body is {}", bodyStr)
+        logger.debug("check signature: appId is {}", appId)
+        logger.debug("check signature: signatureRemote is {}", signatureRemote)
+        logger.debug("check signature: signatureLocal is {}", signatureLocal)
+
+        if (signatureRemote != signatureLocal) {
+            throw SignInvalidException("验签失败")
+        }
+
+        return true
     }
 }
 

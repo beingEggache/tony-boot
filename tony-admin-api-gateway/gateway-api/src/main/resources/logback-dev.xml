@@ -162,8 +162,4 @@
         <appender-ref ref="feign_trace"/>
     </logger>
 
-    <logger name="springfox.documentation" level="WARN" additivity="false">
-        <appender-ref ref="stdout"/>
-    </logger>
-
 </configuration>

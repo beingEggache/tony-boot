@@ -85,10 +85,14 @@ class MyByHeaderRequestProcessor : ByHeaderRequestProcessor {
             return request
         }
 
+        val appId = "appId"
+        val secret = "secret"
+
         val timestampStr = LocalDateTime.now().toString("yyyy-MM-dd HH:mm:ss")
         val sortedJsonStr = requestBody.jsonNode().sortRequestBody(timestampStr)
-        val sign = sortedJsonStr.genSign("appId", "secret")
+        val sign = sortedJsonStr.genSign(appId, secret)
         return request.newBuilder()
+            .addHeader("x-app-id", appId)
             .addHeader("x-signature", sign)
             .addHeader("x-timestamp", timestampStr)
             .method(request.method, sortedJsonStr.toRequestBody(requestBody.contentType()))
