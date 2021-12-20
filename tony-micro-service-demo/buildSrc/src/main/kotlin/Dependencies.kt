@@ -186,6 +186,8 @@ object Deps {
         const val reactor = "io.projectreactor:reactor-core"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty"
 
+        const val caffeine = "com.github.ben-manes.caffeine:caffeine"
+
         const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations"
         const val springdocUi = "org.springdoc:springdoc-openapi-ui"
         const val springdocCommon = "org.springdoc:springdoc-openapi-common"

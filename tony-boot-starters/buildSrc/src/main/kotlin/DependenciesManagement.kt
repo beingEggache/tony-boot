@@ -28,7 +28,7 @@ object VersionManagement {
     const val reactorNettyVersion = "1.0.14"
     const val slf4jVersion = "1.7.32"
 
-    const val byteBuddyVersion = "1.12.3"
+    const val byteBuddyVersion = "1.12.5"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
     const val javaJwtVersion = "3.18.2"
@@ -211,6 +211,8 @@ object DepsManagement {
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${VersionManagement.reactorVersion}"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:${VersionManagement.reactorNettyVersion}"
+
+        const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.0.5"
 
         const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations:${VersionManagement.swaggerV3Version}"
         const val springdocUi = "org.springdoc:springdoc-openapi-ui:${VersionManagement.springdocVersion}"

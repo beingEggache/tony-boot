@@ -5,7 +5,7 @@ dependencies {
     api(Deps.OpenFeign.openFeignJackson)
     api("org.springframework.cloud:spring-cloud-starter-openfeign")
     api("org.springframework.cloud:spring-cloud-starter-loadbalancer")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.0.4")
+    implementation(Deps.Other.caffeine)
     addTestDependencies()
 }
 
