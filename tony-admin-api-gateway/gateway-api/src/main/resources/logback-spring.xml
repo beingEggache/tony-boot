@@ -85,7 +85,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-}|%msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-[null]}|%msg%n
             </pattern>
             <charset>UTF-8</charset>
         </encoder>
@@ -107,7 +107,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-}|%msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-[null]}|%msg%n
             </pattern>
             <charset>UTF-8</charset>
         </encoder>
