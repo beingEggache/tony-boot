@@ -1,8 +1,8 @@
 feign:
-    okhttp:
-        enabled: true
-    httpclient:
-        enabled: false
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
 logging:
   level:
-    web: debug
+    root: DEBUG

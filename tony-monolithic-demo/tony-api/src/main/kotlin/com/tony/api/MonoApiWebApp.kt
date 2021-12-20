@@ -11,6 +11,7 @@ import com.tony.api.permission.PermissionInterceptor
 import com.tony.feign.exception.SignInvalidException
 import com.tony.feign.genSign
 import com.tony.feign.sortRequestBody
+import com.tony.utils.doIf
 import com.tony.utils.getLogger
 import com.tony.utils.isBetween
 import com.tony.utils.toLocalDateTime
@@ -104,8 +105,10 @@ class MonoApiWebApp(
             .excludePathPatterns(*WebApp.whiteUrlPatterns(WebApp.contextPath).toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE + 1)
 
-        registry.addInterceptor(SignatureInterceptor())
-            .order(PriorityOrdered.HIGHEST_PRECEDENCE)
+        Env.activeProfiles.any { it != "dev" }.doIf {
+            registry.addInterceptor(SignatureInterceptor())
+                .order(PriorityOrdered.HIGHEST_PRECEDENCE)
+        }
     }
 }
 
