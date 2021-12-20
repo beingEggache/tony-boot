@@ -7,7 +7,7 @@
     <!-- ConsoleAppender：把日志输出到控制台 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %magenta([%thread]) %blue(%-5level) %cyan(%logger Line:%-3L) %yellow(%X{X-B3-TraceId:-}) - %msg%n
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %magenta([%thread]) %blue(%-5level) %cyan(%logger Line:%-3L) %yellow(%X{X-B3-TraceId:-[null]}) - %msg%n
             </pattern>
             <!-- 控制台也要使用UTF-8，不要使用GBK，否则会中文乱码 -->
             <charset>UTF-8</charset>
@@ -40,7 +40,7 @@
         <encoder>
             <!-- pattern节点，用来设置日志的输入格式 -->
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L %X{X-B3-TraceId:-} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L %X{X-B3-TraceId:-[null]} - %msg%n
             </pattern>
             <!-- 记录日志的编码:此处设置字符集 - -->
             <charset>UTF-8</charset>
@@ -63,7 +63,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L %X{X-B3-TraceId:-} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L %X{X-B3-TraceId:-[null]} - %msg%n
             </pattern>
             <charset>UTF-8</charset>
         </encoder>
@@ -85,7 +85,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-}|%msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-[null]}|%msg%n
             </pattern>
             <charset>UTF-8</charset>
         </encoder>
@@ -107,7 +107,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-}|%msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-[null]}|%msg%n
             </pattern>
             <charset>UTF-8</charset>
         </encoder>
@@ -127,7 +127,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L %X{X-B3-TraceId:-} - %msg%n
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L %X{X-B3-TraceId:-[null]} - %msg%n
             </pattern>
             <charset>UTF-8</charset>
         </encoder>
