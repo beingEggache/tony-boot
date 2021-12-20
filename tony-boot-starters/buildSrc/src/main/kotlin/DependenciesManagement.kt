@@ -27,7 +27,6 @@ object VersionManagement {
     const val reactorVersion = "3.4.13"
     const val reactorNettyVersion = "1.0.14"
     const val slf4jVersion = "1.7.32"
-    const val log4jVersion = "2.16.0"
 
     const val byteBuddyVersion = "1.12.3"
     const val jasyptVersion = "1.9.3"
@@ -197,8 +196,6 @@ object DepsManagement {
         const val slf4JApi = "org.slf4j:slf4j-api:${VersionManagement.slf4jVersion}"
         const val julToSlf4J = "org.slf4j:jul-to-slf4j:${VersionManagement.slf4jVersion}"
         const val jclOverSlf4J = "org.slf4j:jcl-over-slf4j:${VersionManagement.slf4jVersion}"
-        const val log4jToSlf4j = "org.apache.logging.log4j:log4j-to-slf4j:${VersionManagement.log4jVersion}"
-        const val log4jApi = "org.apache.logging.log4j:log4j-api:${VersionManagement.log4jVersion}"
 
         const val byteBuddy = "net.bytebuddy:byte-buddy:${VersionManagement.byteBuddyVersion}"
         const val byteBuddyAgent = "net.bytebuddy:byte-buddy-agent:${VersionManagement.byteBuddyVersion}"
