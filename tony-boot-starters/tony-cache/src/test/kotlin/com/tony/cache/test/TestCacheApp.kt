@@ -1,5 +1,6 @@
 package com.tony.cache.test
 
+import com.tony.annotation.EnableTonyBoot
 import com.tony.cache.annotation.RedisCacheEvict
 import com.tony.cache.annotation.RedisCacheable
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -10,9 +11,7 @@ import org.springframework.stereotype.Service
  * @author tangli
  * @since 2021-05-12 16:44
  */
-@SpringBootApplication(
-    scanBasePackages = ["com.tony.cache"]
-)
+@EnableTonyBoot
 class TestCacheApp
 
 @Service

@@ -14,6 +14,7 @@ dependencies {
         implementation(Deps.SpringBoot.devtools)
     }
     implementation(Deps.Tony.tonyWebAuth) { isChanging = true }
+    implementation(Deps.Tony.tonyFeign)
     implementation(project(":tony-service"))
     addTestDependencies()
 //    implementation(Deps.SpringBoot.starterActuator)

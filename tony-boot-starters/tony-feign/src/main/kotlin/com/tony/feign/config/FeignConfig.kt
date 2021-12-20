@@ -6,7 +6,6 @@ import com.tony.feign.interceptor.NetworkInterceptor
 import com.tony.feign.log.DefaultFeignRequestTraceLogger
 import com.tony.feign.log.FeignLogInterceptor
 import com.tony.feign.log.FeignRequestTraceLogger
-import com.tony.feign.misc.SignatureFeignInterceptor
 import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
@@ -52,9 +51,6 @@ class FeignConfig {
     internal fun feignLogInterceptor(
         feignRequestTraceLogger: FeignRequestTraceLogger
     ) = FeignLogInterceptor(feignRequestTraceLogger)
-
-    @Bean
-    internal fun signatureFeignInterceptor() = SignatureFeignInterceptor()
 
     @ConditionalOnMissingBean(OkHttpClient::class)
     @Bean

@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 object Version {
     const val kotlinVersion = "1.6.10"
 
-    const val springVersion = "5.3.13"
+    const val springVersion = "5.3.14"
     const val springBootVersion = "2.6.1"
 
     const val springCloudAlibabaVersion = "2021.1"

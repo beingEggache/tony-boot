@@ -10,11 +10,11 @@ web:
     allowed-origins:
       - "http://localhost:3000"
       - "http://127.0.0.1:3000"
-    enabled: on
+    enabled: off
 logging:
   config: classpath:logback-dev.xml
   level:
-    web: DEBUG
+    web: debug
 springdoc:
   swagger-ui:
     disable-swagger-default-url: true

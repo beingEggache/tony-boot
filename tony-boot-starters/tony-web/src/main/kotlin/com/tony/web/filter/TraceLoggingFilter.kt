@@ -5,12 +5,12 @@ import com.tony.utils.toInstant
 import com.tony.utils.toString
 import com.tony.utils.uuid
 import com.tony.web.WebApp
+import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
 import com.tony.web.log.RequestTraceLogger
 import com.tony.web.utils.isCorsPreflightRequest
 import org.slf4j.MDC
 import org.springframework.core.PriorityOrdered
 import org.springframework.web.filter.OncePerRequestFilter
-import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
 import java.io.IOException
 import java.time.LocalDateTime
@@ -29,7 +29,7 @@ internal class TraceLoggingFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) = doFilterTrace(
-        ContentCachingRequestWrapper(request),
+        request.toRepeatRead(),
         ContentCachingResponseWrapper(response),
         filterChain,
         LocalDateTime.now()
@@ -37,7 +37,7 @@ internal class TraceLoggingFilter(
 
     @Throws(IOException::class, ServletException::class)
     private fun doFilterTrace(
-        request: ContentCachingRequestWrapper,
+        request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         chain: FilterChain,
         startTime: LocalDateTime
@@ -53,7 +53,7 @@ internal class TraceLoggingFilter(
     }
 
     private fun log(
-        request: ContentCachingRequestWrapper,
+        request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         startTime: LocalDateTime,
         elapsedTime: Long

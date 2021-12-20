@@ -1,12 +1,10 @@
 package com.tony.db.service
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.tony.cache.RedisUtils
 import com.tony.cache.annotation.RedisCacheable
 import com.tony.db.CacheKeys
 import com.tony.db.dao.ModuleDao
 import com.tony.db.po.Module
-import com.tony.db.po.Module.Companion.MODULE_TYPE
 import com.tony.dto.enums.ModuleType
 import com.tony.dto.resp.ModuleResp
 import com.tony.dto.resp.RouteAndComponentModuleResp
@@ -37,9 +35,11 @@ class ModuleService(
     )
     fun listRouteAndComponentModules(userId: String, appId: String): RouteAndComponentModuleResp {
         val modules = moduleDao.selectModulesByUserIdAndAppId(
-            userId, appId,
+            userId,
+            appId,
             listOf(
-                ModuleType.ROUTE, ModuleType.COMPONENT
+                ModuleType.ROUTE,
+                ModuleType.COMPONENT
             )
         ).map { it.toDto() }
 
@@ -60,7 +60,7 @@ class ModuleService(
     @Transactional
     fun saveModules(modules: List<Module>, moduleType: List<ModuleType>, appId: String) {
         throwIf(modules.isEmpty(), "模块列表为空")
-        moduleDao.delete(QueryWrapper<Module>().`in`(MODULE_TYPE, moduleType))
+        moduleDao.delete(where<Module>().`in`(Module::moduleType, moduleType))
         modules.forEach {
             it.appId = appId
             moduleDao.insert(it)
@@ -69,11 +69,11 @@ class ModuleService(
     }
 
     fun tree(moduleTypes: List<ModuleType>) =
-        moduleDao.selectList(QueryWrapper<Module>().`in`(MODULE_TYPE, moduleTypes)).map { it.toDto() }
+        moduleDao.selectList(where<Module>().`in`(Module::moduleType, moduleTypes)).map { it.toDto() }
             .listAndSetChildren()
 
     fun listModuleGroups(appId: String) =
-        moduleDao.selectList(QueryWrapper<Module>().eq(Module.APP_ID, appId))
+        moduleDao.selectList(where<Module>().eq(Module::appId, appId))
             .filter { !it.moduleGroup.isNullOrEmpty() }
             .flatMap { it.moduleGroup.defaultIfBlank().split(",") }
             .distinct()
