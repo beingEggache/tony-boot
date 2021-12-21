@@ -11,12 +11,15 @@ package com.tony.wechat.client.resp
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.tony.utils.toLocalDateTime
+import java.time.LocalDateTime
 import java.util.Date
 
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
 sealed class WechatResp {
     @JsonProperty("errcode")
     var errCode: String? = null
+
     @JsonProperty("errmsg")
     var errMsg: String? = null
 
@@ -57,7 +60,7 @@ data class WechatUserInfoResp(
     @JsonProperty("province") var province: String?,
     @JsonProperty("country") var country: String?,
     @JsonProperty("headimgurl") var headImgUrl: String?,
-    @JsonProperty("subscribe_time") var subscribeTime: Date?,
+    @JsonProperty("subscribe_time") private var subscribe_time: Long?,
     @JsonProperty("unionid") var unionId: String?,
     @JsonProperty("remark") var remark: String?,
     @JsonProperty("groupid") var groupId: Int?,
@@ -65,7 +68,11 @@ data class WechatUserInfoResp(
     @JsonProperty("subscribe_scene") var subscribeScene: String?,
     @JsonProperty("qr_scene") var qrScene: Int?,
     @JsonProperty("qr_scene_str") var qrSceneStr: String?
-) : WechatResp()
+) : WechatResp() {
+
+    @get:JsonProperty("subscribe_time")
+    val subscribeTime: LocalDateTime = Date((subscribe_time ?: 0) * 1000).toLocalDateTime()
+}
 
 data class WechatJsCode2SessionResp(
     @JsonProperty("openid") val openId: String?,

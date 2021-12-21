@@ -9,22 +9,20 @@ import com.tony.utils.urlEncode
 import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
-import com.tony.wechat.client.resp.WechatApiTokenResp
 import com.tony.wechat.client.resp.WechatJsSdkConfigResp
-import com.tony.wechat.client.resp.WechatUserTokenResp
 import com.tony.wechat.config.WechatProperties
 import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.validation.annotation.Validated
 
 @Suppress("unused")
-class WechatManager(
-    private val wechatClient: WechatClient,
-    private val wechatPropProvider: WechatPropProvider,
-    private val apiAccessTokenProviderWrapper: WechatApiAccessTokenProviderWrapper
-) {
+object WechatManager {
 
     private val logger = getLogger()
+    private val wechatClient: WechatClient by Beans.getBeanByLazy()
+    private val wechatPropProvider: WechatPropProvider by Beans.getBeanByLazy()
+    private val apiAccessTokenProvider: WechatApiAccessTokenProvider by Beans.getBeanByLazy()
 
+    @JvmStatic
     fun checkSignature(token: String, signature: String, nonce: String, timestamp: String) =
         DigestUtils
             .sha1Hex(
@@ -41,53 +39,45 @@ class WechatManager(
     ).check()
 
     @JvmOverloads
+    @JvmStatic
     fun createQrCode(
         @Validated
         req: WechatQrCodeCreateReq,
         app: String = "",
-        accessToken: String? = accessToken(app).accessToken
+        accessToken: String? = accessTokenStr(app)
     ) = wechatClient.createQrCode(req, accessToken).check()
 
-    fun accessToken(app: String = "") = apiAccessTokenProviderWrapper.accessToken(
-        wechatPropProvider.getAppId(app),
-        wechatPropProvider.getAppSecret(app)
-    )
-
-    fun userAccessToken(
-        code: String?,
-        app: String = "",
-    ) = apiAccessTokenProviderWrapper.userAccessToken(
-        wechatPropProvider.getAppId(app),
-        wechatPropProvider.getAppSecret(app),
-        code
-    )
-
     @JvmOverloads
+    @JvmStatic
     fun createMenu(
         menu: WechatMenu,
         app: String = "",
-        accessToken: String? = accessToken(app).accessToken
+        accessToken: String? = accessTokenStr(app)
     ) = wechatClient.createMenu(accessToken, menu).check()
 
     @JvmOverloads
+    @JvmStatic
     fun deleteMenu(
         app: String = "",
-        accessToken: String? = accessToken(app).accessToken
+        accessToken: String? = accessTokenStr(app)
     ) = wechatClient.deleteMenu(accessToken).check()
 
     @JvmOverloads
+    @JvmStatic
     fun userInfo(
         openId: String?,
         app: String = "",
-        accessToken: String? = accessToken(app).accessToken
+        accessToken: String? = accessTokenStr(app)
     ) = wechatClient.userInfo(accessToken, openId).check()
 
     @JvmOverloads
+    @JvmStatic
     fun getTicket(
         app: String,
-        accessToken: String? = accessToken(app).accessToken
+        accessToken: String? = accessTokenStr(app)
     ) = wechatClient.getTicket(accessToken, "jsapi").check().ticket
 
+    @JvmStatic
     fun getJsApiSignature(nonceStr: String, timestamp: Long, url: String, app: String): String =
         DigestUtils.sha1Hex(
             listOf(
@@ -101,6 +91,7 @@ class WechatManager(
         )
 
     @JvmOverloads
+    @JvmStatic
     fun jsSdkConfig(
         url: String,
         app: String,
@@ -117,7 +108,22 @@ class WechatManager(
         )
     }
 
+    @JvmStatic
     fun showQrCode(ticket: String) = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=$ticket"
+
+    private fun accessTokenStr(app: String = "") = apiAccessTokenProvider.accessTokenStr(
+        wechatPropProvider.getAppId(app),
+        wechatPropProvider.getAppSecret(app)
+    )
+
+    private fun userAccessTokenStr(
+        code: String?,
+        app: String = "",
+    ) = apiAccessTokenProvider.userAccessTokenStr(
+        wechatPropProvider.getAppId(app),
+        wechatPropProvider.getAppSecret(app),
+        code
+    )
 
     private fun wechatRedirect(url: String, app: String = ""): String =
         "https://open.weixin.qq.com/connect/oauth2/authorize?" +
@@ -168,66 +174,39 @@ internal class DefaultWechatPropProvider(
     } ?: throw ApiException("$app mch-secret-key not found")
 }
 
-interface WechatApiAccessTokenProviderWrapper {
+interface WechatApiAccessTokenProvider {
 
-    fun accessToken(
+    fun accessTokenStr(
         appId: String?,
         appSecret: String?
-    ): WechatApiTokenResp
+    ): String?
 
-    fun userAccessToken(
+    fun userAccessTokenStr(
         appId: String?,
         secret: String?,
         code: String?
-    ): WechatUserTokenResp
-
-    var wechatApiAccessTokenProvider: WechatApiAccessTokenProvider
+    ): String?
 }
 
-internal class DefaultWechatApiAccessTokenProviderWrapper(
-    override var wechatApiAccessTokenProvider: WechatApiAccessTokenProvider
-) : WechatApiAccessTokenProviderWrapper {
-
-    override fun accessToken(
-        appId: String?,
-        appSecret: String?
-    ) = wechatApiAccessTokenProvider.accessToken(
-        appId,
-        appSecret
-    )
-
-    override fun userAccessToken(
-        appId: String?,
-        secret: String?,
-        code: String?
-    ) = wechatApiAccessTokenProvider.userAccessToken(
-        appId,
-        secret,
-        code
-    )
-}
-
-class WechatApiAccessTokenProvider {
+internal class DefaultWechatApiAccessTokenProvider : WechatApiAccessTokenProvider {
 
     private val wechatClient: WechatClient by Beans.getBeanByLazy()
 
-    fun accessToken(
+    override fun accessTokenStr(
         appId: String?,
         appSecret: String?
     ) = wechatClient.accessToken(
         appId,
-        appSecret,
-        "client_credential"
-    ).check()
+        appSecret
+    ).check().accessToken
 
-    fun userAccessToken(
+    override fun userAccessTokenStr(
         appId: String?,
         secret: String?,
-        code: String?,
+        code: String?
     ) = wechatClient.userAccessToken(
         appId,
         secret,
-        code,
-        "authorization_code"
-    ).check()
+        code
+    ).check().accessToken
 }

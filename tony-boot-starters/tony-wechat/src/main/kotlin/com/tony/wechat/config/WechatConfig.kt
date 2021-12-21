@@ -1,12 +1,9 @@
 package com.tony.wechat.config
 
-import com.tony.wechat.DefaultWechatApiAccessTokenProviderWrapper
+import com.tony.wechat.DefaultWechatApiAccessTokenProvider
 import com.tony.wechat.DefaultWechatPropProvider
 import com.tony.wechat.WechatApiAccessTokenProvider
-import com.tony.wechat.WechatApiAccessTokenProviderWrapper
-import com.tony.wechat.WechatManager
 import com.tony.wechat.WechatPropProvider
-import com.tony.wechat.client.WechatClient
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
@@ -34,27 +31,15 @@ internal class WechatConfig {
             listOf(*supportedMediaTypes.toTypedArray(), MediaType.TEXT_PLAIN)
     }
 
+    @ConditionalOnMissingBean(WechatApiAccessTokenProvider::class)
     @Bean
-    fun apiAccessTokenProvider() = WechatApiAccessTokenProvider()
-
-    @ConditionalOnMissingBean(WechatApiAccessTokenProviderWrapper::class)
-    @Bean
-    fun apiAccessTokenProviderWrapper(
-        apiAccessTokenProvider: WechatApiAccessTokenProvider
-    ): WechatApiAccessTokenProviderWrapper =
-        DefaultWechatApiAccessTokenProviderWrapper(apiAccessTokenProvider)
+    fun apiAccessTokenProviderWrapper(): WechatApiAccessTokenProvider =
+        DefaultWechatApiAccessTokenProvider()
 
     @ConditionalOnMissingBean(WechatPropProvider::class)
     @Bean
     fun wechatApiPropProvider(wechatProperties: WechatProperties) =
         DefaultWechatPropProvider(wechatProperties)
-
-    @Bean
-    fun wechatService(
-        wechatClient: WechatClient,
-        wechatPropProvider: WechatPropProvider,
-        apiAccessTokenProviderWrapper: WechatApiAccessTokenProviderWrapper
-    ) = WechatManager(wechatClient, wechatPropProvider, apiAccessTokenProviderWrapper)
 }
 
 @Suppress("ConfigurationProperties")

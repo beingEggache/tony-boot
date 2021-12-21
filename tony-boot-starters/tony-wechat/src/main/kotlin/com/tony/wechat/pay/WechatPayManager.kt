@@ -1,5 +1,6 @@
 package com.tony.wechat.pay
 
+import com.tony.Beans
 import com.tony.exception.ApiException
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
@@ -22,11 +23,11 @@ import org.apache.commons.codec.digest.DigestUtils
 import java.time.LocalDateTime
 
 @Suppress("unused")
-class WechatPayManager(
-    private val wechatProperties: WechatProperties,
-    private val wechatPayClient: WechatPayClient,
-    private val wechatPropProvider: WechatPropProvider
-) {
+class WechatPayManager {
+
+    private val wechatProperties: WechatProperties by Beans.getBeanByLazy()
+    private val wechatPayClient: WechatPayClient by Beans.getBeanByLazy()
+    private val wechatPropProvider: WechatPropProvider by Beans.getBeanByLazy()
 
 //    fun enchashment(openId: String, amount: Long, ip: String): WechatTransferResponse {
 //        val charArray = wechatProperties.mchId.toCharArray()
@@ -232,13 +233,14 @@ class WechatPayManager(
             }
         )
 
+        val prePayId = orderResponse.prePayId
+            ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}")
+
         return WechatMiniProgramPayReq(
             appId = appId,
             timeStamp = genTimeStamp().toString(),
             nonceStr = genNonceStr(),
-            `package` = "prepay_id=${
-            orderResponse.prePayId ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}")
-            }",
+            `package` = "prepay_id=$prePayId",
             signType = signType
         ).apply {
             paySign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))

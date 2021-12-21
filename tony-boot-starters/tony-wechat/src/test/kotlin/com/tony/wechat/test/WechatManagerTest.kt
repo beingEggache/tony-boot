@@ -1,39 +1,31 @@
 package com.tony.wechat.test
 
 import com.tony.annotation.EnableTonyBoot
+import com.tony.cache.annotation.RedisCacheable
 import com.tony.utils.println
 import com.tony.utils.toJsonString
+import com.tony.wechat.WechatApiAccessTokenProvider
+import com.tony.wechat.WechatManager
+import com.tony.wechat.check
+import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu
 import com.tony.wechat.client.req.WechatMenuButton
 import com.tony.wechat.client.req.WechatQrCodeActionInfo
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
 import com.tony.wechat.client.req.WechatQrCodeType
 import com.tony.wechat.client.req.WechatScanCodeButton
-import com.tony.wechat.WechatManager
 import org.junit.jupiter.api.Test
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest
-import javax.annotation.Resource
+import org.springframework.cloud.openfeign.EnableFeignClients
+import org.springframework.stereotype.Component
 
-@EnableTonyBoot
-@SpringBootApplication
-@SpringBootTest
+@SpringBootTest(classes = [WechatTestApp::class])
 class WechatManagerTest {
 
-    @Resource
-    private lateinit var wechatManager: WechatManager
-
     @Test
-    fun testAccessToken() {
-        val accessTokenSuccess = wechatManager.accessToken("test")
-        accessTokenSuccess.errCode.println()
-        accessTokenSuccess.errMsg.println()
-        accessTokenSuccess.toJsonString().println()
-    }
-
-    @Test
-    fun test0() {
-        val resp = wechatManager.createQrCode(
+    fun testCreateQrCode() {
+        val resp = WechatManager.createQrCode(
             WechatQrCodeCreateReq(
                 60,
                 WechatQrCodeType.QR_LIMIT_STR_SCENE,
@@ -45,8 +37,8 @@ class WechatManagerTest {
     }
 
     @Test
-    fun test1() {
-        val resp = wechatManager.userInfo(
+    fun testUserInfo() {
+        val resp = WechatManager.userInfo(
             "o68xis3f2Slo6uhnKdu-VA__iInA",
             "test"
         )
@@ -54,32 +46,18 @@ class WechatManagerTest {
     }
 
     @Test
-    fun test2() {
-        val accessToken = wechatManager.userAccessToken(
-            "0114vMFa1Y3BOB0EeAFa1KKY1Q24vMFD",
-            "test"
-        )
-        accessToken.toJsonString().println()
-        val resp = wechatManager.userInfo(
-            "o68xis3f2Slo6uhnKdu-VA__iInA",
+    fun testGetTicket() {
+
+        val resp = WechatManager.getTicket(
             "test"
         )
         resp.toJsonString().println()
     }
 
     @Test
-    fun test3() {
+    fun testCreateMenu() {
 
-        val resp = wechatManager.getTicket(
-            "test"
-        )
-        resp.toJsonString().println()
-    }
-
-    @Test
-    fun test4() {
-
-        val resp = wechatManager.createMenu(
+        val resp = WechatManager.createMenu(
             WechatMenu(
                 listOf(
                     WechatMenuButton(
@@ -95,15 +73,36 @@ class WechatManagerTest {
     }
 
     @Test
-    fun test5() {
-        val resp = wechatManager.deleteMenu("test")
+    fun testDeleteMenu() {
+        val resp = WechatManager.deleteMenu("test")
         resp.toJsonString().println()
     }
 
     @Test
-    fun test6() {
-        val resp = wechatManager.jsCode2Session("0114vMFa1Y3BOB0EeAFa1KKY1Q24vMFD", "test")
+    fun testJsCode2Session() {
+        val resp = WechatManager.jsCode2Session("0114vMFa1Y3BOB0EeAFa1KKY1Q24vMFD", "test")
         resp.toJsonString().println()
     }
 }
 
+
+@EnableFeignClients
+@SpringBootApplication
+@EnableTonyBoot
+class WechatTestApp
+
+@Component
+class TestWechatApiAccessTokenProvider(
+    private val wechatClient: WechatClient
+) : WechatApiAccessTokenProvider {
+
+    @RedisCacheable(cacheKey = wechatTestCacheKey, paramsNames = ["appId"], expire = 7100)
+    override fun accessTokenStr(appId: String?, appSecret: String?) =
+        wechatClient.accessToken(appId, appSecret).check().accessToken
+
+    override fun userAccessTokenStr(appId: String?, secret: String?, code: String?) =
+        wechatClient.userAccessToken(appId, secret, code).check().accessToken
+
+}
+
+const val wechatTestCacheKey = "wechat-accessToken-%s"

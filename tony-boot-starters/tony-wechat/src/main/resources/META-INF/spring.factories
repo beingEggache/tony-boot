@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.tony.wechat.config.WechatConfig,\
-com.tony.wechat.pay.config.WechatPayConfig
+com.tony.wechat.config.WechatConfig
