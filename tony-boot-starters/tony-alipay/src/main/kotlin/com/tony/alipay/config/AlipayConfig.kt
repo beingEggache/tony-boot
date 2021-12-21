@@ -1,6 +1,6 @@
 package com.tony.alipay.config
 
-import com.tony.alipay.service.AlipayService
+import com.tony.alipay.AlipayManager
 import com.tony.exception.ApiException
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
@@ -24,7 +24,7 @@ internal class AlipayAutoConfiguration(
         val privateKey = getKey(alipayProperties.privateKeyPath, "privateKey")
         val aliPublicKey = getKey(alipayProperties.aliPublicKeyPath, "aliPublicKey")
 
-        AlipayService(
+        AlipayManager(
             appId,
             publicKey,
             privateKey,

@@ -1,6 +1,6 @@
 package com.tony.aliyun.oss.config
 
-import com.tony.aliyun.oss.service.OssService
+import com.tony.aliyun.oss.AliYunOssManager
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -23,7 +23,7 @@ internal class AliyunOssAutoConfiguration(
             endpoint
         ) = aliyunOssProperties
 
-        OssService(
+        AliYunOssManager(
             accessKeyId,
             accessKeySecret,
             bucketName,

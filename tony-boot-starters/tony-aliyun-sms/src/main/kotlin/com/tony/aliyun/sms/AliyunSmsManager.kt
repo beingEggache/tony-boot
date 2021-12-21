@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.tony.aliyun.sms.service
+package com.tony.aliyun.sms
 
 import com.aliyuncs.DefaultAcsClient
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest
@@ -15,7 +15,7 @@ private const val regionId: String = "cn-hangzhou"
 private const val product: String = "Dysmsapi"
 private const val endpoint = "dysmsapi.aliyuncs.com"
 
-class SmsService(
+class AliyunSmsManager(
     private val accessKeyId: String,
     private val accessKeySecret: String,
     private val smsSignName: String,
@@ -33,7 +33,7 @@ class SmsService(
         DefaultAcsClient(profile)
     }
 
-    private val logger = LoggerFactory.getLogger(SmsService::class.java)
+    private val logger = LoggerFactory.getLogger(AliyunSmsManager::class.java)
 
     @PostConstruct
     private fun initSmsClient() {

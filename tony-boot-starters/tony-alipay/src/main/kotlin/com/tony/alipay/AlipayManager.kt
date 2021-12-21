@@ -1,4 +1,4 @@
-package com.tony.alipay.service
+package com.tony.alipay
 
 import com.alipay.api.AlipayApiException
 import com.alipay.api.DefaultAlipayClient
@@ -9,7 +9,7 @@ import com.tony.alipay.exception.AlipayException
 import com.tony.utils.urlEncode
 
 @Suppress("unused")
-class AlipayService(
+class AlipayManager(
     private val appId: String,
     private val publicKey: String,
     private val privateKey: String,

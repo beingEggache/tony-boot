@@ -1,6 +1,6 @@
 package com.tony.aliyun.sms.config
 
-import com.tony.aliyun.sms.service.SmsService
+import com.tony.aliyun.sms.service.AliyunSmsManager
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -13,7 +13,7 @@ class AliyunSmsAutoConfiguration(
 ) {
 
     @Bean
-    fun smsService() = SmsService(
+    fun smsService() = AliyunSmsManager(
         aliyunSMSProperties.accessKeyId ?: "",
         aliyunSMSProperties.accessKeySecret ?: "",
         aliyunSMSProperties.signName ?: "",

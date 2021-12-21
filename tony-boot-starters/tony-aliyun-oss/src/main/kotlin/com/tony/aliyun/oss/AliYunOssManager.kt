@@ -1,13 +1,13 @@
 @file:Suppress("unused")
 
-package com.tony.aliyun.oss.service
+package com.tony.aliyun.oss
 
 import com.aliyun.oss.OSS
 import com.aliyun.oss.OSSClientBuilder
 import com.aliyun.oss.model.ObjectMetadata
 import java.io.InputStream
 
-class OssService(
+class AliYunOssManager(
     private val accessKeyId: String,
     private val accessKeySecret: String,
     private val bucketName: String,
