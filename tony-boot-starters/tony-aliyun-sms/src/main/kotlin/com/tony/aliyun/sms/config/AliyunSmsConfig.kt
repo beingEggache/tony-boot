@@ -1,6 +1,6 @@
 package com.tony.aliyun.sms.config
 
-import com.tony.aliyun.sms.service.AliyunSmsManager
+import com.tony.aliyun.sms.AliyunSmsManager
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
