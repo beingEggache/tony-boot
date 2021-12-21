@@ -8,9 +8,9 @@ spring:
 web:
   cors:
     allowed-origins:
-      - "http://localhost:8080"
-      - "http://127.0.0.1:8080"
-      - "https://www.baidu.com"
+      - "http://localhost:*"
+      - "http://127.0.0.1:*"
+    enabled: true
 logging:
   config: classpath:logback-dev.xml
 #  level:
