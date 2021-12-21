@@ -86,6 +86,7 @@ object RedisValues {
     inline fun <reified T> getObj(key: String): T? =
         getString(key)?.jsonToObj()
 
+    @JvmStatic
     fun <T : Any> get(key: String): T? =
         RedisManager.redisTemplate.opsForValue().get(key).asTo()
 

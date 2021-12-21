@@ -10,6 +10,7 @@ object RedisKeys {
     private val keyPrefix: String by
     getPropertyByLazy("cache.key-prefix", Env.getProperty("spring.application.name", ""))
 
+    @JvmStatic
     fun genKey(template: String, vararg args: Any?) =
         "$keyPrefix:${String.format(template, *args)}"
 }

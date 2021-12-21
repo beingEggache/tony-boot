@@ -19,12 +19,16 @@ import java.util.concurrent.TimeUnit
 @Suppress("MemberVisibilityCanBePrivate")
 object RedisManager {
 
+    @JvmField
     val values = RedisValues
 
+    @JvmField
     val maps = RedisMaps
 
+    @JvmField
     val lists = RedisLists
 
+    @JvmField
     val keys = RedisKeys
 
     @JvmStatic
