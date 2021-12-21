@@ -17,9 +17,9 @@ object RedisLists {
         value: String,
         date: Date? = null
     ): Long? {
-        val rightPush = RedisUtils.stringRedisTemplate.opsForList().rightPush(key, value)
+        val rightPush = RedisManager.stringRedisTemplate.opsForList().rightPush(key, value)
         if (date != null) {
-            RedisUtils.stringRedisTemplate.expireAt(key, date)
+            RedisManager.stringRedisTemplate.expireAt(key, date)
         }
         return rightPush
     }
@@ -30,10 +30,10 @@ object RedisLists {
         timeout: Long,
         timeUnit: TimeUnit = TimeUnit.SECONDS
     ): Long? {
-        val rightPush = RedisUtils.stringRedisTemplate.opsForList().rightPush(key, value)
-        RedisUtils.stringRedisTemplate.expire(key, timeout, timeUnit)
+        val rightPush = RedisManager.stringRedisTemplate.opsForList().rightPush(key, value)
+        RedisManager.stringRedisTemplate.expire(key, timeout, timeUnit)
         return rightPush
     }
 
-    fun rightPop(key: String): String? = RedisUtils.stringRedisTemplate.opsForList().rightPop(key)
+    fun rightPop(key: String): String? = RedisManager.stringRedisTemplate.opsForList().rightPop(key)
 }

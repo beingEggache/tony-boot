@@ -1,9 +1,7 @@
 package com.tony.web.log
 
-import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.JsonParseException
-import com.fasterxml.jackson.core.JsonToken
 import com.tony.ApiProperty
+import com.tony.utils.getFromRootAsString
 import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toJsonString
@@ -16,6 +14,7 @@ import com.tony.web.log.RequestTraceLogger.Const.NULL
 import com.tony.web.log.RequestTraceLogger.Const.SUCCESS
 import com.tony.web.log.RequestTraceLogger.Const.UNAUTHORIZED
 import com.tony.web.log.RequestTraceLogger.Const.VALIDATE_FAILED
+import com.tony.web.log.RequestTraceLogger.Const.logger
 import com.tony.web.utils.headers
 import com.tony.web.utils.isTextMediaTypes
 import com.tony.web.utils.parsedMedia
@@ -46,6 +45,8 @@ fun interface RequestTraceLogger {
         const val UNAUTHORIZED = "UNAUTHORIZED"
 
         const val NULL = "[null]"
+
+        val logger = getLogger("trace-logger")
 
         @JvmSynthetic
         internal val HTTP_SUCCESS_CODE = arrayOf(
@@ -120,7 +121,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         }
 
     private fun resultCode(responseBody: String, status: Int): Int {
-        val codeFromResponseDirectly = responseBody.codeFromResponseDirectly("code")
+        val codeFromResponseDirectly = responseBody.getFromRootAsString("code")?.toInt()
         return when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
             HTTP_SUCCESS_CODE.contains(status) -> ApiProperty.successCode
@@ -135,33 +136,5 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         ApiProperty.unauthorizedCode -> UNAUTHORIZED
         in 400 * 100..499 * 100 -> VALIDATE_FAILED
         else -> FAILED
-    }
-
-    private companion object {
-
-        private val jsonFactory = JsonFactory()
-
-        private val logger = getLogger("trace-logger")
-
-        private fun String.codeFromResponseDirectly(field: String): Int? {
-            jsonFactory.createParser(this).use {
-                while (
-                    try {
-                        it.nextToken()
-                    } catch (e: JsonParseException) {
-                        return null
-                    } != null
-                ) {
-                    if (it.currentToken == JsonToken.FIELD_NAME &&
-                        it.currentName == field &&
-                        it.parsingContext.parent.inRoot()
-                    ) {
-                        it.nextToken()
-                        return it.valueAsString.toInt()
-                    }
-                }
-            }
-            return null
-        }
     }
 }

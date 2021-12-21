@@ -3,7 +3,7 @@ package com.tony.cache.test
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.tony.cache.RedisKeys
-import com.tony.cache.RedisUtils
+import com.tony.cache.RedisManager
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumIntValue
 import com.tony.enums.EnumStringValue
@@ -18,7 +18,7 @@ import javax.annotation.Resource
  */
 
 @SpringBootTest(classes = [TestCacheApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class RedisUtilsTests {
+class RedisManagerTests {
 
     @Test
     fun testRedisValues() {
@@ -32,25 +32,25 @@ class RedisUtilsTests {
         val intEnumKey = RedisKeys.genKey("value_test_int_enum")
         val stringEnumKey = RedisKeys.genKey("value_test_string_enum")
 
-        RedisUtils.values.set(booleanKey, false)
-        RedisUtils.values.increment(incrementKey, 66)
-        RedisUtils.values.setNumber(intKey, 1)
-        RedisUtils.values.setNumber(longKey, Long.MAX_VALUE)
-        RedisUtils.values.setNumber(doubleKey, 1.012)
-        RedisUtils.values.setString(stringKey, "test")
-        RedisUtils.values.setObj(objKey, Person("a", 20))
-        RedisUtils.values.set(intEnumKey, MyIntEnum.ONE)
-        RedisUtils.values.set(stringEnumKey, MyStringEnum.YES)
+        RedisManager.values.set(booleanKey, false)
+        RedisManager.values.increment(incrementKey, 66)
+        RedisManager.values.setNumber(intKey, 1)
+        RedisManager.values.setNumber(longKey, Long.MAX_VALUE)
+        RedisManager.values.setNumber(doubleKey, 1.012)
+        RedisManager.values.setString(stringKey, "test")
+        RedisManager.values.setObj(objKey, Person("a", 20))
+        RedisManager.values.set(intEnumKey, MyIntEnum.ONE)
+        RedisManager.values.set(stringEnumKey, MyStringEnum.YES)
 
-        val boolean = RedisUtils.values.get<Boolean>(booleanKey)
-        val increment = RedisUtils.values.getInt(incrementKey)
-        val int = RedisUtils.values.getInt(intKey)
-        val long = RedisUtils.values.getLong(longKey)
-        val double = RedisUtils.values.getDouble(doubleKey)
-        val string = RedisUtils.values.getString(stringKey)
-        val obj = RedisUtils.values.getObj<Person>(objKey)
-        val intEnum = RedisUtils.values.getEnum<MyIntEnum, Int>(intEnumKey)
-        val stringEnum = RedisUtils.values.getEnum<MyStringEnum, String>(stringEnumKey)
+        val boolean = RedisManager.values.get<Boolean>(booleanKey)
+        val increment = RedisManager.values.getInt(incrementKey)
+        val int = RedisManager.values.getInt(intKey)
+        val long = RedisManager.values.getLong(longKey)
+        val double = RedisManager.values.getDouble(doubleKey)
+        val string = RedisManager.values.getString(stringKey)
+        val obj = RedisManager.values.getObj<Person>(objKey)
+        val intEnum = RedisManager.values.getEnum<MyIntEnum, Int>(intEnumKey)
+        val stringEnum = RedisManager.values.getEnum<MyStringEnum, String>(stringEnumKey)
 
         println(boolean)
         println(increment)
@@ -77,36 +77,36 @@ class RedisUtilsTests {
         val intEnumKey = RedisKeys.genKey("value_test_int_enum")
         val stringEnumKey = RedisKeys.genKey("value_test_string_enum")
 
-        RedisUtils.maps.put(testMapKey, booleanKey, false)
-        RedisUtils.maps.putNumber(testMapKey, intKey, 1)
-        RedisUtils.maps.putNumber(testMapKey, longKey, Long.MAX_VALUE)
-        RedisUtils.maps.putNumber(testMapKey, doubleKey, 1.012)
-        RedisUtils.maps.putString(testMapKey, stringKey, "test")
-        RedisUtils.maps.putObj(testMapKey, objKey, Person("a", 20))
-        RedisUtils.maps.put(testMapKey, intEnumKey, MyIntEnum.ONE)
-        RedisUtils.maps.put(testMapKey, stringEnumKey, MyStringEnum.YES)
+        RedisManager.maps.put(testMapKey, booleanKey, false)
+        RedisManager.maps.putNumber(testMapKey, intKey, 1)
+        RedisManager.maps.putNumber(testMapKey, longKey, Long.MAX_VALUE)
+        RedisManager.maps.putNumber(testMapKey, doubleKey, 1.012)
+        RedisManager.maps.putString(testMapKey, stringKey, "test")
+        RedisManager.maps.putObj(testMapKey, objKey, Person("a", 20))
+        RedisManager.maps.put(testMapKey, intEnumKey, MyIntEnum.ONE)
+        RedisManager.maps.put(testMapKey, stringEnumKey, MyStringEnum.YES)
 
-        val boolean = RedisUtils.maps.get<Boolean>(testMapKey, booleanKey)
-        val int = RedisUtils.maps.getInt(testMapKey, intKey)
-        val long = RedisUtils.maps.getLong(testMapKey, longKey)
-        val double = RedisUtils.maps.getDouble(testMapKey, doubleKey)
-        val string = RedisUtils.maps.getString(testMapKey, stringKey)
-        val obj = RedisUtils.maps.getObj<Person>(testMapKey, objKey)
-        val intEnum = RedisUtils.maps.getEnum<MyIntEnum, Int>(testMapKey, intEnumKey)
-        val stringEnum = RedisUtils.maps.getEnum<MyStringEnum, String>(testMapKey, stringEnumKey)
-        val map = RedisUtils.maps.getMap(testMapKey)
+        val boolean = RedisManager.maps.get<Boolean>(testMapKey, booleanKey)
+        val int = RedisManager.maps.getInt(testMapKey, intKey)
+        val long = RedisManager.maps.getLong(testMapKey, longKey)
+        val double = RedisManager.maps.getDouble(testMapKey, doubleKey)
+        val string = RedisManager.maps.getString(testMapKey, stringKey)
+        val obj = RedisManager.maps.getObj<Person>(testMapKey, objKey)
+        val intEnum = RedisManager.maps.getEnum<MyIntEnum, Int>(testMapKey, intEnumKey)
+        val stringEnum = RedisManager.maps.getEnum<MyStringEnum, String>(testMapKey, stringEnumKey)
+        val map = RedisManager.maps.getMap(testMapKey)
 
-        RedisUtils.maps.putAll(testMapKey2, map)
+        RedisManager.maps.putAll(testMapKey2, map)
 
-        val boolean2 = RedisUtils.maps.get<Boolean>(testMapKey2, booleanKey)
-        val int2 = RedisUtils.maps.getInt(testMapKey2, intKey)
-        val long2 = RedisUtils.maps.getLong(testMapKey2, longKey)
-        val double2 = RedisUtils.maps.getDouble(testMapKey2, doubleKey)
-        val string2 = RedisUtils.maps.getString(testMapKey2, stringKey)
-        val obj2 = RedisUtils.maps.getObj<Person>(testMapKey2, objKey)
-        val intEnum2 = RedisUtils.maps.getEnum<MyIntEnum, Int>(testMapKey2, intEnumKey)
-        val stringEnum2 = RedisUtils.maps.getEnum<MyStringEnum, String>(testMapKey2, stringEnumKey)
-        val map2 = RedisUtils.maps.getMap(testMapKey2)
+        val boolean2 = RedisManager.maps.get<Boolean>(testMapKey2, booleanKey)
+        val int2 = RedisManager.maps.getInt(testMapKey2, intKey)
+        val long2 = RedisManager.maps.getLong(testMapKey2, longKey)
+        val double2 = RedisManager.maps.getDouble(testMapKey2, doubleKey)
+        val string2 = RedisManager.maps.getString(testMapKey2, stringKey)
+        val obj2 = RedisManager.maps.getObj<Person>(testMapKey2, objKey)
+        val intEnum2 = RedisManager.maps.getEnum<MyIntEnum, Int>(testMapKey2, intEnumKey)
+        val stringEnum2 = RedisManager.maps.getEnum<MyStringEnum, String>(testMapKey2, stringEnumKey)
+        val map2 = RedisManager.maps.getMap(testMapKey2)
 
         println(boolean)
         println(int)
@@ -131,12 +131,12 @@ class RedisUtilsTests {
 
     @Test
     fun myEnumTests() {
-        RedisUtils.values.set(RedisKeys.genKey("value_test_my_int_enum"), MyIntEnum.ONE)
-        RedisUtils.values.set(RedisKeys.genKey("value_test_my_string_enum"), MyStringEnum.NO)
+        RedisManager.values.set(RedisKeys.genKey("value_test_my_int_enum"), MyIntEnum.ONE)
+        RedisManager.values.set(RedisKeys.genKey("value_test_my_string_enum"), MyStringEnum.NO)
 
-        val myIntEnum = RedisUtils.values.getEnum<MyIntEnum, Int>(RedisKeys.genKey("value_test_my_int_enum"))
+        val myIntEnum = RedisManager.values.getEnum<MyIntEnum, Int>(RedisKeys.genKey("value_test_my_int_enum"))
         val myStringEnum =
-            RedisUtils.values.getEnum<MyStringEnum, String>(RedisKeys.genKey("value_test_my_string_enum"))
+            RedisManager.values.getEnum<MyStringEnum, String>(RedisKeys.genKey("value_test_my_string_enum"))
 
         println(myIntEnum)
         println(myStringEnum)

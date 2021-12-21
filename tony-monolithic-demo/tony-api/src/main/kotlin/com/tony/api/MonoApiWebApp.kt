@@ -2,9 +2,6 @@
 
 package com.tony.api
 
-import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.JsonParseException
-import com.fasterxml.jackson.core.JsonToken
 import com.tony.Env
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
@@ -12,6 +9,7 @@ import com.tony.feign.exception.SignInvalidException
 import com.tony.feign.genSign
 import com.tony.feign.sortRequestBody
 import com.tony.utils.doIf
+import com.tony.utils.getFromRootAsString
 import com.tony.utils.getLogger
 import com.tony.utils.isBetween
 import com.tony.utils.toLocalDateTime
@@ -125,7 +123,7 @@ class SignatureInterceptor : HandlerInterceptor {
             throw SignInvalidException("验签失败")
         }
 
-        val timestampStrFromReq = bodyStr.getStringFromRoot("timestamp")
+        val timestampStrFromReq = bodyStr.getFromRootAsString("timestamp")
         if (timestampStrFromReq.isNullOrBlank()) {
             logger.warn("check signature: timestamp from request body is null or blank.")
             throw SignInvalidException("验签失败")
@@ -166,29 +164,6 @@ class SignatureInterceptor : HandlerInterceptor {
 
         return true
     }
-}
-
-private val jsonFactory = JsonFactory()
-
-private fun String.getStringFromRoot(field: String): String? {
-    jsonFactory.createParser(this).use {
-        while (
-            try {
-                it.nextToken()
-            } catch (e: JsonParseException) {
-                return null
-            } != null
-        ) {
-            if (it.currentToken == JsonToken.FIELD_NAME &&
-                it.currentName == field &&
-                it.parsingContext.parent.inRoot()
-            ) {
-                it.nextToken()
-                return it.valueAsString
-            }
-        }
-    }
-    return null
 }
 
 @Component

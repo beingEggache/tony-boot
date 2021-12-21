@@ -18,14 +18,14 @@ object RedisMaps {
 
     @JvmStatic
     fun hasKey(key: String, hashKey: String): Boolean =
-        true == RedisUtils.redisTemplate.boundHashOps<String, Any>(key).hasKey(hashKey)
+        true == RedisManager.redisTemplate.boundHashOps<String, Any>(key).hasKey(hashKey)
 
     @JvmStatic
     fun delete(key: String, vararg hashKey: String) =
-        RedisUtils.redisTemplate.opsForHash<String, Any>()
+        RedisManager.redisTemplate.opsForHash<String, Any>()
             .hasKey(key, hashKey)
             .doIf {
-                RedisUtils.redisTemplate.opsForHash<String, Any>().delete(key, hashKey)
+                RedisManager.redisTemplate.opsForHash<String, Any>().delete(key, hashKey)
             }
 
     @JvmStatic
@@ -36,7 +36,7 @@ object RedisMaps {
         value: String,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = RedisUtils.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
+    ) = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
 
     @JvmStatic
     fun putString(
@@ -44,7 +44,7 @@ object RedisMaps {
         hashKey: String,
         value: String,
         date: Date
-    ) = RedisUtils.redisTemplate.put(key, hashKey, value, date)
+    ) = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
     @JvmStatic
     @JvmOverloads
@@ -54,7 +54,7 @@ object RedisMaps {
         value: Number,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = RedisUtils.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
+    ) = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
 
     @JvmStatic
     fun putNumber(
@@ -62,7 +62,7 @@ object RedisMaps {
         hashKey: String,
         value: Number,
         date: Date
-    ) = RedisUtils.redisTemplate.put(key, hashKey, value, date)
+    ) = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
     @JvmStatic
     @JvmOverloads
@@ -72,7 +72,7 @@ object RedisMaps {
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = RedisUtils.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
+    ) = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
 
     @JvmStatic
     fun <T : Any> putObj(
@@ -80,7 +80,7 @@ object RedisMaps {
         hashKey: String,
         value: T,
         date: Date
-    ) = RedisUtils.redisTemplate.put(key, hashKey, value, date)
+    ) = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
     @JvmStatic
     @JvmOverloads
@@ -90,7 +90,7 @@ object RedisMaps {
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = RedisUtils.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
+    ) = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
 
     @JvmStatic
     fun <T : Any> put(
@@ -98,7 +98,7 @@ object RedisMaps {
         hashKey: String,
         value: T,
         date: Date
-    ) = RedisUtils.redisTemplate.put(key, hashKey, value, date)
+    ) = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
     @JvmStatic
     @JvmOverloads
@@ -113,9 +113,9 @@ object RedisMaps {
             return
         }
         if (timeout == 0L) {
-            RedisUtils.redisTemplate.boundHashOps<String, Any?>(key).putAll(map)
+            RedisManager.redisTemplate.boundHashOps<String, Any?>(key).putAll(map)
         } else {
-            RedisUtils.redisTemplate.boundHashOps<String, Any?>(key).apply {
+            RedisManager.redisTemplate.boundHashOps<String, Any?>(key).apply {
                 putAll(map)
                 expire(timeout, timeUnit)
             }
@@ -132,7 +132,7 @@ object RedisMaps {
             logger.warn("map was null")
             return
         }
-        RedisUtils.redisTemplate.boundHashOps<String, Any>(key).apply {
+        RedisManager.redisTemplate.boundHashOps<String, Any>(key).apply {
             putAll(map)
             expireAt(date)
         }
@@ -140,11 +140,11 @@ object RedisMaps {
 
     @JvmStatic
     fun getString(key: String, hashKey: String): String? =
-        RedisUtils.redisTemplate.boundHashOps<String, String>(key).get(hashKey)
+        RedisManager.redisTemplate.boundHashOps<String, String>(key).get(hashKey)
 
     @JvmStatic
     fun getNumber(key: String, hashKey: String): Number? =
-        RedisUtils.redisTemplate.boundHashOps<String, Number>(key).get(hashKey)
+        RedisManager.redisTemplate.boundHashOps<String, Number>(key).get(hashKey)
 
     @JvmStatic
     fun getInt(key: String, hashKey: String): Int? = getNumber(key, hashKey)?.toInt()
@@ -157,23 +157,23 @@ object RedisMaps {
 
     @JvmStatic
     inline fun <reified T> getObj(key: String, hashKey: String): T? =
-        RedisUtils.stringRedisTemplate.boundHashOps<String, String>(key).get(hashKey)?.jsonToObj()
+        RedisManager.stringRedisTemplate.boundHashOps<String, String>(key).get(hashKey)?.jsonToObj()
 
     @JvmStatic
     fun <T : Any> get(key: String, hashKey: String): T? =
-        RedisUtils.redisTemplate.boundHashOps<String, T>(key).get(hashKey)
+        RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey)
 
     @Suppress("UNCHECKED_CAST")
     inline fun <reified E, KEY> getEnum(key: String, hashKey: String): E?
         where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
-        val value = RedisUtils.redisTemplate.boundHashOps<String, KEY>(key).get(hashKey)
+        val value = RedisManager.redisTemplate.boundHashOps<String, KEY>(key).get(hashKey)
             ?: return null
         return getCreator(E::class.java).create(value)
     }
 
     @JvmStatic
     fun getMap(key: String): Map<String, Any>? =
-        RedisUtils.redisTemplate.opsForHash<String, Any>().entries(key)
+        RedisManager.redisTemplate.opsForHash<String, Any>().entries(key)
 
     private fun <T> RedisTemplate<String, T>.put(
         key: String,

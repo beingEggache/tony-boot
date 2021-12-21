@@ -4,7 +4,10 @@
 package com.tony.utils
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.JsonParseException
+import com.fasterxml.jackson.core.JsonToken
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -40,6 +43,38 @@ fun <T> String.jsonToObj(javaType: JavaType): T =
     OBJECT_MAPPER.readValue(this, javaType)
 
 fun <T> T?.toJsonString(): String = if (this != null) OBJECT_MAPPER.writeValueAsString(this) else ""
+
+private val valueJsonToken = setOf(
+    JsonToken.VALUE_NULL,
+    JsonToken.VALUE_TRUE,
+    JsonToken.VALUE_FALSE,
+    JsonToken.VALUE_STRING,
+    JsonToken.VALUE_NUMBER_INT,
+    JsonToken.VALUE_NUMBER_FLOAT,
+    JsonToken.VALUE_EMBEDDED_OBJECT
+)
+
+private val jsonFactory = JsonFactory()
+fun String.getFromRootAsString(field: String): String? {
+    jsonFactory.createParser(this).use {
+        while (
+            try {
+                it.nextToken()
+            } catch (e: JsonParseException) {
+                return null
+            } != null
+        ) {
+            if (it.currentToken == JsonToken.FIELD_NAME &&
+                it.currentName == field &&
+                it.parsingContext.parent.inRoot()
+            ) {
+                val token = it.nextToken()
+                return if (token in valueJsonToken) it.text else null
+            }
+        }
+    }
+    return null
+}
 
 @Throws(IOException::class)
 inline fun <reified T> ByteArray.jsonToObj(): T =

@@ -17,7 +17,7 @@ import java.util.Random
 import java.util.concurrent.TimeUnit
 
 @Suppress("MemberVisibilityCanBePrivate")
-object RedisUtils {
+object RedisManager {
 
     val values = RedisValues
 
