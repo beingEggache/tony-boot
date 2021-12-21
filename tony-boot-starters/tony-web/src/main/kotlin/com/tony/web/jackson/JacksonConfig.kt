@@ -136,7 +136,7 @@ class MaskSerializer : JsonSerializer<Any>() {
         fun registerMaskFun(maskType: Class<*>, maskFun: MaskConvertFunc) {
             if (maskConverters.containsKey(maskType)) throw ApiException("$maskType already exists")
             synchronized(maskConverters) {
-                logger.info("register $maskType convert function")
+                logger.info("Register $maskType convert function.")
                 maskConverters[maskType] = maskFun
             }
         }

@@ -66,7 +66,7 @@
         {
             "sourceType": "com.tony.web.config.WebProperties",
             "name": "web.response-wrap-exclude-patterns",
-            "type": "java.lang.String[]",
+            "type": "java.util.List<java.lang.String>",
             "description": "包装返回值白名单url（ant pattern）。",
             "defaultValue": true
         },
@@ -87,24 +87,34 @@
         {
             "sourceType": "com.tony.web.config.WebCorsProperties",
             "name": "web.cors.enabled",
-            "description": "是否跨域处理",
+            "description": "是否允许跨域",
             "type": "java.lang.Boolean"
         },
         {
             "sourceType": "com.tony.web.config.WebCorsProperties",
             "name": "web.cors.allowed-origins",
-            "type": "java.lang.String[]"
+            "type": "java.util.List<java.lang.String>"
         },
         {
             "sourceType": "com.tony.web.config.WebCorsProperties",
             "name": "web.cors.allowed-headers",
-            "type": "java.lang.String[]"
+            "type": "java.util.List<java.lang.String>"
+        },
+        {
+            "sourceType": "com.tony.web.config.WebCorsProperties",
+            "name": "web.cors.allowed-methods",
+            "type": "java.util.List<java.lang.String>"
         },
         {
             "sourceType": "com.tony.web.config.WebCorsProperties",
             "name": "web.cors.allowed-credentials",
             "type": "java.lang.Boolean",
             "defaultValue": true
+        },
+        {
+            "sourceType": "com.tony.web.config.WebCorsProperties",
+            "name": "web.cors.max-age",
+            "type": "java.lang.Long"
         }
     ]
 }

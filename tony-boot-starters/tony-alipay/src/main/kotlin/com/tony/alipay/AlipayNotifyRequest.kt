@@ -71,14 +71,14 @@ class AlipayNotifyRequest {
     fun process(signValid: Boolean, doOnTradeSuccess: () -> Unit): String {
 
         if (!signValid) {
-            logger.error("alipay order($out_trade_no) sign invalid, notify request:${toDeepLink()}")
+            logger.error("Alipay order($out_trade_no) sign invalid, notify request:${toDeepLink()}")
             return "success"
         }
         try {
             if (trade_status == TRADE_SUCCESS) {
                 doOnTradeSuccess()
             } else {
-                logger.info("alipay order($out_trade_no) closed")
+                logger.info("Alipay order($out_trade_no) closed.")
             }
         } catch (e: BaseException) {
             logger.error(e.message)

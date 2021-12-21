@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.tony.web.config.WebConfig,\
-  com.tony.web.config.WebCorsConfig
+  com.tony.web.config.WebConfig

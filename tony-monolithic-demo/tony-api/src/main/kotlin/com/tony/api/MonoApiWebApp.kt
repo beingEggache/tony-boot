@@ -119,18 +119,18 @@ class SignatureInterceptor : HandlerInterceptor {
 
         val timestampStrFromHeader = request.getHeader("x-timestamp")
         if (timestampStrFromHeader.isNullOrBlank()) {
-            logger.warn("check signature: timestamp from header is null or blank.")
+            logger.warn("Check signature: timestamp from  is null or blank.")
             throw SignInvalidException("验签失败")
         }
 
         val timestampStrFromReq = bodyStr.getFromRootAsString("timestamp")
         if (timestampStrFromReq.isNullOrBlank()) {
-            logger.warn("check signature: timestamp from request body is null or blank.")
+            logger.warn("Check signature: timestamp from request body is null or blank.")
             throw SignInvalidException("验签失败")
         }
 
         if (timestampStrFromHeader != timestampStrFromReq) {
-            logger.warn("check signature: timestamp from request body != timestamp from header")
+            logger.warn("Check signature: timestamp from request body != timestamp from header")
             throw SignInvalidException("验签失败")
         }
 
@@ -143,7 +143,7 @@ class SignatureInterceptor : HandlerInterceptor {
 
         val appId = request.getHeader("x-app-id")
         if (appId.isNullOrBlank()) {
-            logger.warn("check signature: appId from header is null or blank.")
+            logger.warn("Check signature: appId from header is null or blank.")
             throw SignInvalidException("验签失败")
         }
 
@@ -153,10 +153,10 @@ class SignatureInterceptor : HandlerInterceptor {
         val signatureRemote = request.getHeader("x-signature")
         val signatureLocal = bodyStr.sortRequestBody(timestampStrFromHeader).genSign(appId, secret)
 
-        logger.debug("check signature: request body is {}", bodyStr)
-        logger.debug("check signature: appId is {}", appId)
-        logger.debug("check signature: signatureRemote is {}", signatureRemote)
-        logger.debug("check signature: signatureLocal is {}", signatureLocal)
+        logger.debug("Check signature: request body is {}.", bodyStr)
+        logger.debug("Check signature: appId is {}.", appId)
+        logger.debug("Check signature: signatureRemote is {}.", signatureRemote)
+        logger.debug("Check signature: signatureLocal is {}.", signatureLocal)
 
         if (signatureRemote != signatureLocal) {
             throw SignInvalidException("验签失败")

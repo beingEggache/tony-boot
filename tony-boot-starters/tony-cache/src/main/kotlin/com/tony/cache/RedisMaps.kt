@@ -109,7 +109,7 @@ object RedisMaps {
         timeUnit: TimeUnit = TimeUnit.SECONDS
     ) {
         if (map == null) {
-            logger.warn("map was null")
+            logger.warn("Arg map is null.")
             return
         }
         if (timeout == 0L) {
@@ -129,7 +129,7 @@ object RedisMaps {
         date: Date
     ) {
         if (map == null) {
-            logger.warn("map was null")
+            logger.warn("Arg map is null.")
             return
         }
         RedisManager.redisTemplate.boundHashOps<String, Any>(key).apply {

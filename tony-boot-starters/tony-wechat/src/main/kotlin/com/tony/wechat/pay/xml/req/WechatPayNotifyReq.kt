@@ -212,7 +212,7 @@ data class WechatPayNotifyReq(
                 } else {
                     val errorDetail = "${notifyRequest.errCode}:${notifyRequest.errCodeDes}"
                     doOnFailed(errorDetail)
-                    logger.error("wechat pay order(${notifyRequest.outTradeNo}) error:$errorDetail")
+                    logger.error("Wechat pay order(${notifyRequest.outTradeNo}) error:$errorDetail")
                 }
             } catch (e: BaseException) {
                 logger.error(e.message)
