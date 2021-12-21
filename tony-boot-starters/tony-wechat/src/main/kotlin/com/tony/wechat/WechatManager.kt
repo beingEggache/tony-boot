@@ -1,11 +1,11 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package com.tony.wechat.service
+package com.tony.wechat
 
+import com.tony.Beans
 import com.tony.exception.ApiException
 import com.tony.utils.getLogger
 import com.tony.utils.urlEncode
-import com.tony.wechat.check
 import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
@@ -13,13 +13,11 @@ import com.tony.wechat.client.resp.WechatApiTokenResp
 import com.tony.wechat.client.resp.WechatJsSdkConfigResp
 import com.tony.wechat.client.resp.WechatUserTokenResp
 import com.tony.wechat.config.WechatProperties
-import com.tony.wechat.genNonceStr
-import com.tony.wechat.genTimeStamp
 import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.validation.annotation.Validated
 
 @Suppress("unused")
-class WechatService(
+class WechatManager(
     private val wechatClient: WechatClient,
     private val wechatPropProvider: WechatPropProvider,
     private val apiAccessTokenProviderWrapper: WechatApiAccessTokenProviderWrapper
@@ -182,10 +180,12 @@ interface WechatApiAccessTokenProviderWrapper {
         secret: String?,
         code: String?
     ): WechatUserTokenResp
+
+    var wechatApiAccessTokenProvider: WechatApiAccessTokenProvider
 }
 
 internal class DefaultWechatApiAccessTokenProviderWrapper(
-    private val wechatApiAccessTokenProvider: WechatApiAccessTokenProvider
+    override var wechatApiAccessTokenProvider: WechatApiAccessTokenProvider
 ) : WechatApiAccessTokenProviderWrapper {
 
     override fun accessToken(
@@ -207,9 +207,9 @@ internal class DefaultWechatApiAccessTokenProviderWrapper(
     )
 }
 
-class WechatApiAccessTokenProvider(
-    private val wechatClient: WechatClient
-) {
+class WechatApiAccessTokenProvider {
+
+    private val wechatClient: WechatClient by Beans.getBeanByLazy()
 
     fun accessToken(
         appId: String?,

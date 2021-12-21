@@ -9,7 +9,7 @@ import com.tony.wechat.client.req.WechatQrCodeActionInfo
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
 import com.tony.wechat.client.req.WechatQrCodeType
 import com.tony.wechat.client.req.WechatScanCodeButton
-import com.tony.wechat.service.WechatService
+import com.tony.wechat.WechatManager
 import org.junit.jupiter.api.Test
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest
@@ -18,14 +18,14 @@ import javax.annotation.Resource
 @EnableTonyBoot
 @SpringBootApplication
 @SpringBootTest
-class WechatServiceTest {
+class WechatManagerTest {
 
     @Resource
-    private lateinit var wechatService: WechatService
+    private lateinit var wechatManager: WechatManager
 
     @Test
     fun testAccessToken() {
-        val accessTokenSuccess = wechatService.accessToken("test")
+        val accessTokenSuccess = wechatManager.accessToken("test")
         accessTokenSuccess.errCode.println()
         accessTokenSuccess.errMsg.println()
         accessTokenSuccess.toJsonString().println()
@@ -33,7 +33,7 @@ class WechatServiceTest {
 
     @Test
     fun test0() {
-        val resp = wechatService.createQrCode(
+        val resp = wechatManager.createQrCode(
             WechatQrCodeCreateReq(
                 60,
                 WechatQrCodeType.QR_LIMIT_STR_SCENE,
@@ -46,7 +46,7 @@ class WechatServiceTest {
 
     @Test
     fun test1() {
-        val resp = wechatService.userInfo(
+        val resp = wechatManager.userInfo(
             "o68xis3f2Slo6uhnKdu-VA__iInA",
             "test"
         )
@@ -55,12 +55,12 @@ class WechatServiceTest {
 
     @Test
     fun test2() {
-        val accessToken = wechatService.userAccessToken(
+        val accessToken = wechatManager.userAccessToken(
             "0114vMFa1Y3BOB0EeAFa1KKY1Q24vMFD",
             "test"
         )
         accessToken.toJsonString().println()
-        val resp = wechatService.userInfo(
+        val resp = wechatManager.userInfo(
             "o68xis3f2Slo6uhnKdu-VA__iInA",
             "test"
         )
@@ -70,7 +70,7 @@ class WechatServiceTest {
     @Test
     fun test3() {
 
-        val resp = wechatService.getTicket(
+        val resp = wechatManager.getTicket(
             "test"
         )
         resp.toJsonString().println()
@@ -79,7 +79,7 @@ class WechatServiceTest {
     @Test
     fun test4() {
 
-        val resp = wechatService.createMenu(
+        val resp = wechatManager.createMenu(
             WechatMenu(
                 listOf(
                     WechatMenuButton(
@@ -96,13 +96,13 @@ class WechatServiceTest {
 
     @Test
     fun test5() {
-        val resp = wechatService.deleteMenu("test")
+        val resp = wechatManager.deleteMenu("test")
         resp.toJsonString().println()
     }
 
     @Test
     fun test6() {
-        val resp = wechatService.jsCode2Session("0114vMFa1Y3BOB0EeAFa1KKY1Q24vMFD", "test")
+        val resp = wechatManager.jsCode2Session("0114vMFa1Y3BOB0EeAFa1KKY1Q24vMFD", "test")
         resp.toJsonString().println()
     }
 }

@@ -1,6 +1,5 @@
 package com.tony.wechat.test
 
-import com.tony.feign.misc.SignatureInterceptor
 import com.tony.utils.println
 import com.tony.utils.toJsonString
 import com.tony.wechat.client.WechatClient
@@ -10,9 +9,7 @@ import com.tony.wechat.client.req.WechatQrCodeActionInfo
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
 import com.tony.wechat.client.req.WechatQrCodeType
 import com.tony.wechat.client.req.WechatScanCodeButton
-import okhttp3.Request
 import org.junit.jupiter.api.Test
-import org.springframework.stereotype.Component
 import javax.annotation.Resource
 
 class WechatClientTest {
@@ -149,9 +146,4 @@ class WechatClientTest {
         )
         resp.toJsonString().println()
     }
-}
-
-@Component
-class TestSignatureImpl : SignatureInterceptor {
-    override fun process(builder: Request.Builder): Request = builder.addHeader("X-Foo", "bar").build()
 }

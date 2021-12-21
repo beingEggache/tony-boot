@@ -1,9 +1,10 @@
-package com.tony.wechat.pay.service
+package com.tony.wechat.pay
 
 import com.tony.exception.ApiException
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
 import com.tony.utils.toString
+import com.tony.wechat.WechatPropProvider
 import com.tony.wechat.client.WechatPayClient
 import com.tony.wechat.config.WechatProperties
 import com.tony.wechat.genMd5UpperCaseSign
@@ -15,14 +16,13 @@ import com.tony.wechat.pay.req.WechatPayOrderReq
 import com.tony.wechat.pay.req.WechatPayReq
 import com.tony.wechat.pay.xml.req.WechatPayNotifyReq
 import com.tony.wechat.pay.xml.resp.WechatPayOrderResp
-import com.tony.wechat.service.WechatPropProvider
 import com.tony.wechat.xml.toXmlString
 import com.tony.wechat.xml.xmlToObj
 import org.apache.commons.codec.digest.DigestUtils
 import java.time.LocalDateTime
 
 @Suppress("unused")
-class WechatPayService(
+class WechatPayManager(
     private val wechatProperties: WechatProperties,
     private val wechatPayClient: WechatPayClient,
     private val wechatPropProvider: WechatPropProvider
