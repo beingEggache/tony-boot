@@ -2,6 +2,7 @@
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.exclude
 import java.util.concurrent.TimeUnit
 
 object Version {
@@ -211,6 +212,11 @@ fun Project.substituteDeps(){
                     substitute(module(sourceDependency)).using(module(targetDependency))
                 }
             }
+            exclude("com.google.j2objc")
+            exclude("com.google.errorprone")
+            exclude("com.google.code.findbugs")
+            exclude("com.google.guava", "listenablefuture")
+            exclude("org.checkerframework", "checker-qual")
         }
     }
 }
