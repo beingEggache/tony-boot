@@ -1,6 +1,7 @@
 package com.tony.web.config
 
 import com.tony.jwt.config.JwtProperties
+import com.tony.utils.getLogger
 import com.tony.web.ApiSession
 import com.tony.web.JwtApiSession
 import com.tony.web.NoopApiSession
@@ -24,6 +25,8 @@ internal class WebAuthConfig(
     private val jwtProperties: JwtProperties
 ) : WebMvcConfigurer {
 
+    private val logger = getLogger()
+
     @ConditionalOnMissingBean(LoginCheckInterceptor::class)
     @Bean
     fun loginCheckInterceptor(): LoginCheckInterceptor =
@@ -33,7 +36,10 @@ internal class WebAuthConfig(
     @ConditionalOnWebApplication
     @Bean
     fun apiSession(): ApiSession =
-        if (jwtProperties.secret.isNotBlank()) JwtApiSession() else NoopApiSession()
+        if (jwtProperties.secret.isNotBlank()) {
+            logger.info("Jwt auth is enabled")
+            JwtApiSession()
+        } else NoopApiSession()
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(loginCheckInterceptor())

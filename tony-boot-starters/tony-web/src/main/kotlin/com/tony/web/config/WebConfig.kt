@@ -42,7 +42,7 @@ internal class WebConfig(
     private val webCorsProperties: WebCorsProperties
 ) : WebMvcConfigurer {
 
-    private val logger = getLogger()
+    private val logger = getLogger(WebConfig::class.java.name)
 
     @Resource
     lateinit var mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter
@@ -65,12 +65,15 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
-    fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger) = TraceLoggingFilter(requestTraceLogger)
+    fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter {
+        logger.info("Request trace log is Enabled.")
+        return TraceLoggingFilter(requestTraceLogger)
+    }
 
     @ConditionalOnProperty("web.cors.enabled")
     @Bean
     fun corsFilter(): CorsFilter {
-        logger.info("Enable Cors.")
+        logger.info("Cors is enabled.")
         val source = UrlBasedCorsConfigurationSource()
         val corsConfiguration = CorsConfiguration().apply {
             if (webCorsProperties.allowCredentials == true) {
@@ -90,6 +93,7 @@ internal class WebConfig(
     @PostConstruct
     fun init() {
         if (webProperties.jsonNullValueOptimizedEnabled) {
+            logger.info("Response json null value optimizing is enabled.")
             mappingJackson2HttpMessageConverter.objectMapper = createObjectMapper().apply {
                 serializerFactory =
                     serializerFactory

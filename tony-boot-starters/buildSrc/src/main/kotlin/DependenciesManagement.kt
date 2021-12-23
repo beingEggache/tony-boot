@@ -8,7 +8,7 @@ object VersionManagement {
     const val kotlinVersion = "1.6.10"
 
     const val springVersion = "5.3.14"
-    const val springBootVersion = "2.6.1"
+    const val springBootVersion = "2.6.2"
 
     const val openFeignVersion = "11.7"
 
@@ -18,24 +18,24 @@ object VersionManagement {
     const val mybatisPlusVersion = "3.4.3.4"
     const val lettuceCoreVersion = "6.1.5.RELEASE"
 
-    const val jacksonVersion = "2.13.0"
+    const val jacksonVersion = "2.13.1"
 
     const val gsonVersion = "2.8.9"
-    const val fastjsonVersion = "1.2.78"
+    const val fastjsonVersion = "1.2.79"
     const val nettyVersion = "4.1.72.Final"
 
     const val reactorVersion = "3.4.13"
     const val reactorNettyVersion = "1.0.14"
     const val slf4jVersion = "1.7.32"
 
-    const val byteBuddyVersion = "1.12.5"
+    const val byteBuddyVersion = "1.12.6"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
     const val javaJwtVersion = "3.18.2"
     const val guavaVersion = "31.0.1-jre"
 
     const val swaggerV3Version = "2.1.11"
-    const val springdocVersion = "1.6.1"
+    const val springdocVersion = "1.6.2"
 
 }
 
