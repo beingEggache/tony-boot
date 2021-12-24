@@ -16,7 +16,13 @@ object Version {
     const val alipaySdkJavaVersion = "4.21.8.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.30"
     const val aliyunSdkOssVersion = "3.13.2"
+
+    const val bouncycastleVersion = "1.70"
+    const val templateVersion = "0.1-SNAPSHOT"
 }
+
+const val projectGroup = "com.tony"
+const val projectPrefix = "tony"
 
 object Deps {
 

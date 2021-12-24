@@ -16,7 +16,7 @@ idea.project {
 }
 
 configure(subprojects) {
-    group = "com.tony"
+    group = projectGroup
     version = "0.1"
 
     val privateMavenRepoUrl: String by project
@@ -38,7 +38,7 @@ configure(subprojects) {
     }
 
     dependencies {
-        add("implementation", platform(Deps.Tony.tonyDependencies))
+        add("implementation", platform(Deps.Tony.templateDependencies))
         add("implementation", platform(Deps.SpringCloudDeps.springCloudDependencies))
         add("implementation", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
     }

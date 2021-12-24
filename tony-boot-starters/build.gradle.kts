@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version Version.kotlinVersion apply false
     kotlin("plugin.spring") version Version.kotlinVersion apply false
+    kotlin("kapt") version Version.kotlinVersion apply false
     idea
 }
 
@@ -16,8 +17,9 @@ idea.project {
 }
 
 configure(allprojects) {
-    group = "com.tony"
-    version = "0.1-SNAPSHOT"
+
+    group = projectGroup
+    version = Version.templateVersion
 
     repositories {
         mavenLocal()
@@ -53,6 +55,7 @@ configure(subprojects) {
     apply {
         plugin("kotlin")
         plugin("kotlin-spring")
+        plugin("kotlin-kapt")
         plugin("ktlint")
         plugin("maven.publish")
     }
@@ -63,6 +66,7 @@ configure(subprojects) {
 
     dependencies {
         add("implementation", platform(rootProject))
+        add("kapt", DepsManagement.SpringBoot.configurationProcessor)
     }
 
     tasks.withType<KotlinCompile>().configureEach {

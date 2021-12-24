@@ -3,6 +3,7 @@
 package com.tony.cache.aspect
 
 import com.fasterxml.jackson.databind.type.TypeFactory
+import com.tony.PROJECT_GROUP
 import com.tony.cache.RedisKeys
 import com.tony.cache.RedisManager
 import com.tony.cache.annotation.RedisCacheEvict
@@ -23,10 +24,10 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
 @Aspect
 class DefaultRedisCacheAspect {
 
-    @Pointcut("@annotation(com.tony.cache.annotation.RedisCacheEvict.Container)")
+    @Pointcut("@annotation($PROJECT_GROUP.cache.annotation.RedisCacheEvict.Container)")
     fun redisCacheEvict() = Unit
 
-    @Pointcut("@annotation(com.tony.cache.annotation.RedisCacheable)")
+    @Pointcut("@annotation($PROJECT_GROUP.cache.annotation.RedisCacheable)")
     fun redisCacheable() = Unit
 
     private fun cacheKey(

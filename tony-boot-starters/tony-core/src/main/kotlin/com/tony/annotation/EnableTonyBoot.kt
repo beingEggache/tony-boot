@@ -1,5 +1,6 @@
 package com.tony.annotation
 
+import com.tony.PROJECT_GROUP
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Import
 
@@ -9,5 +10,5 @@ import org.springframework.context.annotation.Import
 @Import(TonyBootConfiguration::class)
 annotation class EnableTonyBoot
 
-@ComponentScan(basePackages = ["com.tony.**"])
+@ComponentScan(basePackages = ["$PROJECT_GROUP.**"])
 internal class TonyBootConfiguration

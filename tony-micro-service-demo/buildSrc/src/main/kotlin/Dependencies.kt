@@ -16,8 +16,11 @@ object Version {
 
     const val bouncycastleVersion = "1.70"
 
-    const val tonyVersion = "0.1-SNAPSHOT"
+    const val templateVersion = "0.1-SNAPSHOT"
 }
+
+const val projectGroup = "com.tony"
+const val projectPrefix = "tony"
 
 object Deps {
 
@@ -29,14 +32,13 @@ object Deps {
     }
 
     object Tony {
-        const val tonyDependencies = "com.tony:tony-dependencies:${Version.tonyVersion}"
-        const val tonyCore = "com.tony:tony-core:${Version.tonyVersion}"
-        const val tonyJwt = "com.tony:tony-jwt:${Version.tonyVersion}"
-        const val tonyWebAuth = "com.tony:tony-web-auth:${Version.tonyVersion}"
-        const val tonyFeign = "com.tony:tony-feign:${Version.tonyVersion}"
-        const val tonyWeb = "com.tony:tony-web:${Version.tonyVersion}"
-        const val tonyCache = "com.tony:tony-cache:${Version.tonyVersion}"
-
+        const val templateDependencies = "$projectGroup:$projectPrefix-dependencies:${Version.templateVersion}"
+        const val templateCore = "$projectGroup:$projectPrefix-core:${Version.templateVersion}"
+        const val templateJwt = "$projectGroup:$projectPrefix-jwt:${Version.templateVersion}"
+        const val templateWebAuth = "$projectGroup:$projectPrefix-web-auth:${Version.templateVersion}"
+        const val templateFeign = "$projectGroup:$projectPrefix-feign:${Version.templateVersion}"
+        const val templateWeb = "$projectGroup:$projectPrefix-web:${Version.templateVersion}"
+        const val templateCache = "$projectGroup:$projectPrefix-cache:${Version.templateVersion}"
     }
 
     object Jackson {

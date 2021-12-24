@@ -107,9 +107,21 @@ internal class WebConfig(
 @ConditionalOnWebApplication
 @ConfigurationProperties(prefix = "web")
 internal data class WebProperties(
+    /**
+     * 是否包装返回值。
+     */
     val responseWrapEnabled: Boolean = true,
+    /**
+     * 包装返回值白名单url（ant pattern）。
+     */
     val responseWrapExcludePatterns: List<String> = listOf(),
+    /**
+     * 是否记录请求日志。
+     */
     val traceLoggerEnabled: Boolean = true,
+    /**
+     * 是否处理响应json null值。
+     */
     val jsonNullValueOptimizedEnabled: Boolean = true
 )
 
@@ -118,6 +130,7 @@ internal data class WebProperties(
 @ConfigurationProperties(prefix = "web.cors")
 @ConditionalOnExpression("\${web.cors-enabled:false}")
 internal data class WebCorsProperties(
+    val enabled: Boolean = false,
     val allowedOrigins: List<String> = listOf(),
     val allowedHeaders: List<String> = listOf(),
     val allowedMethods: List<String> = listOf(),

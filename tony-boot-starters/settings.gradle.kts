@@ -8,17 +8,17 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+val projectPrefix: String by settings
+rootProject.name = "$projectPrefix-dependencies"
 
-rootProject.name = "tony-dependencies"
-
-include("tony-aliyun-oss")
-include("tony-aliyun-sms")
-include("tony-web")
-include("tony-core")
-include("tony-cache")
-include("tony-alipay")
-include("tony-wechat")
-include("tony-jwt")
-include("tony-web-auth")
-include("tony-feign")
+include("$projectPrefix-aliyun-oss")
+include("$projectPrefix-aliyun-sms")
+include("$projectPrefix-web")
+include("$projectPrefix-core")
+include("$projectPrefix-cache")
+include("$projectPrefix-alipay")
+include("$projectPrefix-wechat")
+include("$projectPrefix-jwt")
+include("$projectPrefix-web-auth")
+include("$projectPrefix-feign")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

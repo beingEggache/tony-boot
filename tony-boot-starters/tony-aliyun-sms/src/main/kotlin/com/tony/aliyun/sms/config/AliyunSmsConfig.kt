@@ -2,6 +2,7 @@ package com.tony.aliyun.sms.config
 
 import com.tony.aliyun.sms.AliyunSmsManager
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -21,6 +22,7 @@ class AliyunSmsAutoConfiguration(
     )
 }
 
+@ConstructorBinding
 @ConfigurationProperties(prefix = "aliyun.sms")
 class AliyunSmsProperties {
     var accessKeyId: String? = null

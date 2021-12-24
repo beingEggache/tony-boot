@@ -1,5 +1,8 @@
+@file:Suppress("SpringComponentScan")
+
 package com.tony.wechat.config
 
+import com.tony.PROJECT_GROUP
 import com.tony.wechat.DefaultWechatApiAccessTokenProvider
 import com.tony.wechat.DefaultWechatPropProvider
 import com.tony.wechat.WechatApiAccessTokenProvider
@@ -16,7 +19,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import javax.annotation.PostConstruct
 import javax.annotation.Resource
 
-@EnableFeignClients("com.tony.wechat.client")
+@EnableFeignClients("$PROJECT_GROUP.wechat.client")
 @Configuration
 @EnableConfigurationProperties(WechatProperties::class)
 internal class WechatConfig {

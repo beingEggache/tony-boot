@@ -24,6 +24,9 @@ internal class JwtConfig
 @ConfigurationProperties(prefix = "jwt")
 data class JwtProperties(
     val secret: String = "",
+    /**
+     * jwt token expired minutes, default value is one year.
+     */
     val expiredMinutes: Long = 525600L
 )
 

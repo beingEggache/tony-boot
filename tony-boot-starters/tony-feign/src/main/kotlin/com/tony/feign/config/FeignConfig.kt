@@ -75,7 +75,7 @@ class FeignConfig {
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "feign")
-class FeignConfigProperties(
+data class FeignConfigProperties(
     val callTimeout: Long = 0,
     val connectTimeout: Long = 10000,
     val readTimeout: Long = 10000,
