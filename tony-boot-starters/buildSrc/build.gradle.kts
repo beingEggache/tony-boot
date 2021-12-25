@@ -4,13 +4,21 @@ plugins {
     `kotlin-dsl`
 }
 
+val javaVersion:String by project
+
 configure<JavaPluginExtension> {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(11))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
+}
+
+kotlin {
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
 }
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = javaVersion
         allWarningsAsErrors = true
         verbose = true
         freeCompilerArgs = listOf(

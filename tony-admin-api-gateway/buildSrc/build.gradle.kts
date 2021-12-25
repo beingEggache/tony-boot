@@ -4,27 +4,35 @@ plugins {
     `kotlin-dsl`
 }
 
-repositories {
-    val privateGradleRepoUrl: String by project
-    maven(url = privateGradleRepoUrl) {
-        isAllowInsecureProtocol = true
-    }
-    gradlePluginPortal() // so that external plugins can be resolved in dependencies section
-}
+val javaVersion:String by project
 
 configure<JavaPluginExtension> {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(11))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
+}
+
+kotlin {
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
 }
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = javaVersion
         allWarningsAsErrors = true
         verbose = true
         freeCompilerArgs = listOf(
             "-Xjsr305=strict -Xlint:all -Werror -verbose -encoding=UTF8 -deprecation -version -progressive"
         )
     }
+}
+
+repositories {
+    val privateGradleRepoUrl: String by project
+    maven(url = privateGradleRepoUrl) {
+        isAllowInsecureProtocol = true
+    }
+    gradlePluginPortal() // so that external plugins can be resolved in dependencies section
 }
 
 dependencies {
