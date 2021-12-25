@@ -118,6 +118,8 @@ object DepsManagement {
             "org.springframework.boot:spring-boot-autoconfigure:${VersionManagement.springBootVersion}"
         const val configurationProcessor =
             "org.springframework.boot:spring-boot-configuration-processor:${VersionManagement.springBootVersion}"
+        const val autoconfigureProcessor =
+            "org.springframework.boot:spring-boot-autoconfigure-processor:${VersionManagement.springBootVersion}"
         const val devtools = "org.springframework.boot:spring-boot-devtools:${VersionManagement.springBootVersion}"
         const val starterActuator =
             "org.springframework.boot:spring-boot-starter-actuator:${VersionManagement.springBootVersion}"
@@ -228,7 +230,7 @@ private fun KClass<*>.staticFieldValues() = this.java.declaredFields.filter {
     it.get(null)
 }
 
-fun DependencyConstraintHandlerScope.addDepsManagement(){
+fun DependencyConstraintHandlerScope.addDepsManagement() {
     DepsManagement::class.nestedClasses.flatMap {
         it.staticFieldValues()
     }.forEach {

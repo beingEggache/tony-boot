@@ -13,8 +13,8 @@ dependencies {
         implementation(Deps.Other.springdocUi)
         implementation(Deps.SpringBoot.devtools)
     }
-    implementation(Deps.Tony.templateWebAuth) { isChanging = true }
-    implementation(Deps.Tony.templateFeign)
+    implementation(Deps.Template.templateWebAuth) { isChanging = true }
+    implementation(Deps.Template.templateFeign)
     implementation(project(":tony-service"))
     addTestDependencies()
 //    implementation(Deps.SpringBoot.starterActuator)

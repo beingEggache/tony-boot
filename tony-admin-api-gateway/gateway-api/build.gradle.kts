@@ -13,8 +13,8 @@ dependencies {
     implementation("org.apache.commons:commons-pool2:2.11.1")
     implementation(Deps.SpringBoot.starterDataRedisReactive)
 
-    implementation(Deps.Tony.templateCore)
-    implementation(Deps.Tony.templateJwt)
+    implementation(Deps.Template.templateCore)
+    implementation(Deps.Template.templateJwt)
 
     addTestDependencies()
 }

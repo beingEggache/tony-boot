@@ -4,6 +4,7 @@ import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 plugins {
     kotlin("jvm") version Version.kotlinVersion apply false
     kotlin("plugin.spring") version Version.kotlinVersion apply false
+    kotlin("kapt") version Version.kotlinVersion apply false
     idea
 }
 
@@ -34,13 +35,15 @@ configure(subprojects) {
 
     apply {
         plugin("kotlin")
+        plugin("kotlin-kapt")
         plugin("ktlint")
     }
 
     dependencies {
-        add("implementation", platform(Deps.Tony.templateDependencies))
+        add("implementation", platform(Deps.Template.templateDependencies))
         add("implementation", platform(Deps.SpringCloudDeps.springCloudDependencies))
         add("implementation", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
+        add("kapt", Deps.SpringBoot.autoconfigureProcessor)
     }
 
     configure<JavaPluginExtension> {

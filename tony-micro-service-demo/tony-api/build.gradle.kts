@@ -19,7 +19,7 @@ dependencies {
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
 
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
-    implementation(Deps.Tony.templateWeb)
+    implementation(Deps.Template.templateWeb)
 
     implementation(project(":tony-service"))
 }

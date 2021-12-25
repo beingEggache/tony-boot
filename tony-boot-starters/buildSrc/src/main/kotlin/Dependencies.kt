@@ -111,6 +111,8 @@ object Deps {
         const val autoconfigure = "org.springframework.boot:spring-boot-autoconfigure"
         const val configurationProcessor =
             "org.springframework.boot:spring-boot-configuration-processor"
+        const val autoconfigureProcessor =
+            "org.springframework.boot:spring-boot-autoconfigure-processor:${Version.springBootVersion}"
         const val devtools = "org.springframework.boot:spring-boot-devtools"
         const val starterActuator = "org.springframework.boot:spring-boot-starter-actuator"
         const val starterAmqp = "org.springframework.boot:spring-boot-starter-amqp"

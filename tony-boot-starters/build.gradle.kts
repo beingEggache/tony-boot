@@ -67,6 +67,7 @@ configure(subprojects) {
     dependencies {
         add("implementation", platform(rootProject))
         add("kapt", DepsManagement.SpringBoot.configurationProcessor)
+        add("kapt", DepsManagement.SpringBoot.autoconfigureProcessor)
     }
 
     tasks.withType<KotlinCompile>().configureEach {

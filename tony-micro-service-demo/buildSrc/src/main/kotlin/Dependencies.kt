@@ -31,7 +31,7 @@ object Deps {
             "org.springframework.cloud:spring-cloud-dependencies:${Version.springCloudVersion}"
     }
 
-    object Tony {
+    object Template {
         const val templateDependencies = "$projectGroup:$projectPrefix-dependencies:${Version.templateVersion}"
         const val templateCore = "$projectGroup:$projectPrefix-core:${Version.templateVersion}"
         const val templateJwt = "$projectGroup:$projectPrefix-jwt:${Version.templateVersion}"
@@ -112,6 +112,8 @@ object Deps {
         const val autoconfigure = "org.springframework.boot:spring-boot-autoconfigure"
         const val configurationProcessor =
             "org.springframework.boot:spring-boot-configuration-processor"
+        const val autoconfigureProcessor =
+            "org.springframework.boot:spring-boot-autoconfigure-processor:${Version.springBootVersion}"
         const val devtools = "org.springframework.boot:spring-boot-devtools"
         const val starterActuator = "org.springframework.boot:spring-boot-starter-actuator"
         const val starterAmqp = "org.springframework.boot:spring-boot-starter-amqp"
