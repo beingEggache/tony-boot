@@ -66,7 +66,7 @@ internal class WebConfig(
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
     fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter {
-        logger.info("Request trace log is Enabled.")
+        logger.info("Request trace log is enabled.")
         return TraceLoggingFilter(requestTraceLogger)
     }
 

@@ -9,10 +9,12 @@ plugins {
     idea
 }
 
+val javaVersion:String by project
+
 copyProjectHookToGitHook("pre-commit", "pre-push")
 
 idea.project {
-    jdkName = "11"
+    jdkName = javaVersion
     languageLevel = IdeaLanguageLevel(JavaVersion.VERSION_11)
     vcs = "Git"
 }
@@ -62,7 +64,7 @@ configure(subprojects) {
     }
 
     configure<JavaPluginExtension> {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(11))
+        toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
     }
 
     configure<KotlinJvmProjectExtension> {
@@ -80,7 +82,7 @@ configure(subprojects) {
     tasks.withType<KotlinCompile>().configureEach {
         val isTest = this.name.contains("test", ignoreCase = true)
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = javaVersion
             allWarningsAsErrors = !isTest
             verbose = true
             freeCompilerArgs = listOf(
