@@ -1,8 +1,9 @@
-feign:
-  okhttp:
-    enabled: true
-  httpclient:
-    enabled: false
-logging:
-  level:
-    root: DEBUG
+spring:
+  profiles:
+    active: dev
+  application:
+    name: tony-api
+  main:
+    banner-mode: off
+server:
+  port: 8080

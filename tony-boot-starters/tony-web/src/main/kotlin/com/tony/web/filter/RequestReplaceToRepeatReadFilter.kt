@@ -4,6 +4,7 @@ import com.tony.utils.doIf
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -38,6 +39,13 @@ internal class RequestReplaceToRepeatReadFilter : Filter, PriorityOrdered {
 class RepeatReadRequestWrapper
 @Throws(IOException::class)
 internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
+
+    init {
+        // TODO don't know why must do this can get parts in controller.
+        if (request.contentType.contains(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+            request.parts
+        }
+    }
 
     private val cachedContent =
         ByteArrayOutputStream(request.contentLength.coerceAtLeast(0)).doIf(!isFormPost()) {

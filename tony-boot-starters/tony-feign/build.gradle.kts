@@ -6,7 +6,9 @@ dependencies {
     api("org.springframework.cloud:spring-cloud-starter-openfeign")
     api("org.springframework.cloud:spring-cloud-starter-loadbalancer")
     implementation(Deps.Other.caffeine)
+
     addTestDependencies()
+    testImplementation(projects.tonyWebAuth)
 }
 
 tasks.named<Test>("test") {

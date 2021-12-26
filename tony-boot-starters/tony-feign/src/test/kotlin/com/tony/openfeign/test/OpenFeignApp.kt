@@ -19,3 +19,5 @@ class OpenFeignApp {
     @Bean
     fun byHeaderRequestProcessor() = MyByHeaderRequestProcessor()
 }
+
+const val testFilePath = "C:/workspace/test"

@@ -25,15 +25,17 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import javax.annotation.Resource
 
-@SpringBootTest(classes = [OpenFeignApp::class])
+@SpringBootTest(classes = [OpenFeignApp::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class OpenFeignFileTest {
 
     @Resource
     lateinit var testFileClient: TestFileClient
 
+    val filePath = "C:/Users/7ony/Pictures/timg.jpg"
+
     @Test
     fun testMultiFileUpload() {
-        val bytes1 = Files.readAllBytes(Paths.get("C:\\wokspace\\pdf\\48A246021EF4497AA544AC9ECE5F60CB.png"))
+        val bytes1 = Files.readAllBytes(Paths.get(filePath))
         val file1 = ByteArrayMultipartFile(
             "uploadMany1.png",
             bytes1
@@ -50,7 +52,7 @@ class OpenFeignFileTest {
 
     @Test
     fun testSingleFileUpload() {
-        val bytes1 = Files.readAllBytes(Paths.get("C:\\wokspace\\pdf\\48A246021EF4497AA544AC9ECE5F60CB.png"))
+        val bytes1 = Files.readAllBytes(Paths.get(filePath))
         val file1 = ByteArrayMultipartFile(
             "uploadSingle.png",
             bytes1

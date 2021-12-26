@@ -1,4 +1,4 @@
-package com.tony.api.controller
+package com.tony.openfeign.test.controller
 
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping

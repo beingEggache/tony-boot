@@ -7,8 +7,9 @@
  * @author tangli
  * @since 2021/12/7 14:23
  */
-package com.tony.api.controller
+package com.tony.openfeign.test.controller
 
+import com.tony.openfeign.test.testFilePath
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -23,15 +24,15 @@ class FileController {
     @PostMapping("/upload-many", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun uploadMany(
         @RequestPart("files")
-        files: List<MultipartFile>,
+        files: List<MultipartFile>?,
         @RequestParam("remark")
         remark: String?
     ) {
         println(remark)
-        files.forEach {
+        files?.forEach {
             println(it.name)
             println(it.originalFilename)
-            it.transferTo(Paths.get("C:\\wokspace\\pdf\\${it.originalFilename}"))
+            it.transferTo(Paths.get("$testFilePath/${it.originalFilename}"))
         }
     }
 
@@ -45,6 +46,6 @@ class FileController {
         println(remark)
         println(file.name)
         println(file.originalFilename)
-        file.transferTo(Paths.get("C:\\wokspace\\pdf\\${file.originalFilename}"))
+        file.transferTo(Paths.get("$testFilePath/${file.originalFilename}"))
     }
 }
