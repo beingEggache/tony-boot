@@ -1,6 +1,8 @@
 package com.tony.feign.log
 
 import com.tony.feign.interceptor.NetworkInterceptor
+import com.tony.feign.isTextMediaTypes
+import com.tony.feign.parsedMedia
 import com.tony.feign.string
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
@@ -52,8 +54,14 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val query = url.query.defaultIfBlank("[null]")
         val path = url.path
         val headers = request.headers.toMultimap().toMap().mapValues { it.value.joinToString() }.toJsonString()
-        val responseBody = response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).string()
-        val requestBody = request.body?.string()
+        val responseBody = response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).run {
+            if (isTextMediaTypes(parsedMedia)) string()
+            else "[${contentType()}]"
+        }
+        val requestBody = request.body?.run {
+            if (isTextMediaTypes(parsedMedia)) string()
+            else "[${contentType()}]"
+        }
         val remoteIp = connection?.socket()?.inetAddress?.hostAddress
         val localIp = connection?.socket()?.localAddress?.hostAddress
         val logStr =
