@@ -47,7 +47,7 @@ internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(re
      * 先把parts在初始化时就保存下来，否则会获取不到。暂时的成本低的做法。
      */
     private val initializedParts: MutableCollection<Part> =
-        if (request.contentType.contains(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+        if (request.contentType?.contains(MediaType.MULTIPART_FORM_DATA_VALUE) == true) {
             request.parts
         } else {
             Collections.emptyList()
