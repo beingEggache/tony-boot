@@ -30,22 +30,22 @@ import java.util.concurrent.TimeUnit
 class FeignConfig {
 
     @Bean
-    fun encoder(messageConverters: ObjectFactory<HttpMessageConverters>): Encoder =
+    internal fun encoder(messageConverters: ObjectFactory<HttpMessageConverters>): Encoder =
         SpringFormEncoder(SpringEncoder(messageConverters))
 
     @Bean
-    fun decoder(
+    internal fun decoder(
         messageConverters: ObjectFactory<HttpMessageConverters>,
         customizers: ObjectProvider<HttpMessageConverterCustomizer>
     ): Decoder = SpringDecoder(messageConverters, customizers)
 
     @ConditionalOnMissingBean(ErrorDecoder::class)
     @Bean
-    fun errorDecoder() = DefaultErrorDecoder()
+    internal fun errorDecoder() = DefaultErrorDecoder()
 
     @ConditionalOnMissingBean(FeignRequestTraceLogger::class)
     @Bean
-    fun feignRequestTraceLogger(): FeignRequestTraceLogger = DefaultFeignRequestTraceLogger()
+    internal fun feignRequestTraceLogger(): FeignRequestTraceLogger = DefaultFeignRequestTraceLogger()
 
     @Bean
     internal fun feignLogInterceptor(
@@ -54,7 +54,7 @@ class FeignConfig {
 
     @ConditionalOnMissingBean(OkHttpClient::class)
     @Bean
-    fun okHttpClient(
+    internal fun okHttpClient(
         appInterceptors: List<AppInterceptor>,
         networkInterceptors: List<NetworkInterceptor>,
         feignConfigProperties: FeignConfigProperties

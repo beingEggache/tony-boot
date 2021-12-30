@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration
 internal class RedisCacheConfig {
 
     @Bean
-    fun redisCacheAspect(): DefaultRedisCacheAspect = DefaultRedisCacheAspect()
+    internal fun redisCacheAspect(): DefaultRedisCacheAspect = DefaultRedisCacheAspect()
 }
 
 @ConstructorBinding

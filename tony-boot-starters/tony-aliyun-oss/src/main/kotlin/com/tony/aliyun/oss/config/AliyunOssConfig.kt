@@ -14,7 +14,7 @@ internal class AliyunOssAutoConfiguration(
 ) {
 
     @Bean
-    fun ossService() = let {
+    internal fun ossService() = let {
 
         val (
             accessKeyId,

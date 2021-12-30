@@ -29,13 +29,13 @@ internal class WebAuthConfig(
 
     @ConditionalOnMissingBean(LoginCheckInterceptor::class)
     @Bean
-    fun loginCheckInterceptor(): LoginCheckInterceptor =
+    internal fun loginCheckInterceptor(): LoginCheckInterceptor =
         if (jwtProperties.secret.isNotBlank()) DefaultJwtLoginCheckInterceptor() else NoopLoginCheckInterceptor()
 
     @ConditionalOnMissingBean(ApiSession::class)
     @ConditionalOnWebApplication
     @Bean
-    fun apiSession(): ApiSession =
+    internal fun apiSession(): ApiSession =
         if (jwtProperties.secret.isNotBlank()) {
             logger.info("Jwt auth is enabled")
             JwtApiSession()

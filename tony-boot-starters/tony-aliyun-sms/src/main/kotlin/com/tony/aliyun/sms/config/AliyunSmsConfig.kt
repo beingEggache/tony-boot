@@ -14,7 +14,7 @@ class AliyunSmsAutoConfiguration(
 ) {
 
     @Bean
-    fun smsService() = AliyunSmsManager(
+    internal fun smsService() = AliyunSmsManager(
         aliyunSMSProperties.accessKeyId ?: "",
         aliyunSMSProperties.accessKeySecret ?: "",
         aliyunSMSProperties.signName ?: "",

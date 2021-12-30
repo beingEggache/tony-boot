@@ -28,7 +28,7 @@ internal class WechatConfig {
     lateinit var mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter
 
     @PostConstruct
-    fun init() {
+    private fun init() {
         val supportedMediaTypes = mappingJackson2HttpMessageConverter.supportedMediaTypes
         mappingJackson2HttpMessageConverter.supportedMediaTypes =
             listOf(*supportedMediaTypes.toTypedArray(), MediaType.TEXT_PLAIN)
@@ -36,12 +36,12 @@ internal class WechatConfig {
 
     @ConditionalOnMissingBean(WechatApiAccessTokenProvider::class)
     @Bean
-    fun apiAccessTokenProviderWrapper(): WechatApiAccessTokenProvider =
+    internal fun apiAccessTokenProviderWrapper(): WechatApiAccessTokenProvider =
         DefaultWechatApiAccessTokenProvider()
 
     @ConditionalOnMissingBean(WechatPropProvider::class)
     @Bean
-    fun wechatApiPropProvider(wechatProperties: WechatProperties) =
+    internal fun wechatApiPropProvider(wechatProperties: WechatProperties) =
         DefaultWechatPropProvider(wechatProperties)
 }
 

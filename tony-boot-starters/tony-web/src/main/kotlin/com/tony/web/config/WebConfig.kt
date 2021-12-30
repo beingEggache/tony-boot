@@ -53,26 +53,26 @@ internal class WebConfig(
     }
 
     @Bean
-    fun requestReplaceToRepeatReadFilter() = RequestReplaceToRepeatReadFilter()
+    internal fun requestReplaceToRepeatReadFilter() = RequestReplaceToRepeatReadFilter()
 
     @Bean
-    fun traceIdFilter() = TraceIdFilter()
+    internal fun traceIdFilter() = TraceIdFilter()
 
     @ConditionalOnMissingBean(RequestTraceLogger::class)
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
-    fun defaultRequestTraceLogger(): RequestTraceLogger = DefaultRequestTraceLogger()
+    internal fun defaultRequestTraceLogger(): RequestTraceLogger = DefaultRequestTraceLogger()
 
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
-    fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter {
+    internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter {
         logger.info("Request trace log is enabled.")
         return TraceLoggingFilter(requestTraceLogger)
     }
 
     @ConditionalOnProperty("web.cors.enabled")
     @Bean
-    fun corsFilter(): CorsFilter {
+    internal fun corsFilter(): CorsFilter {
         logger.info("Cors is enabled.")
         val source = UrlBasedCorsConfigurationSource()
         val corsConfiguration = CorsConfiguration().apply {
@@ -91,7 +91,7 @@ internal class WebConfig(
     }
 
     @PostConstruct
-    fun init() {
+    private fun init() {
         if (webProperties.jsonNullValueOptimizedEnabled) {
             logger.info("Response json null value optimizing is enabled.")
             mappingJackson2HttpMessageConverter.objectMapper = createObjectMapper().apply {

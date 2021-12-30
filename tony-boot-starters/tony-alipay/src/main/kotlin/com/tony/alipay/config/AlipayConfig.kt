@@ -18,7 +18,7 @@ internal class AlipayAutoConfiguration(
     private val resourceResolver = PathMatchingResourcePatternResolver()
 
     @Bean
-    fun alipayService() = let {
+    internal fun alipayService() = let {
         val appId = alipayProperties.appId
         val publicKey = getKey(alipayProperties.publicKeyPath, "publicKey")
         val privateKey = getKey(alipayProperties.privateKeyPath, "privateKey")
