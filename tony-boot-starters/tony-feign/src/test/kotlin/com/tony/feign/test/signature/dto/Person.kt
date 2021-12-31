@@ -7,7 +7,7 @@
  * @author tangli
  * @since 2021/12/27 9:29
  */
-package com.tony.feign.test.dto
+package com.tony.feign.test.signature.dto
 
 
 data class Person(

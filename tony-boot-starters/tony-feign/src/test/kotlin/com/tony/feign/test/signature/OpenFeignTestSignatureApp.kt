@@ -1,4 +1,4 @@
-package com.tony.feign.test.signaturetest
+package com.tony.feign.test.signature
 
 import com.tony.annotation.EnableTonyBoot
 import com.tony.feign.exception.SignInvalidException
@@ -26,7 +26,7 @@ import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@EnableFeignClients("com.tony.feign.test.client")
+@EnableFeignClients
 @EnableTonyBoot
 @SpringBootApplication
 class OpenFeignTestSignatureApp : WebMvcConfigurer {

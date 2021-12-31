@@ -7,7 +7,7 @@
  * @author tangli
  * @since 2021/12/7 14:23
  */
-package com.tony.feign.test.filetest.controller
+package com.tony.feign.test.file.controller
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType

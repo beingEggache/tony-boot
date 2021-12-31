@@ -7,14 +7,14 @@
  * @author tangli
  * @since 2021/12/7 14:40
  */
-package com.tony.feign.test.filetest
+package com.tony.feign.test.file
 
 import com.tony.ApiProperty
 import com.tony.exception.BizException
 import com.tony.feign.misc.ByteArrayMultipartFile
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
-import com.tony.feign.test.client.OpenFeignTestFileClient
+import com.tony.feign.test.file.client.OpenFeignTestFileClient
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest

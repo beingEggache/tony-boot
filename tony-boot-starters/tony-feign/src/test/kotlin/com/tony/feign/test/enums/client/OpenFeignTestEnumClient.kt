@@ -1,0 +1,38 @@
+/**
+ * com.tony-dependencies
+ * clients
+ *
+ * TODO
+ *
+ * @author tangli
+ * @since 2021/12/27 9:31
+ */
+package com.tony.feign.test.enums.client
+
+import com.tony.feign.test.enums.controller.EnumTest
+import org.springframework.cloud.openfeign.FeignClient
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
+
+@FeignClient(name = "openFeignTestEnumClient", url = "http://localhost:8080")
+interface OpenFeignTestEnumClient {
+    @GetMapping("/test-int-enum")
+    fun testIntEnum(
+        @RequestParam
+        myIntEnum: Int
+    )
+
+    @GetMapping("/test-string-enum")
+    fun testStringEnum(
+        @RequestParam
+        myStringEnum: String
+    )
+
+    @PostMapping("/test-post-enum")
+    fun testPostEnum(
+        @RequestBody
+        enumTest: EnumTest
+    )
+}
