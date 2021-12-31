@@ -11,7 +11,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
 @Configuration
 @EnableConfigurationProperties(AlipayProperties::class)
-internal class AlipayAutoConfiguration(
+internal class AlipayConfig(
     private val alipayProperties: AlipayProperties
 ) {
 

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableConfigurationProperties(AliyunOssProperties::class)
-internal class AliyunOssAutoConfiguration(
+internal class AliyunOssConfig(
     private val aliyunOssProperties: AliyunOssProperties
 ) {
 

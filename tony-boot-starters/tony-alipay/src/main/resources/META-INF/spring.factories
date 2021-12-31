@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.tony.alipay.config.AlipayAutoConfiguration
+  com.tony.alipay.config.AlipayConfig

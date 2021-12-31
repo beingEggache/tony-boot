@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableConfigurationProperties(AliyunSmsProperties::class)
-class AliyunSmsAutoConfiguration(
+class AliyunSmsConfig(
     private val aliyunSMSProperties: AliyunSmsProperties
 ) {
 

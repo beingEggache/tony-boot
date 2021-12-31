@@ -140,7 +140,7 @@
         <appender-ref ref="error"/>
     </root>
 
-    <!-- additivity 叠加。 -->
+    <!-- additivity 叠加。 是否向上级loger传递打印信息 -->
     <!-- 当 additivity="false" 时， 子logger会覆盖root logger的输出 -->
     <!-- 也就是只会在自己的logger输出，否则会输出两次。root logger一次，自己一次。 -->
     <logger name="trace-logger" level="TRACE" additivity="false">
