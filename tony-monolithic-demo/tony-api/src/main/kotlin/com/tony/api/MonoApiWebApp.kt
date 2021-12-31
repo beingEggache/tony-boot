@@ -5,12 +5,14 @@ package com.tony.api
 import com.tony.Env
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
+import com.tony.db.config.DbConfig
 import com.tony.web.ApiSession
 import com.tony.web.WebApp
 import com.tony.web.WebContext
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Import
 import org.springframework.core.PriorityOrdered
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
@@ -80,6 +82,7 @@ fun main(args: Array<String>) {
 }*/
 
 @EnableTonyBoot
+@Import(value = [DbConfig::class])
 @SpringBootApplication
 class MonoApiWebApp(
     private val permissionInterceptor: PermissionInterceptor

@@ -1,9 +1,8 @@
-package tony.feign.test.signaturetest
+package com.tony.feign.test.signaturetest
 
 import com.tony.ApiProperty
-import tony.feign.test.client.OpenFeignTestSignatureClient
-import tony.feign.test.signaturetest.OpenFeignTestSignatureApp
-import tony.feign.test.dto.Person
+import com.tony.feign.test.client.OpenFeignTestSignatureClient
+import com.tony.feign.test.dto.Person
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
 import org.junit.jupiter.api.Test

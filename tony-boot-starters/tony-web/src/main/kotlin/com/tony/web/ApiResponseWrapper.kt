@@ -9,7 +9,6 @@ import com.tony.ListResult
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter
@@ -22,7 +21,6 @@ import java.time.temporal.TemporalAccessor
 import java.util.Collections
 import java.util.Date
 
-@ConditionalOnWebApplication
 @ConditionalOnExpression("\${web.response-wrap-enabled:true}")
 @RestControllerAdvice
 internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {

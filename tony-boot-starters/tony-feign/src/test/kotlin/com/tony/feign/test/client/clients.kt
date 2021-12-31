@@ -1,5 +1,5 @@
 /**
- * tony-dependencies
+ * com.tony-dependencies
  * clients
  *
  * TODO
@@ -7,10 +7,10 @@
  * @author tangli
  * @since 2021/12/27 9:31
  */
-package tony.feign.test.client
+package com.tony.feign.test.client
 
 import com.tony.ApiResult
-import tony.feign.test.dto.Person
+import com.tony.feign.test.dto.Person
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping

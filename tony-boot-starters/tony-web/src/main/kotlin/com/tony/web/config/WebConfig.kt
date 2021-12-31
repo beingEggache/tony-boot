@@ -5,6 +5,8 @@ import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.utils.createObjectMapper
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
+import com.tony.web.ApiResponseWrapper
+import com.tony.web.ExceptionHandler
 import com.tony.web.converter.EnumIntValueConverterFactory
 import com.tony.web.converter.EnumStringValueConverterFactory
 import com.tony.web.filter.RequestReplaceToRepeatReadFilter
@@ -69,6 +71,18 @@ internal class WebConfig(
         logger.info("Request trace log is enabled.")
         return TraceLoggingFilter(requestTraceLogger)
     }
+
+    @ConditionalOnWebApplication
+    @ConditionalOnExpression("\${web.response-wrap-enabled:true}")
+    @Bean
+    internal fun apiResponseWrapper(): ApiResponseWrapper {
+        logger.info("Response wrap is enabled.")
+        return ApiResponseWrapper()
+    }
+
+    @ConditionalOnWebApplication
+    @Bean
+    internal fun exceptionHandler() = ExceptionHandler()
 
     @ConditionalOnProperty("web.cors.enabled")
     @Bean

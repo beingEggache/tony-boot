@@ -4,6 +4,7 @@ import com.tony.ApiResult.Companion.toOneResult
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserLoginReq
+import com.tony.exception.BizException
 import com.tony.jwt.config.JwtToken
 import com.tony.utils.defaultZoneId
 import com.tony.utils.toString
@@ -57,4 +58,19 @@ class IndexController(
         @RequestBody
         loginReq: UserLoginReq
     ) = JwtToken.gen("userId" to userService.login(loginReq).userId).toOneResult()
+
+    @Operation(summary = "空")
+    @NoLoginCheck
+    @NoPermissionCheck
+    @GetMapping("/void")
+    fun void() {
+    }
+
+    @Operation(summary = "异常")
+    @NoLoginCheck
+    @NoPermissionCheck
+    @GetMapping("/exception")
+    fun exception() {
+        throw BizException("exception")
+    }
 }

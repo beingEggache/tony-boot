@@ -3,7 +3,6 @@ package com.tony
 import org.springframework.beans.factory.getBean
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
-import org.springframework.stereotype.Component
 
 /**
  * tony-dependencies
@@ -20,8 +19,7 @@ object Beans : ApplicationContext by ApplicationContextHolder.springContext {
     inline fun <reified T : Any> getBeanByLazy(): Lazy<T> = lazy { getBean() }
 }
 
-@Component
-private object ApplicationContextHolder : ApplicationContextAware {
+internal object ApplicationContextHolder : ApplicationContextAware {
 
     @JvmStatic
     lateinit var springContext: ApplicationContext

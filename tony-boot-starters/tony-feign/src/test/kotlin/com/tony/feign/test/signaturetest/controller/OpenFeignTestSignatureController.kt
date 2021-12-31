@@ -1,6 +1,6 @@
-package tony.feign.test.signaturetest.controller
+package com.tony.feign.test.signaturetest.controller
 
-import tony.feign.test.dto.Person
+import com.tony.feign.test.dto.Person
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

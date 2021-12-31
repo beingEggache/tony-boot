@@ -1,5 +1,5 @@
 /**
- * tony-dependencies
+ * com.tony-dependencies
  * dtos
  *
  * TODO
@@ -7,7 +7,7 @@
  * @author tangli
  * @since 2021/12/27 9:29
  */
-package tony.feign.test.dto
+package com.tony.feign.test.dto
 
 
 data class Person(
