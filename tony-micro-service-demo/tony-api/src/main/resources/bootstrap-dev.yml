@@ -5,5 +5,3 @@ spring:
       password: Nacos@ktwl
       discovery:
         namespace: "dev"
-logging:
-  config: classpath:logback-dev.xml
