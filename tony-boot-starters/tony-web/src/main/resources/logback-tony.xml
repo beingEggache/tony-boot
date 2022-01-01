@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<included>
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,%i索引【从数字0开始递增】,,, -->
     <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %magenta([%thread]) %blue(%-5level) %cyan(%logger Line:%-3L) %yellow(%X{X-B3-TraceId:-}) - %msg%n"/>
     <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L %X{X-B3-TraceId:-} - %msg%n"/>
-    <property name="HTTP_TRACE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-[null]}|%msg%n"/>
+    <property name="HTTP_TRACE_PATTERN" value="${HTTP_TRACE_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS}|%X{X-B3-TraceId:-[null]}|%msg%n}"/>
 
-    <property name="LOG_FILE_PATH" value="../logs"/>
+    <property name="LOG_FILE_PATH" value="${LOG_FILE_PATH:-../logs}"/>
     <property name="FILE_LOG_CHARSET" value="UTF-8"/>
-    <property name="MAX_File_SIZE" value="10MB"/>
-    <property name="MAX_HISTORY" value="30"/>
+    <property name="MAX_File_SIZE" value="${MAX_File_SIZE:-10MB}"/>
+    <property name="MAX_HISTORY" value="${MAX_HISTORY:-30}"/>
 
-    <property name="ONLY_CONSOLE_PROFILES" value="dev"/>
-    <property name="NEED_FILE_LOG_PROFILES" value="qa,prod,uat"/>
+    <property name="ONLY_CONSOLE_PROFILES" value="${ONLY_CONSOLE_PROFILES:-dev}"/>
+    <property name="NEED_FILE_LOG_PROFILES" value="${NEED_FILE_LOG_PROFILES:-qa,prod,uat}"/>
 
     <!-- appender是configuration的子节点，是负责写日志的组件。 -->
     <!-- ConsoleAppender：把日志输出到控制台 -->
@@ -35,7 +35,6 @@
         <!-- 也就是只会在自己的logger输出，否则会输出两次。root logger一次，自己一次。 -->
         <logger name="trace-logger" level="TRACE" />
         <logger name="request-logger" level="TRACE" />
-        <logger name="org.springframework.web" level="DEBUG"/>
     </springProfile>
 
     <springProfile name="${NEED_FILE_LOG_PROFILES}">
@@ -171,4 +170,4 @@
     <logger name="org.apache.catalina.core.StandardEngine" level="ERROR" additivity="false" />
     <logger name="org.springframework.boot.web.embedded.tomcat.TomcatWebServer" level="ERROR" additivity="false" />
     <!-- hide info end-->
-</configuration>
+</included>
