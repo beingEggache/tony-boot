@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="logback-tony.xml"/>
+
+    <springProfile name="${ONLY_CONSOLE_PROFILES}">
+        <logger name="org.springframework.web" level="DEBUG"/>
+    </springProfile>
+</configuration>
