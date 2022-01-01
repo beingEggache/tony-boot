@@ -23,10 +23,12 @@ import org.springframework.cloud.openfeign.support.SpringDecoder
 import org.springframework.cloud.openfeign.support.SpringEncoder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.PropertySource
 import java.util.concurrent.TimeUnit
 
 @EnableConfigurationProperties(FeignConfigProperties::class)
 @Configuration
+@PropertySource("classpath:feign.properties")
 class FeignConfig {
 
     @Bean
