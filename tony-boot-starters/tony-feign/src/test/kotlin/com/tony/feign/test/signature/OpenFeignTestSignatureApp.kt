@@ -1,7 +1,7 @@
 package com.tony.feign.test.signature
 
 import com.tony.annotation.EnableTonyBoot
-import com.tony.feign.exception.SignInvalidException
+import com.tony.feign.test.exception.SignInvalidException
 import com.tony.feign.genSign
 import com.tony.feign.interceptor.ByHeaderRequestProcessor
 import com.tony.feign.interceptor.ProcessByHeaderInterceptor

@@ -47,11 +47,11 @@ open class ProcessByHeaderInterceptor(
         request: Request,
         chain: Interceptor.Chain
     ): Response {
-        getLogger().info("bean $processorImpl<${processor::class.jvmName}> process start")
+        getLogger().info("$processorImpl ${processor::class.jvmName} process start")
         val requestRemoveHeader = request.newBuilder().removeHeader(headerName).build()
         val newRequest = processor.process(requestRemoveHeader)
         val response = chain.proceed(newRequest)
-        getLogger().info("bean $processorImpl<${processor::class.jvmName}> process end")
+        getLogger().info("$processorImpl ${processor::class.jvmName} process end")
         return response
     }
 }

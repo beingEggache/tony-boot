@@ -7,7 +7,7 @@
  * @author tangli
  * @since 2021/12/20 11:22
  */
-package com.tony.feign.exception
+package com.tony.feign.test.exception
 
 import com.tony.ApiProperty
 import com.tony.exception.BizException

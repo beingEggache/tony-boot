@@ -1,6 +1,7 @@
 package com.tony.enums
 
 import com.fasterxml.jackson.annotation.JsonValue
+import com.tony.utils.getLogger
 import java.io.Serializable
 
 sealed interface EnumValue<T : Serializable> {
@@ -17,10 +18,13 @@ abstract class EnumCreator<out E, KEY>(
 ) where E : EnumValue<KEY>,
         KEY : Serializable {
 
+    private val logger = getLogger()
+
     init {
         if (!clazz.isEnum) throw IllegalStateException("implemented class must be an enum")
         @Suppress("LeakingThis")
         creators[clazz] = this
+        logger.debug("${ clazz.name } EnumCreator initialized.")
     }
 
     open fun create(value: KEY) = enumValues.firstOrNull { value == it.value }
