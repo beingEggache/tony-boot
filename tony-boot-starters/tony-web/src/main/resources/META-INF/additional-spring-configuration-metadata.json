@@ -24,7 +24,7 @@
             "name": "core.validation-error-msg",
             "type": "java.lang.String",
             "description": "全局默认验证失败信息。",
-            "defaultValue": "参数有误，请检查后输入"
+            "defaultValue": "请求有误，请检查后输入"
         },
         {
             "name": "core.validation-error-code",

@@ -23,5 +23,5 @@ object ApiProperty {
     val errorMsg: String by getPropertyByLazy("core.error-msg", "访客太多，请稍后重试")
 
     @JvmStatic
-    val validationErrorMsg: String by getPropertyByLazy("core.validation-error-msg", "参数有误，请检查后输入")
+    val validationErrorMsg: String by getPropertyByLazy("core.validation-error-msg", "请求有误，请检查后输入")
 }

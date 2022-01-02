@@ -52,6 +52,7 @@ object WebApp {
             sanitizedPath("$prefix/$errorPath"),
             sanitizedPath("$prefix/swagger-resources/**"),
             sanitizedPath("$prefix/v2/api-docs/**"),
+            sanitizedPath("$prefix/v3/api-docs/**"),
             sanitizedPath("$prefix/webjars/**"),
             sanitizedPath("$prefix/**/*.html"),
             sanitizedPath("$prefix/**/*.ico"),
