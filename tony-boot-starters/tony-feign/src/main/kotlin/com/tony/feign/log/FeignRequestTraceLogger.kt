@@ -9,7 +9,6 @@ import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toInstant
 import com.tony.utils.toJsonString
-import com.tony.utils.toString
 import okhttp3.Connection
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -25,12 +24,11 @@ internal class FeignLogInterceptor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val startTime = LocalDateTime.now()
-        val startTimeStr = startTime.toString("yyyy-MM-dd HH:mm:ss.SSS")
         val request = chain.request()
         val response = chain.proceed(request)
         val elapsedTime = System.currentTimeMillis() - startTime.toInstant().toEpochMilli()
 
-        feignRequestTraceLogger.log(chain.connection(), request, response, startTimeStr, elapsedTime)
+        feignRequestTraceLogger.log(chain.connection(), request, response, elapsedTime)
         return response
     }
 }
@@ -43,7 +41,6 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         connection: Connection?,
         request: Request,
         response: Response,
-        startTime: String,
         elapsedTime: Long
     ) {
         val url = request.url.toUri().toURL()
@@ -66,7 +63,6 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val localIp = connection?.socket()?.localAddress?.hostAddress
         val logStr =
             """
-            |$startTime|
             |$elapsedTime|
             |$resultCode|
             |[null]|
@@ -97,7 +93,6 @@ interface FeignRequestTraceLogger {
         connection: Connection?,
         request: Request,
         response: Response,
-        startTime: String,
         elapsedTime: Long
     )
 }

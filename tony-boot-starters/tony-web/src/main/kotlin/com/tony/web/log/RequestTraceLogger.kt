@@ -28,7 +28,6 @@ fun interface RequestTraceLogger {
     fun requestTraceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
-        startTimeStr: String,
         elapsedTime: Long
     )
 
@@ -64,7 +63,6 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
     override fun requestTraceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
-        startTimeStr: String,
         elapsedTime: Long
     ) {
         val origin = request.requestURL?.toString() ?: ""
@@ -81,7 +79,6 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         val resultStatus = resultStatus(resultCode)
         val logStr =
             """
-            |$startTimeStr|
             |$elapsedTime|
             |$resultCode|
             |$resultStatus|

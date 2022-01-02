@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
+
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${APP_NAME:-[null]} %-5level %logger Line:%-3L %X{X-B3-TraceId:-} - %msg%n"/>
+    <property name="HTTP_TRACE_PATTERN" value="${HTTP_TRACE_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS}|${APP_NAME:-[null]}|%X{X-B3-TraceId:-[null]}|%msg%n}"/>
+
+    <property name="LOG_FILE_PATH" value="${LOG_FILE_PATH:-../logs}"/>
+    <property name="MAX_File_SIZE" value="${MAX_File_SIZE:-10MB}"/>
+    <property name="MAX_HISTORY" value="${MAX_HISTORY:-30}"/>
+
+    <!-- RollingFileAppender：滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
+    <!-- 以下的大概意思是：1.先按日期存日志，日期变了，将前一天的日志文件名重命名为XXX%日期%索引，新的日志仍然是demo.log -->
+    <!--             2.如果日期没有发生变化，但是当前日志的文件大小超过1KB时，对当前日志进行分割 重命名-->
+    <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_FILE_PATH}/stdout.log</File>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>  <!-- 如果命中就禁止这条日志 -->
+            <onMismatch>ACCEPT</onMismatch>  <!-- 如果没有命中就使用这条规则 -->
+        </filter>
+        <!-- rollingPolicy:当发生滚动时，决定 RollingFileAppender 的行为，涉及文件移动和重命名。 -->
+        <!-- TimeBasedRollingPolicy： 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 活动文件的名字会根据fileNamePattern的值，每隔一段时间改变一次 -->
+            <!-- 文件名：log/stdout.2018-04-10.0.log -->
+            <fileNamePattern>${LOG_FILE_PATH}/%d/stdout.%i.log</fileNamePattern>
+            <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- maxFileSize:这是活动文件的大小，默认值是10MB，测试时可改成1KB看效果 -->
+                <maxFileSize>${MAX_File_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <!-- pattern节点，用来设置日志的输入格式 -->
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <!-- 记录日志的编码:此处设置字符集 - -->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_FILE_PATH}/warn.log</File>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE_PATH}/%d/warn.%i.log</fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_File_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_FILE_PATH}/error.log</File>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE_PATH}/%d/error.%i.log</fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_File_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_FILE_PATH}/trace.log</File>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE_PATH}/%d/trace.%i.log</fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_File_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${HTTP_TRACE_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="FEIGN_TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_FILE_PATH}/request.log</File>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE_PATH}/%d/request.%i.log</fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_File_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${HTTP_TRACE_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="WARN"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ERROR"/>
+    </root>
+
+    <!-- additivity 叠加。 是否向上级logger传递打印信息 -->
+    <!-- 当 additivity="false" 时， 子logger会覆盖root logger的输出 -->
+    <!-- 也就是只会在自己的logger输出，否则会输出两次。root logger一次，自己一次。 -->
+    <logger name="trace-logger" level="TRACE" additivity="false">
+        <appender-ref ref="TRACE"/>
+    </logger>
+
+    <logger name="request-logger" level="TRACE" additivity="false">
+        <appender-ref ref="FEIGN_TRACE"/>
+    </logger>
+
+    <!-- hide some startup info -->
+    <logger name="org.apache.catalina.core.StandardService" level="ERROR" additivity="false" />
+    <logger name="org.apache.catalina.core.ContainerBase" level="ERROR" additivity="false" />
+    <logger name="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext" level="ERROR" additivity="false" />
+    <logger name="org.apache.catalina.core.StandardEngine" level="ERROR" additivity="false" />
+    <logger name="org.springframework.boot.web.embedded.tomcat.TomcatWebServer" level="ERROR" additivity="false" />
+    <!-- hide info end-->
+</included>

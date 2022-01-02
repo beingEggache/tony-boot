@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
+
+    <!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,%i索引【从数字0开始递增】,,, -->
+    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %yellow(${APP_NAME}) %green(${PID}) %magenta([%thread]) %blue(%-5level) %cyan(%logger Line:%-3L) %yellow(%X{X-B3-TraceId:- })- %msg%n"/>
+    <property name="LOG_CHARSET" value="UTF-8"/>
+
+    <!-- appender是configuration的子节点，是负责写日志的组件。 -->
+    <!-- ConsoleAppender：把日志输出到控制台 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <!-- 控制台也要使用UTF-8，不要使用GBK，否则会中文乱码 -->
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- hide some startup info -->
+    <logger name="org.apache.catalina.core.StandardService" level="ERROR" additivity="false" />
+    <logger name="org.apache.catalina.core.ContainerBase" level="ERROR" additivity="false" />
+    <logger name="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext" level="ERROR" additivity="false" />
+    <logger name="org.apache.catalina.core.StandardEngine" level="ERROR" additivity="false" />
+    <logger name="org.springframework.boot.web.embedded.tomcat.TomcatWebServer" level="ERROR" additivity="false" />
+    <!-- hide info end-->
+</included>

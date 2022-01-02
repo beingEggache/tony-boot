@@ -2,7 +2,6 @@ package com.tony.web.filter
 
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.toInstant
-import com.tony.utils.toString
 import com.tony.utils.uuid
 import com.tony.web.WebApp
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
@@ -47,7 +46,7 @@ internal class TraceLoggingFilter(
 
         val elapsedTime = System.currentTimeMillis() - startTime.toInstant().toEpochMilli()
 
-        log(request, response, startTime, elapsedTime)
+        log(request, response, elapsedTime)
 
         response.copyBodyToResponse()
     }
@@ -55,14 +54,11 @@ internal class TraceLoggingFilter(
     private fun log(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
-        startTime: LocalDateTime,
         elapsedTime: Long
     ) = try {
-        val startTimeStr = startTime.toString("yyyy-MM-dd HH:mm:ss.SSS")
         requestTraceLogger.requestTraceLog(
             request,
             response,
-            startTimeStr,
             elapsedTime
         )
     } catch (e: Exception) {
