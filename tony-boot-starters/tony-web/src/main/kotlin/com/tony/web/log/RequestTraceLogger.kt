@@ -74,7 +74,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         val requestBody = requestBody(request)
         val headers = request.headers.toJsonString()
         val responseBody = responseBody(response)
-        val protocol = request.protocol
+        val protocol = request.scheme
         val resultCode = resultCode(responseBody, response.status)
         val resultStatus = resultStatus(resultCode)
         val logStr =
