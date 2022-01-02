@@ -48,14 +48,14 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val protocol = url.protocol
         val httpMethod = request.method
         val origin = url.origin
-        val query = url.query.defaultIfBlank("[null]")
         val path = url.path
+        val query = url.query.defaultIfBlank("[null]")
         val headers = request.headers.toMultimap().toMap().mapValues { it.value.joinToString() }.toJsonString()
-        val responseBody = response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).run {
+        val requestBody = request.body?.run {
             if (isTextMediaTypes(parsedMedia)) string()
             else "[${contentType()}]"
         }
-        val requestBody = request.body?.run {
+        val responseBody = response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).run {
             if (isTextMediaTypes(parsedMedia)) string()
             else "[${contentType()}]"
         }

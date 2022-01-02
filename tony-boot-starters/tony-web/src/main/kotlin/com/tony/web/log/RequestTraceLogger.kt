@@ -65,18 +65,18 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         response: ContentCachingResponseWrapper,
         elapsedTime: Long
     ) {
-        val origin = request.requestURL?.toString() ?: ""
-        val path = request.requestURI.removePrefix(WebContext.contextPath)
-        val httpMethod = request.method
-        val remoteIp = request.remoteIp
-        val localIp = request.localAddr
-        val query = request.queryString ?: NULL
         val requestBody = requestBody(request)
-        val headers = request.headers.toJsonString()
         val responseBody = responseBody(response)
-        val protocol = request.scheme
         val resultCode = resultCode(responseBody, response.status)
         val resultStatus = resultStatus(resultCode)
+        val protocol = request.scheme
+        val httpMethod = request.method
+        val origin = request.requestURL?.toString() ?: ""
+        val path = request.requestURI.removePrefix(WebContext.contextPath)
+        val query = request.queryString ?: NULL
+        val headers = request.headers.toJsonString()
+        val remoteIp = request.remoteIp
+        val localIp = request.localAddr
         val logStr =
             """
             |$elapsedTime|
