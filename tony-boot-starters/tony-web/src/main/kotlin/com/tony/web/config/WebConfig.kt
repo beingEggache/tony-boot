@@ -93,7 +93,7 @@ internal class WebConfig(
             if (webCorsProperties.allowCredentials == true) {
                 allowCredentials = webCorsProperties.allowCredentials
             }
-            allowedOriginPatterns = webCorsProperties.allowedOrigins
+            allowedOriginPatterns = webCorsProperties.allowedOrigins.ifEmpty { listOf("*") }
             allowedHeaders = webCorsProperties.allowedHeaders.ifEmpty { listOf("*") }
             allowedMethods = webCorsProperties.allowedHeaders.ifEmpty { listOf("*") }
             maxAge = webCorsProperties.maxAge
