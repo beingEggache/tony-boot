@@ -13,7 +13,9 @@ import feign.form.spring.SpringFormEncoder
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.ObjectFactory
 import org.springframework.beans.factory.ObjectProvider
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
@@ -46,14 +48,17 @@ class FeignConfig {
     internal fun errorDecoder() = DefaultErrorDecoder()
 
     @ConditionalOnMissingBean(FeignRequestTraceLogger::class)
+    @ConditionalOnExpression("\${feign.okhttp.enabled:true}")
     @Bean
     internal fun feignRequestTraceLogger(): FeignRequestTraceLogger = DefaultFeignRequestTraceLogger()
 
+    @ConditionalOnExpression("\${feign.okhttp.enabled:true}")
     @Bean
     internal fun feignLogInterceptor(
         feignRequestTraceLogger: FeignRequestTraceLogger
     ) = FeignLogInterceptor(feignRequestTraceLogger)
 
+    @ConditionalOnExpression("\${feign.okhttp.enabled:true}")
     @ConditionalOnMissingBean(OkHttpClient::class)
     @Bean
     internal fun okHttpClient(
