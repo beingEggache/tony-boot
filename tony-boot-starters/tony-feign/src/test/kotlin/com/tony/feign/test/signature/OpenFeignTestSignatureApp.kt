@@ -1,20 +1,24 @@
 package com.tony.feign.test.signature
 
+import com.tony.Beans
 import com.tony.annotation.EnableTonyBoot
-import com.tony.feign.test.exception.SignInvalidException
 import com.tony.feign.genSign
-import com.tony.feign.interceptor.ByHeaderRequestProcessor
-import com.tony.feign.interceptor.ProcessByHeaderInterceptor
+import com.tony.feign.interceptor.AppInterceptor
 import com.tony.feign.jsonNode
 import com.tony.feign.sortRequestBody
+import com.tony.feign.test.exception.SignInvalidException
 import com.tony.utils.getFromRootAsString
 import com.tony.utils.getLogger
 import com.tony.utils.isBetween
 import com.tony.utils.toLocalDateTime
 import com.tony.utils.toString
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
+import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import org.springframework.beans.factory.NoSuchBeanDefinitionException
+import org.springframework.beans.factory.getBean
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
@@ -25,6 +29,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import kotlin.reflect.jvm.jvmName
 
 @EnableFeignClients
 @EnableTonyBoot
@@ -42,6 +47,44 @@ class OpenFeignTestSignatureApp : WebMvcConfigurer {
 
     @Bean
     fun byHeaderRequestProcessor() = SignatureRequestProcessor()
+}
+
+open class ProcessByHeaderInterceptor(
+    private val headerName: String
+) : AppInterceptor {
+
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        val processorImpl = request.header(headerName)
+        if (processorImpl.isNullOrBlank()) return chain.proceed(request)
+        val processor =
+            try {
+                Beans.getBean<ByHeaderRequestProcessor>(processorImpl)
+            } catch (e: NoSuchBeanDefinitionException) {
+                getLogger(this::class.jvmName).warn(e.localizedMessage)
+                null
+            } ?: return chain.proceed(request)
+
+        return processByProcessor(processorImpl, processor, request, chain)
+    }
+
+    private fun processByProcessor(
+        processorImpl: String?,
+        processor: ByHeaderRequestProcessor,
+        request: Request,
+        chain: Interceptor.Chain
+    ): Response {
+        getLogger().info("$processorImpl ${processor::class.jvmName} process start")
+        val requestRemoveHeader = request.newBuilder().removeHeader(headerName).build()
+        val newRequest = processor.process(requestRemoveHeader)
+        val response = chain.proceed(newRequest)
+        getLogger().info("$processorImpl ${processor::class.jvmName} process end")
+        return response
+    }
+}
+
+fun interface ByHeaderRequestProcessor {
+    fun process(request: Request): Request
 }
 
 
