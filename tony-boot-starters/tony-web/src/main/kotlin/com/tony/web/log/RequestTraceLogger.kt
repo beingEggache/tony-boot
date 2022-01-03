@@ -76,7 +76,6 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         val query = request.queryString ?: NULL
         val headers = request.headers.toJsonString()
         val remoteIp = request.remoteIp
-        val localIp = request.localAddr
         val logStr =
             """
             |$elapsedTime|
@@ -90,8 +89,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
             |$headers|
             |$requestBody|
             |$responseBody|
-            |$remoteIp|
-            |$localIp""".trimMargin()
+            |$remoteIp""".trimMargin()
         logger.trace(logStr.removeLineBreak())
     }
 

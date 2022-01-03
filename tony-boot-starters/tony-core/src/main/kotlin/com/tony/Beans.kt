@@ -17,14 +17,14 @@ object Beans : ApplicationContext by ApplicationContextHolder.springContext {
 
     @JvmStatic
     inline fun <reified T : Any> getBeanByLazy(): Lazy<T> = lazy { getBean() }
-}
 
-internal object ApplicationContextHolder : ApplicationContextAware {
+    internal object ApplicationContextHolder : ApplicationContextAware {
 
-    @JvmStatic
-    lateinit var springContext: ApplicationContext
+        @JvmStatic
+        lateinit var springContext: ApplicationContext
 
-    override fun setApplicationContext(applicationContext: ApplicationContext) {
-        springContext = applicationContext
+        override fun setApplicationContext(applicationContext: ApplicationContext) {
+            springContext = applicationContext
+        }
     }
 }

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
 
+    <conversionRule conversionWord="ip" converterClass="com.tony.web.log.LogIpConversion" />
     <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
+    <springProperty scope="context" name="IP_FROM_NACOS" source="spring.cloud.nacos.discovery.ip" defaultValue=""/>
 
     <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${APP_NAME:-[null]} %-5level %logger Line:%-3L %X{X-B3-TraceId:-} - %msg%n"/>
-    <property name="HTTP_TRACE_PATTERN" value="${HTTP_TRACE_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS}|${APP_NAME:-[null]}|%X{X-B3-TraceId:-[null]}|%msg%n}"/>
+    <property name="HTTP_TRACE_PATTERN" value="${HTTP_TRACE_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS}|${APP_NAME:-[null]}|%X{X-B3-TraceId:-[null]}|%msg|%ip%n}"/>
 
     <property name="LOG_FILE_PATH" value="${LOG_FILE_PATH:-../logs}"/>
     <property name="MAX_File_SIZE" value="${MAX_File_SIZE:-10MB}"/>

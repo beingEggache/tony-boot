@@ -60,7 +60,6 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             else "[${contentType()}]"
         }
         val remoteIp = connection?.socket()?.inetAddress?.hostAddress
-        val localIp = connection?.socket()?.localAddress?.hostAddress
         val logStr =
             """
             |$elapsedTime|
@@ -74,8 +73,7 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             |$headers|
             |$requestBody|
             |$responseBody|
-            |$remoteIp|
-            |$localIp""".trimMargin()
+            |$remoteIp""".trimMargin()
         logger.trace(logStr.removeLineBreak())
     }
 

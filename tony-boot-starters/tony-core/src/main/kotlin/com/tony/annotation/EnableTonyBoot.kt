@@ -1,6 +1,6 @@
 package com.tony.annotation
 
-import com.tony.ApplicationContextHolder
+import com.tony.Beans
 import com.tony.PROJECT_GROUP
 import com.tony.utils.getLogger
 import org.springframework.context.annotation.Bean
@@ -24,7 +24,7 @@ annotation class EnableTonyBoot
 internal class TonyBootConfiguration {
 
     @Bean
-    fun applicationContextHolder() = ApplicationContextHolder
+    internal fun applicationContextHolder() = Beans.ApplicationContextHolder
 }
 
 internal class TonyBootImportSelector : ImportSelector {
