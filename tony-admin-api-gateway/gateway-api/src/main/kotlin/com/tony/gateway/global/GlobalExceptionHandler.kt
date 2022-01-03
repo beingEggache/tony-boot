@@ -45,7 +45,7 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
             ApiResult(
                 EMPTY_RESULT,
                 ApiProperty.errorCode,
-                "访客太多，请稍后再试"
+                ApiProperty.errorMsg
             )
         )
     }

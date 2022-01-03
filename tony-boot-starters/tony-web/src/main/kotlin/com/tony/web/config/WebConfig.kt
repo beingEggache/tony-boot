@@ -37,7 +37,7 @@ import javax.annotation.Resource
 import javax.servlet.http.HttpServletResponse
 
 @Configuration
-@ConditionalOnWebApplication
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableConfigurationProperties(value = [WebProperties::class, WebCorsProperties::class])
 internal class WebConfig(
     private val webProperties: WebProperties,
@@ -72,7 +72,6 @@ internal class WebConfig(
         return TraceLoggingFilter(requestTraceLogger)
     }
 
-    @ConditionalOnWebApplication
     @ConditionalOnExpression("\${web.response-wrap-enabled:true}")
     @Bean
     internal fun apiResponseWrapper(): ApiResponseWrapper {
@@ -80,7 +79,6 @@ internal class WebConfig(
         return ApiResponseWrapper()
     }
 
-    @ConditionalOnWebApplication
     @Bean
     internal fun exceptionHandler() = ExceptionHandler()
 
@@ -118,7 +116,7 @@ internal class WebConfig(
 }
 
 @ConstructorBinding
-@ConditionalOnWebApplication
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web")
 internal data class WebProperties(
     /**
@@ -140,7 +138,7 @@ internal data class WebProperties(
 )
 
 @ConstructorBinding
-@ConditionalOnWebApplication
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.cors")
 @ConditionalOnExpression("\${web.cors-enabled:false}")
 internal data class WebCorsProperties(
