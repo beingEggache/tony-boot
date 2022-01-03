@@ -15,7 +15,7 @@ object VersionManagement {
     const val postgresqlVersion = "42.3.1"
     const val mysqlVersion = "8.0.27"
     const val hikariCPVersion = "5.0.0"
-    const val mybatisPlusVersion = "3.4.3.4"
+    const val mybatisPlusVersion = "3.5.0"
     const val lettuceCoreVersion = "6.1.5.RELEASE"
 
     const val jacksonVersion = "2.13.1"
