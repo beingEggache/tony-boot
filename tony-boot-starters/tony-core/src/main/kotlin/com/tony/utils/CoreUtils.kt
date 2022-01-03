@@ -6,6 +6,10 @@ package com.tony.utils
 import com.tony.exception.BizException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.net.Inet4Address
+import java.net.InetAddress
+import java.net.NetworkInterface
+import java.net.UnknownHostException
 
 fun <T> T?.println() = println(this)
 
@@ -44,3 +48,24 @@ inline fun <T, R> T?.throwIfNullAndReturn(message: String, crossinline block: ()
     throwIfAndReturn(this == null, message, block)
 
 inline fun <reified T> T?.returnIfNull(crossinline block: () -> T) = this ?: block()
+
+/**
+ * 参考SpringCloud获取IP的代码
+ *
+ * @return ip
+ */
+val localIp = NetworkInterface
+    .getNetworkInterfaces()
+    .asSequence()
+    .filter { it.isUp }
+    .minByOrNull { it.index }
+    ?.inetAddresses
+    ?.toList()
+    ?.firstOrNull { it is Inet4Address && !it.isLoopbackAddress }
+    ?.hostAddress
+    ?: try {
+        InetAddress.getLocalHost().hostAddress
+    } catch (e: UnknownHostException) {
+        e.printStackTrace()
+        null
+    } ?: "127.0.0.1"
