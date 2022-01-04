@@ -57,7 +57,7 @@ inline fun <reified T> T?.returnIfNull(crossinline block: () -> T) = this ?: blo
 val localIp = NetworkInterface
     .getNetworkInterfaces()
     .asSequence()
-    .filter { it.isUp && it.index != -1 }
+    .filter { it.isUp && it.index != -1 && !it.isLoopback }
     .minByOrNull { it.index }
     ?.inetAddresses
     ?.toList()
