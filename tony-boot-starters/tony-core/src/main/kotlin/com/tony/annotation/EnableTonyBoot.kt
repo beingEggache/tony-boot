@@ -31,7 +31,7 @@ internal class TonyBootImportSelector : ImportSelector {
 
     private val logger = getLogger()
 
-    override fun selectImports(importingClassMetadata: AnnotationMetadata) = mutableListOf(
+    override fun selectImports(importingClassMetadata: AnnotationMetadata) = listOf(
         "$PROJECT_GROUP.alipay.config.AlipayConfig",
         "$PROJECT_GROUP.aliyun.oss.config.AliyunOssConfig",
         "$PROJECT_GROUP.aliyun.sms.config.AliyunSmsConfig",
