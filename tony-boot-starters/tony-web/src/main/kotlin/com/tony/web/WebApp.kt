@@ -10,7 +10,6 @@ import com.tony.Env
 import com.tony.Env.getPropertyByLazy
 import com.tony.web.config.WebProperties
 import org.springframework.boot.web.servlet.error.ErrorAttributes
-import java.net.InetAddress
 import java.util.regex.Pattern
 
 object WebApp {
@@ -21,10 +20,6 @@ object WebApp {
 
     @JvmStatic
     val appId: String by getPropertyByLazy("spring.application.name", "")
-
-    val ip: String
-        @JvmStatic
-        get() = InetAddress.getLocalHost().hostAddress
 
     @JvmStatic
     val port: String by getPropertyByLazy("server.port", "8080")

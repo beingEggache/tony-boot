@@ -6,6 +6,7 @@ import com.tony.Env
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
 import com.tony.db.config.DbConfig
+import com.tony.utils.localIp
 import com.tony.web.ApiSession
 import com.tony.web.WebApp
 import com.tony.web.WebContext
@@ -25,7 +26,7 @@ fun main(args: Array<String>) {
     }
     val info =
         "${WebApp.appId} " +
-            "http://${WebApp.ip}:${WebApp.port}${WebApp.contextPath.padStart(1, '/')} " +
+            "http://$localIp:${WebApp.port}${WebApp.contextPath.padStart(1, '/')} " +
             "started success. " +
             "profiles: ${Env.activeProfiles.joinToString()}. " +
             "He who has a why to live can bear almost any how."
