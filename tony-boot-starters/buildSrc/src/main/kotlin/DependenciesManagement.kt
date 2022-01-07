@@ -163,7 +163,7 @@ object DepsManagement {
     object Other {
         const val lettuce = "io.lettuce:lettuce-core:${VersionManagement.lettuceCoreVersion}"
 
-        const val mybatis = "org.mybatis:mybatis:3.5.8"
+        const val mybatis = "org.mybatis:mybatis:3.5.9"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${VersionManagement.mybatisPlusVersion}"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${VersionManagement.mybatisPlusVersion}"
         const val mybatisPlusBootStarter =

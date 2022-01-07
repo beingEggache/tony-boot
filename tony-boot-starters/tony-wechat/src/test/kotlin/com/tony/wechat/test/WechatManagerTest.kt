@@ -100,8 +100,8 @@ class TestWechatApiAccessTokenProvider(
     override fun accessTokenStr(appId: String?, appSecret: String?) =
         wechatClient.accessToken(appId, appSecret).check().accessToken
 
-    override fun userAccessTokenStr(appId: String?, secret: String?, code: String?) =
-        wechatClient.userAccessToken(appId, secret, code).check().accessToken
+    override fun userAccessToken(appId: String?, secret: String?, code: String?) =
+        wechatClient.userAccessToken(appId, secret, code).check()
 
 }
 
