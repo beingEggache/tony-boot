@@ -85,7 +85,7 @@ fun Double?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = Round
 fun BigDecimal?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
     formatToPercent(this, decimal, roundingMode)
 
-private val secureRandom = SecureRandom()
+val secureRandom = SecureRandom()
 
 /**
  * 生成指定位数随机数

@@ -14,9 +14,9 @@ object VersionManagement {
 
     const val postgresqlVersion = "42.3.1"
     const val mysqlVersion = "8.0.27"
-    const val hikariCPVersion = "5.0.0"
+    const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.0"
-    const val lettuceCoreVersion = "6.1.5.RELEASE"
+    const val lettuceCoreVersion = "6.1.6.RELEASE"
 
     const val jacksonVersion = "2.13.1"
 
@@ -24,8 +24,8 @@ object VersionManagement {
     const val fastjsonVersion = "1.2.79"
     const val nettyVersion = "4.1.72.Final"
 
-    const val reactorVersion = "3.4.13"
-    const val reactorNettyVersion = "1.0.14"
+    const val reactorVersion = "3.4.14"
+    const val reactorNettyVersion = "1.0.15"
     const val slf4jVersion = "1.7.32"
 
     const val byteBuddyVersion = "1.12.6"
@@ -35,7 +35,7 @@ object VersionManagement {
     const val guavaVersion = "31.0.1-jre"
 
     const val swaggerV3Version = "2.1.12"
-    const val springdocVersion = "1.6.3"
+    const val springdocVersion = "1.6.4"
 
 }
 
