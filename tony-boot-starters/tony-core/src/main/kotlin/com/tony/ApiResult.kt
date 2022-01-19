@@ -4,23 +4,32 @@ package com.tony
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.tony.utils.asTo
-import com.tony.utils.defaultIfBlank
 
 @JsonPropertyOrder(value = ["code", "message", "data"])
-data class ApiResult<T> @JvmOverloads constructor(
-    val data: T?,
+class ApiResult @JvmOverloads constructor(
+    data: Any?,
     val code: Int = ApiProperty.successCode,
     val message: String = ""
 ) {
+
+    val data: Any = run {
+        if (data != null) {
+            when (data) {
+                is CharSequence -> OneResult(data)
+                is Number -> OneResult(data)
+                is Enum<*> -> OneResult(data)
+                else -> data
+            }
+        } else Unit
+    }
 
     companion object {
         @JvmField
         val EMPTY_RESULT = emptyMap<Any?, Any?>()
 
-        @JvmSynthetic
-        fun <T> T?.toOneResult() = OneResult(this)
-
-        fun message(message: String?) = ApiResult(Unit, ApiProperty.successCode, message.defaultIfBlank())
+        @JvmStatic
+        fun message(message: String): ApiResult =
+            ApiResult(Unit, ApiProperty.successCode, message)
     }
 }
 

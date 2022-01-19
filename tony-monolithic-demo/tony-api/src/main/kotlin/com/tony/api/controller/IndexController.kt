@@ -1,6 +1,5 @@
 package com.tony.api.controller
 
-import com.tony.ApiResult.Companion.toOneResult
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserLoginReq
@@ -57,7 +56,7 @@ class IndexController(
         @Validated
         @RequestBody
         loginReq: UserLoginReq
-    ) = JwtToken.gen("userId" to userService.login(loginReq).userId).toOneResult()
+    ) = JwtToken.gen("userId" to userService.login(loginReq).userId)
 
     @Operation(summary = "空")
     @NoLoginCheck

@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 object VersionManagement {
     const val kotlinVersion = "1.6.10"
 
-    const val springVersion = "5.3.14"
+    const val springVersion = "5.3.15"
     const val springBootVersion = "2.6.2"
 
     const val openFeignVersion = "11.8"
@@ -22,16 +22,16 @@ object VersionManagement {
 
     const val gsonVersion = "2.8.9"
     const val fastjsonVersion = "1.2.79"
-    const val nettyVersion = "4.1.72.Final"
+    const val nettyVersion = "4.1.73.Final"
 
     const val reactorVersion = "3.4.14"
     const val reactorNettyVersion = "1.0.15"
-    const val slf4jVersion = "1.7.32"
+    const val slf4jVersion = "1.7.33"
 
-    const val byteBuddyVersion = "1.12.6"
+    const val byteBuddyVersion = "1.12.7"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
-    const val javaJwtVersion = "3.18.2"
+    const val javaJwtVersion = "3.18.3"
     const val guavaVersion = "31.0.1-jre"
 
     const val swaggerV3Version = "2.1.12"
