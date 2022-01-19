@@ -15,6 +15,7 @@ class ApiResult @JvmOverloads constructor(
     val data: Any = run {
         if (data != null) {
             when (data) {
+                is Boolean -> OneResult(data)
                 is CharSequence -> OneResult(data)
                 is Number -> OneResult(data)
                 is Enum<*> -> OneResult(data)
