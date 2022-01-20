@@ -3,25 +3,25 @@
 package com.tony
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import com.tony.exception.ApiException
 import com.tony.utils.asTo
 
 @JsonPropertyOrder(value = ["code", "message", "data"])
-class ApiResult @JvmOverloads constructor(
-    data: Any?,
+class ApiResult<T> @JvmOverloads constructor(
+    val data: T?,
     val code: Int = ApiProperty.successCode,
     val message: String = ""
 ) {
 
-    val data: Any = run {
-        if (data != null) {
-            when (data) {
-                is Boolean -> OneResult(data)
-                is CharSequence -> OneResult(data)
-                is Number -> OneResult(data)
-                is Enum<*> -> OneResult(data)
-                else -> data
-            }
-        } else Unit
+    init {
+        val template = "%s type can not be the first parameter.Please use ApiResult.of(result) instead."
+
+        when (data) {
+            is Boolean -> throw ApiException(String.format(template, "Boolean"))
+            is CharSequence -> throw ApiException(String.format(template, "CharSequence"))
+            is Number -> throw ApiException(String.format(template, "Number"))
+            is Enum<*> -> throw ApiException(String.format(template, "Enum"))
+        }
     }
 
     companion object {
@@ -29,8 +29,20 @@ class ApiResult @JvmOverloads constructor(
         val EMPTY_RESULT = emptyMap<Any?, Any?>()
 
         @JvmStatic
-        fun message(message: String): ApiResult =
+        fun message(message: String): ApiResult<Unit> =
             ApiResult(Unit, ApiProperty.successCode, message)
+
+        @JvmStatic
+        fun of(result: Boolean) = ApiResult(OneResult(result))
+
+        @JvmStatic
+        fun of(result: CharSequence) = ApiResult(OneResult(result))
+
+        @JvmStatic
+        fun of(result: Number) = ApiResult(OneResult(result))
+
+        @JvmStatic
+        fun of(result: Enum<*>) = ApiResult(OneResult(result))
     }
 }
 
