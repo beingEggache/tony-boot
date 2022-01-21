@@ -1,6 +1,7 @@
 package com.tony.web.filter
 
 import com.tony.utils.antPathMatchAny
+import com.tony.utils.defaultIfBlank
 import com.tony.utils.toInstant
 import com.tony.utils.uuid
 import com.tony.web.WebApp
@@ -81,11 +82,16 @@ internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
         request: HttpServletRequest,
         response: HttpServletResponse,
         chain: FilterChain
-    ) = try {
-        MDC.put("X-B3-TraceId", uuid())
-        chain.doFilter(request, response)
-    } finally {
-        MDC.remove("X-B3-TraceId")
+    ) {
+        val traceIdKey = "X-B3-TraceId"
+        try {
+            val traceId = request.getHeader(traceIdKey).defaultIfBlank(uuid())
+            MDC.put(traceIdKey, traceId)
+            response.setHeader(traceIdKey, traceId)
+            chain.doFilter(request, response)
+        } finally {
+            MDC.remove(traceIdKey)
+        }
     }
 
     override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE
