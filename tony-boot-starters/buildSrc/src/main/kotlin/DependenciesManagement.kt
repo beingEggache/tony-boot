@@ -8,12 +8,12 @@ object VersionManagement {
     const val kotlinVersion = "1.6.10"
 
     const val springVersion = "5.3.15"
-    const val springBootVersion = "2.6.2"
+    const val springBootVersion = "2.6.3"
 
     const val openFeignVersion = "11.8"
 
     const val postgresqlVersion = "42.3.1"
-    const val mysqlVersion = "8.0.27"
+    const val mysqlVersion = "8.0.28"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.0"
     const val lettuceCoreVersion = "6.1.6.RELEASE"
