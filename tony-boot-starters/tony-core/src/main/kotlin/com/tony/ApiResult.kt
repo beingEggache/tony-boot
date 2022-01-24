@@ -48,7 +48,13 @@ class ApiResult<T> @JvmOverloads constructor(
 
 data class OneResult<T>(val result: T? = null)
 
-data class ListResult<T> @JvmOverloads constructor(val items: Collection<T>? = listOf()) {
+interface ListResultLike<T> {
+    val items: Collection<T>?
+}
+
+data class ListResult<T>
+@JvmOverloads constructor(override val items: Collection<T>? = listOf()) :
+    ListResultLike<T> {
 
     constructor(array: Array<*>) : this(array.asList().asTo())
     constructor(byteArray: ByteArray) : this(byteArray.asList().asTo())
@@ -61,15 +67,24 @@ data class ListResult<T> @JvmOverloads constructor(val items: Collection<T>? = l
     constructor(charArray: CharArray) : this(charArray.asList().asTo())
 }
 
+interface PageResultLike<T> {
+    val items: Collection<T>?
+    val page: Long
+    val size: Long
+    val pages: Long
+    val total: Long
+    val hasNext: Boolean
+}
+
 @JsonPropertyOrder(value = ["page", "size", "total", "pages", "hasNext", "items"])
 data class PageResult<T>(
-    val items: Collection<T>?,
-    val page: Long,
-    val size: Long,
-    val pages: Long,
-    val total: Long,
-    val hasNext: Boolean
-) {
+    override val items: Collection<T>?,
+    override val page: Long,
+    override val size: Long,
+    override val pages: Long,
+    override val total: Long,
+    override val hasNext: Boolean
+) : PageResultLike<T> {
 
     constructor(
         array: Array<T>,
