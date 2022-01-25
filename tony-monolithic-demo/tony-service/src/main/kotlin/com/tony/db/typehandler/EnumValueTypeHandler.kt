@@ -8,18 +8,16 @@ import java.sql.CallableStatement
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-open class EnumValueTypeHandler<E, KEY>(private val enumClass: Class<E>) :
+open class EnumValueTypeHandler<E, KEY>(enumClass: Class<E>) :
     BaseTypeHandler<E>()
     where E : Enum<E>,
           KEY : Serializable,
           E : EnumValue<KEY> {
 
-    private fun valueOf(value: Any) =
-        enumClass.enumConstants.firstOrNull { value == it.value }
+    private val enumValueMap = enumClass.enumConstants.associateBy { it.value!! }
 
     override fun setNonNullParameter(ps: PreparedStatement, i: Int, parameter: E, jdbcType: JdbcType?) {
         if (jdbcType == null) {
-            parameter.value
             ps.setObject(i, parameter.value)
         } else { // see r3589
             ps.setObject(i, parameter.value, jdbcType.TYPE_CODE)
@@ -29,15 +27,15 @@ open class EnumValueTypeHandler<E, KEY>(private val enumClass: Class<E>) :
     override fun getNullableResult(rs: ResultSet, columnName: String?) =
         if (null == rs.getObject(columnName) && rs.wasNull()) {
             null
-        } else valueOf(rs.getObject(columnName))
+        } else enumValueMap[rs.getObject(columnName)]
 
     override fun getNullableResult(rs: ResultSet, columnIndex: Int) =
         if (null == rs.getObject(columnIndex) && rs.wasNull()) {
             null
-        } else valueOf(rs.getObject(columnIndex))
+        } else enumValueMap[rs.getObject(columnIndex)]
 
     override fun getNullableResult(cs: CallableStatement, columnIndex: Int) =
         if (null == cs.getObject(columnIndex) && cs.wasNull()) {
             null
-        } else valueOf(cs.getObject(columnIndex))
+        } else enumValueMap[cs.getObject(columnIndex)]
 }
