@@ -67,8 +67,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
     ) {
         val requestBody = requestBody(request)
         val responseBody = responseBody(response)
-        val httpStatus = response.status
-        val resultCode = resultCode(responseBody, httpStatus)
+        val resultCode = resultCode(responseBody, response.status)
         val resultStatus = resultStatus(resultCode)
         val protocol = request.scheme
         val httpMethod = request.method
@@ -83,7 +82,6 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
             |$resultCode|
             |$resultStatus|
             |$protocol|
-            |$httpStatus|
             |$httpMethod|
             |$origin|
             |$path|
@@ -133,6 +131,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         ApiProperty.bizErrorCode -> BIZ_FAILED
         ApiProperty.unauthorizedCode -> UNAUTHORIZED
         in 400 * 100..499 * 100 -> VALIDATE_FAILED
+        in 100 * 100..199 * 100 -> SUCCESS
         else -> FAILED
     }
 }
