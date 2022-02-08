@@ -122,7 +122,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         return when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
             HTTP_SUCCESS_CODE.contains(status) -> ApiProperty.successCode
-            status in 100 .. 199 -> ApiProperty.successCode
+            status in 100..199 -> ApiProperty.successCode
             else -> status * 100
         }
     }
