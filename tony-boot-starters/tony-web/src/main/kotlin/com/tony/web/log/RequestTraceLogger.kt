@@ -67,7 +67,8 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
     ) {
         val requestBody = requestBody(request)
         val responseBody = responseBody(response)
-        val resultCode = resultCode(responseBody, response.status)
+        val httpStatus = response.status
+        val resultCode = resultCode(responseBody, httpStatus)
         val resultStatus = resultStatus(resultCode)
         val protocol = request.scheme
         val httpMethod = request.method
@@ -82,6 +83,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
             |$resultCode|
             |$resultStatus|
             |$protocol|
+            |$httpStatus|
             |$httpMethod|
             |$origin|
             |$path|
@@ -120,6 +122,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         return when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
             HTTP_SUCCESS_CODE.contains(status) -> ApiProperty.successCode
+            status in 100 .. 199 -> ApiProperty.successCode
             else -> status * 100
         }
     }

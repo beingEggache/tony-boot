@@ -6,12 +6,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.tony.exception.ApiException
 import com.tony.utils.asTo
 
+interface ApiResultLike<T> {
+    val data: T?
+    val code: Int
+        get() = ApiProperty.successCode
+    val message: String
+        get() = ""
+}
+
 @JsonPropertyOrder(value = ["code", "message", "data"])
 class ApiResult<T> @JvmOverloads constructor(
-    val data: T?,
-    val code: Int = ApiProperty.successCode,
-    val message: String = ""
-) {
+    override val data: T?,
+    override val code: Int = ApiProperty.successCode,
+    override val message: String = ""
+) : ApiResultLike<T> {
 
     init {
         val template = "%s type can not be the first parameter.Please use ApiResult.of(result) instead."
