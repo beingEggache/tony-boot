@@ -9,6 +9,12 @@
             "defaultValue": 20000
         },
         {
+            "name": "core.success-msg",
+            "type": "java.lang.String",
+            "description": "全局成功信息。",
+            "defaultValue": "操作成功"
+        },
+        {
             "name": "core.error-msg",
             "type": "java.lang.String",
             "description": "全局错误信息。",
