@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service
  * @since 2021-05-12 16:44
  */
 @EnableTonyBoot
+@SpringBootApplication
 class TestCacheApp
 
 @Service

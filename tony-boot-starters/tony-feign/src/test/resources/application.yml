@@ -9,4 +9,6 @@ server:
   port: 8080
 test-file-path-to: "C://wokspace//fileTest"
 test-file-path-from: "C://Users//7ony//Pictures"
+jwt:
+  secret: saoidadsio3jsdfn12323
 

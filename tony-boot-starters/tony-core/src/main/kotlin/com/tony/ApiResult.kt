@@ -36,8 +36,9 @@ class ApiResult<T> @JvmOverloads constructor(
         @JvmField
         val EMPTY_RESULT = emptyMap<Any?, Any?>()
 
+        @JvmOverloads
         @JvmStatic
-        fun message(message: String): ApiResult<Unit> =
+        fun message(message: String = ApiProperty.defaultSuccessMessage): ApiResult<Unit> =
             ApiResult(Unit, ApiProperty.successCode, message)
 
         @JvmStatic
@@ -82,6 +83,14 @@ interface PageResultLike<T> {
     val pages: Long
     val total: Long
     val hasNext: Boolean
+
+    fun <R> map(transform: (T) -> R) =
+        PageResult(items?.map(transform), page, size, pages, total, hasNext)
+
+    fun onEach(action: (T) -> Unit) =
+        PageResult(items?.onEach(action), page, size, pages, total, hasNext)
+
+    fun firstOrNull(predicate: (T) -> Boolean) = items?.firstOrNull(predicate)
 }
 
 @JsonPropertyOrder(value = ["page", "size", "total", "pages", "hasNext", "items"])
@@ -174,12 +183,4 @@ data class PageResult<T>(
         total: Long,
         hasNext: Boolean
     ) : this(charArray.asList().asTo(), page, size, pages, total, hasNext)
-
-    inline fun <R> map(transform: (T) -> R) =
-        PageResult(items?.map(transform), page, size, pages, total, hasNext)
-
-    inline fun onEach(action: (T) -> Unit) =
-        PageResult(items?.onEach(action), page, size, pages, total, hasNext)
-
-    inline fun firstOrNull(predicate: (T) -> Boolean) = items?.firstOrNull(predicate)
 }

@@ -155,6 +155,11 @@ class RedisManagerTests {
     fun testRCacheAnno() {
         testCacheService.rTestCache()
     }
+
+    @Test
+    fun testRedisScript() {
+        RedisManager.lockKey("test", 10)
+    }
 }
 
 class Person(val name: String, val age: Int)

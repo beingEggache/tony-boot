@@ -47,6 +47,24 @@ annotation class SimpleIntEnum(
 )
 
 @MustBeDocumented
+@Constraint(validatedBy = [IntEnumValidator::class])
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.VALUE_PARAMETER
+)
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+annotation class IntEnum(
+    val enumClass: KClass<*>,
+    val message: String = "非法参数",
+    val required: Boolean = false,
+    val groups: Array<KClass<*>> = [],
+    val payload: Array<KClass<out Payload>> = []
+)
+
+@MustBeDocumented
 @Constraint(validatedBy = [SimpleIntEnumValidator::class])
 @Target(
     AnnotationTarget.FUNCTION,
@@ -58,6 +76,24 @@ annotation class SimpleIntEnum(
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 annotation class SimpleStringEnum(
     vararg val enums: String,
+    val message: String = "非法参数",
+    val required: Boolean = false,
+    val groups: Array<KClass<*>> = [],
+    val payload: Array<KClass<out Payload>> = []
+)
+
+@MustBeDocumented
+@Constraint(validatedBy = [StringEnumValidator::class])
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.VALUE_PARAMETER
+)
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+annotation class StringEnum(
+    val enumClass: KClass<*>,
     val message: String = "非法参数",
     val required: Boolean = false,
     val groups: Array<KClass<*>> = [],

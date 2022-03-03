@@ -15,15 +15,6 @@ import com.tony.utils.getLogger
 import com.tony.web.WebContext.getOrPut
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
 
-interface ApiSession {
-
-    val userId: String
-
-    fun genTokenString(vararg params: Pair<String, String?>): String
-
-    fun hasLogin(): Boolean
-}
-
 internal class NoopApiSession : ApiSession {
     override val userId: String
         get() = TODO("Not yet implemented")

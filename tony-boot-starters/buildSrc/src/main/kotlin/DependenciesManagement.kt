@@ -7,12 +7,12 @@ import kotlin.reflect.KClass
 object VersionManagement {
     const val kotlinVersion = "1.6.10"
 
-    const val springVersion = "5.3.15"
+    const val springVersion = "5.3.16"
     const val springBootVersion = "2.6.3"
 
     const val openFeignVersion = "11.8"
 
-    const val postgresqlVersion = "42.3.2"
+    const val postgresqlVersion = "42.3.3"
     const val mysqlVersion = "8.0.28"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.1"
@@ -20,22 +20,22 @@ object VersionManagement {
 
     const val jacksonVersion = "2.13.1"
 
-    const val gsonVersion = "2.8.9"
+    const val gsonVersion = "2.9.0"
     const val fastjsonVersion = "1.2.79"
-    const val nettyVersion = "4.1.73.Final"
+    const val nettyVersion = "4.1.74.Final"
 
-    const val reactorVersion = "3.4.14"
-    const val reactorNettyVersion = "1.0.15"
-    const val slf4jVersion = "1.7.35"
+    const val reactorVersion = "3.4.15"
+    const val reactorNettyVersion = "1.0.16"
+    const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.12.7"
+    const val byteBuddyVersion = "1.12.8"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
     const val javaJwtVersion = "3.18.3"
     const val guavaVersion = "31.0.1-jre"
 
     const val swaggerV3Version = "2.1.12"
-    const val springdocVersion = "1.6.5"
+    const val springdocVersion = "1.6.6"
 
 }
 
@@ -181,7 +181,7 @@ object DepsManagement {
         const val gson = "com.google.code.gson:gson:${VersionManagement.gsonVersion}"
         const val fastjson = "com.alibaba:fastjson:${VersionManagement.fastjsonVersion}"
 
-        const val xstream = "com.thoughtworks.xstream:xstream:1.4.18"
+        const val xstream = "com.thoughtworks.xstream:xstream:1.4.19"
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
         const val httpcore = "org.apache.httpcomponents:httpcore:4.4.15"
         const val httpcoreNio = "org.apache.httpcomponents:httpcore-nio:4.4.15"

@@ -8,6 +8,9 @@ object ApiProperty {
     val successCode: Int by getPropertyByLazy("core.success-code", 20000)
 
     @JvmStatic
+    val defaultSuccessMessage: String by getPropertyByLazy("core.success-msg", "操作成功")
+
+    @JvmStatic
     val unauthorizedCode: Int by getPropertyByLazy("core.unauthorized-code", 40100)
 
     @JvmStatic

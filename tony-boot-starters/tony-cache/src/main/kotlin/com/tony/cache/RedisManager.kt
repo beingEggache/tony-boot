@@ -8,11 +8,13 @@ import com.tony.exception.ApiException
 import com.tony.utils.OBJECT_MAPPER
 import com.tony.utils.secureRandom
 import org.springframework.beans.factory.getBean
+import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.script.DefaultRedisScript
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
+import org.springframework.scripting.support.ResourceScriptSource
 import java.util.Collections
 import java.util.concurrent.TimeUnit
 
@@ -47,22 +49,19 @@ object RedisManager {
         }
     }
 
-    private val script: String =
-        """ |if redis.call('setNx',KEYS[1],ARGV[1])==1 then
-            |   if redis.call('get',KEYS[1])==ARGV[1] then
-            |      return redis.call('expire',KEYS[1],ARGV[2])
-            |   else
-            |      return 0
-            |   end
-            |else
-            |   return 0
-            |end""".trimMargin()
+    private val script: DefaultRedisScript<Long> = DefaultRedisScript<Long>().apply {
+        setScriptSource(
+            ResourceScriptSource(
+                ClassPathResource("META-INF/scripts/lock_key.lua")
+            )
+        )
+        resultType = Long::class.java
+    }
 
     @JvmStatic
     fun lockKey(key: String, timeout: Long): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
-        val redisScript = DefaultRedisScript(script, Long::class.java)
-        return redisTemplate.execute(redisScript, Collections.singletonList(key), 1L, timeout) == 1L
+        return redisTemplate.execute(script, Collections.singletonList(key), 1L, timeout) == 1L
     }
 
     @JvmStatic
