@@ -76,16 +76,12 @@ internal class ExceptionHandler : ErrorController {
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
     @ResponseStatus(HttpStatus.OK)
-    fun error() = errorResponse(
-        when {
-            WebContext.httpStatus == 999 -> ""
-            WebContext.httpStatus >= 500 -> ApiProperty.errorMsg
-            else -> WebContext.error
-        },
-        when {
-            WebContext.httpStatus == 999 -> ApiProperty.successCode
-            WebContext.httpStatus >= 500 -> ApiProperty.errorCode
-            else -> WebContext.httpStatus * 100
+    fun error() = when {
+        WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.successCode)
+        WebContext.httpStatus >= 500 -> {
+            logger.error(WebContext.errorMessage)
+            errorResponse(ApiProperty.errorMsg, ApiProperty.errorCode)
         }
-    )
+        else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
+    }
 }

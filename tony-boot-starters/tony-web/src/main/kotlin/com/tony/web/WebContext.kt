@@ -77,6 +77,10 @@ object WebContext {
         @JvmSynthetic
         get() = errorAttributes["error"].asTo() ?: ""
 
+    internal val errorMessage: String
+        @JvmSynthetic
+        get() = errorAttributes["message"].asTo() ?: ""
+
     internal val httpStatus: Int
         @JvmSynthetic
         get() = errorAttributes["status"] as Int

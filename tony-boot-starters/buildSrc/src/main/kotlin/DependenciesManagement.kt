@@ -7,8 +7,8 @@ import kotlin.reflect.KClass
 object VersionManagement {
     const val kotlinVersion = "1.6.10"
 
-    const val springVersion = "5.3.16"
-    const val springBootVersion = "2.6.3"
+    const val springVersion = "5.3.17"
+    const val springBootVersion = "2.6.4"
 
     const val openFeignVersion = "11.8"
 
@@ -16,25 +16,25 @@ object VersionManagement {
     const val mysqlVersion = "8.0.28"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.1"
-    const val lettuceCoreVersion = "6.1.6.RELEASE"
+    const val lettuceCoreVersion = "6.1.8.RELEASE"
 
-    const val jacksonVersion = "2.13.1"
+    const val jacksonVersion = "2.13.2"
 
     const val gsonVersion = "2.9.0"
     const val fastjsonVersion = "1.2.79"
-    const val nettyVersion = "4.1.74.Final"
+    const val nettyVersion = "4.1.75.Final"
 
-    const val reactorVersion = "3.4.15"
-    const val reactorNettyVersion = "1.0.16"
+    const val reactorVersion = "3.4.16"
+    const val reactorNettyVersion = "1.0.17"
     const val slf4jVersion = "1.7.36"
 
     const val byteBuddyVersion = "1.12.8"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
-    const val javaJwtVersion = "3.18.3"
-    const val guavaVersion = "31.0.1-jre"
+    const val javaJwtVersion = "3.19.0"
+    const val guavaVersion = "31.1-jre"
 
-    const val swaggerV3Version = "2.1.12"
+    const val swaggerV3Version = "2.1.13"
     const val springdocVersion = "1.6.6"
 
 }
@@ -214,7 +214,7 @@ object DepsManagement {
         const val reactor = "io.projectreactor:reactor-core:${VersionManagement.reactorVersion}"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:${VersionManagement.reactorNettyVersion}"
 
-        const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.0.5"
+        const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.0.6"
 
         const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations:${VersionManagement.swaggerV3Version}"
         const val springdocUi = "org.springdoc:springdoc-openapi-ui:${VersionManagement.springdocVersion}"

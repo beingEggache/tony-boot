@@ -36,6 +36,16 @@ object RedisValues {
 
     @JvmStatic
     @JvmOverloads
+    fun setStringIfAbsent(
+        key: String,
+        value: String,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS
+    ): Boolean? = if (timeout == 0L) RedisManager.stringRedisTemplate.opsForValue().setIfAbsent(key, value)
+    else RedisManager.stringRedisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit)
+
+    @JvmStatic
+    @JvmOverloads
     fun setNumber(
         key: String,
         value: Number,
@@ -46,13 +56,23 @@ object RedisValues {
 
     @JvmStatic
     @JvmOverloads
-    fun <T : Any> setObj(
+    fun setNumberIfAbsent(
+        key: String,
+        value: Number,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS
+    ): Boolean? = if (timeout == 0L) RedisManager.redisTemplate.opsForValue().setIfAbsent(key, value)
+    else RedisManager.redisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit)
+
+    @JvmStatic
+    @JvmOverloads
+    fun <T : Any> setIfAbsent(
         key: String,
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = if (timeout == 0L) RedisManager.redisTemplate.opsForValue().set(key, value)
-    else RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
+    ): Boolean? = if (timeout == 0L) RedisManager.redisTemplate.opsForValue().setIfAbsent(key, value)
+    else RedisManager.redisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit)
 
     @JvmStatic
     @JvmOverloads

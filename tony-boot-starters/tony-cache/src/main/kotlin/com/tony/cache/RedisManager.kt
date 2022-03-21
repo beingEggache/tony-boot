@@ -12,10 +12,13 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.script.DefaultRedisScript
+import org.springframework.data.redis.core.script.RedisScript
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
+import org.springframework.data.redis.serializer.RedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
 import org.springframework.scripting.support.ResourceScriptSource
 import java.util.Collections
+import java.util.Random
 import java.util.concurrent.TimeUnit
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -36,9 +39,10 @@ object RedisManager {
     @JvmStatic
     val stringRedisTemplate: StringRedisTemplate by getBeanByLazy()
 
+    @JvmStatic
     val redisTemplate: RedisTemplate<String, Any> by lazy {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
-        val stringRedisSerializer = StringRedisSerializer()
+        val stringRedisSerializer = RedisSerializer.string()
         RedisTemplate<String, Any>().apply {
             connectionFactory = Beans.getBean()
             keySerializer = stringRedisSerializer
@@ -62,6 +66,11 @@ object RedisManager {
     fun lockKey(key: String, timeout: Long): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
         return redisTemplate.execute(script, Collections.singletonList(key), 1L, timeout) == 1L
+    }
+
+    @JvmStatic
+    fun <T> executeScript(script: RedisScript<T>, keys: List<String>, args: List<Any?>): T {
+        return redisTemplate.execute(script, keys, *args.toTypedArray())
     }
 
     @JvmStatic

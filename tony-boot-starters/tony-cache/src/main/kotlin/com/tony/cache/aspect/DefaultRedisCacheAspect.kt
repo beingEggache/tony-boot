@@ -34,13 +34,18 @@ class DefaultRedisCacheAspect {
         arguments: Array<Any>,
         paramsNames: Array<String>,
         cacheKey: String,
-        redisParamsNames: Array<String>
+        redisParamsNames: Array<String>,
+        usePrefix: Boolean = true
     ): String {
 
         if (paramsNames.isEmpty() ||
             redisParamsNames.isEmpty()
         ) {
-            return RedisKeys.genKey(cacheKey)
+            return if (usePrefix) {
+                RedisKeys.genKey(cacheKey)
+            } else {
+                cacheKey
+            }
         }
 
         val paramsValues =
@@ -63,7 +68,7 @@ class DefaultRedisCacheAspect {
                 }
             }
 
-        return RedisKeys.genKey(cacheKey, *paramsValues)
+        return if (usePrefix) RedisKeys.genKey(cacheKey, *paramsValues) else String.format(cacheKey, *paramsValues)
     }
 
     @After("redisCacheEvict()")
