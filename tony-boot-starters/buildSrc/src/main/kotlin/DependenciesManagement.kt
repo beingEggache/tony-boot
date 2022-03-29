@@ -8,7 +8,7 @@ object VersionManagement {
     const val kotlinVersion = "1.6.10"
 
     const val springVersion = "5.3.17"
-    const val springBootVersion = "2.6.4"
+    const val springBootVersion = "2.6.5"
 
     const val openFeignVersion = "11.8"
 
@@ -18,10 +18,10 @@ object VersionManagement {
     const val mybatisPlusVersion = "3.5.1"
     const val lettuceCoreVersion = "6.1.8.RELEASE"
 
-    const val jacksonVersion = "2.13.2"
+    const val jacksonVersion = "2.13.2.1"
 
     const val gsonVersion = "2.9.0"
-    const val fastjsonVersion = "1.2.79"
+    const val fastjsonVersion = "1.2.80"
     const val nettyVersion = "4.1.75.Final"
 
     const val reactorVersion = "3.4.16"

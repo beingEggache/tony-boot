@@ -7,6 +7,7 @@ import com.tony.enums.EnumValue
 import com.tony.utils.doIf
 import com.tony.utils.getLogger
 import com.tony.utils.jsonToObj
+import com.tony.utils.toJsonString
 import org.springframework.data.redis.core.RedisTemplate
 import java.io.Serializable
 import java.util.Date
@@ -27,42 +28,6 @@ object RedisMaps {
             .doIf {
                 RedisManager.redisTemplate.opsForHash<String, Any>().delete(key, hashKey)
             }
-
-    @JvmStatic
-    @JvmOverloads
-    fun putString(
-        key: String,
-        hashKey: String,
-        value: String,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
-
-    @JvmStatic
-    fun putString(
-        key: String,
-        hashKey: String,
-        value: String,
-        date: Date
-    ) = RedisManager.redisTemplate.put(key, hashKey, value, date)
-
-    @JvmStatic
-    @JvmOverloads
-    fun putNumber(
-        key: String,
-        hashKey: String,
-        value: Number,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
-
-    @JvmStatic
-    fun putNumber(
-        key: String,
-        hashKey: String,
-        value: Number,
-        date: Date
-    ) = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
     @JvmStatic
     @JvmOverloads
@@ -139,8 +104,11 @@ object RedisMaps {
     }
 
     @JvmStatic
-    fun getString(key: String, hashKey: String): String? =
-        RedisManager.redisTemplate.boundHashOps<String, String>(key).get(hashKey)
+    fun getString(key: String, hashKey: String): String? {
+        val string = RedisManager.redisTemplate.boundHashOps<String, String>(key).get(hashKey)
+        if (string.isNullOrBlank()) return string
+        return string.substring(0, string.length)
+    }
 
     @JvmStatic
     fun getNumber(key: String, hashKey: String): Number? =
@@ -157,7 +125,7 @@ object RedisMaps {
 
     @JvmStatic
     inline fun <reified T> getObj(key: String, hashKey: String): T? =
-        RedisManager.stringRedisTemplate.boundHashOps<String, String>(key).get(hashKey)?.jsonToObj()
+        RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey)?.toJsonString()?.jsonToObj()
 
     @JvmStatic
     fun <T : Any> get(key: String, hashKey: String): T? =

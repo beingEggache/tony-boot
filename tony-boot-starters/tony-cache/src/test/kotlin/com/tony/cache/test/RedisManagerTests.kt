@@ -7,8 +7,10 @@ import com.tony.cache.RedisManager
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumIntValue
 import com.tony.enums.EnumStringValue
+import com.tony.exception.BizException
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.redis.core.RedisConnectionUtils
 import javax.annotation.Resource
 
 /**
@@ -34,11 +36,11 @@ class RedisManagerTests {
 
         RedisManager.values.set(booleanKey, false)
         RedisManager.values.increment(incrementKey, 66)
-        RedisManager.values.setNumber(intKey, 1)
-        RedisManager.values.setNumber(longKey, Long.MAX_VALUE)
-        RedisManager.values.setNumber(doubleKey, 1.012)
-        RedisManager.values.setString(stringKey, "test")
-        RedisManager.values.setObj(objKey, Person("a", 20))
+        RedisManager.values.set(intKey, 1)
+        RedisManager.values.set(longKey, Long.MAX_VALUE)
+        RedisManager.values.set(doubleKey, 1.012)
+        RedisManager.values.set(stringKey, "test")
+        RedisManager.values.set(objKey, Person("a", 20))
         RedisManager.values.set(intEnumKey, MyIntEnum.ONE)
         RedisManager.values.set(stringEnumKey, MyStringEnum.YES)
 
@@ -78,10 +80,10 @@ class RedisManagerTests {
         val stringEnumKey = RedisKeys.genKey("value_test_string_enum")
 
         RedisManager.maps.put(testMapKey, booleanKey, false)
-        RedisManager.maps.putNumber(testMapKey, intKey, 1)
-        RedisManager.maps.putNumber(testMapKey, longKey, Long.MAX_VALUE)
-        RedisManager.maps.putNumber(testMapKey, doubleKey, 1.012)
-        RedisManager.maps.putString(testMapKey, stringKey, "test")
+        RedisManager.maps.put(testMapKey, intKey, 1)
+        RedisManager.maps.put(testMapKey, longKey, Long.MAX_VALUE)
+        RedisManager.maps.put(testMapKey, doubleKey, 1.012)
+        RedisManager.maps.put(testMapKey, stringKey, "test")
         RedisManager.maps.putObj(testMapKey, objKey, Person("a", 20))
         RedisManager.maps.put(testMapKey, intEnumKey, MyIntEnum.ONE)
         RedisManager.maps.put(testMapKey, stringEnumKey, MyStringEnum.YES)
@@ -157,9 +159,26 @@ class RedisManagerTests {
     }
 
     @Test
-    fun testRedisScript() {
-        RedisManager.lockKey("test", 10)
+    fun testString() {
+        RedisConnectionUtils.bindConnection(RedisManager.redisTemplate.requiredConnectionFactory)
+        RedisManager.redisTemplate.multi()
+        RedisManager.redisTemplate.requiredConnectionFactory.connection.openPipeline()
+
+        RedisConnectionUtils.unbindConnection(RedisManager.redisTemplate.requiredConnectionFactory)
     }
+
+    @Test
+    fun testMulti() {
+        val redisTemplate = RedisManager.redisTemplate
+        RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
+        RedisManager.redisTemplate.multi()
+        RedisManager.values.set("a", "a")
+        RedisManager.values.set("b", "b")
+        RedisManager.values.set("c", "c")
+        throw BizException("")
+        redisTemplate.exec()
+    }
+
 }
 
 class Person(val name: String, val age: Int)

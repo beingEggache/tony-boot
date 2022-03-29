@@ -9,13 +9,13 @@ import com.tony.utils.OBJECT_MAPPER
 import com.tony.utils.secureRandom
 import org.springframework.beans.factory.getBean
 import org.springframework.core.io.ClassPathResource
+import org.springframework.data.redis.core.RedisConnectionUtils
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.script.DefaultRedisScript
 import org.springframework.data.redis.core.script.RedisScript
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializer
-import org.springframework.data.redis.serializer.StringRedisSerializer
 import org.springframework.scripting.support.ResourceScriptSource
 import java.util.Collections
 import java.util.Random
@@ -35,9 +35,6 @@ object RedisManager {
 
     @JvmField
     val keys = RedisKeys
-
-    @JvmStatic
-    val stringRedisTemplate: StringRedisTemplate by getBeanByLazy()
 
     @JvmStatic
     val redisTemplate: RedisTemplate<String, Any> by lazy {
@@ -63,6 +60,14 @@ object RedisManager {
     }
 
     @JvmStatic
+    fun doInTransaction(callback: () -> Unit) {
+        RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
+        redisTemplate.multi()
+        callback()
+        redisTemplate.exec()
+    }
+
+    @JvmStatic
     fun lockKey(key: String, timeout: Long): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
         return redisTemplate.execute(script, Collections.singletonList(key), 1L, timeout) == 1L
@@ -81,7 +86,7 @@ object RedisManager {
                 return true
             }
             try {
-                TimeUnit.MILLISECONDS.sleep(secureRandom.nextInt(100).toLong())
+                TimeUnit.MILLISECONDS.sleep(Random().nextInt(100).toLong())
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }

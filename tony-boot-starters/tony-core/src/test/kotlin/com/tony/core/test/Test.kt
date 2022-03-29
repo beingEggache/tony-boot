@@ -1,11 +1,21 @@
 package com.tony.core.test
 
-import com.tony.utils.getFromRootAsString
+import com.github.yitter.contract.IdGeneratorOptions
+import com.github.yitter.idgen.YitIdHelper
 import com.tony.utils.println
+import com.tony.utils.secureRandom
 
 
 fun main() {
-    val valueTokenFromRoot = """{"code":20000,"message":"","data":{"test":true},"test":true}"""
-        .getFromRootAsString("test")
-    valueTokenFromRoot.println()
+//    val valueTokenFromRoot = """{"code":20000,"message":"","data":{"test":true},"test":true}"""
+//        .getFromRootAsString("test")
+//    valueTokenFromRoot.println()
+
+
+// 保存参数（必须的操作，否则以上设置都不能生效）：
+
+    repeat(1024) {
+        Thread.sleep(secureRandom.nextInt(200).toLong())
+        YitIdHelper.nextId().println()
+    }
 }

@@ -3,6 +3,7 @@
 package com.tony.api
 
 import com.tony.Env
+import com.tony.amqp.config.AmqpConfig
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
 import com.tony.db.config.DbConfig
@@ -83,7 +84,7 @@ fun main(args: Array<String>) {
 }*/
 
 @EnableTonyBoot
-@Import(value = [DbConfig::class])
+@Import(value = [DbConfig::class, AmqpConfig::class])
 @SpringBootApplication
 class MonoApiWebApp(
     private val permissionInterceptor: PermissionInterceptor

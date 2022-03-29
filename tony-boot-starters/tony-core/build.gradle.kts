@@ -16,6 +16,7 @@ dependencies {
     api(Deps.Jackson.moduleParameterNames)
 
     addTestDependencies()
+    testApi("com.github.yitter:yitter-idgenerator:1.0.6")
 }
 
 tasks.named<Test>("test") {

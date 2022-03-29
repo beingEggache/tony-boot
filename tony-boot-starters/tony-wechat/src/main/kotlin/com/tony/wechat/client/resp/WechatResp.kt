@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 import java.util.Date
 
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
-sealed class WechatResp {
+open class WechatResp {
     @JsonProperty("errcode")
     var errCode: String? = null
 

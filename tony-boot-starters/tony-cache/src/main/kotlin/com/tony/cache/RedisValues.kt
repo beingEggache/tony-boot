@@ -6,6 +6,7 @@ import com.tony.enums.EnumCreator.Companion.getCreator
 import com.tony.enums.EnumValue
 import com.tony.utils.asTo
 import com.tony.utils.jsonToObj
+import com.tony.utils.toJsonString
 import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
@@ -26,56 +27,6 @@ object RedisValues {
 
     @JvmStatic
     @JvmOverloads
-    fun setString(
-        key: String,
-        value: String,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = if (timeout == 0L) RedisManager.stringRedisTemplate.opsForValue().set(key, value)
-    else RedisManager.stringRedisTemplate.opsForValue().set(key, value, timeout, timeUnit)
-
-    @JvmStatic
-    @JvmOverloads
-    fun setStringIfAbsent(
-        key: String,
-        value: String,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
-    ): Boolean? = if (timeout == 0L) RedisManager.stringRedisTemplate.opsForValue().setIfAbsent(key, value)
-    else RedisManager.stringRedisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit)
-
-    @JvmStatic
-    @JvmOverloads
-    fun setNumber(
-        key: String,
-        value: Number,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = if (timeout == 0L) RedisManager.redisTemplate.opsForValue().set(key, value)
-    else RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
-
-    @JvmStatic
-    @JvmOverloads
-    fun setNumberIfAbsent(
-        key: String,
-        value: Number,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
-    ): Boolean? = if (timeout == 0L) RedisManager.redisTemplate.opsForValue().setIfAbsent(key, value)
-    else RedisManager.redisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit)
-
-    @JvmStatic
-    @JvmOverloads
-    fun <T : Any> setIfAbsent(
-        key: String,
-        value: T,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
-    ): Boolean? = if (timeout == 0L) RedisManager.redisTemplate.opsForValue().setIfAbsent(key, value)
-    else RedisManager.redisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit)
-
-    @JvmStatic
-    @JvmOverloads
     fun <T : Any> set(
         key: String,
         value: T,
@@ -85,8 +36,11 @@ object RedisValues {
     else RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
 
     @JvmStatic
-    fun getString(key: String): String? =
-        RedisManager.stringRedisTemplate.opsForValue().get(key)
+    fun getString(key: String): String? {
+        val string = RedisManager.redisTemplate.opsForValue().get(key)?.toString()
+        if (string.isNullOrBlank()) return string
+        return string.substring(0, string.length)
+    }
 
     @Suppress("UNCHECKED_CAST")
     @JvmStatic
@@ -104,7 +58,7 @@ object RedisValues {
 
     @JvmStatic
     inline fun <reified T> getObj(key: String): T? =
-        getString(key)?.jsonToObj()
+        RedisManager.redisTemplate.opsForValue().get(key).toJsonString().jsonToObj()
 
     @JvmStatic
     fun <T : Any> get(key: String): T? =
