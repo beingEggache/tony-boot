@@ -31,7 +31,7 @@ object VersionManagement {
     const val byteBuddyVersion = "1.12.8"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
-    const val javaJwtVersion = "3.19.0"
+    const val javaJwtVersion = "3.19.1"
     const val guavaVersion = "31.1-jre"
 
     const val swaggerV3Version = "2.1.13"
