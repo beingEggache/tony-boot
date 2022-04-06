@@ -18,7 +18,7 @@ import java.io.InputStream
 class ByteArrayMultipartFile(
     private val originalFilename: String,
     private val bytes: ByteArray,
-    private val name: String? = null,
+    private val name: String = "",
     private val contentType: String? = null
 ) : MultipartFile {
 
@@ -30,7 +30,7 @@ class ByteArrayMultipartFile(
 
     override fun getInputStream(): InputStream = ByteArrayInputStream(bytes)
 
-    override fun getName(): String? = name
+    override fun getName(): String = name
 
     override fun getOriginalFilename(): String = originalFilename
 
