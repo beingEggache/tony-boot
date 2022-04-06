@@ -3,15 +3,12 @@
 package com.tony.cache
 
 import com.tony.Beans
-import com.tony.Beans.getBeanByLazy
 import com.tony.exception.ApiException
 import com.tony.utils.OBJECT_MAPPER
-import com.tony.utils.secureRandom
 import org.springframework.beans.factory.getBean
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.RedisConnectionUtils
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.script.DefaultRedisScript
 import org.springframework.data.redis.core.script.RedisScript
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer

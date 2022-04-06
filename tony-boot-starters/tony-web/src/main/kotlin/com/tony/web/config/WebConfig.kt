@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.format.FormatterRegistry
@@ -122,6 +123,7 @@ internal data class WebProperties(
     /**
      * 是否包装返回值。
      */
+    @DefaultValue("true")
     val responseWrapEnabled: Boolean = true,
     /**
      * 包装返回值白名单url（ant pattern）。
@@ -130,10 +132,12 @@ internal data class WebProperties(
     /**
      * 是否记录请求日志。
      */
+    @DefaultValue("true")
     val traceLoggerEnabled: Boolean = true,
     /**
      * 是否处理响应json null值。
      */
+    @DefaultValue("true")
     val jsonNullValueOptimizedEnabled: Boolean = true
 )
 
@@ -142,12 +146,14 @@ internal data class WebProperties(
 @ConfigurationProperties(prefix = "web.cors")
 @ConditionalOnExpression("\${web.cors-enabled:false}")
 data class WebCorsProperties(
+    @DefaultValue("false")
     val enabled: Boolean = false,
     val allowedOrigins: List<String> = listOf(),
     val allowedHeaders: List<String> = listOf(),
     val allowedMethods: List<String> = listOf(),
     val maxAge: Long = Long.MAX_VALUE,
-    val allowCredentials: Boolean? = true
+    @DefaultValue("true")
+    val allowCredentials: Boolean = true
 )
 
 internal class ApiCorsProcessor : DefaultCorsProcessor() {

@@ -5,10 +5,10 @@ import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
 
 object VersionManagement {
-    const val kotlinVersion = "1.6.10"
+    const val kotlinVersion = "1.6.20"
 
-    const val springVersion = "5.3.17"
-    const val springBootVersion = "2.6.5"
+    const val springVersion = "5.3.18"
+    const val springBootVersion = "2.6.6"
 
     const val openFeignVersion = "11.8"
 
@@ -18,7 +18,7 @@ object VersionManagement {
     const val mybatisPlusVersion = "3.5.1"
     const val lettuceCoreVersion = "6.1.8.RELEASE"
 
-    const val jacksonVersion = "2.13.2.1"
+    const val jacksonVersion = "2.13.2"
 
     const val gsonVersion = "2.9.0"
     const val fastjsonVersion = "1.2.80"

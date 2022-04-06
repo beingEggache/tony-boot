@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.http.HttpMessageConverters
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer
 import org.springframework.cloud.openfeign.support.SpringDecoder
 import org.springframework.cloud.openfeign.support.SpringEncoder
@@ -82,11 +83,18 @@ class FeignConfig {
 @ConstructorBinding
 @ConfigurationProperties(prefix = "feign")
 data class FeignConfigProperties(
+    @DefaultValue("0")
     val callTimeout: Long = 0,
+    @DefaultValue("10000")
     val connectTimeout: Long = 10000,
+    @DefaultValue("10000")
     val readTimeout: Long = 10000,
+    @DefaultValue("10000")
     val writeTimeout: Long = 10000,
+    @DefaultValue("10000")
     val pingInterval: Long = 10000,
+    @DefaultValue("true")
     val retryOnConnectionFailure: Boolean = true,
+    @DefaultValue("true")
     val followRedirects: Boolean = true,
 )

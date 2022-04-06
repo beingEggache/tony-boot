@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Configuration
 import java.time.LocalDateTime
 import java.util.Date
@@ -23,10 +24,12 @@ internal class JwtConfig
 @ConstructorBinding
 @ConfigurationProperties(prefix = "jwt")
 data class JwtProperties(
+    @DefaultValue("")
     val secret: String = "",
     /**
      * jwt token expired minutes, default value is one year.
      */
+    @DefaultValue("525600")
     val expiredMinutes: Long = 525600L
 )
 

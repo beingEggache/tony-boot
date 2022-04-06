@@ -6,10 +6,10 @@ import org.gradle.kotlin.dsl.exclude
 import java.util.concurrent.TimeUnit
 
 object Version {
-    const val kotlinVersion = "1.6.10"
+    const val kotlinVersion = "1.6.20"
 
-    const val springVersion = "5.3.17"
-    const val springBootVersion = "2.6.4"
+    const val springVersion = "5.3.18"
+    const val springBootVersion = "2.6.6"
 
     const val springCloudAlibabaVersion = "2021.0.1.0"
     const val springCloudVersion = "2021.0.1"
