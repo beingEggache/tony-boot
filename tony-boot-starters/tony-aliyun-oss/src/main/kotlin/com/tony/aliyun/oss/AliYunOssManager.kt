@@ -20,6 +20,7 @@ class AliYunOssManager(
         OSSClientBuilder().build(endPoint, accessKeyId, accessKeySecret)
     }
 
+    @JvmOverloads
     fun upload(path: String, name: String, inputStream: InputStream, metadata: ObjectMetadata? = null) =
         ossClient.run {
             val trimPath = _reg.replaceFirst(path, "")

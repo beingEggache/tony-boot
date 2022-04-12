@@ -28,14 +28,14 @@ object VersionManagement {
     const val reactorNettyVersion = "1.0.17"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.12.8"
+    const val byteBuddyVersion = "1.12.9"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
     const val javaJwtVersion = "3.19.1"
     const val guavaVersion = "31.1-jre"
 
     const val swaggerV3Version = "2.1.13"
-    const val springdocVersion = "1.6.6"
+    const val springdocVersion = "1.6.7"
 
 }
 

@@ -5,7 +5,7 @@ spring:
   application:
     name: tony-gateway-gateway
   profiles:
-    active: dev
+    default: dev
   main:
     banner-mode: off
   cloud:

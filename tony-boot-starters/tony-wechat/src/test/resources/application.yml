@@ -7,4 +7,4 @@ wechat:
       app-secret: 9715603578fb8ad6cd510b1566642b68
 spring:
   profiles:
-    active: dev
+    default: dev

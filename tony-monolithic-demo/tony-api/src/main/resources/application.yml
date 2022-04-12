@@ -6,7 +6,7 @@ mybatis-plus:
     banner: off
 spring:
   profiles:
-    active: dev
+    default: dev
   application:
     name: tony-api
   main:
