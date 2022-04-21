@@ -5,14 +5,14 @@ import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
 
 object VersionManagement {
-    const val kotlinVersion = "1.6.20"
+    const val kotlinVersion = "1.6.21"
 
-    const val springVersion = "5.3.18"
+    const val springVersion = "5.3.19"
     const val springBootVersion = "2.6.6"
 
     const val openFeignVersion = "11.8"
 
-    const val postgresqlVersion = "42.3.3"
+    const val postgresqlVersion = "42.3.4"
     const val mysqlVersion = "8.0.28"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.1"
@@ -22,9 +22,10 @@ object VersionManagement {
 
     const val gsonVersion = "2.9.0"
     const val fastjsonVersion = "1.2.80"
-    const val nettyVersion = "4.1.75.Final"
+    const val nettyVersion = "4.1.76.Final"
 
-    const val reactorVersion = "3.4.16"
+    const val reactorVersion = "3.4.17"
+    const val reactorKotlinExtensions = "1.1.6"
     const val reactorNettyVersion = "1.0.17"
     const val slf4jVersion = "1.7.36"
 
@@ -212,6 +213,7 @@ object DepsManagement {
 
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${VersionManagement.reactorVersion}"
+        const val reactorKotlinExtensions = "io.projectreactor.kotlin:reactor-kotlin-extensions:${VersionManagement.reactorKotlinExtensions}"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:${VersionManagement.reactorNettyVersion}"
 
         const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.0.6"

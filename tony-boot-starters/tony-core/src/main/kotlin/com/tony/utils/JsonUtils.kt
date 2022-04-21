@@ -96,6 +96,24 @@ fun JavaType.isBooleanType() =
 fun JavaType.isNumberType() =
     isTypeOrSubTypeOf(Number::class.java)
 
+fun JavaType.isByteType() =
+    isTypeOrSubTypeOf(Byte::class.java) || isTypeOrSubTypeOf(java.lang.Byte::class.java)
+
+fun JavaType.isShortType() =
+    isTypeOrSubTypeOf(Short::class.java) || isTypeOrSubTypeOf(java.lang.Short::class.java)
+
+fun JavaType.isIntType() =
+    isTypeOrSubTypeOf(Int::class.java) || isTypeOrSubTypeOf(java.lang.Integer::class.java)
+
+fun JavaType.isLongType() =
+    isTypeOrSubTypeOf(Long::class.java) || isTypeOrSubTypeOf(java.lang.Long::class.java)
+
+fun JavaType.isFloatType() =
+    isTypeOrSubTypeOf(Float::class.java) || isTypeOrSubTypeOf(java.lang.Float::class.java)
+
+fun JavaType.isDoubleType() =
+    isTypeOrSubTypeOf(Double::class.java) || isTypeOrSubTypeOf(java.lang.Double::class.java)
+
 fun JavaType.isObjLikeType() =
     isMapLikeType || (!isArrayLikeType() && !isNumberType() && !isStringLikeType())
 

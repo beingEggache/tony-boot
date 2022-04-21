@@ -16,6 +16,7 @@ dependencies {
     api(Deps.Jackson.moduleParameterNames)
 
     addTestDependencies()
+    testApi(Deps.Other.reactorKotlinExtensions)
     testApi("com.github.yitter:yitter-idgenerator:1.0.6")
 }
 

@@ -6,9 +6,9 @@ import org.gradle.kotlin.dsl.exclude
 import java.util.concurrent.TimeUnit
 
 object Version {
-    const val kotlinVersion = "1.6.20"
+    const val kotlinVersion = "1.6.21"
 
-    const val springVersion = "5.3.18"
+    const val springVersion = "5.3.19"
     const val springBootVersion = "2.6.6"
 
     const val springCloudAlibabaVersion = "2021.0.1.0"
@@ -189,6 +189,7 @@ object Deps {
 
         const val classmate = "com.fasterxml:classmate"
         const val reactor = "io.projectreactor:reactor-core"
+        const val reactorKotlinExtensions = "io.projectreactor.kotlin:reactor-kotlin-extensions"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty"
 
         const val caffeine = "com.github.ben-manes.caffeine:caffeine"

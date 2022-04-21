@@ -144,19 +144,6 @@ class RedisManagerTests {
         println(myStringEnum)
     }
 
-    @Resource
-    private lateinit var testCacheService: TestCacheService
-
-    @Test
-    fun testCacheAnno() {
-        testCacheService.testCache1()
-        testCacheService.testCache2()
-    }
-
-    @Test
-    fun testRCacheAnno() {
-        testCacheService.rTestCache()
-    }
 
     @Test
     fun testString() {
