@@ -8,7 +8,7 @@ object VersionManagement {
     const val kotlinVersion = "1.6.21"
 
     const val springVersion = "5.3.19"
-    const val springBootVersion = "2.6.6"
+    const val springBootVersion = "2.6.7"
 
     const val openFeignVersion = "11.8"
 
@@ -26,7 +26,7 @@ object VersionManagement {
 
     const val reactorVersion = "3.4.17"
     const val reactorKotlinExtensions = "1.1.6"
-    const val reactorNettyVersion = "1.0.17"
+    const val reactorNettyVersion = "1.0.18"
     const val slf4jVersion = "1.7.36"
 
     const val byteBuddyVersion = "1.12.9"
@@ -35,7 +35,7 @@ object VersionManagement {
     const val javaJwtVersion = "3.19.1"
     const val guavaVersion = "31.1-jre"
 
-    const val swaggerV3Version = "2.1.13"
+    const val swaggerV3Version = "2.2.0"
     const val springdocVersion = "1.6.7"
 
 }

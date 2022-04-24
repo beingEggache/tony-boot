@@ -3,18 +3,20 @@ package com.tony.web.config
 import com.tony.jwt.config.JwtProperties
 import com.tony.utils.getLogger
 import com.tony.web.ApiSession
+import com.tony.web.HaveWhiteListUrlPattern
 import com.tony.web.JwtApiSession
 import com.tony.web.NoopApiSession
-import com.tony.web.WebApp
 import com.tony.web.interceptor.DefaultJwtLoginCheckInterceptor
 import com.tony.web.interceptor.LoginCheckInterceptor
 import com.tony.web.interceptor.NoopLoginCheckInterceptor
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.context.EnvironmentAware
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.PriorityOrdered
+import org.springframework.core.env.Environment
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -23,7 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @EnableConfigurationProperties(JwtProperties::class)
 internal class WebAuthConfig(
     private val jwtProperties: JwtProperties
-) : WebMvcConfigurer {
+) : WebMvcConfigurer, EnvironmentAware, HaveWhiteListUrlPattern {
 
     private val logger = getLogger()
 
@@ -43,7 +45,19 @@ internal class WebAuthConfig(
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(loginCheckInterceptor())
-            .excludePathPatterns(*WebApp.whiteUrlPatterns(prefix = "").toTypedArray())
+            .excludePathPatterns(*whiteUrlPatterns(prefix = "").toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE)
     }
+
+    /*
+     *  Java Compatible
+     */
+    lateinit var env: Environment
+
+    override fun setEnvironment(environment: Environment) {
+        this.env = environment
+    }
+
+    override val environment: Environment
+        get() = env
 }
