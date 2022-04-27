@@ -3,6 +3,7 @@
 
 package com.tony.utils
 
+import com.tony.ApiProperty
 import com.tony.exception.BizException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -31,12 +32,14 @@ inline fun <T> T.doIf(condition: Boolean, crossinline block: T.() -> Unit): T {
     return this
 }
 
-fun throwIf(condition: Boolean, message: String) {
-    if (condition) throw BizException(message)
+@JvmOverloads
+fun throwIf(condition: Boolean, message: String, code: Int = ApiProperty.bizErrorCode) {
+    if (condition) throw BizException(message, code)
 }
 
-fun <T> T?.throwIfNull(message: String) {
-    throwIf(this == null, message)
+@JvmOverloads
+fun <T> T?.throwIfNull(message: String = ApiProperty.notFoundMessage, code: Int = ApiProperty.notFoundCode) {
+    throwIf(this == null, message, code)
 }
 
 inline fun <R> throwIfAndReturn(condition: Boolean, message: String, crossinline block: () -> R): R {

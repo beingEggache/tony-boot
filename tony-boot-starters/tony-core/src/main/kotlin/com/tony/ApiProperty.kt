@@ -27,4 +27,10 @@ object ApiProperty {
 
     @JvmStatic
     val validationErrorMsg: String by getPropertyByLazy("core.validation-error-msg", "请求有误，请检查后输入")
+
+    @JvmStatic
+    val notFoundMessage: String = "该对象不存在"
+
+    @JvmStatic
+    val notFoundCode: Int = 40404
 }

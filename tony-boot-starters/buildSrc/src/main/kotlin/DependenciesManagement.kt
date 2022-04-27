@@ -36,7 +36,7 @@ object VersionManagement {
     const val guavaVersion = "31.1-jre"
 
     const val swaggerV3Version = "2.2.0"
-    const val springdocVersion = "1.6.7"
+    const val springdocVersion = "1.6.8"
 
 }
 

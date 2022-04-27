@@ -32,6 +32,14 @@ fun <T> T.toDeepLink() =
         .toDeepLink()
 
 /**
+ * 判断两字符串是否相等，null == "" -> true, "" == null -> true
+ */
+fun String?.equalsIgnoreNullOrEmpty(str: String?): Boolean =
+    if (this.isNullOrEmpty()) {
+        str.isNullOrEmpty()
+    } else this == str
+
+/**
  * 转为 deeplink表示， 如a=1&b=2&c=3
  */
 fun Map<String, Any?>.toDeepLink() =

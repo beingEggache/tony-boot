@@ -26,6 +26,10 @@ import javax.servlet.http.HttpServletResponse
 object WebContext {
 
     @JvmStatic
+    val isWeb: Boolean
+        get() = RequestContextHolder.getRequestAttributes() != null
+
+    @JvmStatic
     val current: ServletRequestAttributes
         get() = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
 

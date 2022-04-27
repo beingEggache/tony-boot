@@ -89,7 +89,7 @@ internal class WebConfig(
         logger.info("Cors is enabled.")
         val source = UrlBasedCorsConfigurationSource()
         val corsConfiguration = CorsConfiguration().apply {
-            if (webCorsProperties.allowCredentials == true) {
+            if (webCorsProperties.allowCredentials) {
                 allowCredentials = webCorsProperties.allowCredentials
             }
             allowedOriginPatterns = webCorsProperties.allowedOrigins.ifEmpty { listOf("*") }
