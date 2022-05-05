@@ -17,13 +17,21 @@ object RedisValues {
 
     @JvmStatic
     @JvmOverloads
-    fun increment(key: String, delta: Long = 1L): Long? =
-        RedisManager.redisTemplate.boundValueOps(key).increment(delta)
+    fun increment(key: String, delta: Long = 1L, initial: Long? = null): Long? {
+        if (initial != null) {
+            RedisManager.redisTemplate.opsForValue().setIfAbsent(key, initial)
+        }
+        return RedisManager.redisTemplate.boundValueOps(key).increment(delta)
+    }
 
     @JvmStatic
     @JvmOverloads
-    fun increment(key: String, delta: Double = 1.0): Double? =
-        RedisManager.redisTemplate.boundValueOps(key).increment(delta)
+    fun increment(key: String, delta: Double = 1.0, initial: Double? = null): Double? {
+        if (initial != null) {
+            RedisManager.redisTemplate.opsForValue().setIfAbsent(key, initial)
+        }
+        return RedisManager.redisTemplate.boundValueOps(key).increment(delta)
+    }
 
     @JvmStatic
     @JvmOverloads

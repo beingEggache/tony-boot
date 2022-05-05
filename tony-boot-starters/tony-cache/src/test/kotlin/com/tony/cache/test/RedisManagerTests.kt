@@ -23,6 +23,18 @@ import javax.annotation.Resource
 class RedisManagerTests {
 
     @Test
+    fun testListener(){
+
+        RedisManager.values.set("testExpire0","year")
+        RedisManager.values.set("testExpire1","year",1)
+        RedisManager.values.set("testExpire2","year",2)
+        RedisManager.values.set("testExpire3","year",3)
+        RedisManager.values.set("testExpire4","year",4)
+
+        Thread.sleep(10*1000)
+    }
+
+    @Test
     fun testRedisValues() {
         val booleanKey = RedisKeys.genKey("value_test_boolean")
         val incrementKey = RedisKeys.genKey("value_test_increment")

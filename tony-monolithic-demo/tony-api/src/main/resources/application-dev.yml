@@ -5,6 +5,12 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  rabbitmq:
+    host: "192.168.51.25"
+    port: 5672
+    username: "ktwl"
+    password: "Ktwl@123!@#"
+    virtual-host: /
 web:
   cors:
     enabled: true

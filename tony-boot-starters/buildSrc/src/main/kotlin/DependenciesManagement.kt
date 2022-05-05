@@ -13,7 +13,7 @@ object VersionManagement {
     const val openFeignVersion = "11.8"
 
     const val postgresqlVersion = "42.3.4"
-    const val mysqlVersion = "8.0.28"
+    const val mysqlVersion = "8.0.29"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.1"
     const val lettuceCoreVersion = "6.1.8.RELEASE"
@@ -29,7 +29,7 @@ object VersionManagement {
     const val reactorNettyVersion = "1.0.18"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.12.9"
+    const val byteBuddyVersion = "1.12.10"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
     const val javaJwtVersion = "3.19.1"
