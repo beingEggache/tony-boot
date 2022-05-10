@@ -22,7 +22,7 @@ object VersionManagement {
 
     const val gsonVersion = "2.9.0"
     const val fastjsonVersion = "1.2.80"
-    const val nettyVersion = "4.1.76.Final"
+    const val nettyVersion = "4.1.77.Final"
 
     const val reactorVersion = "3.4.17"
     const val reactorKotlinExtensions = "1.1.6"
@@ -32,7 +32,7 @@ object VersionManagement {
     const val byteBuddyVersion = "1.12.10"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.70"
-    const val javaJwtVersion = "3.19.1"
+    const val javaJwtVersion = "3.19.2"
     const val guavaVersion = "31.1-jre"
 
     const val swaggerV3Version = "2.2.0"
