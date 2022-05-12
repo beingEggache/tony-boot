@@ -2,6 +2,8 @@
 
 package com.tony.cache
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.JavaType
 import com.tony.enums.EnumCreator.Companion.getCreator
 import com.tony.enums.EnumValue
 import com.tony.utils.asTo
@@ -44,6 +46,16 @@ object RedisValues {
     else RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
 
     @JvmStatic
+    @JvmOverloads
+    fun <T : Any> setObj(
+        key: String,
+        value: T,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS
+    ) = if (timeout == 0L) RedisManager.redisTemplate.opsForValue().set(key, value.toJsonString())
+    else RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
+
+    @JvmStatic
     fun getString(key: String): String? {
         val string = RedisManager.redisTemplate.opsForValue().get(key)?.toString()
         if (string.isNullOrBlank()) return string
@@ -67,6 +79,14 @@ object RedisValues {
     @JvmStatic
     inline fun <reified T> getObj(key: String): T? =
         RedisManager.redisTemplate.opsForValue().get(key).toJsonString().jsonToObj()
+
+    @JvmStatic
+    fun <T> getObj(key: String, typeReference: TypeReference<T>): T? =
+        getString(key)?.jsonToObj(typeReference)
+
+    @JvmStatic
+    fun <T> getObj(key: String, javaType: JavaType): T? =
+        getString(key)?.jsonToObj(javaType)
 
     @JvmStatic
     fun <T : Any> get(key: String): T? =

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.core.JsonToken
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -37,6 +38,10 @@ fun createObjectMapper() = ObjectMapper().apply {
 @Throws(IOException::class)
 inline fun <reified T> String.jsonToObj(): T =
     OBJECT_MAPPER.readValue(this)
+
+@Throws(IOException::class)
+fun <T> String.jsonToObj(typeReference: TypeReference<T>): T =
+    OBJECT_MAPPER.readValue(this, typeReference)
 
 @Throws(IOException::class)
 fun <T> String.jsonToObj(javaType: JavaType): T =
