@@ -18,7 +18,7 @@ object VersionManagement {
     const val mybatisPlusVersion = "3.5.1"
     const val lettuceCoreVersion = "6.1.8.RELEASE"
 
-    const val jacksonVersion = "2.13.2"
+    const val jacksonVersion = "2.13.3"
 
     const val gsonVersion = "2.9.0"
     const val fastjsonVersion = "1.2.80"
