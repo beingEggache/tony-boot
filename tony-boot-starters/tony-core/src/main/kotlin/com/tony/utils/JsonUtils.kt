@@ -40,6 +40,10 @@ inline fun <reified T> String.jsonToObj(): T =
     OBJECT_MAPPER.readValue(this)
 
 @Throws(IOException::class)
+fun <T> String.jsonToObj(clazz: Class<T>): T =
+    OBJECT_MAPPER.readValue(this, clazz)
+
+@Throws(IOException::class)
 fun <T> String.jsonToObj(typeReference: TypeReference<T>): T =
     OBJECT_MAPPER.readValue(this, typeReference)
 
