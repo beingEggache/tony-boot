@@ -8,7 +8,7 @@ object VersionManagement {
     const val kotlinVersion = "1.6.21"
 
     const val springVersion = "5.3.20"
-    const val springBootVersion = "2.6.7"
+    const val springBootVersion = "2.7.0"
 
     const val openFeignVersion = "11.8"
 
