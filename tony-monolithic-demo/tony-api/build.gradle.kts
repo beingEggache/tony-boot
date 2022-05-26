@@ -16,7 +16,7 @@ dependencies {
     implementation(Deps.Template.templateWebAuth) { isChanging = true }
     implementation(Deps.Template.templateFeign)
     implementation(project(":tony-service"))
-    implementation(project(":tony-amqp"))
+//    implementation(project(":tony-amqp"))
     addTestDependencies()
 //    implementation(Deps.SpringBoot.starterActuator)
 }

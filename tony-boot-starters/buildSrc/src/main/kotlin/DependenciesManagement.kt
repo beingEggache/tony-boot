@@ -208,7 +208,7 @@ object DepsManagement {
         const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:${VersionManagement.bouncycastleVersion}"
         const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on:${VersionManagement.bouncycastleVersion}"
         const val bctlsJdk15On = "org.bouncycastle:bctls-jdk15on:${VersionManagement.bouncycastleVersion}"
-        const val bctspJdk15On = "org.bouncycastle:bctsp-jdk15on:${VersionManagement.bouncycastleVersion}"
+        const val bctspJdk15On = "org.bouncycastle:bctsp-jdk15on:1.46"
         const val bcmailJdk15On = "org.bouncycastle:bcmail-jdk15on:${VersionManagement.bouncycastleVersion}"
 
         const val classmate = "com.fasterxml:classmate:1.5.1"
