@@ -15,7 +15,7 @@ object VersionManagement {
     const val postgresqlVersion = "42.3.6"
     const val mysqlVersion = "8.0.29"
     const val hikariCPVersion = "5.0.1"
-    const val mybatisPlusVersion = "3.5.1"
+    const val mybatisPlusVersion = "3.5.2"
     const val lettuceCoreVersion = "6.1.8.RELEASE"
 
     const val jacksonVersion = "2.13.3"
@@ -164,7 +164,7 @@ object DepsManagement {
     object Other {
         const val lettuce = "io.lettuce:lettuce-core:${VersionManagement.lettuceCoreVersion}"
 
-        const val mybatis = "org.mybatis:mybatis:3.5.9"
+        const val mybatis = "org.mybatis:mybatis:3.5.10"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${VersionManagement.mybatisPlusVersion}"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${VersionManagement.mybatisPlusVersion}"
         const val mybatisPlusBootStarter =
@@ -216,7 +216,7 @@ object DepsManagement {
         const val reactorKotlinExtensions = "io.projectreactor.kotlin:reactor-kotlin-extensions:${VersionManagement.reactorKotlinExtensions}"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:${VersionManagement.reactorNettyVersion}"
 
-        const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.0.6"
+        const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.1.1"
 
         const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations:${VersionManagement.swaggerV3Version}"
         const val springdocUi = "org.springdoc:springdoc-openapi-ui:${VersionManagement.springdocVersion}"
