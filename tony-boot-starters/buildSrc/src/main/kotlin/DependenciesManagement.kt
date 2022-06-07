@@ -16,6 +16,7 @@ object VersionManagement {
     const val mysqlVersion = "8.0.29"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.2"
+    const val mybatisVersion = "3.5.10"
     const val lettuceCoreVersion = "6.1.8.RELEASE"
 
     const val jacksonVersion = "2.13.3"
@@ -164,7 +165,7 @@ object DepsManagement {
     object Other {
         const val lettuce = "io.lettuce:lettuce-core:${VersionManagement.lettuceCoreVersion}"
 
-        const val mybatis = "org.mybatis:mybatis:3.5.10"
+        const val mybatis = "org.mybatis:mybatis:${VersionManagement.mybatisVersion}"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${VersionManagement.mybatisPlusVersion}"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${VersionManagement.mybatisPlusVersion}"
         const val mybatisPlusBootStarter =

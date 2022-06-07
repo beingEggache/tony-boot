@@ -11,7 +11,7 @@ object Version {
     const val springBootVersion = "2.7.0"
 
     const val springCloudAlibabaVersion = "2021.0.1.0"
-    const val springCloudVersion = "2021.0.1"
+    const val springCloudVersion = "2021.0.3"
 
     const val alipaySdkJavaVersion = "4.27.1.ALL"
     const val aliyunJavaSdkCoreVersion = "4.6.0"
@@ -37,7 +37,7 @@ object Deps {
         const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:${Version.alipaySdkJavaVersion}"
         const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:${Version.aliyunJavaSdkCoreVersion}"
         const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:${Version.aliyunSdkOssVersion}"
-        const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0"
+        const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.2.1"
     }
 
     object Jackson {
