@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
 
 object VersionManagement {
-    const val kotlinVersion = "1.6.21"
+    const val kotlinVersion = "1.7.0"
 
     const val springVersion = "5.3.20"
     const val springBootVersion = "2.7.0"
@@ -37,7 +37,7 @@ object VersionManagement {
     const val guavaVersion = "31.1-jre"
 
     const val swaggerV3Version = "2.2.0"
-    const val springdocVersion = "1.6.8"
+    const val springdocVersion = "1.6.9"
 
 }
 
