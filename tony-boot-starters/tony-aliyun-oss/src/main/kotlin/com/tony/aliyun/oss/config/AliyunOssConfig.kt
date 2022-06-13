@@ -1,36 +1,13 @@
 package com.tony.aliyun.oss.config
 
-import com.tony.aliyun.oss.AliYunOssManager
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableConfigurationProperties(AliyunOssProperties::class)
-internal class AliyunOssConfig(
-    private val aliyunOssProperties: AliyunOssProperties
-) {
-
-    @Bean
-    internal fun ossService() = let {
-
-        val (
-            accessKeyId,
-            accessKeySecret,
-            bucketName,
-            endpoint
-        ) = aliyunOssProperties
-
-        AliYunOssManager(
-            accessKeyId,
-            accessKeySecret,
-            bucketName,
-            endpoint
-        )
-    }
-}
+internal class AliyunOssConfig
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "aliyun.oss")

@@ -38,9 +38,11 @@ internal class TonyBootImportSelector : ImportSelector {
         "$PROJECT_GROUP.cache.config.RedisCacheConfig",
         "$PROJECT_GROUP.feign.config.FeignConfig",
         "$PROJECT_GROUP.jwt.config.JwtConfig",
-        "$PROJECT_GROUP.web.config.WebConfig",
+        "$PROJECT_GROUP.knife4j.config.Knife4jExtensionConfig",
         "$PROJECT_GROUP.web.config.WebAuthConfig",
-        "$PROJECT_GROUP.wechat.config.WechatConfig"
+        "$PROJECT_GROUP.web.config.WebConfig",
+        "$PROJECT_GROUP.wechat.config.WechatConfig",
+        "$PROJECT_GROUP.xxljob.config.XxlJobConfig"
     ).filter(::hasClass).toTypedArray()
 
     private fun hasClass(className: String) = try {

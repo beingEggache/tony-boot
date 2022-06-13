@@ -10,6 +10,7 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.Base64
 import java.util.UUID
+import java.util.regex.Pattern
 
 /**
  * 生成uuid并去掉横杠 “-”，并大写
@@ -103,3 +104,8 @@ private val antPathMatcher = AntPathMatcher()
 
 fun String?.antPathMatchAny(patterns: Collection<String>?) =
     patterns?.any { antPathMatcher.match(it, defaultIfBlank()) } ?: false
+
+internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
+
+fun sanitizedPath(input: String): String =
+    duplicateSlash.matcher(input).replaceAll("/")

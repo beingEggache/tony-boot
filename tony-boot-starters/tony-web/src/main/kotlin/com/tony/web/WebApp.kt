@@ -8,8 +8,8 @@ import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.Beans.getBeanByLazy
 import com.tony.Env
 import com.tony.Env.getPropertyByLazy
+import com.tony.utils.sanitizedPath
 import com.tony.web.config.WebProperties
-import com.tony.web.utils.sanitizedPath
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 
 object WebApp : HaveWhiteListUrlPattern {

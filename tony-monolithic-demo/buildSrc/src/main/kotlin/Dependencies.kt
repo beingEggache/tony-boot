@@ -172,6 +172,8 @@ object Deps {
         const val mysql = "mysql:mysql-connector-java"
         const val HikariCP = "com.zaxxer:HikariCP"
 
+        const val xxlJob = "com.xuxueli:xxl-job-core"
+
         const val slf4JApi = "org.slf4j:slf4j-api"
         const val julToSlf4J = "org.slf4j:jul-to-slf4j"
         const val jclOverSlf4J = "org.slf4j:jcl-over-slf4j"

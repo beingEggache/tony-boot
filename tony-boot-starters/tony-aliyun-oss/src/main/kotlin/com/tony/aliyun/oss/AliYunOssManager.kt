@@ -5,26 +5,29 @@ package com.tony.aliyun.oss
 import com.aliyun.oss.OSS
 import com.aliyun.oss.OSSClientBuilder
 import com.aliyun.oss.model.ObjectMetadata
+import com.tony.Beans
+import com.tony.aliyun.oss.config.AliyunOssProperties
+import com.tony.utils.sanitizedPath
 import java.io.InputStream
 
-class AliYunOssManager(
-    private val accessKeyId: String,
-    private val accessKeySecret: String,
-    private val bucketName: String,
-    private val endPoint: String
-) {
+object AliYunOssManager {
 
-    private val _reg: Regex = Regex("^[/\\\\]")
+    private val aliyunOssProperties: AliyunOssProperties by Beans.getBeanByLazy()
 
     private val ossClient: OSS by lazy {
-        OSSClientBuilder().build(endPoint, accessKeyId, accessKeySecret)
+        OSSClientBuilder().build(
+            aliyunOssProperties.endpoint,
+            aliyunOssProperties.accessKeyId,
+            aliyunOssProperties.accessKeySecret
+        )
     }
 
+    @JvmStatic
     @JvmOverloads
     fun upload(path: String, name: String, inputStream: InputStream, metadata: ObjectMetadata? = null) =
         ossClient.run {
-            val trimPath = _reg.replaceFirst(path, "")
-            putObject(bucketName, "$trimPath/$name", inputStream, metadata)
-            "https://$bucketName.$endPoint/$trimPath/$name"
+            val sanitizedPath = sanitizedPath(path)
+            putObject(aliyunOssProperties.bucketName, "$sanitizedPath/$name", inputStream, metadata)
+            "https://${aliyunOssProperties.bucketName}.${aliyunOssProperties.endpoint}/$sanitizedPath/$name"
         }
 }

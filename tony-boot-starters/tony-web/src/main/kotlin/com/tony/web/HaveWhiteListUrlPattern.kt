@@ -10,7 +10,7 @@
 package com.tony.web
 
 import com.tony.Env
-import com.tony.web.utils.sanitizedPath
+import com.tony.utils.sanitizedPath
 import org.springframework.core.env.Environment
 
 interface HaveWhiteListUrlPattern {

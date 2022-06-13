@@ -12,14 +12,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.cors.CorsUtils
 import java.net.URL
 import java.net.URLEncoder
-import java.util.regex.Pattern
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-
-internal val duplicateSlash = Pattern.compile("/{2,}")
-
-internal fun sanitizedPath(input: String): String =
-    duplicateSlash.matcher(input).replaceAll("/")
 
 val HttpServletRequest.origin
     get() = run {

@@ -19,6 +19,8 @@ object VersionManagement {
     const val mybatisVersion = "3.5.10"
     const val lettuceCoreVersion = "6.1.8.RELEASE"
 
+    const val xxlJobVersion = "2.3.1"
+
     const val jacksonVersion = "2.13.3"
 
     const val gsonVersion = "2.9.0"
@@ -196,6 +198,8 @@ object DepsManagement {
         const val postgresql = "org.postgresql:postgresql:${VersionManagement.postgresqlVersion}"
         const val mysql = "mysql:mysql-connector-java:${VersionManagement.mysqlVersion}"
         const val HikariCP = "com.zaxxer:HikariCP:${VersionManagement.hikariCPVersion}"
+
+        const val xxlJob = "com.xuxueli:xxl-job-core:${VersionManagement.xxlJobVersion}"
 
         const val slf4JApi = "org.slf4j:slf4j-api:${VersionManagement.slf4jVersion}"
         const val julToSlf4J = "org.slf4j:jul-to-slf4j:${VersionManagement.slf4jVersion}"
