@@ -38,7 +38,7 @@ object RedisManager {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
         val stringRedisSerializer = RedisSerializer.string()
         RedisTemplate<String, Any>().apply {
-            connectionFactory = Beans.getBean()
+            setConnectionFactory(Beans.getBean())
             keySerializer = stringRedisSerializer
             hashKeySerializer = stringRedisSerializer
             valueSerializer = serializer
@@ -59,6 +59,7 @@ object RedisManager {
     @JvmStatic
     fun doInTransaction(callback: () -> Unit) {
         RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
+        redisTemplate.setEnableTransactionSupport(true)
         redisTemplate.multi()
         callback()
         redisTemplate.exec()
@@ -71,7 +72,7 @@ object RedisManager {
     }
 
     @JvmStatic
-    fun <T> executeScript(script: RedisScript<T>, keys: List<String>, args: List<Any?>): T {
+    fun <T> executeScript(script: RedisScript<T>, keys: List<String>, args: List<Any?>): T? {
         return redisTemplate.execute(script, keys, *args.toTypedArray())
     }
 

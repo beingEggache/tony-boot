@@ -4,6 +4,7 @@
 package com.tony.utils
 
 import com.tony.ApiProperty
+import com.tony.Env
 import com.tony.exception.BizException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -57,7 +58,7 @@ inline fun <reified T> T?.returnIfNull(crossinline block: () -> T) = this ?: blo
  *
  * @return ip
  */
-val localIp = NetworkInterface
+val localIp: String = NetworkInterface
     .getNetworkInterfaces()
     .asSequence()
     .filter { it.isUp && it.index != -1 && !it.isLoopback }
@@ -72,3 +73,22 @@ val localIp = NetworkInterface
         e.printStackTrace()
         null
     } ?: "127.0.0.1"
+
+@Suppress("UNCHECKED_CAST")
+fun isPreferredAddress(address: InetAddress): Boolean {
+    if (Env.getProperty("spring.cloud.inetutils.use-only-site-local-interfaces", Boolean::class.java, false)) {
+        return address.isSiteLocalAddress
+    }
+
+    val preferredNetworks =
+        Env.getProperty("spring.cloud.inetutils.preferred-networks", List::class.java, emptyList<String>())
+            as List<String>
+
+    if (preferredNetworks.isEmpty()) {
+        return true
+    }
+    return preferredNetworks.any {
+        val hostAddress = address.hostAddress
+        hostAddress.matches(Regex(it)) || hostAddress.startsWith(it)
+    }
+}
