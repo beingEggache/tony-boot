@@ -108,7 +108,8 @@ object RedisManager {
     ): Long = redisTemplate.getExpire(key, timeUnit)
 
     @JvmStatic
-    fun delete(key: String) = redisTemplate.delete(keys(key)) > 0
+    fun delete(key: String) =
+        redisTemplate.delete(keys(key))
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun keys(key: String): Collection<String> = redisTemplate.keys(key)
