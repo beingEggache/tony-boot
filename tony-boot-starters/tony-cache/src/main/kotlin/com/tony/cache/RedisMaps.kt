@@ -2,6 +2,7 @@
 
 package com.tony.cache
 
+import com.tony.cache.RedisManager.trimQuotes
 import com.tony.enums.EnumCreator.Companion.getCreator
 import com.tony.enums.EnumValue
 import com.tony.utils.doIf
@@ -107,7 +108,7 @@ object RedisMaps {
     fun getString(key: String, hashKey: String): String? {
         val string = RedisManager.redisTemplate.boundHashOps<String, String>(key).get(hashKey)
         if (string.isNullOrBlank()) return string
-        return string.substring(0, string.length)
+        return string.trimQuotes()
     }
 
     @JvmStatic
@@ -140,7 +141,7 @@ object RedisMaps {
     }
 
     @JvmStatic
-    fun getMap(key: String): Map<String, Any>? =
+    fun getMap(key: String): Map<String, Any> =
         RedisManager.redisTemplate.opsForHash<String, Any>().entries(key)
 
     private fun <T> RedisTemplate<String, T>.put(

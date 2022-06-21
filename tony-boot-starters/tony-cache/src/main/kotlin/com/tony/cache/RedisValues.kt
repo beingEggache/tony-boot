@@ -4,6 +4,7 @@ package com.tony.cache
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
+import com.tony.cache.RedisManager.trimQuotes
 import com.tony.enums.EnumCreator.Companion.getCreator
 import com.tony.enums.EnumValue
 import com.tony.utils.asTo
@@ -21,7 +22,7 @@ object RedisValues {
     @JvmOverloads
     fun increment(key: String, delta: Long = 1L, initial: Long? = null): Long? {
         if (initial != null) {
-            RedisManager.redisTemplate.opsForValue().setIfAbsent(key, initial)
+            RedisManager.redisTemplate.boundValueOps(key).setIfAbsent(initial)
         }
         return RedisManager.redisTemplate.boundValueOps(key).increment(delta)
     }
@@ -30,7 +31,7 @@ object RedisValues {
     @JvmOverloads
     fun increment(key: String, delta: Double = 1.0, initial: Double? = null): Double? {
         if (initial != null) {
-            RedisManager.redisTemplate.opsForValue().setIfAbsent(key, initial)
+            RedisManager.redisTemplate.boundValueOps(key).setIfAbsent(initial)
         }
         return RedisManager.redisTemplate.boundValueOps(key).increment(delta)
     }
@@ -59,7 +60,7 @@ object RedisValues {
     fun getString(key: String): String? {
         val string = RedisManager.redisTemplate.opsForValue().get(key)?.toString()
         if (string.isNullOrBlank()) return string
-        return string.substring(0, string.length)
+        return string.trimQuotes()
     }
 
     @Suppress("UNCHECKED_CAST")

@@ -3,6 +3,7 @@
 package com.tony.cache
 
 import com.fasterxml.jackson.core.type.TypeReference
+import com.tony.cache.RedisManager.trimQuotes
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.jsonToObj
 import com.tony.utils.toJsonString
@@ -65,7 +66,7 @@ object RedisLists {
         RedisManager.redisTemplate.setEnableTransactionSupport(false)
         val string = RedisManager.redisTemplate.boundListOps(key).rightPop()?.toString().defaultIfBlank()
         if (string.isBlank()) return string
-        return string.substring(0, string.length)
+        return string.trimQuotes()
     }
 
     inline fun <reified T> rightPopObj(key: String): T? {

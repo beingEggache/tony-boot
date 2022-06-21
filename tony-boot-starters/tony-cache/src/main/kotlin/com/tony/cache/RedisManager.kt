@@ -113,4 +113,6 @@ object RedisManager {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun keys(key: String): Collection<String> = redisTemplate.keys(key)
+
+    internal fun String.trimQuotes() = substring(0, this.length)
 }
