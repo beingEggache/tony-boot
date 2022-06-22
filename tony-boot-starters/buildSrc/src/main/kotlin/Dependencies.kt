@@ -17,7 +17,7 @@ object Version {
     const val aliyunJavaSdkCoreVersion = "4.6.0"
     const val aliyunSdkOssVersion = "3.15.0"
 
-    const val bouncycastleVersion = "1.70"
+    const val bouncycastleVersion = "1.71"
     const val templateVersion = "0.1-SNAPSHOT"
 }
 
@@ -186,11 +186,11 @@ object Deps {
 
         const val jasypt = "org.jasypt:jasypt"
 
-        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on"
-        const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on"
-        const val bctlsJdk15On = "org.bouncycastle:bctls-jdk15on"
+        const val bcprovJdk18On = "org.bouncycastle:bcprov-jdk18on"
+        const val bcpkixJdk18On = "org.bouncycastle:bcpkix-jdk18on"
+        const val bctlsJdk18On = "org.bouncycastle:bctls-jdk18on"
+        const val bcmailJdk18On = "org.bouncycastle:bcmail-jdk18on"
         const val bctspJdk15On = "org.bouncycastle:bctsp-jdk15on"
-        const val bcmailJdk15On = "org.bouncycastle:bcmail-jdk15on"
 
         const val classmate = "com.fasterxml:classmate"
         const val reactor = "io.projectreactor:reactor-core"
@@ -226,12 +226,17 @@ fun Project.substituteDeps() {
 }
 
 private val canReplacedDependencies = mapOf(
-    "bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk15on:${VersionManagement.bouncycastleVersion}",
-    "bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk15on:${VersionManagement.bouncycastleVersion}",
+    "bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:${VersionManagement.bouncycastleVersion}",
+    "bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.bouncycastleVersion}",
     "bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
-    "org.bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk15on:${VersionManagement.bouncycastleVersion}",
-    "org.bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk15on:${VersionManagement.bouncycastleVersion}",
+
+    "org.bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:${VersionManagement.bouncycastleVersion}",
+    "org.bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.bouncycastleVersion}",
     "org.bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
+
+    "org.bouncycastle:bcprov-jdk15on" to "org.bouncycastle:bcprov-jdk18on:${VersionManagement.bouncycastleVersion}",
+    "org.bouncycastle:bcmail-jdk15on" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.bouncycastleVersion}",
+    "org.bouncycastle:bcpkix-jdk15on" to "org.bouncycastle:bcpkix-jdk18on:${VersionManagement.bouncycastleVersion}",
 
     "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
     "javax.annotation:javax.annotation-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",

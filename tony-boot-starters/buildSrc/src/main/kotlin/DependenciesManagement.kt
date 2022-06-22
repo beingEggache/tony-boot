@@ -34,7 +34,7 @@ object VersionManagement {
 
     const val byteBuddyVersion = "1.12.10"
     const val jasyptVersion = "1.9.3"
-    const val bouncycastleVersion = "1.70"
+    const val bouncycastleVersion = "1.71"
     const val javaJwtVersion = "3.19.2"
     const val guavaVersion = "31.1-jre"
 
@@ -210,11 +210,11 @@ object DepsManagement {
 
         const val jasypt = "org.jasypt:jasypt:${VersionManagement.jasyptVersion}"
 
-        const val bcprovJdk15On = "org.bouncycastle:bcprov-jdk15on:${VersionManagement.bouncycastleVersion}"
-        const val bcpkixJdk15On = "org.bouncycastle:bcpkix-jdk15on:${VersionManagement.bouncycastleVersion}"
-        const val bctlsJdk15On = "org.bouncycastle:bctls-jdk15on:${VersionManagement.bouncycastleVersion}"
+        const val bcprovJdk18On = "org.bouncycastle:bcprov-jdk18on:${VersionManagement.bouncycastleVersion}"
+        const val bcpkixJdk18On = "org.bouncycastle:bcpkix-jdk18on:${VersionManagement.bouncycastleVersion}"
+        const val bctlsJdk18On = "org.bouncycastle:bctls-jdk18on:${VersionManagement.bouncycastleVersion}"
+        const val bcmailJdk18On = "org.bouncycastle:bcmail-jdk18on:${VersionManagement.bouncycastleVersion}"
         const val bctspJdk15On = "org.bouncycastle:bctsp-jdk15on:1.46"
-        const val bcmailJdk15On = "org.bouncycastle:bcmail-jdk15on:${VersionManagement.bouncycastleVersion}"
 
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${VersionManagement.reactorVersion}"
