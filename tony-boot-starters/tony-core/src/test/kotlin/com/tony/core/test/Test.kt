@@ -2,6 +2,7 @@ package com.tony.core.test
 
 import com.github.yitter.contract.IdGeneratorOptions
 import com.github.yitter.idgen.YitIdHelper
+import com.tony.utils.localIp
 import com.tony.utils.println
 import com.tony.utils.secureRandom
 import reactor.core.publisher.Flux
@@ -20,6 +21,7 @@ fun main() {
         .blockFirst()
         .println()
 
+    localIp().println()
 // 保存参数（必须的操作，否则以上设置都不能生效）：
 
 //    repeat(1024) {

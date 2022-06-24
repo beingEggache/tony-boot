@@ -55,7 +55,7 @@ configure(subprojects) {
 
     configure<KotlinJvmProjectExtension> {
         jvmToolchain {
-            (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(javaVersion))
+            languageVersion.set(JavaLanguageVersion.of(javaVersion))
         }
     }
 

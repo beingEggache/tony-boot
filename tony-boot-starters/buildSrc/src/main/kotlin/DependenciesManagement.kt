@@ -8,7 +8,7 @@ object VersionManagement {
     const val kotlinVersion = "1.7.0"
 
     const val springVersion = "5.3.21"
-    const val springBootVersion = "2.7.0"
+    const val springBootVersion = "2.7.1"
 
     const val openFeignVersion = "11.8"
 
@@ -25,20 +25,20 @@ object VersionManagement {
 
     const val gsonVersion = "2.9.0"
     const val fastjsonVersion = "1.2.80"
-    const val nettyVersion = "4.1.77.Final"
+    const val nettyVersion = "4.1.78.Final"
 
-    const val reactorVersion = "3.4.18"
+    const val reactorVersion = "3.4.19"
     const val reactorKotlinExtensions = "1.1.6"
-    const val reactorNettyVersion = "1.0.19"
+    const val reactorNettyVersion = "1.0.20"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.12.10"
+    const val byteBuddyVersion = "1.12.11"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.71"
     const val javaJwtVersion = "3.19.2"
     const val guavaVersion = "31.1-jre"
 
-    const val swaggerV3Version = "2.2.0"
+    const val swaggerV3Version = "2.2.1"
     const val springdocVersion = "1.6.9"
 
 }
