@@ -7,9 +7,9 @@
  */
 package com.tony.xxljob.config
 
-import com.tony.utils.getLogger
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
@@ -24,7 +24,7 @@ internal class XxlJobConfig(
     private val xxlJobProperties: XxlJobProperties
 ) {
 
-    private val logger: Logger = getLogger()
+    private val logger: Logger = LoggerFactory.getLogger(XxlJobConfig::class.java)
 
     @Bean
     fun xxlJobExecutor(): XxlJobSpringExecutor {
