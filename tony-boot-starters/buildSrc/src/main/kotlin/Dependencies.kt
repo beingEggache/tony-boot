@@ -15,7 +15,7 @@ object Version {
 
     const val alipaySdkJavaVersion = "4.31.28.ALL"
     const val aliyunJavaSdkCoreVersion = "4.6.0"
-    const val aliyunSdkOssVersion = "3.15.0"
+    const val aliyunSdkOssVersion = "3.15.1"
 
     const val bouncycastleVersion = "1.71"
     const val templateVersion = "0.1-SNAPSHOT"

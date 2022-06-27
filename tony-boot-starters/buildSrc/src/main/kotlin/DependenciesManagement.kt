@@ -10,7 +10,7 @@ object VersionManagement {
     const val springVersion = "5.3.21"
     const val springBootVersion = "2.7.1"
 
-    const val openFeignVersion = "11.8"
+    const val openFeignVersion = "11.9"
 
     const val postgresqlVersion = "42.3.6"
     const val mysqlVersion = "8.0.29"
@@ -35,7 +35,7 @@ object VersionManagement {
     const val byteBuddyVersion = "1.12.11"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.71"
-    const val javaJwtVersion = "3.19.2"
+    const val javaJwtVersion = "4.0.0"
     const val guavaVersion = "31.1-jre"
 
     const val swaggerV3Version = "2.2.1"
