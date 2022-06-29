@@ -26,13 +26,13 @@ configure(allprojects) {
 
     repositories {
         mavenLocal()
+        mavenCentral()
         val privateMavenRepoUrl: String by project
         maven(url = privateMavenRepoUrl) {
             name = "private"
             @Suppress("UnstableApiUsage")
             isAllowInsecureProtocol = true
         }
-        mavenCentral()
     }
 }
 

@@ -29,9 +29,9 @@ internal class RequestReplaceToRepeatReadFilter : Filter, PriorityOrdered {
         response: ServletResponse?,
         chain: FilterChain
     ) = chain.doFilter(
-        if (request is HttpServletRequest)
+        if (request is HttpServletRequest) {
             request.toRepeatRead()
-        else request,
+        } else request,
         response
     )
 

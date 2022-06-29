@@ -27,5 +27,5 @@ data class UserUpdateReq(
     @Schema(title = "手机号", required = true)
     @get:NotBlank(message = "请输入手机号")
     @get:Mobile
-    val mobile: String?,
+    val mobile: String?
 )

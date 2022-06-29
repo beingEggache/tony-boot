@@ -81,7 +81,6 @@ class WechatPayManager {
     private val logger = getLogger()
 
     fun checkSign(notifyRequest: WechatPayNotifyReq): Boolean {
-
         val app = wechatProperties.getAppByAppId(notifyRequest.appId)
         val deepLink = "appid=${notifyRequest.appId}&" +
             "bank_type=${notifyRequest.bankType}&" +
@@ -127,7 +126,6 @@ class WechatPayManager {
     private fun getPayOrderResponse(
         orderRequest: WechatPayOrderReq
     ): WechatPayOrderResp {
-
         val resultStr = wechatPayClient.unifiedOrder(orderRequest.toXmlString())
 
         val orderResponse = resultStr.xmlToObj<WechatPayOrderResp>()
@@ -208,7 +206,6 @@ class WechatPayManager {
         timeStart: LocalDateTime? = LocalDateTime.now(),
         timeExpire: LocalDateTime? = timeStart?.plusMinutes(2)
     ): WechatPayReq {
-
         val appId = wechatPropProvider.getAppId(app)
         val mchId = wechatPropProvider.getMchId(app)
         val orderResponse = getPayOrderResponse(

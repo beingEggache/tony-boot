@@ -49,7 +49,7 @@ private val TEXT_MEDIA_TYPES = listOf(
 )
 
 fun String.sortRequestBody(
-    timestampStr: String,
+    timestampStr: String
 ): String =
     OBJECT_MAPPER
         .readTree(this)
@@ -59,7 +59,7 @@ fun String.genSign(appId: String, secret: String) =
     ("$appId|$secret|$this".toMd5UppercaseString()).toMd5UppercaseString()
 
 fun JsonNode.sortRequestBody(
-    timestampStr: String,
+    timestampStr: String
 ): String =
     fieldNames()
         .asSequence()

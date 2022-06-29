@@ -38,7 +38,6 @@ class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
     private var enums: List<Int> = listOf()
     private var required = false
     override fun initialize(constraintAnnotation: IntEnum) {
-
         val clazz = constraintAnnotation.enumClass.java
         if (clazz.isEnum &&
             EnumIntValue::class.java.isAssignableFrom(clazz)

@@ -9,6 +9,7 @@ import com.tony.utils.toDeepLink
 private const val TRADE_SUCCESS = "TRADE_SUCCESS"
 
 private const val TRADE_CLOSED = "TRADE_CLOSED"
+
 @Suppress("VariableNaming", "MemberVisibilityCanBePrivate")
 class AlipayNotifyRequest {
 
@@ -69,7 +70,6 @@ class AlipayNotifyRequest {
     private val logger = getLogger()
 
     fun process(signValid: Boolean, doOnTradeSuccess: () -> Unit): String {
-
         if (!signValid) {
             logger.error("Alipay order($out_trade_no) sign invalid, notify request:${toDeepLink()}")
             return "success"

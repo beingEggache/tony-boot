@@ -34,5 +34,5 @@ data class FrontEndModuleReq(
     @Schema(title = "模块/权限类型", allowableValues = ["2", "3"], required = true)
     @get:SimpleIntEnum(enums = [2, 3], "只能提交前端类型模块")
     @get:NotNull(message = "请输入模块/权限类型")
-    val moduleType: ModuleType?,
+    val moduleType: ModuleType?
 )

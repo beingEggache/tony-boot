@@ -96,5 +96,5 @@ data class FeignConfigProperties(
     @DefaultValue("true")
     val retryOnConnectionFailure: Boolean = true,
     @DefaultValue("true")
-    val followRedirects: Boolean = true,
+    val followRedirects: Boolean = true
 )

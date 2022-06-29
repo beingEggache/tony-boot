@@ -73,7 +73,8 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             |$headers|
             |$requestBody|
             |$responseBody|
-            |$remoteIp""".trimMargin()
+            |$remoteIp"""
+                .trimMargin()
         logger.trace(logStr.removeLineBreak())
     }
 

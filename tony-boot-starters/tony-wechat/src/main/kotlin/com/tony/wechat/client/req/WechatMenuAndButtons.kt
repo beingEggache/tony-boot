@@ -39,7 +39,7 @@ data class WechatMenuButton(
 
 class WechatViewButton(
     override val name: String,
-    val url: String,
+    val url: String
 ) : WechatTypedButton(
     name
 ) {
@@ -48,14 +48,14 @@ class WechatViewButton(
 
 class WechatClickButton(
     override val name: String,
-    val key: String,
+    val key: String
 ) : WechatTypedButton(name) {
     override val type: WechatButtonType = WechatButtonType.CLICK
 }
 
 class WechatScanCodeButton(
     override val name: String,
-    val key: String,
+    val key: String
 ) : WechatTypedButton(
     name
 ) {

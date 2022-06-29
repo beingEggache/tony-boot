@@ -115,7 +115,7 @@ object WechatManager {
     @JvmStatic
     fun userAccessToken(
         code: String?,
-        app: String = "",
+        app: String = ""
     ) = apiAccessTokenProvider.userAccessToken(
         wechatPropProvider.getAppId(app),
         wechatPropProvider.getAppSecret(app),

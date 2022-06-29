@@ -31,5 +31,5 @@ data class UserCreateReq(
 
     @Schema(title = "重复", required = true)
     @get:NotBlank(message = "请重复密码")
-    val confirmPwd: String?,
+    val confirmPwd: String?
 )

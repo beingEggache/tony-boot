@@ -52,7 +52,6 @@ class DefaultRedisCacheAspect {
         redisParamsNames: Array<String>,
         usePrefix: Boolean = true
     ): String {
-
         if (paramsNames.isEmpty() ||
             redisParamsNames.isEmpty()
         ) {

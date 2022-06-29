@@ -30,7 +30,6 @@ fun <T> T.toDeepLink(
     }
 
 internal fun <T> genMd5UpperCaseSign(obj: T, vararg params: Pair<String, Any?>): String {
-
     val deepLink = obj.toDeepLink(*params) {
         it.value !is String && it.value.toString().isNotBlank()
     }

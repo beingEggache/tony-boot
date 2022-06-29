@@ -1,4 +1,5 @@
 @file:Suppress("unused")
+
 /**
  * tony-dependencies
  * Jacksons
@@ -45,16 +46,16 @@ interface MaskConvertFunc {
 
 class NameMaskFun : MaskConvertFunc {
     override fun convert(input: String?) =
-        if (input?.length != null && input.length > 1)
+        if (input?.length != null && input.length > 1) {
             input.replaceRange(1 until input.length, "**")
-        else input
+        } else input
 }
 
 class MobileMaskFun : MaskConvertFunc {
     override fun convert(input: String?) =
-        if (input?.length != null && input.length >= 4)
+        if (input?.length != null && input.length >= 4) {
             "${input.substring(0, 2)}****${input.substring(input.length - 4, input.length)}"
-        else input
+        } else input
 }
 
 class MaskSerializer : JsonSerializer<Any>() {

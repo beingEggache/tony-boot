@@ -34,17 +34,20 @@ val HttpServletRequest.headers: Map<String, String>
 val HttpServletRequest.remoteIp: String
     get() {
         getHeader("X-Real-IP")?.run {
-            if (isNotBlank() && !"unknown".equals(this, true))
+            if (isNotBlank() && !"unknown".equals(this, true)) {
                 return this
+            }
         }
         getHeader("X-Forwarded-For")?.run {
-            if (isNotBlank() && !"unknown".equals(this, true))
+            if (isNotBlank() && !"unknown".equals(this, true)) {
                 return this
+            }
         }
 
         getHeader("ip")?.run {
-            if (isNotBlank() && !"unknown".equals(this, true))
+            if (isNotBlank() && !"unknown".equals(this, true)) {
                 return this
+            }
         }
 
         remoteAddr.takeIf { it.isNotBlank() && it.contains(",") }

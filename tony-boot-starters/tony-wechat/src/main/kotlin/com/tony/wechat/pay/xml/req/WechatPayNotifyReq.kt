@@ -198,7 +198,6 @@ data class WechatPayNotifyReq(
             doOnSuccess: () -> Unit,
             doOnFailed: (String) -> Unit
         ): String {
-
             if (!signValid) {
                 logger.error(
                     "wechat pay order ${notifyRequest.outTradeNo} " +

@@ -13,17 +13,31 @@ indent_size = 2
 
 # noinspection EditorConfigKeyCorrectness
 [*.{kt, kts}]
-max_line_length = 120
+chain-wrapping = false
+
+ij_continuation_indent_size = 4
+
+ij_kotlin_code_style_defaults  = KOTLIN_OFFICIAL
+ij_kotlin_align_multiline_parameters = false
 ij_kotlin_imports_layout = *,java.**,javax.**,kotlin.**,^
-no-unused-imports = true
-no-semi = true
-no-consecutive-blank-lines = true
+
+import-ordering = true
+
+max_line_length = 120
+modifier-order=true
+
 no-blank-line-before-rbrace = true
+no-blank-lines-in-chained-method-calls=true
+no-consecutive-blank-lines = true
+
+no-empty-class-body = true
+no-empty-first-line-in-method-block = true
+
+no-line-break-before-assignment = true
+no-semi = true
 no-trailing-spaces = true
 no-unit-return = true
-no-empty-class-body = true
+no-unused-imports = true
 no-wildcard-imports = true
-chain-wrapping = false
-no-line-break-before-assignment = true
+
 string-template = true
-import-ordering = true

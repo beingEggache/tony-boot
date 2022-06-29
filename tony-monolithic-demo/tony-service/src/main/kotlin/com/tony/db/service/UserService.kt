@@ -51,7 +51,8 @@ class UserService(
             Page(page, size),
             where<User>().like(
                 !query.isNullOrBlank(),
-                User::userName, query
+                User::userName,
+                query
             ).or(!query.isNullOrBlank()) {
                 it.like(User::realName, query)
             }
@@ -88,7 +89,6 @@ class UserService(
 
     @Transactional
     fun update(req: UserUpdateReq): Boolean {
-
         val userId = checkNotNull(req.userId)
         baseMapper.selectById(userId).throwIfNull("没有此用户")
 
@@ -115,7 +115,6 @@ class UserService(
 
     @Transactional
     fun initSuperAdmin(appId: String) {
-
         val superAdmin = "SUPER_ADMIN"
         val user = User().apply {
             this.userId = superAdmin

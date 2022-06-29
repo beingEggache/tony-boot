@@ -31,7 +31,7 @@ data class WechatQrCodeCreateReq(
     val actionName: WechatQrCodeType?,
 
     @JsonProperty("action_info")
-    val actionInfo: WechatQrCodeActionInfo?,
+    val actionInfo: WechatQrCodeActionInfo?
 )
 
 data class WechatQrCodeActionInfo(

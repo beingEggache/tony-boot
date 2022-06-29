@@ -47,7 +47,7 @@ data class WechatJsApiTicketResp(
 data class WechatQrCodeResp(
     val ticket: String?,
     @JsonProperty("expire_seconds") val expireSeconds: Int?,
-    val url: String?,
+    val url: String?
 ) : WechatResp()
 
 data class WechatUserInfoResp(

@@ -89,7 +89,8 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
             |$headers|
             |$requestBody|
             |$responseBody|
-            |$remoteIp""".trimMargin()
+            |$remoteIp
+            """.trimMargin()
         logger.trace(logStr.removeLineBreak())
     }
 

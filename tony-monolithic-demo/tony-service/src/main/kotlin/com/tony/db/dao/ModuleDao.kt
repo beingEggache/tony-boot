@@ -24,7 +24,6 @@ interface ModuleDao : BaseMapper<Module> {
 
     companion object {
         fun clearModuleCache(userId: String = "*") {
-
             RedisManager.delete(RedisKeys.genKey(CacheKeys.USER_FRONTEND_MODULES_CACHE_KEY, userId))
             RedisManager.delete(RedisKeys.genKey(CacheKeys.USER_API_MODULES_CACHE_KEY, userId))
         }

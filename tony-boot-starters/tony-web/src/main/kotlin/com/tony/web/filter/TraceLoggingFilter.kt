@@ -44,7 +44,6 @@ internal class TraceLoggingFilter(
     ) = try {
         chain.doFilter(request, response)
     } finally {
-
         val elapsedTime = System.currentTimeMillis() - startTime.toInstant().toEpochMilli()
 
         log(request, response, elapsedTime)

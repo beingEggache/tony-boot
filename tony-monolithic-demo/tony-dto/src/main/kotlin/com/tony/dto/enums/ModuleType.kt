@@ -16,6 +16,7 @@ enum class ModuleType(
     API(1),
     ROUTE(2),
     COMPONENT(3),
+
     @JsonEnumDefaultValue
     UNUSED(EnumCreator.defaultIntValue);
 
