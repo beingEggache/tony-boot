@@ -5,7 +5,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.0.5")
+    implementation(Deps.Other.caffeine)
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
 
@@ -15,8 +15,6 @@ dependencies {
 
     implementation(Deps.Template.templateCore)
     implementation(Deps.Template.templateJwt)
-
-    addTestDependencies()
 }
 
 tasks.named<Test>("test") {

@@ -108,11 +108,32 @@ object RedisManager {
     ): Long = redisTemplate.getExpire(key, timeUnit)
 
     @JvmStatic
-    fun delete(key: String) =
-        redisTemplate.delete(keys(key))
+    fun deleteWithKeyPatterns(vararg keys: String): Long? =
+        redisTemplate.delete(keys(*keys))
+
+    @JvmStatic
+    fun deleteWithKeyPatterns(keys: Collection<String>): Long? =
+        redisTemplate.delete(keys(keys))
+
+    @JvmStatic
+    fun delete(vararg keys: String): Long? =
+        redisTemplate.delete(keys.asList())
+
+    @JvmStatic
+    fun delete(keys: Collection<String>): Long? =
+        redisTemplate.delete(keys)
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun keys(key: String): Collection<String> = redisTemplate.keys(key)
+    fun keys(vararg keys: String): Collection<String> = keys.fold(HashSet()) { set, key ->
+        set.addAll(redisTemplate.keys(key))
+        set
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun keys(keys: Collection<String>): Collection<String> = keys.fold(HashSet()) { set, key ->
+        set.addAll(redisTemplate.keys(key))
+        set
+    }
 
     internal fun String.trimQuotes() = substring(0, this.length)
 }

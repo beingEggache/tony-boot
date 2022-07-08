@@ -6,7 +6,7 @@ import org.gradle.kotlin.dsl.exclude
 import java.util.concurrent.TimeUnit
 
 object Version {
-    const val kotlinVersion = "1.7.0"
+    const val kotlinVersion = "1.7.10"
 
     const val springVersion = "5.3.21"
     const val springBootVersion = "2.7.1"
