@@ -1,8 +1,11 @@
 dependencies {
-    implementation(platform(Deps.SpringCloudDeps.springCloudDependencies))
-    api(Deps.Other.xstream)
-    implementation(Deps.SpringBoot.springBoot)
     api(projects.tonyFeign)
+
+    api(Deps.Other.xstream)
+
+    implementation(platform(Deps.SpringCloudDeps.springCloudDependencies))
+    implementation(Deps.SpringBoot.springBoot)
+
     addTestDependencies()
     testImplementation(projects.tonyCache)
 }

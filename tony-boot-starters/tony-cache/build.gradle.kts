@@ -1,5 +1,6 @@
 dependencies {
     api(projects.tonyCore)
+
     implementation(Deps.SpringBoot.starterDataRedis)
     implementation(Deps.SpringBoot.starterAop)
 

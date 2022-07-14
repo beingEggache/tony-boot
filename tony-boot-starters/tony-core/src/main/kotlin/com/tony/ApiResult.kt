@@ -184,3 +184,54 @@ data class PageResult<T>(
         hasNext: Boolean
     ) : this(charArray.asList().asTo(), page, size, pages, total, hasNext)
 }
+
+interface Pageable {
+
+    /**
+     * get 页码
+     * @return 页码
+     */
+    fun getPage(): Long? = 0L
+
+    /**
+     * set 页码
+     * @param page 页码
+     */
+    fun setPage(page: Long?) {}
+
+    /**
+     * get 每页数量
+     * @return 页码
+     */
+    fun getSize(): Long? = 0L
+
+    /**
+     * set 每页数量
+     * @param size 页码
+     */
+    fun setSize(size: Long?) {}
+
+    /**
+     * get 倒序排序字段
+     * @return 倒序排序字段
+     */
+    fun getDescs(): MutableCollection<String?>? = mutableListOf()
+
+    /**
+     * set 倒序排序字段
+     * @param descs 倒序排序字段
+     */
+    fun setDescs(descs: List<String?>?) {}
+
+    /**
+     * get 顺序排序字段
+     * @return 顺序排序字段
+     */
+    fun getAscs(): MutableCollection<String?>? = mutableListOf()
+
+    /**
+     * set 顺序排序字段
+     * @param ascs 顺序排序字段
+     */
+    fun setAscs(ascs: List<String?>?) {}
+}

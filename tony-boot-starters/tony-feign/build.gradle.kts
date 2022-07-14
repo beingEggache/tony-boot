@@ -1,10 +1,14 @@
 dependencies {
-    implementation(platform(Deps.SpringCloudDeps.springCloudDependencies))
+
     api(projects.tonyCore)
-    api(Deps.OpenFeign.openFeignOkhttp)
-    api(Deps.OpenFeign.openFeignJackson)
+
     api("org.springframework.cloud:spring-cloud-starter-openfeign")
     api("org.springframework.cloud:spring-cloud-starter-loadbalancer")
+
+    api(Deps.OpenFeign.openFeignOkhttp)
+    api(Deps.OpenFeign.openFeignJackson)
+
+    implementation(platform(Deps.SpringCloudDeps.springCloudDependencies))
     implementation(Deps.Other.caffeine)
 
     addTestDependencies()

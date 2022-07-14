@@ -27,7 +27,7 @@ object VersionManagement {
     const val fastjsonVersion = "2.0.8"
     const val nettyVersion = "4.1.78.Final"
 
-    const val reactorVersion = "3.4.19"
+    const val reactorVersion = "3.4.21"
     const val reactorKotlinExtensions = "1.1.6"
     const val reactorNettyVersion = "1.0.20"
     const val slf4jVersion = "1.7.36"
@@ -227,6 +227,9 @@ object DepsManagement {
         const val springdocUi = "org.springdoc:springdoc-openapi-ui:${VersionManagement.springdocVersion}"
         const val springdocCommon = "org.springdoc:springdoc-openapi-common:${VersionManagement.springdocVersion}"
         const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin:${VersionManagement.springdocVersion}"
+
+        const val yitterIdgenerator = "com.github.yitter:yitter-idgenerator:1.0.6"
+        const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
 
     }
 }

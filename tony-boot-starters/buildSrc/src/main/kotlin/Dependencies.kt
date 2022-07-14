@@ -13,7 +13,7 @@ object Version {
     const val springCloudAlibabaVersion = "2021.0.1.0"
     const val springCloudVersion = "2021.0.3"
 
-    const val alipaySdkJavaVersion = "4.31.48.ALL"
+    const val alipaySdkJavaVersion = "4.31.56.ALL"
     const val aliyunJavaSdkCoreVersion = "4.6.0"
     const val aliyunSdkOssVersion = "3.15.1"
 
@@ -203,6 +203,9 @@ object Deps {
         const val springdocUi = "org.springdoc:springdoc-openapi-ui"
         const val springdocCommon = "org.springdoc:springdoc-openapi-common"
         const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin"
+
+        const val yitterIdgenerator = "com.github.yitter:yitter-idgenerator"
+        const val easyCaptcha = "com.github.whvcse:easy-captcha"
     }
 }
 

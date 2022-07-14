@@ -9,6 +9,7 @@ import org.springframework.util.AntPathMatcher
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.Base64
+import java.util.Locale
 import java.util.UUID
 import java.util.regex.Pattern
 
@@ -104,6 +105,21 @@ private val antPathMatcher = AntPathMatcher()
 
 fun String?.antPathMatchAny(patterns: Collection<String>?) =
     patterns?.any { antPathMatcher.match(it, defaultIfBlank()) } ?: false
+
+private val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
+private val snakeRegex = "_[a-zA-Z]".toRegex()
+
+fun String.camelToSnakeCase(): String = camelRegex.replace(this) {
+    "_${it.value}"
+}.lowercase(Locale.getDefault())
+
+fun String.snakeToLowerCamelCase(): String = snakeRegex.replace(this) {
+    it.value.replace("_", "").uppercase(Locale.getDefault())
+}
+
+fun String.snakeToUpperCamelCase(): String =
+    snakeToLowerCamelCase()
+        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 
 internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
 

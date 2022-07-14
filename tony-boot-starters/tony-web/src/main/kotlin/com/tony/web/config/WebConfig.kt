@@ -89,13 +89,19 @@ internal class WebConfig(
         logger.info("Cors is enabled.")
         val source = UrlBasedCorsConfigurationSource()
         val corsConfiguration = CorsConfiguration().apply {
-            if (webCorsProperties.allowCredentials) {
-                allowCredentials = webCorsProperties.allowCredentials
-            }
+            allowCredentials = webCorsProperties.allowCredentials
             allowedOriginPatterns = webCorsProperties.allowedOrigins.ifEmpty { listOf("*") }
             allowedHeaders = webCorsProperties.allowedHeaders.ifEmpty { listOf("*") }
             allowedMethods = webCorsProperties.allowedHeaders.ifEmpty { listOf("*") }
+            exposedHeaders = webCorsProperties.exposedHeaders
             maxAge = webCorsProperties.maxAge
+
+            logger.info("Cors allowCredentials is $allowCredentials")
+            logger.info("Cors allowedOrigins is $allowedOriginPatterns")
+            logger.info("Cors allowedHeaders is $allowedHeaders")
+            logger.info("Cors allowedMethods is $allowedMethods")
+            logger.info("Cors exposedHeaders is $exposedHeaders")
+            logger.info("Cors maxAge is $maxAge")
         }
         source.registerCorsConfiguration("/**", corsConfiguration)
         return CorsFilter(source).apply {
@@ -151,6 +157,7 @@ data class WebCorsProperties(
     val allowedOrigins: List<String> = listOf(),
     val allowedHeaders: List<String> = listOf(),
     val allowedMethods: List<String> = listOf(),
+    val exposedHeaders: List<String> = listOf(),
     val maxAge: Long = Long.MAX_VALUE,
     @DefaultValue("true")
     val allowCredentials: Boolean = true

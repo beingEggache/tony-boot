@@ -1,10 +1,12 @@
 dependencies {
     api(Deps.Kotlin.stdlib)
-    api(Deps.Other.commonsCodec)
-    api(Deps.Other.validationApi)
+
 
     api(Deps.Spring.context)
     api(Deps.SpringBoot.starterLogging)
+
+    api(Deps.Other.commonsCodec)
+    api(Deps.Other.validationApi)
 
     api(Deps.Jackson.datatypeJdk8)
     api(Deps.Jackson.datatypeJsr310)

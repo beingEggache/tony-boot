@@ -7,6 +7,7 @@
  */
 package com.tony.xxljob.config
 
+import com.tony.utils.localIp
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -33,16 +34,30 @@ internal class XxlJobConfig(
             setAdminAddresses(xxlJobProperties.adminAddresses)
             setAppname(xxlJobProperties.executorAppName)
             setAddress(xxlJobProperties.executorAddress)
-            logger.info(">>>>>>>>>>> xxl-job executor executorIp is:{}", xxlJobProperties.executorIp)
-            setIp(xxlJobProperties.executorIp)
+
+            if (xxlJobProperties.executorIp.isNullOrBlank()) {
+                logger.info(">>>>>>>>>>> xxl-job given executorIp is null or blank,now executor ip is $localIp")
+                setIp(localIp)
+            } else {
+                logger.info(">>>>>>>>>>> xxl-job executor ip is ${xxlJobProperties.executorIp}")
+                setIp(xxlJobProperties.executorIp)
+            }
+
             xxlJobProperties.executorPort?.let {
                 setPort(it)
+                logger.info(">>>>>>>>>>> xxl-job port is:$it")
             }
             setAccessToken(xxlJobProperties.accessToken)
             setLogPath(xxlJobProperties.executorLogPath)
             xxlJobProperties.executorLogRetentionDays?.let {
                 setLogRetentionDays(it)
+                logger.info(">>>>>>>>>>> xxl-job executorLogRetentionDays is $it")
             }
+
+            logger.info(">>>>>>>>>>> xxl-job executorLogPath is ${xxlJobProperties.executorLogPath}")
+            logger.info(">>>>>>>>>>> xxl-job adminAddresses is ${xxlJobProperties.adminAddresses}.")
+            logger.info(">>>>>>>>>>> xxl-job executorAppName is ${xxlJobProperties.executorAppName}.")
+            logger.info(">>>>>>>>>>> xxl-job executorAddress is ${xxlJobProperties.executorAddress}.")
         }
     }
 }
