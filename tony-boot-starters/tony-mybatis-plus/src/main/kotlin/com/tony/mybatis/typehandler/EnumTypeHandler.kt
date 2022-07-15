@@ -1,5 +1,4 @@
 /**
- * ktwl-boot-dependencies
  * EnumTypeHandler
  *
  * @author tangli
@@ -16,7 +15,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 /**
- * ktwl-sale EnumTypeHandler
+ * EnumTypeHandler
  *
  * @author tangli
  * @since 2022/1/13 18:11

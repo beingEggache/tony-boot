@@ -1,7 +1,6 @@
 @file:JvmName("Daos")
 
 /**
- * ktwl-boot-dependencies
  * daoExtension
  *
  * @author tangli

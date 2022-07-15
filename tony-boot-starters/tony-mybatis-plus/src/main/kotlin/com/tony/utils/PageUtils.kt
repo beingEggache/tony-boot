@@ -1,8 +1,7 @@
 @file:Suppress("unused", "FunctionName")
-@file:JvmName("KtwlPageUtils")
+@file:JvmName("PageUtils")
 
 /**
- * ktwl-boot-dependencies
  * PageUtils
  *
  * @author tangli

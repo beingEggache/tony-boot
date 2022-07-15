@@ -1,5 +1,4 @@
 /**
- * ktwl-boot-dependencies
  * IdConfig
  *
  * @author tangli

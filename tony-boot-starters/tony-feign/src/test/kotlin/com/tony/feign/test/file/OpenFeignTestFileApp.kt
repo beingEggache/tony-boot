@@ -1,5 +1,4 @@
 /**
- * com.tony-dependencies
  * OpenFeignTestFileApp
  *
  * TODO

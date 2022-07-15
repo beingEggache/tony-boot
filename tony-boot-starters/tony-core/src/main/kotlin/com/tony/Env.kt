@@ -5,7 +5,6 @@ import org.springframework.beans.factory.getBean
 import org.springframework.core.env.Environment
 
 /**
- * com.tony-dependencies
  * Env
  *
  * @author tangli

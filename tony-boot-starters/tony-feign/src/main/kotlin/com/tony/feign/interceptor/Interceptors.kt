@@ -1,5 +1,4 @@
 /**
- * tony-dependencies
  * Interceptors
  *
  * TODO

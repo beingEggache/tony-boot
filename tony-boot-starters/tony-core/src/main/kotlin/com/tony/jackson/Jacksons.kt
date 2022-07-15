@@ -1,7 +1,6 @@
 @file:Suppress("unused")
 
 /**
- * tony-dependencies
  * Jacksons
  *
  * TODO

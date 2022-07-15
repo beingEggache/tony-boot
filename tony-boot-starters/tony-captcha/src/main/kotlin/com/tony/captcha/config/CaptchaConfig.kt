@@ -1,5 +1,5 @@
 /**
- * ktwl-boot-dependencies
+ * tony-boot-dependencies
  * CaptchaConfig
  *
  * @author tangli
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 /**
- * ktwl-sale CaptchaConfig
+ * tony-sale CaptchaConfig
  *
  * @author tangli
  * @since 2022/3/10 15:14

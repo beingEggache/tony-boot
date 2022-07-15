@@ -1,6 +1,5 @@
 /**
- * ktwl-boot-dependencies
- * KtwlBaseMapper
+ * BaseDao
  *
  * @author tangli
  * @since 2022/7/12 15:28

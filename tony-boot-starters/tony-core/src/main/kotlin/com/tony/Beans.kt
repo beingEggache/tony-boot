@@ -5,7 +5,6 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 
 /**
- * tony-dependencies
  * Beans
  *
  * TODO

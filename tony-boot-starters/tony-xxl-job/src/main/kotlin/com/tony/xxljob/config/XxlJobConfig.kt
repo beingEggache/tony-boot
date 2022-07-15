@@ -1,5 +1,4 @@
 /**
- * ktwl-boot-dependencies
  * XxlJobConfig
  *
  * @author tangli
