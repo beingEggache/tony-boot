@@ -49,6 +49,7 @@ internal class WechatConfig {
 @ConstructorBinding
 @ConfigurationProperties(prefix = "wechat")
 data class WechatProperties(
+    val token: String?,
     val appId: String?,
     val appSecret: String?,
     val mchId: String?,
@@ -59,6 +60,7 @@ data class WechatProperties(
 }
 
 data class WechatAppProperties(
+    val token: String?,
     val appId: String?,
     val appSecret: String?,
     val mchId: String?,

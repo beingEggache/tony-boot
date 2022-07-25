@@ -79,4 +79,4 @@ internal fun <T : Any, E> BaseDao<T>.executeBatch(
     batchList: Collection<E>,
     consumer: BiConsumer<SqlSession, E>
 ): Boolean =
-    SqlHelper.executeBatch(getEntityClass(), getLog(), batchList, batchList.size, consumer)
+    SqlHelper.executeBatch(getEntityClass(), getLog(), batchList, batchList.size + 1, consumer)

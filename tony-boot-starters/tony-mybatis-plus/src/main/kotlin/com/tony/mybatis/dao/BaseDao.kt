@@ -6,24 +6,84 @@
  */
 package com.tony.mybatis.dao
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper
 import com.baomidou.mybatisplus.core.enums.SqlMethod
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
+import com.baomidou.mybatisplus.core.metadata.TableInfo
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
 import com.baomidou.mybatisplus.core.toolkit.Assert
 import com.baomidou.mybatisplus.core.toolkit.Constants
 import com.baomidou.mybatisplus.core.toolkit.StringUtils
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtQueryChainWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateChainWrapper
 import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers
+import com.tony.ApiProperty
+import com.tony.PageResultLike
+import com.tony.Pageable
+import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
+import com.tony.utils.throwIfNull
+import com.tony.utils.toPage
+import com.tony.utils.toPageResult
+import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.binding.MapperMethod.ParamMap
 import org.springframework.transaction.annotation.Transactional
+import java.io.Serializable
+import java.util.Objects
 
 @Suppress("unused")
 interface BaseDao<T : Any> : BaseMapper<T> {
+
+    /**
+     * 根据id查询，为null 将会抛错
+     */
+    fun selectByIdNotNull(
+        id: Serializable
+    ): T = selectById(id).throwIfNull()
+
+    /**
+     * 根据id查询，为null 将会抛错
+     */
+    fun selectByIdNotNull(
+        id: Serializable,
+        message: String = ApiProperty.notFoundMessage
+    ): T = selectById(id).throwIfNull(message)
+
+    /**
+     * 根据id查询，为null 将会抛错
+     */
+    fun selectByIdNotNull(
+        id: Serializable,
+        message: String = ApiProperty.notFoundMessage,
+        code: Int = ApiProperty.notFoundCode
+    ): T = selectById(id).throwIfNull(message, code)
+
+    /**
+     * TableId 注解存在更新记录，否插入一条记录
+     *
+     * @param entity 实体对象
+     * @return boolean
+     */
+    @Transactional(rollbackFor = [Exception::class])
+    fun upsert(entity: T?): Boolean {
+        if (null != entity) {
+            val tableInfo: TableInfo = TableInfoHelper.getTableInfo(getEntityClass())
+            Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!")
+            val keyProperty = tableInfo.keyProperty
+            Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!")
+            val idVal = tableInfo.getPropertyValue(entity, tableInfo.keyProperty)
+            return if (StringUtils.checkValNull(idVal) || Objects.isNull(selectById(idVal as Serializable))) {
+                insert(entity) > 0
+            } else {
+                updateById(
+                    entity
+                ) > 0
+            }
+        }
+        return false
+    }
 
     /**
      * 批量插入
@@ -106,6 +166,14 @@ interface BaseDao<T : Any> : BaseMapper<T> {
     }
 
     /**
+     * 分页
+     */
+    fun <E : PageResultLike<T>> selectPageResult(
+        page: Pageable,
+        @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?
+    ): E = selectPage(page.toPage(), queryWrapper).toPageResult()
+
+    /**
      * 以下的方法使用介绍:
      *
      * 一. 名称介绍
@@ -135,7 +203,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      *
      * @return LambdaQueryWrapper 的包装类
      */
-    fun lambdaQuery(): LambdaQueryChainWrapper<T> = ChainWrappers.lambdaQueryChain(this)
+    fun lambdaQuery(): TonyLambdaQueryChainWrapper<T> = TonyLambdaQueryChainWrapper(this)
 
     /**
      * 链式查询 lambda 式

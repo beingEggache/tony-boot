@@ -7,29 +7,29 @@ import kotlin.reflect.KClass
 object VersionManagement {
     const val kotlinVersion = "1.7.10"
 
-    const val springVersion = "5.3.21"
-    const val springBootVersion = "2.7.1"
+    const val springVersion = "5.3.22"
+    const val springBootVersion = "2.7.2"
 
-    const val openFeignVersion = "11.9"
+    const val openFeignVersion = "11.9.1"
 
     const val postgresqlVersion = "42.4.0"
     const val mysqlVersion = "8.0.29"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.2"
     const val mybatisVersion = "3.5.10"
-    const val lettuceCoreVersion = "6.1.8.RELEASE"
+    const val lettuceCoreVersion = "6.2.0.RELEASE"
 
     const val xxlJobVersion = "2.3.1"
 
     const val jacksonVersion = "2.13.3"
 
     const val gsonVersion = "2.9.0"
-    const val fastjsonVersion = "2.0.8"
-    const val nettyVersion = "4.1.78.Final"
+    const val fastjsonVersion = "2.0.10"
+    const val nettyVersion = "4.1.79.Final"
 
     const val reactorVersion = "3.4.21"
-    const val reactorKotlinExtensions = "1.1.6"
-    const val reactorNettyVersion = "1.0.20"
+    const val reactorKotlinExtensions = "1.1.7"
+    const val reactorNettyVersion = "1.0.21"
     const val slf4jVersion = "1.7.36"
 
     const val byteBuddyVersion = "1.12.12"
@@ -189,7 +189,7 @@ object DepsManagement {
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
         const val httpcore = "org.apache.httpcomponents:httpcore:4.4.15"
         const val httpcoreNio = "org.apache.httpcomponents:httpcore-nio:4.4.15"
-        const val okhttp = "com.squareup.okhttp3:okhttp:4.9.3"
+        const val okhttp = "com.squareup.okhttp3:okhttp:4.10.0"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
 
         const val guava = "com.google.guava:guava:${VersionManagement.guavaVersion}"

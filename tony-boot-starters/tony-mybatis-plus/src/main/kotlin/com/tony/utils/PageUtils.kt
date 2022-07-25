@@ -9,9 +9,11 @@
  */
 package com.tony.utils
 
+import com.baomidou.mybatisplus.core.metadata.IPage
 import com.baomidou.mybatisplus.core.metadata.OrderItem
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.tony.PageResult
+import com.tony.PageResultLike
 import com.tony.Pageable
 import java.util.Collections
 
@@ -48,11 +50,11 @@ fun <T> Pageable.toPage(): Page<T> =
     }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> Page<T>?.toPageResult(): PageResult<T> =
+fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
     if (this == null) {
-        EMPTY_PAGE_RESULT as PageResult<T>
+        EMPTY_PAGE_RESULT as E
     } else {
-        PageResult(records, current, size, pages, total, hasNext())
+        PageResult(records, current, size, pages, total, current < pages) as E
     }
 
 @Suppress("UNCHECKED_CAST")

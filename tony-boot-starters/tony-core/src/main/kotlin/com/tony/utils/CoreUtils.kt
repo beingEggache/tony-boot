@@ -39,8 +39,9 @@ fun throwIf(condition: Boolean, message: String, code: Int = ApiProperty.bizErro
 }
 
 @JvmOverloads
-fun <T> T?.throwIfNull(message: String = ApiProperty.notFoundMessage, code: Int = ApiProperty.notFoundCode) {
+fun <T> T?.throwIfNull(message: String = ApiProperty.notFoundMessage, code: Int = ApiProperty.notFoundCode): T {
     throwIf(this == null, message, code)
+    return this!!
 }
 
 inline fun <R> throwIfAndReturn(condition: Boolean, message: String, crossinline block: () -> R): R {

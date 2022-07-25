@@ -23,15 +23,35 @@ object WechatManager {
     private val wechatPropProvider: WechatPropProvider by Beans.getBeanByLazy()
     private val apiAccessTokenProvider: WechatApiAccessTokenProvider by Beans.getBeanByLazy()
 
+    @JvmOverloads
     @JvmStatic
-    fun checkSignature(token: String, signature: String, nonce: String, timestamp: String) =
-        DigestUtils
-            .sha1Hex(
-                listOf(token, timestamp, nonce)
-                    .sorted()
-                    .joinToString("")
-            ) == signature
+    fun checkSignature(
+        signature: String,
+        nonce: String,
+        timestamp: String,
+        app: String = ""
+    ) = DigestUtils
+        .sha1Hex(
+            listOf(wechatPropProvider.getToken(app), timestamp, nonce)
+                .sorted()
+                .joinToString("")
+        ) == signature
 
+    @JvmStatic
+    fun checkSignatureDirect(
+        signature: String,
+        nonce: String,
+        timestamp: String,
+        token: String
+    ) = DigestUtils
+        .sha1Hex(
+            listOf(token, timestamp, nonce)
+                .sorted()
+                .joinToString("")
+        ) == signature
+
+    @JvmOverloads
+    @JvmStatic
     fun jsCode2Session(jsCode: String, app: String = "") = wechatClient.jsCode2Session(
         wechatPropProvider.getAppId(app),
         wechatPropProvider.getAppSecret(app),
@@ -138,6 +158,8 @@ object WechatManager {
 
 interface WechatPropProvider {
 
+    fun getToken(app: String? = ""): String
+
     fun getAppId(app: String? = ""): String?
 
     fun getAppSecret(app: String? = ""): String?
@@ -150,6 +172,12 @@ interface WechatPropProvider {
 internal class DefaultWechatPropProvider(
     private val wechatProperties: WechatProperties
 ) : WechatPropProvider {
+
+    override fun getToken(app: String?) = if (app.isNullOrBlank()) {
+        wechatProperties.token
+    } else {
+        wechatProperties.app?.get(app)?.token
+    } ?: throw ApiException("$app app-id not found")
 
     override fun getAppId(app: String?) = if (app.isNullOrBlank()) {
         wechatProperties.appId
