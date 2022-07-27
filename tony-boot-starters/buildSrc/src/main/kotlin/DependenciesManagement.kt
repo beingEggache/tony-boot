@@ -218,7 +218,8 @@ object DepsManagement {
 
         const val classmate = "com.fasterxml:classmate:1.5.1"
         const val reactor = "io.projectreactor:reactor-core:${VersionManagement.reactorVersion}"
-        const val reactorKotlinExtensions = "io.projectreactor.kotlin:reactor-kotlin-extensions:${VersionManagement.reactorKotlinExtensions}"
+        const val reactorKotlinExtensions =
+            "io.projectreactor.kotlin:reactor-kotlin-extensions:${VersionManagement.reactorKotlinExtensions}"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:${VersionManagement.reactorNettyVersion}"
 
         const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.1.1"
