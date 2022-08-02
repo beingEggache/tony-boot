@@ -39,7 +39,7 @@ class TonyLambdaQueryWrapper<T : Any> :
     }
 
     internal constructor(
-        entity: T,
+        entity: T?,
         entityClass: Class<T>?,
         sqlSelect: SharedString?,
         paramNameSeq: AtomicInteger?,

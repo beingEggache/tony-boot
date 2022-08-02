@@ -209,34 +209,29 @@ interface WechatApiAccessTokenProvider {
     fun accessTokenStr(
         appId: String?,
         appSecret: String?
-    ): String?
+    ): String? = wechatClient().accessToken(
+        appId,
+        appSecret
+    ).check().accessToken
 
     fun userAccessToken(
         appId: String?,
         secret: String?,
         code: String?
-    ): WechatUserTokenResp
+    ): WechatUserTokenResp = wechatClient().userAccessToken(
+        appId,
+        secret,
+        code
+    ).check()
+
+    fun wechatClient(): WechatClient = Beans.getBean(WechatClient::class.java)
 }
 
 internal class DefaultWechatApiAccessTokenProvider : WechatApiAccessTokenProvider {
 
     private val wechatClient: WechatClient by Beans.getBeanByLazy()
 
-    override fun accessTokenStr(
-        appId: String?,
-        appSecret: String?
-    ) = wechatClient.accessToken(
-        appId,
-        appSecret
-    ).check().accessToken
-
-    override fun userAccessToken(
-        appId: String?,
-        secret: String?,
-        code: String?
-    ) = wechatClient.userAccessToken(
-        appId,
-        secret,
-        code
-    ).check()
+    override fun wechatClient(): WechatClient {
+        return wechatClient
+    }
 }

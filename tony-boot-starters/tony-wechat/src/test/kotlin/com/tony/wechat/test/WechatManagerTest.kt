@@ -6,7 +6,6 @@ import com.tony.utils.println
 import com.tony.utils.toJsonString
 import com.tony.wechat.WechatApiAccessTokenProvider
 import com.tony.wechat.WechatManager
-import com.tony.wechat.check
 import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu
 import com.tony.wechat.client.req.WechatMenuButton
@@ -98,10 +97,9 @@ class TestWechatApiAccessTokenProvider(
 
     @RedisCacheable(cacheKey = wechatTestCacheKey, paramsNames = ["appId"], expire = 7100)
     override fun accessTokenStr(appId: String?, appSecret: String?) =
-        wechatClient.accessToken(appId, appSecret).check().accessToken
+        super.accessTokenStr(appId, appSecret)
 
-    override fun userAccessToken(appId: String?, secret: String?, code: String?) =
-        wechatClient.userAccessToken(appId, secret, code).check()
+    override fun wechatClient() = wechatClient
 
 }
 

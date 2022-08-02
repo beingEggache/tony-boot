@@ -47,8 +47,7 @@ object Deps {
         const val datatypeJdk8 = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
         const val datatypeJsr310 = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
         const val moduleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
-        const val moduleParameterNames =
-            "com.fasterxml.jackson.module:jackson-module-parameter-names"
+        const val moduleParameterNames = "com.fasterxml.jackson.module:jackson-module-parameter-names"
     }
 
     object Kotlin {
@@ -109,8 +108,7 @@ object Deps {
         const val springBoot = "org.springframework.boot:spring-boot"
         const val springBootStarter = "org.springframework.boot:spring-boot-starter"
         const val autoconfigure = "org.springframework.boot:spring-boot-autoconfigure"
-        const val configurationProcessor =
-            "org.springframework.boot:spring-boot-configuration-processor"
+        const val configurationProcessor = "org.springframework.boot:spring-boot-configuration-processor"
         const val autoconfigureProcessor =
             "org.springframework.boot:spring-boot-autoconfigure-processor:${Version.springBootVersion}"
         const val devtools = "org.springframework.boot:spring-boot-devtools"
@@ -118,29 +116,24 @@ object Deps {
         const val starterAmqp = "org.springframework.boot:spring-boot-starter-amqp"
         const val starterAop = "org.springframework.boot:spring-boot-starter-aop"
         const val starterCache = "org.springframework.boot:spring-boot-starter-cache"
-        const val starterDataRedis =
-            "org.springframework.boot:spring-boot-starter-data-redis"
-        const val starterDataRedisReactive =
-            "org.springframework.boot:spring-boot-starter-data-redis-reactive"
+        const val starterDataRedis = "org.springframework.boot:spring-boot-starter-data-redis"
+        const val starterDataRedisReactive = "org.springframework.boot:spring-boot-starter-data-redis-reactive"
         const val starterJdbc = "org.springframework.boot:spring-boot-starter-jdbc"
         const val starterJson = "org.springframework.boot:spring-boot-starter-json"
         const val starterLogging = "org.springframework.boot:spring-boot-starter-logging"
         const val starterTest = "org.springframework.boot:spring-boot-starter-test"
         const val starterTomcat = "org.springframework.boot:spring-boot-starter-tomcat"
         const val starterUndertow = "org.springframework.boot:spring-boot-starter-undertow"
-        const val starterValidation =
-            "org.springframework.boot:spring-boot-starter-validation"
+        const val starterValidation = "org.springframework.boot:spring-boot-starter-validation"
         const val starterWeb = "org.springframework.boot:spring-boot-starter-web"
         const val starterWebflux = "org.springframework.boot:spring-boot-starter-webflux"
-        const val starterWebsocket =
-            "org.springframework.boot:spring-boot-starter-websocket"
+        const val starterWebsocket = "org.springframework.boot:spring-boot-starter-websocket"
     }
 
     object Test {
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test"
         const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test"
-        const val springBootStarterTest =
-            "org.springframework.boot:spring-boot-starter-test"
+        const val springBootStarterTest = "org.springframework.boot:spring-boot-starter-test"
     }
 
     object Other {
