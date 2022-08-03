@@ -6,6 +6,7 @@ annotation class RedisCacheable(
     val cacheKey: String,
     val paramsNames: Array<String> = [],
     val expire: Long = TODAY_END,
+    @Suppress("unused")
     val usePrefix: Boolean = true,
     val cacheEmpty: Boolean = false
 ) {

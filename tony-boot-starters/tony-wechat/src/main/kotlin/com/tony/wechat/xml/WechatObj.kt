@@ -1,4 +1,4 @@
-@file:Suppress("ArrayInDataClass", "unused")
+@file:Suppress("unused")
 
 package com.tony.wechat.xml
 

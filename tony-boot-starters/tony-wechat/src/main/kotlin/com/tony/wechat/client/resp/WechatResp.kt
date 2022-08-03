@@ -70,6 +70,7 @@ data class WechatUserInfoResp(
     @JsonProperty("qr_scene_str") var qrSceneStr: String?
 ) : WechatResp() {
 
+    @Suppress("unused")
     @get:JsonProperty("subscribe_time")
     val subscribeTime: LocalDateTime = Date((subscribe_time ?: 0) * 1000).toLocalDateTime()
 }

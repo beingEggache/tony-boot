@@ -132,7 +132,6 @@ object RedisMaps {
     fun <T : Any> get(key: String, hashKey: String): T? =
         RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey)
 
-    @Suppress("UNCHECKED_CAST")
     inline fun <reified E, KEY> getEnum(key: String, hashKey: String): E?
         where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
         val value = RedisManager.redisTemplate.boundHashOps<String, KEY>(key).get(hashKey)

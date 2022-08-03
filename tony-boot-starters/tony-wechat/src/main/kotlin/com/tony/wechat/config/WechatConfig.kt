@@ -45,7 +45,6 @@ internal class WechatConfig {
         DefaultWechatPropProvider(wechatProperties)
 }
 
-@Suppress("ConfigurationProperties")
 @ConstructorBinding
 @ConfigurationProperties(prefix = "wechat")
 data class WechatProperties(

@@ -181,8 +181,8 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      * 2. 方法名带有 lambda 的为内部方法入参 column 支持函数式的
      * 二. 支持介绍
      *
-     * 1. 方法名带有 query 的支持以 [ChainQuery] 内部的方法名结尾进行数据查询操作
-     * 2. 方法名带有 update 的支持以 [ChainUpdate] 内部的方法名为结尾进行数据修改操作
+     * 1. 方法名带有 query 的支持以 [com.baomidou.mybatisplus.extension.conditions.query.ChainQuery] 内部的方法名结尾进行数据查询操作
+     * 2. 方法名带有 update 的支持以 [com.baomidou.mybatisplus.extension.conditions.update.ChainUpdate] 内部的方法名为结尾进行数据修改操作
      *
      * 三. 使用示例,只用不带 lambda 的方法各展示一个例子,其他类推
      * 1. 根据条件获取一条数据: `query().eq("column", value).one()`

@@ -62,7 +62,6 @@ internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(re
             ByteArrayInputStream(toByteArray())
         }
 
-    @Suppress("unused")
     val contentAsByteArray: ByteArray
         get() {
             cachedContent.reset()

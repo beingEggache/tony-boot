@@ -20,7 +20,7 @@ import kotlin.reflect.KClass
     AnnotationTarget.FIELD,
     AnnotationTarget.VALUE_PARAMETER
 )
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class Mobile(
     val message: String = "手机号格式不正确",
     val groups: Array<KClass<*>> = [],

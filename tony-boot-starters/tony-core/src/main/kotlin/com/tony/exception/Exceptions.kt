@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.tony.exception
 
 import com.tony.ApiProperty

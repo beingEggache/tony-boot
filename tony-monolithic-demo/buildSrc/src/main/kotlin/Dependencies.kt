@@ -248,7 +248,7 @@ private val canReplacedDependencies = mapOf(
 
     "javax.el:el-api" to "jakarta.el:jakarta.el-api:3.0.3",
     "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:3.0.3",
-    "org.apache.tomcat.embed:tomcat-embed-el" to "org.glassfish.web:el-impl:2.2",
+    "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:9.0.65",
 
     "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:1.1.2",
     "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:2.0.2",

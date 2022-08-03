@@ -107,18 +107,22 @@ object RedisManager {
         timeUnit: TimeUnit = TimeUnit.SECONDS
     ): Long = redisTemplate.getExpire(key, timeUnit)
 
+    @Suppress("RedundantNullableReturnType")
     @JvmStatic
     fun deleteWithKeyPatterns(vararg keys: String): Long? =
         redisTemplate.delete(keys(*keys))
 
+    @Suppress("RedundantNullableReturnType")
     @JvmStatic
     fun deleteWithKeyPatterns(keys: Collection<String>): Long? =
         redisTemplate.delete(keys(keys))
 
+    @Suppress("RedundantNullableReturnType")
     @JvmStatic
     fun delete(vararg keys: String): Long? =
         redisTemplate.delete(keys.asList())
 
+    @Suppress("RedundantNullableReturnType")
     @JvmStatic
     fun delete(keys: Collection<String>): Long? =
         redisTemplate.delete(keys)

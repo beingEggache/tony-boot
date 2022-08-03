@@ -63,7 +63,6 @@ object RedisValues {
         return string.trimQuotes()
     }
 
-    @Suppress("UNCHECKED_CAST")
     @JvmStatic
     internal fun getNumber(key: String): Number? =
         RedisManager.redisTemplate.opsForValue().get(key).asTo()

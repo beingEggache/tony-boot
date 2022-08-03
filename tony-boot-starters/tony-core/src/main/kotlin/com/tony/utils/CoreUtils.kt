@@ -1,4 +1,4 @@
-@file:Suppress("unused", "FunctionName")
+@file:Suppress("unused")
 @file:JvmName("CoreUtils")
 
 package com.tony.utils

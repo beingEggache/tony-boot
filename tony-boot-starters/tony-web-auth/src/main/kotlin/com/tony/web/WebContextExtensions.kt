@@ -11,6 +11,7 @@ object WebContextExtensions {
     val WebContext.userId: String
         get() = apiSession.userId
 
+    @Suppress("UnusedReceiverParameter")
     val WebContext.apiSession: ApiSession
         get() = WebContextExtensions.apiSession
 }

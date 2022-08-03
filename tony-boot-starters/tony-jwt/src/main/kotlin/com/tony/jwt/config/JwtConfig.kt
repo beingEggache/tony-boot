@@ -47,7 +47,6 @@ object JwtToken {
 
     private val jwtProperties: JwtProperties by getBeanByLazy()
 
-    @Suppress("unused")
     @JvmStatic
     fun gen(
         vararg params: Pair<String, String?>

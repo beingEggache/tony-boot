@@ -48,8 +48,7 @@ object Deps {
         const val datatypeJdk8 = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
         const val datatypeJsr310 = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
         const val moduleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
-        const val moduleParameterNames =
-            "com.fasterxml.jackson.module:jackson-module-parameter-names"
+        const val moduleParameterNames = "com.fasterxml.jackson.module:jackson-module-parameter-names"
     }
 
     object Kotlin {
@@ -110,36 +109,29 @@ object Deps {
         const val springBoot = "org.springframework.boot:spring-boot"
         const val springBootStarter = "org.springframework.boot:spring-boot-starter"
         const val autoconfigure = "org.springframework.boot:spring-boot-autoconfigure"
-        const val configurationProcessor =
-            "org.springframework.boot:spring-boot-configuration-processor"
-        const val autoconfigureProcessor =
-            "org.springframework.boot:spring-boot-autoconfigure-processor:${Version.springBootVersion}"
+        const val configurationProcessor = "org.springframework.boot:spring-boot-configuration-processor"
+        const val autoconfigureProcessor = "org.springframework.boot:spring-boot-autoconfigure-processor:${Version.springBootVersion}"
         const val devtools = "org.springframework.boot:spring-boot-devtools"
         const val starterActuator = "org.springframework.boot:spring-boot-starter-actuator"
         const val starterAmqp = "org.springframework.boot:spring-boot-starter-amqp"
         const val starterAop = "org.springframework.boot:spring-boot-starter-aop"
         const val starterCache = "org.springframework.boot:spring-boot-starter-cache"
-        const val starterDataRedis =
-            "org.springframework.boot:spring-boot-starter-data-redis"
-        const val starterDataRedisReactive =
-            "org.springframework.boot:spring-boot-starter-data-redis-reactive"
+        const val starterDataRedis = "org.springframework.boot:spring-boot-starter-data-redis"
+        const val starterDataRedisReactive = "org.springframework.boot:spring-boot-starter-data-redis-reactive"
         const val starterJdbc = "org.springframework.boot:spring-boot-starter-jdbc"
         const val starterJson = "org.springframework.boot:spring-boot-starter-json"
         const val starterLogging = "org.springframework.boot:spring-boot-starter-logging"
         const val starterTest = "org.springframework.boot:spring-boot-starter-test"
-        const val starterValidation =
-            "org.springframework.boot:spring-boot-starter-validation"
+        const val starterValidation = "org.springframework.boot:spring-boot-starter-validation"
         const val starterWeb = "org.springframework.boot:spring-boot-starter-web"
         const val starterWebflux = "org.springframework.boot:spring-boot-starter-webflux"
-        const val starterWebsocket =
-            "org.springframework.boot:spring-boot-starter-websocket"
+        const val starterWebsocket = "org.springframework.boot:spring-boot-starter-websocket"
     }
 
     object Test {
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test"
         const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test"
-        const val springBootStarterTest =
-            "org.springframework.boot:spring-boot-starter-test"
+        const val springBootStarterTest = "org.springframework.boot:spring-boot-starter-test"
     }
 
     object Other {
@@ -248,7 +240,7 @@ private val canReplacedDependencies = mapOf(
 
     "javax.el:el-api" to "jakarta.el:jakarta.el-api:3.0.3",
     "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:3.0.3",
-    "org.apache.tomcat.embed:tomcat-embed-el" to "org.glassfish.web:el-impl:2.2",
+    "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:9.0.65",
 
     "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:1.1.2",
     "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:2.0.2",

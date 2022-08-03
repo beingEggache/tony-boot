@@ -3,8 +3,6 @@
  * @author tangli
  * @since 2021-05-19 10:58
  */
-@file:Suppress("unused")
-
 package com.tony.enums.validate
 
 import javax.validation.Constraint
@@ -20,7 +18,7 @@ import kotlin.reflect.KClass
     AnnotationTarget.FIELD,
     AnnotationTarget.VALUE_PARAMETER
 )
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class SimpleEnum(
     vararg val enums: String,
     val message: String = "非法参数",
@@ -37,7 +35,7 @@ annotation class SimpleEnum(
     AnnotationTarget.FIELD,
     AnnotationTarget.VALUE_PARAMETER
 )
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class SimpleIntEnum(
     vararg val enums: Int,
     val message: String = "非法参数",
@@ -55,7 +53,7 @@ annotation class SimpleIntEnum(
     AnnotationTarget.FIELD,
     AnnotationTarget.VALUE_PARAMETER
 )
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class IntEnum(
     val enumClass: KClass<*>,
     val message: String = "非法参数",
@@ -73,7 +71,7 @@ annotation class IntEnum(
     AnnotationTarget.FIELD,
     AnnotationTarget.VALUE_PARAMETER
 )
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class SimpleStringEnum(
     vararg val enums: String,
     val message: String = "非法参数",
@@ -91,7 +89,7 @@ annotation class SimpleStringEnum(
     AnnotationTarget.FIELD,
     AnnotationTarget.VALUE_PARAMETER
 )
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class StringEnum(
     val enumClass: KClass<*>,
     val message: String = "非法参数",

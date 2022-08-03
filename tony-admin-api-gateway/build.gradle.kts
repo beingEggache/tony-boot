@@ -28,7 +28,6 @@ configure(subprojects) {
         mavenLocal()
         maven(url = privateMavenRepoUrl) {
             name = "private"
-            @Suppress("UnstableApiUsage")
             isAllowInsecureProtocol = true
         }
         mavenCentral()
