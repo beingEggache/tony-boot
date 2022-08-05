@@ -1,10 +1,13 @@
 package com.tony.web.filter
 
+import com.tony.Env
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.defaultIfBlank
+import com.tony.utils.sanitizedPath
 import com.tony.utils.toInstant
 import com.tony.utils.uuid
 import com.tony.web.WebApp
+import com.tony.web.config.WebProperties
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
 import com.tony.web.log.RequestTraceLogger
 import com.tony.web.utils.isCorsPreflightRequest
@@ -20,7 +23,8 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 internal class TraceLoggingFilter(
-    private val requestTraceLogger: RequestTraceLogger
+    private val requestTraceLogger: RequestTraceLogger,
+    private val webProperties: WebProperties
 ) : OncePerRequestFilter(), PriorityOrdered {
 
     @Throws(IOException::class, ServletException::class)
@@ -69,7 +73,11 @@ internal class TraceLoggingFilter(
         request.requestURI.antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
 
     private val excludedUrls by lazy {
-        WebApp.responseWrapExcludePatterns.plus(WebApp.whiteUrlPatterns(prefix = WebApp.contextPath))
+        val contextPath = Env.getProperty("server.servlet.context-path", "")
+        WebApp
+            .responseWrapExcludePatterns
+            .plus(webProperties.traceLogExcludePatterns.map { sanitizedPath("$contextPath/$it") })
+            .plus(WebApp.whiteUrlPatterns(prefix = contextPath))
     }
 
     override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 1

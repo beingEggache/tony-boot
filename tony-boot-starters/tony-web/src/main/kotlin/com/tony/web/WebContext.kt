@@ -2,6 +2,7 @@ package com.tony.web
 
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
+import com.tony.Env
 import com.tony.exception.BaseException
 import com.tony.utils.asTo
 import com.tony.utils.defaultIfBlank
@@ -43,11 +44,15 @@ object WebContext {
 
     @JvmStatic
     val contextPath: String
-        get() = WebApp.contextPath
+        get() = Env.getProperty("server.servlet.context-path", "")
 
     @JvmStatic
     val headers: Map<String, String>
         get() = request.headers
+
+    @JvmStatic
+    fun getHeader(name: String?): String =
+        headers[name].defaultIfBlank()
 
     @JvmStatic
     val origin: String

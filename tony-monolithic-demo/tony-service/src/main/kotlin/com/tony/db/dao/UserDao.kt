@@ -1,11 +1,11 @@
 package com.tony.db.dao
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper
 import com.tony.db.po.User
+import com.tony.mybatis.dao.BaseDao
 import org.springframework.stereotype.Repository
 
 @Repository
-interface UserDao : BaseMapper<User> {
+interface UserDao : BaseDao<User> {
 
     fun selectUserProjectIdList(userId: String?): List<String>
 

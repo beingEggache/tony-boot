@@ -1,12 +1,12 @@
 package com.tony.db.dao
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper
 import com.tony.db.po.Role
+import com.tony.mybatis.dao.BaseDao
 import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-interface RoleDao : BaseMapper<Role> {
+interface RoleDao : BaseDao<Role> {
 
     fun selectByUserId(
         @Param("userId")

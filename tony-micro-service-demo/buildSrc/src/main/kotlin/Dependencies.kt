@@ -39,6 +39,7 @@ object Deps {
         const val templateFeign = "$projectGroup:$projectPrefix-feign:${Version.templateVersion}"
         const val templateWeb = "$projectGroup:$projectPrefix-web:${Version.templateVersion}"
         const val templateCache = "$projectGroup:$projectPrefix-cache:${Version.templateVersion}"
+        const val templateMybatisPlus = "$projectGroup:$projectPrefix-mybatis-plus:${Version.templateVersion}"
     }
 
     object Jackson {

@@ -2,15 +2,12 @@
 
 package com.tony.api
 
-import com.tony.Env
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
 import com.tony.db.config.DbConfig
-import com.tony.utils.localIp
 import com.tony.web.ApiSession
 import com.tony.web.WebApp
 import com.tony.web.WebContext
-import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
@@ -19,18 +16,10 @@ import org.springframework.stereotype.Component
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
-@Suppress("HttpUrlsUsage")
 fun main(args: Array<String>) {
     runApplication<MonoApiWebApp>(*args) {
         setHeadless(true)
     }
-    val info =
-        "${WebApp.appId} " +
-            "http://$localIp:${WebApp.port}${WebApp.contextPath.padStart(1, '/')} " +
-            "started success. " +
-            "profiles: ${Env.activeProfiles.joinToString()}. " +
-            "He who has a why to live can bear almost any how."
-    LoggerFactory.getLogger(MonoApiWebApp::class.java).info(info)
 }
 
 // @Profile(value = ["!prod"])

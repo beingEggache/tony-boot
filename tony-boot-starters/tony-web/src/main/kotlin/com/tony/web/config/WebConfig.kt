@@ -70,7 +70,10 @@ internal class WebConfig(
     @Bean
     internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter {
         logger.info("Request trace log is enabled.")
-        return TraceLoggingFilter(requestTraceLogger)
+        if (webProperties.traceLogExcludePatterns.isNotEmpty()) {
+            logger.info("Request trace log exclude patterns: ${webProperties.traceLogExcludePatterns}")
+        }
+        return TraceLoggingFilter(requestTraceLogger, webProperties)
     }
 
     @ConditionalOnExpression("\${web.response-wrap-enabled:true}")
@@ -140,6 +143,10 @@ internal data class WebProperties(
      */
     @DefaultValue("true")
     val traceLoggerEnabled: Boolean = true,
+    /**
+     * 请求日志排除url
+     */
+    val traceLogExcludePatterns: List<String> = listOf(),
     /**
      * 是否处理响应json null值。
      */

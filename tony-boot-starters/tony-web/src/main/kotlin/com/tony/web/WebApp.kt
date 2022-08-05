@@ -10,6 +10,7 @@ import com.tony.Env
 import com.tony.Env.getPropertyByLazy
 import com.tony.utils.sanitizedPath
 import com.tony.web.config.WebProperties
+import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 
 object WebApp : HaveWhiteListUrlPattern {
@@ -17,6 +18,8 @@ object WebApp : HaveWhiteListUrlPattern {
     internal val errorAttributes: ErrorAttributes by getBeanByLazy()
 
     private val webProperties: WebProperties by getBeanByLazy()
+
+    private val logger = LoggerFactory.getLogger(WebApp::class.java)
 
     @JvmStatic
     val appId: String by getPropertyByLazy("spring.application.name", "")
@@ -27,17 +30,13 @@ object WebApp : HaveWhiteListUrlPattern {
     @JvmStatic
     val contextPath: String by getPropertyByLazy("server.servlet.context-path", "")
 
-    @JvmStatic
-    val actuatorBasePath: String by getPropertyByLazy("management.endpoints.web.base-path", "/actuator")
-
     internal val responseWrapExcludePatterns by lazy {
+        val contextPath = Env.getProperty("server.servlet.context-path", "")
         setOf(
-            *(whiteUrlPatterns(prefix = contextPath)).toTypedArray(),
+            *whiteUrlPatterns(prefix = contextPath).toTypedArray(),
             *webProperties.responseWrapExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray()
         )
     }
-
-    private val errorPath by getPropertyByLazy("server.error.path", Env.getProperty("error.path", "/error"))
 
     @JvmOverloads
     @JvmStatic

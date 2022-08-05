@@ -1,7 +1,6 @@
 package com.tony.db.service
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import com.tony.db.dao.ModuleDao
 import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
@@ -27,13 +26,14 @@ import javax.validation.Valid
 @Service
 class RoleService(
     private val userDao: UserDao,
-    private val moduleDao: ModuleDao
-) : ServiceImpl<RoleDao, Role>() {
+    private val moduleDao: ModuleDao,
+    private val roleDao: RoleDao
+) {
 
     @Transactional
     fun add(@Valid req: RoleCreateReq, appId: String) =
-        throwIfAndReturn(baseMapper.selectById(req.roleId) != null, "角色ID已重复") {
-            baseMapper.insert(
+        throwIfAndReturn(roleDao.selectById(req.roleId) != null, "角色ID已重复") {
+            roleDao.insert(
                 Role().apply {
                     this.roleId = req.roleId
                     this.roleName = req.roleName
@@ -44,8 +44,8 @@ class RoleService(
         }
 
     @Transactional
-    fun update(@Valid req: RoleUpdateReq) = baseMapper.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
-        baseMapper.updateById(
+    fun update(@Valid req: RoleUpdateReq) = roleDao.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
+        roleDao.updateById(
             Role().apply {
                 this.roleId = req.roleId
                 this.roleName = req.roleName
@@ -55,21 +55,22 @@ class RoleService(
     }
 
     fun page(query: String?, page: Long = 1, size: Long = 10) =
-        baseMapper.selectPage(
-            Page(page, size),
-            where<Role>().like(!query.isNullOrBlank(), Role::roleName, query)
-        ).toPageResult()
+        roleDao
+            .ktQuery()
+            .like(!query.isNullOrBlank(), Role::roleName, query)
+            .page(Page(page, size))
+            .toPageResult()
 
-    fun selectByUserId(userId: String?, appId: String): List<Role> = baseMapper.selectByUserId(userId, appId)
+    fun selectByUserId(userId: String?, appId: String): List<Role> = roleDao.selectByUserId(userId, appId)
 
     @Transactional
     fun assignRole(req: RoleAssignReq) {
         req.userIdList.forEach { userId ->
-            baseMapper.deleteUserRoleByUserId(userId)
+            roleDao.deleteUserRoleByUserId(userId)
             userDao.selectById(userId) ?: throw BizException("不存在的用户:$userId")
             req.roleIdList.forEach { roleId ->
-                baseMapper.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
-                baseMapper.insertUserRole(userId, roleId)
+                roleDao.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
+                roleDao.insertUserRole(userId, roleId)
                 ModuleDao.clearModuleCache(userId)
             }
         }
@@ -83,11 +84,11 @@ class RoleService(
         throwIf(!moduleIdList.any(), "没找到对应模块:${req.moduleGroupList.joinToString()}")
 
         req.roleIdList.forEach { roleId ->
-            baseMapper.deleteRoleModuleByRoleId(roleId)
-            baseMapper.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
+            roleDao.deleteRoleModuleByRoleId(roleId)
+            roleDao.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
             moduleIdList.forEach { moduleId ->
-                baseMapper.selectById(roleId) ?: throw BizException("不存在的模块:$moduleId")
-                baseMapper.insertRoleModule(roleId, moduleId)
+                roleDao.selectById(roleId) ?: throw BizException("不存在的模块:$moduleId")
+                roleDao.insertRoleModule(roleId, moduleId)
                 ModuleDao.clearModuleCache()
             }
         }

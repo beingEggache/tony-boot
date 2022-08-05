@@ -32,7 +32,7 @@ object VersionManagement {
     const val reactorNettyVersion = "1.0.21"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.12.12"
+    const val byteBuddyVersion = "1.12.13"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.71"
     const val javaJwtVersion = "4.0.0"
@@ -192,6 +192,8 @@ object DepsManagement {
         const val okhttp = "com.squareup.okhttp3:okhttp:4.10.0"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
         const val commonsIo = "commons-io:commons-io:2.11.0"
+        const val commonsCompress = "org.apache.commons:commons-compress:1.21"
+        const val commonsPool2 = "org.apache.commons:commons-pool2:2.11.1"
 
         const val guava = "com.google.guava:guava:${VersionManagement.guavaVersion}"
         const val javaJwt = "com.auth0:java-jwt:${VersionManagement.javaJwtVersion}"

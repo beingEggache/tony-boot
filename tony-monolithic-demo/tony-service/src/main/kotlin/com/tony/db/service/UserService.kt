@@ -1,12 +1,10 @@
 package com.tony.db.service
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
+import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
 import com.tony.db.po.User
-import com.tony.dto.req.ModuleAssignReq
-import com.tony.dto.req.RoleAssignReq
 import com.tony.dto.req.UserCreateReq
 import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
@@ -26,19 +24,20 @@ import org.springframework.transaction.annotation.Transactional
  */
 @Service
 class UserService(
-    private val roleService: RoleService,
+    private val userDao: UserDao,
+    private val roleDao: RoleDao,
     private val moduleService: ModuleService
-) : ServiceImpl<UserDao, User>() {
+) {
 
     fun login(req: UserLoginReq) =
-        baseMapper.selectOne(
+        userDao.selectOne(
             where<User>()
                 .eq(User::userName, req.userName)
                 .eq(User::pwd, "${req.pwd}${req.userName}".toMd5UppercaseString())
         ) ?: throw BizException("用户名或密码错误")
 
     fun info(userId: String, appId: String) =
-        baseMapper.selectById(userId)?.run {
+        userDao.selectById(userId)?.run {
             UserInfoResp(
                 realName,
                 mobile,
@@ -47,7 +46,7 @@ class UserService(
         } ?: throw BizException("没有此用户")
 
     fun list(query: String?, page: Long = 1, size: Long = 10) =
-        baseMapper.selectPage(
+        userDao.selectPage(
             Page(page, size),
             where<User>().like(
                 !query.isNullOrBlank(),
@@ -61,14 +60,14 @@ class UserService(
         }
 
     fun listRolesByUserId(userId: String?, appId: String) =
-        roleService.selectByUserId(userId, appId).map { it.toDto() }
+        roleDao.selectByUserId(userId, appId).map { it.toDto() }
 
     @Transactional
     fun add(req: UserCreateReq): Boolean {
         throwIf(req.pwd != req.confirmPwd, "两次密码不相等")
 
         throwIf(
-            baseMapper.selectOne(
+            userDao.selectOne(
                 where<User>()
                     .eq(User::userName, req.userName)
                     .or().eq(User::mobile, req.mobile)
@@ -76,7 +75,7 @@ class UserService(
             "用户名或手机号已重复"
         )
 
-        return baseMapper.insert(
+        return userDao.insert(
             User().apply {
                 this.userId = uuid()
                 userName = req.userName
@@ -90,10 +89,10 @@ class UserService(
     @Transactional
     fun update(req: UserUpdateReq): Boolean {
         val userId = checkNotNull(req.userId)
-        baseMapper.selectById(userId).throwIfNull("没有此用户")
+        userDao.selectById(userId).throwIfNull("没有此用户")
 
         throwIf(
-            baseMapper.selectOne(
+            userDao.selectOne(
                 where<User>()
                     .eq(User::userName, req.userName)
                     .or().eq(User::mobile, req.mobile)
@@ -101,9 +100,9 @@ class UserService(
             "用户名或手机号已重复"
         )
 
-        baseMapper.delUserProjectByUserId(userId)
+        userDao.delUserProjectByUserId(userId)
 
-        return baseMapper.updateById(
+        return userDao.updateById(
             User().apply {
                 this.userId = userId
                 userName = req.userName
@@ -123,10 +122,10 @@ class UserService(
             mobile = "13984842424"
             pwd = "lxkj123!@#gateway".toMd5UppercaseString()
         }
-        baseMapper.deleteById(superAdmin)
-        baseMapper.insert(user)
-        roleService.removeById(superAdmin)
-        roleService.save(
+        userDao.deleteById(superAdmin)
+        userDao.insert(user)
+        roleDao.deleteById(superAdmin)
+        roleDao.insert(
             Role().apply {
                 roleId = superAdmin
                 this.appId = appId
@@ -134,10 +133,11 @@ class UserService(
             }
         )
 
-        baseMapper.delUserProjectByUserId(superAdmin)
+        userDao.delUserProjectByUserId(superAdmin)
 
-        roleService.assignRole(RoleAssignReq(listOf(superAdmin), listOf(superAdmin)))
-        val moduleGroups = moduleService.listModuleGroups(appId)
-        roleService.assignModule(ModuleAssignReq(moduleGroups, listOf(superAdmin)))
+        // TODO
+        // roleDao.assignRole(RoleAssignReq(listOf(superAdmin), listOf(superAdmin)))
+        // val moduleGroups = moduleService.listModuleGroups(appId)
+        // roleDao.assignModule(ModuleAssignReq(moduleGroups, listOf(superAdmin)))
     }
 }
