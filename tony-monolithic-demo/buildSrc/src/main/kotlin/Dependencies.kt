@@ -164,7 +164,12 @@ object Deps {
         const val xstream = "com.thoughtworks.xstream:xstream"
         const val httpclient = "org.apache.httpcomponents:httpclient"
         const val okhttp = "com.squareup.okhttp3:okhttp"
+
         const val commonsCodec = "commons-codec:commons-codec"
+        const val commonsIo = "commons-io:commons-io"
+        const val commonsCompress = "org.apache.commons:commons-compress"
+        const val commonsPool2 = "org.apache.commons:commons-pool2"
+        const val commonsLang3 = "org.apache.commons:commons-lang3"
 
         const val guava = "com.google.guava:guava"
         const val javaJwt = "com.auth0:java-jwt"

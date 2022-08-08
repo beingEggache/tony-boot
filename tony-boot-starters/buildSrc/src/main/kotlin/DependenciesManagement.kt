@@ -190,10 +190,12 @@ object DepsManagement {
         const val httpcore = "org.apache.httpcomponents:httpcore:4.4.15"
         const val httpcoreNio = "org.apache.httpcomponents:httpcore-nio:4.4.15"
         const val okhttp = "com.squareup.okhttp3:okhttp:4.10.0"
+
         const val commonsCodec = "commons-codec:commons-codec:1.15"
         const val commonsIo = "commons-io:commons-io:2.11.0"
         const val commonsCompress = "org.apache.commons:commons-compress:1.21"
         const val commonsPool2 = "org.apache.commons:commons-pool2:2.11.1"
+        const val commonsLang3 = "org.apache.commons:commons-lang3:3.12.0"
 
         const val guava = "com.google.guava:guava:${VersionManagement.guavaVersion}"
         const val javaJwt = "com.auth0:java-jwt:${VersionManagement.javaJwtVersion}"

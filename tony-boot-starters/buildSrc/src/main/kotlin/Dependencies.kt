@@ -13,8 +13,8 @@ object Version {
     const val springCloudAlibabaVersion = "2021.0.1.0"
     const val springCloudVersion = "2021.0.3"
 
-    const val alipaySdkJavaVersion = "4.31.72.ALL"
-    const val aliyunJavaSdkCoreVersion = "4.6.0"
+    const val alipaySdkJavaVersion = "4.31.84.ALL"
+    const val aliyunJavaSdkCoreVersion = "4.6.1"
     const val aliyunSdkOssVersion = "3.15.1"
 
     const val bouncycastleVersion = "1.71"
@@ -159,7 +159,12 @@ object Deps {
         const val xstream = "com.thoughtworks.xstream:xstream"
         const val httpclient = "org.apache.httpcomponents:httpclient"
         const val okhttp = "com.squareup.okhttp3:okhttp"
+
         const val commonsCodec = "commons-codec:commons-codec"
+        const val commonsIo = "commons-io:commons-io"
+        const val commonsCompress = "org.apache.commons:commons-compress"
+        const val commonsPool2 = "org.apache.commons:commons-pool2"
+        const val commonsLang3 = "org.apache.commons:commons-lang3"
 
         const val guava = "com.google.guava:guava"
         const val javaJwt = "com.auth0:java-jwt"
