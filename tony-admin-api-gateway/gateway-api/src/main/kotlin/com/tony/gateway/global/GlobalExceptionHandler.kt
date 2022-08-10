@@ -30,8 +30,6 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
         if (response.isCommitted) {
             return Mono.error(ex)
         }
-
-        response.headers.contentType = MediaType.APPLICATION_JSON
         return if (ex is ResponseStatusException) {
             val httpStatus = ex.status
             response.jsonBody(

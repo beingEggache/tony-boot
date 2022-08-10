@@ -12,7 +12,7 @@ object VersionManagement {
 
     const val openFeignVersion = "11.9.1"
 
-    const val postgresqlVersion = "42.4.0"
+    const val postgresqlVersion = "42.4.1"
     const val mysqlVersion = "8.0.30"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.2"
@@ -24,10 +24,10 @@ object VersionManagement {
     const val jacksonVersion = "2.13.3"
 
     const val gsonVersion = "2.9.1"
-    const val fastjsonVersion = "2.0.10"
+    const val fastjsonVersion = "2.0.11"
     const val nettyVersion = "4.1.79.Final"
 
-    const val reactorVersion = "3.4.21"
+    const val reactorVersion = "3.4.22"
     const val reactorKotlinExtensions = "1.1.7"
     const val reactorNettyVersion = "1.0.21"
     const val slf4jVersion = "1.7.36"
