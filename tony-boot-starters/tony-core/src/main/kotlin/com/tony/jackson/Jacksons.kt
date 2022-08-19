@@ -3,7 +3,6 @@
 /**
  * Jacksons
  *
- * TODO
  *
  * @author tangli
  * @since 2022/4/24 16:44
@@ -16,7 +15,7 @@ import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.tony.exception.ApiException
-import com.tony.utils.getLogger
+import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
 @JvmSynthetic
@@ -73,7 +72,7 @@ class MaskSerializer : JsonSerializer<Any>() {
     companion object {
 
         @JvmStatic
-        private val logger = getLogger()
+        private val logger = LoggerFactory.getLogger(MaskSerializer::class.java)
 
         fun registerMaskFun(maskType: Class<*>, maskFun: MaskConvertFunc) {
             if (maskConverters.containsKey(maskType)) throw ApiException("$maskType already exists")

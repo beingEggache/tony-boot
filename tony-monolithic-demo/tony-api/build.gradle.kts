@@ -13,8 +13,9 @@ dependencies {
         implementation(Deps.Other.springdocUi)
         implementation(Deps.SpringBoot.devtools)
     }
+    implementation(Deps.Template.templateWeb) { isChanging = true }
     implementation(Deps.Template.templateWebAuth) { isChanging = true }
-    implementation(Deps.Template.templateFeign)
+    implementation(Deps.Template.templateFeign) { isChanging = true }
     implementation(project(":tony-service"))
 //    implementation(project(":tony-amqp"))
     addTestDependencies()

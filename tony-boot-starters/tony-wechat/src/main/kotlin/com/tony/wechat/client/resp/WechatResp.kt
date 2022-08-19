@@ -2,8 +2,6 @@
  * tony-boot-starters
  * WechatResp
  *
- * TODO
- *
  * @author tangli
  * @since 2021/9/26 13:23
  */
@@ -60,7 +58,7 @@ data class WechatUserInfoResp(
     @JsonProperty("province") var province: String?,
     @JsonProperty("country") var country: String?,
     @JsonProperty("headimgurl") var headImgUrl: String?,
-    @JsonProperty("subscribe_time") private var subscribe_time: Long?,
+    @JsonProperty("subscribe_time") private var subscribeTimeValue: Long?,
     @JsonProperty("unionid") var unionId: String?,
     @JsonProperty("remark") var remark: String?,
     @JsonProperty("groupid") var groupId: Int?,
@@ -72,7 +70,7 @@ data class WechatUserInfoResp(
 
     @Suppress("unused")
     @get:JsonProperty("subscribe_time")
-    val subscribeTime: LocalDateTime = Date((subscribe_time ?: 0) * 1000).toLocalDateTime()
+    val subscribeTime: LocalDateTime = Date((subscribeTimeValue ?: 0) * 1000).toLocalDateTime()
 }
 
 data class WechatJsCode2SessionResp(

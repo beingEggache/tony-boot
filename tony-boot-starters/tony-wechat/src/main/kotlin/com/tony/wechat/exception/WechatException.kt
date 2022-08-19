@@ -2,8 +2,6 @@
  * tony-boot-starters
  * WechatException
  *
- * TODO
- *
  * @author tangli
  * @since 2021/10/22 15:28
  */

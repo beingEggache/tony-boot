@@ -2,8 +2,6 @@
  * tony-boot-starters
  * WechatClient
  *
- * TODO
- *
  * @author tangli
  * @since 2021/9/26 13:21
  */

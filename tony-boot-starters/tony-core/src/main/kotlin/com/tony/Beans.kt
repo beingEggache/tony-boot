@@ -7,8 +7,6 @@ import org.springframework.context.ApplicationContextAware
 /**
  * Beans
  *
- * TODO
- *
  * @author tangli
  * @since 2021/12/6 10:51
  */

@@ -1,8 +1,6 @@
 /**
  * ByteArrayMultipartFile
  *
- * TODO
- *
  * @author tangli
  * @since 2021/12/8 9:06
  */

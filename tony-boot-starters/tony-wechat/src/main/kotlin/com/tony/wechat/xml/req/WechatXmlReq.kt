@@ -65,11 +65,11 @@ data class WechatXmlReq(
 
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("Location_X")
-    var location_X: String? = null,
+    var locationX: String? = null,
 
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("Location_Y")
-    var location_Y: String? = null,
+    var locationY: String? = null,
 
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("Scale")

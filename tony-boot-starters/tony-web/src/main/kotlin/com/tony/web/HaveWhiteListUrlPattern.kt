@@ -1,8 +1,6 @@
 /**
  * HaveWhiteListUrlPattern
  *
- * TODO
- *
  * @author tangli
  * @since 2022/1/17 14:02
  */

@@ -2,8 +2,6 @@
  * tony-boot-starters
  * WechatQrCodeCreateReq
  *
- * TODO
- *
  * @author tangli
  * @since 2021/9/26 13:22
  */
