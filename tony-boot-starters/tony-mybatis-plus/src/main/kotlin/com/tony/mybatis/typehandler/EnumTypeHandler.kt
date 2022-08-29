@@ -40,15 +40,21 @@ open class EnumTypeHandler<E, KEY>(enumClass: Class<E>) :
     override fun getNullableResult(rs: ResultSet, columnName: String?) =
         if (null == rs.getObject(columnName) && rs.wasNull()) {
             null
-        } else enumValueMap[rs.getObject(columnName)]
+        } else {
+            enumValueMap[rs.getObject(columnName)]
+        }
 
     override fun getNullableResult(rs: ResultSet, columnIndex: Int) =
         if (null == rs.getObject(columnIndex) && rs.wasNull()) {
             null
-        } else enumValueMap[rs.getObject(columnIndex)]
+        } else {
+            enumValueMap[rs.getObject(columnIndex)]
+        }
 
     override fun getNullableResult(cs: CallableStatement, columnIndex: Int) =
         if (null == cs.getObject(columnIndex) && cs.wasNull()) {
             null
-        } else enumValueMap[cs.getObject(columnIndex)]
+        } else {
+            enumValueMap[cs.getObject(columnIndex)]
+        }
 }

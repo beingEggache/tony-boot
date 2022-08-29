@@ -52,12 +52,18 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val query = url.query.defaultIfBlank("[null]")
         val headers = request.headers.toMultimap().toMap().mapValues { it.value.joinToString() }.toJsonString()
         val requestBody = request.body?.run {
-            if (isTextMediaTypes(parsedMedia)) string()
-            else "[${contentType()}]"
+            if (isTextMediaTypes(parsedMedia)) {
+                string()
+            } else {
+                "[${contentType()}]"
+            }
         }
         val responseBody = response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).run {
-            if (isTextMediaTypes(parsedMedia)) string()
-            else "[${contentType()}]"
+            if (isTextMediaTypes(parsedMedia)) {
+                string()
+            } else {
+                "[${contentType()}]"
+            }
         }
         val remoteIp = connection?.socket()?.inetAddress?.hostAddress
         val logStr =

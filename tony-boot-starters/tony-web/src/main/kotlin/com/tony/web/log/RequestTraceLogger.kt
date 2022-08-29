@@ -95,24 +95,30 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
     }
 
     private fun requestBody(request: RepeatReadRequestWrapper) =
-        if (!isTextMediaTypes(request.parsedMedia)) "[${request.getHeader("Content-Type")}]"
-        else if (request.method.equals(HttpMethod.POST.name, true)) {
+        if (!isTextMediaTypes(request.parsedMedia)) {
+            "[${request.getHeader("Content-Type")}]"
+        } else if (request.method.equals(HttpMethod.POST.name, true)) {
             val bytes = request.contentAsByteArray
             when {
                 bytes.isEmpty() -> NULL
                 bytes.size <= 65535 -> String(bytes)
                 else -> "[too long content, length = ${bytes.size}]"
             }
-        } else NULL
+        } else {
+            NULL
+        }
 
     private fun responseBody(response: ContentCachingResponseWrapper) =
-        if (!isTextMediaTypes(response.parsedMedia)) "[${response.getHeader("Content-Type")}]"
-        else response.contentAsByteArray.let { bytes ->
-            val size = bytes.size
-            when {
-                size in 1..65535 -> String(bytes)
-                size >= 65536 -> "[too long content, length = $size]"
-                else -> NULL
+        if (!isTextMediaTypes(response.parsedMedia)) {
+            "[${response.getHeader("Content-Type")}]"
+        } else {
+            response.contentAsByteArray.let { bytes ->
+                val size = bytes.size
+                when {
+                    size in 1..65535 -> String(bytes)
+                    size >= 65536 -> "[too long content, length = $size]"
+                    else -> NULL
+                }
             }
         }
 

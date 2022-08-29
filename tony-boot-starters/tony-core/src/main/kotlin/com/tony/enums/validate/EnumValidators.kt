@@ -28,7 +28,9 @@ class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumValue<Int>
             str?.value == null ||
                 str.value == EnumCreator.defaultIntValue
             )
-        ) return false
+        ) {
+            return false
+        }
         val value = str?.value ?: return false
         return value in enums
     }
@@ -54,7 +56,9 @@ class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
             str?.value == null ||
                 str.value == EnumCreator.defaultIntValue
             )
-        ) return false
+        ) {
+            return false
+        }
         return str?.value in enums
     }
 }
@@ -73,7 +77,9 @@ class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, EnumValu
             str?.value == null ||
                 str.value == EnumCreator.defaultStringValue
             )
-        ) return false
+        ) {
+            return false
+        }
         return str?.value in enums
     }
 }
@@ -98,7 +104,9 @@ class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<String>?> 
             str?.value == null ||
                 str.value == EnumCreator.defaultStringValue
             )
-        ) return false
+        ) {
+            return false
+        }
         return str?.value in enums
     }
 }

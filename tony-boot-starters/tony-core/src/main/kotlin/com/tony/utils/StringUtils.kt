@@ -39,7 +39,9 @@ fun <T> T.toDeepLink() =
 fun String?.equalsIgnoreNullOrEmpty(str: String?): Boolean =
     if (this.isNullOrEmpty()) {
         str.isNullOrEmpty()
-    } else this == str
+    } else {
+        this == str
+    }
 
 /**
  * 转为 deeplink表示， 如a=1&b=2&c=3

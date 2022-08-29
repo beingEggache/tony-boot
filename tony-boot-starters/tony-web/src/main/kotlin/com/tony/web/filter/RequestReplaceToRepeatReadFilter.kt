@@ -1,41 +1,53 @@
 package com.tony.web.filter
 
+import com.tony.Env
+import com.tony.utils.antPathMatchAny
 import com.tony.utils.doIf
+import com.tony.utils.sanitizedPath
+import com.tony.web.WebApp
+import com.tony.web.config.WebProperties
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
+import com.tony.web.utils.isCorsPreflightRequest
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
+import org.springframework.web.filter.OncePerRequestFilter
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.util.Collections
-import javax.servlet.Filter
 import javax.servlet.FilterChain
 import javax.servlet.ReadListener
-import javax.servlet.ServletException
 import javax.servlet.ServletInputStream
-import javax.servlet.ServletRequest
-import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletRequestWrapper
+import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.Part
 
-internal class RequestReplaceToRepeatReadFilter : Filter, PriorityOrdered {
+internal class RequestReplaceToRepeatReadFilter(
+    private val webProperties: WebProperties
+) : OncePerRequestFilter(), PriorityOrdered {
 
-    @Throws(IOException::class, ServletException::class)
-    override fun doFilter(
-        request: ServletRequest?,
-        response: ServletResponse?,
-        chain: FilterChain
-    ) = chain.doFilter(
-        if (request is HttpServletRequest) {
-            request.toRepeatRead()
-        } else request,
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
+    ) = filterChain.doFilter(
+        request.toRepeatRead(),
         response
     )
 
+    override fun shouldNotFilter(request: HttpServletRequest) =
+        request.requestURI.antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
+
     override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE
+
+    private val excludedUrls by lazy {
+        val contextPath = Env.getProperty("server.servlet.context-path", "")
+        webProperties.traceLogExcludePatterns.map { sanitizedPath("$contextPath/$it") }
+            .plus(WebApp.whiteUrlPatterns(prefix = contextPath))
+    }
 }
 
 class RepeatReadRequestWrapper
@@ -89,8 +101,11 @@ internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(re
 
         @JvmStatic
         fun HttpServletRequest.toRepeatRead() =
-            if (this is RepeatReadRequestWrapper) this
-            else RepeatReadRequestWrapper(this)
+            if (this is RepeatReadRequestWrapper) {
+                this
+            } else {
+                RepeatReadRequestWrapper(this)
+            }
 
         private val formPostContentTypes = arrayOf(
             "application/x-www-form-urlencoded",

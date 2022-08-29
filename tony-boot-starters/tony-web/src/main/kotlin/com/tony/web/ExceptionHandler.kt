@@ -48,8 +48,11 @@ internal class ExceptionHandler : ErrorController {
 
     private fun bindingResultMessages(bindingResult: BindingResult) =
         bindingResult.fieldErrors.first().let {
-            if (it.isBindingFailure) ApiProperty.validationErrorMsg
-            else it.defaultMessage ?: ""
+            if (it.isBindingFailure) {
+                ApiProperty.validationErrorMsg
+            } else {
+                it.defaultMessage ?: ""
+            }
         }
 
     @ExceptionHandler(BindException::class)

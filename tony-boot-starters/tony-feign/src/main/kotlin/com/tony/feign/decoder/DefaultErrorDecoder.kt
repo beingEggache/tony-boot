@@ -14,6 +14,8 @@ class DefaultErrorDecoder : ErrorDecoder {
             ApiException(
                 "$methodKey error,status:$status,reason:${response.reason()},url: $url"
             )
-        } else FeignException.errorStatus(methodKey, response)
+        } else {
+            FeignException.errorStatus(methodKey, response)
+        }
     }
 }

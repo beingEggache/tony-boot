@@ -26,15 +26,21 @@ fun RequestBody.jsonNode(): JsonNode = run {
 internal val ResponseBody.parsedMedia: MediaType?
     get() {
         val contentTypeStr = contentType()?.toString()
-        return if (contentTypeStr.isNullOrBlank()) null
-        else MediaType.parseMediaType(contentTypeStr)
+        return if (contentTypeStr.isNullOrBlank()) {
+            null
+        } else {
+            MediaType.parseMediaType(contentTypeStr)
+        }
     }
 
 internal val RequestBody.parsedMedia: MediaType?
     get() {
         val contentTypeStr = contentType()?.toString()
-        return if (contentTypeStr.isNullOrBlank()) null
-        else MediaType.parseMediaType(contentTypeStr)
+        return if (contentTypeStr.isNullOrBlank()) {
+            null
+        } else {
+            MediaType.parseMediaType(contentTypeStr)
+        }
     }
 
 internal fun isTextMediaTypes(mediaType: MediaType?) =

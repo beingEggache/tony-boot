@@ -29,8 +29,11 @@ internal class WechatPrintWriter(writer: Writer, nameCoder: NameCoder) : PrettyP
     override fun writeText(writer: QuickWriter, text: String) =
         if ((text.startsWith(PREFIX_CDATA) && text.endsWith(SUFFIX_CDATA)) ||
             text.startsWith(PREFIX_MEDIA_ID) && text.endsWith(SUFFIX_MEDIA_ID)
-        ) writer.write(text)
-        else super.writeText(writer, text)
+        ) {
+            writer.write(text)
+        } else {
+            super.writeText(writer, text)
+        }
 
     companion object {
         private const val PREFIX_CDATA = "<![CDATA["
@@ -55,8 +58,11 @@ fun <T> xStream(clz: Class<T>): XStream = xStreamMap.getOrPut(clz) {
  * 针对微信的xml转换
  */
 inline fun <reified T> T?.toXmlString(): String =
-    if (this == null) ""
-    else xStream(T::class.java).toXML(this)
+    if (this == null) {
+        ""
+    } else {
+        xStream(T::class.java).toXML(this)
+    }
 
 /**
  * 针对微信的xml转换

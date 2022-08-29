@@ -64,7 +64,9 @@ internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
     MAPPER_CLASS_MAP.getOrPut(javaClass) {
         if (!Proxy.isProxyClass(javaClass)) {
             javaClass
-        } else AopProxyUtils.proxiedUserInterfaces(this).first()
+        } else {
+            AopProxyUtils.proxiedUserInterfaces(this).first()
+        }
     } as Class<out BaseDao<T>>
 
 /**

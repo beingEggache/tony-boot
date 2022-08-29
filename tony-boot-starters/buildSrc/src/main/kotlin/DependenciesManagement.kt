@@ -12,7 +12,7 @@ object VersionManagement {
 
     const val openFeignVersion = "11.9.1"
 
-    const val postgresqlVersion = "42.4.1"
+    const val postgresqlVersion = "42.5.0"
     const val mysqlVersion = "8.0.30"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.2"
@@ -24,17 +24,17 @@ object VersionManagement {
     const val jacksonVersion = "2.13.3"
 
     const val gsonVersion = "2.9.1"
-    const val fastjsonVersion = "2.0.11"
-    const val nettyVersion = "4.1.79.Final"
+    const val fastjsonVersion = "2.0.12"
+    const val nettyVersion = "4.1.80.Final"
 
     const val reactorVersion = "3.4.22"
     const val reactorKotlinExtensions = "1.1.7"
     const val reactorNettyVersion = "1.0.22"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.12.13"
+    const val byteBuddyVersion = "1.12.14"
     const val jasyptVersion = "1.9.3"
-    const val bouncycastleVersion = "1.71"
+    const val bouncycastleVersion = "1.71.1"
     const val javaJwtVersion = "4.0.0"
     const val guavaVersion = "31.1-jre"
 
@@ -142,6 +142,8 @@ object DepsManagement {
             "org.springframework.boot:spring-boot-starter-json:${VersionManagement.springBootVersion}"
         const val starterLogging =
             "org.springframework.boot:spring-boot-starter-logging:${VersionManagement.springBootVersion}"
+        const val starterReactorNetty =
+            "org.springframework.boot:spring-boot-starter-reactor-netty:${VersionManagement.springBootVersion}"
         const val starterTest =
             "org.springframework.boot:spring-boot-starter-test:${VersionManagement.springBootVersion}"
         const val starterTomcat =

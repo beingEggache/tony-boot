@@ -126,13 +126,12 @@ object Deps {
         const val starterJdbc = "org.springframework.boot:spring-boot-starter-jdbc"
         const val starterJson = "org.springframework.boot:spring-boot-starter-json"
         const val starterLogging = "org.springframework.boot:spring-boot-starter-logging"
+        const val starterReactorNetty = "org.springframework.boot:spring-boot-starter-reactor-netty"
         const val starterTest = "org.springframework.boot:spring-boot-starter-test"
-        const val starterValidation =
-            "org.springframework.boot:spring-boot-starter-validation"
+        const val starterValidation = "org.springframework.boot:spring-boot-starter-validation"
         const val starterWeb = "org.springframework.boot:spring-boot-starter-web"
         const val starterWebflux = "org.springframework.boot:spring-boot-starter-webflux"
-        const val starterWebsocket =
-            "org.springframework.boot:spring-boot-starter-websocket"
+        const val starterWebsocket = "org.springframework.boot:spring-boot-starter-websocket"
     }
 
     object Test {

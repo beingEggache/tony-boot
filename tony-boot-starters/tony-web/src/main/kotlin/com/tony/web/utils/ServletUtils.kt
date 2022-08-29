@@ -70,12 +70,18 @@ private val TEXT_MEDIA_TYPES = listOf(
 )
 
 val HttpServletResponse.parsedMedia: MediaType?
-    get() = if (contentType.isNullOrBlank()) null
-    else MediaType.parseMediaType(contentType)
+    get() = if (contentType.isNullOrBlank()) {
+        null
+    } else {
+        MediaType.parseMediaType(contentType)
+    }
 
 val HttpServletRequest.parsedMedia: MediaType?
-    get() = if (contentType.isNullOrBlank()) null
-    else MediaType.parseMediaType(contentType)
+    get() = if (contentType.isNullOrBlank()) {
+        null
+    } else {
+        MediaType.parseMediaType(contentType)
+    }
 
 fun isTextMediaTypes(mediaType: MediaType?) =
     TEXT_MEDIA_TYPES.any { it.includes(mediaType) }

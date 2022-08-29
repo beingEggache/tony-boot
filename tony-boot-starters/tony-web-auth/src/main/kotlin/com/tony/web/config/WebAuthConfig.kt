@@ -42,7 +42,9 @@ internal class WebAuthConfig(
         if (jwtProperties.secret.isNotBlank()) {
             logger.info("Jwt auth is enabled")
             JwtApiSession()
-        } else NoopApiSession()
+        } else {
+            NoopApiSession()
+        }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(loginCheckInterceptor())

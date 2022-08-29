@@ -43,8 +43,11 @@ object RedisValues {
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = if (timeout == 0L) RedisManager.redisTemplate.opsForValue().set(key, value)
-    else RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
+    ) = if (timeout == 0L) {
+        RedisManager.redisTemplate.opsForValue().set(key, value)
+    } else {
+        RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
+    }
 
     @JvmStatic
     @JvmOverloads
@@ -53,8 +56,11 @@ object RedisValues {
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = if (timeout == 0L) RedisManager.redisTemplate.opsForValue().set(key, value.toJsonString())
-    else RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
+    ) = if (timeout == 0L) {
+        RedisManager.redisTemplate.opsForValue().set(key, value.toJsonString())
+    } else {
+        RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
+    }
 
     @JvmStatic
     fun getString(key: String): String? {

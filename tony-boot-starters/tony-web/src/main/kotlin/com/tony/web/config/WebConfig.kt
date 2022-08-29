@@ -55,8 +55,9 @@ internal class WebConfig(
         registry.addConverterFactory(EnumStringValueConverterFactory())
     }
 
+    @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
-    internal fun requestReplaceToRepeatReadFilter() = RequestReplaceToRepeatReadFilter()
+    internal fun requestReplaceToRepeatReadFilter() = RequestReplaceToRepeatReadFilter(webProperties)
 
     @Bean
     internal fun traceIdFilter() = TraceIdFilter()
@@ -70,7 +71,7 @@ internal class WebConfig(
     @Bean
     internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter {
         logger.info("Request trace log is enabled.")
-        if (webProperties.traceLogExcludePatterns.isNotEmpty()) {
+        if (webProperties.traceLoggerEnabled && webProperties.traceLogExcludePatterns.isNotEmpty()) {
             logger.info("Request trace log exclude patterns: ${webProperties.traceLogExcludePatterns}")
         }
         return TraceLoggingFilter(requestTraceLogger, webProperties)
