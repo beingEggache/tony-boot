@@ -3,7 +3,9 @@ dependencies {
 
 
     api(Deps.Spring.context)
-    api(Deps.SpringBoot.starterLogging)
+    api(Deps.SpringBoot.starterLogging) {
+        exclude("org.apache.logging.log4j","log4j-to-slf4j")
+    }
 
     api(Deps.Other.commonsCodec)
     api(Deps.Other.validationApi)

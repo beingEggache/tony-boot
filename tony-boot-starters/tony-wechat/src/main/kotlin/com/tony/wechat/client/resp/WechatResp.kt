@@ -86,3 +86,13 @@ data class WechatJsSdkConfigResp(
     val nonceStr: String,
     val signature: String
 )
+
+data class WechatMiniProgramUserPhoneResp(
+    @JsonProperty("phone_info") val phoneInfo: WechatMiniProgramUserPhoneInfoResp?
+) : WechatResp()
+
+data class WechatMiniProgramUserPhoneInfoResp(
+    val phoneNumber: String,
+    val purePhoneNumber: String,
+    val countryCode: String
+)

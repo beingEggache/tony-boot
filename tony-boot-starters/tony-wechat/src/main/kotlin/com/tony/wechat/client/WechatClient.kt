@@ -8,10 +8,13 @@
 package com.tony.wechat.client
 
 import com.tony.wechat.client.req.WechatMenu
+import com.tony.wechat.client.req.WechatMiniProgramQrCodeCreateReq
+import com.tony.wechat.client.req.WechatMiniProgramUserPhoneReq
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
 import com.tony.wechat.client.resp.WechatApiTokenResp
 import com.tony.wechat.client.resp.WechatJsApiTicketResp
 import com.tony.wechat.client.resp.WechatJsCode2SessionResp
+import com.tony.wechat.client.resp.WechatMiniProgramUserPhoneResp
 import com.tony.wechat.client.resp.WechatQrCodeResp
 import com.tony.wechat.client.resp.WechatResp
 import com.tony.wechat.client.resp.WechatUserInfoResp
@@ -106,4 +109,18 @@ interface WechatClient {
         req: WechatQrCodeCreateReq,
         @PathVariable accessToken: String?
     ): WechatQrCodeResp
+
+    @PostMapping("/wxa/getwxacodeunlimit?access_token={accessToken}")
+    fun createMiniProgramQrcode(
+        @RequestBody
+        req: WechatMiniProgramQrCodeCreateReq,
+        @PathVariable accessToken: String?
+    ): feign.Response
+
+    @PostMapping("/wxa/business/getuserphonenumber?access_token={accessToken}")
+    fun getUserPhoneNumber(
+        @RequestBody
+        req: WechatMiniProgramUserPhoneReq,
+        @PathVariable accessToken: String?
+    ): WechatMiniProgramUserPhoneResp
 }

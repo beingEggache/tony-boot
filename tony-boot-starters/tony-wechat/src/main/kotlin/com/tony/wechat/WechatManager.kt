@@ -6,12 +6,15 @@ import com.tony.utils.getLogger
 import com.tony.utils.urlEncode
 import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu
+import com.tony.wechat.client.req.WechatMiniProgramQrCodeCreateReq
+import com.tony.wechat.client.req.WechatMiniProgramUserPhoneReq
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
 import com.tony.wechat.client.resp.WechatJsSdkConfigResp
 import com.tony.wechat.client.resp.WechatUserTokenResp
 import com.tony.wechat.config.WechatProperties
 import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.validation.annotation.Validated
+import java.util.Base64
 
 @Suppress("unused")
 object WechatManager {
@@ -152,6 +155,34 @@ object WechatManager {
             "&response_type=code" +
             "&scope=snsapi_base" +
             "&state=#wechat_redirect"
+
+    @JvmOverloads
+    @JvmStatic
+    fun createMiniProgramQrCode(
+        @Validated
+        req: WechatMiniProgramQrCodeCreateReq,
+        app: String = "",
+        accessToken: String? = accessTokenStr(app)
+    ): String = wechatClient
+        .createMiniProgramQrcode(req, accessToken)
+        .body()
+        .asInputStream()
+        .use {
+            Base64.getEncoder().encode(it.readAllBytes()).toString(Charsets.UTF_8)
+        }
+
+    @JvmOverloads
+    @JvmStatic
+    fun getUserPhoneNumber(
+        @Validated
+        code: String,
+        app: String = "",
+        accessToken: String? = accessTokenStr(app)
+    ) = wechatClient
+        .getUserPhoneNumber(WechatMiniProgramUserPhoneReq(code), accessToken)
+        .check()
+        .phoneInfo
+        ?.purePhoneNumber
 }
 
 interface WechatPropProvider {
