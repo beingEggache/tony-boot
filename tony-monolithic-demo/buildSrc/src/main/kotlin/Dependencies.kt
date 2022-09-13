@@ -12,7 +12,7 @@ object Version {
     const val springBootVersion = "2.7.3"
 
     const val springCloudAlibabaVersion = "2021.0.1.0"
-    const val springCloudVersion = "2021.0.3"
+    const val springCloudVersion = "2021.0.4"
 
     const val bouncycastleVersion = "1.71"
 

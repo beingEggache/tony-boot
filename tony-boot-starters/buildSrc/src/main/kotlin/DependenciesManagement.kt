@@ -24,15 +24,15 @@ object VersionManagement {
     const val jacksonVersion = "2.13.4"
 
     const val gsonVersion = "2.9.1"
-    const val fastjsonVersion = "2.0.12"
-    const val nettyVersion = "4.1.80.Final"
+    const val fastjsonVersion = "2.0.13"
+    const val nettyVersion = "4.1.81.Final"
 
     const val reactorVersion = "3.4.22"
     const val reactorKotlinExtensions = "1.1.7"
     const val reactorNettyVersion = "1.0.22"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.12.14"
+    const val byteBuddyVersion = "1.12.16"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.71.1"
     const val javaJwtVersion = "4.0.0"
