@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 object VersionManagement {
     const val kotlinVersion = "1.7.10"
 
-    const val springVersion = "5.3.22"
+    const val springVersion = "5.3.23"
     const val springBootVersion = "2.7.3"
 
     const val openFeignVersion = "11.9.1"
