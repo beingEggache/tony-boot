@@ -25,11 +25,11 @@ object VersionManagement {
 
     const val gsonVersion = "2.9.1"
     const val fastjsonVersion = "2.0.13"
-    const val nettyVersion = "4.1.81.Final"
+    const val nettyVersion = "4.1.82.Final"
 
-    const val reactorVersion = "3.4.22"
+    const val reactorVersion = "3.4.23"
     const val reactorKotlinExtensions = "1.1.7"
-    const val reactorNettyVersion = "1.0.22"
+    const val reactorNettyVersion = "1.0.23"
     const val slf4jVersion = "1.7.36"
 
     const val byteBuddyVersion = "1.12.16"
