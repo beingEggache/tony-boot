@@ -5,7 +5,6 @@
     <springProfile name="dev">
         <logger name="trace-logger" level="TRACE" />
         <logger name="request-logger" level="TRACE" />
-        <logger name="org.springframework.web" level="DEBUG"/>
     </springProfile>
 
     <springProfile name="qa,prod">
