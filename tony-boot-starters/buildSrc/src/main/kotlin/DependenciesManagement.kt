@@ -8,9 +8,9 @@ object VersionManagement {
     const val kotlinVersion = "1.7.10"
 
     const val springVersion = "5.3.23"
-    const val springBootVersion = "2.7.3"
+    const val springBootVersion = "2.7.4"
 
-    const val openFeignVersion = "11.9.1"
+    const val openFeignVersion = "11.10"
 
     const val postgresqlVersion = "42.5.0"
     const val mysqlVersion = "8.0.30"

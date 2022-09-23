@@ -8,12 +8,12 @@ object Version {
     const val kotlinVersion = "1.7.10"
 
     const val springVersion = "5.3.23"
-    const val springBootVersion = "2.7.3"
+    const val springBootVersion = "2.7.4"
 
     const val springCloudAlibabaVersion = "2021.0.1.0"
     const val springCloudVersion = "2021.0.4"
 
-    const val alipaySdkJavaVersion = "4.33.42.ALL"
+    const val alipaySdkJavaVersion = "4.33.44.ALL"
     const val aliyunJavaSdkCoreVersion = "4.6.2"
     const val aliyunSdkOssVersion = "3.15.1"
 
