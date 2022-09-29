@@ -7,7 +7,6 @@ dependencies {
         exclude("org.apache.logging.log4j","log4j-to-slf4j")
     }
 
-    api(Deps.Other.commonsCodec)
     api(Deps.Other.validationApi)
 
     api(Deps.Jackson.datatypeJdk8)

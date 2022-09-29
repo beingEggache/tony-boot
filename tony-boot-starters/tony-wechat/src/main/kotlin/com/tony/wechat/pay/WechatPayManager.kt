@@ -4,6 +4,7 @@ import com.tony.Beans
 import com.tony.exception.ApiException
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
+import com.tony.utils.md5Uppercase
 import com.tony.utils.toString
 import com.tony.wechat.WechatPropProvider
 import com.tony.wechat.client.WechatPayClient
@@ -19,7 +20,6 @@ import com.tony.wechat.pay.xml.req.WechatPayNotifyReq
 import com.tony.wechat.pay.xml.resp.WechatPayOrderResp
 import com.tony.wechat.xml.toXmlString
 import com.tony.wechat.xml.xmlToObj
-import org.apache.commons.codec.digest.DigestUtils
 import java.time.LocalDateTime
 
 @Suppress("unused")
@@ -99,7 +99,7 @@ class WechatPayManager {
             "transaction_id=${notifyRequest.transactionId}&" +
             "key=${wechatPropProvider.getMchSecretKey(app.defaultIfBlank())}"
 
-        return DigestUtils.md5Hex(deepLink).uppercase() == notifyRequest.sign
+        return deepLink.md5Uppercase() == notifyRequest.sign
     }
 
     fun genPayParams(

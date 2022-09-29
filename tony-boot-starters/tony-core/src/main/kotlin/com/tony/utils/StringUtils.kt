@@ -4,8 +4,8 @@
 package com.tony.utils
 
 import com.fasterxml.jackson.core.JsonProcessingException
-import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.util.AntPathMatcher
+import java.math.BigInteger
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.Base64
@@ -70,7 +70,11 @@ inline fun <reified T> String.deepLinkToObj() =
 /**
  * 字符串转为MD5并大写
  */
-fun String.toMd5UppercaseString(): String = DigestUtils.md5Hex(toByteArray()).uppercase()
+fun String.md5Uppercase(): String =
+    BigInteger(1, md5Digest().digest(toByteArray()))
+        .toString(16)
+        .padStart(32, '0')
+        .uppercase()
 
 /**
  * 字符串base64表示

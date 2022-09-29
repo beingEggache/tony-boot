@@ -13,7 +13,7 @@ object Version {
     const val springCloudAlibabaVersion = "2021.0.1.0"
     const val springCloudVersion = "2021.0.4"
 
-    const val alipaySdkJavaVersion = "4.33.44.ALL"
+    const val alipaySdkJavaVersion = "4.33.55.ALL"
     const val aliyunJavaSdkCoreVersion = "4.6.2"
     const val aliyunSdkOssVersion = "3.15.1"
 

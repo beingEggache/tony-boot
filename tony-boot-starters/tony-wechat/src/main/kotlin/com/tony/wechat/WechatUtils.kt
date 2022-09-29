@@ -3,10 +3,10 @@
 package com.tony.wechat
 
 import com.tony.utils.jsonToObj
+import com.tony.utils.md5Uppercase
 import com.tony.utils.toJsonString
 import com.tony.wechat.client.resp.WechatResp
 import com.tony.wechat.exception.WechatException
-import org.apache.commons.codec.digest.DigestUtils
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.UUID
@@ -33,7 +33,7 @@ internal fun <T> genMd5UpperCaseSign(obj: T, vararg params: Pair<String, Any?>):
     val deepLink = obj.toDeepLink(*params) {
         it.value !is String && it.value.toString().isNotBlank()
     }
-    return DigestUtils.md5Hex(deepLink).uppercase()
+    return deepLink.md5Uppercase()
 }
 
 fun <T : WechatResp> T.check(): T {

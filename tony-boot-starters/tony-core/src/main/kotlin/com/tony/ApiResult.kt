@@ -4,6 +4,8 @@ package com.tony
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.tony.exception.ApiException
+import com.tony.exception.BaseException
+import com.tony.exception.BizException
 import com.tony.utils.asTo
 
 interface ApiResultLike<T> {
@@ -30,6 +32,16 @@ class ApiResult<T> @JvmOverloads constructor(
             is Number -> throw ApiException(String.format(template, "Number"))
             is Enum<*> -> throw ApiException(String.format(template, "Enum"))
         }
+    }
+
+    @JvmOverloads
+    fun returnIfSuccessOrThrow(
+        message: String = this.message,
+        ex: (message: String, code: Int) -> BaseException = ::BizException
+    ) = if (code != ApiProperty.successCode) {
+        throw ex.invoke(message, ApiProperty.bizErrorCode)
+    } else {
+        data
     }
 
     companion object {

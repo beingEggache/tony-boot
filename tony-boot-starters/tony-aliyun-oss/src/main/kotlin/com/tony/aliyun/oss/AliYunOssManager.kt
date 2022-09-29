@@ -26,7 +26,7 @@ object AliYunOssManager {
     @JvmOverloads
     fun upload(path: String, name: String, inputStream: InputStream, metadata: ObjectMetadata? = null) =
         ossClient.run {
-            val sanitizedPath = sanitizedPath("/$path/$name")
+            val sanitizedPath = sanitizedPath("$path/$name").removePrefix("/")
             putObject(aliyunOssProperties.bucketName, sanitizedPath, inputStream, metadata)
             "https://${aliyunOssProperties.bucketName}.${aliyunOssProperties.endpoint}$sanitizedPath"
         }

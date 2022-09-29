@@ -4,8 +4,8 @@ package com.tony.feign
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.tony.utils.OBJECT_MAPPER
+import com.tony.utils.md5Uppercase
 import com.tony.utils.toJsonString
-import com.tony.utils.toMd5UppercaseString
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import okio.Buffer
@@ -62,7 +62,7 @@ fun String.sortRequestBody(
         .sortRequestBody(timestampStr)
 
 fun String.genSign(appId: String, secret: String) =
-    ("$appId|$secret|$this".toMd5UppercaseString()).toMd5UppercaseString()
+    ("$appId|$secret|$this".md5Uppercase()).md5Uppercase()
 
 fun JsonNode.sortRequestBody(
     timestampStr: String
