@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
 
 object VersionManagement {
-    const val kotlinVersion = "1.7.10"
+    const val kotlinVersion = "1.7.20"
 
     const val springVersion = "5.3.23"
     const val springBootVersion = "2.7.4"

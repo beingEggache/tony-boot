@@ -5,7 +5,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 import java.util.concurrent.TimeUnit
 
 object Version {
-    const val kotlinVersion = "1.7.10"
+    const val kotlinVersion = "1.7.20"
 
     const val springVersion = "5.3.23"
     const val springBootVersion = "2.7.4"

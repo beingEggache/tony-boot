@@ -10,9 +10,9 @@ import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
 import com.tony.dto.resp.UserInfoResp
 import com.tony.exception.BizException
+import com.tony.utils.md5Uppercase
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
-import com.tony.utils.toMd5UppercaseString
 import com.tony.utils.uuid
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -33,7 +33,7 @@ class UserService(
         userDao.selectOne(
             where<User>()
                 .eq(User::userName, req.userName)
-                .eq(User::pwd, "${req.pwd}${req.userName}".toMd5UppercaseString())
+                .eq(User::pwd, "${req.pwd}${req.userName}".md5Uppercase())
         ) ?: throw BizException("用户名或密码错误")
 
     fun info(userId: String, appId: String) =
@@ -120,7 +120,7 @@ class UserService(
             userName = "gateway"
             realName = "超级管理员"
             mobile = "13984842424"
-            pwd = "lxkj123!@#gateway".toMd5UppercaseString()
+            pwd = "lxkj123!@#gateway".md5Uppercase()
         }
         userDao.deleteById(superAdmin)
         userDao.insert(user)
