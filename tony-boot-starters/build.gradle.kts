@@ -70,6 +70,7 @@ configure(subprojects) {
         jvmToolchain {
             languageVersion.set(JavaLanguageVersion.of(11))
         }
+        explicitApi()
     }
 
     dependencies {
