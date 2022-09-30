@@ -26,6 +26,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.format.FormatterRegistry
+import org.springframework.http.HttpHeaders
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.http.server.ServerHttpResponse
 import org.springframework.web.cors.CorsConfiguration
@@ -94,10 +95,10 @@ internal class WebConfig(
         val source = UrlBasedCorsConfigurationSource()
         val corsConfiguration = CorsConfiguration().apply {
             allowCredentials = webCorsProperties.allowCredentials
-            allowedOriginPatterns = webCorsProperties.allowedOrigins.ifEmpty { listOf("*") }
-            allowedHeaders = webCorsProperties.allowedHeaders.ifEmpty { listOf("*") }
-            allowedMethods = webCorsProperties.allowedHeaders.ifEmpty { listOf("*") }
-            exposedHeaders = webCorsProperties.exposedHeaders
+            allowedOriginPatterns = webCorsProperties.allowedOrigins.ifEmpty { setOf("*") }.toList()
+            allowedHeaders = webCorsProperties.allowedHeaders.ifEmpty { setOf("*") }.toList()
+            allowedMethods = webCorsProperties.allowedMethods.ifEmpty { setOf("*") }.toList()
+            exposedHeaders = webCorsProperties.exposedHeaders.plus(HttpHeaders.CONTENT_DISPOSITION).toList()
             maxAge = webCorsProperties.maxAge
 
             logger.info("Cors allowCredentials is $allowCredentials")
@@ -162,10 +163,10 @@ internal data class WebProperties(
 data class WebCorsProperties(
     @DefaultValue("false")
     val enabled: Boolean = false,
-    val allowedOrigins: List<String> = listOf(),
-    val allowedHeaders: List<String> = listOf(),
-    val allowedMethods: List<String> = listOf(),
-    val exposedHeaders: List<String> = listOf(),
+    val allowedOrigins: Set<String> = setOf(),
+    val allowedHeaders: Set<String> = setOf(),
+    val allowedMethods: Set<String> = setOf(),
+    val exposedHeaders: Set<String> = setOf(),
     val maxAge: Long = Long.MAX_VALUE,
     @DefaultValue("true")
     val allowCredentials: Boolean = true
