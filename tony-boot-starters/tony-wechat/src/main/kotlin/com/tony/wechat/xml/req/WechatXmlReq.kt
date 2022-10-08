@@ -8,7 +8,7 @@ import com.tony.wechat.xml.XStreamCDataConverter
 
 @Suppress("unused")
 @XStreamAlias("xml")
-data class WechatXmlReq(
+public data class WechatXmlReq(
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("ToUserName")
     var toUserName: String,

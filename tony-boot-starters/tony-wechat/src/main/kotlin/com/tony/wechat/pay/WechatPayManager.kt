@@ -23,7 +23,7 @@ import com.tony.wechat.xml.xmlToObj
 import java.time.LocalDateTime
 
 @Suppress("unused")
-class WechatPayManager {
+public class WechatPayManager {
 
     private val wechatProperties: WechatProperties by Beans.getBeanByLazy()
     private val wechatPayClient: WechatPayClient by Beans.getBeanByLazy()
@@ -80,7 +80,7 @@ class WechatPayManager {
 
     private val logger = getLogger()
 
-    fun checkSign(notifyRequest: WechatPayNotifyReq): Boolean {
+    public fun checkSign(notifyRequest: WechatPayNotifyReq): Boolean {
         val app = wechatProperties.getAppByAppId(notifyRequest.appId)
         val deepLink = "appid=${notifyRequest.appId}&" +
             "bank_type=${notifyRequest.bankType}&" +
@@ -102,7 +102,7 @@ class WechatPayManager {
         return deepLink.md5Uppercase() == notifyRequest.sign
     }
 
-    fun genPayParams(
+    public fun genPayParams(
         appId: String,
         partnerId: String,
         prepayId: String,
@@ -110,7 +110,7 @@ class WechatPayManager {
         nonceStr: String,
         timestamp: String,
         sign: String
-    ) = WechatAppPayReq(
+    ): WechatAppPayReq = WechatAppPayReq(
         appId = appId,
         partnerId = partnerId,
         prepayId = prepayId,
@@ -142,7 +142,7 @@ class WechatPayManager {
         return orderResponse
     }
 
-    fun unifiedOrderInApp(
+    public fun unifiedOrderInApp(
         outTradeNo: String?,
         body: String?,
         totalAmount: Long?,
@@ -192,7 +192,7 @@ class WechatPayManager {
         }
     }
 
-    fun unifiedOrderInJs(
+    public fun unifiedOrderInJs(
         outTradeNo: String?,
         body: String?,
         totalAmount: Long?,

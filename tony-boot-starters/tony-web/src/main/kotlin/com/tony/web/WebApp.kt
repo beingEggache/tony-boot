@@ -13,7 +13,7 @@ import com.tony.web.config.WebProperties
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 
-object WebApp : HaveWhiteListUrlPattern {
+public object WebApp : HaveWhiteListUrlPattern {
 
     internal val errorAttributes: ErrorAttributes by getBeanByLazy()
 
@@ -22,13 +22,13 @@ object WebApp : HaveWhiteListUrlPattern {
     private val logger = LoggerFactory.getLogger(WebApp::class.java)
 
     @JvmStatic
-    val appId: String by getPropertyByLazy("spring.application.name", "")
+    public val appId: String by getPropertyByLazy("spring.application.name", "")
 
     @JvmStatic
-    val port: String by getPropertyByLazy("server.port", "8080")
+    public val port: String by getPropertyByLazy("server.port", "8080")
 
     @JvmStatic
-    val contextPath: String by getPropertyByLazy("server.servlet.context-path", "")
+    public val contextPath: String by getPropertyByLazy("server.servlet.context-path", "")
 
     internal val responseWrapExcludePatterns by lazy {
         val contextPath = Env.getProperty("server.servlet.context-path", "")
@@ -42,11 +42,11 @@ object WebApp : HaveWhiteListUrlPattern {
 
     @JvmOverloads
     @JvmStatic
-    fun errorResponse(msg: String = "", code: Int = ApiProperty.errorCode) =
+    public fun errorResponse(msg: String = "", code: Int = ApiProperty.errorCode): ApiResult<Map<Any?, Any?>> =
         ApiResult(EMPTY_RESULT, code, msg)
 
     @JvmOverloads
     @JvmStatic
-    fun badRequest(msg: String = "", code: Int = ApiProperty.validationErrorCode) =
+    public fun badRequest(msg: String = "", code: Int = ApiProperty.validationErrorCode): ApiResult<Map<Any?, Any?>> =
         ApiResult(EMPTY_RESULT, code, msg)
 }

@@ -8,6 +8,6 @@ package com.tony.feign.interceptor
 
 import okhttp3.Interceptor
 
-interface NetworkInterceptor : Interceptor
+public interface NetworkInterceptor : Interceptor
 
-interface AppInterceptor : Interceptor
+public interface AppInterceptor : Interceptor

@@ -5,11 +5,11 @@
  */
 package com.tony.web
 
-interface ApiSession {
+public interface ApiSession {
 
-    val userId: String
+    public val userId: String
 
-    fun genTokenString(vararg params: Pair<String, String?>): String
+    public fun genTokenString(vararg params: Pair<String, String?>): String
 
-    fun hasLogin(): Boolean
+    public fun hasLogin(): Boolean
 }

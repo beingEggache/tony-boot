@@ -6,7 +6,7 @@ import feign.Response
 import feign.codec.ErrorDecoder
 import java.lang.Exception
 
-class DefaultErrorDecoder : ErrorDecoder {
+public class DefaultErrorDecoder : ErrorDecoder {
     override fun decode(methodKey: String?, response: Response): Exception {
         val status = response.status()
         return if (status >= 400) {

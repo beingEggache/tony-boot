@@ -10,7 +10,7 @@ import com.tony.aliyun.oss.config.AliyunOssProperties
 import com.tony.utils.sanitizedPath
 import java.io.InputStream
 
-object AliYunOssManager {
+public object AliYunOssManager {
 
     private val aliyunOssProperties: AliyunOssProperties by Beans.getBeanByLazy()
 
@@ -24,10 +24,15 @@ object AliYunOssManager {
 
     @JvmStatic
     @JvmOverloads
-    fun upload(path: String, name: String, inputStream: InputStream, metadata: ObjectMetadata? = null) =
+    public fun putObject(
+        path: String,
+        name: String,
+        inputStream: InputStream,
+        metadata: ObjectMetadata? = null
+    ): String =
         ossClient.run {
             val sanitizedPath = sanitizedPath("$path/$name").removePrefix("/")
             putObject(aliyunOssProperties.bucketName, sanitizedPath, inputStream, metadata)
-            "https://${aliyunOssProperties.bucketName}.${aliyunOssProperties.endpoint}$sanitizedPath"
+            "https://${aliyunOssProperties.bucketName}.${aliyunOssProperties.endpoint}/$sanitizedPath"
         }
 }

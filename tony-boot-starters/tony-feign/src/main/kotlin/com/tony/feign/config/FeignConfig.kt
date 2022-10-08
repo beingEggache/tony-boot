@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit
 @EnableConfigurationProperties(FeignConfigProperties::class)
 @Configuration
 @PropertySource("classpath:feign.properties")
-class FeignConfig {
+public class FeignConfig {
 
     @Bean
     internal fun encoder(messageConverters: ObjectFactory<HttpMessageConverters>): Encoder =
@@ -82,7 +82,7 @@ class FeignConfig {
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "feign")
-data class FeignConfigProperties(
+internal data class FeignConfigProperties(
     @DefaultValue("0")
     val callTimeout: Long = 0,
     @DefaultValue("10000")

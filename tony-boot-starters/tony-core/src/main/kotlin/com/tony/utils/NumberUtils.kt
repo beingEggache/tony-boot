@@ -20,7 +20,7 @@ import kotlin.math.pow
  * @param decimal 小数点后保留几位
  */
 @JvmOverloads
-fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
+public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
     if (decimal < 0) throw IllegalArgumentException("decimal must >= 0")
     return when (this) {
         null -> "0".toBigDecimal(decimal)
@@ -47,7 +47,7 @@ private fun formatToPercent(number: Number?, digit: Int, roundingMode: RoundingM
  * @param decimal 保留几位小数
  */
 @JvmOverloads
-fun Number?.truncToBigDecimal(digit: Int = 2, decimal: Int = digit) =
+public fun Number?.truncToBigDecimal(digit: Int = 2, decimal: Int = digit): BigDecimal =
     toBigDecimal(decimal).div(10.toBigDecimal(decimal).pow(digit))
 
 /**
@@ -56,7 +56,7 @@ fun Number?.truncToBigDecimal(digit: Int = 2, decimal: Int = digit) =
  * @param decimal 保留几位小数
  */
 @JvmOverloads
-fun Number?.truncToString(digit: Int = 2, decimal: Int = digit) =
+public fun Number?.truncToString(digit: Int = 2, decimal: Int = digit): String =
     truncToBigDecimal(digit, decimal).toString()
 
 /**
@@ -65,7 +65,7 @@ fun Number?.truncToString(digit: Int = 2, decimal: Int = digit) =
  * @param roundingMode see [RoundingMode]
  */
 @JvmOverloads
-fun Float?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+public fun Float?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
     formatToPercent(this, decimal, roundingMode)
 
 /**
@@ -74,7 +74,7 @@ fun Float?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = Roundi
  * @param roundingMode see [RoundingMode]
  */
 @JvmOverloads
-fun Double?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+public fun Double?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
     formatToPercent(this, decimal, roundingMode)
 
 /**
@@ -83,16 +83,16 @@ fun Double?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = Round
  * @param roundingMode see [RoundingMode]
  */
 @JvmOverloads
-fun BigDecimal?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+public fun BigDecimal?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
     formatToPercent(this, decimal, roundingMode)
 
-val secureRandom = SecureRandom()
+public val secureRandom: SecureRandom = SecureRandom()
 
 /**
  * 生成指定位数随机数
  * @param digit 位数
  */
-fun genRandomNumber(digit: Int): Int {
+public fun genRandomNumber(digit: Int): Int {
     if (digit < 1) throw ApiException("随机数至少是一位数")
     if (digit == 1) {
         return secureRandom.nextInt(10)

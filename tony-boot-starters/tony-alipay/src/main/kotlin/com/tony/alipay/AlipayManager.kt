@@ -9,7 +9,7 @@ import com.tony.alipay.exception.AlipayException
 import com.tony.utils.urlEncode
 
 @Suppress("unused")
-class AlipayManager(
+public class AlipayManager(
     private val appId: String,
     private val publicKey: String,
     private val privateKey: String,
@@ -22,7 +22,7 @@ class AlipayManager(
         DefaultAlipayClient(alipayGateway, appId, privateKey, "JSON", "utf-8", aliPayPublicKey, "RSA2")
     }
 
-    fun notifySignCheck(params: Map<String, String?>): Boolean {
+    public fun notifySignCheck(params: Map<String, String?>): Boolean {
         val requestAppId = params["app_id"]
         val requestCharset = params["charset"]
         val requestSignType = params["sign_type"]
@@ -35,7 +35,7 @@ class AlipayManager(
         }
     }
 
-    fun appOrderAndPayGenParams(
+    public fun appOrderAndPayGenParams(
         totalAmount: String,
         subject: String?,
         outTradeNo: String?,

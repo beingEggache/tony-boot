@@ -14,16 +14,16 @@ import java.io.Serializable
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
-object RedisMaps {
+public object RedisMaps {
 
     private val logger = getLogger()
 
     @JvmStatic
-    fun hasKey(key: String, hashKey: String): Boolean =
+    public fun hasKey(key: String, hashKey: String): Boolean =
         true == RedisManager.redisTemplate.boundHashOps<String, Any>(key).hasKey(hashKey)
 
     @JvmStatic
-    fun delete(key: String, vararg hashKey: String) =
+    public fun delete(key: String, vararg hashKey: String): Unit =
         RedisManager.redisTemplate.opsForHash<String, Any>()
             .hasKey(key, hashKey)
             .doIf {
@@ -32,43 +32,43 @@ object RedisMaps {
 
     @JvmStatic
     @JvmOverloads
-    fun <T : Any> putObj(
+    public fun <T : Any> putObj(
         key: String,
         hashKey: String,
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
+    ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
 
     @JvmStatic
-    fun <T : Any> putObj(
+    public fun <T : Any> putObj(
         key: String,
         hashKey: String,
         value: T,
         date: Date
-    ) = RedisManager.redisTemplate.put(key, hashKey, value, date)
+    ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
     @JvmStatic
     @JvmOverloads
-    fun <T : Any> put(
+    public fun <T : Any> put(
         key: String,
         hashKey: String,
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS
-    ) = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
+    ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
 
     @JvmStatic
-    fun <T : Any> put(
+    public fun <T : Any> put(
         key: String,
         hashKey: String,
         value: T,
         date: Date
-    ) = RedisManager.redisTemplate.put(key, hashKey, value, date)
+    ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
     @JvmStatic
     @JvmOverloads
-    fun putAll(
+    public fun putAll(
         key: String,
         map: Map<String, Any?>?,
         timeout: Long = 0,
@@ -89,7 +89,7 @@ object RedisMaps {
     }
 
     @JvmStatic
-    fun putAll(
+    public fun putAll(
         key: String,
         map: Map<String, Any?>?,
         date: Date
@@ -105,34 +105,34 @@ object RedisMaps {
     }
 
     @JvmStatic
-    fun getString(key: String, hashKey: String): String? {
+    public fun getString(key: String, hashKey: String): String? {
         val string = RedisManager.redisTemplate.boundHashOps<String, String>(key).get(hashKey)
         if (string.isNullOrBlank()) return string
         return string.trimQuotes()
     }
 
     @JvmStatic
-    fun getNumber(key: String, hashKey: String): Number? =
+    public fun getNumber(key: String, hashKey: String): Number? =
         RedisManager.redisTemplate.boundHashOps<String, Number>(key).get(hashKey)
 
     @JvmStatic
-    fun getInt(key: String, hashKey: String): Int? = getNumber(key, hashKey)?.toInt()
+    public fun getInt(key: String, hashKey: String): Int? = getNumber(key, hashKey)?.toInt()
 
     @JvmStatic
-    fun getLong(key: String, hashKey: String): Long? = getNumber(key, hashKey)?.toLong()
+    public fun getLong(key: String, hashKey: String): Long? = getNumber(key, hashKey)?.toLong()
 
     @JvmStatic
-    fun getDouble(key: String, hashKey: String): Double? = getNumber(key, hashKey)?.toDouble()
+    public fun getDouble(key: String, hashKey: String): Double? = getNumber(key, hashKey)?.toDouble()
 
     @JvmStatic
-    inline fun <reified T> getObj(key: String, hashKey: String): T? =
+    public inline fun <reified T> getObj(key: String, hashKey: String): T? =
         RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey)?.toJsonString()?.jsonToObj()
 
     @JvmStatic
-    fun <T : Any> get(key: String, hashKey: String): T? =
+    public fun <T : Any> get(key: String, hashKey: String): T? =
         RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey)
 
-    inline fun <reified E, KEY> getEnum(key: String, hashKey: String): E?
+    public inline fun <reified E, KEY> getEnum(key: String, hashKey: String): E?
         where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
         val value = RedisManager.redisTemplate.boundHashOps<String, KEY>(key).get(hashKey)
             ?: return null
@@ -140,7 +140,7 @@ object RedisMaps {
     }
 
     @JvmStatic
-    fun getMap(key: String): Map<String, Any> =
+    public fun getMap(key: String): Map<String, Any> =
         RedisManager.redisTemplate.opsForHash<String, Any>().entries(key)
 
     private fun <T> RedisTemplate<String, T>.put(

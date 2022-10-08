@@ -28,22 +28,21 @@ internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> = mutableMapO
 @Target(AnnotationTarget.FIELD)
 @JacksonAnnotationsInside
 @JsonSerialize(using = MaskSerializer::class)
-annotation class MaskConverter(
+public annotation class MaskConverter(
     val value: KClass<out MaskConvertFunc>
 ) {
-    companion object {
-        fun getMaskFun(clazz: Class<*>) =
+    public companion object {
+        public fun getMaskFun(clazz: Class<*>): MaskConvertFunc =
             maskConverters[clazz] ?: throw ApiException("$clazz converter not found")
     }
 }
 
-@FunctionalInterface
-interface MaskConvertFunc {
-    fun convert(input: String?): String?
+public fun interface MaskConvertFunc {
+    public fun convert(input: String?): String?
 }
 
-class NameMaskFun : MaskConvertFunc {
-    override fun convert(input: String?) =
+public class NameMaskFun : MaskConvertFunc {
+    override fun convert(input: String?): String? =
         if (input?.length != null && input.length > 1) {
             input.replaceRange(1 until input.length, "**")
         } else {
@@ -51,8 +50,8 @@ class NameMaskFun : MaskConvertFunc {
         }
 }
 
-class MobileMaskFun : MaskConvertFunc {
-    override fun convert(input: String?) =
+public class MobileMaskFun : MaskConvertFunc {
+    override fun convert(input: String?): String? =
         if (input?.length != null && input.length >= 4) {
             "${input.substring(0, 2)}****${input.substring(input.length - 4, input.length)}"
         } else {
@@ -60,7 +59,7 @@ class MobileMaskFun : MaskConvertFunc {
         }
 }
 
-class MaskSerializer : JsonSerializer<Any>() {
+public class MaskSerializer : JsonSerializer<Any>() {
 
     override fun serialize(value: Any, gen: JsonGenerator, serializers: SerializerProvider) {
         val annotation = gen.currentValue
@@ -73,12 +72,12 @@ class MaskSerializer : JsonSerializer<Any>() {
         gen.writeString(function.convert(value.toString()))
     }
 
-    companion object {
+    public companion object {
 
         @JvmStatic
         private val logger = LoggerFactory.getLogger(MaskSerializer::class.java)
 
-        fun registerMaskFun(maskType: Class<*>, maskFun: MaskConvertFunc) {
+        public fun registerMaskFun(maskType: Class<*>, maskFun: MaskConvertFunc) {
             if (maskConverters.containsKey(maskType)) throw ApiException("$maskType already exists")
             synchronized(maskConverters) {
                 logger.info("Register $maskType convert function.")

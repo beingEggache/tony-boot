@@ -23,7 +23,7 @@ internal class JwtConfig
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "jwt")
-data class JwtProperties(
+public data class JwtProperties(
     @DefaultValue("")
     val secret: String = "",
     /**
@@ -33,7 +33,7 @@ data class JwtProperties(
     val expiredMinutes: Long = 525600L
 )
 
-object JwtToken {
+public object JwtToken {
 
     @JvmStatic
     private val algorithm by lazy {
@@ -48,7 +48,7 @@ object JwtToken {
     private val jwtProperties: JwtProperties by getBeanByLazy()
 
     @JvmStatic
-    fun gen(
+    public fun gen(
         vararg params: Pair<String, String?>
     ): String =
         JWT.create()
@@ -61,7 +61,7 @@ object JwtToken {
             }.sign(algorithm)
 
     @JvmStatic
-    fun parse(jwt: String): DecodedJWT = JWT.require(algorithm).build().verify(jwt)
+    public fun parse(jwt: String): DecodedJWT = JWT.require(algorithm).build().verify(jwt)
 
     @JvmStatic
     private fun getExpireAt() =

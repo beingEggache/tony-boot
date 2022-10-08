@@ -93,8 +93,8 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         }
 }
 
-interface FeignRequestTraceLogger {
-    fun log(
+public interface FeignRequestTraceLogger {
+    public fun log(
         connection: Connection?,
         request: Request,
         response: Response,

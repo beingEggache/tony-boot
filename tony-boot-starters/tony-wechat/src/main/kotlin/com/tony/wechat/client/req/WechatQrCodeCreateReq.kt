@@ -18,7 +18,7 @@ import com.tony.enums.EnumStringValue
 import javax.validation.constraints.Max
 import javax.validation.constraints.Positive
 
-data class WechatQrCodeCreateReq(
+public data class WechatQrCodeCreateReq(
 
     @Max(2592000)
     @Positive
@@ -32,15 +32,15 @@ data class WechatQrCodeCreateReq(
     val actionInfo: WechatQrCodeActionInfo?
 )
 
-data class WechatQrCodeActionInfo(
+public data class WechatQrCodeActionInfo(
     val scene: Scene
 ) {
-    constructor(sceneId: Int?, sceneStr: String?) : this(Scene(sceneId, sceneStr))
-    constructor(sceneStr: String?) : this(Scene(null, sceneStr))
-    constructor(sceneId: Int?) : this(Scene(sceneId, null))
+    public constructor(sceneId: Int?, sceneStr: String?) : this(Scene(sceneId, sceneStr))
+    public constructor(sceneStr: String?) : this(Scene(null, sceneStr))
+    public constructor(sceneId: Int?) : this(Scene(sceneId, null))
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
-    data class Scene(
+    public data class Scene(
         @JsonProperty("scene_id", namespace = "scene")
         val sceneId: Int?,
 
@@ -49,7 +49,7 @@ data class WechatQrCodeActionInfo(
     )
 }
 
-enum class WechatQrCodeType(
+public enum class WechatQrCodeType(
     override val value: String
 ) : EnumStringValue {
 
@@ -59,10 +59,10 @@ enum class WechatQrCodeType(
     QR_LIMIT_SCENE("QR_LIMIT_SCENE"),
     QR_LIMIT_STR_SCENE("QR_LIMIT_STR_SCENE");
 
-    companion object : EnumCreator<WechatQrCodeType, String>(WechatQrCodeType::class.java) {
+    public companion object : EnumCreator<WechatQrCodeType, String>(WechatQrCodeType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String) =
+        override fun create(value: String): WechatQrCodeType? =
             super.create(value)
     }
 }

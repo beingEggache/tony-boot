@@ -8,7 +8,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias
  */
 @Suppress("unused")
 @XStreamAlias("xml")
-data class WechatTransferReq(
+public data class WechatTransferReq(
 
     @XStreamAlias("mch_appid")
     @JsonProperty("mch_appid")

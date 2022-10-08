@@ -34,19 +34,19 @@ import java.io.Serializable
 import java.util.Objects
 
 @Suppress("unused")
-interface BaseDao<T : Any> : BaseMapper<T> {
+public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 根据id查询，为null 将会抛错
      */
-    fun selectByIdNotNull(
+    public fun selectByIdNotNull(
         id: Serializable
     ): T = selectById(id).throwIfNull()
 
     /**
      * 根据id查询，为null 将会抛错
      */
-    fun selectByIdNotNull(
+    public fun selectByIdNotNull(
         id: Serializable,
         message: String = ApiProperty.notFoundMessage
     ): T = selectById(id).throwIfNull(message)
@@ -54,7 +54,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
     /**
      * 根据id查询，为null 将会抛错
      */
-    fun selectByIdNotNull(
+    public fun selectByIdNotNull(
         id: Serializable,
         message: String = ApiProperty.notFoundMessage,
         code: Int = ApiProperty.notFoundCode
@@ -67,7 +67,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      * @return boolean
      */
     @Transactional(rollbackFor = [Exception::class])
-    fun upsert(entity: T?): Boolean {
+    public fun upsert(entity: T?): Boolean {
         if (null != entity) {
             val tableInfo: TableInfo = TableInfoHelper.getTableInfo(getEntityClass())
             Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!")
@@ -92,7 +92,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      * @return 执行结果
      */
     @Transactional(rollbackFor = [Throwable::class])
-    fun insertBatch(batchList: Collection<T>): Boolean = executeBatch(batchList) { sqlSession, entity ->
+    public fun insertBatch(batchList: Collection<T>): Boolean = executeBatch(batchList) { sqlSession, entity ->
         sqlSession.insert(getSqlStatement(SqlMethod.INSERT_ONE), entity)
     }
 
@@ -103,7 +103,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      * @return 执行结果
      */
     @Transactional(rollbackFor = [Throwable::class])
-    fun upsertBatch(batchList: Collection<T>): Boolean {
+    public fun upsertBatch(batchList: Collection<T>): Boolean {
         val entityClass = getEntityClass()
         val tableInfo = TableInfoHelper.getTableInfo(entityClass)
         Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!")
@@ -133,7 +133,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      * @return 执行结果
      */
     @Transactional(rollbackFor = [Throwable::class])
-    fun updateByIdBatch(batchList: Collection<T>): Boolean = executeBatch(batchList) { sqlSession, entity ->
+    public fun updateByIdBatch(batchList: Collection<T>): Boolean = executeBatch(batchList) { sqlSession, entity ->
         val param = ParamMap<T>()
         param[Constants.ENTITY] = entity
         sqlSession.update(getSqlStatement(SqlMethod.UPDATE_BY_ID), param)
@@ -146,7 +146,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      * @return 执行结果
      */
     @Transactional(rollbackFor = [Throwable::class])
-    fun deleteByIdBatch(batchList: Collection<T>): Boolean {
+    public fun deleteByIdBatch(batchList: Collection<T>): Boolean {
         val sqlStatement = getSqlStatement(SqlMethod.DELETE_BY_ID)
         val entityClass = getEntityClass()
         val tableInfo = TableInfoHelper.getTableInfo(entityClass)
@@ -168,7 +168,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
     /**
      * 分页
      */
-    fun <E : PageResultLike<T>> selectPageResult(
+    public fun <E : PageResultLike<T>> selectPageResult(
         page: Pageable,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?
     ): E = selectPage(page.toPage(), queryWrapper).toPageResult()
@@ -194,7 +194,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      *
      * @return QueryWrapper 的包装类
      */
-    fun query(): QueryChainWrapper<T> = ChainWrappers.queryChain(this)
+    public fun query(): QueryChainWrapper<T> = ChainWrappers.queryChain(this)
 
     /**
      * 链式查询 lambda 式
@@ -203,7 +203,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      *
      * @return LambdaQueryWrapper 的包装类
      */
-    fun lambdaQuery(): TonyLambdaQueryChainWrapper<T> = TonyLambdaQueryChainWrapper(this)
+    public fun lambdaQuery(): TonyLambdaQueryChainWrapper<T> = TonyLambdaQueryChainWrapper(this)
 
     /**
      * 链式查询 lambda 式
@@ -211,7 +211,7 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      *
      * @return KtQueryWrapper 的包装类
      */
-    fun ktQuery(): KtQueryChainWrapper<T> = ChainWrappers.ktQueryChain(this, getEntityClass())
+    public fun ktQuery(): KtQueryChainWrapper<T> = ChainWrappers.ktQueryChain(this, getEntityClass())
 
     /**
      * 链式查询 lambda 式
@@ -219,14 +219,14 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      *
      * @return KtQueryWrapper 的包装类
      */
-    fun ktUpdate(): KtUpdateChainWrapper<T> = ChainWrappers.ktUpdateChain(this, getEntityClass())
+    public fun ktUpdate(): KtUpdateChainWrapper<T> = ChainWrappers.ktUpdateChain(this, getEntityClass())
 
     /**
      * 链式更改 普通
      *
      * @return UpdateWrapper 的包装类
      */
-    fun update(): UpdateChainWrapper<T> = ChainWrappers.updateChain(this)
+    public fun update(): UpdateChainWrapper<T> = ChainWrappers.updateChain(this)
 
     /**
      * 链式更改 lambda 式
@@ -234,5 +234,5 @@ interface BaseDao<T : Any> : BaseMapper<T> {
      *
      * @return LambdaUpdateWrapper 的包装类
      */
-    fun lambdaUpdate(): LambdaUpdateChainWrapper<T> = ChainWrappers.lambdaUpdateChain(this)
+    public fun lambdaUpdate(): LambdaUpdateChainWrapper<T> = ChainWrappers.lambdaUpdateChain(this)
 }

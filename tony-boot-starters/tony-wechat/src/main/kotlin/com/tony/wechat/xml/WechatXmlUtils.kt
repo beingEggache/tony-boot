@@ -46,7 +46,7 @@ internal class WechatPrintWriter(writer: Writer, nameCoder: NameCoder) : PrettyP
 /**
  * 一个类对应一个XStream,就没有 Class Alias 冲突问题了
  */
-fun <T> xStream(clz: Class<T>): XStream = xStreamMap.getOrPut(clz) {
+public fun <T> xStream(clz: Class<T>): XStream = xStreamMap.getOrPut(clz) {
     XStream(WechatDriver()).apply {
         ignoreUnknownElements()
         if (clz !in processedClz) processAnnotations(clz)
@@ -57,7 +57,7 @@ fun <T> xStream(clz: Class<T>): XStream = xStreamMap.getOrPut(clz) {
 /**
  * 针对微信的xml转换
  */
-inline fun <reified T> T?.toXmlString(): String =
+public inline fun <reified T> T?.toXmlString(): String =
     if (this == null) {
         ""
     } else {
@@ -67,5 +67,5 @@ inline fun <reified T> T?.toXmlString(): String =
 /**
  * 针对微信的xml转换
  */
-inline fun <reified T> String.xmlToObj(): T =
+public inline fun <reified T> String.xmlToObj(): T =
     xStream(T::class.java).fromXML(this) as T

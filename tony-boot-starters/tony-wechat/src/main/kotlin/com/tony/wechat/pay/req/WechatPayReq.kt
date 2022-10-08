@@ -2,9 +2,9 @@ package com.tony.wechat.pay.req
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-sealed interface WechatPayReq
+public sealed interface WechatPayReq
 
-data class WechatAppPayReq(
+public data class WechatAppPayReq(
     @JsonProperty("appid") val appId: String?,
     @JsonProperty("partnerid") val partnerId: String?,
     @JsonProperty("prepayid") val prepayId: String,
@@ -14,7 +14,7 @@ data class WechatAppPayReq(
     var sign: String? = null
 ) : WechatPayReq
 
-data class WechatMiniProgramPayReq(
+public data class WechatMiniProgramPayReq(
     @JsonProperty("appId") val appId: String?,
     val timeStamp: String,
     val nonceStr: String,

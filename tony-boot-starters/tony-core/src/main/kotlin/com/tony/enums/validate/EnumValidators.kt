@@ -15,7 +15,7 @@ import com.tony.utils.asTo
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
-class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumValue<Int>?> {
+public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumValue<Int>?> {
     private var enums: IntArray = intArrayOf()
     private var required = false
     override fun initialize(constraintAnnotation: SimpleIntEnum) {
@@ -36,7 +36,7 @@ class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumValue<Int>
     }
 }
 
-class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
+public class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
     private var enums: List<Int> = listOf()
     private var required = false
     override fun initialize(constraintAnnotation: IntEnum) {
@@ -63,7 +63,7 @@ class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
     }
 }
 
-class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, EnumValue<String>?> {
+public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, EnumValue<String>?> {
 
     private lateinit var enums: Array<out String>
     private var required = false
@@ -84,7 +84,7 @@ class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, EnumValu
     }
 }
 
-class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<String>?> {
+public class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<String>?> {
     private var enums: List<String> = listOf()
     private var required = false
     override fun initialize(constraintAnnotation: StringEnum) {
@@ -111,7 +111,7 @@ class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<String>?> 
     }
 }
 
-class SimpleEnumValidator : ConstraintValidator<SimpleEnum, Any?> {
+public class SimpleEnumValidator : ConstraintValidator<SimpleEnum, Any?> {
 
     private lateinit var enums: Array<out String>
 
@@ -119,7 +119,7 @@ class SimpleEnumValidator : ConstraintValidator<SimpleEnum, Any?> {
         enums = constraintAnnotation.enums
     }
 
-    override fun isValid(str: Any?, constraintValidatorContext: ConstraintValidatorContext) =
+    override fun isValid(str: Any?, constraintValidatorContext: ConstraintValidatorContext): Boolean =
         null == str ||
             str.toString().isBlank() ||
             str.toString() in enums

@@ -16,10 +16,10 @@ private fun get(algorithm: String): MessageDigest = try {
     throw IllegalArgumentException(e)
 }
 
-fun md5Digest(): MessageDigest = get(MD5)
+public fun md5Digest(): MessageDigest = get(MD5)
 
-fun sha1Digest(): MessageDigest = get(SHA1)
+public fun sha1Digest(): MessageDigest = get(SHA1)
 
-const val MD5 = "MD5"
+public const val MD5: String = "MD5"
 
-const val SHA1 = "SHA-1"
+public const val SHA1: String = "SHA-1"

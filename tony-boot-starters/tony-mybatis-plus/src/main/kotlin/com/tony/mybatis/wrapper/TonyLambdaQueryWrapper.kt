@@ -19,7 +19,7 @@ import java.util.function.Predicate
  * @since 2022/7/27
  */
 @Suppress("unused")
-class TonyLambdaQueryWrapper<T : Any> :
+public class TonyLambdaQueryWrapper<T : Any> :
     AbstractLambdaWrapper<T, TonyLambdaQueryWrapper<T>>,
     Query<TonyLambdaQueryWrapper<T>, T, SFunction<T, *>> {
     /**
@@ -28,12 +28,12 @@ class TonyLambdaQueryWrapper<T : Any> :
     private var sqlSelect: SharedString? = SharedString()
 
     @JvmOverloads
-    constructor(entity: T? = null) {
+    public constructor(entity: T? = null) {
         super.setEntity(entity)
         super.initNeed()
     }
 
-    constructor(entityClass: Class<T>?) {
+    public constructor(entityClass: Class<T>?) {
         super.setEntityClass(entityClass)
         super.initNeed()
     }

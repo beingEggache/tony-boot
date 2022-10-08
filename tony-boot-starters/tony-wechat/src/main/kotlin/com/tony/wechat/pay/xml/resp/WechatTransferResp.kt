@@ -8,7 +8,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias
  * 微信提现响应对象
  */
 @XStreamAlias("xml")
-data class WechatTransferResp(
+public data class WechatTransferResp(
 
     @XStreamAlias("return_code")
     var returnCode: String,

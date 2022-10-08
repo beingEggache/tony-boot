@@ -19,26 +19,26 @@ import java.util.Random
 import java.util.concurrent.TimeUnit
 
 @Suppress("MemberVisibilityCanBePrivate")
-object RedisManager {
+public object RedisManager {
 
     @JvmField
-    val values = RedisValues
+    public val values: RedisValues = RedisValues
 
     @JvmField
-    val maps = RedisMaps
+    public val maps: RedisMaps = RedisMaps
 
     @JvmField
-    val lists = RedisLists
+    public val lists: RedisLists = RedisLists
 
     @JvmField
-    val keys = RedisKeys
+    public val keys: RedisKeys = RedisKeys
 
     @JvmStatic
-    val redisTemplate: RedisTemplate<String, Any> by lazy {
+    public val redisTemplate: RedisTemplate<String, Any> by lazy {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
         val stringRedisSerializer = RedisSerializer.string()
         RedisTemplate<String, Any>().apply {
-            setConnectionFactory(Beans.getBean())
+            connectionFactory = Beans.getBean()
             keySerializer = stringRedisSerializer
             hashKeySerializer = stringRedisSerializer
             valueSerializer = serializer
@@ -57,7 +57,7 @@ object RedisManager {
     }
 
     @JvmStatic
-    fun doInTransaction(callback: () -> Unit) {
+    public fun doInTransaction(callback: () -> Unit) {
         RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
         redisTemplate.setEnableTransactionSupport(true)
         redisTemplate.multi()
@@ -66,18 +66,18 @@ object RedisManager {
     }
 
     @JvmStatic
-    fun lockKey(key: String, timeout: Long): Boolean {
+    public fun lockKey(key: String, timeout: Long): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
         return redisTemplate.execute(script, Collections.singletonList(key), 1L, timeout) == 1L
     }
 
     @JvmStatic
-    fun <T> executeScript(script: RedisScript<T>, keys: List<String>, args: List<Any?>): T? {
+    public fun <T> executeScript(script: RedisScript<T>, keys: List<String>, args: List<Any?>): T? {
         return redisTemplate.execute(script, keys, *args.toTypedArray())
     }
 
     @JvmStatic
-    fun lockKey(key: String, timeout: Long, waitTimeout: Long): Boolean {
+    public fun lockKey(key: String, timeout: Long, waitTimeout: Long): Boolean {
         val start = System.currentTimeMillis()
         while (System.currentTimeMillis() - start < waitTimeout) {
             if (lockKey(key, timeout)) {
@@ -94,7 +94,7 @@ object RedisManager {
 
     @JvmStatic
     @JvmOverloads
-    fun expire(
+    public fun expire(
         key: String,
         timeout: Long,
         timeUnit: TimeUnit = TimeUnit.SECONDS
@@ -102,39 +102,35 @@ object RedisManager {
 
     @JvmStatic
     @JvmOverloads
-    fun getExpire(
+    public fun getExpire(
         key: String,
         timeUnit: TimeUnit = TimeUnit.SECONDS
     ): Long = redisTemplate.getExpire(key, timeUnit)
 
-    @Suppress("RedundantNullableReturnType")
     @JvmStatic
-    fun deleteWithKeyPatterns(vararg keys: String): Long? =
+    public fun deleteWithKeyPatterns(vararg keys: String): Long? =
         redisTemplate.delete(keys(*keys))
 
-    @Suppress("RedundantNullableReturnType")
     @JvmStatic
-    fun deleteWithKeyPatterns(keys: Collection<String>): Long? =
+    public fun deleteWithKeyPatterns(keys: Collection<String>): Long? =
         redisTemplate.delete(keys(keys))
 
-    @Suppress("RedundantNullableReturnType")
     @JvmStatic
-    fun delete(vararg keys: String): Long? =
+    public fun delete(vararg keys: String): Long? =
         redisTemplate.delete(keys.asList())
 
-    @Suppress("RedundantNullableReturnType")
     @JvmStatic
-    fun delete(keys: Collection<String>): Long? =
+    public fun delete(keys: Collection<String>): Long? =
         redisTemplate.delete(keys)
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun keys(vararg keys: String): Collection<String> = keys.fold(HashSet()) { set, key ->
+    public fun keys(vararg keys: String): Collection<String> = keys.fold(HashSet()) { set, key ->
         set.addAll(redisTemplate.keys(key))
         set
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun keys(keys: Collection<String>): Collection<String> = keys.fold(HashSet()) { set, key ->
+    public fun keys(keys: Collection<String>): Collection<String> = keys.fold(HashSet()) { set, key ->
         set.addAll(redisTemplate.keys(key))
         set
     }

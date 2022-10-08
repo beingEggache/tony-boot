@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 
 @FeignClient("wechatClient", url = "https://api.weixin.qq.com")
-interface WechatClient {
+public interface WechatClient {
 
     /**
      * ## 获取Access token
@@ -38,7 +38,7 @@ interface WechatClient {
      * @see <a href="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html">获取Access token</a>
      */
     @GetMapping("/cgi-bin/token")
-    fun accessToken(
+    public fun accessToken(
         @RequestParam("appid", required = true) appId: String?,
         @RequestParam("secret", required = true) secret: String?,
         @RequestParam(
@@ -57,7 +57,7 @@ interface WechatClient {
      * @see <a href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html">网页授权</a>
      */
     @GetMapping("/sns/oauth2/access_token")
-    fun userAccessToken(
+    public fun userAccessToken(
         @RequestParam("appid", required = true) appId: String?,
         @RequestParam("secret", required = true) secret: String?,
         @RequestParam("code", required = true) code: String?,
@@ -72,13 +72,13 @@ interface WechatClient {
      * ## 获取调用微信JS接口的临时票据
      */
     @GetMapping("/cgi-bin/ticket/getticket")
-    fun getTicket(
+    public fun getTicket(
         @RequestParam("access_token") accessToken: String?,
         @RequestParam("type") type: String?
     ): WechatJsApiTicketResp
 
     @GetMapping("/sns/jscode2session")
-    fun jsCode2Session(
+    public fun jsCode2Session(
         @RequestParam("appid") appId: String?,
         @RequestParam("secret") secret: String?,
         @RequestParam("grant_type") grantType: String?,
@@ -86,24 +86,24 @@ interface WechatClient {
     ): WechatJsCode2SessionResp
 
     @GetMapping("/cgi-bin/user/info")
-    fun userInfo(
+    public fun userInfo(
         @RequestParam("access_token") accessToken: String?,
         @RequestParam("openid") openId: String?
     ): WechatUserInfoResp
 
     @PostMapping("/cgi-bin/menu/create?access_token={accessToken}")
-    fun createMenu(
+    public fun createMenu(
         @PathVariable("accessToken") accessToken: String?,
         @RequestBody menu: WechatMenu
     ): WechatResp
 
     @GetMapping("/cgi-bin/menu/delete")
-    fun deleteMenu(
+    public fun deleteMenu(
         @RequestParam("access_token") accessToken: String?
     ): WechatResp
 
     @PostMapping("/cgi-bin/qrcode/create?access_token={accessToken}")
-    fun createQrCode(
+    public fun createQrCode(
         @Validated
         @RequestBody
         req: WechatQrCodeCreateReq,
@@ -111,14 +111,14 @@ interface WechatClient {
     ): WechatQrCodeResp
 
     @PostMapping("/wxa/getwxacodeunlimit?access_token={accessToken}")
-    fun createMiniProgramQrcode(
+    public fun createMiniProgramQrcode(
         @RequestBody
         req: WechatMiniProgramQrCodeCreateReq,
         @PathVariable accessToken: String?
     ): feign.Response
 
     @PostMapping("/wxa/business/getuserphonenumber?access_token={accessToken}")
-    fun getUserPhoneNumber(
+    public fun getUserPhoneNumber(
         @RequestBody
         req: WechatMiniProgramUserPhoneReq,
         @PathVariable accessToken: String?

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 
 @FeignClient("wechatPayClient", url = "https://api.mch.weixin.qq.com")
-interface WechatPayClient {
+public interface WechatPayClient {
 
     @PostMapping("/pay/unifiedorder")
-    fun unifiedOrder(@RequestBody req: String): String
+    public fun unifiedOrder(@RequestBody req: String): String
 
     @PostMapping("/mmpaymkttransfers/promotion/transfers")
-    fun transfers(): String
+    public fun transfers(): String
 }

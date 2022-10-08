@@ -9,7 +9,7 @@ import com.tony.wechat.xml.XStreamCDataConverter
  * 统一下单请求对象
  */
 @XStreamAlias("xml")
-data class WechatPayOrderReq(
+public data class WechatPayOrderReq(
 
     /**
      * ### 公众账号ID

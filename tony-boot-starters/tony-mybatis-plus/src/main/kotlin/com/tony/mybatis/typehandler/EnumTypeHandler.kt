@@ -21,7 +21,7 @@ import java.sql.ResultSet
  * @since 2022/1/13 18:11
  */
 @Suppress("unused")
-open class EnumTypeHandler<E, KEY>(enumClass: Class<E>) :
+public open class EnumTypeHandler<E, KEY>(enumClass: Class<E>) :
     BaseTypeHandler<E>()
     where E : Enum<E>,
           KEY : Serializable,
@@ -37,21 +37,21 @@ open class EnumTypeHandler<E, KEY>(enumClass: Class<E>) :
         }
     }
 
-    override fun getNullableResult(rs: ResultSet, columnName: String?) =
+    override fun getNullableResult(rs: ResultSet, columnName: String?): E? =
         if (null == rs.getObject(columnName) && rs.wasNull()) {
             null
         } else {
             enumValueMap[rs.getObject(columnName)]
         }
 
-    override fun getNullableResult(rs: ResultSet, columnIndex: Int) =
+    override fun getNullableResult(rs: ResultSet, columnIndex: Int): E? =
         if (null == rs.getObject(columnIndex) && rs.wasNull()) {
             null
         } else {
             enumValueMap[rs.getObject(columnIndex)]
         }
 
-    override fun getNullableResult(cs: CallableStatement, columnIndex: Int) =
+    override fun getNullableResult(cs: CallableStatement, columnIndex: Int): E? =
         if (null == cs.getObject(columnIndex) && cs.wasNull()) {
             null
         } else {

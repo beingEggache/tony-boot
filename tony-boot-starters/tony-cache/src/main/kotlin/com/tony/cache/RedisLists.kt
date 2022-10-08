@@ -15,11 +15,11 @@ import java.util.concurrent.TimeUnit
  * @author tangli
  * @since 2021-03-24 10:12
  */
-object RedisLists {
+public object RedisLists {
 
     @JvmStatic
     @JvmOverloads
-    fun rightPushString(
+    public fun rightPushString(
         key: String,
         value: String,
         date: Date? = null
@@ -33,7 +33,7 @@ object RedisLists {
 
     @JvmStatic
     @JvmOverloads
-    fun rightPushString(
+    public fun rightPushString(
         key: String,
         value: String,
         timeout: Long,
@@ -46,7 +46,7 @@ object RedisLists {
 
     @JvmStatic
     @JvmOverloads
-    fun <T> rightPushObj(
+    public fun <T> rightPushObj(
         key: String,
         value: T,
         date: Date? = null
@@ -54,7 +54,7 @@ object RedisLists {
 
     @JvmStatic
     @JvmOverloads
-    fun <T> rightPushObj(
+    public fun <T> rightPushObj(
         key: String,
         value: T,
         timeout: Long,
@@ -62,28 +62,28 @@ object RedisLists {
     ): Long? = rightPushString(key, value.toJsonString(), timeout, timeUnit)
 
     @JvmStatic
-    fun rightPopString(key: String): String {
+    public fun rightPopString(key: String): String {
         RedisManager.redisTemplate.setEnableTransactionSupport(false)
         val string = RedisManager.redisTemplate.boundListOps(key).rightPop()?.toString().defaultIfBlank()
         if (string.isBlank()) return string
         return string.trimQuotes()
     }
 
-    inline fun <reified T> rightPopObj(key: String): T? {
+    public inline fun <reified T> rightPopObj(key: String): T? {
         val rightPopString = rightPopString(key)
         if (rightPopString.isBlank()) return null
         return rightPopString.jsonToObj()
     }
 
     @JvmStatic
-    fun <T> rightPopObj(key: String, clazz: Class<T>): T? {
+    public fun <T> rightPopObj(key: String, clazz: Class<T>): T? {
         val rightPopString = rightPopString(key)
         if (rightPopString.isBlank()) return null
         return rightPopString.jsonToObj(clazz)
     }
 
     @JvmStatic
-    fun <T> rightPopObj(key: String, typeReference: TypeReference<T>): T? {
+    public fun <T> rightPopObj(key: String, typeReference: TypeReference<T>): T? {
         val rightPopString = rightPopString(key)
         if (rightPopString.isBlank()) return null
         return rightPopString.jsonToObj(typeReference)
@@ -91,28 +91,28 @@ object RedisLists {
 
     @JvmOverloads
     @JvmStatic
-    fun size(key: String, defaults: Long? = null): Long? =
+    public fun size(key: String, defaults: Long? = null): Long? =
         RedisManager.redisTemplate.boundListOps(key).size() ?: defaults
 
     @JvmStatic
-    fun indexString(key: String, index: Long): String =
+    public fun indexString(key: String, index: Long): String =
         RedisManager.redisTemplate.boundListOps(key).index(index)?.toString().defaultIfBlank()
 
-    inline fun <reified T> indexObj(key: String, index: Long): T? {
+    public inline fun <reified T> indexObj(key: String, index: Long): T? {
         val indexString = indexString(key, index)
         if (indexString.isBlank()) return null
         return indexString.jsonToObj()
     }
 
     @JvmStatic
-    fun <T> indexObj(key: String, index: Long, clazz: Class<T>): T? {
+    public fun <T> indexObj(key: String, index: Long, clazz: Class<T>): T? {
         val indexString = indexString(key, index)
         if (indexString.isBlank()) return null
         return indexString.jsonToObj(clazz)
     }
 
     @JvmStatic
-    fun <T> indexObj(key: String, index: Long, typeReference: TypeReference<T>): T? {
+    public fun <T> indexObj(key: String, index: Long, typeReference: TypeReference<T>): T? {
         val indexString = indexString(key, index)
         if (indexString.isBlank()) return null
         return indexString.jsonToObj(typeReference)

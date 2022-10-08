@@ -12,6 +12,7 @@ import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
+import java.io.BufferedReader
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -50,7 +51,7 @@ internal class RequestReplaceToRepeatReadFilter(
     }
 }
 
-class RepeatReadRequestWrapper
+public class RepeatReadRequestWrapper
 @Throws(IOException::class)
 internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
 
@@ -74,7 +75,7 @@ internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(re
             ByteArrayInputStream(toByteArray())
         }
 
-    val contentAsByteArray: ByteArray
+    public val contentAsByteArray: ByteArray
         get() {
             cachedContent.reset()
             val bytes = cachedContent.readBytes()
@@ -82,7 +83,7 @@ internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(re
             return bytes
         }
 
-    override fun getInputStream() =
+    override fun getInputStream(): ServletInputStream =
         object : ServletInputStream() {
             override fun isReady() = true
             override fun setReadListener(listener: ReadListener?) = Unit
@@ -92,15 +93,15 @@ internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(re
             override fun markSupported() = cachedContent.markSupported()
         }
 
-    override fun getReader() = cachedContent.bufferedReader(StandardCharsets.UTF_8)
+    override fun getReader(): BufferedReader = cachedContent.bufferedReader(StandardCharsets.UTF_8)
 
     private fun isFormPost() =
         contentType in formPostContentTypes && HttpMethod.POST.matches(method)
 
-    companion object {
+    internal companion object {
 
         @JvmStatic
-        fun HttpServletRequest.toRepeatRead() =
+        fun HttpServletRequest.toRepeatRead(): RepeatReadRequestWrapper =
             if (this is RepeatReadRequestWrapper) {
                 this
             } else {

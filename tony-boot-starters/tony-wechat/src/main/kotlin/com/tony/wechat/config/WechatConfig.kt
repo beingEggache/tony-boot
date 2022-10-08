@@ -47,7 +47,7 @@ internal class WechatConfig {
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "wechat")
-data class WechatProperties(
+public data class WechatProperties(
     val token: String?,
     val appId: String?,
     val appSecret: String?,
@@ -55,10 +55,10 @@ data class WechatProperties(
     val mchSecretKey: String?,
     val app: LinkedHashMap<String, WechatAppProperties>?
 ) {
-    fun getAppByAppId(appId: String) = app?.entries?.firstOrNull { it.value.appId == appId }?.key
+    public fun getAppByAppId(appId: String): String? = app?.entries?.firstOrNull { it.value.appId == appId }?.key
 }
 
-data class WechatAppProperties(
+public data class WechatAppProperties(
     val token: String?,
     val appId: String?,
     val appSecret: String?,

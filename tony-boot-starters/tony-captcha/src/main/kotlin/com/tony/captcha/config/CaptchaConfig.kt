@@ -25,13 +25,13 @@ import org.springframework.context.annotation.Configuration
  */
 @Configuration
 @EnableConfigurationProperties(CaptchaProperties::class)
-class CaptchaConfig(
+public class CaptchaConfig(
     private val captchaProperties: CaptchaProperties
 ) {
 
     @ConditionalOnMissingBean(CaptchaService::class)
     @Bean
-    fun captchaService(): CaptchaService =
+    public fun captchaService(): CaptchaService =
         if (captchaProperties.mode == CaptchaMode.DEFAULT) {
             DefaultCaptchaServiceImpl()
         } else {
@@ -41,14 +41,14 @@ class CaptchaConfig(
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "captcha")
-data class CaptchaProperties(
+public data class CaptchaProperties(
     /**
      * captcha mode.
      */
     val mode: CaptchaMode = CaptchaMode.NOOP
 )
 
-enum class CaptchaMode {
+public enum class CaptchaMode {
     NOOP,
     DEFAULT
 }

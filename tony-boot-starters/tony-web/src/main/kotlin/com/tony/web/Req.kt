@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import javax.validation.Valid
 import javax.validation.constraints.Positive
 
-data class PageReq(
+public data class PageReq(
 
     @get:Positive(message = "页码请输入正整数")
     @RequestParam(required = false, defaultValue = "1")
@@ -17,4 +17,4 @@ data class PageReq(
     val size: Long = 10
 )
 
-data class ListReq<E>(@get:Valid val items: List<E>)
+public data class ListReq<E>(@get:Valid val items: List<E>)

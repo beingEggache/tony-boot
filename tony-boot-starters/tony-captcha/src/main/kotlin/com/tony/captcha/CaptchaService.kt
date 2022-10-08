@@ -16,41 +16,41 @@ import com.tony.utils.uuid
 import com.wf.captcha.SpecCaptcha
 import java.util.concurrent.TimeUnit
 
-interface CaptchaService {
+public interface CaptchaService {
     /**
      * 验证
      * @param vo 验证码
      * @return 验证结果
      */
-    fun verify(vo: CaptchaVo): Boolean
+    public fun verify(vo: CaptchaVo): Boolean
 }
 
 @Suppress("unused")
-open class CaptchaVo(
-    val captchaId: String,
-    val captcha: String,
-    val type: String,
+public open class CaptchaVo(
+    public val captchaId: String,
+    public val captcha: String,
+    public val type: String,
     @JsonIgnore
-    val captchaKeyRule: (CaptchaVo) -> String
+    public val captchaKeyRule: (CaptchaVo) -> String
 )
 
-class DefaultCaptchaServiceImpl : CaptchaService {
+public class DefaultCaptchaServiceImpl : CaptchaService {
     override fun verify(vo: CaptchaVo): Boolean =
         RedisValues.hasKey(vo.captchaKeyRule(vo))
 }
 
-class NoopCaptchaServiceImpl : CaptchaService {
+public class NoopCaptchaServiceImpl : CaptchaService {
     override fun verify(vo: CaptchaVo): Boolean = true
 }
 
 @Suppress("unused")
-object CaptchaManager {
+public object CaptchaManager {
 
     private val captchaService: CaptchaService by Beans.getBeanByLazy()
 
     @JvmStatic
     @JvmOverloads
-    fun genCaptcha(
+    public fun genCaptcha(
         type: String,
         captchaKeyRule: (CaptchaVo) -> String,
         timeout: Long,
@@ -67,7 +67,7 @@ object CaptchaManager {
 
     @JvmStatic
     @JvmOverloads
-    fun <R> verify(
+    public fun <R> verify(
         vo: CaptchaVo,
         message: String = "验证码错误",
         func: () -> R

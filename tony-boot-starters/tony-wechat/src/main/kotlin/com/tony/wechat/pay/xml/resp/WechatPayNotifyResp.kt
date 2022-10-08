@@ -9,7 +9,7 @@ import com.tony.wechat.xml.XStreamCDataConverter
  * >  收到微信支付结果通知后，返回该对象给微信
  */
 @XStreamAlias("xml")
-data class WechatPayNotifyResp(
+public data class WechatPayNotifyResp(
 
     /**
      * ## 返回状态码

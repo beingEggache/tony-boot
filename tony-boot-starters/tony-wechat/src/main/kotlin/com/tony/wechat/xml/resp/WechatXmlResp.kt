@@ -9,7 +9,7 @@ import com.tony.wechat.xml.WechatObj
 import com.tony.wechat.xml.XStreamCDataConverter
 
 @XStreamAlias("xml")
-data class WechatXmlResp(
+public data class WechatXmlResp(
     @XStreamAlias("ToUserName")
     @XStreamConverter(value = XStreamCDataConverter::class)
     var toUserName: String,
@@ -68,6 +68,6 @@ data class WechatXmlResp(
     var articleCount: Int? = null,
 
     @XStreamAlias("Articles")
-    var articles: Array<WechatArticleItem>? = null
+    var articles: List<WechatArticleItem>? = null
 
 ) : WechatObj

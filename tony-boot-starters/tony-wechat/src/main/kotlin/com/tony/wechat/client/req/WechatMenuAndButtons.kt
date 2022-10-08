@@ -14,13 +14,13 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumStringValue
 
-data class WechatMenu(val button: List<WechatButton>)
+public data class WechatMenu(val button: List<WechatButton>)
 
-sealed class WechatButton(
-    open val name: String
+public sealed class WechatButton(
+    public open val name: String
 )
 
-sealed class WechatTypedButton(
+public sealed class WechatTypedButton(
     override val name: String
 ) : WechatButton(
     name
@@ -29,38 +29,38 @@ sealed class WechatTypedButton(
     protected abstract val type: WechatButtonType
 }
 
-data class WechatMenuButton(
+public data class WechatMenuButton(
     override val name: String,
     @JsonProperty("sub_button")
     val subButton: List<WechatTypedButton>
 ) : WechatButton(name)
 
-class WechatViewButton(
+public class WechatViewButton(
     override val name: String,
-    val url: String
+    public val url: String
 ) : WechatTypedButton(
     name
 ) {
     override val type: WechatButtonType = WechatButtonType.VIEW
 }
 
-class WechatClickButton(
+public class WechatClickButton(
     override val name: String,
-    val key: String
+    public val key: String
 ) : WechatTypedButton(name) {
     override val type: WechatButtonType = WechatButtonType.CLICK
 }
 
-class WechatScanCodeButton(
+public class WechatScanCodeButton(
     override val name: String,
-    val key: String
+    public val key: String
 ) : WechatTypedButton(
     name
 ) {
     override val type: WechatButtonType = WechatButtonType.SCANCODE_PUSH
 }
 
-enum class WechatButtonType(
+public enum class WechatButtonType(
     override val value: String
 ) : EnumStringValue {
 
@@ -75,10 +75,10 @@ enum class WechatButtonType(
     MEDIA_ID("media_id"),
     VIEW_LIMITED("view_limited");
 
-    companion object : EnumCreator<WechatButtonType, String>(WechatButtonType::class.java) {
+    public companion object : EnumCreator<WechatButtonType, String>(WechatButtonType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String) =
+        override fun create(value: String): WechatButtonType? =
             super.create(value)
     }
 }

@@ -15,7 +15,7 @@ private const val regionId: String = "cn-hangzhou"
 private const val product: String = "Dysmsapi"
 private const val endpoint = "dysmsapi.aliyuncs.com"
 
-class AliyunSmsManager(
+public class AliyunSmsManager(
     private val accessKeyId: String,
     private val accessKeySecret: String,
     private val smsSignName: String,
@@ -47,7 +47,7 @@ class AliyunSmsManager(
      * @param templateCode 阿里云短信模板code
      * @param templateParam 模板参数
      */
-    fun send(mobile: String, templateCode: String, templateParam: String = ""): SendSmsResponse? {
+    public fun send(mobile: String, templateCode: String, templateParam: String = ""): SendSmsResponse? {
         return try {
             acsClient.getAcsResponse(
                 SendSmsRequest().apply {

@@ -21,7 +21,7 @@ import com.tony.utils.throwIfNull
 import java.util.function.Predicate
 
 @Suppress("unused")
-open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: BaseDao<T>) :
+public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: BaseDao<T>) :
     AbstractChainWrapper<T, SFunction<T, *>, TonyLambdaQueryChainWrapper<T>, TonyLambdaQueryWrapper<T>>(),
     ChainQuery<T>,
     Query<TonyLambdaQueryChainWrapper<T>, T, SFunction<T, *>> {
@@ -47,13 +47,13 @@ open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: BaseDao<
     }
 
     @JvmOverloads
-    fun oneNotNull(
+    public fun oneNotNull(
         message: String = ApiProperty.notFoundMessage,
         code: Int = ApiProperty.notFoundCode
     ): T = baseMapper.selectOne(wrapper).throwIfNull(message, code)
 
     @JvmOverloads
-    fun throwIfExists(
+    public fun throwIfExists(
         message: String,
         code: Int = ApiProperty.notFoundCode
     ) {
@@ -61,14 +61,14 @@ open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: BaseDao<
     }
 
     @JvmOverloads
-    fun throwIfNotExists(
+    public fun throwIfNotExists(
         message: String,
         code: Int = ApiProperty.notFoundCode
     ) {
         throwIf(!exists(), message, code)
     }
 
-    fun <E : PageResultLike<T>> pageResult(page: Pageable) = baseMapper.selectPageResult<E>(page, wrapper)
+    public fun <E : PageResultLike<T>> pageResult(page: Pageable): E = baseMapper.selectPageResult<E>(page, wrapper)
 
     override fun select(
         entityClass: Class<T>,

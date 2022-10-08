@@ -19,33 +19,34 @@ import com.tony.web.utils.headers
 import com.tony.web.utils.isTextMediaTypes
 import com.tony.web.utils.parsedMedia
 import com.tony.web.utils.remoteIp
+import org.slf4j.Logger
 import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
 import javax.servlet.http.HttpServletResponse
 
-fun interface RequestTraceLogger {
+public fun interface RequestTraceLogger {
 
-    fun requestTraceLog(
+    public fun requestTraceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         elapsedTime: Long
     )
 
-    companion object Const {
+    public companion object Const {
 
-        const val SUCCESS = "SUCCESS"
+        public const val SUCCESS: String = "SUCCESS"
 
-        const val FAILED = "FAILED"
+        public const val FAILED: String = "FAILED"
 
-        const val BIZ_FAILED = "BIZ_FAILED"
+        public const val BIZ_FAILED: String = "BIZ_FAILED"
 
-        const val VALIDATE_FAILED = "VALIDATE_FAILED"
+        public const val VALIDATE_FAILED: String = "VALIDATE_FAILED"
 
-        const val UNAUTHORIZED = "UNAUTHORIZED"
+        public const val UNAUTHORIZED: String = "UNAUTHORIZED"
 
-        const val NULL = "[null]"
+        public const val NULL: String = "[null]"
 
-        val logger = getLogger("trace-logger")
+        public val logger: Logger = getLogger("trace-logger")
 
         @JvmSynthetic
         internal val HTTP_SUCCESS_CODE = arrayOf(

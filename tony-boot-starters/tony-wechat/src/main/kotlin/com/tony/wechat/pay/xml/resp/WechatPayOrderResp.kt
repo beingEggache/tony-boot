@@ -8,7 +8,7 @@ import com.tony.wechat.xml.XStreamCDataConverter
  * 统一下单响应对象
  */
 @XStreamAlias("xml")
-data class WechatPayOrderResp(
+public data class WechatPayOrderResp(
 
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("return_code")

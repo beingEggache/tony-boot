@@ -22,56 +22,56 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Suppress("unused")
-object WebContext {
+public object WebContext {
 
     @JvmStatic
-    val isWeb: Boolean
+    public val isWeb: Boolean
         get() = RequestContextHolder.getRequestAttributes() != null
 
     @JvmStatic
-    val current: ServletRequestAttributes
+    public val current: ServletRequestAttributes
         get() = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
 
     @JvmStatic
     @JvmSynthetic
-    fun <T : Any> ServletRequestAttributes.getOrPut(
+    public fun <T : Any> ServletRequestAttributes.getOrPut(
         key: String,
         scope: Int = SCOPE_REQUEST,
         callback: () -> T
-    ) = getAttribute(key, scope).asTo() ?: callback().apply {
+    ): T = getAttribute(key, scope).asTo() ?: callback().apply {
         setAttribute(key, this, scope)
     }
 
     @JvmStatic
-    val contextPath: String
+    public val contextPath: String
         get() = Env.getProperty("server.servlet.context-path", "")
 
     @JvmStatic
-    val headers: Map<String, String>
+    public val headers: Map<String, String>
         get() = request.headers
 
     @JvmStatic
-    fun getHeader(name: String?): String =
+    public fun getHeader(name: String?): String =
         headers[name].defaultIfBlank()
 
     @JvmStatic
-    val origin: String
+    public val origin: String
         get() = request.origin
 
     @JvmStatic
-    val remoteIP: String
+    public val remoteIP: String
         get() = request.remoteIp
 
     @JvmStatic
-    val request: HttpServletRequest
+    public val request: HttpServletRequest
         get() = current.request
 
     @JvmStatic
-    val url: URL
+    public val url: URL
         get() = request.url
 
     @JvmSynthetic
-    fun BaseException.toResponse() =
+    public fun BaseException.toResponse(): ApiResult<Map<Any?, Any?>> =
         ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
 
     internal val response: HttpServletResponse?

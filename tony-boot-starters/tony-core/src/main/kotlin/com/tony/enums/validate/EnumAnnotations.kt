@@ -19,7 +19,7 @@ import kotlin.reflect.KClass
     AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class SimpleEnum(
+public annotation class SimpleEnum(
     vararg val enums: String,
     val message: String = "非法参数",
     val groups: Array<KClass<*>> = [],
@@ -36,7 +36,7 @@ annotation class SimpleEnum(
     AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class SimpleIntEnum(
+public annotation class SimpleIntEnum(
     vararg val enums: Int,
     val message: String = "非法参数",
     val required: Boolean = false,
@@ -54,7 +54,7 @@ annotation class SimpleIntEnum(
     AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class IntEnum(
+public annotation class IntEnum(
     val enumClass: KClass<*>,
     val message: String = "非法参数",
     val required: Boolean = false,
@@ -72,7 +72,7 @@ annotation class IntEnum(
     AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class SimpleStringEnum(
+public annotation class SimpleStringEnum(
     vararg val enums: String,
     val message: String = "非法参数",
     val required: Boolean = false,
@@ -90,7 +90,7 @@ annotation class SimpleStringEnum(
     AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class StringEnum(
+public annotation class StringEnum(
     val enumClass: KClass<*>,
     val message: String = "非法参数",
     val required: Boolean = false,

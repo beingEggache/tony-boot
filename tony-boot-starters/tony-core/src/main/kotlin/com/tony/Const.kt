@@ -6,4 +6,4 @@
  */
 package com.tony
 
-const val PROJECT_GROUP = "com.tony"
+public const val PROJECT_GROUP: String = "com.tony"

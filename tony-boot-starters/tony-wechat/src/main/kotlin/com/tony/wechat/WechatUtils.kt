@@ -15,10 +15,10 @@ internal fun genNonceStr() = UUID.randomUUID().toString().replace("-", "").upper
 
 internal fun genTimeStamp() = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
 
-fun <T> T.toDeepLink(
+public fun <T> T.toDeepLink(
     vararg params: Pair<String, Any?>,
     filter: ((Map.Entry<String, Any>) -> Boolean)
-) = toJsonString()
+):String = toJsonString()
     .jsonToObj<Map<String, Any>>()
     .asSequence()
     .filter(filter)
@@ -36,7 +36,7 @@ internal fun <T> genMd5UpperCaseSign(obj: T, vararg params: Pair<String, Any?>):
     return deepLink.md5Uppercase()
 }
 
-fun <T : WechatResp> T.check(): T {
+public fun <T : WechatResp> T.check(): T {
     if (!success()) {
         throw WechatException("errcode: $errCode, errmsg: $errMsg")
     }

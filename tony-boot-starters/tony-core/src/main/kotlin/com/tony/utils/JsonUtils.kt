@@ -23,9 +23,9 @@ import java.util.Date
 import java.util.TimeZone
 
 @JvmSynthetic
-val OBJECT_MAPPER: ObjectMapper = createObjectMapper()
+public val OBJECT_MAPPER: ObjectMapper = createObjectMapper()
 
-fun createObjectMapper() = ObjectMapper().apply {
+public fun createObjectMapper(): ObjectMapper = ObjectMapper().apply {
     registerModules(KotlinModule.Builder().build(), JavaTimeModule())
     setTimeZone(TimeZone.getDefault())
     setSerializationInclusion(JsonInclude.Include.ALWAYS)
@@ -36,22 +36,22 @@ fun createObjectMapper() = ObjectMapper().apply {
 }
 
 @Throws(IOException::class)
-inline fun <reified T> String.jsonToObj(): T =
+public inline fun <reified T> String.jsonToObj(): T =
     OBJECT_MAPPER.readValue(this)
 
 @Throws(IOException::class)
-fun <T> String.jsonToObj(clazz: Class<T>): T =
+public fun <T> String.jsonToObj(clazz: Class<T>): T =
     OBJECT_MAPPER.readValue(this, clazz)
 
 @Throws(IOException::class)
-fun <T> String.jsonToObj(typeReference: TypeReference<T>): T =
+public fun <T> String.jsonToObj(typeReference: TypeReference<T>): T =
     OBJECT_MAPPER.readValue(this, typeReference)
 
 @Throws(IOException::class)
-fun <T> String.jsonToObj(javaType: JavaType): T =
+public fun <T> String.jsonToObj(javaType: JavaType): T =
     OBJECT_MAPPER.readValue(this, javaType)
 
-fun <T> T?.toJsonString(): String = if (this != null) OBJECT_MAPPER.writeValueAsString(this) else ""
+public fun <T> T?.toJsonString(): String = if (this != null) OBJECT_MAPPER.writeValueAsString(this) else ""
 
 private val valueJsonToken = setOf(
     JsonToken.VALUE_NULL,
@@ -64,7 +64,7 @@ private val valueJsonToken = setOf(
 )
 
 private val jsonFactory = JsonFactory()
-fun String.getFromRootAsString(field: String): String? {
+public fun String.getFromRootAsString(field: String): String? {
     jsonFactory.createParser(this).use {
         while (
             try {
@@ -86,47 +86,47 @@ fun String.getFromRootAsString(field: String): String? {
 }
 
 @Throws(IOException::class)
-inline fun <reified T> ByteArray.jsonToObj(): T =
+public inline fun <reified T> ByteArray.jsonToObj(): T =
     OBJECT_MAPPER.readValue(this)
 
 @Throws(IOException::class)
-inline fun <reified T> InputStream.jsonToObj(): T =
+public inline fun <reified T> InputStream.jsonToObj(): T =
     OBJECT_MAPPER.readValue(this)
 
-fun JavaType.isDateTimeLikeType() =
+public fun JavaType.isDateTimeLikeType(): Boolean =
     isTypeOrSubTypeOf(Date::class.java) || isTypeOrSubTypeOf(TemporalAccessor::class.java)
 
-fun JavaType.isArrayLikeType() =
+public fun JavaType.isArrayLikeType(): Boolean =
     isArrayType || isCollectionLikeType
 
-fun JavaType.isBooleanType() =
+public fun JavaType.isBooleanType(): Boolean =
     isTypeOrSubTypeOf(Boolean::class.java) || isTypeOrSubTypeOf(java.lang.Boolean::class.java)
 
-fun JavaType.isNumberType() =
+public fun JavaType.isNumberType(): Boolean =
     isTypeOrSubTypeOf(Number::class.java)
 
-fun JavaType.isByteType() =
+public fun JavaType.isByteType(): Boolean =
     isTypeOrSubTypeOf(Byte::class.java) || isTypeOrSubTypeOf(java.lang.Byte::class.java)
 
-fun JavaType.isShortType() =
+public fun JavaType.isShortType(): Boolean =
     isTypeOrSubTypeOf(Short::class.java) || isTypeOrSubTypeOf(java.lang.Short::class.java)
 
-fun JavaType.isIntType() =
+public fun JavaType.isIntType(): Boolean =
     isTypeOrSubTypeOf(Int::class.java) || isTypeOrSubTypeOf(java.lang.Integer::class.java)
 
-fun JavaType.isLongType() =
+public fun JavaType.isLongType(): Boolean =
     isTypeOrSubTypeOf(Long::class.java) || isTypeOrSubTypeOf(java.lang.Long::class.java)
 
-fun JavaType.isFloatType() =
+public fun JavaType.isFloatType(): Boolean =
     isTypeOrSubTypeOf(Float::class.java) || isTypeOrSubTypeOf(java.lang.Float::class.java)
 
-fun JavaType.isDoubleType() =
+public fun JavaType.isDoubleType(): Boolean =
     isTypeOrSubTypeOf(Double::class.java) || isTypeOrSubTypeOf(java.lang.Double::class.java)
 
-fun JavaType.isObjLikeType() =
+public fun JavaType.isObjLikeType(): Boolean =
     isMapLikeType || (!isArrayLikeType() && !isNumberType() && !isStringLikeType())
 
-fun JavaType.isStringLikeType() =
+public fun JavaType.isStringLikeType(): Boolean =
     isTypeOrSubTypeOf(CharSequence::class.java) ||
         isTypeOrSubTypeOf(Character::class.java) ||
         isTypeOrSubTypeOf(Char::class.java)

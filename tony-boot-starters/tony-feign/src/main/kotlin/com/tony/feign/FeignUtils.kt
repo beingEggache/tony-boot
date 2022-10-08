@@ -11,13 +11,13 @@ import okhttp3.ResponseBody
 import okio.Buffer
 import org.springframework.http.MediaType
 
-fun RequestBody.string() = run {
+public fun RequestBody.string(): String = run {
     val buffer = Buffer()
     writeTo(buffer)
     String(buffer.readByteArray())
 }
 
-fun RequestBody.jsonNode(): JsonNode = run {
+public fun RequestBody.jsonNode(): JsonNode = run {
     val buffer = Buffer()
     writeTo(buffer)
     OBJECT_MAPPER.readTree(buffer.readByteArray())
@@ -54,17 +54,17 @@ private val TEXT_MEDIA_TYPES = listOf(
     MediaType.APPLICATION_FORM_URLENCODED
 )
 
-fun String.sortRequestBody(
+public fun String.sortRequestBody(
     timestampStr: String
 ): String =
     OBJECT_MAPPER
         .readTree(this)
         .sortRequestBody(timestampStr)
 
-fun String.genSign(appId: String, secret: String) =
+public fun String.genSign(appId: String, secret: String): String =
     ("$appId|$secret|$this".md5Uppercase()).md5Uppercase()
 
-fun JsonNode.sortRequestBody(
+public fun JsonNode.sortRequestBody(
     timestampStr: String
 ): String =
     fieldNames()

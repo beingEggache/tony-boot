@@ -51,7 +51,7 @@ internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
     }
 }
 
-class NullValueBeanSerializerModifier : BeanSerializerModifier() {
+public class NullValueBeanSerializerModifier : BeanSerializerModifier() {
 
     private val nullArrayJsonSerializer = NullArrayJsonSerializer()
     private val nullObjJsonSerializer = NullObjJsonSerializer()
@@ -61,7 +61,7 @@ class NullValueBeanSerializerModifier : BeanSerializerModifier() {
         config: SerializationConfig,
         beanDesc: BeanDescription,
         beanProperties: MutableList<BeanPropertyWriter>
-    ) = beanProperties.onEach {
+    ): MutableList<BeanPropertyWriter> = beanProperties.onEach {
         when {
             it.type.isDateTimeLikeType() || it.type.isBooleanType() || it.type.isEnumType -> Unit
             it.type.isArrayLikeType() -> it.assignNullSerializer(nullArrayJsonSerializer)

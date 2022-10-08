@@ -20,7 +20,7 @@ import java.util.Collections
 /**
  * Pageable对象转成mybatis的page对象
  */
-fun <T> Pageable.toPage(): Page<T> =
+public fun <T> Pageable.toPage(): Page<T> =
     Page<T>().also { page ->
         getPage().also {
             if (it == null || it < 0) {
@@ -50,7 +50,7 @@ fun <T> Pageable.toPage(): Page<T> =
     }
 
 @Suppress("UNCHECKED_CAST")
-fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
+public fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
     if (this == null) {
         EMPTY_PAGE_RESULT as E
     } else {
@@ -58,6 +58,6 @@ fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
     }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> emptyPageResult(): PageResult<T> = EMPTY_PAGE_RESULT as PageResult<T>
+public fun <T> emptyPageResult(): PageResult<T> = EMPTY_PAGE_RESULT as PageResult<T>
 
 private val EMPTY_PAGE_RESULT: PageResult<*> = PageResult<Nothing>(Collections.emptyList(), 1L, 0L, 0L, 0L, false)

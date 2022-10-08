@@ -18,7 +18,7 @@ import org.springframework.core.type.AnnotationMetadata
         TonyBootConfiguration::class
     ]
 )
-annotation class EnableTonyBoot
+public annotation class EnableTonyBoot
 
 @Suppress("SpringFacetCodeInspection")
 @Configuration

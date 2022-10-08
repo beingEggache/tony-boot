@@ -12,7 +12,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-class ByteArrayMultipartFile(
+public class ByteArrayMultipartFile(
     private val originalFilename: String,
     private val bytes: ByteArray,
     private val name: String = "",

@@ -15,7 +15,7 @@ import com.tony.wechat.xml.toXmlString
  * >  客户端支付成功后，微信会请求我方设置的notifyURL，请求体就是该对象
  */
 @XStreamAlias("xml")
-data class WechatPayNotifyReq(
+public data class WechatPayNotifyReq(
 
     /**
      * ## 返回状态码
@@ -189,10 +189,10 @@ data class WechatPayNotifyReq(
     var timeEnd: String
 ) {
 
-    companion object {
+    public companion object {
         private val logger = getLogger()
 
-        fun process(
+        public fun process(
             notifyRequest: WechatPayNotifyReq,
             signValid: Boolean,
             doOnSuccess: () -> Unit,

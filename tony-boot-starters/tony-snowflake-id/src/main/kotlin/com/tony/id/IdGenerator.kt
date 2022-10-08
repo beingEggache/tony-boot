@@ -10,7 +10,7 @@ import com.github.yitter.contract.IdGeneratorOptions
 import com.github.yitter.idgen.YitIdHelper
 import com.tony.id.config.IdProperties
 
-class IdGenerator internal constructor(idProperties: IdProperties) {
+public class IdGenerator internal constructor(idProperties: IdProperties) {
     init {
         val options = IdGeneratorOptions()
         options.WorkerId = idProperties.workerId
@@ -22,16 +22,16 @@ class IdGenerator internal constructor(idProperties: IdProperties) {
         YitIdHelper.setIdGenerator(options)
     }
 
-    companion object {
+    public companion object {
         @Suppress("unused")
         @JvmStatic
-        fun nextIdStr(): String {
+        public fun nextIdStr(): String {
             return YitIdHelper.nextId().toString()
         }
 
         @Suppress("unused")
         @JvmStatic
-        fun nextId(): Number {
+        public fun nextId(): Number {
             return YitIdHelper.nextId()
         }
     }

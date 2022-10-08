@@ -16,19 +16,19 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableConfigurationProperties(IdProperties::class)
-class IdConfig(
+public class IdConfig(
     private val idProperties: IdProperties
 ) {
 
     @Bean
-    fun idGenerator(): IdGenerator? {
+    public fun idGenerator(): IdGenerator? {
         return IdGenerator(idProperties)
     }
 }
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "snowflake")
-data class IdProperties(
+public data class IdProperties(
     /**
      * 机器码
      * 必须由外部设定，最大值 2^WorkerIdBitLength-1

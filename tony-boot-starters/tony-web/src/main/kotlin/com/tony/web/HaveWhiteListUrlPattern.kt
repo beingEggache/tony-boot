@@ -10,9 +10,9 @@ import com.tony.Env
 import com.tony.utils.sanitizedPath
 import org.springframework.core.env.Environment
 
-interface HaveWhiteListUrlPattern {
+public interface HaveWhiteListUrlPattern {
 
-    fun whiteUrlPatterns(prefix: String): Set<String> {
+    public fun whiteUrlPatterns(prefix: String): Set<String> {
         val actuatorBasePath = environment.getProperty("management.endpoints.web.base-path", "/actuator")
         val actuatorPrefix = sanitizedPath("$prefix/$actuatorBasePath")
         val errorPath = environment.getProperty("server.error.path", environment.getProperty("error.path", "/error"))
@@ -42,6 +42,6 @@ interface HaveWhiteListUrlPattern {
         )
     }
 
-    val environment: Environment
+    public val environment: Environment
         get() = Env
 }

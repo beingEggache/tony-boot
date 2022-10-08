@@ -37,13 +37,13 @@ import java.math.BigDecimal
 import java.math.BigInteger
 
 @Aspect
-class DefaultRedisCacheAspect {
+public class DefaultRedisCacheAspect {
 
     @Pointcut("@annotation($PROJECT_GROUP.cache.annotation.RedisCacheEvict.Container)")
-    fun redisCacheEvict() = Unit
+    public fun redisCacheEvict(): Unit = Unit
 
     @Pointcut("@annotation($PROJECT_GROUP.cache.annotation.RedisCacheable)")
-    fun redisCacheable() = Unit
+    public fun redisCacheable(): Unit = Unit
 
     private fun cacheKey(
         arguments: Array<Any>,
@@ -86,7 +86,7 @@ class DefaultRedisCacheAspect {
     }
 
     @After("redisCacheEvict()")
-    fun doCacheEvict(joinPoint: JoinPoint) {
+    public fun doCacheEvict(joinPoint: JoinPoint) {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
@@ -98,7 +98,7 @@ class DefaultRedisCacheAspect {
     }
 
     @Around("redisCacheable()")
-    fun doCacheable(joinPoint: ProceedingJoinPoint): Any? {
+    public fun doCacheable(joinPoint: ProceedingJoinPoint): Any? {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
@@ -143,8 +143,6 @@ class DefaultRedisCacheAspect {
         javaType.isLongType() -> result
         javaType.isFloatType() -> result
         javaType.isDoubleType() -> result
-        javaType.isFloatType() -> result
-        javaType.isDoubleType() -> result
         javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> result
         javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> result
         javaType.isBooleanType() -> result
@@ -157,8 +155,6 @@ class DefaultRedisCacheAspect {
         javaType.isShortType() -> ""
         javaType.isIntType() -> ""
         javaType.isLongType() -> ""
-        javaType.isFloatType() -> ""
-        javaType.isDoubleType() -> ""
         javaType.isFloatType() -> ""
         javaType.isDoubleType() -> ""
         javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> ""
@@ -174,8 +170,6 @@ class DefaultRedisCacheAspect {
         javaType.isShortType() -> cachedValue?.toShortOrNull()
         javaType.isIntType() -> cachedValue?.toIntOrNull()
         javaType.isLongType() -> cachedValue?.toLongOrNull()
-        javaType.isFloatType() -> cachedValue?.toFloatOrNull()
-        javaType.isDoubleType() -> cachedValue?.toDoubleOrNull()
         javaType.isFloatType() -> cachedValue?.toFloatOrNull()
         javaType.isDoubleType() -> cachedValue?.toDoubleOrNull()
         javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> cachedValue?.toBigDecimalOrNull()

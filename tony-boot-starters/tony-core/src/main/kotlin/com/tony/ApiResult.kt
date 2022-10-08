@@ -8,16 +8,16 @@ import com.tony.exception.BaseException
 import com.tony.exception.BizException
 import com.tony.utils.asTo
 
-interface ApiResultLike<T> {
-    val data: T?
-    val code: Int
+public interface ApiResultLike<T> {
+    public val data: T?
+    public val code: Int
         get() = ApiProperty.successCode
-    val message: String
+    public val message: String
         get() = ""
 }
 
 @JsonPropertyOrder(value = ["code", "message", "data"])
-class ApiResult<T> @JvmOverloads constructor(
+public class ApiResult<T> @JvmOverloads constructor(
     override val data: T?,
     override val code: Int = ApiProperty.successCode,
     override val message: String = ""
@@ -35,78 +35,78 @@ class ApiResult<T> @JvmOverloads constructor(
     }
 
     @JvmOverloads
-    fun returnIfSuccessOrThrow(
+    public fun returnIfSuccessOrThrow(
         message: String = this.message,
         ex: (message: String, code: Int) -> BaseException = ::BizException
-    ) = if (code != ApiProperty.successCode) {
+    ): T? = if (code != ApiProperty.successCode) {
         throw ex.invoke(message, ApiProperty.bizErrorCode)
     } else {
         data
     }
 
-    companion object {
+    public companion object {
         @JvmField
-        val EMPTY_RESULT = emptyMap<Any?, Any?>()
+        public val EMPTY_RESULT: Map<Any?, Any?> = emptyMap()
 
         @JvmOverloads
         @JvmStatic
-        fun message(message: String = ApiProperty.defaultSuccessMessage): ApiResult<Unit> =
+        public fun message(message: String = ApiProperty.defaultSuccessMessage): ApiResult<Unit> =
             ApiResult(Unit, ApiProperty.successCode, message)
 
         @JvmStatic
-        fun of(result: Boolean) = ApiResult(OneResult(result))
+        public fun of(result: Boolean): ApiResult<OneResult<Boolean>> = ApiResult(OneResult(result))
 
         @JvmStatic
-        fun of(result: CharSequence) = ApiResult(OneResult(result))
+        public fun of(result: CharSequence): ApiResult<OneResult<CharSequence>> = ApiResult(OneResult(result))
 
         @JvmStatic
-        fun of(result: Number) = ApiResult(OneResult(result))
+        public fun of(result: Number): ApiResult<OneResult<Number>> = ApiResult(OneResult(result))
 
         @JvmStatic
-        fun of(result: Enum<*>) = ApiResult(OneResult(result))
+        public fun of(result: Enum<*>): ApiResult<OneResult<Enum<*>>> = ApiResult(OneResult(result))
     }
 }
 
-data class OneResult<T>(val result: T? = null)
+public data class OneResult<T>(val result: T? = null)
 
-interface ListResultLike<T> {
-    val items: Collection<T>?
+public interface ListResultLike<T> {
+    public val items: Collection<T>?
 }
 
-data class ListResult<T>
+public data class ListResult<T>
 @JvmOverloads constructor(override val items: Collection<T>? = listOf()) :
     ListResultLike<T> {
 
-    constructor(array: Array<*>) : this(array.asList().asTo())
-    constructor(byteArray: ByteArray) : this(byteArray.asList().asTo())
-    constructor(shortArray: ShortArray) : this(shortArray.asList().asTo())
-    constructor(intArray: IntArray) : this(intArray.asList().asTo())
-    constructor(longArray: LongArray) : this(longArray.asList().asTo())
-    constructor(floatArray: FloatArray) : this(floatArray.asList().asTo())
-    constructor(doubleArray: DoubleArray) : this(doubleArray.asList().asTo())
-    constructor(booleanArray: BooleanArray) : this(booleanArray.asList().asTo())
-    constructor(charArray: CharArray) : this(charArray.asList().asTo())
+    public constructor(array: Array<*>) : this(array.asList().asTo())
+    public constructor(byteArray: ByteArray) : this(byteArray.asList().asTo())
+    public constructor(shortArray: ShortArray) : this(shortArray.asList().asTo())
+    public constructor(intArray: IntArray) : this(intArray.asList().asTo())
+    public constructor(longArray: LongArray) : this(longArray.asList().asTo())
+    public constructor(floatArray: FloatArray) : this(floatArray.asList().asTo())
+    public constructor(doubleArray: DoubleArray) : this(doubleArray.asList().asTo())
+    public constructor(booleanArray: BooleanArray) : this(booleanArray.asList().asTo())
+    public constructor(charArray: CharArray) : this(charArray.asList().asTo())
 }
 
-interface PageResultLike<T> {
-    val items: Collection<T>?
-    val page: Long
-    val size: Long
-    val pages: Long
-    val total: Long
-    val hasNext: Boolean
+public interface PageResultLike<T> {
+    public val items: Collection<T>?
+    public val page: Long
+    public val size: Long
+    public val pages: Long
+    public val total: Long
+    public val hasNext: Boolean
 
-    fun <R> map(transform: (T) -> R) =
+    public fun <R> map(transform: (T) -> R): PageResult<R> =
         PageResult(items?.map(transform), page, size, pages, total, hasNext)
 
-    fun onEach(action: (T) -> Unit) =
+    public fun onEach(action: (T) -> Unit): PageResult<T> =
         PageResult(items?.onEach(action), page, size, pages, total, hasNext)
 
-    fun firstOrNull(predicate: (T) -> Boolean) = items?.firstOrNull(predicate)
+    public fun firstOrNull(predicate: (T) -> Boolean): T? = items?.firstOrNull(predicate)
 }
 
 @JsonPropertyOrder(value = ["page", "size", "total", "pages", "hasNext", "items"])
-data class PageResult<T>(
+public data class PageResult<T>(
     override val items: Collection<T>?,
     override val page: Long,
     override val size: Long,
@@ -115,7 +115,7 @@ data class PageResult<T>(
     override val hasNext: Boolean
 ) : PageResultLike<T> {
 
-    constructor(
+    public constructor(
         array: Array<T>,
         page: Long,
         size: Long,
@@ -124,7 +124,7 @@ data class PageResult<T>(
         hasNext: Boolean
     ) : this(array.asList(), page, size, pages, total, hasNext)
 
-    constructor(
+    public constructor(
         byteArray: ByteArray,
         page: Long,
         size: Long,
@@ -133,7 +133,7 @@ data class PageResult<T>(
         hasNext: Boolean
     ) : this(byteArray.asList().asTo(), page, size, pages, total, hasNext)
 
-    constructor(
+    public constructor(
         shortArray: ShortArray,
         page: Long,
         size: Long,
@@ -142,7 +142,7 @@ data class PageResult<T>(
         hasNext: Boolean
     ) : this(shortArray.asList().asTo(), page, size, pages, total, hasNext)
 
-    constructor(
+    public constructor(
         intArray: IntArray,
         page: Long,
         size: Long,
@@ -151,7 +151,7 @@ data class PageResult<T>(
         hasNext: Boolean
     ) : this(intArray.asList().asTo(), page, size, pages, total, hasNext)
 
-    constructor(
+    public constructor(
         longArray: LongArray,
         page: Long,
         size: Long,
@@ -160,7 +160,7 @@ data class PageResult<T>(
         hasNext: Boolean
     ) : this(longArray.asList().asTo(), page, size, pages, total, hasNext)
 
-    constructor(
+    public constructor(
         floatArray: FloatArray,
         page: Long,
         size: Long,
@@ -169,7 +169,7 @@ data class PageResult<T>(
         hasNext: Boolean
     ) : this(floatArray.asList().asTo(), page, size, pages, total, hasNext)
 
-    constructor(
+    public constructor(
         doubleArray: DoubleArray,
         page: Long,
         size: Long,
@@ -178,7 +178,7 @@ data class PageResult<T>(
         hasNext: Boolean
     ) : this(doubleArray.asList().asTo(), page, size, pages, total, hasNext)
 
-    constructor(
+    public constructor(
         booleanArray: BooleanArray,
         page: Long,
         size: Long,
@@ -187,7 +187,7 @@ data class PageResult<T>(
         hasNext: Boolean
     ) : this(booleanArray.asList().asTo(), page, size, pages, total, hasNext)
 
-    constructor(
+    public constructor(
         charArray: CharArray,
         page: Long,
         size: Long,
@@ -197,53 +197,53 @@ data class PageResult<T>(
     ) : this(charArray.asList().asTo(), page, size, pages, total, hasNext)
 }
 
-interface Pageable {
+public interface Pageable {
 
     /**
      * get 页码
      * @return 页码
      */
-    fun getPage(): Long? = 0L
+    public fun getPage(): Long? = 0L
 
     /**
      * set 页码
      * @param page 页码
      */
-    fun setPage(page: Long?) {}
+    public fun setPage(page: Long?): Unit = Unit
 
     /**
      * get 每页数量
      * @return 页码
      */
-    fun getSize(): Long? = 0L
+    public fun getSize(): Long? = 0L
 
     /**
      * set 每页数量
      * @param size 页码
      */
-    fun setSize(size: Long?) {}
+    public fun setSize(size: Long?): Unit = Unit
 
     /**
      * get 倒序排序字段
      * @return 倒序排序字段
      */
-    fun getDescs(): MutableCollection<String?>? = mutableListOf()
+    public fun getDescs(): MutableCollection<String?>? = mutableListOf()
 
     /**
      * set 倒序排序字段
      * @param descs 倒序排序字段
      */
-    fun setDescs(descs: List<String?>?) {}
+    public fun setDescs(descs: List<String?>?): Unit = Unit
 
     /**
      * get 顺序排序字段
      * @return 顺序排序字段
      */
-    fun getAscs(): MutableCollection<String?>? = mutableListOf()
+    public fun getAscs(): MutableCollection<String?>? = mutableListOf()
 
     /**
      * set 顺序排序字段
      * @param ascs 顺序排序字段
      */
-    fun setAscs(ascs: List<String?>?) {}
+    public fun setAscs(ascs: List<String?>?): Unit = Unit
 }

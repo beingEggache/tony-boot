@@ -10,10 +10,10 @@ import org.springframework.context.ApplicationContextAware
  * @author tangli
  * @since 2021/12/6 10:51
  */
-object Beans : ApplicationContext by ApplicationContextHolder.springContext {
+public object Beans : ApplicationContext by ApplicationContextHolder.springContext {
 
     @JvmStatic
-    inline fun <reified T : Any> getBeanByLazy(): Lazy<T> = lazy { getBean() }
+    public inline fun <reified T : Any> getBeanByLazy(): Lazy<T> = lazy { getBean() }
 
     internal object ApplicationContextHolder : ApplicationContextAware {
 

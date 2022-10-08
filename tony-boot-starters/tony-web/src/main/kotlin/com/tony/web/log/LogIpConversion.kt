@@ -5,7 +5,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.localIp
 
-class LogIpConversion : ClassicConverter() {
+public class LogIpConversion : ClassicConverter() {
 
     private val ipFromNacosKey = "IP_FROM_NACOS"
 

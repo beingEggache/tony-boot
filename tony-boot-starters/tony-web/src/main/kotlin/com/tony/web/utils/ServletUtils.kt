@@ -15,7 +15,7 @@ import java.net.URLEncoder
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-val HttpServletRequest.origin
+public val HttpServletRequest.origin: String
     get() = run {
         val protocol = url.protocol
         val host = url.host
@@ -24,14 +24,14 @@ val HttpServletRequest.origin
         "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}$contextPath"
     }
 
-val HttpServletRequest.headers: Map<String, String>
+public val HttpServletRequest.headers: Map<String, String>
     get() = headerNames
         .asSequence()
         .associateWith {
             getHeaders(it).toList().joinToString(",")
         }
 
-val HttpServletRequest.remoteIp: String
+public val HttpServletRequest.remoteIp: String
     get() {
         getHeader("X-Real-IP")?.run {
             if (isNotBlank() && !"unknown".equals(this, true)) {
@@ -58,7 +58,7 @@ val HttpServletRequest.remoteIp: String
         return remoteAddr
     }
 
-val HttpServletRequest.url
+public val HttpServletRequest.url: URL
     get() = URL(requestURL.toString())
 
 private val TEXT_MEDIA_TYPES = listOf(
@@ -69,28 +69,28 @@ private val TEXT_MEDIA_TYPES = listOf(
     MediaType.APPLICATION_FORM_URLENCODED
 )
 
-val HttpServletResponse.parsedMedia: MediaType?
+public val HttpServletResponse.parsedMedia: MediaType?
     get() = if (contentType.isNullOrBlank()) {
         null
     } else {
         MediaType.parseMediaType(contentType)
     }
 
-val HttpServletRequest.parsedMedia: MediaType?
+public val HttpServletRequest.parsedMedia: MediaType?
     get() = if (contentType.isNullOrBlank()) {
         null
     } else {
         MediaType.parseMediaType(contentType)
     }
 
-fun isTextMediaTypes(mediaType: MediaType?) =
+public fun isTextMediaTypes(mediaType: MediaType?): Boolean =
     TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 
-val HttpServletRequest.isCorsPreflightRequest
+public val HttpServletRequest.isCorsPreflightRequest: Boolean
     get() = CorsUtils.isPreFlightRequest(this)
 
 @Suppress("unused")
-fun ByteArray.responseEntity(
+public fun ByteArray.responseEntity(
     fileName: String = "",
     contentType: MediaType = MediaType.APPLICATION_OCTET_STREAM
 ): ResponseEntity<ByteArray> =

@@ -160,7 +160,7 @@ internal data class WebProperties(
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.cors")
 @ConditionalOnExpression("\${web.cors-enabled:false}")
-data class WebCorsProperties(
+public data class WebCorsProperties(
     @DefaultValue("false")
     val enabled: Boolean = false,
     val allowedOrigins: Set<String> = setOf(),

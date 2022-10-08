@@ -6,7 +6,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
 
 @XStreamAlias("item")
-data class WechatArticleItem(
+public data class WechatArticleItem(
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("Title")
     var title: String,
@@ -24,7 +24,7 @@ data class WechatArticleItem(
     var url: String
 )
 
-data class ScanCodeInfo(
+public data class ScanCodeInfo(
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("ScanType")
     var scanType: String,
@@ -34,12 +34,12 @@ data class ScanCodeInfo(
     var scanResult: String
 )
 
-interface WechatObj {
-    var event: String?
-    var msgType: String
+public interface WechatObj {
+    public var event: String?
+    public var msgType: String
 }
 
-enum class Event {
+public enum class Event {
 
     CLICK, LOCATION, SCAN, SUBSCRIBE, UNSUBSCRIBE, VIEW;
 
@@ -48,7 +48,7 @@ enum class Event {
     }
 }
 
-enum class MsgType {
+public enum class MsgType {
 
     EVENT, IMAGE, LINK, LOCATION, MUSIC, NEWS, SHORTVIDEO, TEXT, VIDEO, VOICE;
 

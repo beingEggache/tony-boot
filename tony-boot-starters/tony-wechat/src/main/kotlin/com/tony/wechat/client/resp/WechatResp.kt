@@ -14,22 +14,22 @@ import java.time.LocalDateTime
 import java.util.Date
 
 @JsonInclude(value = JsonInclude.Include.NON_ABSENT)
-open class WechatResp {
+public open class WechatResp {
     @JsonProperty("errcode")
-    var errCode: String? = null
+    public var errCode: String? = null
 
     @JsonProperty("errmsg")
-    var errMsg: String? = null
+    public var errMsg: String? = null
 
-    fun success() = errCode == null || errCode == "0"
+    public fun success(): Boolean = errCode == null || errCode == "0"
 }
 
-data class WechatApiTokenResp(
+public data class WechatApiTokenResp(
     @JsonProperty("access_token") val accessToken: String?,
     @JsonProperty("expires_in") val expiresIn: Int?
 ) : WechatResp()
 
-data class WechatUserTokenResp(
+public data class WechatUserTokenResp(
     @JsonProperty("access_token") val accessToken: String?,
     @JsonProperty("expires_in") val expiresIn: Int?,
     @JsonProperty("refresh_token") val refreshToken: String?,
@@ -37,18 +37,18 @@ data class WechatUserTokenResp(
     @JsonProperty("scope") val scope: String?
 ) : WechatResp()
 
-data class WechatJsApiTicketResp(
+public data class WechatJsApiTicketResp(
     @JsonProperty("ticket") val ticket: String?,
     @JsonProperty("expires_in") val expiresIn: Int?
 ) : WechatResp()
 
-data class WechatQrCodeResp(
+public data class WechatQrCodeResp(
     val ticket: String?,
     @JsonProperty("expire_seconds") val expireSeconds: Int?,
     val url: String?
 ) : WechatResp()
 
-data class WechatUserInfoResp(
+public data class WechatUserInfoResp(
     @JsonProperty("subscribe") var subscribe: Int?,
     @JsonProperty("openid") var openId: String?,
     @JsonProperty("nickname") var nickname: String?,
@@ -73,13 +73,13 @@ data class WechatUserInfoResp(
     val subscribeTime: LocalDateTime = Date((subscribeTimeValue ?: 0) * 1000).toLocalDateTime()
 }
 
-data class WechatJsCode2SessionResp(
+public data class WechatJsCode2SessionResp(
     @JsonProperty("openid") val openId: String?,
     @JsonProperty("session_key") val sessionKey: String?,
     @JsonProperty("unionid") val unionId: String?
 ) : WechatResp()
 
-data class WechatJsSdkConfigResp(
+public data class WechatJsSdkConfigResp(
     val debug: Boolean,
     val appId: String?,
     val timestamp: Long,
@@ -87,11 +87,11 @@ data class WechatJsSdkConfigResp(
     val signature: String
 )
 
-data class WechatMiniProgramUserPhoneResp(
+public data class WechatMiniProgramUserPhoneResp(
     @JsonProperty("phone_info") val phoneInfo: WechatMiniProgramUserPhoneInfoResp?
 ) : WechatResp()
 
-data class WechatMiniProgramUserPhoneInfoResp(
+public data class WechatMiniProgramUserPhoneInfoResp(
     val phoneNumber: String,
     val purePhoneNumber: String,
     val countryCode: String

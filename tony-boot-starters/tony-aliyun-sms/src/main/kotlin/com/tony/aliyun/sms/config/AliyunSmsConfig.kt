@@ -7,9 +7,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+@Suppress("SpringFacetCodeInspection")
 @Configuration
 @EnableConfigurationProperties(AliyunSmsProperties::class)
-class AliyunSmsConfig(
+public class AliyunSmsConfig(
     private val aliyunSMSProperties: AliyunSmsProperties
 ) {
 
@@ -24,9 +25,9 @@ class AliyunSmsConfig(
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "aliyun.sms")
-class AliyunSmsProperties {
-    var accessKeyId: String? = null
-    var accessKeySecret: String? = null
-    var signName: String? = null
-    var timeout: String? = null
+public class AliyunSmsProperties {
+    public val accessKeyId: String? = null
+    public val accessKeySecret: String? = null
+    public val signName: String? = null
+    public val timeout: String? = null
 }
