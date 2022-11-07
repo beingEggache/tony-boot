@@ -18,7 +18,7 @@ internal fun genTimeStamp() = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
 public fun <T> T.toDeepLink(
     vararg params: Pair<String, Any?>,
     filter: ((Map.Entry<String, Any>) -> Boolean)
-):String = toJsonString()
+): String = toJsonString()
     .jsonToObj<Map<String, Any>>()
     .asSequence()
     .filter(filter)

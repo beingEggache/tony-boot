@@ -9,12 +9,12 @@ object Version {
     const val kotlinVersion = "1.7.20"
 
     const val springVersion = "5.3.23"
-    const val springBootVersion = "2.7.4"
+    const val springBootVersion = "2.7.5"
 
     const val springCloudAlibabaVersion = "2021.0.1.0"
-    const val springCloudVersion = "2021.0.4"
+    const val springCloudVersion = "2021.0.5"
 
-    const val bouncycastleVersion = "1.71"
+    const val bouncycastleVersion = "1.72"
 
     const val templateVersion = "0.1-SNAPSHOT"
 }
@@ -211,7 +211,6 @@ object Deps {
 }
 
 fun DependencyHandler.addTestDependencies(configuration: String = "testImplementation") {
-    add(configuration,"org.jetbrains.kotlin:kotlin-test")
     add(configuration,"org.jetbrains.kotlin:kotlin-test")
     add(configuration,"org.springframework.boot:spring-boot-starter-test")
 }

@@ -8,16 +8,16 @@ object Version {
     const val kotlinVersion = "1.7.20"
 
     const val springVersion = "5.3.23"
-    const val springBootVersion = "2.7.4"
+    const val springBootVersion = "2.7.5"
 
     const val springCloudAlibabaVersion = "2021.0.1.0"
-    const val springCloudVersion = "2021.0.4"
+    const val springCloudVersion = "2021.0.5"
 
-    const val alipaySdkJavaVersion = "4.34.0.ALL"
+    const val alipaySdkJavaVersion = "4.34.43.ALL"
     const val aliyunJavaSdkCoreVersion = "4.6.2"
     const val aliyunSdkOssVersion = "3.15.2"
 
-    const val bouncycastleVersion = "1.71"
+    const val bouncycastleVersion = "1.72"
     const val templateVersion = "0.1-SNAPSHOT"
 }
 
@@ -38,6 +38,17 @@ object Deps {
         const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:${Version.aliyunJavaSdkCoreVersion}"
         const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:${Version.aliyunSdkOssVersion}"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.2.1"
+    }
+
+    object Template {
+        const val templateDependencies = "$projectGroup:$projectPrefix-dependencies:${Version.templateVersion}"
+        const val templateCore = "$projectGroup:$projectPrefix-core:${Version.templateVersion}"
+        const val templateJwt = "$projectGroup:$projectPrefix-jwt:${Version.templateVersion}"
+        const val templateWebAuth = "$projectGroup:$projectPrefix-web-auth:${Version.templateVersion}"
+        const val templateFeign = "$projectGroup:$projectPrefix-feign:${Version.templateVersion}"
+        const val templateWeb = "$projectGroup:$projectPrefix-web:${Version.templateVersion}"
+        const val templateCache = "$projectGroup:$projectPrefix-cache:${Version.templateVersion}"
+        const val templateMybatisPlus = "$projectGroup:$projectPrefix-mybatis-plus:${Version.templateVersion}"
     }
 
     object Jackson {
