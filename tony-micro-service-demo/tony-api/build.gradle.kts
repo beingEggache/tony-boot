@@ -1,3 +1,5 @@
+import com.tony.buildscript.Deps
+import com.tony.buildscript.getProfile
 apply(plugin = "kotlin-spring")
 apply(plugin = "docker.publish")
 

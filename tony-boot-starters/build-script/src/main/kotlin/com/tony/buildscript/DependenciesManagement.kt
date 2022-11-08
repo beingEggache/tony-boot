@@ -1,49 +1,13 @@
 @file:Suppress("unused", "SpellCheckingInspection")
 
+package com.tony.buildscript
+
+import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.DependencyConstraintHandlerScope
 import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
 
-object VersionManagement {
-    const val kotlinVersion = "1.7.20"
-
-    const val springVersion = "5.3.23"
-    const val springBootVersion = "2.7.5"
-
-    const val openFeignVersion = "11.10"
-
-    const val postgresqlVersion = "42.5.0"
-    const val mysqlVersion = "8.0.30"
-    const val hikariCPVersion = "5.0.1"
-    const val mybatisPlusVersion = "3.5.2"
-    const val mybatisVersion = "3.5.11"
-    const val lettuceCoreVersion = "6.2.1.RELEASE"
-
-    const val xxlJobVersion = "2.3.1"
-
-    const val jacksonVersion = "2.14.0"
-
-    const val gsonVersion = "2.10"
-    const val fastjsonVersion = "2.0.14"
-    const val nettyVersion = "4.1.84.Final"
-
-    const val reactorVersion = "3.4.24"
-    const val reactorKotlinExtensions = "1.1.7"
-    const val reactorNettyVersion = "1.0.24"
-    const val slf4jVersion = "1.7.36"
-
-    const val byteBuddyVersion = "1.12.18"
-    const val jasyptVersion = "1.9.3"
-    const val bouncycastleVersion = "1.72"
-    const val javaJwtVersion = "4.2.1"
-    const val guavaVersion = "31.1-jre"
-
-    const val swaggerV3Version = "2.2.6"
-    const val springdocVersion = "1.6.12"
-
-}
-
-object DepsManagement {
+internal object DepsManagement {
 
     object Jackson {
         const val annotations = "com.fasterxml.jackson.core:jackson-annotations:${VersionManagement.jacksonVersion}"
@@ -245,13 +209,18 @@ object DepsManagement {
 private fun KClass<*>.staticFieldValues() = this.java.declaredFields.filter {
     it.name != "INSTANCE" && Modifier.isStatic(it.modifiers)
 }.map {
-    it.get(null)
+    it.get(null).toString()
 }
 
 fun DependencyConstraintHandlerScope.addDepsManagement() {
     DepsManagement::class.nestedClasses.flatMap {
         it.staticFieldValues()
-    }.forEach {
+    }.sorted().forEach {
         add("api", it)
     }
+}
+
+fun DependencyHandler.addTestDependencies(configuration: String = "testImplementation") {
+    add(configuration, "org.jetbrains.kotlin:kotlin-test")
+    add(configuration, "org.springframework.boot:spring-boot-starter-test")
 }

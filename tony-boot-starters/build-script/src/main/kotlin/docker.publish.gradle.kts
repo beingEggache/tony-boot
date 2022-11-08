@@ -1,6 +1,7 @@
 import com.palantir.gradle.docker.DockerExtension
 import java.text.SimpleDateFormat
 import java.util.Date
+import com.tony.buildscript.getImageName
 
 plugins {
     id("com.palantir.docker")

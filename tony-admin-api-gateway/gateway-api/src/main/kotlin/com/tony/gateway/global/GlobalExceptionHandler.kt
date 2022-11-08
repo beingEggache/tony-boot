@@ -12,7 +12,6 @@ import com.tony.gateway.utils.jsonBody
 import com.tony.utils.getLogger
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
 import org.springframework.core.annotation.Order
-import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.server.ServerWebExchange
@@ -39,12 +38,14 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
                     httpStatus.reasonPhrase
                 )
             )
-        } else response.jsonBody(
-            ApiResult(
-                EMPTY_RESULT,
-                ApiProperty.errorCode,
-                ApiProperty.errorMsg
+        } else {
+            response.jsonBody(
+                ApiResult(
+                    EMPTY_RESULT,
+                    ApiProperty.errorCode,
+                    ApiProperty.errorMsg
+                )
             )
-        )
+        }
     }
 }

@@ -1,3 +1,4 @@
+import com.tony.buildscript.Deps
 apply(plugin = "kotlin-spring")
 apply(plugin = "docker.publish")
 
@@ -10,7 +11,7 @@ dependencies {
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
 
     // gateway 限流用
-    implementation("org.apache.commons:commons-pool2:2.11.1")
+    implementation(Deps.Other.commonsPool2)
     implementation(Deps.SpringBoot.starterDataRedisReactive)
 
     implementation(Deps.Template.templateCore)

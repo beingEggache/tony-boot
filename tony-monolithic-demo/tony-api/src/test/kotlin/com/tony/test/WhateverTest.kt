@@ -1,6 +1,6 @@
 package com.tony.test
 
-import java.time.Duration
+import com.tony.utils.secureRandom
 
 /**
  *
@@ -8,7 +8,29 @@ import java.time.Duration
  * @since 2020-11-05 11:31
  */
 fun main() {
-    val toDays = Duration.ofSeconds(80).toDays()
-    println(toDays)
+    val list = makeArray(100)
 
+    list.bubbleSort().forEach { println(it) }
+}
+
+fun Array<Int>.bubbleSort():Array<Int> {
+    for (index in this.indices) {
+        for (innerIndex in 0 until  this.size -1 - index) {
+            if (this[innerIndex] > this[innerIndex + 1]) {
+                val temp = this[innerIndex]
+                this[innerIndex] = this[innerIndex + 1]
+                this[innerIndex + 1] = temp
+            }
+        }
+    }
+    return this;
+}
+
+private fun makeArray(size: Int): Array<Int> {
+    val set = HashSet<Int>(size)
+    repeat(size) {
+        set.add(secureRandom.nextInt(size))
+    }
+
+    return set.shuffled().toTypedArray()
 }

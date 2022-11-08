@@ -1,12 +1,22 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.tony.buildscript.Deps
+import com.tony.buildscript.KaptDeps
+import com.tony.buildscript.copyProjectHookToGitHook
+import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version Version.kotlinVersion apply false
-    kotlin("plugin.spring") version Version.kotlinVersion apply false
-    kotlin("kapt") version Version.kotlinVersion apply false
+    kotlin("jvm") version "1.7.20" apply false
+    kotlin("plugin.spring") version "1.7.20" apply false
+    kotlin("kapt") version "1.7.20" apply false
     idea
+}
+
+buildscript {
+    dependencies {
+        classpath("com.tony:build-script:0.1-SNAPSHOT")
+    }
 }
 
 val javaVersion:String by project
@@ -33,19 +43,16 @@ configure(subprojects) {
         mavenCentral()
     }
 
-    substituteDeps()
-
     apply {
         plugin("kotlin")
         plugin("kotlin-kapt")
-        plugin("ktlint")
+        plugin("tony-build-ktlint")
+        plugin("tony-build-dep-substitute")
     }
 
     dependencies {
         add("implementation", platform(Deps.Template.templateDependencies))
-        add("implementation", platform(Deps.SpringCloudDeps.springCloudDependencies))
-        add("implementation", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
-        add("kapt", Deps.SpringBoot.autoconfigureProcessor)
+        add("kapt", KaptDeps.SpringBoot.autoconfigureProcessor)
     }
 
     configure<JavaPluginExtension> {

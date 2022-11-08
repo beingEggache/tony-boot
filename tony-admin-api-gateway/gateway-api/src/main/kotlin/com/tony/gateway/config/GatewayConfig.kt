@@ -46,6 +46,9 @@ class GatewayRouteConfigProperties {
     fun noLoginCheck(path: String?) =
         path.antPathMatchAny(noLoginCheckUrls)
 
-    fun noPermissionCheck(path: String?) = if (noLoginCheck(path)) true
-    else path.antPathMatchAny(noPermissionCheckUrls)
+    fun noPermissionCheck(path: String?) = if (noLoginCheck(path)) {
+        true
+    } else {
+        path.antPathMatchAny(noPermissionCheckUrls)
+    }
 }

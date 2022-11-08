@@ -1,3 +1,5 @@
+package com.tony.buildscript
+
 import org.gradle.api.Project
 import java.io.File
 
@@ -35,8 +37,6 @@ fun Project.copyProjectHookToGitHook(vararg hookNames: String) {
         hookFile.copyTo(gitHookFile)
         logger.info("$hookName has already copy to ${gitHookDir.absolutePath}")
     }
-
-
 }
 
 private fun Project.getProjectGitHooksPath(): String {
@@ -56,7 +56,3 @@ private fun Project.getProjectGitHook(hookName: String): String {
     }
     return hook.absolutePath
 }
-
-fun getProfile(): String = System.getProperty("profile", "dev")
-
-fun Project.getImageName(): String = System.getProperty("project_name", rootProject.name)

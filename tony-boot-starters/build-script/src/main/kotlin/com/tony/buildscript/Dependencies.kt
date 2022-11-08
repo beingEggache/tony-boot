@@ -1,23 +1,6 @@
 @file:Suppress("unused", "SpellCheckingInspection")
 
-import org.gradle.api.Project
-import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.kotlin.dsl.exclude
-import java.util.concurrent.TimeUnit
-
-object Version {
-    const val kotlinVersion = "1.7.20"
-
-    const val springVersion = "5.3.23"
-    const val springBootVersion = "2.7.5"
-
-    const val springCloudAlibabaVersion = "2021.0.1.0"
-    const val springCloudVersion = "2021.0.5"
-
-    const val bouncycastleVersion = "1.72"
-
-    const val templateVersion = "0.1-SNAPSHOT"
-}
+package com.tony.buildscript
 
 const val projectGroup = "com.tony"
 const val projectPrefix = "tony"
@@ -26,19 +9,27 @@ object Deps {
 
     object SpringCloudDeps {
         const val springCloudAlibabaDenpendencies =
-            "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${Version.springCloudAlibabaVersion}"
+            "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${VersionManagement.springCloudAlibabaVersion}"
         const val springCloudDependencies =
-            "org.springframework.cloud:spring-cloud-dependencies:${Version.springCloudVersion}"
+            "org.springframework.cloud:spring-cloud-dependencies:${VersionManagement.springCloudVersion}"
+    }
+
+    object Aliyun {
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:${VersionManagement.alipaySdkJavaVersion}"
+        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:${VersionManagement.aliyunJavaSdkCoreVersion}"
+        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:${VersionManagement.aliyunSdkOssVersion}"
+        const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.2.1"
     }
 
     object Template {
-        const val templateDependencies = "$projectGroup:$projectPrefix-dependencies:${Version.templateVersion}"
-        const val templateCore = "$projectGroup:$projectPrefix-core:${Version.templateVersion}"
-        const val templateJwt = "$projectGroup:$projectPrefix-jwt:${Version.templateVersion}"
-        const val templateWebAuth = "$projectGroup:$projectPrefix-web-auth:${Version.templateVersion}"
-        const val templateFeign = "$projectGroup:$projectPrefix-feign:${Version.templateVersion}"
-        const val templateWeb = "$projectGroup:$projectPrefix-web:${Version.templateVersion}"
-        const val templateCache = "$projectGroup:$projectPrefix-cache:${Version.templateVersion}"
+        const val templateDependencies = "$projectGroup:$projectPrefix-dependencies:${VersionManagement.templateVersion}"
+        const val templateCore = "$projectGroup:$projectPrefix-core:${VersionManagement.templateVersion}"
+        const val templateJwt = "$projectGroup:$projectPrefix-jwt:${VersionManagement.templateVersion}"
+        const val templateWebAuth = "$projectGroup:$projectPrefix-web-auth:${VersionManagement.templateVersion}"
+        const val templateFeign = "$projectGroup:$projectPrefix-feign:${VersionManagement.templateVersion}"
+        const val templateWeb = "$projectGroup:$projectPrefix-web:${VersionManagement.templateVersion}"
+        const val templateCache = "$projectGroup:$projectPrefix-cache:${VersionManagement.templateVersion}"
+        const val templateMybatisPlus = "$projectGroup:$projectPrefix-mybatis-plus:${VersionManagement.templateVersion}"
     }
 
     object Jackson {
@@ -48,8 +39,7 @@ object Deps {
         const val datatypeJdk8 = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
         const val datatypeJsr310 = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
         const val moduleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
-        const val moduleParameterNames =
-            "com.fasterxml.jackson.module:jackson-module-parameter-names"
+        const val moduleParameterNames = "com.fasterxml.jackson.module:jackson-module-parameter-names"
     }
 
     object Kotlin {
@@ -110,24 +100,21 @@ object Deps {
         const val springBoot = "org.springframework.boot:spring-boot"
         const val springBootStarter = "org.springframework.boot:spring-boot-starter"
         const val autoconfigure = "org.springframework.boot:spring-boot-autoconfigure"
-        const val configurationProcessor =
-            "org.springframework.boot:spring-boot-configuration-processor"
-        const val autoconfigureProcessor =
-            "org.springframework.boot:spring-boot-autoconfigure-processor:${Version.springBootVersion}"
+        const val configurationProcessor = "org.springframework.boot:spring-boot-configuration-processor"
         const val devtools = "org.springframework.boot:spring-boot-devtools"
         const val starterActuator = "org.springframework.boot:spring-boot-starter-actuator"
         const val starterAmqp = "org.springframework.boot:spring-boot-starter-amqp"
         const val starterAop = "org.springframework.boot:spring-boot-starter-aop"
         const val starterCache = "org.springframework.boot:spring-boot-starter-cache"
-        const val starterDataRedis =
-            "org.springframework.boot:spring-boot-starter-data-redis"
-        const val starterDataRedisReactive =
-            "org.springframework.boot:spring-boot-starter-data-redis-reactive"
+        const val starterDataRedis = "org.springframework.boot:spring-boot-starter-data-redis"
+        const val starterDataRedisReactive = "org.springframework.boot:spring-boot-starter-data-redis-reactive"
         const val starterJdbc = "org.springframework.boot:spring-boot-starter-jdbc"
         const val starterJson = "org.springframework.boot:spring-boot-starter-json"
         const val starterLogging = "org.springframework.boot:spring-boot-starter-logging"
         const val starterReactorNetty = "org.springframework.boot:spring-boot-starter-reactor-netty"
         const val starterTest = "org.springframework.boot:spring-boot-starter-test"
+        const val starterTomcat = "org.springframework.boot:spring-boot-starter-tomcat"
+        const val starterUndertow = "org.springframework.boot:spring-boot-starter-undertow"
         const val starterValidation = "org.springframework.boot:spring-boot-starter-validation"
         const val starterWeb = "org.springframework.boot:spring-boot-starter-web"
         const val starterWebflux = "org.springframework.boot:spring-boot-starter-webflux"
@@ -137,11 +124,12 @@ object Deps {
     object Test {
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test"
         const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test"
-        const val springBootStarterTest =
-            "org.springframework.boot:spring-boot-starter-test"
+        const val springBootStarterTest = "org.springframework.boot:spring-boot-starter-test"
     }
 
     object Other {
+        const val lettuce = "io.lettuce:lettuce-core"
+
         const val mybatis = "org.mybatis:mybatis"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension"
@@ -204,58 +192,8 @@ object Deps {
         const val springdocUi = "org.springdoc:springdoc-openapi-ui"
         const val springdocCommon = "org.springdoc:springdoc-openapi-common"
         const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin"
+
+        const val yitterIdgenerator = "com.github.yitter:yitter-idgenerator"
+        const val easyCaptcha = "com.github.whvcse:easy-captcha"
     }
 }
-
-fun DependencyHandler.addTestDependencies(configuration: String = "testImplementation") {
-    add(configuration,"org.jetbrains.kotlin:kotlin-test")
-    add(configuration,"org.jetbrains.kotlin:kotlin-test")
-    add(configuration,"org.springframework.boot:spring-boot-starter-test")
-}
-
-fun Project.substituteDeps(){
-    configurations.all {
-        resolutionStrategy {
-            //disable cache
-            cacheChangingModulesFor(0, TimeUnit.NANOSECONDS)
-            dependencySubstitution {
-                canReplacedDependencies.forEach { (sourceDependency, targetDependency) ->
-                    substitute(module(sourceDependency)).using(module(targetDependency))
-                }
-            }
-            exclude("com.google.j2objc")
-            exclude("com.google.errorprone")
-            exclude("com.google.code.findbugs")
-            exclude("com.google.guava", "listenablefuture")
-            exclude("org.checkerframework", "checker-qual")
-        }
-    }
-}
-
-private val canReplacedDependencies = mapOf(
-    "bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:${Version.bouncycastleVersion}",
-    "bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:${Version.bouncycastleVersion}",
-    "bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
-
-    "org.bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:${Version.bouncycastleVersion}",
-    "org.bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:${Version.bouncycastleVersion}",
-    "org.bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
-
-    "org.bouncycastle:bcprov-jdk15on" to "org.bouncycastle:bcprov-jdk18on:${Version.bouncycastleVersion}",
-    "org.bouncycastle:bcmail-jdk15on" to "org.bouncycastle:bcmail-jdk18on:${Version.bouncycastleVersion}",
-    "org.bouncycastle:bcpkix-jdk15on" to "org.bouncycastle:bcpkix-jdk18on:${Version.bouncycastleVersion}",
-
-    "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
-    "javax.annotation:javax.annotation-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
-    "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
-    "javax.activation:javax.activation-api" to "jakarta.activation:jakarta.activation-api:1.2.2",
-
-    "javax.el:el-api" to "jakarta.el:jakarta.el-api:3.0.3",
-    "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:3.0.3",
-    "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:9.0.65",
-
-    "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:1.1.2",
-    "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:2.0.2",
-    "javax.xml.bind:jaxb-api" to "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3",
-    "commons-logging:commons-logging" to "org.springframework:spring-jcl:${Version.springVersion}"
-)

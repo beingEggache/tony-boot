@@ -6,6 +6,7 @@ pluginManagement {
             isAllowInsecureProtocol = true
         }
         gradlePluginPortal()
+        mavenLocal()
     }
 }
 

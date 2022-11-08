@@ -7,6 +7,8 @@ pluginManagement {
         }
         gradlePluginPortal()
     }
+    @Suppress("UnstableApiUsage")
+    includeBuild("build-script")
 }
 val projectPrefix: String by settings
 rootProject.name = "$projectPrefix-dependencies"

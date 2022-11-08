@@ -1,0 +1,7 @@
+package com.tony.buildscript
+
+import org.gradle.api.Project
+
+fun getProfile(): String = System.getProperty("profile", "dev")
+
+fun Project.getImageName(): String = System.getProperty("project_name", rootProject.name)

@@ -1,3 +1,5 @@
+import com.tony.buildscript.Deps
+import com.tony.buildscript.addTestDependencies
 dependencies {
 
     api(projects.tonyCore)
@@ -8,7 +10,6 @@ dependencies {
     api(Deps.OpenFeign.openFeignOkhttp)
     api(Deps.OpenFeign.openFeignJackson)
 
-    implementation(platform(Deps.SpringCloudDeps.springCloudDependencies))
     implementation(Deps.Other.caffeine)
 
     addTestDependencies()
