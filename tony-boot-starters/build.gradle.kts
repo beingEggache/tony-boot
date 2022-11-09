@@ -9,13 +9,9 @@ import com.tony.buildscript.KaptDeps
 import com.tony.buildscript.copyProjectHookToGitHook
 
 plugins {
-    kotlin("jvm") version "1.7.20" apply false
-    kotlin("plugin.spring") version "1.7.20" apply false
-    kotlin("kapt") version "1.7.20" apply false
     id("tony-build-dep-substitute") apply false
     idea
 }
-
 
 configure(allprojects) {
 

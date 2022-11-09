@@ -10,6 +10,16 @@ pluginManagement {
     @Suppress("UnstableApiUsage")
     includeBuild("build-script")
 }
+
+gradle.rootProject {
+    val kotlinVersion: String by settings
+    buildscript {
+        dependencies {
+            classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+            classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
+        }
+    }
+}
 val projectPrefix: String by settings
 rootProject.name = "$projectPrefix-dependencies"
 

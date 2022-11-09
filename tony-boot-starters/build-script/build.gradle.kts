@@ -53,12 +53,11 @@ gradlePlugin {
         }
     }
 }
-//val ktlint: Configuration by configurations.creating
+
 dependencies {
     implementation("com.palantir.gradle.docker:gradle-docker:0.34.0")
     implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.5")
 }
-
 
 configure<JavaPluginExtension> {
     withSourcesJar()
@@ -92,6 +91,5 @@ configure<PublishingExtension> {
             from(components["kotlin"])
             artifact(tasks["sourcesJar"])
         }
-
     }
 }

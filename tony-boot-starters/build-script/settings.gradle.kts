@@ -1,5 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
 pluginManagement {
     repositories {
         mavenCentral()
@@ -10,3 +8,4 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+rootProject.name = "build-script"

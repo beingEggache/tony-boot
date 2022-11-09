@@ -1,6 +1,6 @@
 package com.tony.buildscript
 
-object VersionManagement {
+object VersionManagement  {
     const val templateVersion = "0.1-SNAPSHOT"
 
     const val kotlinVersion = "1.7.20"
