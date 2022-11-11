@@ -21,6 +21,5 @@ gradle.rootProject {
     }
 }
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include("tony-api")
 include("tony-service")

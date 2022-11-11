@@ -22,4 +22,3 @@ gradle.rootProject {
 }
 
 include("gateway-api")
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

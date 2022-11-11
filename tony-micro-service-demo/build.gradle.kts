@@ -10,12 +10,6 @@ plugins {
     idea
 }
 
-buildscript {
-    dependencies {
-        classpath("com.tony:build-script:0.1-SNAPSHOT")
-    }
-}
-
 val javaVersion:String by project
 
 copyProjectHookToGitHook("pre-commit", "pre-push")

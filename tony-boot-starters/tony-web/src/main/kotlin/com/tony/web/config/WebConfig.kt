@@ -100,13 +100,16 @@ internal class WebConfig(
             allowedMethods = webCorsProperties.allowedMethods.ifEmpty { setOf("*") }.toList()
             exposedHeaders = webCorsProperties.exposedHeaders.plus(HttpHeaders.CONTENT_DISPOSITION).toList()
             maxAge = webCorsProperties.maxAge
-
-            logger.info("Cors allowCredentials is $allowCredentials")
-            logger.info("Cors allowedOrigins is $allowedOriginPatterns")
-            logger.info("Cors allowedHeaders is $allowedHeaders")
-            logger.info("Cors allowedMethods is $allowedMethods")
-            logger.info("Cors exposedHeaders is $exposedHeaders")
-            logger.info("Cors maxAge is $maxAge")
+            logger.info(
+                listOf(
+                    "Cors allowCredentials is $allowCredentials",
+                    "allowedOrigins is $allowedOriginPatterns",
+                    "allowedHeaders is $allowedHeaders",
+                    "allowedMethods is $allowedMethods",
+                    "exposedHeaders is $exposedHeaders",
+                    "maxAge is $maxAge"
+                ).joinToString()
+            )
         }
         source.registerCorsConfiguration("/**", corsConfiguration)
         return CorsFilter(source).apply {
