@@ -51,17 +51,15 @@ configure(listOf(rootProject)) {
     }
 
     dependencies {
-        add("api", platform(Deps.SpringCloudDeps.springCloudDependencies))
-        add("api", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
-
         constraints {
             addDepsManagement()
         }
+        add("api", platform(Deps.SpringCloudDeps.springCloudDependencies))
+        add("api", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
     }
 }
 
-val moduleProjects = subprojects
-configure(moduleProjects) {
+configure(subprojects) {
 
     apply {
         plugin("kotlin")
