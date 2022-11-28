@@ -3,10 +3,10 @@ package com.tony.buildscript
 object VersionManagement  {
     const val templateVersion = "0.1-SNAPSHOT"
 
-    const val kotlinVersion = "1.7.21"
+    const val kotlinVersion = "1.7.22"
 
     const val springVersion = "5.3.24"
-    const val springBootVersion = "2.7.5"
+    const val springBootVersion = "2.7.6"
 
     const val openFeignVersion = "11.10"
 
@@ -19,7 +19,7 @@ object VersionManagement  {
 
     const val xxlJobVersion = "2.3.1"
 
-    const val jacksonVersion = "2.14.0"
+    const val jacksonVersion = "2.14.1"
 
     const val gsonVersion = "2.10"
     const val fastjsonVersion = "2.0.19"
@@ -42,7 +42,7 @@ object VersionManagement  {
     const val springCloudAlibabaVersion = "2021.0.1.0"
     const val springCloudVersion = "2021.0.5"
 
-    const val alipaySdkJavaVersion = "4.34.52.ALL"
-    const val aliyunJavaSdkCoreVersion = "4.6.2"
+    const val alipaySdkJavaVersion = "4.34.64.ALL"
+    const val aliyunJavaSdkCoreVersion = "4.6.3"
     const val aliyunSdkOssVersion = "3.15.2"
 }
