@@ -16,6 +16,7 @@ import com.tony.ApiProperty
 import com.tony.PageResultLike
 import com.tony.Pageable
 import com.tony.mybatis.dao.BaseDao
+import com.tony.mybatis.dao.getEntityClass
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
 import java.util.function.Predicate
@@ -68,7 +69,7 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
         throwIf(!exists(), message, code)
     }
 
-    public fun <E : PageResultLike<T>> pageResult(page: Pageable): E = baseMapper.selectPageResult<E>(page, wrapper)
+    public fun <E : PageResultLike<T>> pageResult(page: Pageable): E = baseMapper.selectPageResult(page, wrapper)
 
     override fun select(
         entityClass: Class<T>,
@@ -76,4 +77,6 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
     ): TonyLambdaQueryChainWrapper<T> = apply {
         wrapperChildren.select(entityClass, predicate)
     }
+
+    override fun getEntityClass(): Class<T> = baseMapper.getEntityClass()
 }

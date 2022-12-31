@@ -151,15 +151,15 @@ internal object DepsManagement {
         const val gson = "com.google.code.gson:gson:${VersionManagement.gsonVersion}"
         const val fastjson = "com.alibaba:fastjson:${VersionManagement.fastjsonVersion}"
 
-        const val xstream = "com.thoughtworks.xstream:xstream:1.4.19"
-        const val httpclient = "org.apache.httpcomponents:httpclient:4.5.13"
-        const val httpcore = "org.apache.httpcomponents:httpcore:4.4.15"
-        const val httpcoreNio = "org.apache.httpcomponents:httpcore-nio:4.4.15"
+        const val xstream = "com.thoughtworks.xstream:xstream:1.4.20"
+        const val httpclient = "org.apache.httpcomponents:httpclient:4.5.14"
+        const val httpcore = "org.apache.httpcomponents:httpcore:4.4.16"
+        const val httpcoreNio = "org.apache.httpcomponents:httpcore-nio:4.4.16"
         const val okhttp = "com.squareup.okhttp3:okhttp:4.10.0"
 
         const val commonsCodec = "commons-codec:commons-codec:1.15"
         const val commonsIo = "commons-io:commons-io:2.11.0"
-        const val commonsCompress = "org.apache.commons:commons-compress:1.21"
+        const val commonsCompress = "org.apache.commons:commons-compress:1.22"
         const val commonsPool2 = "org.apache.commons:commons-pool2:2.11.1"
         const val commonsLang3 = "org.apache.commons:commons-lang3:3.12.0"
 
