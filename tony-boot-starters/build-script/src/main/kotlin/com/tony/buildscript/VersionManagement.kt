@@ -5,7 +5,7 @@ object VersionManagement  {
 
     const val kotlinVersion = "1.8.0"
 
-    const val springVersion = "5.3.24"
+    const val springVersion = "5.3.25"
     const val springBootVersion = "2.7.7"
 
     const val openFeignVersion = "11.10"
@@ -27,13 +27,13 @@ object VersionManagement  {
 
     const val reactorVersion = "3.4.26"
     const val reactorKotlinExtensions = "1.2.1"
-    const val reactorNettyVersion = "1.1.1"
+    const val reactorNettyVersion = "1.1.2"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.12.20"
+    const val byteBuddyVersion = "1.12.21"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.72"
-    const val javaJwtVersion = "4.2.1"
+    const val javaJwtVersion = "4.2.2"
     const val guavaVersion = "31.1-jre"
 
     const val swaggerV3Version = "2.2.7"
@@ -42,7 +42,7 @@ object VersionManagement  {
     const val springCloudAlibabaVersion = "2021.0.4.0"
     const val springCloudVersion = "2021.0.5"
 
-    const val alipaySdkJavaVersion = "4.35.9.ALL"
+    const val alipaySdkJavaVersion = "4.35.32.ALL"
     const val aliyunJavaSdkCoreVersion = "4.6.3"
     const val aliyunSdkOssVersion = "3.16.0"
 }
