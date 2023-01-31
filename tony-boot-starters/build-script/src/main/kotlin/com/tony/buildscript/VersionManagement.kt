@@ -19,7 +19,7 @@ object VersionManagement  {
 
     const val xxlJobVersion = "2.3.1"
 
-    const val jacksonVersion = "2.14.1"
+    const val jacksonVersion = "2.14.2"
 
     const val gsonVersion = "2.10.1"
     const val fastjsonVersion = "2.0.20"
