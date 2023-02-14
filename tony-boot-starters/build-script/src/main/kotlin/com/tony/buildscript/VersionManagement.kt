@@ -3,7 +3,7 @@ package com.tony.buildscript
 object VersionManagement  {
     const val templateVersion = "0.1-SNAPSHOT"
 
-    const val kotlinVersion = "1.8.0"
+    const val kotlinVersion = "1.8.10"
 
     const val springVersion = "5.3.25"
     const val springBootVersion = "2.7.8"
@@ -13,7 +13,7 @@ object VersionManagement  {
     const val postgresqlVersion = "42.5.1"
     const val mysqlVersion = "8.0.32"
     const val hikariCPVersion = "5.0.1"
-    const val mybatisPlusVersion = "3.5.3"
+    const val mybatisPlusVersion = "3.5.3.1"
     const val mybatisVersion = "3.5.11"
     const val lettuceCoreVersion = "6.2.2.RELEASE"
 
@@ -30,14 +30,14 @@ object VersionManagement  {
     const val reactorNettyVersion = "1.1.2"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.12.22"
+    const val byteBuddyVersion = "1.13.0"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.72"
-    const val javaJwtVersion = "4.2.2"
+    const val javaJwtVersion = "4.3.0"
     const val guavaVersion = "31.1-jre"
 
-    const val swaggerV3Version = "2.2.7"
-    const val springdocVersion = "1.6.13"
+    const val swaggerV3Version = "2.2.8"
+    const val springdocVersion = "1.6.14"
 
     const val springCloudAlibabaVersion = "2021.0.4.0"
     const val springCloudVersion = "2021.0.5"
