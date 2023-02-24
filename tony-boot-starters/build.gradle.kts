@@ -33,7 +33,7 @@ val javaVersion:String by project
 copyProjectHookToGitHook("pre-commit", "pre-push")
 idea.project {
     jdkName = javaVersion
-    languageLevel = IdeaLanguageLevel(JavaVersion.VERSION_11)
+    languageLevel = IdeaLanguageLevel(JavaVersion.toVersion(javaVersion))
     vcs = "Git"
 }
 
@@ -76,7 +76,7 @@ configure(subprojects) {
 
     configure<KotlinJvmProjectExtension> {
         jvmToolchain {
-            languageVersion.set(JavaLanguageVersion.of(11))
+            languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         }
         explicitApi()
     }
