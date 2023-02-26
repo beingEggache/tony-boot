@@ -17,12 +17,12 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper
-import com.baomidou.mybatisplus.extension.kotlin.KtQueryChainWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateChainWrapper
 import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers
 import com.tony.ApiProperty
 import com.tony.PageResultLike
 import com.tony.Pageable
+import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
 import com.tony.utils.throwIfNull
 import com.tony.utils.toPage
@@ -211,7 +211,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      *
      * @return KtQueryWrapper 的包装类
      */
-    public fun ktQuery(): KtQueryChainWrapper<T> = ChainWrappers.ktQueryChain(this, getEntityClass())
+    public fun ktQuery(): TonyKtQueryChainWrapper<T> = TonyKtQueryChainWrapper(this, getEntityClass())
 
     /**
      * 链式查询 lambda 式
