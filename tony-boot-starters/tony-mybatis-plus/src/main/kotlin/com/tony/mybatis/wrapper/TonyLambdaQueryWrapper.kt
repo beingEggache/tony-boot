@@ -6,9 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.Query
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
-import com.baomidou.mybatisplus.core.toolkit.ArrayUtils
-import com.baomidou.mybatisplus.core.toolkit.Assert
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction
+import com.tony.utils.throwIfNull
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Predicate
 
@@ -29,13 +28,13 @@ public class TonyLambdaQueryWrapper<T : Any> :
 
     @JvmOverloads
     public constructor(entity: T? = null) {
-        super.setEntity(entity)
-        super.initNeed()
+        this.entity = entity
+        initNeed()
     }
 
     public constructor(entityClass: Class<T>?) {
-        super.setEntityClass(entityClass)
-        super.initNeed()
+        this.entityClass = entityClass
+        initNeed()
     }
 
     internal constructor(
@@ -50,8 +49,8 @@ public class TonyLambdaQueryWrapper<T : Any> :
         sqlComment: SharedString?,
         sqlFirst: SharedString?
     ) {
-        super.setEntity(entity)
-        super.setEntityClass(entityClass)
+        this.entity = entity
+        this.entityClass = entityClass
         this.paramNameSeq = paramNameSeq
         this.paramNameValuePairs = paramNameValuePairs
         this.expression = mergeSegments
@@ -70,7 +69,7 @@ public class TonyLambdaQueryWrapper<T : Any> :
     @SuppressWarnings(value = ["varargs", "unchecked"])
     @SafeVarargs
     override fun select(vararg columns: SFunction<T, *>): TonyLambdaQueryWrapper<T> = apply {
-        if (ArrayUtils.isNotEmpty(columns)) {
+        if (columns.isNotEmpty()) {
             sqlSelect?.stringValue = columnsToString(false, *columns)
         }
     }
@@ -92,14 +91,8 @@ public class TonyLambdaQueryWrapper<T : Any> :
      * @return this
      */
     override fun select(entityClass: Class<T>?, predicate: Predicate<TableFieldInfo>): TonyLambdaQueryWrapper<T> {
-        var innerEntityClass = entityClass
-        if (innerEntityClass == null) {
-            innerEntityClass = this.entityClass
-        } else {
-            setEntityClass(entityClass)
-        }
-        Assert.notNull(innerEntityClass, "entityClass can not be null")
-        sqlSelect?.stringValue = TableInfoHelper.getTableInfo(innerEntityClass).chooseSelect(predicate)
+        this.entityClass = (entityClass ?: this.entityClass).throwIfNull("entityClass can not be null")
+        sqlSelect?.stringValue = TableInfoHelper.getTableInfo(this.entityClass).chooseSelect(predicate)
         return typedThis
     }
 
@@ -110,8 +103,8 @@ public class TonyLambdaQueryWrapper<T : Any> :
      *
      * 故 sqlSelect 不向下传递
      */
-    override fun instance(): TonyLambdaQueryWrapper<T> {
-        return TonyLambdaQueryWrapper(
+    override fun instance(): TonyLambdaQueryWrapper<T> =
+        TonyLambdaQueryWrapper(
             entity,
             entityClass,
             null,
@@ -123,7 +116,6 @@ public class TonyLambdaQueryWrapper<T : Any> :
             SharedString.emptyString(),
             SharedString.emptyString()
         )
-    }
 
     override fun clear() {
         super.clear()

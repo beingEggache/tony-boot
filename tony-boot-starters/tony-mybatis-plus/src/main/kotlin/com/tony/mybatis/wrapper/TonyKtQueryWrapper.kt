@@ -23,12 +23,12 @@ public open class TonyKtQueryWrapper<T : Any> :
 
     public constructor(entity: T) {
         this.entity = entity
-        super.initNeed()
+        initNeed()
     }
 
     public constructor(entityClass: Class<T>) {
         this.entityClass = entityClass
-        super.initNeed()
+        initNeed()
     }
 
     internal constructor(

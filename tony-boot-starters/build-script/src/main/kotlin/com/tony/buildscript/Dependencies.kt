@@ -43,6 +43,7 @@ object Deps {
     }
 
     object Kotlin {
+        const val bom = "org.jetbrains.kotlin:kotlin-bom"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib"
         const val stdlibCommon = "org.jetbrains.kotlin:kotlin-stdlib-common"
         const val stdlibJdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
