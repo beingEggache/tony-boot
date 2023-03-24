@@ -44,8 +44,8 @@ public interface WechatClient {
         @RequestParam(
             "grant_type",
             required = true,
-            defaultValue = "client_credential"
-        ) grantType: String? = "client_credential"
+            defaultValue = "client_credential",
+        ) grantType: String? = "client_credential",
     ): WechatApiTokenResp
 
     /**
@@ -64,8 +64,8 @@ public interface WechatClient {
         @RequestParam(
             "grant_type",
             required = true,
-            defaultValue = "authorization_code"
-        ) grantType: String? = "authorization_code"
+            defaultValue = "authorization_code",
+        ) grantType: String? = "authorization_code",
     ): WechatUserTokenResp
 
     /**
@@ -74,7 +74,7 @@ public interface WechatClient {
     @GetMapping("/cgi-bin/ticket/getticket")
     public fun getTicket(
         @RequestParam("access_token") accessToken: String?,
-        @RequestParam("type") type: String?
+        @RequestParam("type") type: String?,
     ): WechatJsApiTicketResp
 
     @GetMapping("/sns/jscode2session")
@@ -82,45 +82,40 @@ public interface WechatClient {
         @RequestParam("appid") appId: String?,
         @RequestParam("secret") secret: String?,
         @RequestParam("grant_type") grantType: String?,
-        @RequestParam("js_code") jsCode: String?
+        @RequestParam("js_code") jsCode: String?,
     ): WechatJsCode2SessionResp
 
     @GetMapping("/cgi-bin/user/info")
     public fun userInfo(
         @RequestParam("access_token") accessToken: String?,
-        @RequestParam("openid") openId: String?
+        @RequestParam("openid") openId: String?,
     ): WechatUserInfoResp
 
     @PostMapping("/cgi-bin/menu/create?access_token={accessToken}")
-    public fun createMenu(
-        @PathVariable("accessToken") accessToken: String?,
-        @RequestBody menu: WechatMenu
-    ): WechatResp
+    public fun createMenu(@PathVariable("accessToken") accessToken: String?, @RequestBody menu: WechatMenu,): WechatResp
 
     @GetMapping("/cgi-bin/menu/delete")
-    public fun deleteMenu(
-        @RequestParam("access_token") accessToken: String?
-    ): WechatResp
+    public fun deleteMenu(@RequestParam("access_token") accessToken: String?,): WechatResp
 
     @PostMapping("/cgi-bin/qrcode/create?access_token={accessToken}")
     public fun createQrCode(
         @Validated
         @RequestBody
         req: WechatQrCodeCreateReq,
-        @PathVariable accessToken: String?
+        @PathVariable accessToken: String?,
     ): WechatQrCodeResp
 
     @PostMapping("/wxa/getwxacodeunlimit?access_token={accessToken}")
     public fun createMiniProgramQrcode(
         @RequestBody
         req: WechatMiniProgramQrCodeCreateReq,
-        @PathVariable accessToken: String?
+        @PathVariable accessToken: String?,
     ): feign.Response
 
     @PostMapping("/wxa/business/getuserphonenumber?access_token={accessToken}")
     public fun getUserPhoneNumber(
         @RequestBody
         req: WechatMiniProgramUserPhoneReq,
-        @PathVariable accessToken: String?
+        @PathVariable accessToken: String?,
     ): WechatMiniProgramUserPhoneResp
 }

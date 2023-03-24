@@ -40,7 +40,7 @@ public class FeignConfig {
     @Bean
     internal fun decoder(
         messageConverters: ObjectFactory<HttpMessageConverters>,
-        customizers: ObjectProvider<HttpMessageConverterCustomizer>
+        customizers: ObjectProvider<HttpMessageConverterCustomizer>,
     ): Decoder = SpringDecoder(messageConverters, customizers)
 
     @ConditionalOnMissingBean(ErrorDecoder::class)
@@ -55,7 +55,7 @@ public class FeignConfig {
     @ConditionalOnExpression("\${feign.okhttp.enabled:true}")
     @Bean
     internal fun feignLogInterceptor(
-        feignRequestTraceLogger: FeignRequestTraceLogger
+        feignRequestTraceLogger: FeignRequestTraceLogger,
     ) = FeignLogInterceptor(feignRequestTraceLogger)
 
     @ConditionalOnExpression("\${feign.okhttp.enabled:true}")
@@ -64,7 +64,7 @@ public class FeignConfig {
     internal fun okHttpClient(
         appInterceptors: List<AppInterceptor>,
         networkInterceptors: List<NetworkInterceptor>,
-        feignConfigProperties: FeignConfigProperties
+        feignConfigProperties: FeignConfigProperties,
     ): OkHttpClient = OkHttpClient.Builder()
         .callTimeout(feignConfigProperties.callTimeout, TimeUnit.SECONDS)
         .connectTimeout(feignConfigProperties.connectTimeout, TimeUnit.SECONDS)
@@ -96,5 +96,5 @@ internal data class FeignConfigProperties(
     @DefaultValue("true")
     val retryOnConnectionFailure: Boolean = true,
     @DefaultValue("true")
-    val followRedirects: Boolean = true
+    val followRedirects: Boolean = true,
 )

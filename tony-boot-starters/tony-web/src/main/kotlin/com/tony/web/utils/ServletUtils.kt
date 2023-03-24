@@ -66,7 +66,7 @@ private val TEXT_MEDIA_TYPES = listOf(
     MediaType.TEXT_HTML,
     MediaType.TEXT_PLAIN,
     MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_FORM_URLENCODED
+    MediaType.APPLICATION_FORM_URLENCODED,
 )
 
 public val HttpServletResponse.parsedMedia: MediaType?
@@ -92,7 +92,7 @@ public val HttpServletRequest.isCorsPreflightRequest: Boolean
 @Suppress("unused")
 public fun ByteArray.responseEntity(
     fileName: String = "",
-    contentType: MediaType = MediaType.APPLICATION_OCTET_STREAM
+    contentType: MediaType = MediaType.APPLICATION_OCTET_STREAM,
 ): ResponseEntity<ByteArray> =
     ResponseEntity
         .ok()

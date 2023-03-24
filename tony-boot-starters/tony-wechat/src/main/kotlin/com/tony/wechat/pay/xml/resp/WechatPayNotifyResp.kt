@@ -23,6 +23,6 @@ public data class WechatPayNotifyResp(
      */
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("return_msg")
-    var returnMsg: String = "OK"
+    var returnMsg: String = "OK",
 
 )

@@ -42,5 +42,5 @@ public data class WechatTransferReq(
 
     @XStreamAlias("spbill_create_ip")
     @JsonProperty("spbill_create_ip")
-    var spbillCreateIP: String
+    var spbillCreateIP: String,
 )

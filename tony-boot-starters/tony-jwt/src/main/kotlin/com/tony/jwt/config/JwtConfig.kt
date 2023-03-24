@@ -30,7 +30,7 @@ public data class JwtProperties(
      * jwt token expired minutes, default value is one year.
      */
     @DefaultValue("525600")
-    val expiredMinutes: Long = 525600L
+    val expiredMinutes: Long = 525600L,
 )
 
 public object JwtToken {
@@ -49,7 +49,7 @@ public object JwtToken {
 
     @JvmStatic
     public fun gen(
-        vararg params: Pair<String, String?>
+        vararg params: Pair<String, String?>,
     ): String =
         JWT.create()
             .withIssuedAt(Date())

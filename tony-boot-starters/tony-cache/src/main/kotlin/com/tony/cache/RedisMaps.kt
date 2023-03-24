@@ -37,7 +37,7 @@ public object RedisMaps {
         hashKey: String,
         value: T,
         timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
 
     @JvmStatic
@@ -45,7 +45,7 @@ public object RedisMaps {
         key: String,
         hashKey: String,
         value: T,
-        date: Date
+        date: Date,
     ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
     @JvmStatic
@@ -55,7 +55,7 @@ public object RedisMaps {
         hashKey: String,
         value: T,
         timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
 
     @JvmStatic
@@ -63,7 +63,7 @@ public object RedisMaps {
         key: String,
         hashKey: String,
         value: T,
-        date: Date
+        date: Date,
     ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
     @JvmStatic
@@ -72,7 +72,7 @@ public object RedisMaps {
         key: String,
         map: Map<String, Any?>?,
         timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ) {
         if (map == null) {
             logger.warn("Arg map is null.")
@@ -92,7 +92,7 @@ public object RedisMaps {
     public fun putAll(
         key: String,
         map: Map<String, Any?>?,
-        date: Date
+        date: Date,
     ) {
         if (map == null) {
             logger.warn("Arg map is null.")
@@ -148,7 +148,7 @@ public object RedisMaps {
         hashKey: String,
         value: T,
         timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ) {
         if (timeout == 0L) {
             boundHashOps<String, T>(key).put(hashKey, value)
@@ -164,7 +164,7 @@ public object RedisMaps {
         key: String,
         hashKey: String,
         value: T,
-        date: Date
+        date: Date,
     ) {
         boundHashOps<String, T>(key).apply {
             put(hashKey, value)

@@ -27,16 +27,16 @@ import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.Part
 
 internal class RequestReplaceToRepeatReadFilter(
-    private val webProperties: WebProperties
+    private val webProperties: WebProperties,
 ) : OncePerRequestFilter(), PriorityOrdered {
 
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) = filterChain.doFilter(
         request.toRepeatRead(),
-        response
+        response,
     )
 
     override fun shouldNotFilter(request: HttpServletRequest) =
@@ -110,7 +110,7 @@ internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(re
 
         private val formPostContentTypes = arrayOf(
             "application/x-www-form-urlencoded",
-            "multipart/form-data"
+            "multipart/form-data",
         )
     }
 }

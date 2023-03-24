@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletResponse
 @EnableConfigurationProperties(value = [WebProperties::class, WebCorsProperties::class])
 internal class WebConfig(
     private val webProperties: WebProperties,
-    private val webCorsProperties: WebCorsProperties
+    private val webCorsProperties: WebCorsProperties,
 ) : WebMvcConfigurer {
 
     private val logger = getLogger(WebConfig::class.java.name)
@@ -107,8 +107,8 @@ internal class WebConfig(
                     "allowedHeaders is $allowedHeaders",
                     "allowedMethods is $allowedMethods",
                     "exposedHeaders is $exposedHeaders",
-                    "maxAge is $maxAge"
-                ).joinToString()
+                    "maxAge is $maxAge",
+                ).joinToString(),
             )
         }
         source.registerCorsConfiguration("/**", corsConfiguration)
@@ -156,7 +156,7 @@ internal data class WebProperties(
      * 是否处理响应json null值。
      */
     @DefaultValue("true")
-    val jsonNullValueOptimizedEnabled: Boolean = true
+    val jsonNullValueOptimizedEnabled: Boolean = true,
 )
 
 @ConstructorBinding
@@ -172,7 +172,7 @@ public data class WebCorsProperties(
     val exposedHeaders: Set<String> = setOf(),
     val maxAge: Long = Long.MAX_VALUE,
     @DefaultValue("true")
-    val allowCredentials: Boolean = true
+    val allowCredentials: Boolean = true,
 )
 
 internal class ApiCorsProcessor : DefaultCorsProcessor() {
@@ -182,7 +182,7 @@ internal class ApiCorsProcessor : DefaultCorsProcessor() {
         val invalidCorsRequestResponseByteArray = ApiResult(
             EMPTY_RESULT,
             HttpServletResponse.SC_FORBIDDEN,
-            "Invalid CORS request"
+            "Invalid CORS request",
         ).toJsonString().toByteArray()
     }
 

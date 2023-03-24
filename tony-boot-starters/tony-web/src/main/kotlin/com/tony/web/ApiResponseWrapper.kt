@@ -29,7 +29,7 @@ internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {
         selectedContentType: MediaType,
         selectedConverterType: Class<out HttpMessageConverter<*>>,
         request: ServerHttpRequest,
-        response: ServerHttpResponse
+        response: ServerHttpResponse,
     ) = when {
         request.uri.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) -> body
         body == null -> ApiResult(EMPTY_RESULT, ApiProperty.successCode)
@@ -43,7 +43,7 @@ internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {
 
     override fun supports(
         returnType: MethodParameter,
-        converterType: Class<out HttpMessageConverter<*>>
+        converterType: Class<out HttpMessageConverter<*>>,
     ) = MappingJackson2HttpMessageConverter::class.java.isAssignableFrom(converterType) &&
         returnType.parameterType.isNotAssignableFrom(
             ApiResult::class.java,
@@ -54,7 +54,7 @@ internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {
             java.lang.Character::class.java,
             Char::class.java,
             java.lang.Boolean::class.java,
-            Boolean::class.java
+            Boolean::class.java,
         )
 
     private companion object Utils {

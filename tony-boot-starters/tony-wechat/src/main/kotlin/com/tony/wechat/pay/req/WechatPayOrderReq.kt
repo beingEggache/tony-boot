@@ -244,5 +244,5 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("openid")
     @JsonProperty("openid")
-    var openId: String? = null
+    var openId: String? = null,
 )

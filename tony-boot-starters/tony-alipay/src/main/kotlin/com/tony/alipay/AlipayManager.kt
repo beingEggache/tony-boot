@@ -13,7 +13,7 @@ public class AlipayManager(
     private val appId: String,
     private val publicKey: String,
     private val privateKey: String,
-    private val aliPayPublicKey: String
+    private val aliPayPublicKey: String,
 ) {
 
     private val alipayGateway = "https://openapi.alipay.com/gateway.do"
@@ -41,7 +41,7 @@ public class AlipayManager(
         outTradeNo: String?,
         notifyURL: String,
         passBackParams: String? = null,
-        body: String? = null
+        body: String? = null,
     ): String =
         try {
             alipayClient.sdkExecute(
@@ -56,7 +56,7 @@ public class AlipayManager(
                         this.passbackParams = passBackParams?.urlEncode()
                         this.productCode = "QUICK_MSECURITY_PAY"
                     }
-                }
+                },
             )
         } catch (e: AlipayApiException) {
             throw AlipayException(e.message, e)

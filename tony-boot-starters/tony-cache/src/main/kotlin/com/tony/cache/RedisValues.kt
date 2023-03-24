@@ -42,7 +42,7 @@ public object RedisValues {
         key: String,
         value: T,
         timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = if (timeout == 0L) {
         RedisManager.redisTemplate.opsForValue().set(key, value)
     } else {
@@ -55,7 +55,7 @@ public object RedisValues {
         key: String,
         value: T,
         timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = if (timeout == 0L) {
         RedisManager.redisTemplate.opsForValue().set(key, value.toJsonString())
     } else {

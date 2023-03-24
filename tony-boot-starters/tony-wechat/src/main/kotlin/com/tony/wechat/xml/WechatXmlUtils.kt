@@ -57,8 +57,7 @@ public fun <T> xStream(clz: Class<T>): XStream = xStreamMap.getOrPut(clz) {
 /**
  * 针对微信的xml转换
  */
-public inline fun <reified T> T?.toXmlString(): String =
-    if (this == null) {
+public inline fun <reified T> T?.toXmlString(): String = if (this == null) {
         ""
     } else {
         xStream(T::class.java).toXML(this)
@@ -67,5 +66,4 @@ public inline fun <reified T> T?.toXmlString(): String =
 /**
  * 针对微信的xml转换
  */
-public inline fun <reified T> String.xmlToObj(): T =
-    xStream(T::class.java).fromXML(this) as T
+public inline fun <reified T> String.xmlToObj(): T = xStream(T::class.java).fromXML(this) as T

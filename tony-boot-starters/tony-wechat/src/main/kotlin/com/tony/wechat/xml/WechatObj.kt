@@ -21,7 +21,7 @@ public data class WechatArticleItem(
 
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("Url")
-    var url: String
+    var url: String,
 )
 
 public data class ScanCodeInfo(
@@ -31,7 +31,7 @@ public data class ScanCodeInfo(
 
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("ScanResult")
-    var scanResult: String
+    var scanResult: String,
 )
 
 public interface WechatObj {

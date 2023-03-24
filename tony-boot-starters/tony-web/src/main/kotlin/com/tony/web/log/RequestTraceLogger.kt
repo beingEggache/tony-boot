@@ -29,7 +29,7 @@ public fun interface RequestTraceLogger {
     public fun requestTraceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
-        elapsedTime: Long
+        elapsedTime: Long,
     )
 
     public companion object Const {
@@ -54,7 +54,7 @@ public fun interface RequestTraceLogger {
             HttpServletResponse.SC_CREATED,
             HttpServletResponse.SC_NOT_MODIFIED,
             HttpServletResponse.SC_MOVED_PERMANENTLY,
-            HttpServletResponse.SC_MOVED_TEMPORARILY
+            HttpServletResponse.SC_MOVED_TEMPORARILY,
         )
     }
 }
@@ -64,7 +64,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
     override fun requestTraceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
-        elapsedTime: Long
+        elapsedTime: Long,
     ) {
         val requestBody = requestBody(request)
         val responseBody = responseBody(response)

@@ -31,7 +31,7 @@ public open class CaptchaVo(
     public val captcha: String,
     public val type: String,
     @JsonIgnore
-    public val captchaKeyRule: (CaptchaVo) -> String
+    public val captchaKeyRule: (CaptchaVo) -> String,
 )
 
 public class DefaultCaptchaServiceImpl : CaptchaService {
@@ -54,7 +54,7 @@ public object CaptchaManager {
         type: String,
         captchaKeyRule: (CaptchaVo) -> String,
         timeout: Long,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): CaptchaVo {
         val captchaId = uuid()
         val specCaptcha = SpecCaptcha(130, 30, 4)
@@ -70,7 +70,7 @@ public object CaptchaManager {
     public fun <R> verify(
         vo: CaptchaVo,
         message: String = "验证码错误",
-        func: () -> R
+        func: () -> R,
     ): R {
         throwIf(!captchaService.verify(vo), message)
         val apply = func()

@@ -7,6 +7,7 @@
  * @author tangli
  * @since 2022/4/24 16:44
  */
+
 package com.tony.jackson
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside
@@ -21,7 +22,7 @@ import kotlin.reflect.KClass
 @JvmSynthetic
 internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> = mutableMapOf(
     MobileMaskFun::class.java to MobileMaskFun(),
-    NameMaskFun::class.java to NameMaskFun()
+    NameMaskFun::class.java to NameMaskFun(),
 )
 
 @Retention(AnnotationRetention.RUNTIME)
@@ -29,7 +30,7 @@ internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> = mutableMapO
 @JacksonAnnotationsInside
 @JsonSerialize(using = MaskSerializer::class)
 public annotation class MaskConverter(
-    val value: KClass<out MaskConvertFunc>
+    val value: KClass<out MaskConvertFunc>,
 ) {
     public companion object {
         public fun getMaskFun(clazz: Class<*>): MaskConvertFunc =

@@ -50,7 +50,7 @@ public class DefaultRedisCacheAspect {
         paramsNames: Array<String>,
         cacheKey: String,
         redisParamsNames: Array<String>,
-        usePrefix: Boolean = true
+        usePrefix: Boolean = true,
     ): String {
         if (paramsNames.isEmpty() ||
             redisParamsNames.isEmpty()
@@ -64,7 +64,7 @@ public class DefaultRedisCacheAspect {
 
         val paramsValues =
             redisParamsNames.foldIndexed(
-                Array<Any?>(redisParamsNames.size) {}
+                Array<Any?>(redisParamsNames.size) {},
             ) { index, paramsValues, redisParamName ->
                 if (redisParamName.startsWith("#")) {
                     val indexOfDot = redisParamName.indexOf(".")
@@ -123,7 +123,7 @@ public class DefaultRedisCacheAspect {
                     RedisManager.values.set(
                         cacheKey,
                         getCachedEmptyValueByType(javaType),
-                        timeout
+                        timeout,
                     )
                 }
             } else {
@@ -178,7 +178,7 @@ public class DefaultRedisCacheAspect {
         else -> cachedValue?.jsonToObj(
             TypeFactory
                 .defaultInstance()
-                .constructType(javaType)
+                .constructType(javaType),
         )
     }
 }

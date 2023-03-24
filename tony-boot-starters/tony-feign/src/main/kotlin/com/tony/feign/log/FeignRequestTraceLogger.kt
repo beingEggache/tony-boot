@@ -19,7 +19,7 @@ import javax.annotation.Priority
 
 @Priority(Int.MAX_VALUE)
 internal class FeignLogInterceptor(
-    private val feignRequestTraceLogger: FeignRequestTraceLogger
+    private val feignRequestTraceLogger: FeignRequestTraceLogger,
 ) : NetworkInterceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -41,7 +41,7 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         connection: Connection?,
         request: Request,
         response: Response,
-        elapsedTime: Long
+        elapsedTime: Long,
     ) {
         val url = request.url.toUri().toURL()
         val resultCode = response.code
@@ -98,6 +98,6 @@ public interface FeignRequestTraceLogger {
         connection: Connection?,
         request: Request,
         response: Response,
-        elapsedTime: Long
+        elapsedTime: Long,
     )
 }

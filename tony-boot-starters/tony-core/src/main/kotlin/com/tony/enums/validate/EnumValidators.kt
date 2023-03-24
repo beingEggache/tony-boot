@@ -25,9 +25,9 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumVal
 
     override fun isValid(str: EnumValue<Int>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
-            str?.value == null ||
-                str.value == EnumCreator.defaultIntValue
-            )
+                str?.value == null ||
+                    str.value == EnumCreator.defaultIntValue
+                )
         ) {
             return false
         }
@@ -53,9 +53,9 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
 
     override fun isValid(str: EnumValue<Int>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
-            str?.value == null ||
-                str.value == EnumCreator.defaultIntValue
-            )
+                str?.value == null ||
+                    str.value == EnumCreator.defaultIntValue
+                )
         ) {
             return false
         }
@@ -74,9 +74,9 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, E
 
     override fun isValid(str: EnumValue<String>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
-            str?.value == null ||
-                str.value == EnumCreator.defaultStringValue
-            )
+                str?.value == null ||
+                    str.value == EnumCreator.defaultStringValue
+                )
         ) {
             return false
         }
@@ -101,9 +101,9 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<Str
 
     override fun isValid(str: EnumValue<String>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
-            str?.value == null ||
-                str.value == EnumCreator.defaultStringValue
-            )
+                str?.value == null ||
+                    str.value == EnumCreator.defaultStringValue
+                )
         ) {
             return false
         }

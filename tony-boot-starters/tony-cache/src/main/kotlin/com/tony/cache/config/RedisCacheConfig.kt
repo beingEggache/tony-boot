@@ -18,5 +18,5 @@ internal class RedisCacheConfig {
 @ConstructorBinding
 @ConfigurationProperties(prefix = "cache")
 private data class RedisCacheProperties(
-    val keyPrefix: String?
+    val keyPrefix: String?,
 )

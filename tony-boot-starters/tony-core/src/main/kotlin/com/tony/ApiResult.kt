@@ -20,7 +20,7 @@ public interface ApiResultLike<T> {
 public class ApiResult<T> @JvmOverloads constructor(
     override val data: T?,
     override val code: Int = ApiProperty.successCode,
-    override val message: String = ""
+    override val message: String = "",
 ) : ApiResultLike<T> {
 
     init {
@@ -37,7 +37,7 @@ public class ApiResult<T> @JvmOverloads constructor(
     @JvmOverloads
     public fun returnIfSuccessOrThrow(
         message: String = this.message,
-        ex: (message: String, code: Int) -> BaseException = ::BizException
+        ex: (message: String, code: Int) -> BaseException = ::BizException,
     ): T? = if (code != ApiProperty.successCode) {
         throw ex.invoke(message, ApiProperty.bizErrorCode)
     } else {
@@ -112,7 +112,7 @@ public data class PageResult<T>(
     override val size: Long,
     override val pages: Long,
     override val total: Long,
-    override val hasNext: Boolean
+    override val hasNext: Boolean,
 ) : PageResultLike<T> {
 
     public constructor(
@@ -121,7 +121,7 @@ public data class PageResult<T>(
         size: Long,
         pages: Long,
         total: Long,
-        hasNext: Boolean
+        hasNext: Boolean,
     ) : this(array.asList(), page, size, pages, total, hasNext)
 
     public constructor(
@@ -130,7 +130,7 @@ public data class PageResult<T>(
         size: Long,
         pages: Long,
         total: Long,
-        hasNext: Boolean
+        hasNext: Boolean,
     ) : this(byteArray.asList().asTo(), page, size, pages, total, hasNext)
 
     public constructor(
@@ -139,7 +139,7 @@ public data class PageResult<T>(
         size: Long,
         pages: Long,
         total: Long,
-        hasNext: Boolean
+        hasNext: Boolean,
     ) : this(shortArray.asList().asTo(), page, size, pages, total, hasNext)
 
     public constructor(
@@ -148,7 +148,7 @@ public data class PageResult<T>(
         size: Long,
         pages: Long,
         total: Long,
-        hasNext: Boolean
+        hasNext: Boolean,
     ) : this(intArray.asList().asTo(), page, size, pages, total, hasNext)
 
     public constructor(
@@ -157,7 +157,7 @@ public data class PageResult<T>(
         size: Long,
         pages: Long,
         total: Long,
-        hasNext: Boolean
+        hasNext: Boolean,
     ) : this(longArray.asList().asTo(), page, size, pages, total, hasNext)
 
     public constructor(
@@ -166,7 +166,7 @@ public data class PageResult<T>(
         size: Long,
         pages: Long,
         total: Long,
-        hasNext: Boolean
+        hasNext: Boolean,
     ) : this(floatArray.asList().asTo(), page, size, pages, total, hasNext)
 
     public constructor(
@@ -175,7 +175,7 @@ public data class PageResult<T>(
         size: Long,
         pages: Long,
         total: Long,
-        hasNext: Boolean
+        hasNext: Boolean,
     ) : this(doubleArray.asList().asTo(), page, size, pages, total, hasNext)
 
     public constructor(
@@ -184,7 +184,7 @@ public data class PageResult<T>(
         size: Long,
         pages: Long,
         total: Long,
-        hasNext: Boolean
+        hasNext: Boolean,
     ) : this(booleanArray.asList().asTo(), page, size, pages, total, hasNext)
 
     public constructor(
@@ -193,7 +193,7 @@ public data class PageResult<T>(
         size: Long,
         pages: Long,
         total: Long,
-        hasNext: Boolean
+        hasNext: Boolean,
     ) : this(charArray.asList().asTo(), page, size, pages, total, hasNext)
 }
 

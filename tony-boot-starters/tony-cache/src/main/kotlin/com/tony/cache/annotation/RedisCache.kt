@@ -8,7 +8,7 @@ public annotation class RedisCacheable(
     val expire: Long = TODAY_END,
     @Suppress("unused")
     val usePrefix: Boolean = true,
-    val cacheEmpty: Boolean = false
+    val cacheEmpty: Boolean = false,
 ) {
     public companion object {
         public const val TODAY_END: Long = -3L
@@ -20,5 +20,5 @@ public annotation class RedisCacheable(
 @Repeatable
 public annotation class RedisCacheEvict(
     val cacheKey: String,
-    val paramsNames: Array<String> = []
+    val paramsNames: Array<String> = [],
 )

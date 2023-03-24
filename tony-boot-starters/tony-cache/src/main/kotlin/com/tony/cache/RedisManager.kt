@@ -50,8 +50,8 @@ public object RedisManager {
     private val script: DefaultRedisScript<Long> = DefaultRedisScript<Long>().apply {
         setScriptSource(
             ResourceScriptSource(
-                ClassPathResource("META-INF/scripts/lock_key.lua")
-            )
+                ClassPathResource("META-INF/scripts/lock_key.lua"),
+            ),
         )
         resultType = Long::class.java
     }
@@ -97,14 +97,14 @@ public object RedisManager {
     public fun expire(
         key: String,
         timeout: Long,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Boolean = redisTemplate.expire(key, timeout, timeUnit)
 
     @JvmStatic
     @JvmOverloads
     public fun getExpire(
         key: String,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Long = redisTemplate.getExpire(key, timeUnit)
 
     @JvmStatic

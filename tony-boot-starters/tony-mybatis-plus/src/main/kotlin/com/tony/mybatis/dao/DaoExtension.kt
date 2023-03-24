@@ -6,6 +6,7 @@
  * @author tangli
  * @since 2022/7/13 10:10
  */
+
 package com.tony.mybatis.dao
 
 import com.baomidou.mybatisplus.core.enums.SqlMethod
@@ -79,6 +80,6 @@ internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
  */
 internal fun <T : Any, E> BaseDao<T>.executeBatch(
     batchList: Collection<E>,
-    consumer: BiConsumer<SqlSession, E>
+    consumer: BiConsumer<SqlSession, E>,
 ): Boolean =
     SqlHelper.executeBatch(getEntityClass(), getLog(), batchList, batchList.size + 1, consumer)

@@ -12,7 +12,7 @@ public class DefaultErrorDecoder : ErrorDecoder {
         return if (status >= 400) {
             val url = response.request().url()
             ApiException(
-                "$methodKey error,status:$status,reason:${response.reason()},url: $url"
+                "$methodKey error,status:$status,reason:${response.reason()},url: $url",
             )
         } else {
             FeignException.errorStatus(methodKey, response)

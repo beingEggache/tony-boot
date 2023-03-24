@@ -50,13 +50,13 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
     @JvmOverloads
     public fun oneNotNull(
         message: String = ApiProperty.notFoundMessage,
-        code: Int = ApiProperty.notFoundCode
+        code: Int = ApiProperty.notFoundCode,
     ): T = baseMapper.selectOne(wrapper).throwIfNull(message, code)
 
     @JvmOverloads
     public fun throwIfExists(
         message: String,
-        code: Int = ApiProperty.notFoundCode
+        code: Int = ApiProperty.notFoundCode,
     ) {
         throwIf(exists(), message, code)
     }
@@ -64,7 +64,7 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
     @JvmOverloads
     public fun throwIfNotExists(
         message: String,
-        code: Int = ApiProperty.notFoundCode
+        code: Int = ApiProperty.notFoundCode,
     ) {
         throwIf(!exists(), message, code)
     }
@@ -73,7 +73,7 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
 
     override fun select(
         entityClass: Class<T>,
-        predicate: Predicate<TableFieldInfo>
+        predicate: Predicate<TableFieldInfo>,
     ): TonyLambdaQueryChainWrapper<T> = apply {
         wrapperChildren.select(entityClass, predicate)
     }

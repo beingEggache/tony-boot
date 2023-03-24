@@ -21,7 +21,7 @@ internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
     override fun serialize(
         value: Any?,
         gen: JsonGenerator,
-        serializers: SerializerProvider
+        serializers: SerializerProvider,
     ) {
         if (value == null) {
             gen.writeArray(emptyArray(), 0, 0)
@@ -33,7 +33,7 @@ internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
     override fun serialize(
         value: Any?,
         gen: JsonGenerator,
-        serializers: SerializerProvider?
+        serializers: SerializerProvider?,
     ) {
         if (value == null) {
             gen.writeObject(ApiResult.EMPTY_RESULT)
@@ -45,7 +45,7 @@ internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
     override fun serialize(
         value: Any?,
         gen: JsonGenerator,
-        serializers: SerializerProvider
+        serializers: SerializerProvider,
     ) {
         gen.writeString("")
     }
@@ -60,7 +60,7 @@ public class NullValueBeanSerializerModifier : BeanSerializerModifier() {
     override fun changeProperties(
         config: SerializationConfig,
         beanDesc: BeanDescription,
-        beanProperties: MutableList<BeanPropertyWriter>
+        beanProperties: MutableList<BeanPropertyWriter>,
     ): MutableList<BeanPropertyWriter> = beanProperties.onEach {
         when {
             it.type.isDateTimeLikeType() || it.type.isBooleanType() || it.type.isEnumType -> Unit

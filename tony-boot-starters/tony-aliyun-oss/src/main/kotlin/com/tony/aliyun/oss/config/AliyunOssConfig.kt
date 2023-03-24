@@ -16,5 +16,5 @@ internal data class AliyunOssProperties(
     val accessKeyId: String,
     val accessKeySecret: String,
     val bucketName: String,
-    val endpoint: String
+    val endpoint: String,
 )

@@ -186,7 +186,7 @@ public data class WechatPayNotifyReq(
      */
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("time_end")
-    var timeEnd: String
+    var timeEnd: String,
 ) {
 
     public companion object {
@@ -196,12 +196,12 @@ public data class WechatPayNotifyReq(
             notifyRequest: WechatPayNotifyReq,
             signValid: Boolean,
             doOnSuccess: () -> Unit,
-            doOnFailed: (String) -> Unit
+            doOnFailed: (String) -> Unit,
         ): String {
             if (!signValid) {
                 logger.error(
                     "wechat pay order ${notifyRequest.outTradeNo} " +
-                        "sign invalid,notify request:${notifyRequest.toXmlString()}"
+                        "sign invalid,notify request:${notifyRequest.toXmlString()}",
                 )
                 return WechatPayNotifyResp().toXmlString()
             }

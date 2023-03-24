@@ -68,6 +68,6 @@ public data class WechatXmlResp(
     var articleCount: Int? = null,
 
     @XStreamAlias("Articles")
-    var articles: List<WechatArticleItem>? = null
+    var articles: List<WechatArticleItem>? = null,
 
 ) : WechatObj

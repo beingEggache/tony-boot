@@ -22,7 +22,7 @@ public interface LoginCheckInterceptor : HandlerInterceptor {
     override fun preHandle(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        handler: Any
+        handler: Any,
     ): Boolean {
         if (handler !is HandlerMethod) return true
         return handleIsLogin(request, response, handler)
@@ -31,7 +31,7 @@ public interface LoginCheckInterceptor : HandlerInterceptor {
     public fun handleIsLogin(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        handler: HandlerMethod
+        handler: HandlerMethod,
     ): Boolean
 }
 
@@ -39,7 +39,7 @@ public class NoopLoginCheckInterceptor : LoginCheckInterceptor {
     override fun handleIsLogin(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        handler: HandlerMethod
+        handler: HandlerMethod,
     ): Boolean = true
 }
 
@@ -48,7 +48,7 @@ internal class DefaultJwtLoginCheckInterceptor : LoginCheckInterceptor {
     override fun handleIsLogin(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        handler: HandlerMethod
+        handler: HandlerMethod,
     ): Boolean {
         if (handler.method.getAnnotation(NoLoginCheck::class.java) != null) return true
         return WebContext.apiSession.hasLogin()

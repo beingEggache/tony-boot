@@ -19,14 +19,14 @@ public class AliyunSmsManager(
     private val accessKeyId: String,
     private val accessKeySecret: String,
     private val smsSignName: String,
-    private val timeout: String
+    private val timeout: String,
 ) {
 
     private val acsClient: DefaultAcsClient by lazy {
         val profile = DefaultProfile.getProfile(
             regionId,
             accessKeyId,
-            accessKeySecret
+            accessKeySecret,
         )
 
         DefaultProfile.addEndpoint(regionId, product, endpoint)
@@ -56,7 +56,7 @@ public class AliyunSmsManager(
                     signName = smsSignName
                     this.templateCode = templateCode
                     this.templateParam = templateParam
-                }
+                },
             )
         } catch (e: ClientException) {
             logger.error("${e.errCode}:${e.errMsg}")

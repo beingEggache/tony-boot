@@ -35,10 +35,10 @@ public interface HaveWhiteListUrlPattern {
             sanitizedPath(
                 Env.getProperty(
                     "springdoc.swagger-ui.oauth2-redirect-url",
-                    "/swagger-ui/oauth2-redirect.html"
-                )
+                    "/swagger-ui/oauth2-redirect.html",
+                ),
             ),
-            sanitizedPath(Env.getProperty("springdoc.api-docs.path", "/v3/api-docs"))
+            sanitizedPath(Env.getProperty("springdoc.api-docs.path", "/v3/api-docs")),
         )
     }
 

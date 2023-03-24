@@ -15,7 +15,7 @@ class KtlintPlugin : Plugin<Project> {
         val ktlint: Configuration by target.configurations.creating
 
         target.dependencies {
-            ktlint("com.pinterest:ktlint:0.47.1")
+            ktlint("com.pinterest:ktlint:0.48.2")
             // ktlint(project(":custom-ktlint-ruleset")) // in case of custom ruleset
         }
         val outputDir = "${target.buildDir}/reports/ktlint/"

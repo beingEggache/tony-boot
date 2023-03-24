@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @EnableConfigurationProperties(IdProperties::class)
 public class IdConfig(
-    private val idProperties: IdProperties
+    private val idProperties: IdProperties,
 ) {
 
     @Bean
@@ -72,5 +72,5 @@ public data class IdProperties(
      * 默认2000，推荐范围500-10000（与计算能力有关）
      */
     @DefaultValue("2000")
-    val topOverCostCount: Short = 2000
+    val topOverCostCount: Short = 2000,
 )

@@ -31,6 +31,6 @@ public data class WechatTransferResp(
     @XStreamAlias("payment_no")
     var paymentNo: String,
     @XStreamAlias("payment_time")
-    var paymentTime: String
+    var paymentTime: String,
 
 )

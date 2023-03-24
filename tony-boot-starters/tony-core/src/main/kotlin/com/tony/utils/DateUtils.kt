@@ -75,12 +75,12 @@ public fun LocalDateTime.toInstant(): Instant = toInstant(defaultZoneOffset)
 public fun secondOfTodayRest(): Long =
     ChronoUnit.SECONDS.between(
         LocalDateTime.now(),
-        LocalDateTime.now().with(LocalTime.MAX)
+        LocalDateTime.now().with(LocalTime.MAX),
     )
 
 public fun LocalDateTime.isBetween(
     start: LocalDateTime?,
-    end: LocalDateTime?
+    end: LocalDateTime?,
 ): Boolean = if (start == null || end == null) {
     throw ApiException("start or end is null,start:$start end:$end")
 } else {
@@ -89,7 +89,7 @@ public fun LocalDateTime.isBetween(
 
 public fun LocalDate.isBetween(
     start: LocalDate?,
-    end: LocalDate?
+    end: LocalDate?,
 ): Boolean = if (start == null || end == null) {
     throw ApiException("start or end is null,start:$start end:$end")
 } else {

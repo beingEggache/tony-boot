@@ -29,11 +29,11 @@ public data class WechatQrCodeCreateReq(
     val actionName: WechatQrCodeType?,
 
     @JsonProperty("action_info")
-    val actionInfo: WechatQrCodeActionInfo?
+    val actionInfo: WechatQrCodeActionInfo?,
 )
 
 public data class WechatQrCodeActionInfo(
-    val scene: Scene
+    val scene: Scene,
 ) {
     public constructor(sceneId: Int?, sceneStr: String?) : this(Scene(sceneId, sceneStr))
     public constructor(sceneStr: String?) : this(Scene(null, sceneStr))
@@ -45,24 +45,24 @@ public data class WechatQrCodeActionInfo(
         val sceneId: Int?,
 
         @JsonProperty("scene_str", namespace = "scene")
-        val sceneStr: String?
+        val sceneStr: String?,
     )
 }
 
 public enum class WechatQrCodeType(
-    override val value: String
+    override val value: String,
 ) : EnumStringValue {
 
     @JsonEnumDefaultValue
     QR_SCENE("QR_SCENE"),
     QR_STR_SCENE("QR_STR_SCENE"),
     QR_LIMIT_SCENE("QR_LIMIT_SCENE"),
-    QR_LIMIT_STR_SCENE("QR_LIMIT_STR_SCENE");
+    QR_LIMIT_STR_SCENE("QR_LIMIT_STR_SCENE"),
+    ;
 
     public companion object : EnumCreator<WechatQrCodeType, String>(WechatQrCodeType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String): WechatQrCodeType? =
-            super.create(value)
+        override fun create(value: String): WechatQrCodeType? = super.create(value)
     }
 }

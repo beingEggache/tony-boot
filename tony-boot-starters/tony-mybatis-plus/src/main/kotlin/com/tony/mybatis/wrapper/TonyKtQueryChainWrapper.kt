@@ -15,7 +15,7 @@ import java.util.function.Predicate
 import kotlin.reflect.KProperty
 
 public open class TonyKtQueryChainWrapper<T : Any>(
-    private val baseMapper: BaseDao<T>
+    private val baseMapper: BaseDao<T>,
 ) : AbstractChainWrapper<T, KProperty<*>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
     ChainQuery<T>,
     Query<TonyKtQueryChainWrapper<T>, T, KProperty<*>> {
@@ -41,13 +41,13 @@ public open class TonyKtQueryChainWrapper<T : Any>(
     @JvmOverloads
     public fun oneNotNull(
         message: String = ApiProperty.notFoundMessage,
-        code: Int = ApiProperty.notFoundCode
+        code: Int = ApiProperty.notFoundCode,
     ): T = baseMapper.selectOne(wrapper).throwIfNull(message, code)
 
     @JvmOverloads
     public fun throwIfExists(
         message: String,
-        code: Int = ApiProperty.notFoundCode
+        code: Int = ApiProperty.notFoundCode,
     ) {
         throwIf(exists(), message, code)
     }
@@ -55,7 +55,7 @@ public open class TonyKtQueryChainWrapper<T : Any>(
     @JvmOverloads
     public fun throwIfNotExists(
         message: String,
-        code: Int = ApiProperty.notFoundCode
+        code: Int = ApiProperty.notFoundCode,
     ) {
         throwIf(!exists(), message, code)
     }

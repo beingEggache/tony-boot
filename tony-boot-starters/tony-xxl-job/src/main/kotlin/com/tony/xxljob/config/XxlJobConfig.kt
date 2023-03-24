@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @EnableConfigurationProperties(XxlJobProperties::class)
 internal class XxlJobConfig(
-    private val xxlJobProperties: XxlJobProperties
+    private val xxlJobProperties: XxlJobProperties,
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(XxlJobConfig::class.java)
@@ -108,5 +108,5 @@ internal data class XxlJobProperties(
      * 执行器日志文件保存天数 选填 ：
      * 过期日志自动清理, 限制值大于等于3时生效; 否则, 如-1, 关闭自动清理功能；
      */
-    val executorLogRetentionDays: Int?
+    val executorLogRetentionDays: Int?,
 )

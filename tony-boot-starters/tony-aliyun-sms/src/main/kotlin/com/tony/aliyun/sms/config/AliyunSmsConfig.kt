@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @EnableConfigurationProperties(AliyunSmsProperties::class)
 public class AliyunSmsConfig(
-    private val aliyunSMSProperties: AliyunSmsProperties
+    private val aliyunSMSProperties: AliyunSmsProperties,
 ) {
 
     @Bean
@@ -19,7 +19,7 @@ public class AliyunSmsConfig(
         aliyunSMSProperties.accessKeyId ?: "",
         aliyunSMSProperties.accessKeySecret ?: "",
         aliyunSMSProperties.signName ?: "",
-        aliyunSMSProperties.timeout ?: ""
+        aliyunSMSProperties.timeout ?: "",
     )
 }
 

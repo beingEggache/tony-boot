@@ -37,7 +37,7 @@ public object WebContext {
     public fun <T : Any> ServletRequestAttributes.getOrPut(
         key: String,
         scope: Int = SCOPE_REQUEST,
-        callback: () -> T
+        callback: () -> T,
     ): T = getAttribute(key, scope).asTo() ?: callback().apply {
         setAttribute(key, this, scope)
     }

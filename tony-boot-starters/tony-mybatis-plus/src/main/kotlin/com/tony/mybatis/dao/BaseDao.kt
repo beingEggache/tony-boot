@@ -40,7 +40,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 根据id查询，为null 将会抛错
      */
     public fun selectByIdNotNull(
-        id: Serializable
+        id: Serializable,
     ): T = selectById(id).throwIfNull()
 
     /**
@@ -48,7 +48,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      */
     public fun selectByIdNotNull(
         id: Serializable,
-        message: String = ApiProperty.notFoundMessage
+        message: String = ApiProperty.notFoundMessage,
     ): T = selectById(id).throwIfNull(message)
 
     /**
@@ -57,7 +57,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     public fun selectByIdNotNull(
         id: Serializable,
         message: String = ApiProperty.notFoundMessage,
-        code: Int = ApiProperty.notFoundCode
+        code: Int = ApiProperty.notFoundCode,
     ): T = selectById(id).throwIfNull(message, code)
 
     /**
@@ -78,7 +78,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
                 insert(entity) > 0
             } else {
                 updateById(
-                    entity
+                    entity,
                 ) > 0
             }
         }
@@ -114,7 +114,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
             val isInsert =
                 StringUtils.checkValNull(tableInfo.getPropertyValue(entity, keyProperty)) || sqlSession.selectList<T>(
                     getSqlStatement(SqlMethod.SELECT_BY_ID),
-                    entity
+                    entity,
                 ).isNullOrEmpty()
             if (isInsert) {
                 sqlSession.insert(sqlStatement, entity)
@@ -170,7 +170,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      */
     public fun <E : PageResultLike<T>> selectPageResult(
         page: Pageable,
-        @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?
+        @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
     ): E = selectPage(page.toPage(), queryWrapper).toPageResult()
 
     /**

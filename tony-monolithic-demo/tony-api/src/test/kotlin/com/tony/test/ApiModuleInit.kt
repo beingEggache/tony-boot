@@ -10,7 +10,7 @@ import javax.annotation.Resource
  * @author tangli
  * @since 2020-11-04 16:54
  */
-@SpringBootTest(classes = [MonoApiWebTestApp::class], webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(classes = [TestMonoApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class ApiModuleInit {
 
 

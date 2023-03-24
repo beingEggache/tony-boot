@@ -13,7 +13,7 @@ import javax.annotation.Resource
  * @author tangli
  * @since 2020-11-04 16:03
  */
-@SpringBootTest(classes = [MonoApiWebTestApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(classes = [TestMonoApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class ModuleTest {
 
     @Resource

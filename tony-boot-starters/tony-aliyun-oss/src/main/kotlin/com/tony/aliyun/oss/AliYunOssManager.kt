@@ -18,7 +18,7 @@ public object AliYunOssManager {
         OSSClientBuilder().build(
             aliyunOssProperties.endpoint,
             aliyunOssProperties.accessKeyId,
-            aliyunOssProperties.accessKeySecret
+            aliyunOssProperties.accessKeySecret,
         )
     }
 
@@ -28,7 +28,7 @@ public object AliYunOssManager {
         path: String,
         name: String,
         inputStream: InputStream,
-        metadata: ObjectMetadata? = null
+        metadata: ObjectMetadata? = null,
     ): String =
         ossClient.run {
             val sanitizedPath = sanitizedPath("$path/$name").removePrefix("/")

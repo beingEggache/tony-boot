@@ -24,19 +24,19 @@ import javax.servlet.http.HttpServletResponse
 
 internal class TraceLoggingFilter(
     private val requestTraceLogger: RequestTraceLogger,
-    private val webProperties: WebProperties
+    private val webProperties: WebProperties,
 ) : OncePerRequestFilter(), PriorityOrdered {
 
     @Throws(IOException::class, ServletException::class)
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) = doFilterTrace(
         request.toRepeatRead(),
         ContentCachingResponseWrapper(response),
         filterChain,
-        LocalDateTime.now()
+        LocalDateTime.now(),
     )
 
     @Throws(IOException::class, ServletException::class)
@@ -44,7 +44,7 @@ internal class TraceLoggingFilter(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         chain: FilterChain,
-        startTime: LocalDateTime
+        startTime: LocalDateTime,
     ) = try {
         chain.doFilter(request, response)
     } finally {
@@ -58,12 +58,12 @@ internal class TraceLoggingFilter(
     private fun log(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
-        elapsedTime: Long
+        elapsedTime: Long,
     ) = try {
         requestTraceLogger.requestTraceLog(
             request,
             response,
-            elapsedTime
+            elapsedTime,
         )
     } catch (e: Exception) {
         logger.error(e.message, e)
@@ -88,7 +88,7 @@ internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        chain: FilterChain
+        chain: FilterChain,
     ) {
         val traceIdKey = "X-B3-TraceId"
         try {

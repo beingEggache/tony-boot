@@ -47,7 +47,7 @@ public class TonyLambdaQueryWrapper<T : Any> :
         paramAlias: SharedString?,
         lastSql: SharedString?,
         sqlComment: SharedString?,
-        sqlFirst: SharedString?
+        sqlFirst: SharedString?,
     ) {
         this.entity = entity
         this.entityClass = entityClass
@@ -114,7 +114,7 @@ public class TonyLambdaQueryWrapper<T : Any> :
             paramAlias,
             SharedString.emptyString(),
             SharedString.emptyString(),
-            SharedString.emptyString()
+            SharedString.emptyString(),
         )
 
     override fun clear() {

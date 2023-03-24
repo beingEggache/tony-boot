@@ -34,7 +34,7 @@ public object WebApp : HaveWhiteListUrlPattern {
         val contextPath = Env.getProperty("server.servlet.context-path", "")
         val set = setOf(
             *whiteUrlPatterns(prefix = contextPath).toTypedArray(),
-            *webProperties.responseWrapExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray()
+            *webProperties.responseWrapExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray(),
         )
         logger.info("Response Wrap Exclude Pattern are: $set")
         set

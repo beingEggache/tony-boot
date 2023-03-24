@@ -11,7 +11,7 @@ public data class WechatAppPayReq(
     @JsonProperty("noncestr") val nonceStr: String,
     val timestamp: String,
     @JsonProperty("package") val `package`: String = "Sign=WXPay",
-    var sign: String? = null
+    var sign: String? = null,
 ) : WechatPayReq
 
 public data class WechatMiniProgramPayReq(
@@ -20,5 +20,5 @@ public data class WechatMiniProgramPayReq(
     val nonceStr: String,
     val signType: String,
     @JsonProperty("package") val `package`: String = "Sign=WXPay",
-    var paySign: String? = null
+    var paySign: String? = null,
 ) : WechatPayReq

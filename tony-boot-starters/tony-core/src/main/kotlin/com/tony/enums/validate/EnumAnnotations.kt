@@ -16,14 +16,14 @@ import kotlin.reflect.KClass
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER
+    AnnotationTarget.VALUE_PARAMETER,
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class SimpleEnum(
     vararg val enums: String,
     val message: String = "非法参数",
     val groups: Array<KClass<*>> = [],
-    val payload: Array<KClass<out Payload>> = []
+    val payload: Array<KClass<out Payload>> = [],
 )
 
 @MustBeDocumented
@@ -33,7 +33,7 @@ public annotation class SimpleEnum(
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER
+    AnnotationTarget.VALUE_PARAMETER,
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class SimpleIntEnum(
@@ -41,7 +41,7 @@ public annotation class SimpleIntEnum(
     val message: String = "非法参数",
     val required: Boolean = false,
     val groups: Array<KClass<*>> = [],
-    val payload: Array<KClass<out Payload>> = []
+    val payload: Array<KClass<out Payload>> = [],
 )
 
 @MustBeDocumented
@@ -51,7 +51,7 @@ public annotation class SimpleIntEnum(
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER
+    AnnotationTarget.VALUE_PARAMETER,
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class IntEnum(
@@ -59,7 +59,7 @@ public annotation class IntEnum(
     val message: String = "非法参数",
     val required: Boolean = false,
     val groups: Array<KClass<*>> = [],
-    val payload: Array<KClass<out Payload>> = []
+    val payload: Array<KClass<out Payload>> = [],
 )
 
 @MustBeDocumented
@@ -69,7 +69,7 @@ public annotation class IntEnum(
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER
+    AnnotationTarget.VALUE_PARAMETER,
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class SimpleStringEnum(
@@ -77,7 +77,7 @@ public annotation class SimpleStringEnum(
     val message: String = "非法参数",
     val required: Boolean = false,
     val groups: Array<KClass<*>> = [],
-    val payload: Array<KClass<out Payload>> = []
+    val payload: Array<KClass<out Payload>> = [],
 )
 
 @MustBeDocumented
@@ -87,7 +87,7 @@ public annotation class SimpleStringEnum(
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER
+    AnnotationTarget.VALUE_PARAMETER,
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class StringEnum(
@@ -95,5 +95,5 @@ public annotation class StringEnum(
     val message: String = "非法参数",
     val required: Boolean = false,
     val groups: Array<KClass<*>> = [],
-    val payload: Array<KClass<out Payload>> = []
+    val payload: Array<KClass<out Payload>> = [],
 )

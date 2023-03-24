@@ -14,9 +14,9 @@ public interface EnumIntValue : EnumValue<Int>
 public interface EnumStringValue : EnumValue<String>
 
 public abstract class EnumCreator<out E, KEY>(
-    private val clazz: Class<out E>
+    private val clazz: Class<out E>,
 ) where E : EnumValue<KEY>,
-        KEY : Serializable {
+      KEY : Serializable {
 
     private val logger = getLogger()
 

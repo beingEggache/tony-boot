@@ -67,8 +67,8 @@ internal class ExceptionHandler : ErrorController {
         value = [
             MissingRequestValueException::class,
             HttpMessageNotReadableException::class,
-            HttpRequestMethodNotSupportedException::class
-        ]
+            HttpRequestMethodNotSupportedException::class,
+        ],
     )
     fun badRequestException(e: Exception) = run {
         logger.warn(e.localizedMessage)

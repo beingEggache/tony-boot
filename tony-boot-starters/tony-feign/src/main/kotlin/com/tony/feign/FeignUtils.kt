@@ -51,11 +51,11 @@ private val TEXT_MEDIA_TYPES = listOf(
     MediaType.TEXT_HTML,
     MediaType.TEXT_PLAIN,
     MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_FORM_URLENCODED
+    MediaType.APPLICATION_FORM_URLENCODED,
 )
 
 public fun String.sortRequestBody(
-    timestampStr: String
+    timestampStr: String,
 ): String =
     OBJECT_MAPPER
         .readTree(this)
@@ -65,13 +65,13 @@ public fun String.genSign(appId: String, secret: String): String =
     ("$appId|$secret|$this".md5Uppercase()).md5Uppercase()
 
 public fun JsonNode.sortRequestBody(
-    timestampStr: String
+    timestampStr: String,
 ): String =
     fieldNames()
         .asSequence()
         .sorted()
         .fold<String, LinkedHashMap<String, Any?>>(
-            linkedMapOf("timestamp" to timestampStr)
+            linkedMapOf("timestamp" to timestampStr),
         ) { map, key ->
             if (key == "timestamp") {
                 return@fold map

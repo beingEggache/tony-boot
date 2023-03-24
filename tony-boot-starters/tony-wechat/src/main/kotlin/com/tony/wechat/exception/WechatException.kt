@@ -12,5 +12,5 @@ import com.tony.exception.ApiException
 
 public class WechatException @JvmOverloads constructor(
     override val message: String? = "",
-    override val code: Int = ApiProperty.errorCode
+    override val code: Int = ApiProperty.errorCode,
 ) : ApiException(message, code)

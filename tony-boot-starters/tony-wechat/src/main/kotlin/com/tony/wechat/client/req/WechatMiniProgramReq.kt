@@ -9,9 +9,9 @@ package com.tony.wechat.client.req
  */
 public data class WechatMiniProgramQrCodeCreateReq(
     val scene: String,
-    val page: String
+    val page: String,
 )
 
 public data class WechatMiniProgramUserPhoneReq(
-    val code: String
+    val code: String,
 )

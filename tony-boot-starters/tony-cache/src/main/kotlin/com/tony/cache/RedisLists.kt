@@ -22,7 +22,7 @@ public object RedisLists {
     public fun rightPushString(
         key: String,
         value: String,
-        date: Date? = null
+        date: Date? = null,
     ): Long? {
         val rightPush = RedisManager.redisTemplate.opsForList().rightPush(key, value)
         if (date != null) {
@@ -37,7 +37,7 @@ public object RedisLists {
         key: String,
         value: String,
         timeout: Long,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Long? {
         val rightPush = RedisManager.redisTemplate.opsForList().rightPush(key, value)
         RedisManager.redisTemplate.expire(key, timeout, timeUnit)
@@ -49,7 +49,7 @@ public object RedisLists {
     public fun <T> rightPushObj(
         key: String,
         value: T,
-        date: Date? = null
+        date: Date? = null,
     ): Long? = rightPushString(key, value.toJsonString(), date)
 
     @JvmStatic
@@ -58,7 +58,7 @@ public object RedisLists {
         key: String,
         value: T,
         timeout: Long,
-        timeUnit: TimeUnit = TimeUnit.SECONDS
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Long? = rightPushString(key, value.toJsonString(), timeout, timeUnit)
 
     @JvmStatic

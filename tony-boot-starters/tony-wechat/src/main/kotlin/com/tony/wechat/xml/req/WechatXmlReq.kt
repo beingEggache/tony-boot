@@ -107,5 +107,5 @@ public data class WechatXmlReq(
     var menuId: String? = null,
 
     @XStreamAlias("ScanCodeInfo")
-    var scanCodeInfo: ScanCodeInfo? = null
+    var scanCodeInfo: ScanCodeInfo? = null,
 ) : WechatObj

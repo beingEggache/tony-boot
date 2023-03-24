@@ -25,7 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableConfigurationProperties(JwtProperties::class)
 internal class WebAuthConfig(
-    private val jwtProperties: JwtProperties
+    private val jwtProperties: JwtProperties,
 ) : WebMvcConfigurer, EnvironmentAware, HaveWhiteListUrlPattern {
 
     private val logger = getLogger()

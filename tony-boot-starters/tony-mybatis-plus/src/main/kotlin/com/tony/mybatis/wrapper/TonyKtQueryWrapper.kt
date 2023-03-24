@@ -40,7 +40,7 @@ public open class TonyKtQueryWrapper<T : Any> :
         columnMap: Map<String, ColumnCache>,
         lastSql: SharedString,
         sqlComment: SharedString,
-        sqlFirst: SharedString
+        sqlFirst: SharedString,
     ) {
         this.entity = entity
         this.paramNameSeq = paramNameSeq
@@ -86,7 +86,7 @@ public open class TonyKtQueryWrapper<T : Any> :
      */
     override fun select(
         entityClass: Class<T>,
-        predicate: Predicate<TableFieldInfo>
+        predicate: Predicate<TableFieldInfo>,
     ): TonyKtQueryWrapper<T> {
         this.entityClass = entityClass
         this.sqlSelect.stringValue = TableInfoHelper.getTableInfo(getEntityClass()).chooseSelect(predicate)
@@ -110,7 +110,7 @@ public open class TonyKtQueryWrapper<T : Any> :
             columnMap,
             SharedString.emptyString(),
             SharedString.emptyString(),
-            SharedString.emptyString()
+            SharedString.emptyString(),
         )
 
     override fun clear() {

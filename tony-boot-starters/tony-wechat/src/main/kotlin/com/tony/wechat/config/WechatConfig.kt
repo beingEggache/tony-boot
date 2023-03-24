@@ -36,13 +36,11 @@ internal class WechatConfig {
 
     @ConditionalOnMissingBean(WechatApiAccessTokenProvider::class)
     @Bean
-    internal fun apiAccessTokenProviderWrapper(): WechatApiAccessTokenProvider =
-        DefaultWechatApiAccessTokenProvider()
+    internal fun apiAccessTokenProviderWrapper(): WechatApiAccessTokenProvider = DefaultWechatApiAccessTokenProvider()
 
     @ConditionalOnMissingBean(WechatPropProvider::class)
     @Bean
-    internal fun wechatApiPropProvider(wechatProperties: WechatProperties) =
-        DefaultWechatPropProvider(wechatProperties)
+    internal fun wechatApiPropProvider(wechatProperties: WechatProperties) = DefaultWechatPropProvider(wechatProperties)
 }
 
 @ConstructorBinding
@@ -53,7 +51,7 @@ public data class WechatProperties(
     val appSecret: String?,
     val mchId: String?,
     val mchSecretKey: String?,
-    val app: LinkedHashMap<String, WechatAppProperties>?
+    val app: LinkedHashMap<String, WechatAppProperties>?,
 ) {
     public fun getAppByAppId(appId: String): String? = app?.entries?.firstOrNull { it.value.appId == appId }?.key
 }
@@ -63,5 +61,5 @@ public data class WechatAppProperties(
     val appId: String?,
     val appSecret: String?,
     val mchId: String?,
-    val mchSecretKey: String?
+    val mchSecretKey: String?,
 )

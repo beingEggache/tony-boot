@@ -60,5 +60,5 @@ public data class WechatPayOrderResp(
 
     @XStreamConverter(value = XStreamCDataConverter::class)
     @XStreamAlias("mweb_url")
-    var webURL: String?
+    var webURL: String?,
 )

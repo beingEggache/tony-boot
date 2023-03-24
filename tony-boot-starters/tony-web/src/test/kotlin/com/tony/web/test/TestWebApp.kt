@@ -1,8 +1,8 @@
-package com.tony.test
+package com.tony.web.test
 
 import com.tony.annotation.EnableTonyBoot
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @EnableTonyBoot
 @SpringBootApplication
-class MonoApiWebTestApp
+class TestWebApp

@@ -5,7 +5,7 @@ import com.tony.ApiProperty
 public open class BaseException @JvmOverloads constructor(
     override val message: String? = "",
     public open val code: Int,
-    override val cause: Throwable? = null
+    override val cause: Throwable? = null,
 ) : RuntimeException(message, cause)
 
 /**
@@ -14,7 +14,7 @@ public open class BaseException @JvmOverloads constructor(
 public open class ApiException @JvmOverloads constructor(
     override val message: String? = "",
     override val code: Int = ApiProperty.errorCode,
-    throwable: Throwable? = null
+    throwable: Throwable? = null,
 ) : BaseException(message, code, throwable) {
 
     public constructor(message: String?, throwable: Throwable) : this(message, ApiProperty.errorCode, throwable)
@@ -25,5 +25,5 @@ public open class ApiException @JvmOverloads constructor(
  */
 public open class BizException @JvmOverloads constructor(
     override val message: String,
-    override val code: Int = ApiProperty.bizErrorCode
+    override val code: Int = ApiProperty.bizErrorCode,
 ) : BaseException(message, code)
