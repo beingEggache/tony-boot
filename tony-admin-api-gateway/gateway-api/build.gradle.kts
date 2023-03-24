@@ -12,7 +12,7 @@ dependencies {
 
     // gateway 限流用
     implementation(Deps.Other.commonsPool2)
-    implementation(Deps.SpringBoot.starterDataRedisReactive)
+    implementation(Deps.SpringData.starterRedisReactive)
 
     implementation(Deps.Template.templateCore)
     implementation(Deps.Template.templateJwt)

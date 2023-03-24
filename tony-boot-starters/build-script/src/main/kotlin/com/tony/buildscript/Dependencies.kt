@@ -107,8 +107,6 @@ object Deps {
         const val starterAmqp = "org.springframework.boot:spring-boot-starter-amqp"
         const val starterAop = "org.springframework.boot:spring-boot-starter-aop"
         const val starterCache = "org.springframework.boot:spring-boot-starter-cache"
-        const val starterDataRedis = "org.springframework.boot:spring-boot-starter-data-redis"
-        const val starterDataRedisReactive = "org.springframework.boot:spring-boot-starter-data-redis-reactive"
         const val starterJdbc = "org.springframework.boot:spring-boot-starter-jdbc"
         const val starterJson = "org.springframework.boot:spring-boot-starter-json"
         const val starterLogging = "org.springframework.boot:spring-boot-starter-logging"
@@ -120,6 +118,11 @@ object Deps {
         const val starterWeb = "org.springframework.boot:spring-boot-starter-web"
         const val starterWebflux = "org.springframework.boot:spring-boot-starter-webflux"
         const val starterWebsocket = "org.springframework.boot:spring-boot-starter-websocket"
+    }
+
+    object SpringData {
+        const val starterRedis = "org.springframework.boot:spring-boot-starter-data-redis"
+        const val starterRedisReactive = "org.springframework.boot:spring-boot-starter-data-redis-reactive"
     }
 
     object Test {

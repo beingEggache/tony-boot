@@ -97,10 +97,6 @@ internal object DepsManagement {
         const val starterAop = "org.springframework.boot:spring-boot-starter-aop:${VersionManagement.springBootVersion}"
         const val starterCache =
             "org.springframework.boot:spring-boot-starter-cache:${VersionManagement.springBootVersion}"
-        const val starterDataRedis =
-            "org.springframework.boot:spring-boot-starter-data-redis:${VersionManagement.springBootVersion}"
-        const val starterDataRedisReactive =
-            "org.springframework.boot:spring-boot-starter-data-redis-reactive:${VersionManagement.springBootVersion}"
         const val starterJdbc =
             "org.springframework.boot:spring-boot-starter-jdbc:${VersionManagement.springBootVersion}"
         const val starterJson =
@@ -122,6 +118,13 @@ internal object DepsManagement {
             "org.springframework.boot:spring-boot-starter-webflux:${VersionManagement.springBootVersion}"
         const val starterWebsocket =
             "org.springframework.boot:spring-boot-starter-websocket:${VersionManagement.springBootVersion}"
+    }
+
+    object SpringData {
+        const val starterRedis =
+            "org.springframework.boot:spring-boot-starter-data-redis:${VersionManagement.springBootVersion}"
+        const val starterRedisReactive =
+            "org.springframework.boot:spring-boot-starter-data-redis-reactive:${VersionManagement.springBootVersion}"
     }
 
     object Test {

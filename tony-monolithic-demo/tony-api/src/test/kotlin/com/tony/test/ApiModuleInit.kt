@@ -1,6 +1,5 @@
 package com.tony.test
 
-import com.tony.api.MonoApiWebApp
 import com.tony.db.dao.ModuleDao
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
@@ -11,7 +10,7 @@ import javax.annotation.Resource
  * @author tangli
  * @since 2020-11-04 16:54
  */
-@SpringBootTest(classes = [MonoApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(classes = [MonoApiWebTestApp::class], webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class ApiModuleInit {
 
 

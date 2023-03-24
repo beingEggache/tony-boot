@@ -3,11 +3,11 @@ import com.tony.buildscript.addTestDependencies
 dependencies {
     api(projects.tonyCore)
 
-    implementation(Deps.SpringBoot.starterDataRedis)
+    implementation(Deps.SpringData.starterRedis)
     implementation(Deps.SpringBoot.starterAop)
 
     addTestDependencies()
-    testApi(Deps.SpringBoot.starterDataRedis)
+    testApi(Deps.SpringData.starterRedis)
     testApi(Deps.SpringBoot.starterAop)
 }
 

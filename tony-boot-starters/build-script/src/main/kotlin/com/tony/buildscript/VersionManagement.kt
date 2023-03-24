@@ -5,12 +5,12 @@ object VersionManagement  {
 
     const val kotlinVersion = "1.8.10"
 
-    const val springVersion = "5.3.25"
+    const val springVersion = "5.3.26"
     const val springBootVersion = "2.7.9"
 
     const val openFeignVersion = "11.10"
 
-    const val postgresqlVersion = "42.5.4"
+    const val postgresqlVersion = "42.6.0"
     const val mysqlVersion = "8.0.32"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.3.1"
@@ -22,7 +22,7 @@ object VersionManagement  {
     const val jacksonVersion = "2.14.2"
 
     const val gsonVersion = "2.10.1"
-    const val fastjsonVersion = "2.0.24"
+    const val fastjsonVersion = "2.0.26"
     const val nettyVersion = "4.1.90.Final"
 
     const val reactorVersion = "3.4.28"

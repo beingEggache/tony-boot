@@ -1,0 +1,19 @@
+package com.tony.test
+
+import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
+
+/**
+ *
+ * @author tangli
+ * @since 2020-11-04 16:03
+ */
+@SpringBootTest(classes = [MonoApiWebTestApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
+class MonoApiWebTest {
+
+    @Test
+    fun test() {
+    }
+}
+
+
