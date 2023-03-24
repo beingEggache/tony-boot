@@ -1,31 +1,24 @@
+import com.tony.buildscript.*
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import com.tony.buildscript.addDepsManagement
-import com.tony.buildscript.Deps
-import com.tony.buildscript.projectGroup
-import com.tony.buildscript.VersionManagement
-import com.tony.buildscript.KaptDeps
-import com.tony.buildscript.copyProjectHookToGitHook
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("tony-build-dep-substitute") apply false
     idea
 }
 
+val privateMavenRepoUrl: String by project
 configure(allprojects) {
-
     group = projectGroup
     version = VersionManagement.templateVersion
-
     repositories {
         mavenLocal()
-        mavenCentral()
-        val privateMavenRepoUrl: String by project
         maven(url = privateMavenRepoUrl) {
             name = "private"
             isAllowInsecureProtocol = true
         }
+        mavenCentral()
     }
 }
 

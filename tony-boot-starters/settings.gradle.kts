@@ -1,7 +1,7 @@
 pluginManagement {
+    val privateGradleRepoUrl: String by settings
     repositories {
         mavenCentral()
-        val privateGradleRepoUrl: String by settings
         maven(url = privateGradleRepoUrl) {
             isAllowInsecureProtocol = true
         }
@@ -11,8 +11,8 @@ pluginManagement {
     includeBuild("build-script")
 }
 
+val kotlinVersion: String by settings
 gradle.rootProject {
-    val kotlinVersion: String by settings
     buildscript {
         dependencies {
             classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")

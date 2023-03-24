@@ -20,11 +20,10 @@ idea.project {
     vcs = "Git"
 }
 
+val privateMavenRepoUrl: String by project
 configure(subprojects) {
     group = projectGroup
     version = "0.1"
-
-    val privateMavenRepoUrl: String by project
     repositories {
         mavenLocal()
         maven(url = privateMavenRepoUrl) {

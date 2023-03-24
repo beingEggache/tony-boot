@@ -1,7 +1,7 @@
 pluginManagement {
+    val privateGradleRepoUrl: String by settings
     repositories {
         mavenCentral()
-        val privateGradleRepoUrl: String by settings
         maven(url = privateGradleRepoUrl) {
             isAllowInsecureProtocol = true
         }

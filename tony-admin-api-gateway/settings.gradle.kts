@@ -1,17 +1,17 @@
 pluginManagement {
+    val privateGradleRepoUrl: String by settings
     repositories {
-        mavenCentral()
-        val privateGradleRepoUrl: String by settings
+        mavenLocal()
         maven(url = privateGradleRepoUrl) {
             isAllowInsecureProtocol = true
         }
         gradlePluginPortal()
-        mavenLocal()
+        mavenCentral()
     }
 }
 
+val kotlinVersion: String by settings
 gradle.rootProject {
-    val kotlinVersion: String by settings
     buildscript {
         dependencies {
             classpath("com.tony:build-script:0.1-SNAPSHOT")

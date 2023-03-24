@@ -31,9 +31,9 @@ tasks.withType<KotlinCompile>().configureEach {
     }
 }
 
+val privateGradleRepoUrl: String by project
 repositories {
     mavenCentral()
-    val privateGradleRepoUrl: String by project
     maven(url = privateGradleRepoUrl) {
         isAllowInsecureProtocol = true
     }
@@ -56,7 +56,7 @@ gradlePlugin {
 
 dependencies {
     // implementation("com.palantir.gradle.docker:gradle-docker:0.34.0")
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.9")
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.10")
 }
 
 configure<JavaPluginExtension> {
@@ -64,16 +64,15 @@ configure<JavaPluginExtension> {
     withJavadocJar()
 }
 
+val releasesGradleRepoUrl: String by project
+val snapshotsGradleRepoUrl: String by project
+val nexusUsername: String by project
+val nexusPassword: String by project
+
 configure<PublishingExtension> {
     repositories {
-
         maven {
             name = "privateGradle"
-            val releasesGradleRepoUrl: String by project
-            val snapshotsGradleRepoUrl: String by project
-            val nexusUsername: String by project
-            val nexusPassword: String by project
-
             url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsGradleRepoUrl else releasesGradleRepoUrl)
             isAllowInsecureProtocol = true
             credentials {

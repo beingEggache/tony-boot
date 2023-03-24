@@ -11,16 +11,14 @@ if (!isPom) {
     }
 }
 
+val releasesRepoUrl: String by project
+val snapshotsRepoUrl: String by project
+val nexusUsername: String by project
+val nexusPassword: String by project
 configure<PublishingExtension> {
     repositories {
-
         maven {
             name = "private"
-            val releasesRepoUrl: String by project
-            val snapshotsRepoUrl: String by project
-            val nexusUsername: String by project
-            val nexusPassword: String by project
-
             url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
             isAllowInsecureProtocol = true
             credentials {
