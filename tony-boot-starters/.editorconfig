@@ -13,10 +13,9 @@ indent_size = 2
 
 # noinspection EditorConfigKeyCorrectness
 [*.{kt, kts}]
-ktlint_standard = disabled # Disable all rules from the `standard` rule set provided by KtLint
-ktlint_standard_final-newline = enabled # Disables the `final-newline` rule in the `standard` rule set provided by KtLint
-ktlint_standard_some-experimental-rule = enabled
-chain-wrapping = false
+# ktlint_standard = disabled # Disable all rules from the `standard` rule set provided by KtLint
+# ktlint_standard_some-experimental-rule = enabled
+chain-wrapping = true
 
 ij_continuation_indent_size = 4
 
@@ -44,3 +43,4 @@ no-unused-imports = true
 no-wildcard-imports = true
 
 string-template = true
+ktlint_function_signature_body_expression_wrapping = multiline

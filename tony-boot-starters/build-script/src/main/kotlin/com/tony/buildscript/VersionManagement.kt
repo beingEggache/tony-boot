@@ -39,7 +39,7 @@ object VersionManagement  {
     const val swaggerV3Version = "2.2.8"
     const val springdocVersion = "1.6.15"
 
-    const val springCloudAlibabaVersion = "2021.0.4.0"
+    const val springCloudAlibabaVersion = "2021.0.5.0"
     const val springCloudVersion = "2021.0.5"
 
     const val alipaySdkJavaVersion = "4.35.79.ALL"

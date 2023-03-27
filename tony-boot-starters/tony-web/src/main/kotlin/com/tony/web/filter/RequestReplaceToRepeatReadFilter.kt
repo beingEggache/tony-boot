@@ -17,7 +17,7 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
-import java.util.Collections
+import java.util.*
 import javax.servlet.FilterChain
 import javax.servlet.ReadListener
 import javax.servlet.ServletInputStream
@@ -98,10 +98,10 @@ internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(re
     private fun isFormPost() =
         contentType in formPostContentTypes && HttpMethod.POST.matches(method)
 
-    internal companion object {
+    public companion object {
 
         @JvmStatic
-        fun HttpServletRequest.toRepeatRead(): RepeatReadRequestWrapper =
+        public fun HttpServletRequest.toRepeatRead(): RepeatReadRequestWrapper =
             if (this is RepeatReadRequestWrapper) {
                 this
             } else {

@@ -159,6 +159,7 @@ internal object DepsManagement {
         const val httpclient = "org.apache.httpcomponents:httpclient:4.5.14"
         const val httpcore = "org.apache.httpcomponents:httpcore:4.4.16"
         const val httpcoreNio = "org.apache.httpcomponents:httpcore-nio:4.4.16"
+        const val httpasyncclient = "org.apache.httpcomponents:httpasyncclient:4.1.5"
         const val okhttp = "com.squareup.okhttp3:okhttp:4.10.0"
 
         const val commonsCodec = "commons-codec:commons-codec:1.15"

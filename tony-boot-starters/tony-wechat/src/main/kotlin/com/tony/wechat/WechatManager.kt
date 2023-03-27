@@ -30,31 +30,31 @@ public object WechatManager {
 
     @JvmOverloads
     @JvmStatic
-    public fun checkSignature(signature: String, nonce: String, timestamp: String, app: String = "",): Boolean =
+    public fun checkSignature(signature: String, nonce: String, timestamp: String, app: String = ""): Boolean =
         DigestUtils
-        .sha1Hex(
-            listOf(wechatPropProvider.getToken(app), timestamp, nonce)
-                .sorted()
-                .joinToString(""),
-        ) == signature
+            .sha1Hex(
+                listOf(wechatPropProvider.getToken(app), timestamp, nonce)
+                    .sorted()
+                    .joinToString(""),
+            ) == signature
 
     @JvmStatic
-    public fun checkSignatureDirect(signature: String, nonce: String, timestamp: String, token: String,): Boolean =
+    public fun checkSignatureDirect(signature: String, nonce: String, timestamp: String, token: String): Boolean =
         DigestUtils
-        .sha1Hex(
-            listOf(token, timestamp, nonce)
-                .sorted()
-                .joinToString(""),
-        ) == signature
+            .sha1Hex(
+                listOf(token, timestamp, nonce)
+                    .sorted()
+                    .joinToString(""),
+            ) == signature
 
     @JvmOverloads
     @JvmStatic
     public fun jsCode2Session(jsCode: String, app: String = ""): WechatJsCode2SessionResp = wechatClient.jsCode2Session(
-            wechatPropProvider.getAppId(app),
-            wechatPropProvider.getAppSecret(app),
-            "authorization_code",
-            jsCode,
-        ).check()
+        wechatPropProvider.getAppId(app),
+        wechatPropProvider.getAppSecret(app),
+        "authorization_code",
+        jsCode,
+    ).check()
 
     @JvmOverloads
     @JvmStatic
@@ -67,12 +67,12 @@ public object WechatManager {
 
     @JvmOverloads
     @JvmStatic
-    public fun createMenu(menu: WechatMenu, app: String = "", accessToken: String? = accessTokenStr(app),): WechatResp =
+    public fun createMenu(menu: WechatMenu, app: String = "", accessToken: String? = accessTokenStr(app)): WechatResp =
         wechatClient.createMenu(accessToken, menu).check()
 
     @JvmOverloads
     @JvmStatic
-    public fun deleteMenu(app: String = "", accessToken: String? = accessTokenStr(app),): WechatResp =
+    public fun deleteMenu(app: String = "", accessToken: String? = accessTokenStr(app)): WechatResp =
         wechatClient.deleteMenu(accessToken).check()
 
     @JvmOverloads
@@ -85,7 +85,7 @@ public object WechatManager {
 
     @JvmOverloads
     @JvmStatic
-    public fun getTicket(app: String, accessToken: String? = accessTokenStr(app),): String? =
+    public fun getTicket(app: String, accessToken: String? = accessTokenStr(app)): String? =
         wechatClient.getTicket(accessToken, "jsapi").check().ticket
 
     @JvmStatic
@@ -103,7 +103,7 @@ public object WechatManager {
 
     @JvmOverloads
     @JvmStatic
-    public fun jsSdkConfig(url: String, app: String, debug: Boolean = false,): WechatJsSdkConfigResp = run {
+    public fun jsSdkConfig(url: String, app: String, debug: Boolean = false): WechatJsSdkConfigResp = run {
         val timestamp = genTimeStamp()
         val nonceStr = genNonceStr()
         WechatJsSdkConfigResp(
@@ -119,12 +119,12 @@ public object WechatManager {
     public fun showQrCode(ticket: String): String = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=$ticket"
 
     @JvmStatic
-    public fun userAccessToken(code: String?, app: String = "",): WechatUserTokenResp =
+    public fun userAccessToken(code: String?, app: String = ""): WechatUserTokenResp =
         apiAccessTokenProvider.userAccessToken(
-        wechatPropProvider.getAppId(app),
-        wechatPropProvider.getAppSecret(app),
-        code,
-    )
+            wechatPropProvider.getAppId(app),
+            wechatPropProvider.getAppSecret(app),
+            code,
+        )
 
     private fun accessTokenStr(app: String = "") = apiAccessTokenProvider.accessTokenStr(
         wechatPropProvider.getAppId(app),
@@ -218,17 +218,17 @@ internal class DefaultWechatPropProvider(
 
 public interface WechatApiAccessTokenProvider {
 
-    public fun accessTokenStr(appId: String?, appSecret: String?,): String? = wechatClient().accessToken(
+    public fun accessTokenStr(appId: String?, appSecret: String?): String? = wechatClient().accessToken(
         appId,
         appSecret,
     ).check().accessToken
 
-    public fun userAccessToken(appId: String?, secret: String?, code: String?,): WechatUserTokenResp =
+    public fun userAccessToken(appId: String?, secret: String?, code: String?): WechatUserTokenResp =
         wechatClient().userAccessToken(
-        appId,
-        secret,
-        code,
-    ).check()
+            appId,
+            secret,
+            code,
+        ).check()
 
     public fun wechatClient(): WechatClient = Beans.getBean(WechatClient::class.java)
 }

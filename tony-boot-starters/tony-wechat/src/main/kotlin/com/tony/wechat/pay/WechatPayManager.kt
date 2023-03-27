@@ -123,7 +123,7 @@ public class WechatPayManager {
     /**
      * 返回统一下单响应对象
      */
-    private fun getPayOrderResponse(orderRequest: WechatPayOrderReq,): WechatPayOrderResp {
+    private fun getPayOrderResponse(orderRequest: WechatPayOrderReq): WechatPayOrderResp {
         val resultStr = wechatPayClient.unifiedOrder(orderRequest.toXmlString())
 
         val orderResponse = resultStr.xmlToObj<WechatPayOrderResp>()
