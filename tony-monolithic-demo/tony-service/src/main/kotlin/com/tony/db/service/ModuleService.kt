@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional
  */
 @Service
 class ModuleService(
-    private val moduleDao: ModuleDao
+    private val moduleDao: ModuleDao,
 ) {
 
     companion object {
@@ -31,7 +31,7 @@ class ModuleService(
 
     @RedisCacheable(
         cacheKey = CacheKeys.USER_FRONTEND_MODULES_CACHE_KEY,
-        paramsNames = ["userId"]
+        paramsNames = ["userId"],
     )
     fun listRouteAndComponentModules(userId: String, appId: String): RouteAndComponentModuleResp {
         val modules = moduleDao.selectModulesByUserIdAndAppId(
@@ -39,8 +39,8 @@ class ModuleService(
             appId,
             listOf(
                 ModuleType.ROUTE,
-                ModuleType.COMPONENT
-            )
+                ModuleType.COMPONENT,
+            ),
         ).map { it.toDto() }
 
         val routeModules = modules.filter { it.moduleType == ModuleType.ROUTE }
@@ -52,7 +52,7 @@ class ModuleService(
 
     @RedisCacheable(
         cacheKey = CacheKeys.USER_API_MODULES_CACHE_KEY,
-        paramsNames = ["userId"]
+        paramsNames = ["userId"],
     )
     fun listApiModules(userId: String, appId: String) =
         moduleDao.selectModulesByUserIdAndAppId(userId, appId, listOf(ModuleType.API)).map { it.toDto() }
@@ -92,6 +92,6 @@ class ModuleService(
             moduleName.defaultIfBlank(),
             moduleValue.defaultIfBlank(),
             moduleType,
-            moduleGroup.defaultIfBlank()
+            moduleGroup.defaultIfBlank(),
         )
 }

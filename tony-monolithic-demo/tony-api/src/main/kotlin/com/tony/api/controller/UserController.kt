@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = "用户")
 @RestController
 class UserController(
-    private val userService: UserService
+    private val userService: UserService,
 ) {
 
     @Operation(summary = "创建用户", description = "测试创建用户")
@@ -30,7 +30,7 @@ class UserController(
     fun create(
         @Validated
         @RequestBody
-        req: UserCreateReq
+        req: UserCreateReq,
     ) = userService.add(req)
 
     @Operation(summary = "登录用户信息", description = "当前用户权限")

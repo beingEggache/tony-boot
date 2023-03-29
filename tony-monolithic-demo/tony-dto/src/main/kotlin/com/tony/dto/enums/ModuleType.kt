@@ -11,14 +11,15 @@ import com.tony.enums.EnumIntValue
  * @since 2020-11-04 14:54
  */
 enum class ModuleType(
-    override val value: Int
+    override val value: Int,
 ) : EnumIntValue {
     API(1),
     ROUTE(2),
     COMPONENT(3),
 
     @JsonEnumDefaultValue
-    UNUSED(EnumCreator.defaultIntValue);
+    UNUSED(EnumCreator.defaultIntValue),
+    ;
 
     companion object : EnumCreator<ModuleType, Int>(ModuleType::class.java) {
 

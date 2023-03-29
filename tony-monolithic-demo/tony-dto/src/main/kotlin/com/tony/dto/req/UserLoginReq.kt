@@ -17,5 +17,5 @@ data class UserLoginReq(
 
     @Schema(title = "密码", required = true)
     @get:NotBlank(message = "请输入密码")
-    val pwd: String?
+    val pwd: String?,
 )

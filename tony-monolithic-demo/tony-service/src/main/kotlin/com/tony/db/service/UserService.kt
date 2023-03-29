@@ -26,14 +26,14 @@ import org.springframework.transaction.annotation.Transactional
 class UserService(
     private val userDao: UserDao,
     private val roleDao: RoleDao,
-    private val moduleService: ModuleService
+    private val moduleService: ModuleService,
 ) {
 
     fun login(req: UserLoginReq) =
         userDao.selectOne(
             where<User>()
                 .eq(User::userName, req.userName)
-                .eq(User::pwd, "${req.pwd}${req.userName}".md5Uppercase())
+                .eq(User::pwd, "${req.pwd}${req.userName}".md5Uppercase()),
         ) ?: throw BizException("用户名或密码错误")
 
     fun info(userId: String, appId: String) =
@@ -41,7 +41,7 @@ class UserService(
             UserInfoResp(
                 realName,
                 mobile,
-                moduleService.listRouteAndComponentModules(userId, appId)
+                moduleService.listRouteAndComponentModules(userId, appId),
             )
         } ?: throw BizException("没有此用户")
 
@@ -51,10 +51,10 @@ class UserService(
             where<User>().like(
                 !query.isNullOrBlank(),
                 User::userName,
-                query
+                query,
             ).or(!query.isNullOrBlank()) {
                 it.like(User::realName, query)
-            }
+            },
         ).toPageResult().map {
             it.toDto()
         }
@@ -70,9 +70,9 @@ class UserService(
             userDao.selectOne(
                 where<User>()
                     .eq(User::userName, req.userName)
-                    .or().eq(User::mobile, req.mobile)
+                    .or().eq(User::mobile, req.mobile),
             ) != null,
-            "用户名或手机号已重复"
+            "用户名或手机号已重复",
         )
 
         return userDao.insert(
@@ -82,7 +82,7 @@ class UserService(
                 realName = req.realName
                 mobile = req.mobile
                 pwd = "${req.pwd}"
-            }
+            },
         ) > 0
     }
 
@@ -95,9 +95,9 @@ class UserService(
             userDao.selectOne(
                 where<User>()
                     .eq(User::userName, req.userName)
-                    .or().eq(User::mobile, req.mobile)
+                    .or().eq(User::mobile, req.mobile),
             )?.userId != userId,
-            "用户名或手机号已重复"
+            "用户名或手机号已重复",
         )
 
         userDao.delUserProjectByUserId(userId)
@@ -108,7 +108,7 @@ class UserService(
                 userName = req.userName
                 realName = req.realName
                 mobile = req.mobile
-            }
+            },
         ) > 0
     }
 
@@ -130,7 +130,7 @@ class UserService(
                 roleId = superAdmin
                 this.appId = appId
                 roleName = "超级管理员"
-            }
+            },
         )
 
         userDao.delUserProjectByUserId(superAdmin)

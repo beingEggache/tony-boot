@@ -66,7 +66,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param entity 实体对象
      * @return boolean
      */
-    @Transactional(rollbackFor = [Exception::class])
     public fun upsert(entity: T?): Boolean {
         if (null != entity) {
             val tableInfo: TableInfo = TableInfoHelper.getTableInfo(getEntityClass())
@@ -77,9 +76,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
             return if (StringUtils.checkValNull(idVal) || Objects.isNull(selectById(idVal as Serializable))) {
                 insert(entity) > 0
             } else {
-                updateById(
-                    entity,
-                ) > 0
+                updateById(entity) > 0
             }
         }
         return false

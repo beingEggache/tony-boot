@@ -32,5 +32,5 @@ data class UserResp(
     val remark: String?,
 
     @Schema(title = "用户状态：1:启用，0:禁用。 可根据需求扩展")
-    val states: Int?
+    val states: Int?,
 )

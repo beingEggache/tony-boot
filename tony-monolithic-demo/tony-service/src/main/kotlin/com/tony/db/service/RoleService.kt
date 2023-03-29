@@ -27,7 +27,7 @@ import javax.validation.Valid
 class RoleService(
     private val userDao: UserDao,
     private val moduleDao: ModuleDao,
-    private val roleDao: RoleDao
+    private val roleDao: RoleDao,
 ) {
 
     @Transactional
@@ -39,7 +39,7 @@ class RoleService(
                     this.roleName = req.roleName
                     this.remark = req.remark
                     this.appId = appId
-                }
+                },
             )
         }
 
@@ -50,7 +50,7 @@ class RoleService(
                 this.roleId = req.roleId
                 this.roleName = req.roleName
                 this.remark = req.remark
-            }
+            },
         )
     }
 

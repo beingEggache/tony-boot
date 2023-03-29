@@ -25,7 +25,7 @@ annotation class NoPermissionCheck
 @Component
 @Profile("prod")
 class DefaultPermissionInterceptor(
-    private val moduleService: ModuleService
+    private val moduleService: ModuleService,
 ) : PermissionInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {

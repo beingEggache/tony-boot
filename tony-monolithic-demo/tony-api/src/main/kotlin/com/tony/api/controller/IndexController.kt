@@ -21,7 +21,7 @@ import java.util.Locale
 @RestController
 @Validated
 class IndexController(
-    private val userService: UserService
+    private val userService: UserService,
 ) {
 
     @Operation(summary = "首页")
@@ -55,7 +55,7 @@ class IndexController(
     fun login(
         @Validated
         @RequestBody
-        loginReq: UserLoginReq
+        loginReq: UserLoginReq,
     ) = JwtToken.gen("userId" to userService.login(loginReq).userId)
 
     @Operation(summary = "空")

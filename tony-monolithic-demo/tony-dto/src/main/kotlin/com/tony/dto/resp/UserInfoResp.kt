@@ -18,7 +18,7 @@ data class UserInfoResp(
     val mobile: String?,
 
     @Schema(title = "模块/权限")
-    val modules: RouteAndComponentModuleResp
+    val modules: RouteAndComponentModuleResp,
 )
 
 /**
@@ -33,5 +33,5 @@ data class RouteAndComponentModuleResp(
     val routes: List<ModuleResp>,
 
     @Schema(title = "控件")
-    val components: List<ModuleResp>
+    val components: List<ModuleResp>,
 )

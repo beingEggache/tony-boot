@@ -16,7 +16,7 @@ configure<JavaPluginExtension> {
 
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(javaVersion))
+        this.languageVersion.set(JavaLanguageVersion.of(javaVersion))
     }
 }
 
@@ -33,11 +33,12 @@ tasks.withType<KotlinCompile>().configureEach {
 
 val privateGradleRepoUrl: String by project
 repositories {
-    mavenCentral()
+    mavenLocal()
+    gradlePluginPortal()
     maven(url = privateGradleRepoUrl) {
         isAllowInsecureProtocol = true
     }
-    gradlePluginPortal() // so that external plugins can be resolved in dependencies section
+    mavenCentral()
 }
 
 gradlePlugin {
@@ -55,8 +56,8 @@ gradlePlugin {
 }
 
 dependencies {
-    // implementation("com.palantir.gradle.docker:gradle-docker:0.34.0")
     implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.10")
+    implementation("io.github.godfather1103:docker-plugin:1.2.4")
 }
 
 configure<JavaPluginExtension> {

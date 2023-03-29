@@ -25,7 +25,7 @@ data class ModuleResp(
     val moduleType: ModuleType?,
 
     @Schema(title = "模块/权限分组")
-    val moduleGroup: String?
+    val moduleGroup: String?,
 ) : TreeLike<ModuleResp> {
 
     override val code: String

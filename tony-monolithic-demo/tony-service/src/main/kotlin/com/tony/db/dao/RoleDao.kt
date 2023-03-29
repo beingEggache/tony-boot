@@ -12,21 +12,21 @@ interface RoleDao : BaseDao<Role> {
         @Param("userId")
         userId: String?,
         @Param("appId")
-        appId: String
+        appId: String,
     ): List<Role>
 
     fun insertUserRole(
         @Param("userId")
         userId: String,
         @Param("roleId")
-        roleId: String
+        roleId: String,
     )
 
     fun insertRoleModule(
         @Param("roleId")
         roleId: String,
         @Param("moduleId")
-        moduleId: String
+        moduleId: String,
     )
 
     fun deleteRoleModuleByRoleId(roleId: String)

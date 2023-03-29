@@ -20,5 +20,5 @@ data class RoleUpdateReq(
     var roleName: String?,
 
     @Schema(title = "备注")
-    var remark: String?
+    var remark: String?,
 )

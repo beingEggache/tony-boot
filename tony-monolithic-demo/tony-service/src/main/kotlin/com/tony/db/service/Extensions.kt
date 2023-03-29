@@ -19,7 +19,7 @@ fun <T> IPage<T>.toPageResult() = PageResult(
     size,
     pages,
     total,
-    pages > current
+    pages > current,
 )
 
 fun User.toDto() = UserResp(
@@ -29,7 +29,7 @@ fun User.toDto() = UserResp(
     mobile,
     createTime,
     remark,
-    states
+    states,
 )
 
 inline fun <reified T : Any> where() = KtQueryWrapper(T::class.java)

@@ -16,5 +16,5 @@ data class RoleResp(
     val roleName: String?,
 
     @Schema(title = "备注")
-    val remark: String?
+    val remark: String?,
 )

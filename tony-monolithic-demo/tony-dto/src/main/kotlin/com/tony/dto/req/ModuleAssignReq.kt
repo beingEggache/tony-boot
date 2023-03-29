@@ -17,5 +17,5 @@ data class ModuleAssignReq(
 
     @get:NotEmpty(message = "请选择角色")
     @Schema(title = "用户ID", required = true)
-    val roleIdList: List<String> = listOf()
+    val roleIdList: List<String> = listOf(),
 )

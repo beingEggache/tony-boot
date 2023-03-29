@@ -75,7 +75,7 @@ fun main(args: Array<String>) {
 @Import(value = [DbConfig::class/*, AmqpConfig::class*/])
 @SpringBootApplication
 class MonoApiWebApp(
-    private val permissionInterceptor: PermissionInterceptor
+    private val permissionInterceptor: PermissionInterceptor,
 ) : WebMvcConfigurer {
 
     override fun addInterceptors(registry: InterceptorRegistry) {

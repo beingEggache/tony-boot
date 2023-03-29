@@ -15,7 +15,7 @@ interface ModuleDao : BaseDao<Module> {
     fun selectModulesByUserIdAndAppId(
         @Param("userId") userId: String,
         @Param("appId") appId: String,
-        @Param("types") types: List<ModuleType>
+        @Param("types") types: List<ModuleType>,
     ): List<Module>
 
     fun selectByModuleGroups(moduleGroups: List<String>): List<Module>
@@ -26,7 +26,7 @@ interface ModuleDao : BaseDao<Module> {
         fun clearModuleCache(userId: String = "*") {
             RedisManager.delete(
                 RedisKeys.genKey(CacheKeys.USER_FRONTEND_MODULES_CACHE_KEY, userId),
-                RedisKeys.genKey(CacheKeys.USER_API_MODULES_CACHE_KEY, userId)
+                RedisKeys.genKey(CacheKeys.USER_API_MODULES_CACHE_KEY, userId),
             )
         }
     }

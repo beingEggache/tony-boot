@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @Profile(value = ["dev", "qa"])
 class InternalController(
-    private val moduleService: ModuleService
+    private val moduleService: ModuleService,
 ) {
 
     private val logger = getLogger()
@@ -39,11 +39,11 @@ class InternalController(
     fun initFrontendModules(
         @RequestBody
         @Validated
-        req: ListReq<FrontEndModuleReq>
+        req: ListReq<FrontEndModuleReq>,
     ) = moduleService.saveModules(
         req.items.map { it.toPo() },
         listOf(ModuleType.ROUTE, ModuleType.COMPONENT),
-        WebApp.appId
+        WebApp.appId,
     )
 
     private fun FrontEndModuleReq.toPo() = let {

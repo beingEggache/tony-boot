@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 
 @Configuration
 @ComponentScan(
-    basePackages = ["com.tony.db"]
+    basePackages = ["com.tony.db"],
 )
 @EnableTransactionManagement(proxyTargetClass = true)
 @MapperScan("com.tony.db.dao")

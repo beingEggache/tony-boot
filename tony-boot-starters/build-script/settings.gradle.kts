@@ -1,11 +1,12 @@
 pluginManagement {
     val privateGradleRepoUrl: String by settings
     repositories {
-        mavenCentral()
+        mavenLocal()
+        gradlePluginPortal()
         maven(url = privateGradleRepoUrl) {
             isAllowInsecureProtocol = true
         }
-        gradlePluginPortal()
+        mavenCentral()
     }
 }
 
