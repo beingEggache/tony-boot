@@ -15,6 +15,6 @@ fun ServerHttpResponse.jsonBody(obj: Any?): Mono<Void> = run {
     writeWith(
         Mono.fromSupplier {
             bufferFactory().wrap(OBJECT_MAPPER.writeValueAsBytes(obj))
-        }
+        },
     )
 }

@@ -1,10 +1,10 @@
-FROM openjdk:11.0.15-jre-slim as builder
+FROM openjdk:11.0.16-jre-slim as builder
 WORKDIR application
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 
-FROM openjdk:11.0.15-jre-slim
+FROM openjdk:11.0.16-jre-slim
 WORKDIR application
 VOLUME ["/tmp","/logs"]
 

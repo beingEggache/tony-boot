@@ -32,15 +32,21 @@ open class EnumValueTypeHandler<E, KEY>(private val enumClass: Class<E>) :
     override fun getNullableResult(rs: ResultSet, columnName: String?) =
         if (null == rs.getObject(columnName) && rs.wasNull()) {
             null
-        } else valueOf(rs.getObject(columnName))
+        } else {
+            valueOf(rs.getObject(columnName))
+        }
 
     override fun getNullableResult(rs: ResultSet, columnIndex: Int) =
         if (null == rs.getObject(columnIndex) && rs.wasNull()) {
             null
-        } else valueOf(rs.getObject(columnIndex))
+        } else {
+            valueOf(rs.getObject(columnIndex))
+        }
 
     override fun getNullableResult(cs: CallableStatement, columnIndex: Int) =
         if (null == cs.getObject(columnIndex) && cs.wasNull()) {
             null
-        } else valueOf(cs.getObject(columnIndex))
+        } else {
+            valueOf(cs.getObject(columnIndex))
+        }
 }

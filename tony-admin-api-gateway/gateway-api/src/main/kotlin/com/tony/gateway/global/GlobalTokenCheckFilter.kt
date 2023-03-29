@@ -23,7 +23,7 @@ import reactor.core.publisher.Mono
 
 @Component
 class GlobalTokenCheckFilter(
-    private val gatewayRouteConfigProperties: GatewayRouteConfigProperties
+    private val gatewayRouteConfigProperties: GatewayRouteConfigProperties,
 ) : GlobalFilter, Ordered {
     override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
         val originalPath = exchange.request.uri.path
