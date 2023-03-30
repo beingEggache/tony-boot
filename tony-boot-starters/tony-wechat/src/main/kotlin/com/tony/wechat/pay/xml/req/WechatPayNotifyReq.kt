@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.tony.wechat.pay.xml.req
 
 import com.thoughtworks.xstream.annotations.XStreamAlias

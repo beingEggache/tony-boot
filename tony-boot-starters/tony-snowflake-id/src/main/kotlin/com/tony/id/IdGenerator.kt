@@ -23,13 +23,11 @@ public class IdGenerator internal constructor(idProperties: IdProperties) {
     }
 
     public companion object {
-        @Suppress("unused")
         @JvmStatic
         public fun nextIdStr(): String {
             return YitIdHelper.nextId().toString()
         }
 
-        @Suppress("unused")
         @JvmStatic
         public fun nextId(): Number {
             return YitIdHelper.nextId()

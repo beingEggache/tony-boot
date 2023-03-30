@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.tony.web
 
 import com.tony.Beans.getBeanByLazy

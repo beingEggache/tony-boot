@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration
 
-@Suppress("SpringFacetCodeInspection")
 @Configuration
 @EnableConfigurationProperties(AliyunOssProperties::class)
 internal class AliyunOssConfig

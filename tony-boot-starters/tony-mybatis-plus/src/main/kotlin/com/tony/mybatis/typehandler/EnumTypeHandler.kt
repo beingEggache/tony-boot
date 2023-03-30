@@ -20,7 +20,6 @@ import java.sql.ResultSet
  * @author tangli
  * @since 2022/1/13 18:11
  */
-@Suppress("unused")
 public open class EnumTypeHandler<E, KEY>(enumClass: Class<E>) :
     BaseTypeHandler<E>()
     where E : Enum<E>,

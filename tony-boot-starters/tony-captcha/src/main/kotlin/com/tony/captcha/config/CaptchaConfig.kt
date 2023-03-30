@@ -3,7 +3,7 @@
  * CaptchaConfig
  *
  * @author tangli
- * @since 2022/7/12 11:38
+ * @since 2022/3/10 15:14
  */
 package com.tony.captcha.config
 
@@ -17,12 +17,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
-/**
- * tony-sale CaptchaConfig
- *
- * @author tangli
- * @since 2022/3/10 15:14
- */
 @Configuration
 @EnableConfigurationProperties(CaptchaProperties::class)
 public class CaptchaConfig(

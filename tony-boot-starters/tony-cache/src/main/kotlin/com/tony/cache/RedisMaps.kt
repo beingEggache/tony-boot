@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.tony.cache
 
 import com.tony.cache.RedisManager.trimQuotes
@@ -143,7 +141,7 @@ public object RedisMaps {
     public fun getMap(key: String): Map<String, Any> =
         RedisManager.redisTemplate.opsForHash<String, Any>().entries(key)
 
-    private fun <T> RedisTemplate<String, T>.put(
+    private fun <T : Any> RedisTemplate<String, T>.put(
         key: String,
         hashKey: String,
         value: T,
@@ -160,7 +158,7 @@ public object RedisMaps {
         }
     }
 
-    private fun <T> RedisTemplate<String, T>.put(
+    private fun <T : Any> RedisTemplate<String, T>.put(
         key: String,
         hashKey: String,
         value: T,

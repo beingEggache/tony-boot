@@ -21,7 +21,6 @@ import java.net.URL
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@Suppress("unused")
 public object WebContext {
 
     @JvmStatic

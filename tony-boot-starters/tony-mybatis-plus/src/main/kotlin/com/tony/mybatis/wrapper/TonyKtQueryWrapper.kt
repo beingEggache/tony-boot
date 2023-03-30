@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Predicate
 import kotlin.reflect.KProperty
 
-public open class TonyKtQueryWrapper<T : Any> :
+public class TonyKtQueryWrapper<T : Any> :
     AbstractKtWrapper<T, TonyKtQueryWrapper<T>>,
     Query<TonyKtQueryWrapper<T>, T, KProperty<*>> {
 

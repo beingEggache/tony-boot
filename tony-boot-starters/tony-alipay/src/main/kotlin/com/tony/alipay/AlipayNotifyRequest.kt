@@ -10,7 +10,7 @@ private const val TRADE_SUCCESS = "TRADE_SUCCESS"
 
 private const val TRADE_CLOSED = "TRADE_CLOSED"
 
-@Suppress("VariableNaming", "MemberVisibilityCanBePrivate")
+@Suppress("VariableNaming", "MemberVisibilityCanBePrivate", "SameReturnValue")
 public class AlipayNotifyRequest {
 
     public var app_id: String? = null

@@ -25,7 +25,6 @@ public interface CaptchaService {
     public fun verify(vo: CaptchaVo): Boolean
 }
 
-@Suppress("unused")
 public open class CaptchaVo(
     public val captchaId: String,
     public val captcha: String,
@@ -43,7 +42,6 @@ public class NoopCaptchaServiceImpl : CaptchaService {
     override fun verify(vo: CaptchaVo): Boolean = true
 }
 
-@Suppress("unused")
 public object CaptchaManager {
 
     private val captchaService: CaptchaService by Beans.getBeanByLazy()

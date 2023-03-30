@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.tony.aliyun.sms
 
 import com.aliyuncs.DefaultAcsClient
@@ -10,10 +8,6 @@ import com.aliyuncs.http.MethodType
 import com.aliyuncs.profile.DefaultProfile
 import org.slf4j.LoggerFactory
 import javax.annotation.PostConstruct
-
-private const val regionId: String = "cn-hangzhou"
-private const val product: String = "Dysmsapi"
-private const val endpoint = "dysmsapi.aliyuncs.com"
 
 public class AliyunSmsManager(
     private val accessKeyId: String,
@@ -62,5 +56,11 @@ public class AliyunSmsManager(
             logger.error("${e.errCode}:${e.errMsg}")
             null
         }
+    }
+
+    internal companion object {
+        private const val regionId: String = "cn-hangzhou"
+        private const val product: String = "Dysmsapi"
+        private const val endpoint = "dysmsapi.aliyuncs.com"
     }
 }

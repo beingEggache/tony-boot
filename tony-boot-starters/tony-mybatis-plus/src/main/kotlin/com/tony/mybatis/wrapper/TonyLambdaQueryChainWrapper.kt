@@ -21,7 +21,6 @@ import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
 import java.util.function.Predicate
 
-@Suppress("unused")
 public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: BaseDao<T>) :
     AbstractChainWrapper<T, SFunction<T, *>, TonyLambdaQueryChainWrapper<T>, TonyLambdaQueryWrapper<T>>(),
     ChainQuery<T>,

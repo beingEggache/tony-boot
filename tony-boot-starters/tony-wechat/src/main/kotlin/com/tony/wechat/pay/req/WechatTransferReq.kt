@@ -6,7 +6,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias
 /**
  * 微信提现请求对象
  */
-@Suppress("unused")
 @XStreamAlias("xml")
 public data class WechatTransferReq(
 

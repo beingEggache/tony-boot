@@ -17,7 +17,6 @@ import java.util.function.Predicate
  * @author tangli
  * @since 2022/7/27
  */
-@Suppress("unused")
 public class TonyLambdaQueryWrapper<T : Any> :
     AbstractLambdaWrapper<T, TonyLambdaQueryWrapper<T>>,
     Query<TonyLambdaQueryWrapper<T>, T, SFunction<T, *>> {

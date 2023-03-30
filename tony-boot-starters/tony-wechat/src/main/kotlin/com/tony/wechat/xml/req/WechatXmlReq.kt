@@ -6,7 +6,6 @@ import com.tony.wechat.xml.ScanCodeInfo
 import com.tony.wechat.xml.WechatObj
 import com.tony.wechat.xml.XStreamCDataConverter
 
-@Suppress("unused")
 @XStreamAlias("xml")
 public data class WechatXmlReq(
     @XStreamConverter(value = XStreamCDataConverter::class)

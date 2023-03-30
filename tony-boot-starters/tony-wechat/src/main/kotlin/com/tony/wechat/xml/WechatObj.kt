@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.tony.wechat.xml
 
 import com.thoughtworks.xstream.annotations.XStreamAlias

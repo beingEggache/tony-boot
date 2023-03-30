@@ -1,5 +1,3 @@
-@file:Suppress("ArrayInDataClass", "unused")
-
 package com.tony.wechat.xml.resp
 
 import com.thoughtworks.xstream.annotations.XStreamAlias

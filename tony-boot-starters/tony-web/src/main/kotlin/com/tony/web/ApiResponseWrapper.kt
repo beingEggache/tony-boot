@@ -61,7 +61,7 @@ internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {
         private fun Any.isNotCollectionLike() =
             !Collection::class.java.isAssignableFrom(javaClass) && !javaClass.isArray
 
-        private fun Class<*>.isNotAssignableFrom(vararg clazzes: Class<*>) = clazzes.all {
+        private fun Class<*>.isNotAssignableFrom(vararg classes: Class<*>) = classes.all {
             !it.isAssignableFrom(this)
         }
 

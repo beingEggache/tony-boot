@@ -20,7 +20,6 @@ import org.springframework.core.type.AnnotationMetadata
 )
 public annotation class EnableTonyBoot
 
-@Suppress("SpringFacetCodeInspection")
 @Configuration
 internal class TonyBootConfiguration {
 

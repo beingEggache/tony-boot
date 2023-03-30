@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.tony.cache
 
 import com.tony.Beans
@@ -38,7 +36,7 @@ public object RedisManager {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
         val stringRedisSerializer = RedisSerializer.string()
         RedisTemplate<String, Any>().apply {
-            connectionFactory = Beans.getBean()
+            setConnectionFactory(Beans.getBean())
             keySerializer = stringRedisSerializer
             hashKeySerializer = stringRedisSerializer
             valueSerializer = serializer

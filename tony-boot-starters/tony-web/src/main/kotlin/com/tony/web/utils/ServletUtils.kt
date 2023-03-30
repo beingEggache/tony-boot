@@ -1,5 +1,4 @@
 @file:JvmName("ServletUtils")
-@file:Suppress("unused")
 
 package com.tony.web.utils
 
@@ -89,7 +88,6 @@ public fun isTextMediaTypes(mediaType: MediaType?): Boolean =
 public val HttpServletRequest.isCorsPreflightRequest: Boolean
     get() = CorsUtils.isPreFlightRequest(this)
 
-@Suppress("unused")
 public fun ByteArray.responseEntity(
     fileName: String = "",
     contentType: MediaType = MediaType.APPLICATION_OCTET_STREAM,

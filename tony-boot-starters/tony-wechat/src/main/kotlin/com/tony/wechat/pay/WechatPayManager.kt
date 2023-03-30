@@ -22,7 +22,6 @@ import com.tony.wechat.xml.toXmlString
 import com.tony.wechat.xml.xmlToObj
 import java.time.LocalDateTime
 
-@Suppress("unused")
 public class WechatPayManager {
 
     private val wechatProperties: WechatProperties by Beans.getBeanByLazy()

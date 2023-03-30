@@ -11,7 +11,6 @@ import com.tony.exception.BizException
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.redis.core.RedisConnectionUtils
-import javax.annotation.Resource
 
 /**
  *
@@ -175,7 +174,7 @@ class RedisManagerTests {
         RedisManager.values.set("b", "b")
         RedisManager.values.set("c", "c")
         throw BizException("")
-        redisTemplate.exec()
+        // redisTemplate.exec()
     }
 
 }

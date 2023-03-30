@@ -8,7 +8,6 @@ pluginManagement {
         }
         mavenCentral()
     }
-    @Suppress("UnstableApiUsage")
     includeBuild("build-script")
 }
 

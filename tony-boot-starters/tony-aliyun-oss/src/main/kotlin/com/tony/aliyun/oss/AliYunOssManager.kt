@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.tony.aliyun.oss
 
 import com.aliyun.oss.OSS

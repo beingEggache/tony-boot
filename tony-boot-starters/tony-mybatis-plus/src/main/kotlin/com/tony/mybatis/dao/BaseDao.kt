@@ -33,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional
 import java.io.Serializable
 import java.util.Objects
 
-@Suppress("unused")
 public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
