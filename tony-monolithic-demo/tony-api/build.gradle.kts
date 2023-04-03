@@ -9,19 +9,18 @@ dependencies {
     val profile = getProfile()
     //while execute gradle task, use -Pprofile=prod
     if (profile == "qa") {
-        implementation(Deps.Other.springdocCommon)
-        implementation(Deps.Other.springdocKotlin)
+        implementation(Deps.Template.templateKnife4j)
+        implementation(Deps.Knife4j.openapi3Ui)
     }
     if (profile == "dev") {
-        implementation(Deps.Other.springdocKotlin)
-        implementation(Deps.Other.springdocUi)
+        implementation(Deps.Template.templateKnife4j)
+        implementation(Deps.Knife4j.openapi3Ui)
         implementation(Deps.SpringBoot.devtools)
     }
     implementation(Deps.Template.templateWeb) { isChanging = true }
     implementation(Deps.Template.templateWebAuth) { isChanging = true }
     implementation(Deps.Template.templateFeign) { isChanging = true }
     implementation(project(":tony-service"))
-//    implementation(project(":tony-amqp"))
     addTestDependencies()
 //    implementation(Deps.SpringBoot.starterActuator)
 }

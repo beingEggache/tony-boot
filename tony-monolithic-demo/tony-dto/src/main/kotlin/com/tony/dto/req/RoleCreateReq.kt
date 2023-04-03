@@ -8,17 +8,17 @@ import javax.validation.constraints.NotBlank
  * @author tangli
  * @since 2020-11-14 11:30
  */
-@Schema(title = "创建角色请求")
+@Schema(description = "创建角色请求")
 data class RoleCreateReq(
 
-    @Schema(title = "角色ID", required = true)
+    @Schema(description = "角色ID", required = true)
     @get:NotBlank(message = "请输入角色ID")
     val roleId: String?,
 
-    @Schema(title = "角色名", required = true)
+    @Schema(description = "角色名", required = true)
     @get:NotBlank(message = "请输入角色名")
     var roleName: String?,
 
-    @Schema(title = "备注")
+    @Schema(description = "备注")
     var remark: String?,
 )

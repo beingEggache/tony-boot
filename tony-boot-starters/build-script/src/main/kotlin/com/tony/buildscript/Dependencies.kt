@@ -30,6 +30,7 @@ object Deps {
         const val templateWeb = "$projectGroup:$projectPrefix-web:${VersionManagement.templateVersion}"
         const val templateCache = "$projectGroup:$projectPrefix-cache:${VersionManagement.templateVersion}"
         const val templateMybatisPlus = "$projectGroup:$projectPrefix-mybatis-plus:${VersionManagement.templateVersion}"
+        const val templateKnife4j = "$projectGroup:$projectPrefix-knife4j-api:${VersionManagement.templateVersion}"
     }
 
     object Jackson {
@@ -95,6 +96,15 @@ object Deps {
         const val openFeignSl4j = "io.github.openfeign:feign-slf4j"
         const val openFeignOkhttp = "io.github.openfeign:feign-okhttp"
         const val openFeignJackson = "io.github.openfeign:feign-jackson"
+    }
+
+    object Knife4j {
+        const val openapi3SpringBootStarter =
+            "com.github.xiaoymin:knife4j-openapi3-spring-boot-starter"
+        const val openapi3JakartaSpringBootStarter =
+            "com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter"
+        const val openapi3Ui =
+            "com.github.xiaoymin:knife4j-openapi3-ui"
     }
 
     object SpringBoot {

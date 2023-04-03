@@ -6,6 +6,7 @@ import com.tony.feign.interceptor.NetworkInterceptor
 import com.tony.feign.log.DefaultFeignRequestTraceLogger
 import com.tony.feign.log.FeignLogInterceptor
 import com.tony.feign.log.FeignRequestTraceLogger
+import com.tony.misc.YamlPropertySourceFactory
 import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit
 
 @EnableConfigurationProperties(FeignConfigProperties::class)
 @Configuration
-@PropertySource("classpath:feign.properties")
+@PropertySource("classpath:feign.config.yml", factory = YamlPropertySourceFactory::class)
 public class FeignConfig {
 
     @Bean

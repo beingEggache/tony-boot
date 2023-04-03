@@ -1,19 +1,20 @@
 import com.tony.buildscript.Deps
+import com.tony.buildscript.addTestDependencies
 import com.tony.buildscript.getProfile
+
 apply(plugin = "kotlin-spring")
 apply(plugin = "docker.publish")
-
 dependencies {
 
     val profile = getProfile()
     //while execute gradle task, use -Dprofile=prod
     if (profile == "qa") {
-        implementation(Deps.Other.springdocCommon)
-        implementation(Deps.Other.springdocKotlin)
+        implementation(Deps.Template.templateKnife4j)
+        implementation(Deps.Knife4j.openapi3Ui)
     }
     if (profile == "dev") {
-        implementation(Deps.Other.springdocKotlin)
-        implementation(Deps.Other.springdocUi)
+        implementation(Deps.Template.templateKnife4j)
+        implementation(Deps.Knife4j.openapi3Ui)
         implementation(Deps.SpringBoot.devtools)
     }
 
@@ -24,4 +25,10 @@ dependencies {
     implementation(Deps.Template.templateWeb)
 
     implementation(project(":tony-service"))
+
+    addTestDependencies()
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
 }

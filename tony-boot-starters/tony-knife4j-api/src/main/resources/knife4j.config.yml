@@ -1,0 +1,8 @@
+knife4j:
+  enable: on
+  setting:
+    enable-host: on
+    enable-dynamic-parameter: on
+    enable-reload-cache-parameter: on
+    enable-swagger-models: off
+    swagger-model-name: "实体管理"

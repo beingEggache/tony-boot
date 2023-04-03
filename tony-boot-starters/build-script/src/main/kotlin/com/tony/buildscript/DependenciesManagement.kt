@@ -79,6 +79,15 @@ internal object DepsManagement {
         const val openFeignJackson = "io.github.openfeign:feign-jackson:${VersionManagement.openFeignVersion}"
     }
 
+    object Knife4j {
+        const val openapi3SpringBootStarter =
+            "com.github.xiaoymin:knife4j-openapi3-spring-boot-starter:${VersionManagement.knife4jVersion}"
+        const val openapi3JakartaSpringBootStarter =
+            "com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:${VersionManagement.knife4jVersion}"
+        const val openapi3Ui =
+            "com.github.xiaoymin:knife4j-openapi3-ui:${VersionManagement.knife4jVersion}"
+    }
+
     object SpringBoot {
         const val springBoot = "org.springframework.boot:spring-boot:${VersionManagement.springBootVersion}"
         const val springBootStarter =

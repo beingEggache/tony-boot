@@ -22,7 +22,7 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:mappers/*.mapper.xml
   configuration:
-    default-enum-type-handler: com.tony.db.typehandler.EnumValueTypeHandler
+    default-enum-type-handler: com.tony.mybatis.typehandler.EnumTypeHandler
 feign:
   okhttp:
     enabled: true

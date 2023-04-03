@@ -30,17 +30,18 @@ object VersionManagement  {
     const val reactorNettyVersion = "1.1.5"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.14.2"
+    const val byteBuddyVersion = "1.14.3"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.72"
-    const val javaJwtVersion = "4.3.0"
+    const val javaJwtVersion = "4.4.0"
     const val guavaVersion = "31.1-jre"
 
-    const val swaggerV3Version = "2.2.8"
-    const val springdocVersion = "1.6.15"
+    const val swaggerV3Version = "2.2.9"
+    const val knife4jVersion = "4.1.0"
+    const val springdocVersion = "1.7.0"
 
     const val springCloudAlibabaVersion = "2021.0.5.0"
-    const val springCloudVersion = "2021.0.5"
+    const val springCloudVersion = "2021.0.6"
 
     const val alipaySdkJavaVersion = "4.35.79.ALL"
     const val aliyunJavaSdkCoreVersion = "4.6.3"

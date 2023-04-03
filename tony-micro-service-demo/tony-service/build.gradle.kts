@@ -8,7 +8,6 @@ dependencies {
     implementation(Deps.Other.mybatisTypehandlersJsr310)
     implementation(Deps.Template.templateCache) { isChanging = true }
     implementation(Deps.Template.templateFeign) { isChanging = true }
-    api(Deps.Other.mybatisPlusBootStarter)
-    api(Deps.Spring.web)
+    api(Deps.Template.templateMybatisPlus)
 
 }

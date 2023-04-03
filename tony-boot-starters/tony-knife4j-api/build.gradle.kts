@@ -1,0 +1,14 @@
+import com.tony.buildscript.Deps
+import com.tony.buildscript.addTestDependencies
+
+dependencies {
+    api(projects.tonyCore)
+    implementation(Deps.Other.springdocKotlin)
+    implementation(Deps.Knife4j.openapi3SpringBootStarter) {
+        exclude("com.github.xiaoymin", "knife4j-openapi3-ui")
+    }
+    implementation(Deps.SpringBoot.autoconfigure)
+    addTestDependencies()
+    testImplementation(projects.tonyWeb)
+    testImplementation(Deps.Knife4j.openapi3Ui)
+}
