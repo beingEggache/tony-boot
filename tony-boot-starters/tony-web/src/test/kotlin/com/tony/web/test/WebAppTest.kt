@@ -1,6 +1,7 @@
 package com.tony.web.test
 
 import org.junit.jupiter.api.Test
+import org.springframework.boot.runApplication
 import org.springframework.boot.test.context.SpringBootTest
 
 
@@ -11,4 +12,8 @@ class WebAppTest {
     fun test() {
         println(123)
     }
+}
+
+fun main() {
+    runApplication<TestWebApp>()
 }

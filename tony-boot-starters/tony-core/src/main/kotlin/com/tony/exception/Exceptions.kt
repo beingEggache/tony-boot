@@ -26,4 +26,4 @@ public open class ApiException @JvmOverloads constructor(
 public open class BizException @JvmOverloads constructor(
     override val message: String,
     override val code: Int = ApiProperty.bizErrorCode,
-) : BaseException(message, code)
+) : BaseException(message, code, null)

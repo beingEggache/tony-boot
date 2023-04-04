@@ -3,6 +3,7 @@ package com.tony.cache
 import com.tony.Beans
 import com.tony.exception.ApiException
 import com.tony.utils.OBJECT_MAPPER
+import com.tony.utils.secureRandom
 import org.springframework.beans.factory.getBean
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.RedisConnectionUtils
@@ -13,7 +14,6 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializer
 import org.springframework.scripting.support.ResourceScriptSource
 import java.util.Collections
-import java.util.Random
 import java.util.concurrent.TimeUnit
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -82,7 +82,7 @@ public object RedisManager {
                 return true
             }
             try {
-                TimeUnit.MILLISECONDS.sleep(Random().nextInt(100).toLong())
+                TimeUnit.MILLISECONDS.sleep(secureRandom.nextInt(100).toLong())
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }

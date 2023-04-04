@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
-import javax.annotation.PostConstruct
 import javax.annotation.Resource
 
 @EnableFeignClients("$PROJECT_GROUP.wechat.client")
@@ -25,10 +24,9 @@ import javax.annotation.Resource
 internal class WechatConfig {
 
     @Resource
-    lateinit var mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter
-
-    @PostConstruct
-    private fun init() {
+    private fun initMappingJackson2HttpMessageConverter(
+        mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
+    ) {
         val supportedMediaTypes = mappingJackson2HttpMessageConverter.supportedMediaTypes
         mappingJackson2HttpMessageConverter.supportedMediaTypes =
             listOf(*supportedMediaTypes.toTypedArray(), MediaType.TEXT_PLAIN)

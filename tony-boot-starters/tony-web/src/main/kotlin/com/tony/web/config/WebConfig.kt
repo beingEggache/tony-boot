@@ -34,7 +34,6 @@ import org.springframework.web.cors.DefaultCorsProcessor
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.filter.CorsFilter
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import javax.annotation.PostConstruct
 import javax.annotation.Resource
 import javax.servlet.http.HttpServletResponse
 
@@ -47,9 +46,6 @@ internal class WebConfig(
 ) : WebMvcConfigurer {
 
     private val logger = getLogger(WebConfig::class.java.name)
-
-    @Resource
-    lateinit var mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter
 
     override fun addFormatters(registry: FormatterRegistry) {
         registry.addConverterFactory(EnumIntValueConverterFactory())
@@ -117,8 +113,10 @@ internal class WebConfig(
         }
     }
 
-    @PostConstruct
-    private fun init() {
+    @Resource
+    private fun initMappingJackson2HttpMessageConverter(
+        mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
+    ) {
         if (webProperties.jsonNullValueOptimizedEnabled) {
             logger.info("Response json null value optimizing is enabled.")
             mappingJackson2HttpMessageConverter.objectMapper = createObjectMapper().apply {
