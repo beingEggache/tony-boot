@@ -1,6 +1,5 @@
 import com.tony.buildscript.Deps
 import com.tony.buildscript.KaptDeps
-import com.tony.buildscript.copyProjectHookToGitHook
 import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
@@ -12,7 +11,7 @@ plugins {
 
 val javaVersion:String by project
 
-copyProjectHookToGitHook("pre-commit", "pre-push")
+// copyProjectHookToGitHook(rootDir.parentFile,"pre-commit", "pre-push")
 
 idea.project {
     jdkName = javaVersion
