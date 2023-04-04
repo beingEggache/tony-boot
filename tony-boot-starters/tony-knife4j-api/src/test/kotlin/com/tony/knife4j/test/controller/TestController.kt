@@ -7,6 +7,7 @@ import com.tony.knife4j.test.resp.TestResp
 import com.tony.web.utils.responseEntity
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springdoc.api.annotations.ParameterObject
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -27,6 +28,10 @@ class TestController {
     @Operation(summary = "test2")
     @PostMapping("/test2")
     fun test2(@RequestBody req: TestReq) = TestResp()
+
+    @Operation(summary = "test-form")
+    @PostMapping("/test-form")
+    fun testForm(@ParameterObject req: TestReq) = TestResp()
 
     @Operation(summary = "测试excel")
     @PostMapping("/test3")

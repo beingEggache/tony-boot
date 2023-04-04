@@ -2,6 +2,7 @@ package com.tony.knife4j.test.resp
 
 import com.alibaba.excel.annotation.ExcelProperty
 import com.alibaba.excel.annotation.format.DateTimeFormat
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.tony.utils.defaultZoneId
 import com.tony.utils.defaultZoneOffset
 import io.swagger.v3.oas.annotations.media.Schema
@@ -12,14 +13,13 @@ import java.time.ZoneOffset
 
 @Schema(title = "测试响应标题", description = "测试响应描述")
 data class TestResp(
-    @Schema(title = "测试响应时间标题", description = "测试响应时间描述")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Schema(title = "测试响应时间标题", description = "测试响应时间描述", pattern = "yyyy-MM-dd HH:mm:ss")
     val dateTime: LocalDateTime = LocalDateTime.now(),
     @Schema(title = "测试响应zoneId标题", description = "测试响应zoneId描述")
     val zoneId: ZoneId = defaultZoneId,
     @Schema(title = "测试响应zoneOffset标题", description = "测试响应zoneOffset描述")
     val zoneOffset: ZoneOffset = defaultZoneOffset,
-    @Schema(title = "测试响应env标题", description = "测试响应env描述")
-    val env: List<String> = System.getProperties().entries.map { "${it.key}=${it.value}" },
 )
 
 class TestExcelResp {

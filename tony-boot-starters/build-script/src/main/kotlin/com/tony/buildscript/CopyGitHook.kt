@@ -10,7 +10,7 @@ import java.io.File
  */
 fun Project.copyProjectHookToGitHook(vararg hookNames: String) {
 
-    val gitDir = File(rootDir, "/.git/")
+    val gitDir = File(rootProject.rootDir, "/.git/")
     if (!gitDir.exists()) {
         logger.warn("Your project does not has a git directory.")
         return
