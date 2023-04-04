@@ -14,6 +14,10 @@ val dockerRegistry: String by project
 val dockerUserName: String by project
 val dockerPassword: String by project
 val imageNameFromProperty = getImageNameFromProperty()
+val nameSpace: String = kotlin.run {
+    val property = System.getProperty("name_space", "")
+    if (property.isNullOrBlank()) dockerUserName else property
+}
 
 docker {
     dockerBuildDependsOn.add("bootJar")
@@ -21,7 +25,7 @@ docker {
     dockerBuildArgs.put("JAR_FILE", outputs.files.singleFile.name)
     dockerDirectory.value(project.projectDir.absolutePath)
     auth.value(AuthConfig(dockerUserName, dockerPassword))
-    imageName.value("$dockerRegistry/$dockerUserName/${imageNameFromProperty}")
+    imageName.value("$dockerRegistry/${nameSpace}/${imageNameFromProperty}")
 
     val today = yyyyMMdd.format(Date())
     dockerImageTags.add("latest")

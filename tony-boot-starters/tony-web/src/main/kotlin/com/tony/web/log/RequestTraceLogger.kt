@@ -97,7 +97,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
 
     private fun requestBody(request: RepeatReadRequestWrapper) =
         if (!isTextMediaTypes(request.parsedMedia)) {
-            "[${request.getHeader("Content-Type")}]"
+            "[${request.contentType}]"
         } else if (request.method.equals(HttpMethod.POST.name, true)) {
             val bytes = request.contentAsByteArray
             when {
@@ -111,7 +111,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
 
     private fun responseBody(response: ContentCachingResponseWrapper) =
         if (!isTextMediaTypes(response.parsedMedia)) {
-            "[${response.getHeader("Content-Type")}]"
+            "[${response.contentType}]"
         } else {
             response.contentAsByteArray.let { bytes ->
                 val size = bytes.size
