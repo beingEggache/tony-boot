@@ -1,6 +1,6 @@
 package com.tony.wechat
 
-import com.tony.Beans
+import com.tony.SpringContexts
 import com.tony.exception.ApiException
 import com.tony.utils.getLogger
 import com.tony.utils.urlEncode
@@ -24,9 +24,9 @@ import java.util.Base64
 public object WechatManager {
 
     private val logger = getLogger()
-    private val wechatClient: WechatClient by Beans.getBeanByLazy()
-    private val wechatPropProvider: WechatPropProvider by Beans.getBeanByLazy()
-    private val apiAccessTokenProvider: WechatApiAccessTokenProvider by Beans.getBeanByLazy()
+    private val wechatClient: WechatClient by SpringContexts.getBeanByLazy()
+    private val wechatPropProvider: WechatPropProvider by SpringContexts.getBeanByLazy()
+    private val apiAccessTokenProvider: WechatApiAccessTokenProvider by SpringContexts.getBeanByLazy()
 
     @JvmOverloads
     @JvmStatic
@@ -230,12 +230,12 @@ public interface WechatApiAccessTokenProvider {
             code,
         ).check()
 
-    public fun wechatClient(): WechatClient = Beans.getBean(WechatClient::class.java)
+    public fun wechatClient(): WechatClient = SpringContexts.getBean(WechatClient::class.java)
 }
 
 internal class DefaultWechatApiAccessTokenProvider : WechatApiAccessTokenProvider {
 
-    private val wechatClient: WechatClient by Beans.getBeanByLazy()
+    private val wechatClient: WechatClient by SpringContexts.getBeanByLazy()
 
     override fun wechatClient(): WechatClient {
         return wechatClient

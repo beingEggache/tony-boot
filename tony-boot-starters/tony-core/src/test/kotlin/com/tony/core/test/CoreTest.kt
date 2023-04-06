@@ -1,6 +1,6 @@
 package com.tony.core.test
 
-import com.tony.Beans
+import com.tony.SpringContexts
 import com.tony.annotation.EnableTonyBoot
 import com.tony.utils.println
 import org.junit.jupiter.api.Test
@@ -16,7 +16,7 @@ class CoreTest {
 
     @Test
     fun test(){
-        val env = Beans.environment as StandardEnvironment
+        val env = SpringContexts.environment as StandardEnvironment
         env.propertySources.forEach { it.source.javaClass.println()}
         println("--------")
         env.systemProperties.forEach(::println)

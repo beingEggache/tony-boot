@@ -1,6 +1,6 @@
 package com.tony.cache
 
-import com.tony.Beans
+import com.tony.SpringContexts
 import com.tony.exception.ApiException
 import com.tony.utils.OBJECT_MAPPER
 import com.tony.utils.secureRandom
@@ -36,7 +36,7 @@ public object RedisManager {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
         val stringRedisSerializer = RedisSerializer.string()
         RedisTemplate<String, Any>().apply {
-            setConnectionFactory(Beans.getBean())
+            setConnectionFactory(SpringContexts.getBean())
             keySerializer = stringRedisSerializer
             hashKeySerializer = stringRedisSerializer
             valueSerializer = serializer

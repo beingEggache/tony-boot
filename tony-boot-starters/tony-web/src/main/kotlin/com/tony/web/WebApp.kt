@@ -3,9 +3,9 @@ package com.tony.web
 import com.tony.ApiProperty
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
-import com.tony.Beans.getBeanByLazy
 import com.tony.Env
 import com.tony.Env.getPropertyByLazy
+import com.tony.SpringContexts.getBeanByLazy
 import com.tony.utils.sanitizedPath
 import com.tony.web.config.WebProperties
 import org.slf4j.LoggerFactory

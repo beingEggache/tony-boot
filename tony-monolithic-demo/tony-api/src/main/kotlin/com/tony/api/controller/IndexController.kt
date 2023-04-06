@@ -3,7 +3,6 @@ package com.tony.api.controller
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserLoginReq
-import com.tony.exception.BizException
 import com.tony.jwt.config.JwtToken
 import com.tony.utils.defaultZoneId
 import com.tony.utils.toString
@@ -70,6 +69,6 @@ class IndexController(
     @NoPermissionCheck
     @GetMapping("/exception")
     fun exception() {
-        throw BizException("exception")
+        throw Exception("exception")
     }
 }

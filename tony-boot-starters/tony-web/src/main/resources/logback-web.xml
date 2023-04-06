@@ -18,9 +18,9 @@
     <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${LOG_FILE_PATH}/stdout.log</File>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-            <onMatch>DENY</onMatch>  <!-- 如果命中就禁止这条日志 -->
-            <onMismatch>ACCEPT</onMismatch>  <!-- 如果没有命中就使用这条规则 -->
+            <level>ERROR</level>     <!-- 只排除掉这个级别 -->
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
         </filter>
         <!-- rollingPolicy:当发生滚动时，决定 RollingFileAppender 的行为，涉及文件移动和重命名。 -->
         <!-- TimeBasedRollingPolicy： 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动 -->
@@ -46,7 +46,7 @@
     <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${LOG_FILE_PATH}/warn.log</File>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>WARN</level>
+            <level>WARN</level> <!-- 只接受这个级别 -->
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
@@ -84,7 +84,7 @@
     <appender name="TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${LOG_FILE_PATH}/trace.log</File>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>TRACE</level>
+            <level>TRACE</level> <!-- 只接受这个级别 -->
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
@@ -104,7 +104,7 @@
     <appender name="FEIGN_TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${LOG_FILE_PATH}/request.log</File>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>TRACE</level>
+            <level>TRACE</level> <!-- 只接受这个级别 -->
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
@@ -122,8 +122,8 @@
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="WARN"/>
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="WARN"/>
         <appender-ref ref="ERROR"/>
     </root>
 

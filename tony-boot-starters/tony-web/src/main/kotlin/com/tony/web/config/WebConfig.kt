@@ -13,6 +13,8 @@ import com.tony.web.filter.RequestReplaceToRepeatReadFilter
 import com.tony.web.filter.TraceIdFilter
 import com.tony.web.filter.TraceLoggingFilter
 import com.tony.web.jackson.NullValueBeanSerializerModifier
+import com.tony.web.listeners.ContextClosedListener
+import com.tony.web.listeners.DefaultContextClosedListener
 import com.tony.web.log.DefaultRequestTraceLogger
 import com.tony.web.log.RequestTraceLogger
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
@@ -83,6 +85,10 @@ internal class WebConfig(
 
     @Bean
     internal fun exceptionHandler() = ExceptionHandler()
+
+    @ConditionalOnMissingBean(ContextClosedListener::class)
+    @Bean
+    internal fun contextClosedListener() = DefaultContextClosedListener()
 
     @ConditionalOnProperty("web.cors.enabled")
     @Bean

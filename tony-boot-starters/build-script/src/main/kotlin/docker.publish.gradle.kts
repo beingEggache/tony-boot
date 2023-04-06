@@ -37,6 +37,7 @@ docker {
         skipDockerTag.value(true)
         skipDockerPush.value(true)
     }
+
     val resource = Resource()
     resource.directory = projectDir.absolutePath + "/build/libs"
     resource.addIncludes(outputs.files.singleFile.name)

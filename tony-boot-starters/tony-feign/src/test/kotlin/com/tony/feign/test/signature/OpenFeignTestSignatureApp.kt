@@ -1,6 +1,6 @@
 package com.tony.feign.test.signature
 
-import com.tony.Beans
+import com.tony.SpringContexts
 import com.tony.annotation.EnableTonyBoot
 import com.tony.feign.genSign
 import com.tony.feign.interceptor.AppInterceptor
@@ -59,7 +59,7 @@ open class ProcessByHeaderInterceptor(
         if (processorImpl.isNullOrBlank()) return chain.proceed(request)
         val processor =
             try {
-                Beans.getBean<ByHeaderRequestProcessor>(processorImpl)
+                SpringContexts.getBean<ByHeaderRequestProcessor>(processorImpl)
             } catch (e: NoSuchBeanDefinitionException) {
                 getLogger(this::class.jvmName).warn(e.localizedMessage)
                 null

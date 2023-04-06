@@ -8,7 +8,7 @@
 package com.tony.captcha
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.tony.Beans
+import com.tony.SpringContexts
 import com.tony.cache.RedisManager
 import com.tony.cache.RedisValues
 import com.tony.utils.throwIf
@@ -44,7 +44,7 @@ public class NoopCaptchaServiceImpl : CaptchaService {
 
 public object CaptchaManager {
 
-    private val captchaService: CaptchaService by Beans.getBeanByLazy()
+    private val captchaService: CaptchaService by SpringContexts.getBeanByLazy()
 
     @JvmStatic
     @JvmOverloads

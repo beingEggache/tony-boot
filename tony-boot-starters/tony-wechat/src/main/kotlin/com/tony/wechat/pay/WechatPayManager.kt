@@ -1,6 +1,6 @@
 package com.tony.wechat.pay
 
-import com.tony.Beans
+import com.tony.SpringContexts
 import com.tony.exception.ApiException
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
@@ -24,9 +24,9 @@ import java.time.LocalDateTime
 
 public class WechatPayManager {
 
-    private val wechatProperties: WechatProperties by Beans.getBeanByLazy()
-    private val wechatPayClient: WechatPayClient by Beans.getBeanByLazy()
-    private val wechatPropProvider: WechatPropProvider by Beans.getBeanByLazy()
+    private val wechatProperties: WechatProperties by SpringContexts.getBeanByLazy()
+    private val wechatPayClient: WechatPayClient by SpringContexts.getBeanByLazy()
+    private val wechatPropProvider: WechatPropProvider by SpringContexts.getBeanByLazy()
 
 //    fun enchashment(openId: String, amount: Long, ip: String): WechatTransferResponse {
 //        val charArray = wechatProperties.mchId.toCharArray()

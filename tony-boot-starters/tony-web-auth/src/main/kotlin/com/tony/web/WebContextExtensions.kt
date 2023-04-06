@@ -1,6 +1,6 @@
 package com.tony.web
 
-import com.tony.Beans.getBeanByLazy
+import com.tony.SpringContexts.getBeanByLazy
 
 public object WebContextExtensions {
 
