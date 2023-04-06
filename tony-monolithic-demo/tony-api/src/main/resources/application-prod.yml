@@ -11,8 +11,6 @@ web:
       - "http://localhost:*"
       - "http://127.0.0.1:*"
     enabled: true
-#  level:
-#    root: DEBUG
 springdoc:
   swagger-ui:
     disable-swagger-default-url: true

@@ -24,14 +24,19 @@ docker {
     val outputs = tasks.getByPath("bootJar").outputs
     dockerBuildArgs.put("JAR_FILE", outputs.files.singleFile.name)
     dockerDirectory.value(project.projectDir.absolutePath)
-    auth.value(AuthConfig(dockerUserName, dockerPassword))
     imageName.value("$dockerRegistry/${nameSpace}/${imageNameFromProperty}")
-
     val today = yyyyMMdd.format(Date())
     dockerImageTags.add("latest")
     dockerImageTags.add(today)
-    pushImageTag.value(System.getProperty("push_tag", "false").isNotBlank())
-    pushImage.value(System.getProperty("push", "false").isNotBlank())
+    if(System.getProperty("push", "false").isNotBlank()){
+        pushImageTag.value(true)
+        pushImage.value(true)
+        auth.value(AuthConfig(dockerUserName, dockerPassword))
+    }else {
+        logger.info("skipDockerPush")
+        skipDockerTag.value(true)
+        skipDockerPush.value(true)
+    }
     val resource = Resource()
     resource.directory = projectDir.absolutePath + "/build/libs"
     resource.addIncludes(outputs.files.singleFile.name)
