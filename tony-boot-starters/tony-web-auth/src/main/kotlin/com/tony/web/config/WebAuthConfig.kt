@@ -12,11 +12,9 @@ import com.tony.web.interceptor.NoopLoginCheckInterceptor
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.context.EnvironmentAware
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.PriorityOrdered
-import org.springframework.core.env.Environment
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -25,7 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @EnableConfigurationProperties(JwtProperties::class)
 internal class WebAuthConfig(
     private val jwtProperties: JwtProperties,
-) : WebMvcConfigurer, EnvironmentAware, HaveWhiteListUrlPattern {
+) : WebMvcConfigurer, HaveWhiteListUrlPattern {
 
     private val logger = getLogger()
 
@@ -50,16 +48,4 @@ internal class WebAuthConfig(
             .excludePathPatterns(*whiteUrlPatterns(prefix = "").toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE)
     }
-
-    /*
-     *  Java Compatible
-     */
-    lateinit var env: Environment
-
-    override fun setEnvironment(environment: Environment) {
-        this.env = environment
-    }
-
-    override val environment: Environment
-        get() = env
 }

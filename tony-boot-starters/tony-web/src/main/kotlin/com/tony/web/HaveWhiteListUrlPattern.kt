@@ -6,16 +6,17 @@
  */
 package com.tony.web
 
-import com.tony.Env
+import com.tony.SpringContexts
+import com.tony.SpringContexts.Env
 import com.tony.utils.sanitizedPath
 import org.springframework.core.env.Environment
 
 public interface HaveWhiteListUrlPattern {
 
     public fun whiteUrlPatterns(prefix: String): Set<String> {
-        val actuatorBasePath = environment.getProperty("management.endpoints.web.base-path", "/actuator")
+        val actuatorBasePath = Env.getProperty("management.endpoints.web.base-path", "/actuator")
         val actuatorPrefix = sanitizedPath("$prefix/$actuatorBasePath")
-        val errorPath = environment.getProperty("server.error.path", environment.getProperty("error.path", "/error"))
+        val errorPath = Env.getProperty("server.error.path",Env.getProperty("error.path", "/error"))
         return setOf(
             sanitizedPath("$actuatorPrefix/**"),
             sanitizedPath("$prefix/$errorPath"),
@@ -32,16 +33,11 @@ public interface HaveWhiteListUrlPattern {
             sanitizedPath("$prefix/**/*.css.map"),
             sanitizedPath(Env.getProperty("springdoc.swagger-ui.path", "/swagger-ui.html")),
             sanitizedPath(Env.getProperty("springdoc.swagger-ui.config-url", "/v3/api-docs/swagger-config")),
-            sanitizedPath(
-                Env.getProperty(
-                    "springdoc.swagger-ui.oauth2-redirect-url",
-                    "/swagger-ui/oauth2-redirect.html",
-                ),
-            ),
+            sanitizedPath(Env.getProperty("springdoc.swagger-ui.oauth2-redirect-url","/swagger-ui/oauth2-redirect.html")),
             sanitizedPath(Env.getProperty("springdoc.api-docs.path", "/v3/api-docs")),
         )
     }
 
     public val environment: Environment
-        get() = Env
+        get() = SpringContexts.environment
 }

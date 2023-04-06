@@ -19,16 +19,22 @@ idea.project {
     vcs = "Git"
 }
 
-val privateMavenRepoUrl: String by project
 configure(subprojects) {
     group = projectGroup
     version = "0.1"
     repositories {
         mavenLocal()
-        maven(url = privateMavenRepoUrl) {
-            name = "private"
-            isAllowInsecureProtocol = true
-        }
+
+//        val privateMavenRepoUrl: String by project
+//        maven(url = privateMavenRepoUrl) {
+//            name = "private"
+//            isAllowInsecureProtocol = true
+//        }
+
+        maven(url = "https://maven.aliyun.com/repository/public")
+        maven(url = "https://maven.aliyun.com/repository/jcenter")
+        maven(url = "https://maven.aliyun.com/repository/google")
+
         mavenCentral()
     }
 

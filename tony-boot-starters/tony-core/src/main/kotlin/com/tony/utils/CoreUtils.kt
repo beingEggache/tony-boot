@@ -3,7 +3,7 @@
 package com.tony.utils
 
 import com.tony.ApiProperty
-import com.tony.Env
+import com.tony.SpringContexts.Env
 import com.tony.exception.BizException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -76,13 +76,18 @@ public val localIp: String = NetworkInterface
 
 @Suppress("UNCHECKED_CAST")
 public fun isPreferredAddress(address: InetAddress): Boolean {
-    if (Env.getProperty("spring.cloud.inetutils.use-only-site-local-interfaces", Boolean::class.java, false)) {
+    val useOnlySiteLocalInterfaces =
+        Env.getProperty("spring.cloud.inetutils.use-only-site-local-interfaces", Boolean::class.java, false)
+    if (useOnlySiteLocalInterfaces) {
         return address.isSiteLocalAddress
     }
 
     val preferredNetworks =
-        Env.getProperty("spring.cloud.inetutils.preferred-networks", List::class.java, emptyList<String>())
-            as List<String>
+        Env.getProperty(
+            "spring.cloud.inetutils.preferred-networks",
+            List::class.java,
+            emptyList<String>(),
+        ) as List<String>
 
     if (preferredNetworks.isEmpty()) {
         return true

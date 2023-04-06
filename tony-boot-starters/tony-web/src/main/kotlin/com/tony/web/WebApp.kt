@@ -3,8 +3,7 @@ package com.tony.web
 import com.tony.ApiProperty
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
-import com.tony.Env
-import com.tony.Env.getPropertyByLazy
+import com.tony.SpringContexts.Env
 import com.tony.SpringContexts.getBeanByLazy
 import com.tony.utils.sanitizedPath
 import com.tony.web.config.WebProperties
@@ -20,13 +19,13 @@ public object WebApp : HaveWhiteListUrlPattern {
     private val logger = LoggerFactory.getLogger(WebApp::class.java)
 
     @JvmStatic
-    public val appId: String by getPropertyByLazy("spring.application.name", "")
+    public val appId: String by Env.getPropertyByLazy("spring.application.name", "")
 
     @JvmStatic
-    public val port: String by getPropertyByLazy("server.port", "8080")
+    public val port: String by Env.getPropertyByLazy("server.port", "8080")
 
     @JvmStatic
-    public val contextPath: String by getPropertyByLazy("server.servlet.context-path", "")
+    public val contextPath: String by Env.getPropertyByLazy("server.servlet.context-path", "")
 
     internal val responseWrapExcludePatterns by lazy {
         val contextPath = Env.getProperty("server.servlet.context-path", "")

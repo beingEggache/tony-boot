@@ -31,13 +31,13 @@ tasks.withType<KotlinCompile>().configureEach {
     }
 }
 
-val privateGradleRepoUrl: String by project
 repositories {
     mavenLocal()
     gradlePluginPortal()
-    maven(url = privateGradleRepoUrl) {
-        isAllowInsecureProtocol = true
-    }
+//    val privateGradleRepoUrl: String by project
+//    maven(url = privateGradleRepoUrl) {
+//        isAllowInsecureProtocol = true
+//    }
     mavenCentral()
 }
 

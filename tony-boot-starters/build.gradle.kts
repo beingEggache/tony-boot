@@ -12,21 +12,26 @@ plugins {
     idea
 }
 
-val privateMavenRepoUrl: String by project
 configure(allprojects) {
     group = projectGroup
     version = VersionManagement.templateVersion
     repositories {
         mavenLocal()
-        maven(url = privateMavenRepoUrl) {
-            name = "private"
-            isAllowInsecureProtocol = true
-        }
+
+//        val privateMavenRepoUrl: String by project
+//        maven(url = privateMavenRepoUrl) {
+//            name = "private"
+//            isAllowInsecureProtocol = true
+//        }
+
+        maven(url = "https://maven.aliyun.com/repository/public")
+        maven(url = "https://maven.aliyun.com/repository/jcenter")
+        maven(url = "https://maven.aliyun.com/repository/google")
         mavenCentral()
     }
 }
 
-val javaVersion:String by project
+val javaVersion: String by project
 // copyProjectHookToGitHook(rootDir.parentFile,"pre-commit", "pre-push")
 idea.project {
     jdkName = javaVersion

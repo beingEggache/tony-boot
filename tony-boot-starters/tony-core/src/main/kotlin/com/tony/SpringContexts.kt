@@ -1,8 +1,10 @@
 package com.tony
 
+import com.tony.exception.ApiException
 import org.springframework.beans.factory.getBean
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
+import org.springframework.core.env.Environment
 
 /**
  * Beans
@@ -22,6 +24,14 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
 
         override fun setApplicationContext(applicationContext: ApplicationContext) {
             springContext = applicationContext
+        }
+    }
+
+    public object Env : Environment by SpringContexts.environment {
+
+        @JvmStatic
+        public inline fun <reified T> getPropertyByLazy(key: String, defaultValue: T): Lazy<T> = lazy {
+            getProperty(key, T::class.java, defaultValue!!) ?: throw ApiException("$key bean not exists")
         }
     }
 }
