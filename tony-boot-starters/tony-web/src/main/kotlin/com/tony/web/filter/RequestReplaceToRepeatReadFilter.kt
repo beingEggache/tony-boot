@@ -1,6 +1,5 @@
 package com.tony.web.filter
 
-import com.tony.SpringContexts.Env
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.doIf
 import com.tony.utils.sanitizedPath
@@ -45,9 +44,8 @@ internal class RequestReplaceToRepeatReadFilter(
     override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE
 
     private val excludedUrls by lazy {
-        val contextPath = Env.getProperty("server.servlet.context-path", "")
-        webProperties.traceLogExcludePatterns.map { sanitizedPath("$contextPath/$it") }
-            .plus(WebApp.whiteUrlPatterns(prefix = contextPath))
+        webProperties.traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") }
+            .plus(WebApp.whiteUrlPatterns(prefix = WebApp.contextPath))
     }
 }
 

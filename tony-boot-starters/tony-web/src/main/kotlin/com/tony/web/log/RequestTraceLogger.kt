@@ -5,7 +5,7 @@ import com.tony.utils.getFromRootAsString
 import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toJsonString
-import com.tony.web.WebContext
+import com.tony.web.WebApp
 import com.tony.web.filter.RepeatReadRequestWrapper
 import com.tony.web.log.RequestTraceLogger.Const.BIZ_FAILED
 import com.tony.web.log.RequestTraceLogger.Const.FAILED
@@ -73,7 +73,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         val protocol = request.scheme
         val httpMethod = request.method
         val origin = request.requestURL?.toString() ?: ""
-        val path = request.requestURI.removePrefix(WebContext.contextPath)
+        val path = request.requestURI.removePrefix(WebApp.contextPath)
         val query = request.queryString ?: NULL
         val headers = request.headers.toJsonString()
         val remoteIp = request.remoteIp

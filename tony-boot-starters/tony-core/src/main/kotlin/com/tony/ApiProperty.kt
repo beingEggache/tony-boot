@@ -26,7 +26,7 @@ public object ApiProperty {
     public val errorMsg: String by Env.getPropertyByLazy("core.error-msg", "访客太多，请稍后重试")
 
     @JvmStatic
-    public val validationErrorMsg: String by Env.getPropertyByLazy("core.validation-error-msg","请求有误，请检查后输入")
+    public val validationErrorMsg: String by Env.getPropertyByLazy("core.validation-error-msg", "请求有误，请检查后输入")
 
     @JvmStatic
     public val notFoundMessage: String = "该对象不存在"

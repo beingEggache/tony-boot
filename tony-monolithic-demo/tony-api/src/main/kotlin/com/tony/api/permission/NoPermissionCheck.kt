@@ -32,7 +32,7 @@ class DefaultPermissionInterceptor(
         if (handler !is HandlerMethod) return true
         if (handler.method.getAnnotation(NoPermissionCheck::class.java) != null) return true
         val apiModules = moduleService.listApiModules(WebContext.userId, WebApp.appId)
-        val moduleId = "${request.method.uppercase()} ${request.requestURI.removePrefix(WebContext.contextPath)}"
+        val moduleId = "${request.method.uppercase()} ${request.requestURI.removePrefix(WebApp.contextPath)}"
         if (!apiModules.any { it.moduleId == moduleId }) throw BizException("未经许可的访问", 40100)
         return true
     }

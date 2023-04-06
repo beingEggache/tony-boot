@@ -16,7 +16,7 @@ public interface HaveWhiteListUrlPattern {
     public fun whiteUrlPatterns(prefix: String): Set<String> {
         val actuatorBasePath = Env.getProperty("management.endpoints.web.base-path", "/actuator")
         val actuatorPrefix = sanitizedPath("$prefix/$actuatorBasePath")
-        val errorPath = Env.getProperty("server.error.path",Env.getProperty("error.path", "/error"))
+        val errorPath = Env.getProperty("server.error.path", Env.getProperty("error.path", "/error"))
         return setOf(
             sanitizedPath("$actuatorPrefix/**"),
             sanitizedPath("$prefix/$errorPath"),
@@ -33,7 +33,12 @@ public interface HaveWhiteListUrlPattern {
             sanitizedPath("$prefix/**/*.css.map"),
             sanitizedPath(Env.getProperty("springdoc.swagger-ui.path", "/swagger-ui.html")),
             sanitizedPath(Env.getProperty("springdoc.swagger-ui.config-url", "/v3/api-docs/swagger-config")),
-            sanitizedPath(Env.getProperty("springdoc.swagger-ui.oauth2-redirect-url","/swagger-ui/oauth2-redirect.html")),
+            sanitizedPath(
+                Env.getProperty(
+                    "springdoc.swagger-ui.oauth2-redirect-url",
+                    "/swagger-ui/oauth2-redirect.html",
+                ),
+            ),
             sanitizedPath(Env.getProperty("springdoc.api-docs.path", "/v3/api-docs")),
         )
     }

@@ -1,6 +1,5 @@
 package com.tony.web.filter
 
-import com.tony.SpringContexts.Env
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.sanitizedPath
@@ -73,11 +72,10 @@ internal class TraceLoggingFilter(
         request.requestURI.antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
 
     private val excludedUrls by lazy {
-        val contextPath = Env.getProperty("server.servlet.context-path", "")
         WebApp
             .responseWrapExcludePatterns
-            .plus(webProperties.traceLogExcludePatterns.map { sanitizedPath("$contextPath/$it") })
-            .plus(WebApp.whiteUrlPatterns(prefix = contextPath))
+            .plus(webProperties.traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") })
+            .plus(WebApp.whiteUrlPatterns(prefix = WebApp.contextPath))
     }
 
     override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 1

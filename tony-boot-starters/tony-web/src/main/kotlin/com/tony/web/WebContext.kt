@@ -2,7 +2,6 @@ package com.tony.web
 
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
-import com.tony.SpringContexts.Env
 import com.tony.exception.BaseException
 import com.tony.utils.asTo
 import com.tony.utils.defaultIfBlank
@@ -40,10 +39,6 @@ public object WebContext {
     ): T = getAttribute(key, scope).asTo() ?: callback().apply {
         setAttribute(key, this, scope)
     }
-
-    @JvmStatic
-    public val contextPath: String
-        get() = Env.getProperty("server.servlet.context-path", "")
 
     @JvmStatic
     public val headers: Map<String, String>
