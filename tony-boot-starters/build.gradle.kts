@@ -96,7 +96,15 @@ configure(subprojects) {
             allWarningsAsErrors = !isTest
             verbose = true
             freeCompilerArgs = listOf(
-                "-Xjsr305=strict -Xlint:all -Werror -verbose -encoding=UTF8 -deprecation -version -progressive"
+                "-Xjsr305=strict",
+                "-Xjvm-default=all",
+                "-Werror",
+                "-verbose",
+                "-version",
+                "-progressive",
+//                "-deprecation",
+//                "-Xlint:all",
+//                "-encoding UTF-8",
             )
         }
     }

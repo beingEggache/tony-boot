@@ -13,7 +13,8 @@ public class YamlPropertySourceFactory : PropertySourceFactory {
             setResources(resource.resource)
             afterPropertiesSet()
         }.getObject() ?: throw ApiException("yml properties null")
-        val propertyName = name ?: resource.resource.filename
+        val propertyName = (name ?: resource.resource.filename)
+            ?: throw ApiException("Property source name must contain at least one character")
         return PropertiesPropertySource(propertyName, ymlProperties)
     }
 }

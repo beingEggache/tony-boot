@@ -1,12 +1,11 @@
 import com.tony.buildscript.Deps
-import com.tony.buildscript.KaptDeps
+import com.tony.buildscript.getProfile
 import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
+	id("io.freefair.lombok") version "6.6.3"
 }
 
 val javaVersion: String by project
@@ -40,43 +39,36 @@ configure(subprojects) {
 
     apply {
         plugin("kotlin")
-        plugin("kotlin-kapt")
-        plugin("tony-build-ktlint")
+		plugin("io.freefair.lombok")
         plugin("tony-build-dep-substitute")
     }
 
     dependencies {
         add("implementation", platform(Deps.Template.templateDependencies))
-        add("kapt", KaptDeps.SpringBoot.autoconfigureProcessor)
     }
 
     configure<JavaPluginExtension> {
         toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
     }
 
-    configure<KotlinJvmProjectExtension> {
-        jvmToolchain {
-            languageVersion.set(JavaLanguageVersion.of(javaVersion))
-        }
-    }
+    tasks.withType<JavaCompile>().configureEach {
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
 
-    tasks.withType<KotlinCompile>().configureEach {
-        val isTest = this.name.contains("test", ignoreCase = true)
-        kotlinOptions {
-            jvmTarget = javaVersion
-            allWarningsAsErrors = !isTest
-            verbose = true
-            freeCompilerArgs = listOf(
-                "-Xjsr305=strict",
-                "-Xjvm-default=all",
-                "-Werror",
-                "-verbose",
-                "-version",
-                "-progressive",
-//                "-deprecation",
-//                "-Xlint:all",
-//                "-encoding UTF-8",
-            )
+        options.encoding = "UTF-8"
+        options.isDeprecation = true
+        if (getProfile() != "prod") {
+            options.isDebug = true
+            options.isFork = true
+            options.forkOptions.jvmArgs?.add("-Duser.language=en")
+            options.isIncremental = true
+        } else {
+            options.isDebug = false
         }
+
+        options.compilerArgs = mutableListOf(
+            "-Xlint:all,-serial,-processing,-classfile,-unchecked",
+            "-Werror"
+        )
     }
 }

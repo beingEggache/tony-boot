@@ -1,0 +1,13 @@
+spring:
+  elasticsearch:
+    uris:
+      - 192.168.10.211:9200
+web:
+  cors:
+    enabled: true
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    display-request-duration: true
+  paths-to-exclude:
+    - ${server.error.path:${error.path:/error}}

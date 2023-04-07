@@ -1,0 +1,45 @@
+package com.tony.mono.api.controller;
+
+import com.tony.jwt.config.JwtToken;
+import com.tony.mono.db.service.UserService;
+import com.tony.mono.dto.req.UserLoginReq;
+import com.tony.web.WebApp;
+import com.tony.web.interceptor.NoLoginCheck;
+import io.swagger.v3.oas.annotations.Operation;
+import kotlin.Pair;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RequiredArgsConstructor
+@Validated
+@RestController
+public class IndexController {
+
+    private final UserService userService;
+
+    @Operation(summary = "首页")
+    @NoLoginCheck
+    @GetMapping("/")
+    public String index() {
+        return WebApp.getAppId();
+    }
+
+    @Operation(summary = "登录")
+    @NoLoginCheck
+    @PostMapping("/login")
+    public String login(
+        @Validated
+        @RequestBody final UserLoginReq req) {
+        //noinspection unchecked
+        return JwtToken.gen(new Pair<>("userId", userService.login(req)));
+    }
+
+    @Operation(summary = "用户信息")
+    @PostMapping("/info")
+    public void info() {
+    }
+}
