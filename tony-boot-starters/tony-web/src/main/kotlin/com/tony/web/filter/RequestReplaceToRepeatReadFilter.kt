@@ -45,7 +45,7 @@ internal class RequestReplaceToRepeatReadFilter(
 
     private val excludedUrls by lazy {
         webProperties.traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") }
-            .plus(WebApp.whiteUrlPatterns(prefix = WebApp.contextPath))
+            .plus(WebApp.whiteUrlPatternsWithContextPath)
     }
 }
 

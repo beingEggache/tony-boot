@@ -80,7 +80,7 @@ class MonoApiWebApp(
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(permissionInterceptor)
-            .excludePathPatterns(*WebApp.whiteUrlPatterns(WebApp.contextPath).toTypedArray())
+            .excludePathPatterns(*WebApp.whiteUrlPatternsWithContextPath.toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE + 1)
     }
 }

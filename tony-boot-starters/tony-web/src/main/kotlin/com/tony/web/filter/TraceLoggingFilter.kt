@@ -75,7 +75,7 @@ internal class TraceLoggingFilter(
         WebApp
             .responseWrapExcludePatterns
             .plus(webProperties.traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") })
-            .plus(WebApp.whiteUrlPatterns(prefix = WebApp.contextPath))
+            .plus(WebApp.whiteUrlPatternsWithContextPath)
     }
 
     override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 1

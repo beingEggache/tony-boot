@@ -1,14 +1,14 @@
 package com.tony.web.config
 
 import com.tony.jwt.config.JwtProperties
-import com.tony.utils.getLogger
 import com.tony.web.ApiSession
-import com.tony.web.HaveWhiteListUrlPattern
 import com.tony.web.JwtApiSession
 import com.tony.web.NoopApiSession
+import com.tony.web.WebApp
 import com.tony.web.interceptor.DefaultJwtLoginCheckInterceptor
 import com.tony.web.interceptor.LoginCheckInterceptor
 import com.tony.web.interceptor.NoopLoginCheckInterceptor
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -23,9 +23,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @EnableConfigurationProperties(JwtProperties::class)
 internal class WebAuthConfig(
     private val jwtProperties: JwtProperties,
-) : WebMvcConfigurer, HaveWhiteListUrlPattern {
+) : WebMvcConfigurer {
 
-    private val logger = getLogger()
+    private val logger = LoggerFactory.getLogger(WebAuthConfig::class.java)
 
     @ConditionalOnMissingBean(LoginCheckInterceptor::class)
     @Bean
@@ -45,7 +45,7 @@ internal class WebAuthConfig(
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(loginCheckInterceptor())
-            .excludePathPatterns(*whiteUrlPatterns(prefix = "").toTypedArray())
+            .excludePathPatterns(*WebApp.whiteUrlPatterns.toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE)
     }
 }
