@@ -14,6 +14,7 @@ dependencies {
     api(Deps.Jackson.datatypeJsr310)
     api(Deps.Jackson.moduleKotlin)
     api(Deps.Jackson.moduleParameterNames)
+    compileOnly(Deps.Other.findbugsJsr305)
 
     addTestDependencies()
 }

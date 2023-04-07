@@ -80,6 +80,7 @@ internal object DepsManagement {
     }
 
     object Knife4j {
+        const val core = "com.github.xiaoymin:knife4j-core:${VersionManagement.knife4jVersion}"
         const val openapi3SpringBootStarter =
             "com.github.xiaoymin:knife4j-openapi3-spring-boot-starter:${VersionManagement.knife4jVersion}"
         const val openapi3JakartaSpringBootStarter =
@@ -178,6 +179,7 @@ internal object DepsManagement {
         const val commonsLang3 = "org.apache.commons:commons-lang3:3.12.0"
 
         const val guava = "com.google.guava:guava:${VersionManagement.guavaVersion}"
+        const val findbugsJsr305 = "com.google.code.findbugs:jsr305:3.0.2"
         const val javaJwt = "com.auth0:java-jwt:${VersionManagement.javaJwtVersion}"
 
         const val postgresql = "org.postgresql:postgresql:${VersionManagement.postgresqlVersion}"
@@ -216,7 +218,6 @@ internal object DepsManagement {
 
         const val yitterIdgenerator = "com.github.yitter:yitter-idgenerator:1.0.6"
         const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
-
     }
 }
 

@@ -99,6 +99,7 @@ object Deps {
     }
 
     object Knife4j {
+        const val core = "com.github.xiaoymin:knife4j-core"
         const val openapi3SpringBootStarter =
             "com.github.xiaoymin:knife4j-openapi3-spring-boot-starter"
         const val openapi3JakartaSpringBootStarter =
@@ -171,6 +172,7 @@ object Deps {
         const val commonsPool2 = "org.apache.commons:commons-pool2"
         const val commonsLang3 = "org.apache.commons:commons-lang3"
 
+        const val findbugsJsr305 = "com.google.code.findbugs:jsr305"
         const val guava = "com.google.guava:guava"
         const val javaJwt = "com.auth0:java-jwt"
 

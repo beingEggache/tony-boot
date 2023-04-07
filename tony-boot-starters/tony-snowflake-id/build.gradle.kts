@@ -1,9 +1,6 @@
 import com.tony.buildscript.Deps
 dependencies {
-    api(projects.tonyCore)
-
-    implementation(projects.tonyCache)
+    api(Deps.Kotlin.stdlib)
     implementation(Deps.SpringBoot.springBootStarter)
-
     implementation(Deps.Other.yitterIdgenerator)
 }

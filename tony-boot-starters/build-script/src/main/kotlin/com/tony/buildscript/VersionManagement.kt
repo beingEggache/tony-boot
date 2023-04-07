@@ -17,20 +17,20 @@ object VersionManagement  {
     const val mybatisVersion = "3.5.13"
     const val lettuceCoreVersion = "6.2.3.RELEASE"
 
-    const val xxlJobVersion = "2.3.1"
+    const val xxlJobVersion = "2.4.0"
 
     const val jacksonVersion = "2.14.2"
 
     const val gsonVersion = "2.10.1"
     const val fastjsonVersion = "2.0.26"
-    const val nettyVersion = "4.1.90.Final"
+    const val nettyVersion = "4.1.91.Final"
 
     const val reactorVersion = "3.4.28"
     const val reactorKotlinExtensions = "1.2.2"
     const val reactorNettyVersion = "1.1.5"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.14.3"
+    const val byteBuddyVersion = "1.14.4"
     const val jasyptVersion = "1.9.3"
     const val bouncycastleVersion = "1.72"
     const val javaJwtVersion = "4.4.0"
@@ -43,7 +43,7 @@ object VersionManagement  {
     const val springCloudAlibabaVersion = "2021.0.5.0"
     const val springCloudVersion = "2021.0.6"
 
-    const val alipaySdkJavaVersion = "4.35.79.ALL"
+    const val alipaySdkJavaVersion = "4.35.97.ALL"
     const val aliyunJavaSdkCoreVersion = "4.6.3"
-    const val aliyunSdkOssVersion = "3.16.1"
+    const val aliyunSdkOssVersion = "3.16.2"
 }
