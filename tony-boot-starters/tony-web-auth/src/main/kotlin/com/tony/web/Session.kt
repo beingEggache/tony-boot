@@ -18,11 +18,7 @@ internal class NoopApiSession : ApiSession {
     override val userId: String
         get() = TODO("Not yet implemented")
 
-    override fun genTokenString(vararg params: Pair<String, String?>): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun loginOk(): UnauthorizedException? = null
+    override val unauthorizedException: UnauthorizedException? = null
 }
 
 internal class JwtApiSession : ApiSession {
@@ -43,12 +39,11 @@ internal class JwtApiSession : ApiSession {
         get() = token.getClaim("userId")?.asString()
             ?: throw UnauthorizedException("请登录")
 
-    override fun genTokenString(vararg params: Pair<String, String?>) = JwtToken.gen(*params)
-
-    override fun loginOk(): UnauthorizedException? = try {
-        token
-        null
-    } catch (e: UnauthorizedException) {
-        e
-    }
+    override val unauthorizedException: UnauthorizedException?
+        get() = try {
+            token
+            null
+        } catch (e: UnauthorizedException) {
+            e
+        }
 }

@@ -8,7 +8,6 @@ package com.tony.web.interceptor
 
 import com.tony.web.WebContext
 import com.tony.web.WebContextExtensions.apiSession
-import com.tony.web.exception.UnauthorizedException
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
 import javax.servlet.http.HttpServletRequest
@@ -26,18 +25,9 @@ public interface LoginCheckInterceptor : HandlerInterceptor {
         handler: Any,
     ): Boolean {
         if (handler !is HandlerMethod) return true
-        throw (loginOk(handler) ?: return true)
-    }
-
-    public fun loginOk(handler: HandlerMethod): UnauthorizedException? = null
-}
-
-public class NoopLoginCheckInterceptor : LoginCheckInterceptor
-
-internal class DefaultJwtLoginCheckInterceptor : LoginCheckInterceptor {
-
-    override fun loginOk(handler: HandlerMethod): UnauthorizedException? {
-        if (handler.method.getAnnotation(NoLoginCheck::class.java) != null) return null
-        return WebContext.apiSession.loginOk()
+        if (handler.method.getAnnotation(NoLoginCheck::class.java) != null) return true
+        throw (WebContext.apiSession.unauthorizedException ?: return true)
     }
 }
+
+internal class DefaultLoginCheckInterceptor : LoginCheckInterceptor

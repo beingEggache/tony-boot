@@ -3,7 +3,6 @@ package com.tony.mono.api;
 import com.tony.web.ApiSession;
 import com.tony.web.WebContext;
 import com.tony.web.exception.UnauthorizedException;
-import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Component;
@@ -17,16 +16,9 @@ public class StaticApiSession implements ApiSession {
         return WebContext.getHeader("x-user-id");
     }
 
-    @SafeVarargs
-    @NotNull
-    @Override
-    public final String genTokenString(@NotNull Pair<String, String>... pairs) {
-        return "I'm token";
-    }
-
     @Nullable
     @Override
-    public UnauthorizedException loginOk() {
+    public UnauthorizedException getUnauthorizedException() {
         if (!StringUtils.hasLength(getUserId())) {
             return new UnauthorizedException("请登录");
         }

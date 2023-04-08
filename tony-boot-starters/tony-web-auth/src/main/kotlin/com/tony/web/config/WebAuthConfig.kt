@@ -5,9 +5,8 @@ import com.tony.web.ApiSession
 import com.tony.web.JwtApiSession
 import com.tony.web.NoopApiSession
 import com.tony.web.WebApp
-import com.tony.web.interceptor.DefaultJwtLoginCheckInterceptor
+import com.tony.web.interceptor.DefaultLoginCheckInterceptor
 import com.tony.web.interceptor.LoginCheckInterceptor
-import com.tony.web.interceptor.NoopLoginCheckInterceptor
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
@@ -29,11 +28,9 @@ internal class WebAuthConfig(
 
     @ConditionalOnMissingBean(LoginCheckInterceptor::class)
     @Bean
-    internal fun loginCheckInterceptor(): LoginCheckInterceptor =
-        if (jwtProperties.secret.isNotBlank()) DefaultJwtLoginCheckInterceptor() else NoopLoginCheckInterceptor()
+    internal fun loginCheckInterceptor(): LoginCheckInterceptor = DefaultLoginCheckInterceptor()
 
     @ConditionalOnMissingBean(ApiSession::class)
-    @ConditionalOnWebApplication
     @Bean
     internal fun apiSession(): ApiSession =
         if (jwtProperties.secret.isNotBlank()) {
