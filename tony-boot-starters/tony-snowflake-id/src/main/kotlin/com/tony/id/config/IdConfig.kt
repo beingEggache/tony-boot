@@ -11,8 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import javax.annotation.PostConstruct
 
 @Configuration
 @EnableConfigurationProperties(IdProperties::class)
@@ -20,9 +20,9 @@ public class IdConfig(
     private val idProperties: IdProperties,
 ) {
 
-    @Bean
-    public fun idGenerator(): IdGenerator? {
-        return IdGenerator(idProperties)
+    @PostConstruct
+    public fun idGenerator() {
+        IdGenerator.init(idProperties)
     }
 }
 

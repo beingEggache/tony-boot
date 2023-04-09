@@ -100,8 +100,6 @@ class UserService(
             "用户名或手机号已重复",
         )
 
-        userDao.delUserProjectByUserId(userId)
-
         return userDao.updateById(
             User().apply {
                 this.userId = userId
@@ -132,8 +130,6 @@ class UserService(
                 roleName = "超级管理员"
             },
         )
-
-        userDao.delUserProjectByUserId(superAdmin)
 
         // TODO
         // roleDao.assignRole(RoleAssignReq(listOf(superAdmin), listOf(superAdmin)))
