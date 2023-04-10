@@ -48,10 +48,12 @@ public object WebApp {
         set
     }
 
+    @JvmStatic
     public val whiteUrlPatterns: Set<String> by lazy {
         whiteUrlPatterns()
     }
 
+    @JvmStatic
     public val whiteUrlPatternsWithContextPath: Set<String> by lazy {
         whiteUrlPatterns(contextPath)
     }

@@ -7,7 +7,7 @@ package com.tony.web
 
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
-import com.tony.jwt.config.JwtToken
+import com.tony.jwt.JwtToken
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
 import com.tony.web.WebContext.getOrPut

@@ -1,6 +1,6 @@
 package com.tony.mono.api.controller;
 
-import com.tony.jwt.config.JwtToken;
+import com.tony.jwt.JwtToken;
 import com.tony.mono.db.service.UserService;
 import com.tony.mono.dto.req.UserLoginReq;
 import com.tony.web.WebApp;
@@ -39,6 +39,7 @@ public class IndexController {
     }
 
     @Operation(summary = "用户信息")
+    @NoLoginCheck
     @PostMapping("/info")
     public void info() {
     }

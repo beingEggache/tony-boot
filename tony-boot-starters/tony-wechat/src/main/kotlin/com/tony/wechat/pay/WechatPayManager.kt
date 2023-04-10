@@ -22,13 +22,18 @@ import com.tony.wechat.xml.toXmlString
 import com.tony.wechat.xml.xmlToObj
 import java.time.LocalDateTime
 
-public class WechatPayManager {
+public object WechatPayManager {
 
+    @JvmStatic
     private val wechatProperties: WechatProperties by SpringContexts.getBeanByLazy()
+
+    @JvmStatic
     private val wechatPayClient: WechatPayClient by SpringContexts.getBeanByLazy()
+
+    @JvmStatic
     private val wechatPropProvider: WechatPropProvider by SpringContexts.getBeanByLazy()
 
-//    fun enchashment(openId: String, amount: Long, ip: String): WechatTransferResponse {
+    //    fun enchashment(openId: String, amount: Long, ip: String): WechatTransferResponse {
 //        val charArray = wechatProperties.mchId.toCharArray()
 //        val keyStore = KeyStore.getInstance("PKCS12").apply {
 //            ClassPathResource("classpath:apiclient_cert.p12").inputStream.use {
@@ -76,9 +81,10 @@ public class WechatPayManager {
 //
 //        return response
 //    }
-
+    @JvmStatic
     private val logger = getLogger()
 
+    @JvmStatic
     public fun checkSign(notifyRequest: WechatPayNotifyReq): Boolean {
         val app = wechatProperties.getAppByAppId(notifyRequest.appId)
         val deepLink = "appid=${notifyRequest.appId}&" +
@@ -101,6 +107,7 @@ public class WechatPayManager {
         return deepLink.md5Uppercase() == notifyRequest.sign
     }
 
+    @JvmStatic
     public fun genPayParams(
         appId: String,
         partnerId: String,
@@ -122,6 +129,7 @@ public class WechatPayManager {
     /**
      * 返回统一下单响应对象
      */
+    @JvmStatic
     private fun getPayOrderResponse(orderRequest: WechatPayOrderReq): WechatPayOrderResp {
         val resultStr = wechatPayClient.unifiedOrder(orderRequest.toXmlString())
 
@@ -139,6 +147,7 @@ public class WechatPayManager {
         return orderResponse
     }
 
+    @JvmStatic
     public fun unifiedOrderInApp(
         outTradeNo: String?,
         body: String?,
@@ -189,6 +198,7 @@ public class WechatPayManager {
         }
     }
 
+    @JvmStatic
     public fun unifiedOrderInJs(
         outTradeNo: String?,
         body: String?,

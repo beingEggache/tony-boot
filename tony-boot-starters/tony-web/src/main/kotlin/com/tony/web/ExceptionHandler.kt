@@ -83,6 +83,7 @@ internal class ExceptionHandler : ErrorController {
             logger.error(WebContext.errorMessage)
             errorResponse(ApiProperty.errorMsg, ApiProperty.errorCode)
         }
+
         else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
     }
 }

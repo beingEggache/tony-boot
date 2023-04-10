@@ -1,5 +1,3 @@
-@file:JvmName("JacksonConfig")
-
 package com.tony.web.jackson
 
 import com.fasterxml.jackson.core.JsonGenerator

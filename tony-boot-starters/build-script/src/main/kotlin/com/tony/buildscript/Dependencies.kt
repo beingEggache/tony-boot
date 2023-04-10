@@ -24,13 +24,19 @@ object Deps {
     object Template {
         const val templateDependencies = "$projectGroup:$projectPrefix-dependencies:${VersionManagement.templateVersion}"
         const val templateCore = "$projectGroup:$projectPrefix-core:${VersionManagement.templateVersion}"
+        const val templateId = "$projectGroup:$projectPrefix-snowflake-id:${VersionManagement.templateVersion}"
+        const val templateXxlJob = "$projectGroup:$projectPrefix-xxl-job:${VersionManagement.templateVersion}"
+        const val templateWeb = "$projectGroup:$projectPrefix-web:${VersionManagement.templateVersion}"
+        const val templateKnife4j = "$projectGroup:$projectPrefix-knife4j-api:${VersionManagement.templateVersion}"
         const val templateJwt = "$projectGroup:$projectPrefix-jwt:${VersionManagement.templateVersion}"
         const val templateWebAuth = "$projectGroup:$projectPrefix-web-auth:${VersionManagement.templateVersion}"
-        const val templateFeign = "$projectGroup:$projectPrefix-feign:${VersionManagement.templateVersion}"
-        const val templateWeb = "$projectGroup:$projectPrefix-web:${VersionManagement.templateVersion}"
-        const val templateCache = "$projectGroup:$projectPrefix-cache:${VersionManagement.templateVersion}"
         const val templateMybatisPlus = "$projectGroup:$projectPrefix-mybatis-plus:${VersionManagement.templateVersion}"
-        const val templateKnife4j = "$projectGroup:$projectPrefix-knife4j-api:${VersionManagement.templateVersion}"
+        const val templateCache = "$projectGroup:$projectPrefix-cache:${VersionManagement.templateVersion}"
+        const val templateFeign = "$projectGroup:$projectPrefix-feign:${VersionManagement.templateVersion}"
+        const val templateWechat = "$projectGroup:$projectPrefix-wechat:${VersionManagement.templateVersion}"
+        const val templateAlipay = "$projectGroup:$projectPrefix-alipay:${VersionManagement.templateVersion}"
+        const val templateAliyunOss = "$projectGroup:$projectPrefix-aliyun-oss:${VersionManagement.templateVersion}"
+        const val templateAliyunSms = "$projectGroup:$projectPrefix-aliyun-sms:${VersionManagement.templateVersion}"
     }
 
     object Jackson {

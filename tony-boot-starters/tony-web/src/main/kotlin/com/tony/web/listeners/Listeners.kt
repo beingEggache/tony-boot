@@ -1,5 +1,3 @@
-@file:JvmName("AppListeners")
-
 package com.tony.web.listeners
 
 import com.tony.utils.getLogger

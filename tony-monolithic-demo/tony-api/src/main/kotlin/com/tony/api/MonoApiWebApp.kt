@@ -1,5 +1,3 @@
-@file:JvmName("App")
-
 package com.tony.api
 
 import com.tony.annotation.EnableTonyBoot

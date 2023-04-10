@@ -72,6 +72,7 @@ public object WebContext {
         @JvmSynthetic
         get() = current.response
 
+    @JvmStatic
     private val errorAttributeOptions = ErrorAttributeOptions.of(Include.MESSAGE)
 
     internal val error: String
@@ -87,6 +88,7 @@ public object WebContext {
         get() = errorAttributes["status"] as Int
 
     private val errorAttributes
+        @JvmStatic
         get() = current
             .getAttribute("errorAttribute", SCOPE_REQUEST)
             .asTo<Map<String, Any?>>()

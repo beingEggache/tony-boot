@@ -1,7 +1,7 @@
 package com.tony.feign.test.jwt.controller
 
 import com.tony.feign.test.jwt.dto.LoginReq
-import com.tony.jwt.config.JwtToken
+import com.tony.jwt.JwtToken
 import com.tony.web.interceptor.NoLoginCheck
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
