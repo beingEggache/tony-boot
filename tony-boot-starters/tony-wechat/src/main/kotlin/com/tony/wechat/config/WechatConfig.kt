@@ -33,13 +33,13 @@ internal class WechatConfig {
     }
 
     @Bean
-    internal fun wechatClient(applicationContext: ApplicationContext): WechatClient {
-        val annotation = WechatClient::class.findAnnotation<FeignClient>()
-        return FeignClientBuilder(applicationContext)
-            .forType(WechatClient::class.java, annotation?.name)
-            .url(annotation?.url)
-            .build()
-    }
+    internal fun wechatClient(applicationContext: ApplicationContext): WechatClient =
+        WechatClient::class.findAnnotation<FeignClient>().let {
+            FeignClientBuilder(applicationContext)
+                .forType(WechatClient::class.java, it?.value)
+                .url(it?.url)
+                .build()
+        }
 
     @ConditionalOnMissingBean(WechatApiAccessTokenProvider::class)
     @Bean

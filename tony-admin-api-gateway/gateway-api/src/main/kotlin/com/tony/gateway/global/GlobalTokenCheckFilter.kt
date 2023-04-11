@@ -12,7 +12,7 @@ import com.tony.gateway.TokenHeaderName
 import com.tony.gateway.UserIdHeaderName
 import com.tony.gateway.config.GatewayRouteConfigProperties
 import com.tony.gateway.utils.jsonBody
-import com.tony.jwt.config.JwtToken
+import com.tony.jwt.JwtToken
 import com.tony.utils.defaultIfBlank
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.GlobalFilter

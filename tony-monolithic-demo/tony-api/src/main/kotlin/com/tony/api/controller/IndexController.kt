@@ -3,7 +3,7 @@ package com.tony.api.controller
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserLoginReq
-import com.tony.jwt.config.JwtToken
+import com.tony.jwt.JwtToken
 import com.tony.utils.defaultZoneId
 import com.tony.utils.toString
 import com.tony.web.WebApp
