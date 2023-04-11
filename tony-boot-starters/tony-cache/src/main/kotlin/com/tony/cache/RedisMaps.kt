@@ -1,7 +1,7 @@
 package com.tony.cache
 
 import com.tony.cache.RedisManager.trimQuotes
-import com.tony.enums.EnumCreator.Companion.getCreator
+import com.tony.enums.EnumCreator
 import com.tony.enums.EnumValue
 import com.tony.utils.doIf
 import com.tony.utils.getLogger
@@ -134,7 +134,7 @@ public object RedisMaps {
         where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
         val value = RedisManager.redisTemplate.boundHashOps<String, KEY>(key).get(hashKey)
             ?: return null
-        return getCreator(E::class.java).create(value)
+        return EnumCreator.getCreator(E::class.java).create(value)
     }
 
     @JvmStatic
