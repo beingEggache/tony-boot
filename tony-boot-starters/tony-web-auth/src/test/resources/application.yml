@@ -1,2 +1,6 @@
 jwt:
   secret: 1232543
+web:
+  auth:
+    no-login-check-url:
+      - /ddd/*

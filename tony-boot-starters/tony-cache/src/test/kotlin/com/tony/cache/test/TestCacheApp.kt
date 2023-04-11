@@ -22,9 +22,9 @@ import org.springframework.stereotype.Service
 class TestCacheApp {
 
     @Bean
-    fun container(connectionFactory: RedisConnectionFactory?): RedisMessageListenerContainer? {
+    fun container(connectionFactory: RedisConnectionFactory): RedisMessageListenerContainer? {
         val container = RedisMessageListenerContainer()
-        container.connectionFactory = connectionFactory
+        container.setConnectionFactory(connectionFactory)
         return container
     }
 

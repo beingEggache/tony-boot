@@ -5,6 +5,7 @@ dependencies {
     api(projects.tonyCore)
     api(Deps.Knife4j.core)
     api(Deps.Other.swaggerV3Annotaion)
+    api(Deps.Other.springdocCommon)
     implementation(Deps.Other.springdocKotlin)
     implementation(Deps.Knife4j.openapi3SpringBootStarter) {
         exclude("com.github.xiaoymin", "knife4j-openapi3-ui")

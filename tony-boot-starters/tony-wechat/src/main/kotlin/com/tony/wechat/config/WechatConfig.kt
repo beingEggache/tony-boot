@@ -1,24 +1,24 @@
-@file:Suppress("SpringComponentScan")
-
 package com.tony.wechat.config
 
-import com.tony.PROJECT_GROUP
 import com.tony.wechat.DefaultWechatApiAccessTokenProvider
 import com.tony.wechat.DefaultWechatPropProvider
 import com.tony.wechat.WechatApiAccessTokenProvider
 import com.tony.wechat.WechatPropProvider
+import com.tony.wechat.client.WechatClient
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.cloud.openfeign.EnableFeignClients
+import org.springframework.cloud.openfeign.FeignClient
+import org.springframework.cloud.openfeign.FeignClientBuilder
+import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import javax.annotation.Resource
+import kotlin.reflect.full.findAnnotation
 
-@EnableFeignClients("$PROJECT_GROUP.wechat.client")
 @Configuration
 @EnableConfigurationProperties(WechatProperties::class)
 internal class WechatConfig {
@@ -30,6 +30,15 @@ internal class WechatConfig {
         val supportedMediaTypes = mappingJackson2HttpMessageConverter.supportedMediaTypes
         mappingJackson2HttpMessageConverter.supportedMediaTypes =
             listOf(*supportedMediaTypes.toTypedArray(), MediaType.TEXT_PLAIN)
+    }
+
+    @Bean
+    internal fun wechatClient(applicationContext: ApplicationContext): WechatClient {
+        val annotation = WechatClient::class.findAnnotation<FeignClient>()
+        return FeignClientBuilder(applicationContext)
+            .forType(WechatClient::class.java, annotation?.name)
+            .url(annotation?.url)
+            .build()
     }
 
     @ConditionalOnMissingBean(WechatApiAccessTokenProvider::class)

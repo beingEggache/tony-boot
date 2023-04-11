@@ -10,6 +10,8 @@ import com.tony.web.interceptor.LoginCheckInterceptor
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -19,9 +21,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-@EnableConfigurationProperties(JwtProperties::class)
+@EnableConfigurationProperties(JwtProperties::class, WebAuthProperties::class)
 internal class WebAuthConfig(
     private val jwtProperties: JwtProperties,
+    private val webAuthProperties: WebAuthProperties,
 ) : WebMvcConfigurer {
 
     private val logger = LoggerFactory.getLogger(WebAuthConfig::class.java)
@@ -41,8 +44,16 @@ internal class WebAuthConfig(
         }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
+        logger.info("noLoginCheckUrl:${webAuthProperties.noLoginCheckUrl}")
         registry.addInterceptor(loginCheckInterceptor())
-            .excludePathPatterns(*WebApp.whiteUrlPatterns.toTypedArray())
+            .excludePathPatterns(*WebApp.whiteUrlPatterns.plus(webAuthProperties.noLoginCheckUrl).toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE)
     }
 }
+
+@ConstructorBinding
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConfigurationProperties(prefix = "web.auth")
+public data class WebAuthProperties(
+    val noLoginCheckUrl: Set<String> = setOf(),
+)

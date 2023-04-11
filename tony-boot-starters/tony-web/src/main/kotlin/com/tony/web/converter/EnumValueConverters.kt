@@ -1,7 +1,6 @@
 package com.tony.web.converter
 
 import com.tony.enums.EnumCreator
-import com.tony.enums.EnumCreator.Companion.getCreator
 import com.tony.enums.EnumIntValue
 import com.tony.enums.EnumStringValue
 import com.tony.enums.EnumValue
@@ -31,7 +30,7 @@ internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
     where E : EnumValue<K>,
           K : Serializable {
 
-    private val creator: EnumCreator<E, K> = getCreator(enumType)
+    private val creator: EnumCreator<E, K> = EnumCreator.getCreator(enumType)
 
     protected abstract fun convertSource(source: String): K
 

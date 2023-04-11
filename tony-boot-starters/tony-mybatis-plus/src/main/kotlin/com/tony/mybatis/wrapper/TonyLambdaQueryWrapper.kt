@@ -65,7 +65,6 @@ public class TonyLambdaQueryWrapper<T : Any> :
      *
      * @param columns 查询字段
      */
-    @SuppressWarnings(value = ["varargs", "unchecked"])
     @SafeVarargs
     override fun select(vararg columns: SFunction<T, *>): TonyLambdaQueryWrapper<T> = apply {
         if (columns.isNotEmpty()) {

@@ -40,7 +40,6 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
     /**
      * ignore
      */
-    @SuppressWarnings(value = ["varargs", "unchecked"])
     @SafeVarargs
     override fun select(vararg columns: SFunction<T, *>): TonyLambdaQueryChainWrapper<T> = apply {
         wrapperChildren.select(*columns)

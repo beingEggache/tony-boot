@@ -1,17 +1,27 @@
 package com.tony.web.test.controller
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport
+import com.tony.enums.validate.SimpleIntEnum
+import com.tony.enums.validate.SimpleStringEnum
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
+import com.tony.web.test.req.TestIntEnum
+import com.tony.web.test.req.TestReq
+import com.tony.web.test.req.TestStringEnum
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springdoc.api.annotations.ParameterObject
 import org.springframework.http.MediaType
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigDecimal
 import java.math.BigInteger
 
 @Tag(name = "test")
+@Validated
 @RestController
 class TestController {
 
@@ -158,4 +168,48 @@ class TestController {
     fun exception() {
         throw Exception()
     }
+
+    @ApiOperationSupport(order = 26)
+    @Operation(description = "string-enum")
+    @PostMapping("/string-enum")
+    fun stringEnum(@RequestParam testStringEnum: TestStringEnum): TestStringEnum = TestStringEnum.TEST_1
+
+    @ApiOperationSupport(order = 27)
+    @Operation(description = "int-enum")
+    @PostMapping("/int-enum")
+    fun intEnum(@RequestParam testIntEnum: TestIntEnum): TestIntEnum = TestIntEnum.TEST_2
+
+    @ApiOperationSupport(order = 28)
+    @Operation(description = "string-enum-validate")
+    @PostMapping("/string-enum-validate")
+    fun stringEnumValidate(
+        @RequestParam
+        @SimpleStringEnum(enums = ["2"], message = "不对", required = true)
+        testStringEnum: TestStringEnum
+    ): TestStringEnum = TestStringEnum.TEST_1
+
+    @ApiOperationSupport(order = 29)
+    @Operation(description = "int-enum-validate")
+    @PostMapping("/int-enum-validate")
+    fun intEnumValidate(
+        @RequestParam
+        @SimpleIntEnum(enums = [1], message = "不对", required = true)
+        testIntEnum: TestIntEnum
+    ): TestIntEnum = TestIntEnum.TEST_2
+
+    @ApiOperationSupport(order = 30)
+    @Operation(description = "form")
+    @PostMapping("/form")
+    fun form(
+        @ParameterObject
+        testReq: TestReq
+    ): TestReq = testReq
+
+    @ApiOperationSupport(order = 31)
+    @Operation(description = "body")
+    @PostMapping("/body")
+    fun body(
+        @RequestBody
+        testReq: TestReq
+    ): TestReq = testReq
 }

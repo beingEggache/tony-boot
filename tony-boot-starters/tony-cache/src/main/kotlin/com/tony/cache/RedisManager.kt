@@ -16,7 +16,6 @@ import org.springframework.scripting.support.ResourceScriptSource
 import java.util.Collections
 import java.util.concurrent.TimeUnit
 
-@Suppress("MemberVisibilityCanBePrivate")
 public object RedisManager {
 
     @JvmField
@@ -36,6 +35,7 @@ public object RedisManager {
         val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
         val stringRedisSerializer = RedisSerializer.string()
         RedisTemplate<String, Any>().apply {
+            @Suppress("UsePropertyAccessSyntax")
             setConnectionFactory(SpringContexts.getBean())
             keySerializer = stringRedisSerializer
             hashKeySerializer = stringRedisSerializer

@@ -17,7 +17,6 @@ import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.validation.annotation.Validated
 import java.util.Base64
 
-@Suppress("unused")
 public object WechatManager {
 
     private val wechatClient: WechatClient by SpringContexts.getBeanByLazy()
@@ -125,6 +124,7 @@ public object WechatManager {
         wechatPropProvider.getAppSecret(app),
     )
 
+    @Suppress("unused")
     private fun wechatRedirect(url: String, app: String = ""): String =
         "https://open.weixin.qq.com/connect/oauth2/authorize?" +
             "appid= ${wechatPropProvider.getAppId(app)}" +
