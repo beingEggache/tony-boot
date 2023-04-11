@@ -3,7 +3,7 @@ package com.tony.cache
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.tony.cache.RedisManager.trimQuotes
-import com.tony.enums.EnumCreator.Companion.getCreator
+import com.tony.enums.EnumCreator
 import com.tony.enums.EnumValue
 import com.tony.utils.asTo
 import com.tony.utils.jsonToObj
@@ -101,6 +101,6 @@ public object RedisValues {
         where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
         val value = RedisManager.redisTemplate.opsForValue().get(key)
             ?: return null
-        return getCreator(E::class.java).create(value as KEY)
+        return EnumCreator.getCreator(E::class.java).create(value as KEY)
     }
 }
