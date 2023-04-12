@@ -13,7 +13,7 @@ import org.springframework.web.servlet.HandlerInterceptor
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@Target(AnnotationTarget.FUNCTION)
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 public annotation class NoLoginCheck
@@ -25,6 +25,7 @@ public interface LoginCheckInterceptor : HandlerInterceptor {
         handler: Any,
     ): Boolean {
         if (handler !is HandlerMethod) return true
+        if (handler.beanType.getAnnotation(NoLoginCheck::class.java) != null) return true
         if (handler.method.getAnnotation(NoLoginCheck::class.java) != null) return true
         throw (WebContext.apiSession.unauthorizedException ?: return true)
     }

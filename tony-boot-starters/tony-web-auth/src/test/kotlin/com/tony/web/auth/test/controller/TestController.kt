@@ -1,10 +1,11 @@
-package com.tony.web.test.controller
+package com.tony.web.auth.test.controller
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport
 import com.tony.enums.validate.SimpleIntEnum
 import com.tony.enums.validate.SimpleStringEnum
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
+import com.tony.web.interceptor.NoLoginCheck
 import com.tony.web.test.req.TestIntEnum
 import com.tony.web.test.req.TestReq
 import com.tony.web.test.req.TestStringEnum
@@ -12,7 +13,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springdoc.api.annotations.ParameterObject
 import org.springframework.http.MediaType
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController
 import java.math.BigDecimal
 import java.math.BigInteger
 
-@Tag(name = "test")
-@Validated
+@NoLoginCheck
+@Tag(name = "测试")
 @RestController
 class TestController {
 

@@ -1,7 +1,6 @@
-package com.tony.web.test
+package com.tony.web.auth.test
 
 import org.junit.jupiter.api.Test
-import org.springframework.boot.runApplication
 import org.springframework.boot.test.context.SpringBootTest
 
 
@@ -12,8 +11,4 @@ class WebAuthAppTest {
     fun test() {
         println(123)
     }
-}
-
-fun main() {
-    runApplication<TestWebAuthApp>()
 }

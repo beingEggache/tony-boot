@@ -1,3 +1,6 @@
+spring:
+  application:
+    name: test-api
 jwt:
   secret: 1232543
 web:
