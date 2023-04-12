@@ -32,9 +32,6 @@ configure(subprojects) {
 //        }
 
         maven(url = "https://maven.aliyun.com/repository/public")
-        maven(url = "https://maven.aliyun.com/repository/jcenter")
-        maven(url = "https://maven.aliyun.com/repository/google")
-
         mavenCentral()
     }
 

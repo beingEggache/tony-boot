@@ -5,7 +5,7 @@ import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 
 plugins {
     idea
-	id("io.freefair.lombok") version "6.6.3"
+	id("io.freefair.lombok") version "8.0.1"
 }
 
 val javaVersion: String by project
@@ -31,9 +31,6 @@ configure(subprojects) {
 //        }
 
         maven(url = "https://maven.aliyun.com/repository/public")
-        maven(url = "https://maven.aliyun.com/repository/jcenter")
-        maven(url = "https://maven.aliyun.com/repository/google")
-
         mavenCentral()
     }
 

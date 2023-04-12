@@ -1,6 +1,7 @@
 pluginManagement {
     repositories {
         mavenLocal()
+        maven(url = "https://maven.aliyun.com/repository/public")
         gradlePluginPortal()
 //        val privateGradleRepoUrl: String by settings
 //        maven(url = privateGradleRepoUrl) {

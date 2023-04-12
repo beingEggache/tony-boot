@@ -25,9 +25,9 @@ object VersionManagement  {
     const val fastjsonVersion = "2.0.27"
     const val nettyVersion = "4.1.91.Final"
 
-    const val reactorVersion = "3.4.28"
+    const val reactorVersion = "3.4.29"
     const val reactorKotlinExtensions = "1.2.2"
-    const val reactorNettyVersion = "1.1.5"
+    const val reactorNettyVersion = "1.1.6"
     const val slf4jVersion = "1.7.36"
 
     const val byteBuddyVersion = "1.14.4"
@@ -36,7 +36,7 @@ object VersionManagement  {
     const val javaJwtVersion = "4.4.0"
     const val guavaVersion = "31.1-jre"
 
-    const val swaggerV3Version = "2.2.9"
+    const val swaggerV3Version = "2.1.12"
     const val knife4jVersion = "4.1.0"
     const val springdocVersion = "1.7.0"
 
