@@ -92,14 +92,12 @@ class WechatTestApp
 
 @Component
 class TestWechatApiAccessTokenProvider(
-    private val wechatClient: WechatClient
+    override val wechatClient: WechatClient
 ) : WechatApiAccessTokenProvider {
 
-    @RedisCacheable(cacheKey = wechatTestCacheKey, paramsNames = ["appId"], expire = 7100)
+    @RedisCacheable(cacheKey = wechatTestCacheKey, expressions = ["appId"], expire = 7100)
     override fun accessTokenStr(appId: String?, appSecret: String?) =
         super.accessTokenStr(appId, appSecret)
-
-    override fun wechatClient() = wechatClient
 
 }
 

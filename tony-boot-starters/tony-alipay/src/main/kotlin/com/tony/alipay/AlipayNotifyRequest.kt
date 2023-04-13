@@ -4,7 +4,7 @@ package com.tony.alipay
 
 import com.tony.exception.BaseException
 import com.tony.utils.getLogger
-import com.tony.utils.toDeepLink
+import com.tony.utils.toQueryString
 
 private const val TRADE_SUCCESS = "TRADE_SUCCESS"
 
@@ -71,7 +71,7 @@ public class AlipayNotifyRequest {
 
     public fun process(signValid: Boolean, doOnTradeSuccess: () -> Unit): String {
         if (!signValid) {
-            logger.error("Alipay order($out_trade_no) sign invalid, notify request:${toDeepLink()}")
+            logger.error("Alipay order($out_trade_no) sign invalid, notify request:${toQueryString()}")
             return "success"
         }
         try {

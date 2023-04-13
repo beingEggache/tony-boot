@@ -25,12 +25,12 @@ public fun String.isJson(): Boolean = try {
 }
 
 /**
- * 转为 deeplink表示， 如a=1&b=2&c=3
+ * 转为 queryString表示， 如a=1&b=2&c=3
  */
-public fun <T> T.toDeepLink(): String =
+public fun <T> T.toQueryString(): String =
     toJsonString()
         .jsonToObj<Map<String, Any?>>()
-        .toDeepLink()
+        .toQueryString()
 
 /**
  * 判断两字符串是否相等，null == "" -> true, "" == null -> true
@@ -43,26 +43,26 @@ public fun String?.equalsIgnoreNullOrEmpty(str: String?): Boolean =
     }
 
 /**
- * 转为 deeplink表示， 如a=1&b=2&c=3
+ * 转为 queryString表示， 如a=1&b=2&c=3
  */
-public fun Map<String, Any?>.toDeepLink(): String =
+public fun Map<String, Any?>.toQueryString(): String =
     asIterable()
         .filter { it.value != null }
         .joinToString("&") { "${it.key}=${it.value}" }
 
 /**
- * 将deeplink字符串转为map， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
+ * 将queryString字符串转为map， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
  */
-public fun String.deepLinkToMap(): Map<String, String> =
+public fun String.queryStringToMap(): Map<String, String> =
     split("&")
         .map { it.split("=") }
         .associate { it[0] to it[1] }
 
 /**
- * 将deeplink字符串转为对象， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
+ * 将queryString字符串转为对象， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
  */
 public inline fun <reified T> String.deepLinkToObj(): T =
-    deepLinkToMap()
+    queryStringToMap()
         .toJsonString()
         .jsonToObj<T>()
 

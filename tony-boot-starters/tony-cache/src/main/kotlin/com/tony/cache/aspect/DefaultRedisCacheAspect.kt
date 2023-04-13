@@ -27,94 +27,60 @@ import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.After
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
-import org.aspectj.lang.annotation.Pointcut
 import org.aspectj.lang.reflect.MethodSignature
-import org.springframework.expression.spel.standard.SpelExpressionParser
-import org.springframework.expression.spel.support.StandardEvaluationContext
 import java.math.BigDecimal
 import java.math.BigInteger
 
 @Aspect
 public class DefaultRedisCacheAspect {
 
-    @Pointcut("@annotation($PROJECT_GROUP.cache.annotation.RedisCacheEvict.Container)")
-    public fun redisCacheEvict(): Unit = Unit
-
-    @Pointcut("@annotation($PROJECT_GROUP.cache.annotation.RedisCacheable)")
-    public fun redisCacheable(): Unit = Unit
-
     /**
      * 生成实际的缓存键名
      * @param arguments 方法实际参数
      * @param paramsNames 方法参数名数组
      * @param cacheKey 缓存键名或缓存键模板
-     * @param annoParamsNames 注解上对应的参数名,可用SpEl表达式
+     * @param expressions 注解上对应的SpEl表达式
      */
     private fun cacheKey(
-        arguments: Array<Any>,
+        arguments: Array<Any?>,
         paramsNames: Array<String>,
-        annoParamsNames: Array<String>,
+        expressions: Array<String>,
         cacheKey: String,
     ): String {
         if (paramsNames.isEmpty() ||
-            annoParamsNames.isEmpty()
+            expressions.isEmpty()
         ) {
             return RedisKeys.genKey(cacheKey)
         }
-        val paramsValues = paramsValues(arguments, paramsNames, annoParamsNames)
+        val paramMap = paramMap(paramsNames, arguments)
+        val paramsValues = expressions.foldIndexed<String, Array<Any?>>(
+            Array(expressions.size) {},
+        ) { index, paramsValues, expression ->
+            paramsValues.apply {
+                this[index] = getValueByExpressionInParamMap(expression, paramMap)
+            }
+        }
         return RedisKeys.genKey(cacheKey, *paramsValues)
     }
 
-    /**
-     * 根据注解信息及方法信息, 生成实际参数的字符串表示供生成缓存键
-     *
-     * @param annoParamsNames 注解上对应的参数名,可用SpEl表达式
-     * @param paramsNames 方法参数名数组
-     * @param arguments 方法实际参数
-     */
-    private fun paramsValues(
-        arguments: Array<Any>,
-        paramsNames: Array<String>,
-        annoParamsNames: Array<String>,
-    ): Array<Any?> =
-        annoParamsNames.foldIndexed(
-            Array(annoParamsNames.size) {},
-        ) { index, paramsValues, annoParamName ->
-            if (annoParamName.startsWith("#")) {
-                val indexOfDot = annoParamName.indexOf(".")
-                val indexOfFirst = paramsNames.indexOfFirst { it == annoParamName.substring(2, indexOfDot) }
-                paramsValues.apply {
-                    this[index] = SpelExpressionParser()
-                        .parseExpression(annoParamName.substring(indexOfDot + 1, annoParamName.indexOf("}")))
-                        .getValue(StandardEvaluationContext(arguments[indexOfFirst]))
-                }
-            } else {
-                val indexOfFirst = paramsNames.indexOfFirst { it == annoParamName }
-                paramsValues.apply {
-                    this[index] = arguments[indexOfFirst]
-                }
-            }
-        }
-
-    @After("redisCacheEvict()")
+    @After("@annotation($PROJECT_GROUP.cache.annotation.RedisCacheEvict.Container)")
     public fun doCacheEvict(joinPoint: JoinPoint) {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
         val annotations = methodSignature.method.getAnnotationsByType(RedisCacheEvict::class.java)
         annotations.forEach { annotation ->
-            val cacheKey = cacheKey(arguments, paramsNames, annotation.paramsNames, annotation.cacheKey)
+            val cacheKey = cacheKey(arguments, paramsNames, annotation.expressions, annotation.cacheKey)
             RedisManager.delete(cacheKey)
         }
     }
 
-    @Around("redisCacheable()")
-    public fun doCacheable(joinPoint: ProceedingJoinPoint): Any? {
+    @Around("@annotation(annotation)")
+    public fun doCacheable(joinPoint: ProceedingJoinPoint, annotation: RedisCacheable): Any? {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
-        val annotation = methodSignature.method.getAnnotation(RedisCacheable::class.java)
-        val cacheKey = cacheKey(arguments, paramsNames, annotation.paramsNames, annotation.cacheKey)
+        val cacheKey = cacheKey(arguments, paramsNames, annotation.expressions, annotation.cacheKey)
         val timeout = if (annotation.expire == RedisCacheable.TODAY_END) secondOfTodayRest() else annotation.expire
         val cachedValue = RedisManager.values.getString(cacheKey)
 
@@ -145,6 +111,22 @@ public class DefaultRedisCacheAspect {
 
         return getCachedValueByType(cachedValue, javaType)
     }
+
+    /**
+     * 生成 参数名 - 参数值 map
+     *
+     * @param args 参数值
+     * @param paramNames  参数名
+     * @return 参数名 - 参数值 map
+     */
+    private fun paramMap(
+        paramNames: Array<String>,
+        args: Array<Any?>,
+    ): Map<String, Any?> =
+        paramNames.foldIndexed(mutableMapOf()) { index, paramMap, paramName ->
+            paramMap[paramName] = args[index]
+            paramMap
+        }
 
     private fun toCachedValueByType(result: Any?, javaType: JavaType): Any? = when {
         javaType.isStringLikeType() -> result

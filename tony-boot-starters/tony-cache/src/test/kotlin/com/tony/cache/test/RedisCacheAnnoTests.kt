@@ -78,8 +78,12 @@ class RedisCacheAnnoTests {
     }
 
     @Test
-    fun testCacheNameAnnoKeyWithObj(){
-        testRedisCacheAnnoService.testCacheAnnoObj(TestCacheObj("aloha"))
+    fun testCacheNameAnnoKeyWithObj() {
+        testRedisCacheAnnoService.testCacheAnnoObj(
+            TestCacheObj("aloha"),
+            TestCacheObj("he he"),
+            TestCacheObj("haha"),
+        )
     }
 
 }

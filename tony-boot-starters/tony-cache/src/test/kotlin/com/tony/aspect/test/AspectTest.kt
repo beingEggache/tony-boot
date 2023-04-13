@@ -1,6 +1,5 @@
 package com.tony.aspect.test
 
-import com.tony.utils.asTo
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import javax.annotation.Resource
@@ -9,11 +8,10 @@ import javax.annotation.Resource
 class AspectTest {
 
     @Resource
-    private lateinit var testTarget: TestTarget
+    private lateinit var testAopService: TestAopService
 
     @Test
     fun test(){
-        testTarget.gogo()
-        testTarget.asTo<ITestMixinAspect>()?.go()
+        testAopService.testAop(TestAnnoAopArg("aloha"))
     }
 }
