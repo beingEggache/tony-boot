@@ -126,6 +126,7 @@ public fun String.snakeToUpperCamelCase(): String =
     snakeToLowerCamelCase()
         .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 
+@JvmSynthetic
 internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
 
 public fun sanitizedPath(input: String): String =

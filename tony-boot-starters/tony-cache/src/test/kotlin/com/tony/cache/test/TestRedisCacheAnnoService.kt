@@ -119,4 +119,11 @@ class TestRedisCacheAnnoService {
     fun rTestCache() {
         println("yeah")
     }
+
+    @RedisCacheable(cacheKey = "testobj:%s", paramsNames = ["#{obj.name}"])
+    fun testCacheAnnoObj(obj: TestCacheObj): TestCacheObj {
+        return TestCacheObj(obj.name + " cached")
+    }
 }
+
+data class TestCacheObj(val name: String)

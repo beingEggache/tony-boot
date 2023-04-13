@@ -23,10 +23,12 @@ public fun getLogger(name: String?): Logger = LoggerFactory.getLogger(name)
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asTo(): E? where E : Any = this as E?
 
+@JvmSynthetic
 public inline fun Boolean.doIf(crossinline block: () -> Any) {
     if (this) block()
 }
 
+@JvmSynthetic
 public inline fun <T> T.doIf(condition: Boolean, crossinline block: T.() -> Unit): T {
     if (condition) block()
     return this
@@ -43,14 +45,17 @@ public fun <T> T?.throwIfNull(message: String = ApiProperty.notFoundMessage, cod
     return this!!
 }
 
+@JvmSynthetic
 public inline fun <R> throwIfAndReturn(condition: Boolean, message: String, crossinline block: () -> R): R {
     if (condition) throw BizException(message)
     return block()
 }
 
+@JvmSynthetic
 public inline fun <T, R> T?.throwIfNullAndReturn(message: String, crossinline block: () -> R): R =
     throwIfAndReturn(this == null, message, block)
 
+@JvmSynthetic
 public inline fun <reified T> T?.returnIfNull(crossinline block: () -> T): T = this ?: block()
 
 /**

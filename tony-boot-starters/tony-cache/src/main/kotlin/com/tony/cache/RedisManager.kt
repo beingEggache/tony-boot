@@ -4,6 +4,7 @@ import com.tony.SpringContexts
 import com.tony.exception.ApiException
 import com.tony.utils.OBJECT_MAPPER
 import com.tony.utils.secureRandom
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.getBean
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.RedisConnectionUtils
@@ -17,6 +18,8 @@ import java.util.Collections
 import java.util.concurrent.TimeUnit
 
 public object RedisManager {
+
+    private val logger = LoggerFactory.getLogger(RedisManager::class.java)
 
     @JvmField
     public val values: RedisValues = RedisValues
@@ -54,12 +57,22 @@ public object RedisManager {
         resultType = Long::class.java
     }
 
+    @JvmSynthetic
     @JvmStatic
     public fun doInTransaction(callback: () -> Unit) {
         RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
         redisTemplate.setEnableTransactionSupport(true)
         redisTemplate.multi()
         callback()
+        redisTemplate.exec()
+    }
+
+    @JvmStatic
+    public fun doInTransaction(callback: Runnable) {
+        RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
+        redisTemplate.setEnableTransactionSupport(true)
+        redisTemplate.multi()
+        callback.run()
         redisTemplate.exec()
     }
 
@@ -84,7 +97,7 @@ public object RedisManager {
             try {
                 TimeUnit.MILLISECONDS.sleep(secureRandom.nextInt(100).toLong())
             } catch (e: InterruptedException) {
-                e.printStackTrace()
+                logger.error(e.message, e)
             }
         }
         return false

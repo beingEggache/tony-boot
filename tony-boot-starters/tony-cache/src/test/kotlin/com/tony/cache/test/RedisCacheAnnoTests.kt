@@ -77,4 +77,9 @@ class RedisCacheAnnoTests {
         testRedisCacheAnnoWithEmptyService.testCacheNameObj("Obj").println()
     }
 
+    @Test
+    fun testCacheNameAnnoKeyWithObj(){
+        testRedisCacheAnnoService.testCacheAnnoObj(TestCacheObj("aloha"))
+    }
+
 }
