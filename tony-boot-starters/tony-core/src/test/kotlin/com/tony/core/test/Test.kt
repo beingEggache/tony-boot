@@ -1,12 +1,21 @@
 package com.tony.core.test
 
 import com.tony.utils.println
-import java.security.SecureRandom
+import org.springframework.expression.spel.standard.SpelExpressionParser
+import org.springframework.expression.spel.support.StandardEvaluationContext
 
 fun main() {
-    val mutableList = MutableList(30) { SecureRandom().nextInt(30) }
-    mutableList.println()
-    quickSort(mutableList).println()
+
+    SpelExpressionParser()
+        .parseExpression("obj.name")
+        .getValue(StandardEvaluationContext(), TestSpelObj().apply {
+            name = "123"
+        })
+        .println()
+}
+
+class TestSpelObj {
+    var name: String? = null
 }
 
 

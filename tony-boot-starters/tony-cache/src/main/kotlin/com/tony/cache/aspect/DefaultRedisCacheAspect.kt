@@ -8,7 +8,6 @@ import com.tony.cache.RedisManager
 import com.tony.cache.annotation.RedisCacheEvict
 import com.tony.cache.annotation.RedisCacheable
 import com.tony.exception.ApiException
-import com.tony.utils.doIf
 import com.tony.utils.isArrayLikeType
 import com.tony.utils.isBooleanType
 import com.tony.utils.isByteType
@@ -28,11 +27,17 @@ import org.aspectj.lang.annotation.After
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.reflect.MethodSignature
+import org.slf4j.LoggerFactory
+import org.springframework.expression.EvaluationException
+import org.springframework.expression.spel.standard.SpelExpressionParser
+import org.springframework.expression.spel.support.StandardEvaluationContext
 import java.math.BigDecimal
 import java.math.BigInteger
 
 @Aspect
 public class DefaultRedisCacheAspect {
+
+    private val logger = LoggerFactory.getLogger(DefaultRedisCacheAspect::class.java)
 
     /**
      * 生成实际的缓存键名
@@ -52,12 +57,16 @@ public class DefaultRedisCacheAspect {
         ) {
             return RedisKeys.genKey(cacheKey)
         }
-        val paramMap = paramMap(paramsNames, arguments)
+        val paramMap =
+            paramsNames.foldIndexed<String, MutableMap<String, Any?>>(mutableMapOf()) { index, paramMap, paramName ->
+                paramMap[paramName] = arguments[index]
+                paramMap
+            }
         val paramsValues = expressions.foldIndexed<String, Array<Any?>>(
             Array(expressions.size) {},
         ) { index, paramsValues, expression ->
             paramsValues.apply {
-                this[index] = getValueByExpressionInParamMap(expression, paramMap)
+                this[index] = getValueFromParam(expression, paramMap)
             }
         }
         return RedisKeys.genKey(cacheKey, *paramsValues)
@@ -96,7 +105,7 @@ public class DefaultRedisCacheAspect {
         if (cachedValue == null) {
             val result = joinPoint.proceed()
             if (result == null) {
-                annotation.cacheEmpty.doIf {
+                if (annotation.cacheEmpty) {
                     RedisManager.values.set(
                         cacheKey,
                         getCachedEmptyValueByType(javaType),
@@ -113,20 +122,33 @@ public class DefaultRedisCacheAspect {
     }
 
     /**
-     * 生成 参数名 - 参数值 map
-     *
-     * @param args 参数值
-     * @param paramNames  参数名
-     * @return 参数名 - 参数值 map
+     * 表达式解析器
      */
-    private fun paramMap(
-        paramNames: Array<String>,
-        args: Array<Any?>,
-    ): Map<String, Any?> =
-        paramNames.foldIndexed(mutableMapOf()) { index, paramMap, paramName ->
-            paramMap[paramName] = args[index]
-            paramMap
+    private val expressionParser = SpelExpressionParser()
+
+    /**
+     * 获取spel表达式后的结果
+     *
+     * @param expression  表达式
+     * @param paramMap 参数map
+     * @return 执行spel表达式后的结果
+     */
+    private fun getValueFromParam(expression: String, paramMap: Map<String, Any?>): Any? {
+        val stringList = expression.split(".")
+        if (stringList.size < 2) {
+            return paramMap[expression]
         }
+        val paramName = stringList.first()
+        val realExpression = stringList.drop(1).joinToString(".")
+        return try {
+            expressionParser
+                .parseExpression(realExpression)
+                .getValue(StandardEvaluationContext(paramMap[paramName]))
+        } catch (e: EvaluationException) {
+            logger.error(e.message, e)
+            throw ApiException(e.message, throwable = e)
+        }
+    }
 
     private fun toCachedValueByType(result: Any?, javaType: JavaType): Any? = when {
         javaType.isStringLikeType() -> result

@@ -121,7 +121,7 @@ class TestRedisCacheAnnoService {
         println("yeah")
     }
 
-    @RedisCacheable(cacheKey = "testobj:%s", expressions = ["#{obj.name}"])
+    @RedisCacheable(cacheKey = "testobj:%s%s%s", expressions = ["obj.name","obj2.name","obj3.name"])
     fun testCacheAnnoObj(obj: TestCacheObj, obj2: TestCacheObj, obj3: TestCacheObj): TestCacheObj {
         return TestCacheObj(obj.name + " cached")
     }
