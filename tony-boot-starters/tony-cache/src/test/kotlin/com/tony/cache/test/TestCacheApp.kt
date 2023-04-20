@@ -38,7 +38,7 @@ class RedisKeyExpirationListener(listenerContainer: RedisMessageListenerContaine
     KeyExpirationEventMessageListener(listenerContainer) {
 
     override fun onMessage(message: Message, pattern: ByteArray?) {
-        println(message.toString())
+        println("${String(pattern ?: ByteArray(0))}:$message")
     }
 }
 

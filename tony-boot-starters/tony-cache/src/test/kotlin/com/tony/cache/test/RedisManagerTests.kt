@@ -22,15 +22,15 @@ import org.springframework.data.redis.core.RedisConnectionUtils
 class RedisManagerTests {
 
     @Test
-    fun testListener(){
+    fun testListener() {
 
-        RedisManager.values.set("testExpire0","year")
-        RedisManager.values.set("testExpire1","year",1)
-        RedisManager.values.set("testExpire2","year",2)
-        RedisManager.values.set("testExpire3","year",3)
-        RedisManager.values.set("testExpire4","year",4)
+        RedisManager.values.set("testExpire0", "year")
+        RedisManager.values.set("testExpire1", "year", 1)
+        RedisManager.values.set("testExpire2", "year", 2)
+        RedisManager.values.set("testExpire3", "year", 3)
+        RedisManager.values.set("testExpire4", "year", 4)
 
-        Thread.sleep(10*1000)
+        Thread.sleep(10 * 1000)
     }
 
     @Test
@@ -167,14 +167,17 @@ class RedisManagerTests {
 
     @Test
     fun testMulti() {
-        val redisTemplate = RedisManager.redisTemplate
-        RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
-        RedisManager.redisTemplate.multi()
-        RedisManager.values.set("a", "a")
-        RedisManager.values.set("b", "b")
-        RedisManager.values.set("c", "c")
-        throw BizException("")
-        // redisTemplate.exec()
+        RedisManager.doInTransaction {
+            RedisManager.values.set("Multi a", "a")
+            RedisManager.values.set("Multi b", "b")
+            RedisManager.values.set("Multi c", "c")
+        }
+
+        RedisManager.doInTransaction {
+            RedisManager.values.set("2 Multi a", "a")
+            RedisManager.values.set("2 Multi b", "b")
+            throw BizException("")
+        }
     }
 
 }
