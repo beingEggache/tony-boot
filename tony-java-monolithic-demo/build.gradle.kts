@@ -37,7 +37,7 @@ configure(subprojects) {
     apply {
         plugin("kotlin")
 		plugin("io.freefair.lombok")
-        plugin("tony-build-dep-substitute")
+        plugin("com.tony.build.dep-substitute")
     }
 
     dependencies {

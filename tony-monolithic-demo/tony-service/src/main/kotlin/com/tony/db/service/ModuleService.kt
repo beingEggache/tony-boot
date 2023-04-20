@@ -31,7 +31,7 @@ class ModuleService(
 
     @RedisCacheable(
         cacheKey = CacheKeys.USER_FRONTEND_MODULES_CACHE_KEY,
-        paramsNames = ["userId"],
+        expressions = ["userId"],
     )
     fun listRouteAndComponentModules(userId: String, appId: String): RouteAndComponentModuleResp {
         val modules = moduleDao.selectModulesByUserIdAndAppId(
@@ -52,7 +52,7 @@ class ModuleService(
 
     @RedisCacheable(
         cacheKey = CacheKeys.USER_API_MODULES_CACHE_KEY,
-        paramsNames = ["userId"],
+        expressions = ["userId"],
     )
     fun listApiModules(userId: String, appId: String) =
         moduleDao.selectModulesByUserIdAndAppId(userId, appId, listOf(ModuleType.API)).map { it.toDto() }

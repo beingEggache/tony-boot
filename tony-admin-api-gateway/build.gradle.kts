@@ -38,8 +38,8 @@ configure(subprojects) {
     apply {
         plugin("kotlin")
         plugin("kotlin-kapt")
-        plugin("tony-build-ktlint")
-        plugin("tony-build-dep-substitute")
+        plugin("com.tony.build.ktlint")
+        plugin("com.tony.build.dep-substitute")
     }
 
     dependencies {

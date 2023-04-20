@@ -1,7 +1,7 @@
 package com.tony.test
 
 import com.tony.db.service.ModuleService
-import com.tony.jwt.config.JwtToken
+import com.tony.jwt.JwtToken
 import com.tony.utils.println
 import com.tony.utils.toJsonString
 import org.junit.jupiter.api.Test

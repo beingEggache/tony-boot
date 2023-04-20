@@ -7,7 +7,7 @@ import com.tony.exception.ApiException
 import com.tony.exception.BizException
 import com.tony.web.interceptor.NoLoginCheck
 import com.tony.web.test.req.TestIntEnum
-import com.tony.web.test.req.TestReq
+import com.tony.web.auth.test.req.TestReq
 import com.tony.web.test.req.TestStringEnum
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag

@@ -1,6 +1,6 @@
 import com.tony.buildscript.Deps
 apply(plugin = "kotlin-spring")
-apply(plugin = "docker.publish")
+apply(plugin = "com.tony.build.docker")
 
 dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")

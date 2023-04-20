@@ -1,14 +1,10 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.KaptDeps
-import com.tony.buildscript.VersionManagement
-import com.tony.buildscript.addDepsManagement
-import com.tony.buildscript.projectGroup
+import com.tony.buildscript.*
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("tony-build-dep-substitute") apply false
+    id("com.tony.build.dep-substitute") apply false
     idea
 }
 
@@ -43,7 +39,7 @@ configure(listOf(rootProject)) {
 
     apply {
         plugin("org.gradle.java-platform")
-        plugin("maven.publish")
+        plugin("com.tony.build.maven-publish")
     }
 
     configure<JavaPlatformExtension> {
@@ -65,9 +61,9 @@ configure(subprojects) {
         plugin("kotlin")
         plugin("kotlin-spring")
         plugin("kotlin-kapt")
-        plugin("tony-build-ktlint")
-        plugin("maven.publish")
-        plugin("tony-build-dep-substitute")
+        plugin("com.tony.build.ktlint")
+        plugin("com.tony.build.dep-substitute")
+        plugin("com.tony.build.maven-publish")
     }
 
     configure<JavaPluginExtension> {

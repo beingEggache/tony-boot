@@ -52,18 +52,27 @@ repositories {
 
 gradlePlugin {
     plugins {
-        create("tony-build-dep-substitute") {
-            id = "tony-build-dep-substitute"
+        create("com.tony.build.dep-substitute") {
+            id = "com.tony.build.dep-substitute"
             implementationClass = "com.tony.buildscript.SubstituteDepsPlugin"
         }
 
-        create("tony-build-ktlint") {
-            id = "tony-build-ktlint"
+        create("com.tony.build.ktlint") {
+            id = "com.tony.build.ktlint"
             implementationClass = "com.tony.buildscript.KtlintPlugin"
+        }
+
+        create("com.tony.build.maven-publish") {
+            id = "com.tony.build.maven-publish"
+            implementationClass = "com.tony.buildscript.MavenPublishPlugin"
+        }
+
+        create("com.tony.build.docker") {
+            id = "com.tony.build.docker"
+            implementationClass = "com.tony.buildscript.DockerPlugin"
         }
     }
 }
-
 dependencies {
     implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.10")
     implementation("io.github.godfather1103:docker-plugin:1.2.4")

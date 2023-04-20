@@ -1,7 +1,10 @@
-package com.tony.web.test.req
+package com.tony.web.auth.test.req
 
 import com.tony.enums.validate.SimpleIntEnum
 import com.tony.enums.validate.SimpleStringEnum
+import com.tony.web.test.req.TestIntEnum
+import com.tony.web.test.req.TestStringEnum
+import io.swagger.v3.oas.annotations.media.Schema
 import javax.validation.constraints.NotBlank
 
 data class TestReq(
@@ -13,4 +16,11 @@ data class TestReq(
     val testIntEnum: TestIntEnum? = null,
     @get:SimpleStringEnum(enums = ["2"])
     val testStringEnum: TestStringEnum? = null
+)
+
+@Schema(description = "测试登录请求")
+data class TestLoginReq(
+    @Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED)
+    @get:NotBlank(message = "请输入用户名")
+    val name: String? = null
 )

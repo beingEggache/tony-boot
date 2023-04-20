@@ -27,6 +27,7 @@ internal class JwtApiSession : ApiSession {
 
     private val token: DecodedJWT
         get() = WebContext.current.getOrPut("token", SCOPE_REQUEST) {
+            logger.debug("init token")
             try {
                 JwtToken.parse(WebContext.request.getHeader("x-token").defaultIfBlank())
             } catch (e: JWTVerificationException) {
@@ -36,8 +37,10 @@ internal class JwtApiSession : ApiSession {
         }
 
     override val userId: String
-        get() = token.getClaim("userId")?.asString()
-            ?: throw UnauthorizedException("请登录")
+        get() = WebContext.current.getOrPut("userId", SCOPE_REQUEST) {
+            logger.debug("init userId")
+            token.getClaim("userId")?.asString() ?: throw UnauthorizedException("请登录")
+        }
 
     override val unauthorizedException: UnauthorizedException?
         get() = try {

@@ -34,12 +34,12 @@ configure(subprojects) {
         maven(url = "https://maven.aliyun.com/repository/public")
         mavenCentral()
     }
-
+    //com.tony.build.docker
     apply {
         plugin("kotlin")
         plugin("kotlin-kapt")
-        plugin("tony-build-ktlint")
-        plugin("tony-build-dep-substitute")
+        plugin("com.tony.build.ktlint")
+        plugin("com.tony.build.dep-substitute")
     }
 
     dependencies {
