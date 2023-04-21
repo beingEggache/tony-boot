@@ -1,19 +1,20 @@
 package com.tony.buildscript
 
-import com.github.godfather1103.gradle.entity.AuthConfig
-import com.github.godfather1103.gradle.entity.Resource
-import com.github.godfather1103.gradle.ext.DockerPluginExtension
+import com.palantir.gradle.docker.DockerExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.tasks.Exec
+import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.provideDelegate
+import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 class DockerPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.apply {
-            plugin("io.github.godfather1103.docker-plugin")
+            plugin("com.palantir.docker")
             plugin("org.springframework.boot")
         }
 
@@ -21,35 +22,57 @@ class DockerPlugin : Plugin<Project> {
         val dockerRegistry: String by project
         val dockerUserName: String by project
         val dockerPassword: String by project
+        val dockerNameSpace: String by project
         val imageNameFromProperty = project.getImageNameFromProperty()
-        val nameSpace: String = kotlin.run {
-            val property = System.getProperty("name_space", "")
-            if (property.isNullOrBlank()) dockerUserName else property
+        val nameSpace: String = dockerNameSpace.ifBlank { dockerRegistry }
+
+        project.tasks.register("dockerLogin", Exec::class.java) {
+            group = "docker"
+            executable = "docker"
+            args(
+                listOf(
+                    "login",
+                    "-u",
+                    dockerUserName,
+                    "-p",
+                    dockerPassword,
+                    dockerRegistry
+                )
+            )
         }
 
-        project.configure<DockerPluginExtension> {
-            dockerBuildDependsOn.add("bootJar")
-            val outputs = project.tasks.getByPath("bootJar").outputs
-            dockerBuildArgs.put("JAR_FILE", outputs.files.singleFile.name)
-            dockerDirectory.value(project.projectDir.absolutePath)
-            imageName.value("$dockerRegistry/${nameSpace}/${imageNameFromProperty}")
-            val today = yyyyMMdd.format(Date())
-            dockerImageTags.add("latest")
-            dockerImageTags.add(today)
-            if (!System.getProperty("push").isNullOrBlank()) {
-                pushImageTag.value(true)
-                pushImage.value(true)
-                auth.value(AuthConfig(dockerUserName, dockerPassword))
-            } else {
-                project.logger.info("skipDockerPush")
-                skipDockerTag.value(true)
-                skipDockerPush.value(true)
-            }
+        lateinit var taskNameList: List<String>
 
-            val resource = Resource()
-            resource.directory = project.projectDir.absolutePath + "/build/libs"
-            resource.addIncludes(outputs.files.singleFile.name)
-            resources.add(resource)
+        project.configure<DockerExtension> {
+            //final name:my.registry.com/username/my-app:version
+            name = "$dockerRegistry/$nameSpace/${imageNameFromProperty}"
+            val today = yyyyMMdd.format(Date())
+            tag("today", "$name:$today")
+            tag("latest", "$name:latest")
+            setDockerfile(File("Dockerfile"))
+            // implicit task dep
+            val outputs = project.tasks.getByPath("bootJar").outputs
+            copySpec
+                .from(outputs)
+                .into("")
+            buildArgs(
+                mapOf(
+                    "JAR_FILE" to outputs.files.singleFile.name
+                )
+            )
+            taskNameList =
+                namedTags
+                    .keys
+                    .plus(project.version.toString())
+                    .map { "dockerPush${it.capitalized()}" }
+        }
+
+        project.afterEvaluate {
+            taskNameList.forEach {
+                project.tasks.getByName(it) {
+                    dependsOn("dockerLogin")
+                }
+            }
         }
     }
 }
