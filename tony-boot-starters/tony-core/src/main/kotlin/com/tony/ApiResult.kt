@@ -9,7 +9,7 @@ import com.tony.utils.asTo
 public interface ApiResultLike<T> {
     public val data: T?
     public val code: Int
-        get() = ApiProperty.successCode
+        get() = ApiProperty.okCode
     public val message: String
         get() = ""
 }
@@ -17,7 +17,7 @@ public interface ApiResultLike<T> {
 @JsonPropertyOrder(value = ["code", "message", "data"])
 public class ApiResult<T> @JvmOverloads constructor(
     override val data: T?,
-    override val code: Int = ApiProperty.successCode,
+    override val code: Int = ApiProperty.okCode,
     override val message: String = "",
 ) : ApiResultLike<T> {
 
@@ -36,8 +36,8 @@ public class ApiResult<T> @JvmOverloads constructor(
     public fun returnIfSuccessOrThrow(
         message: String = this.message,
         ex: (message: String, code: Int) -> BaseException = ::BizException,
-    ): T? = if (code != ApiProperty.successCode) {
-        throw ex.invoke(message, ApiProperty.bizErrorCode)
+    ): T? = if (code != ApiProperty.okCode) {
+        throw ex.invoke(message, ApiProperty.preconditionFailedCode)
     } else {
         data
     }
@@ -48,8 +48,8 @@ public class ApiResult<T> @JvmOverloads constructor(
 
         @JvmOverloads
         @JvmStatic
-        public fun message(message: String = ApiProperty.defaultSuccessMessage): ApiResult<Unit> =
-            ApiResult(Unit, ApiProperty.successCode, message)
+        public fun message(message: String = ApiProperty.defaultOkMessage): ApiResult<Unit> =
+            ApiResult(Unit, ApiProperty.okCode, message)
 
         @JvmStatic
         public fun of(result: Boolean): ApiResult<OneResult<Boolean>> = ApiResult(OneResult(result))

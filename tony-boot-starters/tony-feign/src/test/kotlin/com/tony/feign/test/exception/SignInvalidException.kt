@@ -13,5 +13,5 @@ import com.tony.exception.BizException
 
 class SignInvalidException @JvmOverloads constructor(
     override val message: String,
-    override val code: Int = ApiProperty.validationErrorCode
+    override val code: Int = ApiProperty.badRequestCode
 ) : BizException(message, code)

@@ -17,6 +17,9 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
     @JvmStatic
     public inline fun <reified T : Any> getBeanByLazy(): Lazy<T> = lazy { getBean() }
 
+    @JvmStatic
+    public inline fun <reified T : Any> getBeanByLazy(name: String): Lazy<T> = lazy { getBean(name) as T }
+
     internal object ApplicationContextHolder : ApplicationContextAware {
 
         @JvmStatic

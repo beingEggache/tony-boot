@@ -13,6 +13,8 @@ import okhttp3.Connection
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import org.slf4j.Logger
+import org.springframework.http.HttpStatus
 import java.net.URL
 import java.time.LocalDateTime
 import javax.annotation.Priority
@@ -33,9 +35,10 @@ internal class FeignLogInterceptor(
     }
 }
 
-internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
+public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 
-    private val logger = getLogger("request-logger")
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected val logger: Logger = getLogger("request-logger")
 
     override fun log(
         connection: Connection?,
@@ -65,12 +68,13 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
                 "[${contentType()}]"
             }
         }
+
         val remoteIp = connection?.socket()?.inetAddress?.hostAddress
         val logStr =
             """
             |$elapsedTime|
             |$resultCode|
-            |[null]|
+            |${HttpStatus.valueOf(response.code).name}|
             |$protocol|
             |$httpMethod|
             |$origin|
@@ -84,7 +88,8 @@ internal class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         logger.trace(logStr.removeLineBreak())
     }
 
-    private val URL.origin: String
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected val URL.origin: String
         get() = run {
             val protocol = protocol
             val host = host

@@ -34,7 +34,7 @@ class OpenFeignFileTest {
 
     @Test
     fun testMultiFileUpload() {
-        val bytes1 = Files.readAllBytes(Paths.get("$testFilePathFrom/1.jpeg"))
+        val bytes1 = Files.readAllBytes(Paths.get("$testFilePathFrom/1.jpg"))
         val file1 = ByteArrayMultipartFile(
             "uploadMany1.png",
             bytes1
@@ -44,20 +44,20 @@ class OpenFeignFileTest {
             bytes1
         )
         val result = openFeignTestFileClient.uploadMany(listOf(file1, file2), "test")
-        if (result.code != ApiProperty.successCode) {
+        if (result.code != ApiProperty.okCode) {
             throw BizException("fail")
         }
     }
 
     @Test
     fun testSingleFileUpload() {
-        val bytes1 = Files.readAllBytes(Paths.get("$testFilePathFrom/1.jpeg"))
+        val bytes1 = Files.readAllBytes(Paths.get("$testFilePathFrom/1.jpg"))
         val file1 = ByteArrayMultipartFile(
             "uploadSingle.png",
             bytes1
         )
         val result = openFeignTestFileClient.uploadSingle(file1, "test")
-        if (result.code != ApiProperty.successCode) {
+        if (result.code != ApiProperty.okCode) {
             logger.info(result.toJsonString())
             throw BizException("fail")
         }

@@ -49,7 +49,7 @@ internal class ExceptionHandler : ErrorController {
     private fun bindingResultMessages(bindingResult: BindingResult) =
         bindingResult.fieldErrors.first().let {
             if (it.isBindingFailure) {
-                ApiProperty.validationErrorMsg
+                ApiProperty.badRequestMsg
             } else {
                 it.defaultMessage ?: ""
             }
@@ -72,13 +72,13 @@ internal class ExceptionHandler : ErrorController {
     )
     fun badRequestException(e: Exception) = run {
         logger.warn(e.localizedMessage)
-        badRequest(ApiProperty.validationErrorMsg)
+        badRequest(ApiProperty.badRequestMsg)
     }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
     @ResponseStatus(HttpStatus.OK)
     fun error() = when {
-        WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.successCode)
+        WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
         WebContext.httpStatus >= 500 -> {
             logger.error(WebContext.errorMessage)
             errorResponse(ApiProperty.errorMsg, ApiProperty.errorCode)

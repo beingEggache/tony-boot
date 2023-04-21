@@ -24,7 +24,7 @@ class OpenFeignSignatureTest {
     fun testSignature() {
         val person = Person(listOf(1, 2, 3).toIntArray(), 123, "432", mapOf("qwe" to 123))
         val result = openFeignTestSignatureClient.testSignature(person)
-        if (result.code != ApiProperty.successCode) {
+        if (result.code != ApiProperty.okCode) {
             logger.error(result.toJsonString())
             throw RuntimeException("error")
         }

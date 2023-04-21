@@ -2,17 +2,13 @@ package com.tony.cache
 
 import com.tony.SpringContexts
 import com.tony.exception.ApiException
-import com.tony.utils.OBJECT_MAPPER
 import com.tony.utils.secureRandom
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.getBean
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.RedisConnectionUtils
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.script.DefaultRedisScript
 import org.springframework.data.redis.core.script.RedisScript
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
-import org.springframework.data.redis.serializer.RedisSerializer
 import org.springframework.scripting.support.ResourceScriptSource
 import java.util.Collections
 import java.util.concurrent.TimeUnit
@@ -34,19 +30,7 @@ public object RedisManager {
     public val keys: RedisKeys = RedisKeys
 
     @JvmStatic
-    public val redisTemplate: RedisTemplate<String, Any> by lazy {
-        val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
-        val stringRedisSerializer = RedisSerializer.string()
-        RedisTemplate<String, Any>().apply {
-            @Suppress("UsePropertyAccessSyntax")
-            setConnectionFactory(SpringContexts.getBean())
-            keySerializer = stringRedisSerializer
-            hashKeySerializer = stringRedisSerializer
-            valueSerializer = serializer
-            hashValueSerializer = serializer
-            afterPropertiesSet()
-        }
-    }
+    public val redisTemplate: RedisTemplate<String, Any> by SpringContexts.getBeanByLazy("redisTemplate")
 
     private val script: DefaultRedisScript<Long> = DefaultRedisScript<Long>().apply {
         setScriptSource(

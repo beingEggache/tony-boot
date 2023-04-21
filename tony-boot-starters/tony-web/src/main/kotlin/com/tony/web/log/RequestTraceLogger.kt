@@ -7,18 +7,20 @@ import com.tony.utils.removeLineBreak
 import com.tony.utils.toJsonString
 import com.tony.web.WebApp
 import com.tony.web.filter.RepeatReadRequestWrapper
-import com.tony.web.log.RequestTraceLogger.Const.BIZ_FAILED
-import com.tony.web.log.RequestTraceLogger.Const.FAILED
-import com.tony.web.log.RequestTraceLogger.Const.HTTP_SUCCESS_CODE
+import com.tony.web.log.RequestTraceLogger.Const.BAD_REQUEST
+import com.tony.web.log.RequestTraceLogger.Const.INTERNAL_SERVER_ERROR
 import com.tony.web.log.RequestTraceLogger.Const.NULL
-import com.tony.web.log.RequestTraceLogger.Const.SUCCESS
+import com.tony.web.log.RequestTraceLogger.Const.OK
+import com.tony.web.log.RequestTraceLogger.Const.PRECONDITION_FAILED
 import com.tony.web.log.RequestTraceLogger.Const.UNAUTHORIZED
-import com.tony.web.log.RequestTraceLogger.Const.VALIDATE_FAILED
 import com.tony.web.log.RequestTraceLogger.Const.logger
 import com.tony.web.utils.headers
 import com.tony.web.utils.isTextMediaTypes
 import com.tony.web.utils.parsedMedia
 import com.tony.web.utils.remoteIp
+import com.tony.web.utils.status1xxInformational
+import com.tony.web.utils.status2xxSuccessful
+import com.tony.web.utils.status3xxRedirection
 import org.slf4j.Logger
 import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
@@ -34,28 +36,19 @@ public fun interface RequestTraceLogger {
 
     public companion object Const {
 
-        public const val SUCCESS: String = "SUCCESS"
+        public const val OK: String = "OK"
 
-        public const val FAILED: String = "FAILED"
+        public const val INTERNAL_SERVER_ERROR: String = "INTERNAL_SERVER_ERROR"
 
-        public const val BIZ_FAILED: String = "BIZ_FAILED"
+        public const val PRECONDITION_FAILED: String = "PRECONDITION_FAILED"
 
-        public const val VALIDATE_FAILED: String = "VALIDATE_FAILED"
+        public const val BAD_REQUEST: String = "BAD_REQUEST"
 
         public const val UNAUTHORIZED: String = "UNAUTHORIZED"
 
         public const val NULL: String = "[null]"
 
         public val logger: Logger = getLogger("trace-logger")
-
-        @JvmSynthetic
-        internal val HTTP_SUCCESS_CODE = arrayOf(
-            HttpServletResponse.SC_OK,
-            HttpServletResponse.SC_CREATED,
-            HttpServletResponse.SC_NOT_MODIFIED,
-            HttpServletResponse.SC_MOVED_PERMANENTLY,
-            HttpServletResponse.SC_MOVED_TEMPORARILY,
-        )
     }
 }
 
@@ -68,7 +61,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
     ) {
         val requestBody = requestBody(request)
         val responseBody = responseBody(response)
-        val resultCode = resultCode(responseBody, response.status)
+        val resultCode = resultCode(responseBody, response)
         val resultStatus = resultStatus(resultCode)
         val protocol = request.scheme
         val httpMethod = request.method
@@ -123,23 +116,25 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
             }
         }
 
-    private fun resultCode(responseBody: String, status: Int): Int {
+    private fun resultCode(responseBody: String, response: HttpServletResponse): Int {
         val codeFromResponseDirectly = responseBody.getFromRootAsString("code")?.toInt()
         return when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
-            HTTP_SUCCESS_CODE.contains(status) -> ApiProperty.successCode
-            status in 100..199 -> ApiProperty.successCode
-            else -> status * 100
+            response.status2xxSuccessful ||
+                response.status3xxRedirection ||
+                response.status1xxInformational -> ApiProperty.okCode
+
+            else -> response.status * 100
         }
     }
 
     private fun resultStatus(resultCode: Int): String = when (resultCode) {
-        ApiProperty.successCode -> SUCCESS
-        ApiProperty.validationErrorCode -> VALIDATE_FAILED
-        ApiProperty.bizErrorCode -> BIZ_FAILED
+        ApiProperty.okCode -> OK
+        ApiProperty.badRequestCode -> BAD_REQUEST
+        ApiProperty.preconditionFailedCode -> PRECONDITION_FAILED
         ApiProperty.unauthorizedCode -> UNAUTHORIZED
-        in 400 * 100..499 * 100 -> VALIDATE_FAILED
-        in 100 * 100..199 * 100 -> SUCCESS
-        else -> FAILED
+        in 400 * 100..499 * 100 -> BAD_REQUEST
+        in 100 * 100..199 * 100 -> OK
+        else -> INTERNAL_SERVER_ERROR
     }
 }

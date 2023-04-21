@@ -65,7 +65,7 @@ public object WebApp {
 
     @JvmOverloads
     @JvmStatic
-    public fun badRequest(msg: String = "", code: Int = ApiProperty.validationErrorCode): ApiResult<Map<Any?, Any?>> =
+    public fun badRequest(msg: String = "", code: Int = ApiProperty.badRequestCode): ApiResult<Map<Any?, Any?>> =
         ApiResult(EMPTY_RESULT, code, msg)
 
     private fun whiteUrlPatterns(prefix: String = ""): Set<String> {

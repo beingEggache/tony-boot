@@ -6,6 +6,7 @@ import com.tony.utils.doIf
 import com.tony.web.WebContext
 import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.cors.CorsUtils
@@ -68,12 +69,11 @@ private val TEXT_MEDIA_TYPES = listOf(
     MediaType.APPLICATION_FORM_URLENCODED,
 )
 
-public val HttpServletResponse.parsedMedia: MediaType?
-    get() = if (contentType.isNullOrBlank()) {
-        null
-    } else {
-        MediaType.parseMediaType(contentType)
-    }
+public fun isTextMediaTypes(mediaType: MediaType?): Boolean =
+    TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
+
+public val HttpServletRequest.isCorsPreflightRequest: Boolean
+    get() = CorsUtils.isPreFlightRequest(this)
 
 public val HttpServletRequest.parsedMedia: MediaType?
     get() = if (contentType.isNullOrBlank()) {
@@ -82,11 +82,21 @@ public val HttpServletRequest.parsedMedia: MediaType?
         MediaType.parseMediaType(contentType)
     }
 
-public fun isTextMediaTypes(mediaType: MediaType?): Boolean =
-    TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
+public val HttpServletResponse.parsedMedia: MediaType?
+    get() = if (contentType.isNullOrBlank()) {
+        null
+    } else {
+        MediaType.parseMediaType(contentType)
+    }
 
-public val HttpServletRequest.isCorsPreflightRequest: Boolean
-    get() = CorsUtils.isPreFlightRequest(this)
+public val HttpServletResponse.status1xxInformational: Boolean
+    get() = HttpStatus.valueOf(status).is1xxInformational
+
+public val HttpServletResponse.status2xxSuccessful: Boolean
+    get() = HttpStatus.valueOf(status).is2xxSuccessful
+
+public val HttpServletResponse.status3xxRedirection: Boolean
+    get() = HttpStatus.valueOf(status).is3xxRedirection
 
 public fun ByteArray.responseEntity(
     fileName: String = "",

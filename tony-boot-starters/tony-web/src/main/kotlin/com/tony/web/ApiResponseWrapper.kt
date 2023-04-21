@@ -32,12 +32,12 @@ internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {
         response: ServerHttpResponse,
     ) = when {
         request.uri.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) -> body
-        body == null -> ApiResult(EMPTY_RESULT, ApiProperty.successCode)
-        body.isNotCollectionLike() -> ApiResult(body, ApiProperty.successCode)
+        body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
+        body.isNotCollectionLike() -> ApiResult(body, ApiProperty.okCode)
         else -> if (body.javaClass.isArray) {
-            ApiResult(toListResult(body), ApiProperty.successCode)
+            ApiResult(toListResult(body), ApiProperty.okCode)
         } else {
-            ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.successCode)
+            ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.okCode)
         }
     }
 

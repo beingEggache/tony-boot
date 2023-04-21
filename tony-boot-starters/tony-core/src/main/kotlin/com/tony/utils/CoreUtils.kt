@@ -35,7 +35,7 @@ public inline fun <T> T.doIf(condition: Boolean, crossinline block: T.() -> Unit
 }
 
 @JvmOverloads
-public fun throwIf(condition: Boolean, message: String, code: Int = ApiProperty.bizErrorCode) {
+public fun throwIf(condition: Boolean, message: String, code: Int = ApiProperty.preconditionFailedCode) {
     if (condition) throw BizException(message, code)
 }
 
