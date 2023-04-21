@@ -1,6 +1,5 @@
 package com.tony.jwt.config
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
@@ -10,7 +9,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConditionalOnWebApplication
-@ConditionalOnExpression("'\${jwt.secret:}'.trim() > ''")
 @EnableConfigurationProperties(JwtProperties::class)
 internal class JwtConfig
 

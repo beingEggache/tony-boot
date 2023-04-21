@@ -74,7 +74,7 @@ gradlePlugin {
     }
 }
 dependencies {
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.10")
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.11")
     implementation("com.palantir.gradle.docker:gradle-docker:0.35.0")
 }
 
