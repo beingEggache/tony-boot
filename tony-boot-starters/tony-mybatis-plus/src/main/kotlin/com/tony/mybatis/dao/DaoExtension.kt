@@ -12,10 +12,13 @@ package com.tony.mybatis.dao
 import com.baomidou.mybatisplus.core.enums.SqlMethod
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper
+import com.tony.SpringContexts
 import org.apache.ibatis.logging.Log
 import org.apache.ibatis.logging.LogFactory
 import org.apache.ibatis.session.SqlSession
 import org.springframework.aop.framework.AopProxyUtils
+import org.springframework.jdbc.core.BeanPropertyRowMapper
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import java.lang.reflect.Proxy
 import java.util.function.BiConsumer
 
@@ -24,6 +27,9 @@ internal val ENTITY_CLASS_MAP = HashMap<Class<*>, Class<*>>()
 internal val MAPPER_CLASS_MAP = HashMap<Class<*>, Class<*>>()
 
 internal val LOG_MAP = HashMap<Class<*>, Log>()
+
+public val namedParameterJdbcTemplate: NamedParameterJdbcTemplate by SpringContexts
+    .getBeanByLazy<NamedParameterJdbcTemplate>()
 
 /**
  * 获取mybatis-plus 语句
@@ -83,3 +89,11 @@ internal fun <T : Any, E> BaseDao<T>.executeBatch(
     consumer: BiConsumer<SqlSession, E>,
 ): Boolean =
     SqlHelper.executeBatch(getEntityClass(), getLog(), batchList, batchList.size + 1, consumer)
+
+@JvmSynthetic
+public inline fun <reified T> queryObject(sql: String, params: Map<String, Any?> = mapOf()): List<T> =
+    namedParameterJdbcTemplate.query(sql, params, BeanPropertyRowMapper(T::class.java))
+
+@JvmOverloads
+public fun <T> queryObject(sql: String, clazz: Class<T>, params: Map<String, Any?> = mapOf()): MutableList<T> =
+    namedParameterJdbcTemplate.query(sql, params, BeanPropertyRowMapper(clazz))

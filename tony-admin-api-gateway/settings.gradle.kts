@@ -23,3 +23,4 @@ gradle.rootProject {
 }
 
 include("gateway-api")
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")

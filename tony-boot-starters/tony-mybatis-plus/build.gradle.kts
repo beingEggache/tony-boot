@@ -10,6 +10,7 @@ dependencies {
     implementation(Deps.Other.mybatisTypehandlersJsr310)
 
     addTestDependencies()
+    testImplementation(Deps.Other.mysql)
 }
 
 tasks.named<Test>("test") {

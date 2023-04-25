@@ -12,3 +12,4 @@ pluginManagement {
 }
 
 rootProject.name = "build-script"
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")

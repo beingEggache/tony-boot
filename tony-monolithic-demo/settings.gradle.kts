@@ -25,3 +25,4 @@ gradle.rootProject {
 include("tony-api")
 include("tony-service")
 include("tony-dto")
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
