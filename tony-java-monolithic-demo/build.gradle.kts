@@ -35,7 +35,7 @@ configure(subprojects) {
     }
 
     apply {
-        plugin("kotlin")
+        plugin("org.gradle.java-library")
 		plugin("io.freefair.lombok")
         plugin("com.tony.build.dep-substitute")
     }

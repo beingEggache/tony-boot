@@ -10,11 +10,9 @@ pluginManagement {
         mavenCentral()
     }
 }
-val kotlinVersion: String by settings
 gradle.rootProject {
     buildscript {
         dependencies {
-            classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
             classpath("com.tony:build-script:0.1-SNAPSHOT")
         }
     }
