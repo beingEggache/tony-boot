@@ -19,7 +19,7 @@ object VersionManagement  {
 
     const val xxlJobVersion = "2.4.0"
 
-    const val jacksonVersion = "2.14.2"
+    const val jacksonVersion = "2.15.0"
 
     const val gsonVersion = "2.10.1"
     const val fastjsonVersion = "2.0.28"
@@ -35,7 +35,7 @@ object VersionManagement  {
     const val javaJwtVersion = "4.4.0"
     const val guavaVersion = "31.1-jre"
 
-    const val swaggerV3Version = "2.2.8"
+    const val swaggerV3Version = "2.2.9"
     const val knife4jVersion = "4.1.0"
     const val springdocVersion = "1.7.0"
 
