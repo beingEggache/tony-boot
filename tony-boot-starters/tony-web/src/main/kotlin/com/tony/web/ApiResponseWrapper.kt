@@ -3,6 +3,7 @@ package com.tony.web
 import com.tony.ApiProperty
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
+import com.tony.ApiResultLike
 import com.tony.ListResult
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
@@ -31,7 +32,6 @@ internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {
         request: ServerHttpRequest,
         response: ServerHttpResponse,
     ) = when {
-        request.uri.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) -> body
         body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
         body.isNotCollectionLike() -> ApiResult(body, ApiProperty.okCode)
         else -> if (body.javaClass.isArray) {
@@ -44,27 +44,33 @@ internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
-    ) = MappingJackson2HttpMessageConverter::class.java.isAssignableFrom(converterType) &&
-        returnType.parameterType.isNotAssignableFrom(
-            ApiResult::class.java,
+    ) = !WebContext.url.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
+        MappingJackson2HttpMessageConverter::class.java.isAssignableFrom(converterType) &&
+        notSupportClasses.all {
+            !it.isAssignableFrom(returnType.parameterType)
+        }
+
+    private companion object Utils {
+        private fun Any.isNotCollectionLike() =
+            !Collection::class.java.isAssignableFrom(javaClass) && !javaClass.isArray
+
+        @JvmStatic
+        private val notSupportClasses: Array<Class<*>> = arrayOf(
+            ApiResultLike::class.java,
             Number::class.java,
             Enum::class.java,
             Date::class.java,
             TemporalAccessor::class.java,
+            // because converterType is StringHttpMessageConverter
+            /*java.lang.CharSequence::class.java,
+            CharSequence::class.java,*/
             java.lang.Character::class.java,
             Char::class.java,
             java.lang.Boolean::class.java,
             Boolean::class.java,
         )
 
-    private companion object Utils {
-        private fun Any.isNotCollectionLike() =
-            !Collection::class.java.isAssignableFrom(javaClass) && !javaClass.isArray
-
-        private fun Class<*>.isNotAssignableFrom(vararg classes: Class<*>) = classes.all {
-            !it.isAssignableFrom(this)
-        }
-
+        @JvmStatic
         private fun toListResult(body: Any?) = when (body) {
             is ByteArray -> ListResult<Byte>(body)
             is ShortArray -> ListResult<Short>(body)
