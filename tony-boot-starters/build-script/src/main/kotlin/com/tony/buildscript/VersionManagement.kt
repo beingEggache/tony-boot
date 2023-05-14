@@ -22,12 +22,12 @@ object VersionManagement  {
     const val jacksonVersion = "2.15.0"
 
     const val gsonVersion = "2.10.1"
-    const val fastjsonVersion = "2.0.28"
-    const val nettyVersion = "4.1.91.Final"
+    const val fastjsonVersion = "2.0.31"
+    const val nettyVersion = "4.1.92.Final"
 
     const val reactorVersion = "3.4.29"
     const val reactorKotlinExtensions = "1.2.2"
-    const val reactorNettyVersion = "1.1.6"
+    const val reactorNettyVersion = "1.1.7"
     const val slf4jVersion = "1.7.36"
 
     const val byteBuddyVersion = "1.14.4"
@@ -42,7 +42,7 @@ object VersionManagement  {
     const val springCloudAlibabaVersion = "2021.0.5.0"
     const val springCloudVersion = "2021.0.6"
 
-    const val alipaySdkJavaVersion = "4.35.97.ALL"
+    const val alipaySdkJavaVersion = "4.35.126.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.30"
-    const val aliyunSdkOssVersion = "3.16.2"
+    const val aliyunSdkOssVersion = "3.16.3"
 }
