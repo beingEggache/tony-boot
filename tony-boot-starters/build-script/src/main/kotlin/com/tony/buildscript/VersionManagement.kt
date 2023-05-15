@@ -35,7 +35,7 @@ object VersionManagement  {
     const val javaJwtVersion = "4.4.0"
     const val guavaVersion = "31.1-jre"
 
-    const val swaggerV3Version = "2.2.9"
+    const val swaggerV3Version = "2.2.10"
     const val knife4jVersion = "4.1.0"
     const val springdocVersion = "1.7.0"
 

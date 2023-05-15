@@ -15,5 +15,5 @@ dependencies {
     addTestDependencies()
     testImplementation(projects.tonyWeb)
     testImplementation(Deps.Knife4j.openapi3Ui)
-    testImplementation("com.alibaba:easyexcel:3.2.1")
+    testImplementation("com.alibaba:easyexcel:3.3.1")
 }
