@@ -10,6 +10,7 @@ dependencies {
     implementation(Deps.Knife4j.openapi3SpringBootStarter) {
         exclude("com.github.xiaoymin", "knife4j-openapi3-ui")
         exclude("org.springdoc","springdoc-openapi-webflux-core")
+        exclude("org.webjars","swagger-ui")
     }
     implementation(Deps.SpringBoot.autoconfigure)
     addTestDependencies()
