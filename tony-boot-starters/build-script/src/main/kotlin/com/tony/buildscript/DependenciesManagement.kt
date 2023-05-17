@@ -212,7 +212,9 @@ internal object DepsManagement {
 
         const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.1.6"
 
+        const val swaggerV3Core = "io.swagger.core.v3:swagger-core:${VersionManagement.swaggerV3Version}"
         const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations:${VersionManagement.swaggerV3Version}"
+        const val swaggerV3Models = "io.swagger.core.v3:swagger-models:${VersionManagement.swaggerV3Version}"
         const val springdocUi = "org.springdoc:springdoc-openapi-ui:${VersionManagement.springdocVersion}"
         const val springdocCommon = "org.springdoc:springdoc-openapi-common:${VersionManagement.springdocVersion}"
         const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin:${VersionManagement.springdocVersion}"
