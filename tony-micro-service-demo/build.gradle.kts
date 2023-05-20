@@ -3,6 +3,7 @@ import com.tony.buildscript.KaptDeps
 import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -55,6 +56,11 @@ configure(subprojects) {
         jvmToolchain {
             languageVersion.set(JavaLanguageVersion.of(javaVersion))
         }
+    }
+
+    configure<KaptExtension> {
+        keepJavacAnnotationProcessors = true
+        showProcessorStats = true
     }
 
     tasks.withType<KotlinCompile>().configureEach {
