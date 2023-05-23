@@ -4,6 +4,7 @@ import com.tony.buildscript.addTestDependencies
 dependencies {
     api(projects.tonyCore)
     api(Deps.SpringBoot.starterWeb)
+    implementation(Deps.SpringBoot.starterValidation)
 
     addTestDependencies()
     testImplementation(Deps.Other.swaggerV3Annotaion)

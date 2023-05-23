@@ -6,6 +6,7 @@ import com.tony.web.test.req.TestIntEnum
 import com.tony.web.test.req.TestStringEnum
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Pattern
 
 data class TestReq(
     @get:NotBlank(message = "请输入姓名")
@@ -23,4 +24,10 @@ data class TestLoginReq(
     @Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED)
     @get:NotBlank(message = "请输入用户名")
     val name: String? = null
+)
+
+@Schema(description = "测试pattern验证")
+data class TestPatternReq(
+    @get:Pattern(regexp = "1[0-9]{10}", message = "手机号格式不正确")
+    val mobile: String?
 )
