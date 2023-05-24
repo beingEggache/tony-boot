@@ -31,7 +31,7 @@ object Deps {
         const val templateJwt = "$projectGroup:$projectPrefix-jwt:${VersionManagement.templateVersion}"
         const val templateWebAuth = "$projectGroup:$projectPrefix-web-auth:${VersionManagement.templateVersion}"
         const val templateMybatisPlus = "$projectGroup:$projectPrefix-mybatis-plus:${VersionManagement.templateVersion}"
-        const val templateCache = "$projectGroup:$projectPrefix-cache:${VersionManagement.templateVersion}"
+        const val templateRedis = "$projectGroup:$projectPrefix-redis:${VersionManagement.templateVersion}"
         const val templateFeign = "$projectGroup:$projectPrefix-feign:${VersionManagement.templateVersion}"
         const val templateWechat = "$projectGroup:$projectPrefix-wechat:${VersionManagement.templateVersion}"
         const val templateAlipay = "$projectGroup:$projectPrefix-alipay:${VersionManagement.templateVersion}"

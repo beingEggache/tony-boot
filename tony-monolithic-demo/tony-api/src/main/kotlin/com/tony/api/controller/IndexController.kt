@@ -4,7 +4,7 @@ import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserLoginReq
 import com.tony.jwt.JwtToken
-import com.tony.utils.defaultZoneId
+import com.tony.utils.defaultZoneOffset
 import com.tony.utils.toString
 import com.tony.web.WebApp
 import com.tony.web.interceptor.NoLoginCheck
@@ -35,11 +35,11 @@ class IndexController(
     @NoPermissionCheck
     fun locale(): String = Locale.getDefault().toLanguageTag()
 
-    @Operation(summary = "zoneId")
-    @GetMapping("/zone-id")
+    @Operation(summary = "zoneOffset")
+    @GetMapping("/zone-offset")
     @NoLoginCheck
     @NoPermissionCheck
-    fun zoneId(): String = defaultZoneId.toString()
+    fun zoneId(): String = defaultZoneOffset.toString()
 
     @Operation(summary = "时间戳")
     @GetMapping("/now")

@@ -9,6 +9,12 @@ import org.springframework.context.annotation.Import
 import org.springframework.context.annotation.ImportSelector
 import org.springframework.core.type.AnnotationMetadata
 
+/**
+ * 启用 [PROJECT_GROUP] 的 starter
+ *
+ * @author tangli
+ * @since 2023/5/24 18:04
+ */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
 @MustBeDocumented

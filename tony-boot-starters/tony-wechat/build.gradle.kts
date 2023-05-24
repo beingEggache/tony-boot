@@ -9,7 +9,7 @@ dependencies {
     implementation(Deps.SpringBoot.springBoot)
 
     addTestDependencies()
-    testImplementation(projects.tonyCache)
+    testImplementation(projects.tonyRedis)
 }
 
 tasks.named<Test>("test") {

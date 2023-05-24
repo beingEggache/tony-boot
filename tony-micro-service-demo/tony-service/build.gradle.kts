@@ -6,7 +6,7 @@ dependencies {
     implementation(Deps.Other.mysql)
     implementation(Deps.Other.HikariCP)
     implementation(Deps.Other.mybatisTypehandlersJsr310)
-    implementation(Deps.Template.templateCache) { isChanging = true }
+    implementation(Deps.Template.templateRedis) { isChanging = true }
     implementation(Deps.Template.templateFeign) { isChanging = true }
     api(Deps.Template.templateMybatisPlus)
 

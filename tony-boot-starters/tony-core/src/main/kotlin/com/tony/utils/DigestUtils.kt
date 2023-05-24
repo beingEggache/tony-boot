@@ -1,12 +1,12 @@
+@file:JvmName("DigestUtils")
+
+package com.tony.utils
 /**
- * tony-dependencies
- * DigestUtils
+ * 摘要工具类
  *
  * @author tangli
  * @since 2022/9/29 10:20
  */
-package com.tony.utils
-
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 

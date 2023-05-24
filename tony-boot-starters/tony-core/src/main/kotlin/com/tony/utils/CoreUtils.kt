@@ -1,7 +1,12 @@
 @file:JvmName("CoreUtils")
 
 package com.tony.utils
-
+/**
+ * 核心工具类
+ *
+ * @author tangli
+ * @since 2022/9/29 10:20
+ */
 import com.tony.ApiProperty
 import com.tony.SpringContexts.Env
 import com.tony.exception.BizException
@@ -18,8 +23,16 @@ public fun <T> T?.println(): Unit = println(this)
 public fun <T> T.getLogger(): Logger where T : Any =
     LoggerFactory.getLogger(this::class.java)
 
+/**
+ * 获取 logger.
+ * @param name logger 名
+ */
 public fun getLogger(name: String?): Logger = LoggerFactory.getLogger(name)
 
+/**
+ * 将 [this] 自身 转为 [E] 类型
+ * @param E 转换后的类型
+ */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asTo(): E? where E : Any = this as E?
 
@@ -34,11 +47,32 @@ public inline fun <T> T.doIf(condition: Boolean, crossinline block: T.() -> Unit
     return this
 }
 
+/**
+ * 当[condition]为真时,抛出[BizException]异常.
+ *
+ * 异常信息为[message], 异常代码为[code],默认为[ApiProperty.preconditionFailedCode]
+ *
+ * @param condition 异常条件
+ * @param message 异常信息
+ * @param code 异常代码
+ */
 @JvmOverloads
 public fun throwIf(condition: Boolean, message: String, code: Int = ApiProperty.preconditionFailedCode) {
     if (condition) throw BizException(message, code)
 }
 
+/**
+ * 当 [this] [T]? 为 null 时, 抛出异常.
+ *
+ * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
+ *
+ * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
+ *
+ * @param message 异常信息
+ * @param code 异常代码
+ *
+ * @see throwIf
+ */
 @JvmOverloads
 public fun <T> T?.throwIfNull(message: String = ApiProperty.notFoundMessage, code: Int = ApiProperty.notFoundCode): T {
     throwIf(this == null, message, code)
@@ -59,8 +93,9 @@ public inline fun <T, R> T?.throwIfNullAndReturn(message: String, crossinline bl
 public inline fun <reified T> T?.returnIfNull(crossinline block: () -> T): T = this ?: block()
 
 /**
- * 参考SpringCloud获取IP的代码
+ * 获取本地ip.
  *
+ * 参考SpringCloud获取IP的代码.
  * @return ip
  */
 public val localIp: String = NetworkInterface
@@ -79,6 +114,9 @@ public val localIp: String = NetworkInterface
         null
     } ?: "127.0.0.1"
 
+/**
+ * 判断地址是否是期望的域.
+ */
 @Suppress("UNCHECKED_CAST")
 public fun isPreferredAddress(address: InetAddress): Boolean {
     val useOnlySiteLocalInterfaces =

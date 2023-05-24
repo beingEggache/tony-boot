@@ -1,14 +1,20 @@
+package com.tony.enums.validate
 /**
  *
  * @author tangli
  * @since 2021-05-19 10:58
  */
-package com.tony.enums.validate
-
 import javax.validation.Constraint
 import javax.validation.Payload
 import kotlin.reflect.KClass
 
+/**
+ * 简单枚举校验
+ * @param enums 枚举值
+ *
+ * @author tangli
+ * @since 2021-05-19 10:58
+ */
 @MustBeDocumented
 @Constraint(validatedBy = [SimpleEnumValidator::class])
 @Target(
@@ -26,6 +32,14 @@ public annotation class SimpleEnum(
     val payload: Array<KClass<out Payload>> = [],
 )
 
+/**
+ * 简单整形枚举校验
+ * @param enums 枚举值
+ * @param required 是否必须
+ *
+ * @author tangli
+ * @since 2021-05-19 10:58
+ */
 @MustBeDocumented
 @Constraint(validatedBy = [SimpleIntEnumValidator::class])
 @Target(
@@ -44,6 +58,14 @@ public annotation class SimpleIntEnum(
     val payload: Array<KClass<out Payload>> = [],
 )
 
+/**
+ * 整形枚举校验
+ * @param enumClass 枚举类
+ * @param required 是否必须
+ *
+ * @author tangli
+ * @since 2021-05-19 10:58
+ */
 @MustBeDocumented
 @Constraint(validatedBy = [IntEnumValidator::class])
 @Target(
@@ -62,6 +84,14 @@ public annotation class IntEnum(
     val payload: Array<KClass<out Payload>> = [],
 )
 
+/**
+ * 简单字符串枚举校验
+ * @param enums 枚举值
+ * @param required 是否必须
+ *
+ * @author tangli
+ * @since 2021-05-19 10:58
+ */
 @MustBeDocumented
 @Constraint(validatedBy = [SimpleIntEnumValidator::class])
 @Target(
@@ -80,6 +110,14 @@ public annotation class SimpleStringEnum(
     val payload: Array<KClass<out Payload>> = [],
 )
 
+/**
+ * 字符串枚举校验
+ * @param enumClass 枚举类
+ * @param required 是否必须
+ *
+ * @author tangli
+ * @since 2021-05-19 10:58
+ */
 @MustBeDocumented
 @Constraint(validatedBy = [StringEnumValidator::class])
 @Target(

@@ -1,7 +1,12 @@
 @file:JvmName("StringUtils")
 
 package com.tony.utils
-
+/**
+ * 字符串工具类
+ *
+ * @author tangli
+ * @since 2022/9/29 10:20
+ */
 import com.fasterxml.jackson.core.JsonProcessingException
 import org.springframework.util.AntPathMatcher
 import java.math.BigInteger
@@ -90,12 +95,19 @@ public fun String?.defaultIfBlank(default: String = ""): String = if (this.isNul
 
 private val mobileRegex = Regex("^1[3-9][0-9]{9}$")
 
+/**
+ * 字符串是否手机号
+ */
 public fun String.isMobileNumber(): Boolean = mobileRegex.matches(this)
 
-public fun String.isInt(): Boolean = toIntOrNull() != null
+/**
+ * 字符串是否一个整形
+ */
+public fun CharSequence.isInt(): Boolean = toString().toIntOrNull() != null
 
-public fun CharSequence.isInt(): Boolean = toString().isInt()
-
+/**
+ * 字符串url encode
+ */
 @JvmOverloads
 public fun String?.urlEncode(charset: String = "UTF8"): String = URLEncoder.encode(defaultIfBlank(), charset)
 
@@ -114,6 +126,9 @@ public fun String?.antPathMatchAny(patterns: Collection<String>?): Boolean =
 private val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
 private val snakeRegex = "_[a-zA-Z]".toRegex()
 
+/**
+ * 字符串驼峰转 snake
+ */
 public fun String.camelToSnakeCase(): String = camelRegex.replace(this) {
     "_${it.value}"
 }.lowercase(Locale.getDefault())
@@ -129,5 +144,10 @@ public fun String.snakeToUpperCamelCase(): String =
 @JvmSynthetic
 internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
 
+/**
+ * 清理 路径.
+ *
+ * 将多个重复的斜杠转为一个.
+ */
 public fun sanitizedPath(input: String): String =
     duplicateSlash.matcher(input).replaceAll("/")

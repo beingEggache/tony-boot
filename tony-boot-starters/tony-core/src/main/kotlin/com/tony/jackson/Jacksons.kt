@@ -1,13 +1,12 @@
+package com.tony.jackson
+
 /**
- * Jacksons
+ * jackson 相关类
  *
  *
  * @author tangli
  * @since 2022/4/24 16:44
  */
-
-package com.tony.jackson
-
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.JsonSerializer
@@ -23,6 +22,12 @@ internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> = mutableMapO
     NameMaskFun::class.java to NameMaskFun(),
 )
 
+/**
+ * jackson 序列化字段遮蔽转换.
+ *
+ * @author tangli
+ * @since 2021/12/6 10:51
+ */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD)
 @JacksonAnnotationsInside
@@ -36,10 +41,22 @@ public annotation class MaskConverter(
     }
 }
 
+/**
+ * jackson 字段转换
+ *
+ * @author tangli
+ * @since 2021/12/6 10:51
+ */
 public fun interface MaskConvertFunc {
     public fun convert(input: String?): String?
 }
 
+/**
+ * 将字符串除开头及结尾部分保留, 其余都用 * 表示
+ *
+ * @author tangli
+ * @since 2021/12/6 10:51
+ */
 public class NameMaskFun : MaskConvertFunc {
     override fun convert(input: String?): String? =
         if (input?.length != null && input.length > 1) {
@@ -49,6 +66,12 @@ public class NameMaskFun : MaskConvertFunc {
         }
 }
 
+/**
+ * 将手机号除开头 2 位及后 4 位保留,中间用 * 表示
+ *
+ * @author tangli
+ * @since 2021/12/6 10:51
+ */
 public class MobileMaskFun : MaskConvertFunc {
     override fun convert(input: String?): String? =
         if (input?.length != null && input.length >= 4) {
@@ -58,6 +81,12 @@ public class MobileMaskFun : MaskConvertFunc {
         }
 }
 
+/**
+ * jackson 字段遮蔽转换 JsonSerializer
+ *
+ * @author tangli
+ * @since 2021/12/6 10:51
+ */
 public class MaskSerializer : JsonSerializer<Any>() {
 
     override fun serialize(value: Any, gen: JsonGenerator, serializers: SerializerProvider) {

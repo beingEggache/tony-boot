@@ -1,10 +1,10 @@
+package com.tony.enums.validate
+
 /**
  *
  * @author tangli
  * @since 2021-05-19 10:58
  */
-package com.tony.enums.validate
-
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumIntValue
 import com.tony.enums.EnumStringValue
@@ -13,6 +13,11 @@ import com.tony.utils.asTo
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
+/**
+ * 简单整形枚举校验
+ * @author tangli
+ * @since 2021-05-19 10:58
+ */
 public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumValue<Int>?> {
     private var enums: IntArray = intArrayOf()
     private var required = false
@@ -34,6 +39,11 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumVal
     }
 }
 
+/**
+ * 整形枚举强类型校验
+ * @author tangli
+ * @since 2021-05-19 10:58
+ */
 public class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
     private var enums: List<Int> = listOf()
     private var required = false
@@ -61,6 +71,11 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
     }
 }
 
+/**
+ * 字符串枚举简单校验
+ * @author tangli
+ * @since 2021-05-19 10:58
+ */
 public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, EnumValue<String>?> {
 
     private lateinit var enums: Array<out String>
@@ -82,6 +97,11 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, E
     }
 }
 
+/**
+ * 字符串枚举强类型校验
+ * @author tangli
+ * @since 2021-05-19 10:58
+ */
 public class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<String>?> {
     private var enums: List<String> = listOf()
     private var required = false
@@ -109,6 +129,11 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<Str
     }
 }
 
+/**
+ * 简单字符串枚举校验
+ * @author tangli
+ * @since 2021-05-19 10:58
+ */
 public class SimpleEnumValidator : ConstraintValidator<SimpleEnum, Any?> {
 
     private lateinit var enums: Array<out String>

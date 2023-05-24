@@ -1,12 +1,11 @@
 @file:JvmName("NumberUtils")
+
+package com.tony.utils
 /**
- *
+ * 数字工具类
  * @author tangli
  * @since 2020-12-14 13:49
  */
-
-package com.tony.utils
-
 import com.tony.exception.ApiException
 import java.math.BigDecimal
 import java.math.RoundingMode

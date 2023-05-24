@@ -5,15 +5,31 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Serializable
 
+/**
+ * 全局枚举接口.
+ *
+ * 已和 jackson 和 mybatis-plus 结合.
+ *
+ * @param T 枚举值类型, 只有 [String] 和 [Int] 两种.
+ */
 public sealed interface EnumValue<T : Serializable> {
     @get:JsonValue
     public val value: T?
 }
 
+/**
+ * 全局整形枚举接口.
+ */
 public interface EnumIntValue : EnumValue<Int>
 
+/**
+ * 全局字符串枚举接口.
+ */
 public interface EnumStringValue : EnumValue<String>
 
+/**
+ * jackson枚举构建器.
+ */
 public abstract class EnumCreator<out E, KEY>(
     private val clazz: Class<out E>,
 ) where E : EnumValue<KEY>, KEY : Serializable {
@@ -23,6 +39,9 @@ public abstract class EnumCreator<out E, KEY>(
         clazz.enumConstants
     }
 
+    /**
+     * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
+     */
     public companion object EnumCreatorFactory {
 
         public const val defaultIntValue: Int = 40404

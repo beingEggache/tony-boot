@@ -7,7 +7,9 @@ import org.springframework.context.ApplicationContextAware
 import org.springframework.core.env.Environment
 
 /**
- * Beans
+ * 全局单例静态 [ApplicationContext].
+ *
+ * 新增了一些 kotlin 的 lazy方法. 其余的委托到 [ApplicationContext] 实现.
  *
  * @author tangli
  * @since 2021/12/6 10:51
@@ -30,6 +32,11 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
         }
     }
 
+    /**
+     * 全局单例静态 [Environment].
+     *
+     * 委托给 [ApplicationContext.getEnvironment].
+     */
     public object Env : Environment by SpringContexts.environment {
 
         @JvmStatic
