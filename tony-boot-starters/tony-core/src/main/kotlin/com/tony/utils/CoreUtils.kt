@@ -31,6 +31,8 @@ public fun getLogger(name: String?): Logger = LoggerFactory.getLogger(name)
 
 /**
  * 将 [this] 自身 转为 [E] 类型
+ *
+ * @receiver [Any]?
  * @param E 转换后的类型
  */
 @Suppress("UNCHECKED_CAST")
@@ -68,8 +70,11 @@ public fun throwIf(condition: Boolean, message: String, code: Int = ApiProperty.
  *
  * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
  *
+ * @receiver [T]? this
+ * @param [T]
  * @param message 异常信息
  * @param code 异常代码
+ * @return [T] this
  *
  * @see throwIf
  */

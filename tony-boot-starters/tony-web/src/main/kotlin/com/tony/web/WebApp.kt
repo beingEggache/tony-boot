@@ -9,7 +9,12 @@ import com.tony.utils.sanitizedPath
 import com.tony.web.config.WebProperties
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.ErrorAttributes
+import javax.servlet.http.HttpServletRequest
 
+/**
+ * Web 全局变量
+ *
+ */
 public object WebApp {
 
     private const val SWAGGER_UI_PATH: String = "springdoc.swagger-ui.path"
@@ -30,12 +35,21 @@ public object WebApp {
 
     private val logger = LoggerFactory.getLogger(WebApp::class.java)
 
+    /**
+     * spring.application.name
+     */
     @JvmStatic
     public val appId: String by Env.getPropertyByLazy("spring.application.name", "")
 
+    /**
+     * server.port
+     */
     @JvmStatic
     public val port: String by Env.getPropertyByLazy("server.port", "8080")
 
+    /**
+     * server.servlet.context-path
+     */
     @JvmStatic
     public val contextPath: String by Env.getPropertyByLazy("server.servlet.context-path", "")
 
@@ -48,21 +62,47 @@ public object WebApp {
         set
     }
 
+    /**
+     * 全局框架处理层面白名单, 比如不经过全局响应结构包装, 不记录请求日志的 url.
+     *
+     * 一般默认包含 文档地址, 及对应的静态文件地址.
+     */
     @JvmStatic
     public val whiteUrlPatterns: Set<String> by lazy {
         whiteUrlPatterns()
     }
 
+    /**
+     * 全局框架处理层面白名单, 比如不经过全局响应结构包装, 不记录请求日志的 url.
+     *
+     * 一般默认包含 文档地址, 及对应的静态文件地址.
+     *
+     * 将 [HttpServletRequest.getContextPath] 包含进去.
+     */
     @JvmStatic
     public val whiteUrlPatternsWithContextPath: Set<String> by lazy {
         whiteUrlPatterns(contextPath)
     }
 
+    /**
+     * 返回错误响应
+     *
+     * @param msg
+     * @param code 默认为 [ApiProperty.errorCode]
+     * @return
+     */
     @JvmOverloads
     @JvmStatic
     public fun errorResponse(msg: String = "", code: Int = ApiProperty.errorCode): ApiResult<Map<Any?, Any?>> =
         ApiResult(EMPTY_RESULT, code, msg)
 
+    /**
+     * 返回请求错误响应
+     *
+     * @param msg
+     * @param code 默认为 [ApiProperty.badRequestCode]
+     * @return
+     */
     @JvmOverloads
     @JvmStatic
     public fun badRequest(msg: String = "", code: Int = ApiProperty.badRequestCode): ApiResult<Map<Any?, Any?>> =

@@ -8,14 +8,37 @@ import com.tony.enums.EnumValue
 import com.tony.utils.asTo
 import com.tony.utils.jsonToObj
 import com.tony.utils.toJsonString
+import org.springframework.data.redis.core.RedisTemplate
 import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
+/**
+ * redis value 操作单例.
+ *
+ * @author tangli
+ * @since 2023/5/25 9:24
+ */
 public object RedisValues {
 
+    /**
+     * 同 [RedisTemplate.hasKey]
+     *
+     * @param key
+     * @return
+     */
     @JvmStatic
     public fun hasKey(key: String): Boolean = RedisManager.redisTemplate.hasKey(key)
 
+    /**
+     * 同 RedisTemplate.boundValueOps.increment.
+     *
+     * 如果键不存在则创建 [initial] 初始值.
+     *
+     * @param key
+     * @param delta
+     * @param initial
+     * @return
+     */
     @JvmStatic
     @JvmOverloads
     public fun increment(key: String, delta: Long = 1L, initial: Long? = null): Long? {
@@ -25,6 +48,16 @@ public object RedisValues {
         return RedisManager.redisTemplate.boundValueOps(key).increment(delta)
     }
 
+    /**
+     * 同 RedisTemplate.boundValueOps.increment.
+     *
+     * 如果键不存在则创建 [initial] 初始值.
+     *
+     * @param key
+     * @param delta
+     * @param initial
+     * @return
+     */
     @JvmStatic
     @JvmOverloads
     public fun increment(key: String, delta: Double = 1.0, initial: Double? = null): Double? {

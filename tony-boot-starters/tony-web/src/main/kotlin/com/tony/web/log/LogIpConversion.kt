@@ -5,6 +5,12 @@ import ch.qos.logback.classic.spi.ILoggingEvent
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.localIp
 
+/**
+ * logback 获取本地ip
+ *
+ * @author tangli
+ * @since 2023/5/25 11:01
+ */
 public class LogIpConversion : ClassicConverter() {
 
     private val ipFromNacosKey = "IP_FROM_NACOS"

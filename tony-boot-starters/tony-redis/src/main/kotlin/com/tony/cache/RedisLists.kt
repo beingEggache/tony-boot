@@ -9,12 +9,20 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 
 /**
+ * redis 列表操作单例.
  *
  * @author tangli
  * @since 2021-03-24 10:12
  */
 public object RedisLists {
 
+    /**
+     * 同 [RedisTemplate.opsForList().rightPush()].
+     *
+     * @param key   健
+     * @param value 值
+     * @param date 过期时间
+     */
     @JvmStatic
     @JvmOverloads
     public fun rightPushString(
@@ -29,6 +37,16 @@ public object RedisLists {
         return rightPush
     }
 
+
+    /**
+     * Right push string
+     *
+     * @param key
+     * @param value
+     * @param timeout
+     * @param timeUnit
+     * @return
+     */
     @JvmStatic
     @JvmOverloads
     public fun rightPushString(

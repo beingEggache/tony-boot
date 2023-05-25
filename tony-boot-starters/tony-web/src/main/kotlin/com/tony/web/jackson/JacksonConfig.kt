@@ -14,6 +14,12 @@ import com.tony.utils.isDateTimeLikeType
 import com.tony.utils.isObjLikeType
 import com.tony.utils.isStringLikeType
 
+/**
+ * 数组或列表类型为 null 时输出 "[]"
+ *
+ * @author tangli
+ * @since 2023/5/25 10:37
+ */
 internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
 
     override fun serialize(
@@ -27,6 +33,12 @@ internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
     }
 }
 
+/**
+ * 对象或 map 类型 为null 时, 输出 "{}"
+ *
+ * @author tangli
+ * @since 2023/5/25 10:39
+ */
 internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
     override fun serialize(
         value: Any?,
@@ -39,6 +51,12 @@ internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
     }
 }
 
+/**
+ * 字符串为null时输出空字符串
+ *
+ * @author tangli
+ * @since 2023/5/25 10:40
+ */
 internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
     override fun serialize(
         value: Any?,
@@ -49,6 +67,18 @@ internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
     }
 }
 
+/**
+ * 当json 输出对象字段为null时改变行为.
+ *
+ * 比如字符串为null时输出空字符串.
+ *
+ * 对象或 map 类型 为null 时, 输出 "{}".
+ *
+ * 数组或列表类型为 null 时输出 "[]".
+ *
+ * @author tangli
+ * @since 2023/5/25 10:40
+ */
 public class NullValueBeanSerializerModifier : BeanSerializerModifier() {
 
     private val nullArrayJsonSerializer = NullArrayJsonSerializer()

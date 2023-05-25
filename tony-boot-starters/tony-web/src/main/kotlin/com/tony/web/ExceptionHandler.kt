@@ -21,6 +21,12 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import javax.validation.ConstraintViolationException
 
+/**
+ * 全局异常处理
+ *
+ * @author tangli
+ * @since 2023/5/25 10:53
+ */
 @RestControllerAdvice
 @RestController
 internal class ExceptionHandler : ErrorController {

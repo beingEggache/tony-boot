@@ -39,6 +39,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import javax.annotation.Resource
 import javax.servlet.http.HttpServletResponse
 
+/**
+ * WebConfig
+ *
+ * @author tangli
+ * @since 2023/5/25 10:35
+ */
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableConfigurationProperties(value = [WebProperties::class, WebCorsProperties::class])
@@ -134,6 +140,12 @@ internal class WebConfig(
     }
 }
 
+/**
+ * WebProperties
+ *
+ * @author tangli
+ * @since 2023/5/25 10:35
+ */
 @ConstructorBinding
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web")
@@ -163,6 +175,12 @@ internal data class WebProperties(
     val jsonNullValueOptimizedEnabled: Boolean = true,
 )
 
+/**
+ * WebCorsProperties
+ *
+ * @author tangli
+ * @since 2023/5/25 10:35
+ */
 @ConstructorBinding
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.cors")
@@ -179,6 +197,12 @@ public data class WebCorsProperties(
     val allowCredentials: Boolean = true,
 )
 
+/**
+ * ApiCorsProcessor
+ *
+ * @author tangli
+ * @since 2023/5/25 10:35
+ */
 internal class ApiCorsProcessor : DefaultCorsProcessor() {
 
     private companion object {

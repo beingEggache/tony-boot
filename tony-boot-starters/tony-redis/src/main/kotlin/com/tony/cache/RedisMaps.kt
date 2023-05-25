@@ -12,14 +12,35 @@ import java.io.Serializable
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
+/**
+ * redis hash操作单例.
+ *
+ * @author tangli
+ * @since 2023/5/25 9:57
+ */
 public object RedisMaps {
 
     private val logger = getLogger()
 
+
+    /**
+     * 同 redisTemplate.boundHashOps(key).hasKey(hashKey)
+     *
+     * @param key
+     * @param hashKey
+     * @return
+     */
     @JvmStatic
     public fun hasKey(key: String, hashKey: String): Boolean =
         true == RedisManager.redisTemplate.boundHashOps<String, Any>(key).hasKey(hashKey)
 
+    /**
+     * 先进行 判断  redisTemplate.opsForHash().hasKey(key, hashKey).
+     * 同 redisTemplate.opsForHash().delete(key, hashKey).
+     *
+     * @param key
+     * @param hashKey
+     */
     @JvmStatic
     public fun delete(key: String, vararg hashKey: String): Unit =
         RedisManager.redisTemplate.opsForHash<String, Any>()
@@ -28,6 +49,18 @@ public object RedisMaps {
                 RedisManager.redisTemplate.opsForHash<String, Any>().delete(key, hashKey)
             }
 
+    /**
+     * 同 redisTemplate.boundHashOps(key).put(hashKey, value).
+     *
+     * 同时可设置过期时间.
+     *
+     * @param T
+     * @param key
+     * @param hashKey
+     * @param value
+     * @param timeout
+     * @param timeUnit 默认为秒 [TimeUnit.SECONDS]
+     */
     @JvmStatic
     @JvmOverloads
     public fun <T : Any> putObj(
@@ -38,6 +71,17 @@ public object RedisMaps {
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
 
+    /**
+     * 同 redisTemplate.boundHashOps(key).put(hashKey, value).
+     *
+     * 同时可设置过期时间.
+     *
+     * @param T
+     * @param key
+     * @param hashKey
+     * @param value
+     * @param date 过期时间
+     */
     @JvmStatic
     public fun <T : Any> putObj(
         key: String,
@@ -46,6 +90,18 @@ public object RedisMaps {
         date: Date,
     ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
+    /**
+     * 同 redisTemplate.boundHashOps(key).put(hashKey, value).
+     *
+     * 同时可设置过期时间.
+     *
+     * @param T
+     * @param key
+     * @param hashKey
+     * @param value
+     * @param timeout
+     * @param timeUnit 默认为秒 [TimeUnit.SECONDS]
+     */
     @JvmStatic
     @JvmOverloads
     public fun <T : Any> put(
@@ -56,6 +112,17 @@ public object RedisMaps {
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, timeout, timeUnit)
 
+    /**
+     * 同 redisTemplate.boundHashOps(key).put(hashKey, value).
+     *
+     * 同时可设置过期时间.
+     *
+     * @param T
+     * @param key
+     * @param hashKey
+     * @param value
+     * @param date 过期时间
+     */
     @JvmStatic
     public fun <T : Any> put(
         key: String,
@@ -64,6 +131,16 @@ public object RedisMaps {
         date: Date,
     ): Unit = RedisManager.redisTemplate.put(key, hashKey, value, date)
 
+    /**
+     * 同 redisTemplate.boundHashOps(key).putAll(map).
+     *
+     * 同时可设置过期时间.
+     *
+     * @param key
+     * @param map
+     * @param timeout
+     * @param timeUnit 默认为秒 [TimeUnit.SECONDS]
+     */
     @JvmStatic
     @JvmOverloads
     public fun putAll(
@@ -86,6 +163,15 @@ public object RedisMaps {
         }
     }
 
+    /**
+     * 同 redisTemplate.boundHashOps(key).putAll(map).
+     *
+     * 同时可设置过期时间.
+     *
+     * @param key
+     * @param map
+     * @param date 过期时间
+     */
     @JvmStatic
     public fun putAll(
         key: String,
@@ -102,6 +188,13 @@ public object RedisMaps {
         }
     }
 
+    /**
+     * 同 redisTemplate.boundHashOp(key).get(hashKey)
+     *
+     * @param key
+     * @param hashKey
+     * @return
+     */
     @JvmStatic
     public fun getString(key: String, hashKey: String): String? {
         val string = RedisManager.redisTemplate.boundHashOps<String, String>(key).get(hashKey)
@@ -109,27 +202,80 @@ public object RedisMaps {
         return string.trimQuotes()
     }
 
+    /**
+     * 同 redisTemplate.boundHashOp(key).get(hashKey)
+     *
+     * @param key
+     * @param hashKey
+     * @return
+     */
     @JvmStatic
     public fun getNumber(key: String, hashKey: String): Number? =
         RedisManager.redisTemplate.boundHashOps<String, Number>(key).get(hashKey)
 
+    /**
+     * 同 redisTemplate.boundHashOp(key).get(hashKey)
+     *
+     * @param key
+     * @param hashKey
+     * @return
+     */
     @JvmStatic
     public fun getInt(key: String, hashKey: String): Int? = getNumber(key, hashKey)?.toInt()
 
+    /**
+     * 同 redisTemplate.boundHashOp(key).get(hashKey)
+     *
+     * @param key
+     * @param hashKey
+     * @return
+     */
     @JvmStatic
     public fun getLong(key: String, hashKey: String): Long? = getNumber(key, hashKey)?.toLong()
 
+    /**
+     * 同 redisTemplate.boundHashOp(key).get(hashKey)
+     *
+     * @param key
+     * @param hashKey
+     * @return
+     */
     @JvmStatic
     public fun getDouble(key: String, hashKey: String): Double? = getNumber(key, hashKey)?.toDouble()
 
+    /**
+     * 同 redisTemplate.boundHashOp(key).get(hashKey)
+     *
+     * @param T
+     * @param key
+     * @param hashKey
+     * @return
+     */
     @JvmStatic
     public inline fun <reified T> getObj(key: String, hashKey: String): T? =
         RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey)?.toJsonString()?.jsonToObj()
 
+    /**
+     * 同 redisTemplate.boundHashOp(key).get(hashKey)
+     *
+     * @param T
+     * @param key
+     * @param hashKey
+     * @return
+     */
     @JvmStatic
     public fun <T : Any> get(key: String, hashKey: String): T? =
         RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey)
 
+    /**
+     * 同 redisTemplate.boundHashOp(key).get(hashKey)
+     *
+     * @param E  枚举类
+     * @param KEY 枚举值类型
+     * @param key
+     * @param hashKey
+     * @return
+     */
     public inline fun <reified E, KEY> getEnum(key: String, hashKey: String): E?
         where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
         val value = RedisManager.redisTemplate.boundHashOps<String, KEY>(key).get(hashKey)
@@ -137,6 +283,12 @@ public object RedisMaps {
         return EnumCreator.getCreator(E::class.java).create(value)
     }
 
+    /**
+     * 同 redisTemplate.opsForHash().entries(key).
+     *
+     * @param key
+     * @return
+     */
     @JvmStatic
     public fun getMap(key: String): Map<String, Any> =
         RedisManager.redisTemplate.opsForHash<String, Any>().entries(key)

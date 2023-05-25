@@ -13,6 +13,11 @@ import org.springframework.scripting.support.ResourceScriptSource
 import java.util.Collections
 import java.util.concurrent.TimeUnit
 
+/**
+ * Redis 操作聚合类单例.
+ *
+ * @constructor Create empty Redis manager
+ */
 public object RedisManager {
 
     private val logger = LoggerFactory.getLogger(RedisManager::class.java)
@@ -41,6 +46,12 @@ public object RedisManager {
         resultType = Long::class.java
     }
 
+    /**
+     * redis 事务操作.
+     * ## 注意, 事务回调 [callback] 中读取操作是取不到值的.
+     *
+     * @param callback
+     */
     @JvmSynthetic
     @JvmStatic
     public fun doInTransaction(callback: () -> Unit) {
@@ -51,6 +62,12 @@ public object RedisManager {
         redisTemplate.exec()
     }
 
+    /**
+     * redis 事务操作.
+     * ## 注意, 事务回调 [callback] 中读取操作是取不到值的.
+     *
+     * @param callback
+     */
     @JvmStatic
     public fun doInTransaction(callback: Runnable) {
         RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
@@ -60,17 +77,41 @@ public object RedisManager {
         redisTemplate.exec()
     }
 
+    /**
+     * redis 分布式锁简单实现.
+     *
+     * @param key
+     * @param timeout
+     * @return
+     */
     @JvmStatic
     public fun lockKey(key: String, timeout: Long): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
         return redisTemplate.execute(script, Collections.singletonList(key), 1L, timeout) == 1L
     }
 
+    /**
+     * 执行 redis lua 脚本
+     *
+     * @param T
+     * @param script
+     * @param keys
+     * @param args
+     * @return
+     */
     @JvmStatic
     public fun <T> executeScript(script: RedisScript<T>, keys: List<String>, args: List<Any?>): T? {
         return redisTemplate.execute(script, keys, *args.toTypedArray())
     }
 
+    /**
+     * redis 分布式锁简单实现.
+     *
+     * @param key
+     * @param timeout    锁过期时间
+     * @param waitTimeout 等待 / 自旋时间
+     * @return
+     */
     @JvmStatic
     public fun lockKey(key: String, timeout: Long, waitTimeout: Long): Boolean {
         val start = System.currentTimeMillis()
@@ -87,6 +128,14 @@ public object RedisManager {
         return false
     }
 
+    /**
+     * 同 redisTemplate.expire(key, timeout, timeUnit)
+     *
+     * @param key
+     * @param timeout
+     * @param timeUnit 默认为秒 [TimeUnit.SECONDS]
+     * @return
+     */
     @JvmStatic
     @JvmOverloads
     public fun expire(
@@ -95,6 +144,13 @@ public object RedisManager {
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Boolean = redisTemplate.expire(key, timeout, timeUnit)
 
+    /**
+     * 同 redisTemplate.getExpire(key, timeUnit)
+     *
+     * @param key
+     * @param timeUnit 默认为秒 [TimeUnit.SECONDS]
+     * @return
+     */
     @JvmStatic
     @JvmOverloads
     public fun getExpire(
@@ -102,28 +158,64 @@ public object RedisManager {
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Long = redisTemplate.getExpire(key, timeUnit)
 
+    /**
+     * 根据匹配键 批量删除
+     *
+     * @param keys 可ant匹配
+     * @return
+     */
     @JvmStatic
     public fun deleteWithKeyPatterns(vararg keys: String): Long? =
         redisTemplate.delete(keys(*keys))
 
+    /**
+     * 根据匹配键 批量删除
+     *
+     * @param keys 可ant匹配
+     * @return
+     */
     @JvmStatic
     public fun deleteWithKeyPatterns(keys: Collection<String>): Long? =
         redisTemplate.delete(keys(keys))
 
+    /**
+     * 批量删除
+     *
+     * @param keys
+     * @return
+     */
     @JvmStatic
     public fun delete(vararg keys: String): Long? =
         redisTemplate.delete(keys.asList())
 
+    /**
+     * 批量删除
+     *
+     * @param keys
+     * @return
+     */
     @JvmStatic
     public fun delete(keys: Collection<String>): Long? =
         redisTemplate.delete(keys)
 
+    /**
+     * 获取键
+     *
+     * @param keys
+     * @return
+     */
     @Suppress("MemberVisibilityCanBePrivate")
     public fun keys(vararg keys: String): Collection<String> = keys.fold(HashSet()) { set, key ->
         set.addAll(redisTemplate.keys(key))
         set
     }
 
+    /**
+     * 获取键
+     *
+     * @param keys
+     * @return
+     */
     @Suppress("MemberVisibilityCanBePrivate")
     public fun keys(keys: Collection<String>): Collection<String> = keys.fold(HashSet()) { set, key ->
         set.addAll(redisTemplate.keys(key))

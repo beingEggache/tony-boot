@@ -20,12 +20,24 @@ import java.net.URL
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+/**
+ * 全局 Web 上下文单例
+ *
+ * @author tangli
+ * @since 2023/5/25 10:58
+ */
 public object WebContext {
 
+    /**
+     * 是否web 环境, 单元测试时有用.
+     */
     @JvmStatic
     public val isWeb: Boolean
         get() = RequestContextHolder.getRequestAttributes() != null
 
+    /**
+     * ServletRequestAttributes
+     */
     @JvmStatic
     public val current: ServletRequestAttributes
         get() = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes

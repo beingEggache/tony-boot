@@ -13,6 +13,12 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializer
 
+/**
+ * RedisCacheConfig
+ *
+ * @author tangli
+ * @since 2023/5/25 10:31
+ */
 @Configuration
 @EnableConfigurationProperties(RedisCacheProperties::class)
 internal class RedisCacheConfig {
@@ -41,6 +47,12 @@ internal class RedisCacheConfig {
         }
 }
 
+/**
+ * RedisCacheProperties
+ *
+ * @author tangli
+ * @since 2023/5/25 10:31
+ */
 @ConstructorBinding
 @ConfigurationProperties(prefix = "cache")
 private data class RedisCacheProperties(

@@ -26,8 +26,21 @@ import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
 import javax.servlet.http.HttpServletResponse
 
+/**
+ * 请求日志记录接口.
+ *
+ * @author tangli
+ * @since 2023/5/25 10:29
+ */
 public fun interface RequestTraceLogger {
 
+    /**
+     * 记录请求日志
+     *
+     * @param request
+     * @param response
+     * @param elapsedTime 执行时间
+     */
     public fun requestTraceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
@@ -52,6 +65,12 @@ public fun interface RequestTraceLogger {
     }
 }
 
+/**
+ * 请求日志记录默认实现
+ *
+ * @author tangli
+ * @since 2023/5/25 10:30
+ */
 internal class DefaultRequestTraceLogger : RequestTraceLogger {
 
     override fun requestTraceLog(

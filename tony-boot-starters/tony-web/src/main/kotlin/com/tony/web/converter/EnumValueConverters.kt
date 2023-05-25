@@ -9,8 +9,20 @@ import org.springframework.core.convert.converter.ConverterFactory
 import java.io.Serializable
 import java.util.WeakHashMap
 
+/**
+ *
+ *
+ * @author tangli
+ * @since 2023/5/25 10:58
+ */
 private val converters = WeakHashMap<Class<*>, Converter<String, *>>()
 
+/**
+ * EnumIntValueConverterFactory
+ *
+ * @author tangli
+ * @since 2023/5/25 10:58
+ */
 @Suppress("UNCHECKED_CAST")
 internal class EnumIntValueConverterFactory :
     ConverterFactory<String, EnumIntValue> {
@@ -18,6 +30,12 @@ internal class EnumIntValueConverterFactory :
         converters.getOrPut(targetType) { EnumIntValueConverter(targetType) } as Converter<String, E>
 }
 
+/**
+ * EnumStringValueConverterFactory
+ *
+ * @author tangli
+ * @since 2023/5/25 10:59
+ */
 @Suppress("UNCHECKED_CAST")
 internal class EnumStringValueConverterFactory :
     ConverterFactory<String, EnumStringValue> {
@@ -25,6 +43,12 @@ internal class EnumStringValueConverterFactory :
         converters.getOrPut(targetType) { EnumStringValueConverter(targetType) } as Converter<String, E>
 }
 
+/**
+ * EnumValueConverter
+ *
+ * @author tangli
+ * @since 2023/5/25 10:59
+ */
 internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
     Converter<String, EnumValue<K>>
     where E : EnumValue<K>,
@@ -37,6 +61,12 @@ internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
     override fun convert(source: String) = creator.create(convertSource(source))
 }
 
+/**
+ * EnumIntValueConverter
+ *
+ * @author tangli
+ * @since 2023/5/25 10:59
+ */
 internal class EnumIntValueConverter(enumType: Class<out EnumIntValue>) :
     EnumValueConverter<EnumIntValue, Int>(enumType),
     Converter<String, EnumValue<Int>> {
@@ -53,6 +83,12 @@ internal class EnumIntValueConverter(enumType: Class<out EnumIntValue>) :
     }
 }
 
+/**
+ * EnumStringValueConverter
+ *
+ * @author tangli
+ * @since 2023/5/25 10:59
+ */
 internal class EnumStringValueConverter(enumType: Class<out EnumStringValue>) :
     EnumValueConverter<EnumStringValue, String>(enumType),
     Converter<String, EnumValue<String>> {

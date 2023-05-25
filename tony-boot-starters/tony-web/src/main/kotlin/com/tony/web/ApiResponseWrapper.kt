@@ -20,6 +20,12 @@ import java.time.temporal.TemporalAccessor
 import java.util.Collections
 import java.util.Date
 
+/**
+ * 响应包装, 将直接返回的类型包装为全局结构 [ApiResult].
+ *
+ * @author tangli
+ * @since 2023/5/25 10:51
+ */
 @ConditionalOnExpression("\${web.response-wrap-enabled:true}")
 @RestControllerAdvice
 internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {

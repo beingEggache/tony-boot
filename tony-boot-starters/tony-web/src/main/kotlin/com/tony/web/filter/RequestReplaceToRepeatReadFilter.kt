@@ -25,6 +25,12 @@ import javax.servlet.http.HttpServletRequestWrapper
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.Part
 
+/**
+ * RequestReplaceToRepeatReadFilter
+ *
+ * @author tangli
+ * @since 2023/5/25 10:35
+ */
 internal class RequestReplaceToRepeatReadFilter(
     private val webProperties: WebProperties,
 ) : OncePerRequestFilter(), PriorityOrdered {
@@ -49,6 +55,12 @@ internal class RequestReplaceToRepeatReadFilter(
     }
 }
 
+/**
+ * 可重复读取请求.
+ *
+ * @author tangli
+ * @since 2023/5/25 10:35
+ */
 public class RepeatReadRequestWrapper
 @Throws(IOException::class)
 internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(request) {

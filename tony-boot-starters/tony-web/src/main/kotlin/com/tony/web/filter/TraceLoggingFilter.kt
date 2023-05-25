@@ -21,6 +21,12 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+/**
+ * TraceLoggingFilter
+ *
+ * @author tangli
+ * @since 2023/5/25 10:36
+ */
 internal class TraceLoggingFilter(
     private val requestTraceLogger: RequestTraceLogger,
     private val webProperties: WebProperties,
@@ -81,6 +87,12 @@ internal class TraceLoggingFilter(
     override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 1
 }
 
+/**
+ * TraceIdFilter
+ *
+ * @author tangli
+ * @since 2023/5/25 10:37
+ */
 internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
 
     override fun doFilterInternal(

@@ -34,6 +34,13 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
 import java.math.BigDecimal
 import java.math.BigInteger
 
+/**
+ * 默认RedisCache实现.
+ * 给常规的 @Cacheable 加了过期时间
+ *
+ * @author tangli
+ * @since 2023/5/24 18:09
+ */
 @Aspect
 public class DefaultRedisCacheAspect {
 
@@ -146,7 +153,7 @@ public class DefaultRedisCacheAspect {
                 .getValue(StandardEvaluationContext(paramMap[paramName]))
         } catch (e: EvaluationException) {
             logger.error(e.message, e)
-            throw ApiException(e.message, throwable = e)
+            throw ApiException(e.message, cause = e)
         }
     }
 
