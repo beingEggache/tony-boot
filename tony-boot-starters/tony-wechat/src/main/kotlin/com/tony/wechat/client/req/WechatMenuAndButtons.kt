@@ -1,3 +1,4 @@
+package com.tony.wechat.client.req
 /**
  * tony-boot-starters
  * WechatMenuAndButtons
@@ -5,8 +6,6 @@
  * @author tangli
  * @since 2021/9/26 12:49
  */
-package com.tony.wechat.client.req
-
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.tony.enums.EnumCreator

@@ -50,6 +50,12 @@ internal class WechatConfig {
     internal fun wechatApiPropProvider(wechatProperties: WechatProperties) = DefaultWechatPropProvider(wechatProperties)
 }
 
+/**
+ * 微信配置
+ *
+ * @author tangli
+ * @since 2023/5/25 15:22
+ */
 @ConstructorBinding
 @ConfigurationProperties(prefix = "wechat")
 public data class WechatProperties(
@@ -63,6 +69,12 @@ public data class WechatProperties(
     public fun getAppByAppId(appId: String): String? = app?.entries?.firstOrNull { it.value.appId == appId }?.key
 }
 
+/**
+ * 微信配置
+ *
+ * @author tangli
+ * @since 2023/5/25 15:22
+ */
 public data class WechatAppProperties(
     val token: String?,
     val appId: String?,

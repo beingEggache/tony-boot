@@ -1,8 +1,7 @@
 package com.tony.wechat.client.req
 
 /**
- * ktwl-boot-dependencies
- * WechatMiniProgramReq
+ * WechatMiniProgramQrCodeCreateReq
  *
  * @author wyf
  * @since 2022/8/31 16:26

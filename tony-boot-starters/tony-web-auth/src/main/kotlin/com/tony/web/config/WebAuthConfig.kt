@@ -19,6 +19,12 @@ import org.springframework.core.PriorityOrdered
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
+/**
+ * WebAuthConfig
+ *
+ * @author tangli
+ * @since 2023/5/25 15:13
+ */
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableConfigurationProperties(JwtProperties::class, WebAuthProperties::class)
@@ -51,9 +57,18 @@ internal class WebAuthConfig(
     }
 }
 
+/**
+ * WebAuthConfig
+ *
+ * @author tangli
+ * @since 2023/5/25 15:13
+ */
 @ConstructorBinding
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.auth")
 public data class WebAuthProperties(
+    /**
+     * 不需要登录校验的地址.
+     */
     val noLoginCheckUrl: Set<String> = setOf(),
 )

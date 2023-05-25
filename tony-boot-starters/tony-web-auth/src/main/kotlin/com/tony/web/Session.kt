@@ -1,10 +1,9 @@
+package com.tony.web
 /**
  *
  * @author tangli
  * @since 2021-04-20 11:12
  */
-package com.tony.web
-
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.tony.jwt.JwtToken
@@ -14,6 +13,12 @@ import com.tony.web.WebContext.getOrPut
 import com.tony.web.exception.UnauthorizedException
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
 
+/**
+ * noop session. 获取用户标识永远抛出异常.
+ *
+ * @author tangli
+ * @since 2023/5/25 15:15
+ */
 internal class NoopApiSession : ApiSession {
     override val userId: String
         get() = TODO("Not yet implemented")
@@ -21,6 +26,12 @@ internal class NoopApiSession : ApiSession {
     override val unauthorizedException: UnauthorizedException? = null
 }
 
+/**
+ * jwt 实现的session.
+ *
+ * @author tangli
+ * @since 2023/5/25 15:17
+ */
 internal class JwtApiSession : ApiSession {
 
     private val logger = getLogger()

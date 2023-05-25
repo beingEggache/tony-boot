@@ -162,7 +162,11 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     }
 
     /**
-     * 分页
+     * 分页查询出全局统一结构.
+     * @param E
+     * @param page
+     * @param queryWrapper
+     * @return
      */
     public fun <E : PageResultLike<T>> selectPageResult(
         page: Pageable,

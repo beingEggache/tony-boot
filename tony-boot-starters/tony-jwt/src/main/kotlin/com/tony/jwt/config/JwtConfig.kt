@@ -7,11 +7,21 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Configuration
 
+/**
+ * JwtConfig
+ * @author tangli
+ * @since 2023/5/25 15:55
+ */
 @Configuration
 @ConditionalOnWebApplication
 @EnableConfigurationProperties(JwtProperties::class)
 internal class JwtConfig
 
+/**
+ * JwtProperties
+ * @author tangli
+ * @since 2023/5/25 15:56
+ */
 @ConstructorBinding
 @ConfigurationProperties(prefix = "jwt")
 public data class JwtProperties(

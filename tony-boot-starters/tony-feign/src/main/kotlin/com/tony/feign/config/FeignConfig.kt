@@ -29,6 +29,12 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import java.util.concurrent.TimeUnit
 
+/**
+ * FeignConfig
+ *
+ * @author tangli
+ * @since 2023/5/25 15:43
+ */
 @EnableConfigurationProperties(FeignConfigProperties::class)
 @Configuration
 @PropertySource("classpath:feign.config.yml", factory = YamlPropertySourceFactory::class)

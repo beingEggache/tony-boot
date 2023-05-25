@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Predicate
 
 /**
+ * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
  * Lambda 语法使用 Wrapper
  *
  * @author tangli

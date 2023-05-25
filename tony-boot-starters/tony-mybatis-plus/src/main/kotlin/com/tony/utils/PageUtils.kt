@@ -18,6 +18,8 @@ import java.util.Collections
 
 /**
  * Pageable对象转成mybatis的page对象
+ * @receiver [Pageable]
+ * @return mybatis 分页对象, 一般用来查询.
  */
 public fun <T> Pageable.toPage(): Page<T> =
     Page<T>().also { page ->
@@ -48,6 +50,14 @@ public fun <T> Pageable.toPage(): Page<T> =
         }
     }
 
+/**
+ * 将 mybatis-plus 的分页对象改为全局统一分页结构
+ *
+ * @receiver [IPage]
+ * @param T
+ * @param E
+ * @return
+ */
 @Suppress("UNCHECKED_CAST")
 public fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
     if (this == null) {
@@ -56,6 +66,11 @@ public fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
         PageResult(records, current, size, pages, total, current < pages) as E
     }
 
+/**
+ * 空分页结构.
+ * @param T
+ * @return
+ */
 @Suppress("UNCHECKED_CAST")
 public fun <T> emptyPageResult(): PageResult<T> = EMPTY_PAGE_RESULT as PageResult<T>
 

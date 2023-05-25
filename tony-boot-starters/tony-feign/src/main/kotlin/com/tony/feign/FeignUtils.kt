@@ -11,18 +11,30 @@ import okhttp3.ResponseBody
 import okio.Buffer
 import org.springframework.http.MediaType
 
+/**
+ * request body string
+ * @receiver [RequestBody]
+ * @return
+ */
 public fun RequestBody.string(): String = run {
     val buffer = Buffer()
     writeTo(buffer)
     String(buffer.readByteArray())
 }
 
+/**
+ * request body 读取成 jackson的 [JsonNode]
+ * @return
+ */
 public fun RequestBody.jsonNode(): JsonNode = run {
     val buffer = Buffer()
     writeTo(buffer)
     OBJECT_MAPPER.readTree(buffer.readByteArray())
 }
 
+/**
+ * Parsed media
+ */
 internal val ResponseBody.parsedMedia: MediaType?
     get() {
         val contentTypeStr = contentType()?.toString()
@@ -33,6 +45,9 @@ internal val ResponseBody.parsedMedia: MediaType?
         }
     }
 
+/**
+ * Parsed media
+ */
 internal val RequestBody.parsedMedia: MediaType?
     get() {
         val contentTypeStr = contentType()?.toString()
@@ -43,6 +58,10 @@ internal val RequestBody.parsedMedia: MediaType?
         }
     }
 
+/**
+ * 是否字符串mime类型
+ * @param mediaType
+ */
 internal fun isTextMediaTypes(mediaType: MediaType?) =
     TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 
@@ -54,6 +73,11 @@ private val TEXT_MEDIA_TYPES = listOf(
     MediaType.APPLICATION_FORM_URLENCODED,
 )
 
+/**
+ * @see [JsonNode.sortRequestBody]
+ * @param timestampStr
+ * @return
+ */
 public fun String.sortRequestBody(
     timestampStr: String,
 ): String =
@@ -61,9 +85,20 @@ public fun String.sortRequestBody(
         .readTree(this)
         .sortRequestBody(timestampStr)
 
+/**
+ * 生成简单签名.
+ * @param appId
+ * @param secret
+ * @return
+ */
 public fun String.genSign(appId: String, secret: String): String =
     ("$appId|$secret|$this".md5Uppercase()).md5Uppercase()
 
+/**
+ * 请求字段排序. 并将字符串加进请求.
+ * @param timestampStr
+ * @return
+ */
 public fun JsonNode.sortRequestBody(
     timestampStr: String,
 ): String =

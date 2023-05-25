@@ -1,11 +1,10 @@
+package com.tony.web.interceptor
+
 /**
  *
  * @author tangli
  * @since 2020-11-04 13:33
  */
-
-package com.tony.web.interceptor
-
 import com.tony.web.WebContext
 import com.tony.web.WebContextExtensions.apiSession
 import org.springframework.web.method.HandlerMethod
@@ -13,11 +12,23 @@ import org.springframework.web.servlet.HandlerInterceptor
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+/**
+ * 不需要登录检验 注解.
+ *
+ * @author tangli
+ * @since 2023/5/25 15:14
+ */
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 public annotation class NoLoginCheck
 
+/**
+ * 登录校验拦截器.
+ *
+ * @author tangli
+ * @since 2023/5/25 15:14
+ */
 public interface LoginCheckInterceptor : HandlerInterceptor {
     override fun preHandle(
         request: HttpServletRequest,
@@ -31,4 +42,10 @@ public interface LoginCheckInterceptor : HandlerInterceptor {
     }
 }
 
+/**
+ * 登录校验拦截器. 默认实现.
+ *
+ * @author tangli
+ * @since 2023/5/25 15:15
+ */
 internal class DefaultLoginCheckInterceptor : LoginCheckInterceptor

@@ -12,6 +12,14 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
+/**
+ * 二进制 MultipartFile.
+ *
+ * 可用来 feign 上传二进制.
+ *
+ * @author tangli
+ * @since 2023/5/25 15:49
+ */
 public class ByteArrayMultipartFile(
     private val originalFilename: String,
     private val bytes: ByteArray,

@@ -27,6 +27,12 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 
+/**
+ * 微信 http client
+ *
+ * @author tangli
+ * @since 2023/5/25 15:21
+ */
 @FeignClient("wechatClient", url = "https://api.weixin.qq.com")
 public interface WechatClient {
 
@@ -70,6 +76,9 @@ public interface WechatClient {
 
     /**
      * ## 获取调用微信JS接口的临时票据
+     * @param accessToken
+     * @param type
+     * @return
      */
     @GetMapping("/cgi-bin/ticket/getticket")
     public fun getTicket(

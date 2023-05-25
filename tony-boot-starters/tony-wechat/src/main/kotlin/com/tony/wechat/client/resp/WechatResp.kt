@@ -1,3 +1,4 @@
+package com.tony.wechat.client.resp
 /**
  * tony-boot-starters
  * WechatResp
@@ -5,8 +6,6 @@
  * @author tangli
  * @since 2021/9/26 13:23
  */
-package com.tony.wechat.client.resp
-
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.tony.utils.toLocalDateTime

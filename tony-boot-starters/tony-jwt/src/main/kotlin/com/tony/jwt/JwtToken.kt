@@ -9,6 +9,11 @@ import com.tony.utils.toDate
 import java.time.LocalDateTime
 import java.util.Date
 
+/**
+ * jwt 单例类.
+ * @author tangli
+ * @since 2023/5/25 15:56
+ */
 public object JwtToken {
 
     @JvmStatic
@@ -23,6 +28,11 @@ public object JwtToken {
 
     private val jwtProperties: JwtProperties by SpringContexts.getBeanByLazy()
 
+    /**
+     * 生成 jwt.
+     * @param params claims 键值对.
+     * @return
+     */
     @JvmStatic
     public fun gen(
         vararg params: Pair<String, String?>,
@@ -36,6 +46,11 @@ public object JwtToken {
                 }
             }.sign(algorithm)
 
+    /**
+     * 解析jwt.
+     * @param jwt
+     * @return
+     */
     @JvmStatic
     public fun parse(jwt: String): DecodedJWT = JWT.require(algorithm).build().verify(jwt)
 

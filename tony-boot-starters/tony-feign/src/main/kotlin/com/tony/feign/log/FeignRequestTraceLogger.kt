@@ -19,6 +19,12 @@ import java.net.URL
 import java.time.LocalDateTime
 import javax.annotation.Priority
 
+/**
+ * feign okhttp 请求日志拦截器
+ *
+ * @author tangli
+ * @since 2023/5/25 15:48
+ */
 @Priority(Int.MAX_VALUE)
 internal class FeignLogInterceptor(
     private val feignRequestTraceLogger: FeignRequestTraceLogger,
@@ -35,6 +41,12 @@ internal class FeignLogInterceptor(
     }
 }
 
+/**
+ * 默认ok http 请求日志记录器
+ *
+ * @author tangli
+ * @since 2023/5/25 15:48
+ */
 public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -98,6 +110,12 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         }
 }
 
+/**
+ * feign okhttp 请求日志记录接口.
+ *
+ * @author tangli
+ * @since 2023/5/25 15:49
+ */
 public interface FeignRequestTraceLogger {
     public fun log(
         connection: Connection?,

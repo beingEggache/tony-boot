@@ -21,6 +21,12 @@ import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
 import java.util.function.Predicate
 
+/**
+ * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
+ *
+ * @author tangli
+ * @since 2023/5/25 15:33
+ */
 public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: BaseDao<T>) :
     AbstractChainWrapper<T, SFunction<T, *>, TonyLambdaQueryChainWrapper<T>, TonyLambdaQueryWrapper<T>>(),
     ChainQuery<T>,
@@ -45,12 +51,23 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
         wrapperChildren.select(*columns)
     }
 
+    /**
+     * 查出不可空的单个实体, 为空时抛错.
+     * @param message 默认为 [ApiProperty.notFoundMessage]
+     * @param code 默认为 [ApiProperty.notFoundCode]
+     * @return
+     */
     @JvmOverloads
     public fun oneNotNull(
         message: String = ApiProperty.notFoundMessage,
         code: Int = ApiProperty.notFoundCode,
     ): T = baseMapper.selectOne(wrapper).throwIfNull(message, code)
 
+    /**
+     * 查询某个条件是否存在, 存在就抛错
+     * @param message
+     * @param code 默认为 [ApiProperty.preconditionFailedCode]
+     */
     @JvmOverloads
     public fun throwIfExists(
         message: String,
@@ -59,6 +76,12 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
         throwIf(exists(), message, code)
     }
 
+    /**
+     * 查询某个条件是否存在, 不存在就抛错
+     *
+     * @param message
+     * @param code 默认为 [ApiProperty.notFoundCode]
+     */
     @JvmOverloads
     public fun throwIfNotExists(
         message: String,
@@ -67,6 +90,13 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
         throwIf(!exists(), message, code)
     }
 
+    /**
+     * 分页查询出全局统一结构.
+     *
+     * @param E
+     * @param page 全局统一请求分页结构.
+     * @return
+     */
     public fun <E : PageResultLike<T>> pageResult(page: Pageable): E = baseMapper.selectPageResult(page, wrapper)
 
     override fun select(
