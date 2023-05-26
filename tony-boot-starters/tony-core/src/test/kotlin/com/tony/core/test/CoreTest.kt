@@ -15,9 +15,9 @@ import org.springframework.core.env.StandardEnvironment
 class CoreTest {
 
     @Test
-    fun test(){
+    fun test() {
         val env = SpringContexts.environment as StandardEnvironment
-        env.propertySources.forEach { it.source.javaClass.println()}
+        env.propertySources.forEach { it.source.javaClass.println() }
         println("--------")
         env.systemProperties.forEach(::println)
     }

@@ -1,6 +1,7 @@
 @file:JvmName("StringUtils")
 
 package com.tony.utils
+
 /**
  * 字符串工具类
  *
@@ -12,7 +13,6 @@ import org.springframework.util.AntPathMatcher
 import java.math.BigInteger
 import java.net.URLDecoder
 import java.net.URLEncoder
-import java.util.Base64
 import java.util.Locale
 import java.util.UUID
 import java.util.regex.Pattern
@@ -83,13 +83,85 @@ public fun String.md5Uppercase(): String =
 /**
  * 字符串base64表示
  */
-public fun String.toBase64String(): String = Base64.getEncoder().encode(toByteArray()).toString(Charsets.UTF_8)
+public fun String.toBase64String(): String = toByteArray().encodeToBase64().toString(Charsets.UTF_8)
+
+/**
+ * 字符串base64表示
+ */
+public fun String.toBase64StringUrlSafe(): String = toByteArray().encodeToBase64UrlSafe().toString(Charsets.UTF_8)
+
+/**
+ * base64表示
+ */
+public fun String.toBase64ByteArray(): ByteArray = toByteArray().encodeToBase64()
+
+/**
+ * base64表示
+ */
+public fun String.toBase64ByteArrayUrlSafe(): ByteArray = toByteArray().encodeToBase64UrlSafe()
 
 /**
  * base64表示转为实际字符串
  */
-public fun String.base64ToString(): String = Base64.getDecoder().decode(toByteArray()).toString(Charsets.UTF_8)
+public fun String.base64ToString(): String = toByteArray().decodeBase64().toString(Charsets.UTF_8)
 
+/**
+ * base64表示转为实际字符串
+ */
+public fun String.base64ToStringUrlSafe(): String = toByteArray().decodeBase64UrlSafe().toString(Charsets.UTF_8)
+
+/**
+ * base64表示转为原二进制
+ */
+public fun String.base64ToByteArray(): ByteArray = toByteArray().decodeBase64()
+
+/**
+ * base64表示转为原二进制
+ */
+public fun String.base64ToByteArrayUrlSafe(): ByteArray = toByteArray().decodeBase64UrlSafe()
+
+/**
+ * encode Hex
+ *
+ * @receiver data        Data to Hex
+ * @param lowerCase 是否小写,默认 true
+ * @return bytes
+ */
+@JvmOverloads
+public fun String.toHexByteArray(lowerCase: Boolean = true): ByteArray = toByteArray().encodeToHex(lowerCase)
+
+/**
+ * encode Hex
+ *
+ * @receiver data        Data to Hex
+ * @param lowerCase 是否小写,默认 true
+ * @return bytes as a hex string
+ */
+@JvmOverloads
+public fun String.toHexString(lowerCase: Boolean = true): String = toHexByteArray(lowerCase).toString()
+
+/**
+ * decode Hex
+ *
+ * @receiver data Hex data
+ * @return decode hex to bytes
+ */
+public fun String.hexToByteArray(): ByteArray = toByteArray().decodeHex()
+
+/**
+ * decode Hex
+ *
+ * @receiver data Hex data
+ * @return bytes as a hex string
+ */
+public fun String.hexToString(): String = toByteArray().decodeHex().toString()
+
+/**
+ * 当字符串为Null 或者空字符串时 提供默认值.
+ *
+ * @param default
+ * @return
+ */
 @JvmOverloads
 public fun String?.defaultIfBlank(default: String = ""): String = if (this.isNullOrBlank()) default else this
 

@@ -1,10 +1,8 @@
 package com.tony.core.test
 
-
 fun main() {
-
-
 }
+
 
 fun quickSort(list: List<Int>): List<Int> =
     if (list.size < 2) list

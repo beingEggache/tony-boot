@@ -22,7 +22,6 @@ public object RedisMaps {
 
     private val logger = getLogger()
 
-
     /**
      * 同 redisTemplate.boundHashOps(key).hasKey(hashKey)
      *

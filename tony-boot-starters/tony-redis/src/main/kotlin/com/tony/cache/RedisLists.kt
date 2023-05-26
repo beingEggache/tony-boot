@@ -37,7 +37,6 @@ public object RedisLists {
         return rightPush
     }
 
-
     /**
      * Right push string
      *

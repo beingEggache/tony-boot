@@ -9,6 +9,7 @@ package com.tony.utils
  */
 import com.tony.ApiProperty
 import com.tony.SpringContexts.Env
+import com.tony.exception.BaseException
 import com.tony.exception.BizException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -59,8 +60,13 @@ public inline fun <T> T.doIf(condition: Boolean, crossinline block: T.() -> Unit
  * @param code 异常代码
  */
 @JvmOverloads
-public fun throwIf(condition: Boolean, message: String, code: Int = ApiProperty.preconditionFailedCode) {
-    if (condition) throw BizException(message, code)
+public fun throwIf(
+    condition: Boolean,
+    message: String,
+    code: Int = ApiProperty.preconditionFailedCode,
+    ex: (message: String, code: Int) -> BaseException = ::BizException,
+) {
+    if (condition) throw ex(message, code)
 }
 
 /**
