@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: test-api
+web:
+  crypto:
+    enabled: true
+    secret: "xvwe23dvxs"

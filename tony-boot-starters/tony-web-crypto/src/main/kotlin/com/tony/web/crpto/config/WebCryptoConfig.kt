@@ -1,5 +1,6 @@
 package com.tony.web.crpto.config
 
+import com.tony.crypto.symmetric.enums.CryptoDigestMode
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.getLogger
 import com.tony.web.crpto.DecryptRequestAdvice
@@ -20,7 +21,9 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableConfigurationProperties(value = [WebCryptoProperties::class])
-internal class WebCryptoConfig {
+internal class WebCryptoConfig(
+    private val webCryptoProperties: WebCryptoProperties,
+) {
 
     private val logger = getLogger(WebCryptoConfig::class.java.name)
 
@@ -28,7 +31,7 @@ internal class WebCryptoConfig {
     @Bean
     internal fun decryptRequestAdvice(): DecryptRequestAdvice {
         logger.info("Request body decrypt is enabled.")
-        return DecryptRequestAdvice()
+        return DecryptRequestAdvice(webCryptoProperties)
     }
 }
 
@@ -51,4 +54,16 @@ internal data class WebCryptoProperties(
      */
     @DefaultValue("des")
     val algorithm: SymmetricCryptoAlgorithm = SymmetricCryptoAlgorithm.DES,
+
+    /**
+     * 秘钥
+     */
+    @DefaultValue("")
+    val secret: String = "",
+
+    /**
+     * 摘要类型
+     */
+    @DefaultValue("base64")
+    val digestMode: CryptoDigestMode = CryptoDigestMode.BASE64,
 )
