@@ -5,7 +5,7 @@ import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.utils.createObjectMapper
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
-import com.tony.web.ApiResponseWrapper
+import com.tony.web.ApiResponseWrapperAdvice
 import com.tony.web.ExceptionHandler
 import com.tony.web.converter.EnumIntValueConverterFactory
 import com.tony.web.converter.EnumStringValueConverterFactory
@@ -84,9 +84,9 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.response-wrap-enabled:true}")
     @Bean
-    internal fun apiResponseWrapper(): ApiResponseWrapper {
+    internal fun apiResponseWrapper(): ApiResponseWrapperAdvice {
         logger.info("Response wrap is enabled.")
-        return ApiResponseWrapper()
+        return ApiResponseWrapperAdvice()
     }
 
     @Bean

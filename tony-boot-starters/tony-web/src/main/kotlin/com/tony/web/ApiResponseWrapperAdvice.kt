@@ -28,7 +28,7 @@ import java.util.Date
  */
 @ConditionalOnExpression("\${web.response-wrap-enabled:true}")
 @RestControllerAdvice
-internal class ApiResponseWrapper : ResponseBodyAdvice<Any?> {
+internal class ApiResponseWrapperAdvice : ResponseBodyAdvice<Any?> {
 
     override fun beforeBodyWrite(
         body: Any?,

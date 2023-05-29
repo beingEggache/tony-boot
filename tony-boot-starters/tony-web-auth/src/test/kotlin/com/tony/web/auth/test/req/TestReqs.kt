@@ -6,12 +6,13 @@ import com.tony.web.test.req.TestIntEnum
 import com.tony.web.test.req.TestStringEnum
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
 data class TestReq(
     @get:NotBlank(message = "请输入姓名")
     val name: String? = null,
-    @get:NotBlank(message = "请输入年龄")
+    @get:NotNull(message = "请输入年龄")
     val age: Int? = null,
     @get:SimpleIntEnum(enums = [1])
     val testIntEnum: TestIntEnum? = null,
