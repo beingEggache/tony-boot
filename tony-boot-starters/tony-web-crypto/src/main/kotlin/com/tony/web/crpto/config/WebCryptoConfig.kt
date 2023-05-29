@@ -3,7 +3,8 @@ package com.tony.web.crpto.config
 import com.tony.crypto.symmetric.enums.CryptoDigestMode
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.getLogger
-import com.tony.web.crpto.DecryptRequestAdvice
+import com.tony.web.crpto.DecryptRequestBodyAdvice
+import com.tony.web.crpto.EncryptResponseBodyAdvice
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -29,9 +30,16 @@ internal class WebCryptoConfig(
 
     @ConditionalOnExpression("\${web.crypto.enabled:false}")
     @Bean
-    internal fun decryptRequestAdvice(): DecryptRequestAdvice {
+    internal fun decryptRequestBodyAdvice(): DecryptRequestBodyAdvice {
         logger.info("Request body decrypt is enabled.")
-        return DecryptRequestAdvice(webCryptoProperties)
+        return DecryptRequestBodyAdvice(webCryptoProperties)
+    }
+
+    @ConditionalOnExpression("\${web.crypto.enabled:false}")
+    @Bean
+    internal fun encryptResponseBodyAdvice(): EncryptResponseBodyAdvice {
+        logger.info("Response body encrypt is enabled.")
+        return EncryptResponseBodyAdvice(webCryptoProperties)
     }
 }
 

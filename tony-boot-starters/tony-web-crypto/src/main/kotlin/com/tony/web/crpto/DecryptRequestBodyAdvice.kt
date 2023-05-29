@@ -8,7 +8,6 @@ import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpInputMessage
 import org.springframework.http.converter.HttpMessageConverter
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter
@@ -17,23 +16,39 @@ import java.io.InputStream
 import java.lang.reflect.Type
 
 /**
- * CrptoRequestAdvice is
+ * 将请求体解密, 目前只支持 json RequestBody
  * @author tangli
  * @since 2023/05/26 16:53
  */
 @ConditionalOnExpression("\${web.crypto.enabled:false}")
 @RestControllerAdvice
-internal class DecryptRequestAdvice(
+internal class DecryptRequestBodyAdvice(
     internal val webCryptoProperties: WebCryptoProperties,
 ) : PriorityOrdered, RequestBodyAdviceAdapter() {
 
-    private val conditionAnnotations = listOf(RequestBody::class, ApiDecrypt::class)
     override fun supports(
         methodParameter: MethodParameter,
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean = methodParameter.parameter.annotations.any { it.annotationClass in conditionAnnotations } &&
-        MappingJackson2HttpMessageConverter::class.java.isAssignableFrom(converterType)
+    ): Boolean {
+        val method = methodParameter.method
+        val controllerClass = method?.declaringClass
+
+        val controllerHasAnnotation = controllerClass
+            ?.annotations
+            ?.map { it.annotationClass }
+            ?.contains(ApiDecrypt::class) == true
+
+        if (controllerHasAnnotation) {
+            return true
+        }
+
+        return method
+            ?.annotations
+            ?.map { it.annotationClass }
+            ?.contains(ApiDecrypt::class) == true &&
+            methodParameter.hasParameterAnnotation(RequestBody::class.java)
+    }
 
     override fun beforeBodyRead(
         inputMessage: HttpInputMessage,
@@ -48,7 +63,6 @@ internal class DecryptRequestAdvice(
             .run {
                 copyOfRange(1, this.size - 1)
             }
-        println(bytes.toString(Charsets.UTF_8))
         return DecryptHttpInputMessage(
             inputMessage.headers,
             ByteArrayInputStream(

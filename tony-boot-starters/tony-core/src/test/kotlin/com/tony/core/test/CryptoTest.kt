@@ -1,11 +1,10 @@
 package com.tony.core.test
 
 import com.tony.crypto.symmetric.Des
-import com.tony.crypto.symmetric.decryptToByte
-import com.tony.crypto.symmetric.enums.CryptoDigestMode
-import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.crypto.symmetric.decryptToString
 import com.tony.crypto.symmetric.encryptToString
+import com.tony.crypto.symmetric.enums.CryptoDigestMode
+import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.decodeBase64
 
 
@@ -14,6 +13,7 @@ fun main() {
 //    testAes(CryptoDigestMode.HEX)
 //    testDes(CryptoDigestMode.BASE64)
 //    testDes(CryptoDigestMode.HEX)
+    println(Char(0x22))
 
     val decodeBase64 =
         "C+thLOj3BU6siFnThLpRfpErVslSBt0AMKrXpeP76uOvgNFY/9V8kKyIWdOEulF+72TExsRH4b35rH+iz21FyKyIWdOEulF+G5OQKLgk9EI="
