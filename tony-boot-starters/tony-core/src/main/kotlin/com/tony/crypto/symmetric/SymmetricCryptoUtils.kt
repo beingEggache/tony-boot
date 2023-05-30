@@ -2,16 +2,22 @@
 @file:JvmMultifileClass
 
 package com.tony.crypto.symmetric
-
-import com.tony.crypto.symmetric.enums.CryptoDigestMode
-import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
-
 /**
  * 对称加密/解密 工具
  * @author tangli
  * @since 2023/05/26 17:58
  */
+import com.tony.crypto.symmetric.enums.CryptoDigestMode
+import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 
+/**
+ * 解密
+ * @receiver [String]
+ * @param symmetricCryptoAlgorithm  对称加密算法
+ * @param secret 秘钥
+ * @param cryptoDigestMode 摘要类型
+ * @return
+ */
 public fun String.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
