@@ -16,7 +16,7 @@ import java.io.InputStream
 import java.lang.reflect.Type
 
 /**
- * 将请求体解密, 目前只支持 json RequestBody
+ * 将请求体解密, 目前只支持 RequestBody
  * @author tangli
  * @since 2023/05/26 16:53
  */
@@ -30,25 +30,12 @@ internal class DecryptRequestBodyAdvice(
         methodParameter: MethodParameter,
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean {
-        val method = methodParameter.method
-        val controllerClass = method?.declaringClass
-
-        val controllerHasAnnotation = controllerClass
-            ?.annotations
-            ?.map { it.annotationClass }
-            ?.contains(ApiDecrypt::class) == true
-
-        if (controllerHasAnnotation) {
-            return true
-        }
-
-        return method
-            ?.annotations
-            ?.map { it.annotationClass }
-            ?.contains(ApiDecrypt::class) == true &&
-            methodParameter.hasParameterAnnotation(RequestBody::class.java)
-    }
+    ): Boolean = methodParameter
+        .method
+        ?.annotations
+        ?.map { it.annotationClass }
+        ?.contains(DecryptRequestBody::class) == true &&
+        methodParameter.hasParameterAnnotation(RequestBody::class.java)
 
     override fun beforeBodyRead(
         inputMessage: HttpInputMessage,
@@ -82,12 +69,8 @@ internal class DecryptRequestBodyAdvice(
         private val httpHeaders: HttpHeaders,
         private val inputStream: InputStream,
     ) : HttpInputMessage {
-        override fun getHeaders(): HttpHeaders {
-            return httpHeaders
-        }
+        override fun getHeaders(): HttpHeaders = httpHeaders
 
-        override fun getBody(): InputStream {
-            return inputStream
-        }
+        override fun getBody(): InputStream = inputStream
     }
 }

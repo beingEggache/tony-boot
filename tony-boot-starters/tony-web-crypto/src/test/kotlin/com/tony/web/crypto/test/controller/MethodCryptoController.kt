@@ -1,7 +1,7 @@
 package com.tony.web.crypto.test.controller
 
-import com.tony.web.crpto.ApiDecrypt
-import com.tony.web.crpto.ApiEncrypt
+import com.tony.web.crpto.DecryptRequestBody
+import com.tony.web.crpto.EncryptResponseBody
 import com.tony.web.crypto.test.req.TestReq
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class MethodCryptoController {
 
-    @ApiDecrypt
-    @ApiEncrypt
+    @DecryptRequestBody
+    @EncryptResponseBody
     @Operation(description = "method-test-crypto")
     @PostMapping("/method/test-crypto")
     fun body(@Validated @RequestBody req: TestReq) = TestReq("test", 99)

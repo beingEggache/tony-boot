@@ -5,17 +5,17 @@ package com.tony.web.crpto
  * @author tangli
  * @since 2023/05/26 16:55
  */
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
+@Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
-public annotation class ApiDecrypt
+public annotation class DecryptRequestBody
 
 /**
  * 配合 [EncryptResponseBodyAdvice] 将 ResponseBody 加密
  * @author tangli
  * @since 2023/05/26 16:55
  */
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
+@Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
-public annotation class ApiEncrypt
+public annotation class EncryptResponseBody

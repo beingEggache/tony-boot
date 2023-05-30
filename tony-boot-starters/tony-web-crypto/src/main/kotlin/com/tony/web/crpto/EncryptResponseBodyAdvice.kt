@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 
 /**
- * 将请求体解密, 目前只支持 json RequestBody
+ * 将请求体解密, 目前只支持 RequestBody
  * @author tangli
  * @since 2023/05/26 16:53
  */
@@ -27,24 +27,11 @@ internal class EncryptResponseBodyAdvice(
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean {
-        val method = returnType.method
-        val controllerClass = returnType.method?.declaringClass
-
-        val controllerHasAnnotation = controllerClass
-            ?.annotations
-            ?.map { it.annotationClass }
-            ?.contains(ApiEncrypt::class) == true
-
-        if (controllerHasAnnotation) {
-            return true
-        }
-
-        return method
-            ?.annotations
-            ?.map { it.annotationClass }
-            ?.contains(ApiEncrypt::class) == true
-    }
+    ): Boolean = returnType
+        .method
+        ?.annotations
+        ?.map { it.annotationClass }
+        ?.contains(EncryptResponseBody::class) == true
 
     override fun beforeBodyWrite(
         body: Any?,
