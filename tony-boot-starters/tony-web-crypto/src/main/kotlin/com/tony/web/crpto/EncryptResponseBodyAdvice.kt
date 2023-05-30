@@ -27,11 +27,7 @@ internal class EncryptResponseBodyAdvice(
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean = returnType
-        .method
-        ?.annotations
-        ?.map { it.annotationClass }
-        ?.contains(EncryptResponseBody::class) == true
+    ): Boolean = returnType.hasMethodAnnotation(EncryptResponseBody::class.java)
 
     override fun beforeBodyWrite(
         body: Any?,

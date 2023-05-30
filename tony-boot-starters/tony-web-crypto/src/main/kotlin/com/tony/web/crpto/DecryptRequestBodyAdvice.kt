@@ -30,11 +30,7 @@ internal class DecryptRequestBodyAdvice(
         methodParameter: MethodParameter,
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean = methodParameter
-        .method
-        ?.annotations
-        ?.map { it.annotationClass }
-        ?.contains(DecryptRequestBody::class) == true &&
+    ): Boolean = methodParameter.hasMethodAnnotation(DecryptRequestBody::class.java) &&
         methodParameter.hasParameterAnnotation(RequestBody::class.java)
 
     override fun beforeBodyRead(
