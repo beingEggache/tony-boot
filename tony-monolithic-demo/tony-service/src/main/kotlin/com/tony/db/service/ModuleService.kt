@@ -1,6 +1,5 @@
 package com.tony.db.service
 
-import com.tony.cache.RedisManager
 import com.tony.cache.annotation.RedisCacheable
 import com.tony.db.CacheKeys
 import com.tony.db.dao.ModuleDao
@@ -83,8 +82,6 @@ class ModuleService(
             .filter { it.moduleType in frontEndModuleTypes }
             .map { it.moduleId }
     }
-
-    fun clearRedis() = RedisManager.delete("*")
 
     private fun Module.toDto() =
         ModuleResp(

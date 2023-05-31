@@ -91,7 +91,7 @@ class RedisManagerTests {
         assertNotNull(stringEnum)
         logger.info("$stringEnumKey=$stringEnum")
 
-        RedisManager.deleteByKeyPattern("$keyPrefix:*")
+        RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
 
@@ -174,7 +174,7 @@ class RedisManagerTests {
         val map2 = RedisManager.maps.getMap(testMapKey2)
         logger.info("$testMapKey2.$map2=$map2")
 
-        RedisManager.deleteByKeyPattern("$keyPrefix:*")
+        RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
     @Order(3)
@@ -192,7 +192,7 @@ class RedisManagerTests {
         println(myIntEnum)
         println(myStringEnum)
 
-        RedisManager.deleteByKeyPattern("$keyPrefix:*")
+        RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
 
@@ -209,7 +209,7 @@ class RedisManagerTests {
 
         Thread.sleep(10 * 1000)
 
-        RedisManager.deleteByKeyPattern("$keyPrefix:*")
+        RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
     @Order(5)
@@ -230,7 +230,7 @@ class RedisManagerTests {
             }
         }
         // TODO 没删掉.
-        RedisManager.deleteByKeyPattern("$keyPrefix:*")
+        RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 }
 

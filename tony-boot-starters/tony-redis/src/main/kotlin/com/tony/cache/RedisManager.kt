@@ -7,9 +7,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.RedisConnectionUtils
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.redis.core.script.DefaultRedisScript
 import org.springframework.data.redis.core.script.RedisScript
-import org.springframework.scripting.support.ResourceScriptSource
 import java.util.Collections
 import java.util.concurrent.TimeUnit
 
@@ -40,26 +38,14 @@ public object RedisManager {
     /**
      * 简单锁脚本引用
      */
-    private val lockScript: DefaultRedisScript<Long> = DefaultRedisScript<Long>().apply {
-        setScriptSource(
-            ResourceScriptSource(
-                ClassPathResource("META-INF/scripts/lock_key.lua"),
-            ),
-        )
-        resultType = Long::class.java
-    }
+    private val lockScript: RedisScript<Long> =
+        RedisScript.of(ClassPathResource("META-INF/scripts/lockKey.lua"), Long::class.java)
 
     /**
      * 批量删除脚本
      */
-    private val deleteKeyByPatternScript: DefaultRedisScript<Long> = DefaultRedisScript<Long>().apply {
-        setScriptSource(
-            ResourceScriptSource(
-                ClassPathResource("META-INF/scripts/delete_by_key_pattern.lua"),
-            ),
-        )
-        resultType = Long::class.java
-    }
+    private val deleteKeyByPatternScript: RedisScript<Long> =
+        RedisScript.of(ClassPathResource("META-INF/scripts/deleteByKeyPatterns.lua"), Long::class.java)
 
     /**
      * redis 事务操作.
@@ -174,38 +160,27 @@ public object RedisManager {
     ): Long = redisTemplate.getExpire(key, timeUnit)
 
     /**
-     * redis 根据 [keyPattern] 批量删除.
+     * redis 根据 [keyPatterns] 批量删除.
      *
-     * 单 key pattern 用的lua脚本删除.
-     *
-     * @param keyPattern 可ant匹配
-     * @return
+     * @param keyPatterns 可ant匹配
+     * @return 删除的 key 个数
      */
     @JvmStatic
-    public fun deleteByKeyPattern(keyPattern: String): Long {
-        if (keyPattern.isBlank()) throw ApiException("keyPattern must not be blank.")
-        return redisTemplate.execute(deleteKeyByPatternScript, Collections.singletonList(keyPattern))
+    public fun deleteByKeyPatterns(vararg keyPatterns: String): Long =
+        redisTemplate.execute(deleteKeyByPatternScript, keyPatterns.asList())
+
+    /**
+     * redis 根据 [keyPatterns] 批量删除.
+     *
+     * @param keyPatterns 可ant匹配
+     * @return 删除的 key 个数
+     */
+    @JvmStatic
+    public fun deleteByKeyPatterns(keyPatterns: List<String>): Long {
+        if (keyPatterns.isEmpty()) throw ApiException("keyPatterns must not be empty.")
+        if (keyPatterns.any { it.isBlank() }) throw ApiException("keyPattern must not be blank.")
+        return redisTemplate.execute(deleteKeyByPatternScript, keyPatterns)
     }
-
-    /**
-     * 根据匹配键 批量删除
-     *
-     * @param keys 可ant匹配
-     * @return
-     */
-    @JvmStatic
-    public fun deleteByKeyPatterns(vararg keys: String): Long? =
-        redisTemplate.delete(keys(*keys))
-
-    /**
-     * 根据匹配键 批量删除
-     *
-     * @param keys 可ant匹配
-     * @return
-     */
-    @JvmStatic
-    public fun deleteByKeyPatterns(keys: Collection<String>): Long? =
-        redisTemplate.delete(keys(keys))
 
     /**
      * 批量删除

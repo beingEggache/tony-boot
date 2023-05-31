@@ -1,4 +1,4 @@
-package com.tony.cache.test.aspect
+package com.tony.cache.aspect.test
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
