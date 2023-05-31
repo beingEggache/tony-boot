@@ -26,18 +26,12 @@ object CryptoTest {
     @ParameterizedTest
     @MethodSource(value = ["encryptStringTestArgumentSource"])
     fun testStringSymmetricCryptoEncrypt(
-        originString: String,
         algorithm: SymmetricCryptoAlgorithm,
-        secret: String,
         encoding: CryptoEncoding,
+        originString: String,
+        secret: String,
     ) {
-        val encryptedString = originString.encryptToString(algorithm, secret, encoding)
-        logger.info(
-            "origin:$originString, " +
-                "algorithm: $algorithm, " +
-                "encoding: ${encoding.toString().padEnd(10)}, " +
-                "encrypted: $encryptedString"
-        )
+        logger.info("encrypted: ${originString.encryptToString(algorithm, secret, encoding)}")
     }
 
     @JvmStatic
@@ -46,10 +40,10 @@ object CryptoTest {
         val aesSecret = "1234567890abcdefFEDCBA0987654321"
         val desSecret = "xvwe23dvxs"
         return Stream.of(
-            Arguments.of(originString, SymmetricCryptoAlgorithm.AES, aesSecret, CryptoEncoding.BASE64),
-            Arguments.of(originString, SymmetricCryptoAlgorithm.AES, aesSecret, CryptoEncoding.HEX),
-            Arguments.of(originString, SymmetricCryptoAlgorithm.DES, desSecret, CryptoEncoding.BASE64),
-            Arguments.of(originString, SymmetricCryptoAlgorithm.DES, desSecret, CryptoEncoding.HEX),
+            Arguments.of(SymmetricCryptoAlgorithm.AES, CryptoEncoding.BASE64, originString, aesSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.AES, CryptoEncoding.HEX, originString, aesSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.DES, CryptoEncoding.BASE64, originString, desSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.DES, CryptoEncoding.HEX, originString, desSecret),
         )
     }
 
@@ -57,18 +51,12 @@ object CryptoTest {
     @ParameterizedTest
     @MethodSource(value = ["encryptBytesTestArgumentSource"])
     fun testBytesSymmetricCryptoEncrypt(
-        originBytes: ByteArray,
         algorithm: SymmetricCryptoAlgorithm,
-        secret: String,
         encoding: CryptoEncoding,
+        originBytes: ByteArray,
+        secret: String,
     ) {
-        val encryptedBytes = originBytes.encryptToBytes(algorithm, secret, encoding)
-        logger.info(
-            "origin:$originBytes, " +
-                "algorithm: $algorithm, " +
-                "encoding: ${encoding.toString().padEnd(10)}, " +
-                "encrypted: $encryptedBytes"
-        )
+        logger.info("encrypted: ${originBytes.encryptToBytes(algorithm, secret, encoding).toList()}")
     }
 
     @JvmStatic
@@ -77,10 +65,10 @@ object CryptoTest {
         val aesSecret = "1234567890abcdefFEDCBA0987654321"
         val desSecret = "xvwe23dvxs"
         return Stream.of(
-            Arguments.of(originBytes, SymmetricCryptoAlgorithm.AES, aesSecret, CryptoEncoding.BASE64),
-            Arguments.of(originBytes, SymmetricCryptoAlgorithm.AES, aesSecret, CryptoEncoding.HEX),
-            Arguments.of(originBytes, SymmetricCryptoAlgorithm.DES, desSecret, CryptoEncoding.BASE64),
-            Arguments.of(originBytes, SymmetricCryptoAlgorithm.DES, desSecret, CryptoEncoding.HEX),
+            Arguments.of(SymmetricCryptoAlgorithm.AES, CryptoEncoding.BASE64, originBytes, aesSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.AES, CryptoEncoding.HEX, originBytes, aesSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.DES, CryptoEncoding.BASE64, originBytes, desSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.DES, CryptoEncoding.HEX, originBytes, desSecret),
         )
     }
 
@@ -88,18 +76,12 @@ object CryptoTest {
     @ParameterizedTest
     @MethodSource(value = ["decryptStringTestArgumentSource"])
     fun testStringSymmetricCryptoDecrypt(
-        encryptedString: String,
         algorithm: SymmetricCryptoAlgorithm,
-        secret: String,
         encoding: CryptoEncoding,
+        encryptedString: String,
+        secret: String,
     ) {
-        val originString = encryptedString.decryptToString(algorithm, secret, encoding)
-        logger.info(
-            "algorithm: $algorithm, " +
-                "encoding: ${encoding.toString().padEnd(10)}, " +
-                "origin: $originString, " +
-                "encrypted: $encryptedString"
-        )
+        logger.info("origin string: ${encryptedString.decryptToString(algorithm, secret, encoding)}")
     }
 
     @JvmStatic
@@ -114,10 +96,10 @@ object CryptoTest {
             encoding: CryptoEncoding,
         ): Arguments {
             return Arguments.of(
-                originString.encryptToString(algorithm, secret, encoding),
                 algorithm,
+                encoding,
+                originString.encryptToString(algorithm, secret, encoding),
                 secret,
-                encoding
             )
         }
 
@@ -133,18 +115,15 @@ object CryptoTest {
     @ParameterizedTest
     @MethodSource(value = ["decryptBytesTestArgumentSource"])
     fun testBytesSymmetricCryptoDecrypt(
-        encryptedBytes: ByteArray,
         algorithm: SymmetricCryptoAlgorithm,
-        secret: String,
         encoding: CryptoEncoding,
+        encryptedBytes: ByteArray,
+        secret: String,
     ) {
         val originBytes = encryptedBytes.decryptToBytes(algorithm, secret, encoding)
         logger.info(
-            "algorithm: $algorithm, " +
-                "encoding: ${encoding.toString().padEnd(10)}, " +
-                "origin bytes: $originBytes, " +
-                "origin string: ${originBytes.toString(Charsets.UTF_8)}, " +
-                "encrypted: $encryptedBytes"
+            "origin string: ${originBytes.toString(Charsets.UTF_8)}, " +
+                "origin bytes: ${originBytes.toList()}"
         )
     }
 
@@ -160,10 +139,10 @@ object CryptoTest {
             encoding: CryptoEncoding,
         ): Arguments {
             return Arguments.of(
-                originBytes.encryptToBytes(algorithm, secret, encoding),
                 algorithm,
-                secret,
-                encoding
+                encoding,
+                originBytes.encryptToBytes(algorithm, secret, encoding),
+                secret
             )
         }
 
