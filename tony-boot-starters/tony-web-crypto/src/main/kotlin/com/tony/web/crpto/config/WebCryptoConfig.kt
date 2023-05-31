@@ -1,6 +1,6 @@
 package com.tony.web.crpto.config
 
-import com.tony.crypto.symmetric.enums.CryptoDigestMode
+import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.getLogger
 import com.tony.web.crpto.DecryptRequestBodyAdvice
@@ -70,8 +70,8 @@ internal data class WebCryptoProperties(
     val secret: String = "",
 
     /**
-     * 摘要类型
+     * 二进制编码
      */
     @DefaultValue("base64")
-    val digestMode: CryptoDigestMode = CryptoDigestMode.BASE64,
+    val encoding: CryptoEncoding = CryptoEncoding.BASE64,
 )

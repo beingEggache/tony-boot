@@ -1,6 +1,6 @@
 package com.tony.crypto.symmetric
 
-import com.tony.crypto.symmetric.enums.CryptoDigestMode
+import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.utils.decodeBase64
 import com.tony.utils.decodeHex
 import com.tony.utils.encodeToBase64
@@ -21,11 +21,11 @@ public sealed interface SymmetricCrypto {
      * @param secret 秘钥
      * @return 解密后的返回
      */
-    public fun decrypt(src: ByteArray, secret: ByteArray, mode: CryptoDigestMode): ByteArray {
+    public fun decrypt(src: ByteArray, secret: ByteArray, mode: CryptoEncoding): ByteArray {
         val digestedSrc = src.run {
             when (mode) {
-                CryptoDigestMode.BASE64 -> decodeBase64()
-                CryptoDigestMode.HEX -> decodeHex()
+                CryptoEncoding.BASE64 -> decodeBase64()
+                CryptoEncoding.HEX -> decodeHex()
             }
         }
         return decrypt(digestedSrc, secret)
@@ -48,12 +48,12 @@ public sealed interface SymmetricCrypto {
      * @param secret 秘钥
      * @return 加密后的返回
      */
-    public fun encrypt(src: ByteArray, secret: ByteArray, mode: CryptoDigestMode): ByteArray =
+    public fun encrypt(src: ByteArray, secret: ByteArray, mode: CryptoEncoding): ByteArray =
         encrypt(src, secret)
             .run {
                 when (mode) {
-                    CryptoDigestMode.BASE64 -> encodeToBase64()
-                    CryptoDigestMode.HEX -> encodeToHex()
+                    CryptoEncoding.BASE64 -> encodeToBase64()
+                    CryptoEncoding.HEX -> encodeToHex()
                 }
             }
 

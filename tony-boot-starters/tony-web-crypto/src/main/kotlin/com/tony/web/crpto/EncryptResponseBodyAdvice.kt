@@ -44,7 +44,7 @@ internal class EncryptResponseBodyAdvice(
             .encryptToString(
                 webCryptoProperties.algorithm,
                 webCryptoProperties.secret,
-                webCryptoProperties.digestMode,
+                webCryptoProperties.encoding,
             )
     }
 

@@ -32,10 +32,10 @@ public enum class SymmetricCryptoAlgorithm(
 }
 
 /**
- * 加解密的摘要类型
+ * 加解密的二进制编码
  * @property value
  */
-public enum class CryptoDigestMode(
+public enum class CryptoEncoding(
     override val value: String,
 ) : EnumStringValue {
     @JsonEnumDefaultValue
@@ -43,10 +43,10 @@ public enum class CryptoDigestMode(
     HEX("hex"),
     ;
 
-    public companion object : EnumCreator<CryptoDigestMode, String>(CryptoDigestMode::class.java) {
+    public companion object : EnumCreator<CryptoEncoding, String>(CryptoEncoding::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String): CryptoDigestMode? =
+        override fun create(value: String): CryptoEncoding? =
             super.create(value.lowercase())
     }
 }

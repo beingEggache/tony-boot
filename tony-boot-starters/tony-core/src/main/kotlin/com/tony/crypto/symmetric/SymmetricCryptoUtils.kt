@@ -7,7 +7,7 @@ package com.tony.crypto.symmetric
  * @author tangli
  * @since 2023/05/26 17:58
  */
-import com.tony.crypto.symmetric.enums.CryptoDigestMode
+import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 
 /**
@@ -15,14 +15,14 @@ import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
 public fun String.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
-    cryptoDigestMode: CryptoDigestMode,
-): String = decryptToByte(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoDigestMode)
+    cryptoEncoding: CryptoEncoding,
+): String = decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoEncoding)
     .toString(Charsets.UTF_8)
 
 /**
@@ -30,14 +30,14 @@ public fun String.decryptToString(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
 public fun String.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
-    cryptoDigestMode: CryptoDigestMode,
-): String = decryptToByte(symmetricCryptoAlgorithm, secret, cryptoDigestMode)
+    cryptoEncoding: CryptoEncoding,
+): String = decryptToBytes(symmetricCryptoAlgorithm, secret, cryptoEncoding)
     .toString(Charsets.UTF_8)
 
 /**
@@ -45,17 +45,17 @@ public fun String.decryptToString(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
-public fun String.decryptToByte(
+public fun String.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
-    cryptoDigestMode: CryptoDigestMode,
+    cryptoEncoding: CryptoEncoding,
 ): ByteArray = if (this.isBlank()) {
     ByteArray(0)
 } else {
-    symmetricCryptoAlgorithm.algorithm.decrypt(this.toByteArray(), secret.toByteArray(), cryptoDigestMode)
+    symmetricCryptoAlgorithm.algorithm.decrypt(this.toByteArray(), secret.toByteArray(), cryptoEncoding)
 }
 
 /**
@@ -63,17 +63,17 @@ public fun String.decryptToByte(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
-public fun String.decryptToByte(
+public fun String.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
-    cryptoDigestMode: CryptoDigestMode,
+    cryptoEncoding: CryptoEncoding,
 ): ByteArray = if (this.isBlank()) {
     ByteArray(0)
 } else {
-    symmetricCryptoAlgorithm.algorithm.decrypt(this.toByteArray(), secret, cryptoDigestMode)
+    symmetricCryptoAlgorithm.algorithm.decrypt(this.toByteArray(), secret, cryptoEncoding)
 }
 
 /**
@@ -81,14 +81,14 @@ public fun String.decryptToByte(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
 public fun ByteArray.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
-    cryptoDigestMode: CryptoDigestMode,
-): String = decryptToByte(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoDigestMode)
+    cryptoEncoding: CryptoEncoding,
+): String = decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoEncoding)
     .toString(Charsets.UTF_8)
 
 /**
@@ -96,14 +96,14 @@ public fun ByteArray.decryptToString(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
 public fun ByteArray.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
-    cryptoDigestMode: CryptoDigestMode,
-): String = decryptToByte(symmetricCryptoAlgorithm, secret, cryptoDigestMode)
+    cryptoEncoding: CryptoEncoding,
+): String = decryptToBytes(symmetricCryptoAlgorithm, secret, cryptoEncoding)
     .toString(Charsets.UTF_8)
 
 /**
@@ -111,31 +111,31 @@ public fun ByteArray.decryptToString(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
-public fun ByteArray.decryptToByte(
+public fun ByteArray.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
-    cryptoDigestMode: CryptoDigestMode,
-): ByteArray = decryptToByte(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoDigestMode)
+    cryptoEncoding: CryptoEncoding,
+): ByteArray = decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoEncoding)
 
 /**
  * 解密
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
-public fun ByteArray.decryptToByte(
+public fun ByteArray.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
-    cryptoDigestMode: CryptoDigestMode,
+    cryptoEncoding: CryptoEncoding,
 ): ByteArray = if (this.isEmpty()) {
     this
 } else {
-    symmetricCryptoAlgorithm.algorithm.decrypt(this, secret, cryptoDigestMode)
+    symmetricCryptoAlgorithm.algorithm.decrypt(this, secret, cryptoEncoding)
 }
 
 /**
@@ -143,14 +143,14 @@ public fun ByteArray.decryptToByte(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
 public fun String.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
-    cryptoDigestMode: CryptoDigestMode,
-): String = encryptToByte(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoDigestMode)
+    cryptoEncoding: CryptoEncoding,
+): String = encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoEncoding)
     .toString(Charsets.UTF_8)
 
 /**
@@ -158,14 +158,14 @@ public fun String.encryptToString(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
 public fun String.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
-    cryptoDigestMode: CryptoDigestMode,
-): String = encryptToByte(symmetricCryptoAlgorithm, secret, cryptoDigestMode)
+    cryptoEncoding: CryptoEncoding,
+): String = encryptToBytes(symmetricCryptoAlgorithm, secret, cryptoEncoding)
     .toString(Charsets.UTF_8)
 
 /**
@@ -173,17 +173,17 @@ public fun String.encryptToString(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
-public fun String.encryptToByte(
+public fun String.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
-    cryptoDigestMode: CryptoDigestMode,
+    cryptoEncoding: CryptoEncoding,
 ): ByteArray = if (this.isBlank()) {
     ByteArray(0)
 } else {
-    symmetricCryptoAlgorithm.algorithm.encrypt(this.toByteArray(), secret.toByteArray(), cryptoDigestMode)
+    symmetricCryptoAlgorithm.algorithm.encrypt(this.toByteArray(), secret.toByteArray(), cryptoEncoding)
 }
 
 /**
@@ -191,17 +191,17 @@ public fun String.encryptToByte(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
-public fun String.encryptToByte(
+public fun String.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
-    cryptoDigestMode: CryptoDigestMode,
+    cryptoEncoding: CryptoEncoding,
 ): ByteArray = if (this.isBlank()) {
     ByteArray(0)
 } else {
-    symmetricCryptoAlgorithm.algorithm.encrypt(this.toByteArray(), secret, cryptoDigestMode)
+    symmetricCryptoAlgorithm.algorithm.encrypt(this.toByteArray(), secret, cryptoEncoding)
 }
 
 /**
@@ -209,14 +209,14 @@ public fun String.encryptToByte(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
 public fun ByteArray.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
-    cryptoDigestMode: CryptoDigestMode,
-): String = encryptToByte(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoDigestMode)
+    cryptoEncoding: CryptoEncoding,
+): String = encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoEncoding)
     .toString(Charsets.UTF_8)
 
 /**
@@ -224,14 +224,14 @@ public fun ByteArray.encryptToString(
  * @receiver [String]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
 public fun ByteArray.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
-    cryptoDigestMode: CryptoDigestMode,
-): String = encryptToByte(symmetricCryptoAlgorithm, secret, cryptoDigestMode)
+    cryptoEncoding: CryptoEncoding,
+): String = encryptToBytes(symmetricCryptoAlgorithm, secret, cryptoEncoding)
     .toString(Charsets.UTF_8)
 
 /**
@@ -239,29 +239,29 @@ public fun ByteArray.encryptToString(
  * @receiver [ByteArray]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
-public fun ByteArray.encryptToByte(
+public fun ByteArray.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
-    cryptoDigestMode: CryptoDigestMode,
-): ByteArray = encryptToByte(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoDigestMode)
+    cryptoEncoding: CryptoEncoding,
+): ByteArray = encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), cryptoEncoding)
 
 /**
  * 加密
  * @receiver [ByteArray]
  * @param symmetricCryptoAlgorithm  对称加密算法
  * @param secret 秘钥
- * @param cryptoDigestMode 摘要类型
+ * @param cryptoEncoding 二进制编码
  * @return
  */
-public fun ByteArray.encryptToByte(
+public fun ByteArray.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
-    cryptoDigestMode: CryptoDigestMode,
+    cryptoEncoding: CryptoEncoding,
 ): ByteArray = if (this.isEmpty()) {
     this
 } else {
-    symmetricCryptoAlgorithm.algorithm.encrypt(this, secret, cryptoDigestMode)
+    symmetricCryptoAlgorithm.algorithm.encrypt(this, secret, cryptoEncoding)
 }

@@ -1,6 +1,6 @@
 package com.tony.web.crpto
 
-import com.tony.crypto.symmetric.decryptToByte
+import com.tony.crypto.symmetric.decryptToBytes
 import com.tony.web.crpto.config.WebCryptoProperties
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
@@ -50,10 +50,10 @@ internal class DecryptRequestBodyAdvice(
             inputMessage.headers,
             ByteArrayInputStream(
                 bytes
-                    .decryptToByte(
+                    .decryptToBytes(
                         webCryptoProperties.algorithm,
                         webCryptoProperties.secret,
-                        webCryptoProperties.digestMode,
+                        webCryptoProperties.encoding,
                     ),
             ),
         )
