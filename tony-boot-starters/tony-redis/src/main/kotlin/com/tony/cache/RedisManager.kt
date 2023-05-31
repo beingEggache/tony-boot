@@ -37,10 +37,25 @@ public object RedisManager {
     @JvmStatic
     public val redisTemplate: RedisTemplate<String, Any> by SpringContexts.getBeanByLazy("redisTemplate")
 
-    private val script: DefaultRedisScript<Long> = DefaultRedisScript<Long>().apply {
+    /**
+     * 简单锁脚本引用
+     */
+    private val lockScript: DefaultRedisScript<Long> = DefaultRedisScript<Long>().apply {
         setScriptSource(
             ResourceScriptSource(
                 ClassPathResource("META-INF/scripts/lock_key.lua"),
+            ),
+        )
+        resultType = Long::class.java
+    }
+
+    /**
+     * 批量删除脚本
+     */
+    private val deleteKeyByPatternScript: DefaultRedisScript<Long> = DefaultRedisScript<Long>().apply {
+        setScriptSource(
+            ResourceScriptSource(
+                ClassPathResource("META-INF/scripts/delete_by_key_pattern.lua"),
             ),
         )
         resultType = Long::class.java
@@ -87,7 +102,7 @@ public object RedisManager {
     @JvmStatic
     public fun lockKey(key: String, timeout: Long): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
-        return redisTemplate.execute(script, Collections.singletonList(key), 1L, timeout) == 1L
+        return redisTemplate.execute(lockScript, Collections.singletonList(key), 1L, timeout) == 1L
     }
 
     /**
@@ -159,13 +174,27 @@ public object RedisManager {
     ): Long = redisTemplate.getExpire(key, timeUnit)
 
     /**
+     * redis 根据 [keyPattern] 批量删除.
+     *
+     * 单 key pattern 用的lua脚本删除.
+     *
+     * @param keyPattern 可ant匹配
+     * @return
+     */
+    @JvmStatic
+    public fun deleteByKeyPattern(keyPattern: String): Long {
+        if (keyPattern.isBlank()) throw ApiException("keyPattern must not be blank.")
+        return redisTemplate.execute(deleteKeyByPatternScript, Collections.singletonList(keyPattern))
+    }
+
+    /**
      * 根据匹配键 批量删除
      *
      * @param keys 可ant匹配
      * @return
      */
     @JvmStatic
-    public fun deleteWithKeyPatterns(vararg keys: String): Long? =
+    public fun deleteByKeyPatterns(vararg keys: String): Long? =
         redisTemplate.delete(keys(*keys))
 
     /**
@@ -175,7 +204,7 @@ public object RedisManager {
      * @return
      */
     @JvmStatic
-    public fun deleteWithKeyPatterns(keys: Collection<String>): Long? =
+    public fun deleteByKeyPatterns(keys: Collection<String>): Long? =
         redisTemplate.delete(keys(keys))
 
     /**
@@ -197,6 +226,17 @@ public object RedisManager {
     @JvmStatic
     public fun delete(keys: Collection<String>): Long? =
         redisTemplate.delete(keys)
+
+    /**
+     * 清空redis, 也就是直接执行flushdb 命令
+     *
+     */
+    @JvmStatic
+    public fun flushdb() {
+        redisTemplate.execute {
+            it.execute("flushdb")
+        }
+    }
 
     /**
      * 获取键

@@ -115,7 +115,7 @@ public object RedisValues {
 
     @JvmStatic
     public inline fun <reified T> getObj(key: String): T? =
-        RedisManager.redisTemplate.opsForValue().get(key).toJsonString().jsonToObj()
+        RedisManager.redisTemplate.opsForValue().get(key)?.toJsonString()?.jsonToObj()
 
     @JvmStatic
     public fun <T> getObj(key: String, typeReference: TypeReference<T>): T? =
@@ -127,7 +127,7 @@ public object RedisValues {
 
     @JvmStatic
     public fun <T : Any> get(key: String): T? =
-        RedisManager.redisTemplate.opsForValue().get(key).asTo()
+        RedisManager.redisTemplate.opsForValue().get(key)?.asTo()
 
     @Suppress("UNCHECKED_CAST")
     public inline fun <reified E, KEY> getEnum(key: String): E?

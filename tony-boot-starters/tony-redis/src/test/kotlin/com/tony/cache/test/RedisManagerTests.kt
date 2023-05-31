@@ -8,9 +8,15 @@ import com.tony.enums.EnumCreator
 import com.tony.enums.EnumIntValue
 import com.tony.enums.EnumStringValue
 import com.tony.exception.BizException
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.MethodOrderer
+import org.junit.jupiter.api.Order
+import org.junit.jupiter.api.TestMethodOrder
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
+import org.slf4j.LoggerFactory
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.redis.core.RedisConnectionUtils
+import kotlin.test.assertNotNull
 
 /**
  *
@@ -18,168 +24,214 @@ import org.springframework.data.redis.core.RedisConnectionUtils
  * @since 2021-05-19 15:22
  */
 
+@TestMethodOrder(
+    MethodOrderer.OrderAnnotation::class
+)
 @SpringBootTest(classes = [TestCacheApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class RedisManagerTests {
 
-    @Test
-    fun testListener() {
+    private val logger = LoggerFactory.getLogger(RedisManagerTests::class.java)
 
-        RedisManager.values.set("testExpire0", "year")
-        RedisManager.values.set("testExpire1", "year", 1)
-        RedisManager.values.set("testExpire2", "year", 2)
-        RedisManager.values.set("testExpire3", "year", 3)
-        RedisManager.values.set("testExpire4", "year", 4)
+    @Order(1)
+    @ParameterizedTest
+    @ValueSource(strings = ["testRedisValues"])
+    fun testRedisValues(keyPrefix: String) {
 
-        Thread.sleep(10 * 1000)
-    }
-
-    @Test
-    fun testRedisValues() {
-        val booleanKey = RedisKeys.genKey("value_test_boolean")
-        val incrementKey = RedisKeys.genKey("value_test_increment")
-        val intKey = RedisKeys.genKey("value_test_int")
-        val longKey = RedisKeys.genKey("value_test_long")
-        val doubleKey = RedisKeys.genKey("value_test_double")
-        val stringKey = RedisKeys.genKey("value_test_string")
-        val objKey = RedisKeys.genKey("value_test_obj")
-        val intEnumKey = RedisKeys.genKey("value_test_int_enum")
-        val stringEnumKey = RedisKeys.genKey("value_test_string_enum")
-
+        val booleanKey = RedisKeys.genKey("$keyPrefix:value_test_boolean")
         RedisManager.values.set(booleanKey, false)
-        RedisManager.values.increment(incrementKey, 66)
-        RedisManager.values.set(intKey, 1)
-        RedisManager.values.set(longKey, Long.MAX_VALUE)
-        RedisManager.values.set(doubleKey, 1.012)
-        RedisManager.values.set(stringKey, "test")
-        RedisManager.values.set(objKey, Person("a", 20))
-        RedisManager.values.set(intEnumKey, MyIntEnum.ONE)
-        RedisManager.values.set(stringEnumKey, MyStringEnum.YES)
-
         val boolean = RedisManager.values.get<Boolean>(booleanKey)
-        val increment = RedisManager.values.getInt(incrementKey)
-        val int = RedisManager.values.getInt(intKey)
-        val long = RedisManager.values.getLong(longKey)
-        val double = RedisManager.values.getDouble(doubleKey)
-        val string = RedisManager.values.getString(stringKey)
-        val obj = RedisManager.values.getObj<Person>(objKey)
-        val intEnum = RedisManager.values.getEnum<MyIntEnum, Int>(intEnumKey)
-        val stringEnum = RedisManager.values.getEnum<MyStringEnum, String>(stringEnumKey)
+        assertNotNull(boolean)
+        logger.info("$booleanKey=$boolean")
 
-        println(boolean)
-        println(increment)
-        println(int)
-        println(long)
-        println(double)
-        println(string)
-        println(obj)
-        println(intEnum)
-        println(stringEnum)
+        val incrementKey = RedisKeys.genKey("$keyPrefix:value_test_increment")
+        RedisManager.values.increment(incrementKey, 66)
+        val increment = RedisManager.values.getInt(incrementKey)
+        assertNotNull(increment)
+        logger.info("$incrementKey=$increment")
+
+        val intKey = RedisKeys.genKey("$keyPrefix:value_test_int")
+        RedisManager.values.set(intKey, 1)
+        val int = RedisManager.values.getInt(intKey)
+        assertNotNull(int)
+        logger.info("$intKey=$int")
+
+        val longKey = RedisKeys.genKey("$keyPrefix:value_test_long")
+        RedisManager.values.set(longKey, Long.MAX_VALUE)
+        val long = RedisManager.values.getLong(longKey)
+        assertNotNull(long)
+        logger.info("$longKey=$long")
+
+        val doubleKey = RedisKeys.genKey("$keyPrefix:value_test_double")
+        RedisManager.values.set(doubleKey, 1.012)
+        val double = RedisManager.values.getDouble(doubleKey)
+        assertNotNull(double)
+        logger.info("$doubleKey=$double")
+
+        val stringKey = RedisKeys.genKey("$keyPrefix:value_test_string")
+        RedisManager.values.set(stringKey, "test")
+        val string = RedisManager.values.getString(stringKey)
+        assertNotNull(string)
+        logger.info("$stringKey=$string")
+
+        val objKey = RedisKeys.genKey("$keyPrefix:value_test_obj")
+        RedisManager.values.set(objKey, Person("a", 20))
+        val obj = RedisManager.values.getObj<Person>(objKey)
+        assertNotNull(obj)
+        logger.info("$objKey=$obj")
+
+        val intEnumKey = RedisKeys.genKey("$keyPrefix:value_test_int_enum")
+        RedisManager.values.set(intEnumKey, MyIntEnum.ONE)
+        val intEnum = RedisManager.values.getEnum<MyIntEnum, Int>(intEnumKey)
+        assertNotNull(intEnum)
+        logger.info("$intEnumKey=$intEnum")
+
+        val stringEnumKey = RedisKeys.genKey("$keyPrefix:value_test_string_enum")
+        RedisManager.values.set(stringEnumKey, MyStringEnum.YES)
+        val stringEnum = RedisManager.values.getEnum<MyStringEnum, String>(stringEnumKey)
+        assertNotNull(stringEnum)
+        logger.info("$stringEnumKey=$stringEnum")
+
+        RedisManager.deleteByKeyPattern("$keyPrefix:*")
     }
 
 
-    @Test
-    fun testRedisMaps() {
-        val testMapKey = RedisKeys.genKey("map")
-        val testMapKey2 = RedisKeys.genKey("map2")
+    @Order(2)
+    @ParameterizedTest
+    @ValueSource(strings = ["testRedisMaps"])
+    fun testRedisMaps(keyPrefix: String) {
+        val testMapKey = RedisKeys.genKey("$keyPrefix:map")
+
         val booleanKey = RedisKeys.genKey("value_test_boolean")
-        val intKey = RedisKeys.genKey("value_test_int")
-        val longKey = RedisKeys.genKey("value_test_long")
-        val doubleKey = RedisKeys.genKey("value_test_double")
-        val stringKey = RedisKeys.genKey("value_test_string")
-        val objKey = RedisKeys.genKey("value_test_obj")
-        val intEnumKey = RedisKeys.genKey("value_test_int_enum")
-        val stringEnumKey = RedisKeys.genKey("value_test_string_enum")
-
         RedisManager.maps.put(testMapKey, booleanKey, false)
-        RedisManager.maps.put(testMapKey, intKey, 1)
-        RedisManager.maps.put(testMapKey, longKey, Long.MAX_VALUE)
-        RedisManager.maps.put(testMapKey, doubleKey, 1.012)
-        RedisManager.maps.put(testMapKey, stringKey, "test")
-        RedisManager.maps.putObj(testMapKey, objKey, Person("a", 20))
-        RedisManager.maps.put(testMapKey, intEnumKey, MyIntEnum.ONE)
-        RedisManager.maps.put(testMapKey, stringEnumKey, MyStringEnum.YES)
-
         val boolean = RedisManager.maps.get<Boolean>(testMapKey, booleanKey)
-        val int = RedisManager.maps.getInt(testMapKey, intKey)
-        val long = RedisManager.maps.getLong(testMapKey, longKey)
-        val double = RedisManager.maps.getDouble(testMapKey, doubleKey)
-        val string = RedisManager.maps.getString(testMapKey, stringKey)
-        val obj = RedisManager.maps.getObj<Person>(testMapKey, objKey)
-        val intEnum = RedisManager.maps.getEnum<MyIntEnum, Int>(testMapKey, intEnumKey)
-        val stringEnum = RedisManager.maps.getEnum<MyStringEnum, String>(testMapKey, stringEnumKey)
-        val map = RedisManager.maps.getMap(testMapKey)
+        logger.info("$testMapKey.$booleanKey=$boolean")
 
+        val intKey = RedisKeys.genKey("value_test_int")
+        RedisManager.maps.put(testMapKey, intKey, 1)
+        val int = RedisManager.maps.getInt(testMapKey, intKey)
+        logger.info("$testMapKey.$intKey=$int")
+
+        val longKey = RedisKeys.genKey("value_test_long")
+        RedisManager.maps.put(testMapKey, longKey, Long.MAX_VALUE)
+        val long = RedisManager.maps.getLong(testMapKey, longKey)
+        logger.info("$testMapKey.$longKey=$long")
+
+        val doubleKey = RedisKeys.genKey("value_test_double")
+        RedisManager.maps.put(testMapKey, doubleKey, 1.012)
+        val double = RedisManager.maps.getDouble(testMapKey, doubleKey)
+        logger.info("$testMapKey.$doubleKey=$double")
+
+        val stringKey = RedisKeys.genKey("value_test_string")
+        RedisManager.maps.put(testMapKey, stringKey, "test")
+        val string = RedisManager.maps.getString(testMapKey, stringKey)
+        logger.info("$testMapKey.$stringKey=$string")
+
+        val objKey = RedisKeys.genKey("value_test_obj")
+        RedisManager.maps.putObj(testMapKey, objKey, Person("a", 20))
+        val obj = RedisManager.maps.getObj<Person>(testMapKey, objKey)
+        logger.info("$testMapKey.$objKey=$obj")
+
+        val intEnumKey = RedisKeys.genKey("value_test_int_enum")
+        RedisManager.maps.put(testMapKey, intEnumKey, MyIntEnum.ONE)
+        val intEnum = RedisManager.maps.getEnum<MyIntEnum, Int>(testMapKey, intEnumKey)
+        logger.info("$testMapKey.$intEnumKey=$intEnum")
+
+        val stringEnumKey = RedisKeys.genKey("value_test_string_enum")
+        RedisManager.maps.put(testMapKey, stringEnumKey, MyStringEnum.YES)
+        val stringEnum = RedisManager.maps.getEnum<MyStringEnum, String>(testMapKey, stringEnumKey)
+        logger.info("$testMapKey.$stringEnumKey=$stringEnum")
+
+        val map = RedisManager.maps.getMap(testMapKey)
+        logger.info("$testMapKey=$map")
+
+        val testMapKey2 = RedisKeys.genKey("$keyPrefix:map2")
         RedisManager.maps.putAll(testMapKey2, map)
 
         val boolean2 = RedisManager.maps.get<Boolean>(testMapKey2, booleanKey)
+        logger.info("$testMapKey2.$boolean2=$boolean2")
+
         val int2 = RedisManager.maps.getInt(testMapKey2, intKey)
+        logger.info("$testMapKey2.$int2=$int2")
+
         val long2 = RedisManager.maps.getLong(testMapKey2, longKey)
+        logger.info("$testMapKey2.$long2=$long2")
+
         val double2 = RedisManager.maps.getDouble(testMapKey2, doubleKey)
+        logger.info("$testMapKey2.$double2=$double2")
+
         val string2 = RedisManager.maps.getString(testMapKey2, stringKey)
+        logger.info("$testMapKey2.$string2=$string2")
+
         val obj2 = RedisManager.maps.getObj<Person>(testMapKey2, objKey)
+        logger.info("$testMapKey2.$obj2=$obj2")
+
         val intEnum2 = RedisManager.maps.getEnum<MyIntEnum, Int>(testMapKey2, intEnumKey)
+        logger.info("$testMapKey2.$intEnum2=$intEnum2")
+
         val stringEnum2 = RedisManager.maps.getEnum<MyStringEnum, String>(testMapKey2, stringEnumKey)
+        logger.info("$testMapKey2.$stringEnum2=$stringEnum2")
+
         val map2 = RedisManager.maps.getMap(testMapKey2)
+        logger.info("$testMapKey2.$map2=$map2")
 
-        println(boolean)
-        println(int)
-        println(long)
-        println(double)
-        println(string)
-        println(obj)
-        println(intEnum)
-        println(stringEnum)
-        println(map)
-
-        println(boolean2)
-        println(int2)
-        println(long2)
-        println(double2)
-        println(string2)
-        println(obj2)
-        println(intEnum2)
-        println(stringEnum2)
-        println(map2)
+        RedisManager.deleteByKeyPattern("$keyPrefix:*")
     }
 
-    @Test
-    fun myEnumTests() {
-        RedisManager.values.set(RedisKeys.genKey("value_test_my_int_enum"), MyIntEnum.ONE)
-        RedisManager.values.set(RedisKeys.genKey("value_test_my_string_enum"), MyStringEnum.NO)
+    @Order(3)
+    @ParameterizedTest
+    @ValueSource(strings = ["myEnumTests"])
+    fun myEnumTests(keyPrefix: String) {
+        RedisManager.values.set(RedisKeys.genKey("${keyPrefix}:value_test_my_int_enum"), MyIntEnum.ONE)
+        RedisManager.values.set(RedisKeys.genKey("${keyPrefix}:value_test_my_string_enum"), MyStringEnum.NO)
 
-        val myIntEnum = RedisManager.values.getEnum<MyIntEnum, Int>(RedisKeys.genKey("value_test_my_int_enum"))
+        val myIntEnum =
+            RedisManager.values.getEnum<MyIntEnum, Int>(RedisKeys.genKey("${keyPrefix}:value_test_my_int_enum"))
         val myStringEnum =
-            RedisManager.values.getEnum<MyStringEnum, String>(RedisKeys.genKey("value_test_my_string_enum"))
+            RedisManager.values.getEnum<MyStringEnum, String>(RedisKeys.genKey("${keyPrefix}:value_test_my_string_enum"))
 
         println(myIntEnum)
         println(myStringEnum)
+
+        RedisManager.deleteByKeyPattern("$keyPrefix:*")
     }
 
 
-    @Test
-    fun testString() {
-        RedisConnectionUtils.bindConnection(RedisManager.redisTemplate.requiredConnectionFactory)
-        RedisManager.redisTemplate.multi()
-        RedisManager.redisTemplate.requiredConnectionFactory.connection.openPipeline()
+    @Order(4)
+    @ParameterizedTest
+    @ValueSource(strings = ["testListener"])
+    fun testListener(keyPrefix: String) {
 
-        RedisConnectionUtils.unbindConnection(RedisManager.redisTemplate.requiredConnectionFactory)
+        RedisManager.values.set("$keyPrefix:testExpire0", "year")
+        RedisManager.values.set("$keyPrefix:testExpire1", "year", 1)
+        RedisManager.values.set("$keyPrefix:testExpire2", "year", 2)
+        RedisManager.values.set("$keyPrefix:testExpire3", "year", 3)
+        RedisManager.values.set("$keyPrefix:testExpire4", "year", 4)
+
+        Thread.sleep(10 * 1000)
+
+        RedisManager.deleteByKeyPattern("$keyPrefix:*")
     }
 
-    @Test
-    fun testMulti() {
-        RedisManager.doInTransaction {
-            RedisManager.values.set("Multi a", "a")
-            RedisManager.values.set("Multi b", "b")
-            RedisManager.values.set("Multi c", "c")
+    @Order(5)
+    @ParameterizedTest
+    @ValueSource(strings = ["testMulti"])
+    fun testMulti(keyPrefix: String) {
+        Assertions.assertThrows(BizException::class.java) {
+            RedisManager.doInTransaction {
+                RedisManager.values.set("$keyPrefix:Multi a", "a")
+                RedisManager.values.set("$keyPrefix:Multi b", "b")
+                RedisManager.values.set("$keyPrefix:Multi c", "c")
+            }
+
+            RedisManager.doInTransaction {
+                RedisManager.values.set("$keyPrefix:2 Multi a", "a")
+                RedisManager.values.set("$keyPrefix:2 Multi b", "b")
+                throw BizException("")
+            }
         }
-
-        RedisManager.doInTransaction {
-            RedisManager.values.set("2 Multi a", "a")
-            RedisManager.values.set("2 Multi b", "b")
-            throw BizException("")
-        }
+        // TODO 没删掉.
+        RedisManager.deleteByKeyPattern("$keyPrefix:*")
     }
-
 }
 
 class Person(val name: String, val age: Int)

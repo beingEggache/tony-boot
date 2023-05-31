@@ -1,4 +1,4 @@
-package com.tony.aspect.test
+package com.tony.cache.test.aspect
 
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
@@ -41,10 +41,7 @@ annotation class TestAnnoAop(
 @Aspect
 object TestAnnoAspect {
 
-    @Pointcut("@annotation(com.tony.aspect.test.TestAnnoAop)")
-    public fun testAnnoAop(): Unit = Unit
-
-    @Around("testAnnoAop()")
+    @Around("@annotation(anno)")
     fun doAop(joinPoint: ProceedingJoinPoint, anno: TestAnnoAop): Any? {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
