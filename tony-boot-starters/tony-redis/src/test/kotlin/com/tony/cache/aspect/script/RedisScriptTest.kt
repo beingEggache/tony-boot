@@ -3,6 +3,9 @@ package com.tony.cache.aspect.script
 import com.tony.cache.RedisManager
 import com.tony.cache.test.TestCacheApp
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInfo
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import org.slf4j.LoggerFactory
 import org.springframework.boot.test.context.SpringBootTest
 
@@ -16,22 +19,18 @@ class RedisScriptTest {
 
     private val logger = LoggerFactory.getLogger(RedisScriptTest::class.java)
 
-    @Test
-    fun deleteByScriptTest() {
-        val keyPrefix = "test_script"
-        RedisManager.values.set("$keyPrefix:int1", 1)
-        RedisManager.values.set("$keyPrefix:int2", 2)
-        RedisManager.values.set("$keyPrefix:int3", 3)
-        RedisManager.values.set("$keyPrefix:int4", 4)
+    @ParameterizedTest
+    @ValueSource(ints = [100])
+    fun deleteByScriptTest(count: Int, testInfo: TestInfo) {
+        val methodName = testInfo.testMethod.get().name
+        (0 until count).forEach {
+            RedisManager.values.set("$methodName:$it", it)
+        }
+        (0 until count).forEach {
+            RedisManager.values.set("${methodName}2:$it", it)
+        }
 
-        val keyPrefix2 = "test_script2"
-        RedisManager.values.set("$keyPrefix2:int1", 1)
-        RedisManager.values.set("$keyPrefix2:int2", 2)
-        RedisManager.values.set("$keyPrefix2:int3", 3)
-        RedisManager.values.set("$keyPrefix2:int4", 4)
-        RedisManager.values.set("$keyPrefix2:int5", 5)
-
-        val deletedCount = RedisManager.deleteByKeyPatterns("$keyPrefix:*", "$keyPrefix2:*")
+        val deletedCount = RedisManager.deleteByKeyPatterns("$methodName:*", "${methodName}2:*")
         logger.info("deletedCount:$deletedCount")
     }
 
