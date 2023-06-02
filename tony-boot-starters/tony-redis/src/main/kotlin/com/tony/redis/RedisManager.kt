@@ -1,4 +1,4 @@
-package com.tony.cache
+package com.tony.redis
 
 import com.tony.SpringContexts
 import com.tony.exception.ApiException
@@ -44,38 +44,54 @@ public object RedisManager {
     /**
      * 批量删除脚本
      */
-    private val deleteKeyByPatternScript: RedisScript<Long> =
+    private val deleteKeyByPatternScript: RedisScript<Long?> =
         RedisScript.of(ClassPathResource("META-INF/scripts/deleteByKeyPatterns.lua"), Long::class.java)
 
     /**
      * redis 事务操作.
-     * ## 注意, 事务回调 [callback] 中读取操作是取不到值的.
+     *
+     * ## 注: 在事务中的redis 操作是获取不到值的. 只能在方法最终返回值中按顺序获取.
      *
      * @param callback
      */
     @JvmSynthetic
     @JvmStatic
-    public fun doInTransaction(callback: () -> Unit) {
-        RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
-        redisTemplate.setEnableTransactionSupport(true)
-        redisTemplate.multi()
-        callback()
-        redisTemplate.exec()
+    public fun doInTransaction(callback: () -> Unit): List<Any> {
+        val redisConnection = RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
+        synchronized(redisConnection) {
+            redisConnection.multi()
+            try {
+                callback()
+                return redisConnection.exec()
+            } catch (e: Throwable) {
+                redisConnection.discard()
+                throw e
+            } finally {
+                RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
+            }
+        }
     }
 
     /**
      * redis 事务操作.
-     * ## 注意, 事务回调 [callback] 中读取操作是取不到值的.
      *
      * @param callback
      */
     @JvmStatic
-    public fun doInTransaction(callback: Runnable) {
-        RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
-        redisTemplate.setEnableTransactionSupport(true)
-        redisTemplate.multi()
-        callback.run()
-        redisTemplate.exec()
+    public fun doInTransaction(callback: Runnable): List<Any?> {
+        val redisConnection = RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
+        synchronized(redisConnection) {
+            redisConnection.multi()
+            try {
+                callback.run()
+                return redisConnection.exec()
+            } catch (e: Throwable) {
+                redisConnection.discard()
+                throw e
+            } finally {
+                RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
+            }
+        }
     }
 
     /**
@@ -167,7 +183,7 @@ public object RedisManager {
      */
     @JvmStatic
     public fun deleteByKeyPatterns(vararg keyPatterns: String): Long =
-        redisTemplate.execute(deleteKeyByPatternScript, keyPatterns.asList())
+        deleteByKeyPatterns(keyPatterns.asList())
 
     /**
      * redis 根据 [keyPatterns] 批量删除.
@@ -179,7 +195,9 @@ public object RedisManager {
     public fun deleteByKeyPatterns(keyPatterns: List<String>): Long {
         if (keyPatterns.isEmpty()) throw ApiException("keyPatterns must not be empty.")
         if (keyPatterns.any { it.isBlank() }) throw ApiException("keyPattern must not be blank.")
-        return redisTemplate.execute(deleteKeyByPatternScript, keyPatterns)
+        @Suppress("RedundantNullableReturnType")
+        val result: Long? = redisTemplate.execute(deleteKeyByPatternScript, keyPatterns)
+        return result ?: 0L
     }
 
     /**
@@ -189,8 +207,8 @@ public object RedisManager {
      * @return
      */
     @JvmStatic
-    public fun delete(vararg keys: String): Long? =
-        redisTemplate.delete(keys.asList())
+    public fun delete(vararg keys: String): Long =
+        delete(keys.asList())
 
     /**
      * 批量删除
@@ -199,8 +217,11 @@ public object RedisManager {
      * @return
      */
     @JvmStatic
-    public fun delete(keys: Collection<String>): Long? =
-        redisTemplate.delete(keys)
+    public fun delete(keys: Collection<String>): Long {
+        @Suppress("RedundantNullableReturnType")
+        val result: Long? = redisTemplate.delete(keys)
+        return result ?: 0L
+    }
 
     /**
      * 清空redis, 也就是直接执行flushdb 命令
@@ -220,10 +241,7 @@ public object RedisManager {
      * @return
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    public fun keys(vararg keys: String): Collection<String> = keys.fold(HashSet()) { set, key ->
-        set.addAll(redisTemplate.keys(key))
-        set
-    }
+    public fun keys(vararg keys: String): Collection<String> = keys(keys.asList())
 
     /**
      * 获取键

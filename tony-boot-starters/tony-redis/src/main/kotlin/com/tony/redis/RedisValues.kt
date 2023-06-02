@@ -1,10 +1,10 @@
-package com.tony.cache
+package com.tony.redis
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.cache.RedisManager.trimQuotes
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumValue
+import com.tony.redis.RedisManager.trimQuotes
 import com.tony.utils.asTo
 import com.tony.utils.jsonToObj
 import com.tony.utils.toJsonString

@@ -1,13 +1,13 @@
-package com.tony.cache.aspect
+package com.tony.redis.aspect
 
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.tony.PROJECT_GROUP
-import com.tony.cache.RedisKeys
-import com.tony.cache.RedisManager
-import com.tony.cache.annotation.RedisCacheEvict
-import com.tony.cache.annotation.RedisCacheable
 import com.tony.exception.ApiException
+import com.tony.redis.RedisKeys
+import com.tony.redis.RedisManager
+import com.tony.redis.annotation.RedisCacheEvict
+import com.tony.redis.annotation.RedisCacheable
 import com.tony.utils.isArrayLikeType
 import com.tony.utils.isBooleanType
 import com.tony.utils.isByteType
@@ -79,7 +79,7 @@ public class DefaultRedisCacheAspect {
         return RedisKeys.genKey(cacheKey, *paramsValues)
     }
 
-    @After("@annotation($PROJECT_GROUP.cache.annotation.RedisCacheEvict.Container)")
+    @After("@annotation($PROJECT_GROUP.redis.annotation.RedisCacheEvict.Container)")
     public fun doCacheEvict(joinPoint: JoinPoint) {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature

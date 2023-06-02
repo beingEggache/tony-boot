@@ -1,19 +1,18 @@
-package com.tony.cache.test
+package com.tony.redis.test
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
-import com.tony.cache.RedisKeys
-import com.tony.cache.RedisManager
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumIntValue
 import com.tony.enums.EnumStringValue
 import com.tony.exception.BizException
+import com.tony.redis.RedisKeys
+import com.tony.redis.RedisManager
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.MethodOrderer
-import org.junit.jupiter.api.Order
-import org.junit.jupiter.api.TestMethodOrder
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
+import org.junit.jupiter.api.RepeatedTest
+import org.junit.jupiter.api.RepetitionInfo
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInfo
 import org.slf4j.LoggerFactory
 import org.springframework.boot.test.context.SpringBootTest
 import kotlin.test.assertNotNull
@@ -24,18 +23,14 @@ import kotlin.test.assertNotNull
  * @since 2021-05-19 15:22
  */
 
-@TestMethodOrder(
-    MethodOrderer.OrderAnnotation::class
-)
 @SpringBootTest(classes = [TestCacheApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class RedisManagerTests {
 
     private val logger = LoggerFactory.getLogger(RedisManagerTests::class.java)
 
-    @Order(1)
-    @ParameterizedTest
-    @ValueSource(strings = ["testRedisValues"])
-    fun testRedisValues(keyPrefix: String) {
+    @Test
+    fun testRedisValues(testInfo: TestInfo) {
+        val keyPrefix = testInfo.testMethod.get().name
 
         val booleanKey = RedisKeys.genKey("$keyPrefix:value_test_boolean")
         RedisManager.values.set(booleanKey, false)
@@ -95,10 +90,9 @@ class RedisManagerTests {
     }
 
 
-    @Order(2)
-    @ParameterizedTest
-    @ValueSource(strings = ["testRedisMaps"])
-    fun testRedisMaps(keyPrefix: String) {
+    @Test
+    fun testRedisMaps(testInfo: TestInfo) {
+        val keyPrefix = testInfo.testMethod.get().name
         val testMapKey = RedisKeys.genKey("$keyPrefix:map")
 
         val booleanKey = RedisKeys.genKey("value_test_boolean")
@@ -177,10 +171,9 @@ class RedisManagerTests {
         RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
-    @Order(3)
-    @ParameterizedTest
-    @ValueSource(strings = ["myEnumTests"])
-    fun myEnumTests(keyPrefix: String) {
+    @Test
+    fun myEnumTests(testInfo: TestInfo) {
+        val keyPrefix = testInfo.testMethod.get().name
         RedisManager.values.set(RedisKeys.genKey("${keyPrefix}:value_test_my_int_enum"), MyIntEnum.ONE)
         RedisManager.values.set(RedisKeys.genKey("${keyPrefix}:value_test_my_string_enum"), MyStringEnum.NO)
 
@@ -189,17 +182,16 @@ class RedisManagerTests {
         val myStringEnum =
             RedisManager.values.getEnum<MyStringEnum, String>(RedisKeys.genKey("${keyPrefix}:value_test_my_string_enum"))
 
-        println(myIntEnum)
-        println(myStringEnum)
+        logger.info(myIntEnum.toString())
+        logger.info(myStringEnum.toString())
 
         RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
 
-    @Order(4)
-    @ParameterizedTest
-    @ValueSource(strings = ["testListener"])
-    fun testListener(keyPrefix: String) {
+    @Test
+    fun testListener(testInfo: TestInfo) {
+        val keyPrefix = testInfo.testMethod.get().name
 
         RedisManager.values.set("$keyPrefix:testExpire0", "year")
         RedisManager.values.set("$keyPrefix:testExpire1", "year", 1)
@@ -212,16 +204,17 @@ class RedisManagerTests {
         RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
-    @Order(5)
-    @ParameterizedTest
-    @ValueSource(strings = ["testMulti"])
-    fun testMulti(keyPrefix: String) {
+    @RepeatedTest(100)
+    fun testMulti(testInfo: TestInfo, repetitionInfo: RepetitionInfo) {
+        val keyPrefix = testInfo.testMethod.get().name + repetitionInfo.currentRepetition
         Assertions.assertThrows(BizException::class.java) {
-            RedisManager.doInTransaction {
+            val result = RedisManager.doInTransaction {
                 RedisManager.values.set("$keyPrefix:Multi a", "a")
                 RedisManager.values.set("$keyPrefix:Multi b", "b")
                 RedisManager.values.set("$keyPrefix:Multi c", "c")
+                RedisManager.deleteByKeyPatterns("$keyPrefix:*")
             }
+            logger.info(result.toString())
 
             RedisManager.doInTransaction {
                 RedisManager.values.set("$keyPrefix:2 Multi a", "a")
@@ -229,8 +222,6 @@ class RedisManagerTests {
                 throw BizException("")
             }
         }
-        // TODO 没删掉.
-        RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 }
 

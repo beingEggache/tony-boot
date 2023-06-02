@@ -1,6 +1,6 @@
-package com.tony.cache
+package com.tony.redis
 
-import com.tony.cache.RedisManager.trimQuotes
+import com.tony.redis.RedisManager.trimQuotes
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumValue
 import com.tony.utils.doIf

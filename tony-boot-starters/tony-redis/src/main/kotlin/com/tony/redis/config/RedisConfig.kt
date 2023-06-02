@@ -1,6 +1,6 @@
-package com.tony.cache.config
+package com.tony.redis.config
 
-import com.tony.cache.aspect.DefaultRedisCacheAspect
+import com.tony.redis.aspect.DefaultRedisCacheAspect
 import com.tony.utils.OBJECT_MAPPER
 import org.slf4j.LoggerFactory
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -20,10 +20,10 @@ import org.springframework.data.redis.serializer.RedisSerializer
  * @since 2023/5/25 10:31
  */
 @Configuration
-@EnableConfigurationProperties(RedisCacheProperties::class)
-internal class RedisCacheConfig {
+@EnableConfigurationProperties(RedisProperties::class)
+internal class RedisConfig {
 
-    private val logger = LoggerFactory.getLogger(RedisCacheConfig::class.java)
+    private val logger = LoggerFactory.getLogger(RedisConfig::class.java)
 
     @Bean
     internal fun redisCacheAspect(): DefaultRedisCacheAspect {
@@ -54,7 +54,7 @@ internal class RedisCacheConfig {
  * @since 2023/5/25 10:31
  */
 @ConstructorBinding
-@ConfigurationProperties(prefix = "cache")
-private data class RedisCacheProperties(
+@ConfigurationProperties(prefix = "redis")
+private data class RedisProperties(
     val keyPrefix: String?,
 )

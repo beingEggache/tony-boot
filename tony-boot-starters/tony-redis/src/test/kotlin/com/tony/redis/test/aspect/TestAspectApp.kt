@@ -1,4 +1,4 @@
-package com.tony.cache.aspect.test
+package com.tony.redis.test.aspect
 
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around

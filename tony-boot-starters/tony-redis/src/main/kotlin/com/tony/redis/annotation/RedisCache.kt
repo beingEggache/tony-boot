@@ -1,4 +1,4 @@
-package com.tony.cache.annotation
+package com.tony.redis.annotation
 
 /**
  * redis缓存注解.

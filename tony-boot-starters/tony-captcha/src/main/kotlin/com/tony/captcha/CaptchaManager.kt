@@ -1,8 +1,8 @@
 package com.tony.captcha
 
 import com.tony.SpringContexts
-import com.tony.cache.RedisManager
-import com.tony.cache.RedisValues
+import com.tony.redis.RedisManager
+import com.tony.redis.RedisValues
 import com.tony.utils.throwIf
 import com.tony.utils.uuid
 import com.wf.captcha.SpecCaptcha

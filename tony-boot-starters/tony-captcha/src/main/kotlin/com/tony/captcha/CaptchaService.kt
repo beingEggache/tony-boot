@@ -8,7 +8,7 @@ package com.tony.captcha
  * @since 2022/7/12 11:39
  */
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.tony.cache.RedisValues
+import com.tony.redis.RedisValues
 
 /**
  * 验证码 服务

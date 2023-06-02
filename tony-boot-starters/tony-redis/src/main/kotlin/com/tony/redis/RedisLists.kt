@@ -1,7 +1,7 @@
-package com.tony.cache
+package com.tony.redis
 
 import com.fasterxml.jackson.core.type.TypeReference
-import com.tony.cache.RedisManager.trimQuotes
+import com.tony.redis.RedisManager.trimQuotes
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.jsonToObj
 import com.tony.utils.toJsonString
@@ -78,7 +78,6 @@ public object RedisLists {
 
     @JvmStatic
     public fun rightPopString(key: String): String {
-        RedisManager.redisTemplate.setEnableTransactionSupport(false)
         val string = RedisManager.redisTemplate.boundListOps(key).rightPop()?.toString().defaultIfBlank()
         if (string.isBlank()) return string
         return string.trimQuotes()

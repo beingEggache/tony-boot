@@ -1,7 +1,7 @@
 package com.tony.wechat.test
 
 import com.tony.annotation.EnableTonyBoot
-import com.tony.cache.annotation.RedisCacheable
+import com.tony.redis.annotation.RedisCacheable
 import com.tony.utils.println
 import com.tony.utils.toJsonString
 import com.tony.wechat.WechatApiAccessTokenProvider

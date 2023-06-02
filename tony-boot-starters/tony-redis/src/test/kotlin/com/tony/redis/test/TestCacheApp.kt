@@ -1,8 +1,8 @@
-package com.tony.cache.test
+package com.tony.redis.test
 
 import com.tony.annotation.EnableTonyBoot
-import com.tony.cache.annotation.RedisCacheEvict
-import com.tony.cache.annotation.RedisCacheable
+import com.tony.redis.annotation.RedisCacheEvict
+import com.tony.redis.annotation.RedisCacheable
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.data.redis.connection.Message

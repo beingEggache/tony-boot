@@ -6,7 +6,7 @@
  * @author tangli
  * @since 2022/4/19 17:41
  */
-package com.tony.cache.test
+package com.tony.redis.test
 
 import com.tony.utils.println
 import org.junit.jupiter.api.Test
@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import javax.annotation.Resource
 
 @SpringBootTest(classes = [TestCacheApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class RedisCacheAnnoTests {
+class RedisCacheAspectTests {
 
     @Resource
     private lateinit var testRedisCacheAnnoService: TestRedisCacheAnnoService

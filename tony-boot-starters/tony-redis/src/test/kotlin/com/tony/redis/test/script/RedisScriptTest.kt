@@ -1,7 +1,7 @@
-package com.tony.cache.aspect.script
+package com.tony.redis.test.script
 
-import com.tony.cache.RedisManager
-import com.tony.cache.test.TestCacheApp
+import com.tony.redis.RedisManager
+import com.tony.redis.test.TestCacheApp
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInfo
 import org.junit.jupiter.params.ParameterizedTest
