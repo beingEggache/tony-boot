@@ -1,11 +1,11 @@
 package com.tony.db.dao
 
-import com.tony.cache.RedisKeys
-import com.tony.cache.RedisManager
 import com.tony.db.CacheKeys
 import com.tony.db.po.Module
 import com.tony.dto.enums.ModuleType
 import com.tony.mybatis.dao.BaseDao
+import com.tony.redis.RedisKeys
+import com.tony.redis.RedisManager
 import org.apache.ibatis.annotations.Param
 import org.springframework.stereotype.Repository
 
@@ -24,7 +24,7 @@ interface ModuleDao : BaseDao<Module> {
 
     companion object {
         fun clearModuleCache(userId: String = "*") {
-            RedisManager.deleteWithKeyPatterns(
+            RedisManager.deleteByKeyPatterns(
                 RedisKeys.genKey(CacheKeys.USER_FRONTEND_MODULES_CACHE_KEY, userId),
                 RedisKeys.genKey(CacheKeys.USER_API_MODULES_CACHE_KEY, userId),
             )

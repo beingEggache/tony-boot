@@ -1,8 +1,8 @@
 package com.tony.redis
 
-import com.tony.redis.RedisManager.trimQuotes
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumValue
+import com.tony.redis.RedisManager.trimQuotes
 import com.tony.utils.doIf
 import com.tony.utils.getLogger
 import com.tony.utils.jsonToObj

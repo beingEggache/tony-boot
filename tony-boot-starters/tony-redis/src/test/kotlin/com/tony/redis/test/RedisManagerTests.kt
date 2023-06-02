@@ -13,6 +13,8 @@ import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.RepetitionInfo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInfo
+import org.junit.jupiter.api.parallel.Execution
+import org.junit.jupiter.api.parallel.ExecutionMode
 import org.slf4j.LoggerFactory
 import org.springframework.boot.test.context.SpringBootTest
 import kotlin.test.assertNotNull
@@ -28,6 +30,7 @@ class RedisManagerTests {
 
     private val logger = LoggerFactory.getLogger(RedisManagerTests::class.java)
 
+    @Execution(ExecutionMode.CONCURRENT)
     @Test
     fun testRedisValues(testInfo: TestInfo) {
         val keyPrefix = testInfo.testMethod.get().name
@@ -89,7 +92,7 @@ class RedisManagerTests {
         RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
-
+    @Execution(ExecutionMode.CONCURRENT)
     @Test
     fun testRedisMaps(testInfo: TestInfo) {
         val keyPrefix = testInfo.testMethod.get().name
@@ -171,24 +174,23 @@ class RedisManagerTests {
         RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
+    @Execution(ExecutionMode.CONCURRENT)
     @Test
-    fun myEnumTests(testInfo: TestInfo) {
+    fun testList(testInfo: TestInfo) {
         val keyPrefix = testInfo.testMethod.get().name
-        RedisManager.values.set(RedisKeys.genKey("${keyPrefix}:value_test_my_int_enum"), MyIntEnum.ONE)
-        RedisManager.values.set(RedisKeys.genKey("${keyPrefix}:value_test_my_string_enum"), MyStringEnum.NO)
 
-        val myIntEnum =
-            RedisManager.values.getEnum<MyIntEnum, Int>(RedisKeys.genKey("${keyPrefix}:value_test_my_int_enum"))
-        val myStringEnum =
-            RedisManager.values.getEnum<MyStringEnum, String>(RedisKeys.genKey("${keyPrefix}:value_test_my_string_enum"))
-
-        logger.info(myIntEnum.toString())
-        logger.info(myStringEnum.toString())
-
+        RedisManager.doInTransaction {
+            RedisManager.lists.rightPushString(keyPrefix, "1")
+            RedisManager.lists.rightPushString(keyPrefix, "1")
+            RedisManager.lists.rightPushString(keyPrefix, "1")
+            RedisManager.lists.rightPushString(keyPrefix, "1")
+            RedisManager.lists.rightPushString(keyPrefix, "1")
+            RedisManager.lists.rightPushString(keyPrefix, "1")
+        }
         RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
-
+    @Execution(ExecutionMode.CONCURRENT)
     @Test
     fun testListener(testInfo: TestInfo) {
         val keyPrefix = testInfo.testMethod.get().name
@@ -204,6 +206,7 @@ class RedisManagerTests {
         RedisManager.deleteByKeyPatterns("$keyPrefix:*")
     }
 
+    @Execution(ExecutionMode.CONCURRENT)
     @RepeatedTest(100)
     fun testMulti(testInfo: TestInfo, repetitionInfo: RepetitionInfo) {
         val keyPrefix = testInfo.testMethod.get().name + repetitionInfo.currentRepetition
