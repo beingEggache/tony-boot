@@ -75,6 +75,7 @@ public object RedisManager {
     /**
      * redis 事务操作.
      *
+     * @see `RedisTemplate.execute(SessionCallback<T> session)`
      * @param callback
      */
     @JvmStatic
@@ -106,6 +107,8 @@ public object RedisManager {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
         return redisTemplate.execute(lockScript, Collections.singletonList(key), 1L, timeout) == 1L
     }
+
+    public inline fun <reified T> String.toRedisScript(): RedisScript<T> = RedisScript.of(this, T::class.java)
 
     /**
      * 执行 redis lua 脚本

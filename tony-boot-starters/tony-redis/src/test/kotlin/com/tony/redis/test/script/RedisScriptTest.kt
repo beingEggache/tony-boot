@@ -1,6 +1,7 @@
 package com.tony.redis.test.script
 
 import com.tony.redis.RedisManager
+import com.tony.redis.RedisManager.toRedisScript
 import com.tony.redis.test.TestCacheApp
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInfo
@@ -8,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.slf4j.LoggerFactory
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.redis.core.script.RedisScript
 
 /**
  * RedisScriptTest is
@@ -36,6 +38,13 @@ class RedisScriptTest {
 
     @Test
     fun scriptTest() {
+        val script = """
+            local keys = KEYS
+            return keys
+        """.trimIndent()
+        val result =
+            RedisManager.executeScript<String>(script.toRedisScript(), listOf("hello", "aloha"), listOf("go", "fuck", "yourself"))
+        logger.info(result.toString())
     }
 
 }
