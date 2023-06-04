@@ -25,7 +25,7 @@ import kotlin.test.assertNotNull
  * @since 2021-05-19 15:22
  */
 
-@SpringBootTest(classes = [TestCacheApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(classes = [TestRedisApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class RedisManagerTests {
 
     private val logger = LoggerFactory.getLogger(RedisManagerTests::class.java)
@@ -89,7 +89,18 @@ class RedisManagerTests {
         assertNotNull(stringEnum)
         logger.info("$stringEnumKey=$stringEnum")
 
-        RedisManager.deleteByKeyPatterns("$keyPrefix:*")
+        // redis version.
+        val redisVersion = RedisManager
+            .redisTemplate
+            .connectionFactory
+            ?.connection
+            ?.info("server")
+            ?.getProperty("redis_version")
+        if(redisVersion?.startsWith("3.2") == true){
+            RedisManager.deleteByKeyPatterns("$keyPrefix:*")
+        }else {
+            RedisManager.delete(RedisManager.keys("$keyPrefix:*"))
+        }
     }
 
     @Execution(ExecutionMode.CONCURRENT)

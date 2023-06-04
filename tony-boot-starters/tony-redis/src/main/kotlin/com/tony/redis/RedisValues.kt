@@ -41,12 +41,13 @@ public object RedisValues {
      */
     @JvmStatic
     @JvmOverloads
-    public fun increment(key: String, delta: Long = 1L, initial: Long? = null): Long? {
-        if (initial != null) {
-            RedisManager.redisTemplate.boundValueOps(key).setIfAbsent(initial)
-        }
-        return RedisManager.redisTemplate.boundValueOps(key).increment(delta)
-    }
+    public fun increment(key: String, delta: Long = 1L, initial: Long? = null): Long? =
+        RedisManager.doInTransaction {
+            if (initial != null) {
+                RedisManager.redisTemplate.boundValueOps(key).setIfAbsent(initial)
+            }
+            RedisManager.redisTemplate.boundValueOps(key).increment(delta)
+        }.last().asTo()
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.
@@ -60,12 +61,13 @@ public object RedisValues {
      */
     @JvmStatic
     @JvmOverloads
-    public fun increment(key: String, delta: Double = 1.0, initial: Double? = null): Double? {
-        if (initial != null) {
-            RedisManager.redisTemplate.boundValueOps(key).setIfAbsent(initial)
-        }
-        return RedisManager.redisTemplate.boundValueOps(key).increment(delta)
-    }
+    public fun increment(key: String, delta: Double = 1.0, initial: Double? = null): Double? =
+        RedisManager.doInTransaction {
+            if (initial != null) {
+                RedisManager.redisTemplate.boundValueOps(key).setIfAbsent(initial)
+            }
+            RedisManager.redisTemplate.boundValueOps(key).increment(delta)
+        }.last().asTo()
 
     @JvmStatic
     @JvmOverloads
@@ -134,6 +136,7 @@ public object RedisValues {
         where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
         val value = RedisManager.redisTemplate.opsForValue().get(key)
             ?: return null
+        if (value is E) return value
         return EnumCreator.getCreator(E::class.java).create(value as KEY)
     }
 }

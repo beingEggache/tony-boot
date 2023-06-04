@@ -43,6 +43,7 @@ public object RedisManager {
 
     /**
      * 批量删除脚本
+     * @since redis 3.2+
      */
     private val deleteKeyByPatternScript: RedisScript<Long?> =
         RedisScript.of(ClassPathResource("META-INF/scripts/deleteByKeyPatterns.lua"), Long::class.java)
@@ -64,6 +65,7 @@ public object RedisManager {
                 callback()
                 return redisConnection.exec()
             } catch (e: Throwable) {
+                logger.error(e.message, e)
                 redisConnection.discard()
                 throw e
             } finally {

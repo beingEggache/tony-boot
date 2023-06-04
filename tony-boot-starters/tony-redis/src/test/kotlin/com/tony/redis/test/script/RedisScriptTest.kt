@@ -2,21 +2,20 @@ package com.tony.redis.test.script
 
 import com.tony.redis.RedisManager
 import com.tony.redis.RedisManager.toRedisScript
-import com.tony.redis.test.TestCacheApp
+import com.tony.redis.test.TestRedisApp
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInfo
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.slf4j.LoggerFactory
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.data.redis.core.script.RedisScript
 
 /**
  * RedisScriptTest is
  * @author tangli
  * @since 2023/05/31 11:00
  */
-@SpringBootTest(classes = [TestCacheApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(classes = [TestRedisApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class RedisScriptTest {
 
     private val logger = LoggerFactory.getLogger(RedisScriptTest::class.java)

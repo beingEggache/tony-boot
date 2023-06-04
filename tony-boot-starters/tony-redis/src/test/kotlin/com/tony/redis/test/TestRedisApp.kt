@@ -3,12 +3,15 @@ package com.tony.redis.test
 import com.tony.annotation.EnableTonyBoot
 import com.tony.redis.annotation.RedisCacheEvict
 import com.tony.redis.annotation.RedisCacheable
+import com.tony.redis.serializer.ProtostuffSerializer
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.data.redis.connection.Message
 import org.springframework.data.redis.connection.RedisConnectionFactory
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener
 import org.springframework.data.redis.listener.RedisMessageListenerContainer
+import org.springframework.data.redis.serializer.RedisSerializer
 import org.springframework.stereotype.Service
 
 
@@ -19,7 +22,7 @@ import org.springframework.stereotype.Service
  */
 @EnableTonyBoot
 @SpringBootApplication
-class TestCacheApp {
+class TestRedisApp {
 
     @Bean
     fun container(connectionFactory: RedisConnectionFactory): RedisMessageListenerContainer? {
@@ -32,6 +35,21 @@ class TestCacheApp {
     fun redisKeyExpirationListener(listenerContainer: RedisMessageListenerContainer): RedisKeyExpirationListener {
         return RedisKeyExpirationListener(listenerContainer)
     }
+
+    @Bean("redisTemplate")
+    internal fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<String, Any> =
+        run {
+            val serializer = ProtostuffSerializer()
+            val stringRedisSerializer = RedisSerializer.string()
+            RedisTemplate<String, Any>().apply {
+                setConnectionFactory(redisConnectionFactory)
+                keySerializer = stringRedisSerializer
+                hashKeySerializer = stringRedisSerializer
+                valueSerializer = serializer
+                hashValueSerializer = serializer
+                afterPropertiesSet()
+            }
+        }
 }
 
 class RedisKeyExpirationListener(listenerContainer: RedisMessageListenerContainer) :

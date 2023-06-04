@@ -3,6 +3,7 @@ package com.tony.redis.config
 import com.tony.redis.aspect.DefaultRedisCacheAspect
 import com.tony.utils.OBJECT_MAPPER
 import org.slf4j.LoggerFactory
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -31,6 +32,7 @@ internal class RedisConfig {
         return DefaultRedisCacheAspect()
     }
 
+    @ConditionalOnMissingBean(name = ["redisTemplate"])
     @Bean("redisTemplate")
     internal fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<String, Any> =
         run {

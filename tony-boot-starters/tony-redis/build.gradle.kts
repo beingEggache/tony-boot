@@ -4,6 +4,8 @@ dependencies {
     implementation(projects.tonyCore)
     implementation(Deps.SpringData.starterRedis)
     implementation(Deps.SpringBoot.starterAop)
+    implementation("io.protostuff:protostuff-core:1.8.0")
+    implementation("io.protostuff:protostuff-runtime:1.8.0")
 
     addTestDependencies()
     testApi(Deps.SpringData.starterRedis)
