@@ -1,46 +1,48 @@
 package com.tony.redis.serializer
 
-import com.tony.utils.getLogger
+import com.tony.redis.RedisValues
 import io.protostuff.LinkedBuffer
 import io.protostuff.ProtobufException
 import io.protostuff.ProtostuffIOUtil
 import io.protostuff.Schema
 import io.protostuff.runtime.RuntimeSchema
-import org.springframework.cache.interceptor.SimpleKey
-import org.springframework.core.convert.ConversionService
-import org.springframework.core.convert.support.DefaultConversionService
+import org.slf4j.LoggerFactory
 import org.springframework.data.redis.serializer.RedisSerializer
 import org.springframework.data.redis.serializer.SerializationException
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.text.NumberFormat
-import java.util.Objects
 
 
 /**
- * redis key value 序列化反序列化.
+ * Redis protoStuff 序列化, 反序列化对象包装.
  *
+ * 有 [RedisValues.increment]和 [RedisValues.get] [RedisValues.set] 需求的[Long], [Double] 类型不建议使用!
+ * 因为 [RedisValues.increment]不会走 [RedisSerializer.serialize].
+ *
+ * 但经过特殊处理, 所有 [Number] 类型都直接原生处理, 没走 [RedisSerializer.serialize].
  * @author tangli
  * @since 2023/5/24 18:12
  */
 internal class ProtoWrapper @JvmOverloads constructor(var data: Any? = null)
 
 /**
- * Created by zkk on 2019/3/14
- * 增加protostuff序列化方式，生成的码流比jdk序列化小，速度更快
- * 解决devtool热加载在jdk序列化下类型转换报错的情况
+ * Protostuff redis 序列化.
+ *
+ * 生成的码流比jdk序列化小，速度更快.
+ *
+ * @author tangli
+ * @since 2023/6/5 13:52
  */
 class ProtostuffSerializer : RedisSerializer<Any?> {
 
-    private val logger = getLogger()
-    private val buffer: LinkedBuffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE)
-
     @Throws(SerializationException::class)
     override fun serialize(t: Any?): ByteArray {
+        val buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE)
         if (t == null) {
             return emptyByteArray
         }
-        // 数字类型直接字符串吧. 否则incre等命令会出问题.
+        // 数字类型直接字符串. 否则incre等命令会出问题.
         if (!canSerialize(t::class.java)) {
             return t.toString().toByteArray()
         }
@@ -72,7 +74,7 @@ class ProtostuffSerializer : RedisSerializer<Any?> {
     }
 
     override fun canSerialize(type: Class<*>): Boolean {
-        return arrayOf(
+        val result = arrayOf(
             Byte::class.java,
             java.lang.Byte::class.java,
             Short::class.java,
@@ -90,44 +92,18 @@ class ProtostuffSerializer : RedisSerializer<Any?> {
         ).none {
             it.isAssignableFrom(type)
         }
+        logger.info("${type.name} canSerialize? $result")
+        return result
     }
 
     private companion object {
         @JvmStatic
+        private val emptyByteArray = ByteArray(0)
+
+        @JvmStatic
         private val schema: Schema<ProtoWrapper> = RuntimeSchema.getSchema(ProtoWrapper::class.java)
 
         @JvmStatic
-        private val emptyByteArray = ByteArray(0)
+        private val logger = LoggerFactory.getLogger(RedisSerializer::class.java)
     }
 }
-
-
-/**
- * 将redis key序列化为字符串
- *
- *
- *
- * spring cache中的简单基本类型直接使用 StringRedisSerializer 会有问题
- *
- *
- */
-public class RedisKeySerializer :
-    RedisSerializer<Any?> {
-    private val converter: ConversionService = DefaultConversionService.getSharedInstance()
-
-    override fun deserialize(bytes: ByteArray?): Any? {
-        return bytes?.let { String(it, Charsets.UTF_8) }
-    }
-
-    override fun serialize(obj: Any?): ByteArray? {
-        Objects.requireNonNull(obj, "redis key is null")
-        val key = when (obj) {
-            is SimpleKey -> ""
-            is String -> obj
-            else -> converter.convert(obj, String::class.java)
-        }
-        return Objects.requireNonNull(key)?.toByteArray()
-    }
-}
-
-

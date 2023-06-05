@@ -2,6 +2,13 @@ package com.tony.redis.test
 
 import com.tony.enums.EnumValue
 import com.tony.redis.RedisManager
+import com.tony.redis.test.model.ObjWithList
+import com.tony.redis.test.model.ObjWithMap
+import com.tony.redis.test.model.ObjWithNumberTypes
+import com.tony.redis.test.model.ObjWithObjList
+import com.tony.redis.test.model.ObjWithObjMap
+import com.tony.redis.test.model.SimpleObj
+import com.tony.utils.toJsonString
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
@@ -75,6 +82,54 @@ class RedisValueTests {
         testRedisObj(MyStringEnum.YES, MyStringEnum.NO)
     }
 
+    @Execution(ExecutionMode.CONCURRENT)
+    @Test
+    fun testObj() {
+        val simpleObj1 = SimpleObj("a da", 18)
+        val simpleObj2 = SimpleObj("a er", 20)
+        testRedisObj<SimpleObj>(simpleObj1, simpleObj2)
+        testRedisObj<ObjWithNumberTypes>(
+            ObjWithNumberTypes(
+                Byte.MIN_VALUE,
+                Short.MIN_VALUE,
+                Int.MIN_VALUE,
+                Long.MIN_VALUE,
+                BigInteger.ONE,
+                Float.MIN_VALUE,
+                Double.MIN_VALUE,
+                "123.2334554174212354".toBigDecimal(),
+            ),
+            ObjWithNumberTypes(
+                Byte.MAX_VALUE,
+                Short.MAX_VALUE,
+                Int.MAX_VALUE,
+                Long.MAX_VALUE,
+                BigInteger.TEN,
+                Float.MAX_VALUE,
+                Double.MAX_VALUE,
+                "123.2334554174212354".toBigDecimal(),
+            )
+        )
+        testRedisObj<ObjWithList>(
+            ObjWithList("simple list1", listOf("a", "b", "c")),
+            ObjWithList("simple list2", listOf("d", "e", "f")),
+        )
+        testRedisObj<ObjWithMap>(
+            ObjWithMap("simple map1", mapOf("a" to simpleObj1, "b" to simpleObj2)),
+            ObjWithMap("simple map2", mapOf("c" to simpleObj1, "d" to simpleObj2)),
+        )
+        val objList1 = ObjWithObjList("obj list1", listOf(simpleObj1, simpleObj2))
+        val objList2 = ObjWithObjList("obj list2", listOf(simpleObj1, simpleObj2))
+        testRedisObj<ObjWithObjList>(
+            objList1,
+            objList2,
+        )
+        testRedisObj<ObjWithObjMap>(
+            ObjWithObjMap("obj map1", mapOf("a" to objList1, "b" to objList2)),
+            ObjWithObjMap("obj map2", mapOf("c" to objList1, "d" to objList2)),
+        )
+    }
+
     private fun <T : Number> setAndGetNumber(type: Class<T>, oper: RedisOper, timeout: Long = 0L) {
         val value = getSampleByType(type)
         val key = genTestNumberKey(type, oper)
@@ -132,8 +187,7 @@ class RedisValueTests {
     }
 
     private inline fun <reified T : Any> testRedisObj(value1: T, value2: T) {
-        val oper1 = RedisOper.SET
-        val key1 = genTestObjKey(T::class.java, oper1)
+        val key1 = genTestObjKey(T::class.java, RedisOper.SET)
         val timeout1 = 0L
 
         logger.info("$key1 : start.")
@@ -141,10 +195,10 @@ class RedisValueTests {
         logger.info("$key1 : $value1.")
         val getValue1 = RedisManager.values.get<T>(key1)
         logger.info("$key1 : $getValue1 was get.")
+        logger.info("$key1 : json: ${getValue1.toJsonString()}.")
         logger.info("$key1 : end.")
 
-        val oper2 = RedisOper.SETNX
-        val key2 = genTestObjKey(T::class.java, oper2)
+        val key2 = genTestObjKey(T::class.java, RedisOper.SETNX)
         val timeout2 = 1L
 
         logger.info("$key2 : start.")
@@ -152,14 +206,22 @@ class RedisValueTests {
         logger.info("$key2 : $value2.")
         val getValue2 = RedisManager.values.get<T>(key2)
         logger.info("$key2 : $getValue2 was get.")
+        logger.info("$key2 : json: ${getValue2.toJsonString()}.")
         logger.info("$key2 : end.")
 
         RedisManager.delete(key1, key2)
-        logger.info("$key1 : $getValue1 was delete. $key2 : $getValue2 was delete.")
+        logger.info(
+            "${
+                genTestObjKey(
+                    T::class.java,
+                    RedisOper.DELETE
+                )
+            } : $getValue1 was delete. $key2 : $getValue2 was delete."
+        )
     }
 
 }
 
 enum class RedisOper {
-    SET, SETNX, INCRE, INCRE_WITH_INIT;
+    SET, SETNX, INCRE, INCRE_WITH_INIT, DELETE;
 }

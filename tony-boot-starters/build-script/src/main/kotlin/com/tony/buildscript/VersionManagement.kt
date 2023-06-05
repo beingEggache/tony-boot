@@ -19,7 +19,7 @@ object VersionManagement  {
 
     const val xxlJobVersion = "2.4.0"
 
-    const val jacksonVersion = "2.15.1"
+    const val jacksonVersion = "2.15.2"
 
     const val gsonVersion = "2.10.1"
     const val fastjsonVersion = "2.0.33"
@@ -30,7 +30,7 @@ object VersionManagement  {
     const val reactorNettyVersion = "1.1.7"
     const val slf4jVersion = "1.7.36"
 
-    const val byteBuddyVersion = "1.14.4"
+    const val byteBuddyVersion = "1.14.5"
     const val bouncycastleVersion = "1.73"
     const val javaJwtVersion = "4.4.0"
     const val guavaVersion = "32.0.0-jre"
@@ -42,7 +42,7 @@ object VersionManagement  {
     const val springCloudAlibabaVersion = "2021.0.5.0"
     const val springCloudVersion = "2021.0.7"
 
-    const val alipaySdkJavaVersion = "4.35.139.ALL"
+    const val alipaySdkJavaVersion = "4.35.150.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.30"
     const val aliyunSdkOssVersion = "3.16.3"
 }
