@@ -2,14 +2,10 @@ package com.tony.redis
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.enums.EnumCreator
-import com.tony.enums.EnumValue
-import com.tony.redis.RedisManager.trimQuotes
+import com.tony.SpringContexts
+import com.tony.redis.service.RedisValueService
 import com.tony.utils.asTo
-import com.tony.utils.jsonToObj
-import com.tony.utils.toJsonString
 import org.springframework.data.redis.core.RedisTemplate
-import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
 /**
@@ -19,6 +15,9 @@ import java.util.concurrent.TimeUnit
  * @since 2023/5/25 9:24
  */
 public object RedisValues {
+
+    public val redisValueService: RedisValueService
+        by SpringContexts.getBeanByLazy<RedisValueService>()
 
     /**
      * 同 [RedisTemplate.hasKey]
@@ -76,67 +75,22 @@ public object RedisValues {
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Unit = if (timeout == 0L) {
-        RedisManager.redisTemplate.opsForValue().set(key, value)
-    } else {
-        RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
+    ): Unit = redisValueService.set(key, value, timeout, timeUnit)
+
+    @JvmStatic
+    public inline fun <reified T : Any> get(key: String): T? {
+        return redisValueService.get(key, (object : TypeReference<T>() {}))
     }
 
     @JvmStatic
-    @JvmOverloads
-    public fun <T : Any> setObj(
-        key: String,
-        value: T,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Unit = if (timeout == 0L) {
-        RedisManager.redisTemplate.opsForValue().set(key, value.toJsonString())
-    } else {
-        RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
-    }
+    public fun <T : Any> get(key: String, type: Class<T>): T? =
+        redisValueService.get(key, type)
 
     @JvmStatic
-    public fun getString(key: String): String? {
-        val string = RedisManager.redisTemplate.opsForValue().get(key)?.toString()
-        if (string.isNullOrBlank()) return string
-        return string.trimQuotes()
-    }
+    public fun <T : Any> get(key: String, javaType: JavaType): T? =
+        redisValueService.get(key, javaType)
 
     @JvmStatic
-    internal fun getNumber(key: String): Number? =
-        RedisManager.redisTemplate.opsForValue().get(key).asTo()
-
-    @JvmStatic
-    public fun getInt(key: String): Int? = getNumber(key)?.toInt()
-
-    @JvmStatic
-    public fun getLong(key: String): Long? = getNumber(key)?.toLong()
-
-    @JvmStatic
-    public fun getDouble(key: String): Double? = getNumber(key)?.toDouble()
-
-    @JvmStatic
-    public inline fun <reified T> getObj(key: String): T? =
-        RedisManager.redisTemplate.opsForValue().get(key)?.toJsonString()?.jsonToObj()
-
-    @JvmStatic
-    public fun <T> getObj(key: String, typeReference: TypeReference<T>): T? =
-        getString(key)?.jsonToObj(typeReference)
-
-    @JvmStatic
-    public fun <T> getObj(key: String, javaType: JavaType): T? =
-        getString(key)?.jsonToObj(javaType)
-
-    @JvmStatic
-    public fun <T : Any> get(key: String): T? =
-        RedisManager.redisTemplate.opsForValue().get(key)?.asTo()
-
-    @Suppress("UNCHECKED_CAST")
-    public inline fun <reified E, KEY> getEnum(key: String): E?
-        where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
-        val value = RedisManager.redisTemplate.opsForValue().get(key)
-            ?: return null
-        if (value is E) return value
-        return EnumCreator.getCreator(E::class.java).create(value as KEY)
-    }
+    public fun <T : Any> get(key: String, typeReference: TypeReference<T>): T? =
+        redisValueService.get(key, typeReference)
 }

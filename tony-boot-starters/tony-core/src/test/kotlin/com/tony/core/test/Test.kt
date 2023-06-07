@@ -1,6 +1,15 @@
 package com.tony.core.test
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.type.TypeFactory
+import com.tony.utils.asTo
+
 fun main() {
+
+    val type = (object : TypeReference<String>() {}).type
+    val clazz = type.asTo<Class<String>>()
+    println(clazz)
+
 }
 
 

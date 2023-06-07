@@ -1,6 +1,6 @@
 package com.tony.redis.serializer
 
-import com.tony.redis.RedisValues
+import com.tony.redis.serializer.wrapper.ProtoWrapper
 import com.tony.utils.isNumberTypes
 import io.protostuff.LinkedBuffer
 import io.protostuff.ProtobufException
@@ -12,19 +12,6 @@ import org.springframework.data.redis.serializer.RedisSerializer
 import org.springframework.data.redis.serializer.SerializationException
 import java.text.NumberFormat
 
-
-/**
- * Redis protoStuff 序列化, 反序列化对象包装.
- *
- * 有 [RedisValues.increment]和 [RedisValues.get] [RedisValues.set] 需求的[Long], [Double] 类型不建议使用!
- * 因为 [RedisValues.increment]不会走 [RedisSerializer.serialize].
- *
- * 但经过特殊处理, 所有 [Number] 类型都直接原生处理, 没走 [RedisSerializer.serialize].
- * @author tangli
- * @since 2023/5/24 18:12
- */
-internal class ProtoWrapper @JvmOverloads constructor(var data: Any? = null)
-
 /**
  * Protostuff redis 序列化.
  *
@@ -33,7 +20,7 @@ internal class ProtoWrapper @JvmOverloads constructor(var data: Any? = null)
  * @author tangli
  * @since 2023/6/5 13:52
  */
-class ProtostuffSerializer : RedisSerializer<Any?> {
+public class ProtostuffSerializer : RedisSerializer<Any?> {
 
     @Throws(SerializationException::class)
     override fun serialize(t: Any?): ByteArray {
@@ -72,16 +59,12 @@ class ProtostuffSerializer : RedisSerializer<Any?> {
         return newMessage.data
     }
 
-    override fun canSerialize(type: Class<*>): Boolean = !type.isNumberTypes()
-
-    private companion object {
-        @JvmStatic
-        private val emptyByteArray = ByteArray(0)
-
-        @JvmStatic
-        private val schema: Schema<ProtoWrapper> = RuntimeSchema.getSchema(ProtoWrapper::class.java)
-
-        @JvmStatic
-        private val logger = LoggerFactory.getLogger(RedisSerializer::class.java)
-    }
+    override fun canSerialize(type: Class<*>): Boolean =
+        type.isNumberTypes()
 }
+
+private val emptyByteArray = ByteArray(0)
+
+private val schema: Schema<ProtoWrapper> = RuntimeSchema.getSchema(ProtoWrapper::class.java)
+
+private val logger = LoggerFactory.getLogger(RedisSerializer::class.java)

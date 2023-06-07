@@ -98,7 +98,7 @@ public class DefaultRedisCacheAspect {
         val paramsNames = methodSignature.parameterNames
         val cacheKey = cacheKey(arguments, paramsNames, annotation.expressions, annotation.cacheKey)
         val timeout = if (annotation.expire == RedisCacheable.TODAY_END) secondOfTodayRest() else annotation.expire
-        val cachedValue = RedisManager.values.getString(cacheKey)
+        val cachedValue = RedisManager.values.get<String>(cacheKey)
 
         val javaType =
             TypeFactory

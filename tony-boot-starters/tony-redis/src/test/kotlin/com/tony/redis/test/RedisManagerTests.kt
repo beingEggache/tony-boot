@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumIntValue
 import com.tony.enums.EnumStringValue
+import com.tony.enums.IntEnumCreator
+import com.tony.enums.StringEnumCreator
 import com.tony.exception.BizException
 import com.tony.redis.RedisKeys
 import com.tony.redis.RedisManager
@@ -43,49 +45,49 @@ class RedisManagerTests {
 
         val incrementKey = RedisKeys.genKey("$keyPrefix:value_test_increment")
         RedisManager.values.increment(incrementKey, 66)
-        val increment = RedisManager.values.getInt(incrementKey)
+        val increment = RedisManager.values.get<Int>(incrementKey)
         assertNotNull(increment)
         logger.info("$incrementKey=$increment")
 
         val intKey = RedisKeys.genKey("$keyPrefix:value_test_int")
         RedisManager.values.set(intKey, 1)
-        val int = RedisManager.values.getInt(intKey)
+        val int = RedisManager.values.get<Int>(intKey)
         assertNotNull(int)
         logger.info("$intKey=$int")
 
         val longKey = RedisKeys.genKey("$keyPrefix:value_test_long")
         RedisManager.values.set(longKey, Long.MAX_VALUE)
-        val long = RedisManager.values.getLong(longKey)
+        val long = RedisManager.values.get<Long>(longKey)
         assertNotNull(long)
         logger.info("$longKey=$long")
 
         val doubleKey = RedisKeys.genKey("$keyPrefix:value_test_double")
         RedisManager.values.set(doubleKey, 1.012)
-        val double = RedisManager.values.getDouble(doubleKey)
+        val double = RedisManager.values.get<Double>(doubleKey)
         assertNotNull(double)
         logger.info("$doubleKey=$double")
 
         val stringKey = RedisKeys.genKey("$keyPrefix:value_test_string")
         RedisManager.values.set(stringKey, "test")
-        val string = RedisManager.values.getString(stringKey)
+        val string = RedisManager.values.get<String>(stringKey)
         assertNotNull(string)
         logger.info("$stringKey=$string")
 
         val objKey = RedisKeys.genKey("$keyPrefix:value_test_obj")
         RedisManager.values.set(objKey, Person("a", 20))
-        val obj = RedisManager.values.getObj<Person>(objKey)
+        val obj = RedisManager.values.get<Person>(objKey)
         assertNotNull(obj)
         logger.info("$objKey=$obj")
 
         val intEnumKey = RedisKeys.genKey("$keyPrefix:value_test_int_enum")
         RedisManager.values.set(intEnumKey, MyIntEnum.ONE)
-        val intEnum = RedisManager.values.getEnum<MyIntEnum, Int>(intEnumKey)
+        val intEnum = RedisManager.values.get<MyIntEnum>(intEnumKey)
         assertNotNull(intEnum)
         logger.info("$intEnumKey=$intEnum")
 
         val stringEnumKey = RedisKeys.genKey("$keyPrefix:value_test_string_enum")
         RedisManager.values.set(stringEnumKey, MyStringEnum.YES)
-        val stringEnum = RedisManager.values.getEnum<MyStringEnum, String>(stringEnumKey)
+        val stringEnum = RedisManager.values.get<MyStringEnum>(stringEnumKey)
         assertNotNull(stringEnum)
         logger.info("$stringEnumKey=$stringEnum")
 
@@ -96,9 +98,9 @@ class RedisManagerTests {
             ?.connection
             ?.info("server")
             ?.getProperty("redis_version")
-        if(redisVersion?.startsWith("3.2") == true){
+        if (redisVersion?.startsWith("3.2") == true) {
             RedisManager.deleteByKeyPatterns("$keyPrefix:*")
-        }else {
+        } else {
             RedisManager.delete(RedisManager.keys("$keyPrefix:*"))
         }
     }
@@ -250,7 +252,7 @@ enum class MyIntEnum(
     ONE(1),
     ;
 
-    companion object : EnumCreator<MyIntEnum, Int>(MyIntEnum::class.java) {
+    companion object : IntEnumCreator(MyIntEnum::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: Int) =
@@ -267,7 +269,7 @@ enum class MyStringEnum(
     NO("NO"),
     ;
 
-    companion object : EnumCreator<MyStringEnum, String>(MyStringEnum::class.java) {
+    companion object : StringEnumCreator(MyStringEnum::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: String) =

@@ -260,5 +260,10 @@ public object RedisManager {
         set
     }
 
-    internal fun String.trimQuotes() = substring(0, this.length)
+    private val QUOTES_CHARS = arrayOf('\'', '\"')
+    internal fun String.trimQuotes(): String = when {
+        this.length < 2 -> this
+        first() in QUOTES_CHARS && last() in QUOTES_CHARS -> substring(1, this.length - 1)
+        else -> this
+    }
 }

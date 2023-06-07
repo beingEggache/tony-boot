@@ -1,6 +1,7 @@
 @file:JvmName("CoreUtils")
 
 package com.tony.utils
+
 /**
  * 核心工具类
  *
@@ -38,6 +39,22 @@ public fun getLogger(name: String?): Logger = LoggerFactory.getLogger(name)
  */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asTo(): E? where E : Any = this as E?
+
+@Suppress("UNCHECKED_CAST")
+public fun <E> Any?.asToNumber(numberType: Class<E>): E? =
+    if (this is Number?) {
+        when (numberType) {
+            java.lang.Long::class.java -> this?.toLong()
+            Long::class.java -> this?.toLong()
+            java.lang.Integer::class.java -> this?.toInt()
+            Int::class.java -> this?.toInt()
+            java.lang.Double::class.java -> this?.toDouble()
+            Double::class.java -> this?.toDouble()
+            else -> null
+        }
+    } else {
+        null
+    } as E?
 
 @JvmSynthetic
 public inline fun Boolean.doIf(crossinline block: () -> Any) {

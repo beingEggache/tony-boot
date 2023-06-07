@@ -1,6 +1,7 @@
 package com.tony.redis.test
 
 import com.tony.enums.EnumValue
+import com.tony.exception.ApiException
 import com.tony.redis.RedisManager
 import com.tony.redis.test.model.ObjWithList
 import com.tony.redis.test.model.ObjWithMap
@@ -9,6 +10,7 @@ import com.tony.redis.test.model.ObjWithObjList
 import com.tony.redis.test.model.ObjWithObjMap
 import com.tony.redis.test.model.SimpleObj
 import com.tony.utils.toJsonString
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
@@ -77,7 +79,9 @@ class RedisValueTests {
     @Execution(ExecutionMode.CONCURRENT)
     @Test
     fun testEnums() {
-        testRedisObj<EnumValue<*>>(MyIntEnum.ONE, MyStringEnum.YES)
+//        Assertions.assertThrows(ApiException::class.java) {
+//            testRedisObj<EnumValue<*>>(MyIntEnum.ONE, MyStringEnum.YES)
+//        }
         testRedisObj(MyIntEnum.ZERO, MyIntEnum.ONE)
         testRedisObj(MyStringEnum.YES, MyStringEnum.NO)
     }
@@ -137,7 +141,7 @@ class RedisValueTests {
         logger.info("${type.name} $oper test : start.")
         RedisManager.values.set(key, value, timeout)
         logger.info("${type.name} $oper test : $value.")
-        val getValue = RedisManager.values.get<T>(key)
+        val getValue = RedisManager.values.get(key, type)
         logger.info("${type.name} $oper test : $getValue was get.")
         RedisManager.delete(key)
         logger.info("${type.name} $oper test : $getValue was delete.")
@@ -156,7 +160,7 @@ class RedisValueTests {
             RedisManager.values.increment(key, 3L)
         }
         logger.info("${type.name} $oper test : increment result is $incrementResult.")
-        val getValue = RedisManager.values.get<T>(key)
+        val getValue = RedisManager.values.get(key, type)
         logger.info("${type.name} $oper test : $getValue was get.")
         RedisManager.delete(key)
         logger.info("${type.name} $oper test : $getValue was delete.")

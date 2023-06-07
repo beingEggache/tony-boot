@@ -1,12 +1,18 @@
 package com.tony.redis.config
 
 import com.tony.redis.aspect.DefaultRedisCacheAspect
+import com.tony.redis.serializer.ProtostuffSerializer
+import com.tony.redis.serializer.SerializerMode
+import com.tony.redis.service.JacksonRedisValueService
+import com.tony.redis.service.ProtostuffRedisValueService
+import com.tony.redis.service.RedisValueService
 import com.tony.utils.OBJECT_MAPPER
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.connection.RedisConnectionFactory
@@ -22,7 +28,9 @@ import org.springframework.data.redis.serializer.RedisSerializer
  */
 @Configuration
 @EnableConfigurationProperties(RedisProperties::class)
-internal class RedisConfig {
+internal class RedisConfig(
+    private val redisProperties: RedisProperties,
+) {
 
     private val logger = LoggerFactory.getLogger(RedisConfig::class.java)
 
@@ -32,18 +40,38 @@ internal class RedisConfig {
         return DefaultRedisCacheAspect()
     }
 
+    @Bean
+    internal fun redisValueService(): RedisValueService =
+        if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
+            ProtostuffRedisValueService()
+        } else {
+            JacksonRedisValueService()
+        }
+
+    @Bean
+    internal fun redisSerializer(): RedisSerializer<Any?> {
+        logger.info("Redis serializer mode is ${redisProperties.serializerMode}")
+        return if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
+            ProtostuffSerializer()
+        } else {
+            GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
+        }
+    }
+
     @ConditionalOnMissingBean(name = ["redisTemplate"])
     @Bean("redisTemplate")
-    internal fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<String, Any> =
+    internal fun redisTemplate(
+        redisConnectionFactory: RedisConnectionFactory,
+        redisSerializer: RedisSerializer<Any?>,
+    ): RedisTemplate<String, Any> =
         run {
-            val serializer = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
             val stringRedisSerializer = RedisSerializer.string()
             RedisTemplate<String, Any>().apply {
                 setConnectionFactory(redisConnectionFactory)
                 keySerializer = stringRedisSerializer
                 hashKeySerializer = stringRedisSerializer
-                valueSerializer = serializer
-                hashValueSerializer = serializer
+                valueSerializer = redisSerializer
+                hashValueSerializer = redisSerializer
                 afterPropertiesSet()
             }
         }
@@ -57,6 +85,11 @@ internal class RedisConfig {
  */
 @ConstructorBinding
 @ConfigurationProperties(prefix = "redis")
-private data class RedisProperties(
+internal data class RedisProperties(
     val keyPrefix: String?,
+    /**
+     * redis 序列化/反序列化 方式
+     */
+    @DefaultValue("JACKSON")
+    val serializerMode: SerializerMode = SerializerMode.JACKSON,
 )

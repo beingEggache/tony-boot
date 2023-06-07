@@ -22,8 +22,6 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.IOException
 import java.io.InputStream
-import java.time.temporal.TemporalAccessor
-import java.util.Date
 import java.util.TimeZone
 
 @JvmSynthetic
@@ -96,41 +94,3 @@ public inline fun <reified T> ByteArray.jsonToObj(): T =
 @Throws(IOException::class)
 public inline fun <reified T> InputStream.jsonToObj(): T =
     OBJECT_MAPPER.readValue(this)
-
-public fun JavaType.isDateTimeLikeType(): Boolean =
-    isTypeOrSubTypeOf(Date::class.java) || isTypeOrSubTypeOf(TemporalAccessor::class.java)
-
-public fun JavaType.isArrayLikeType(): Boolean =
-    isArrayType || isCollectionLikeType
-
-public fun JavaType.isBooleanType(): Boolean =
-    isTypeOrSubTypeOf(Boolean::class.java) || isTypeOrSubTypeOf(java.lang.Boolean::class.java)
-
-public fun JavaType.isNumberType(): Boolean =
-    isTypeOrSubTypeOf(Number::class.java)
-
-public fun JavaType.isByteType(): Boolean =
-    isTypeOrSubTypeOf(Byte::class.java) || isTypeOrSubTypeOf(java.lang.Byte::class.java)
-
-public fun JavaType.isShortType(): Boolean =
-    isTypeOrSubTypeOf(Short::class.java) || isTypeOrSubTypeOf(java.lang.Short::class.java)
-
-public fun JavaType.isIntType(): Boolean =
-    isTypeOrSubTypeOf(Int::class.java) || isTypeOrSubTypeOf(java.lang.Integer::class.java)
-
-public fun JavaType.isLongType(): Boolean =
-    isTypeOrSubTypeOf(Long::class.java) || isTypeOrSubTypeOf(java.lang.Long::class.java)
-
-public fun JavaType.isFloatType(): Boolean =
-    isTypeOrSubTypeOf(Float::class.java) || isTypeOrSubTypeOf(java.lang.Float::class.java)
-
-public fun JavaType.isDoubleType(): Boolean =
-    isTypeOrSubTypeOf(Double::class.java) || isTypeOrSubTypeOf(java.lang.Double::class.java)
-
-public fun JavaType.isObjLikeType(): Boolean =
-    isMapLikeType || (!isArrayLikeType() && !isNumberType() && !isStringLikeType())
-
-public fun JavaType.isStringLikeType(): Boolean =
-    isTypeOrSubTypeOf(CharSequence::class.java) ||
-        isTypeOrSubTypeOf(Character::class.java) ||
-        isTypeOrSubTypeOf(Char::class.java)
