@@ -1,44 +1,41 @@
 package com.tony.web.advice
 
+import com.tony.utils.getLogger
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.util.ReflectionUtils
 import java.lang.reflect.Field
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.concurrent.ConcurrentHashMap
+import javax.annotation.PostConstruct
 
 /**
  * RequestBodyFieldInjector is
  * @author tangli
  * @since 2023/06/08 10:56
  */
-@Suppress("unused")
 public abstract class RequestBodyFieldInjector<T> {
 
-    private val logger: Logger = LoggerFactory.getLogger(RequestBodyFieldInjector::class.java)
+    private val logger: Logger = getLogger()
 
-    public abstract fun inject(body: Any, field: Field)
-    internal fun supports(targetType: Class<*>, field: Field): Boolean {
-        val name = field.name
-        val fieldGenericType = field.genericType
-        val support = name == fieldName &&
-            fieldGenericType.equals(type)
-        if (!support) {
-            logger.warn(
-                "${targetType.name} field ${name}:${fieldGenericType.typeName} " +
-                    "does not equal ${fieldName}:${type.typeName}"
-            )
-        }
-        return support
-    }
-
+    public abstract fun value(): T
 
     public abstract val fieldName: String
 
-    private val type: Type
+    @PostConstruct
+    private fun init() {
+        logger.info("Request body will inject the $fieldName ${type.typeName} value")
+    }
+
+    internal fun supports(field: Field): Boolean =
+        field.name == fieldName &&
+            field.genericType.equals(type)
+
+    internal val type: Type
         get() {
             val superClass = javaClass.genericSuperclass
-            require(superClass !is Class<*>) {  // sanity check, should never happen
+            require(superClass !is Class<*>) { // sanity check, should never happen
                 "Internal error: RequestBodyFieldInjector constructed without actual type information"
             }
             return (superClass as ParameterizedType).actualTypeArguments[0]
@@ -46,19 +43,69 @@ public abstract class RequestBodyFieldInjector<T> {
 }
 
 internal class RequestBodyFieldInjectorComposite(
-    private val requestBodyFieldInjectors: List<RequestBodyFieldInjector<*>>
+    private val requestBodyFieldInjectors: List<RequestBodyFieldInjector<*>>,
 ) {
+    private val logger: Logger = LoggerFactory.getLogger(RequestBodyFieldInjectorComposite::class.java)
+
     private val supportedClassesCache = ConcurrentHashMap<Class<*>, Boolean>()
 
-    private val supportedClassFieldsCache: ConcurrentHashMap<Class<*>, List<Field>> =
-        ConcurrentHashMap<Class<*>, List<Field>>()
+    private val supportedClassFieldsCache: ConcurrentHashMap<Class<*>, MutableMap<String, Field>> =
+        ConcurrentHashMap<Class<*>, MutableMap<String, Field>>()
 
-    public fun supports(targetType: Class<*>): Boolean {
+    private val supportedInjector: ConcurrentHashMap<Class<*>, Map<String, RequestBodyFieldInjector<*>>> =
+        ConcurrentHashMap<Class<*>, Map<String, RequestBodyFieldInjector<*>>>()
+
+    fun supports(targetType: Class<*>): Boolean {
         if (!targetType.isAnnotationPresent(InjectRequestBody::class.java)) {
             return false
         }
+        if (supportedClassesCache[targetType] == false) {
+            return false
+        }
+        if (supportedClassesCache[targetType] == true) {
+            return true
+        }
+        return process(targetType)
+    }
+
+    fun injectValues(body: Any): Any {
+        val fieldMap = supportedClassFieldsCache[body::class.java]
+        supportedInjector[body::class.java]?.forEach { (fieldName, injector) ->
+            val field = fieldMap?.get(fieldName) ?: throw IllegalStateException("Ain't gonna happened.")
+            ReflectionUtils.makeAccessible(field)
+            ReflectionUtils.setField(field, body, injector.value())
+        }
+        return body
+    }
+
+    private fun process(targetType: Class<*>): Boolean {
         val annotatedFields =
-            targetType.declaredFields.filter { it.annotatedType.isAnnotationPresent(InjectRequestBodyField::class.java) }
-        return true
+            targetType.declaredFields.filter {
+                it.isAnnotationPresent(InjectRequestBodyField::class.java)
+            }
+
+        val supportsInjectors = supportedInjector.getOrPut(targetType) {
+            requestBodyFieldInjectors.associateBy {
+                it.fieldName
+            }.filterValues { injector ->
+                annotatedFields.filter { field ->
+                    val supports = injector.supports(field)
+                    if (!supports) {
+                        logger.debug(
+                            "${targetType.name} field ${field.name}:${injector.type.typeName} " +
+                                "does not equal ${field.name}:${injector.type.typeName}",
+                        )
+                    }
+                    supports
+                }.onEach {
+                    supportedClassFieldsCache
+                        .getOrPut(targetType) { mutableMapOf() }
+                        .putIfAbsent(injector.fieldName, it)
+                }.isNotEmpty()
+            }
+        }
+        val targetTypeSupport = supportsInjectors.isNotEmpty()
+        supportedClassesCache[targetType] = targetTypeSupport
+        return targetTypeSupport
     }
 }

@@ -1,5 +1,6 @@
 package com.tony.web.advice
 
+import com.fasterxml.jackson.annotation.JacksonAnnotationsInside
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 /**
@@ -11,11 +12,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore
     AnnotationTarget.CLASS,
 )
 @Retention(AnnotationRetention.RUNTIME)
-public annotation class InjectRequestBody(
-    val fieldNames: Array<String>
-)
+public annotation class InjectRequestBody
 
-
+@JacksonAnnotationsInside
 @JsonIgnore
 @Target(
     AnnotationTarget.FIELD,

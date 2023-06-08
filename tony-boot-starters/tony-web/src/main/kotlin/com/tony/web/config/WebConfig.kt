@@ -7,6 +7,8 @@ import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
 import com.tony.web.ExceptionHandler
 import com.tony.web.advice.InjectRequestBodyAdvice
+import com.tony.web.advice.RequestBodyFieldInjector
+import com.tony.web.advice.RequestBodyFieldInjectorComposite
 import com.tony.web.advice.WrapResponseBodyAdvice
 import com.tony.web.converter.EnumIntValueConverterFactory
 import com.tony.web.converter.EnumStringValueConverterFactory
@@ -84,7 +86,16 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.inject-request-body-enabled:true}")
     @Bean
-    internal fun injectRequestBodyAdvice(): InjectRequestBodyAdvice = InjectRequestBodyAdvice()
+    internal fun requestBodyFieldInjectorComposite(
+        requestBodyFieldInjectors: List<RequestBodyFieldInjector<*>>,
+    ): RequestBodyFieldInjectorComposite =
+        RequestBodyFieldInjectorComposite(requestBodyFieldInjectors)
+
+    @ConditionalOnExpression("\${web.inject-request-body-enabled:true}")
+    @Bean
+    internal fun injectRequestBodyAdvice(
+        requestBodyFieldInjectorComposite: RequestBodyFieldInjectorComposite,
+    ): InjectRequestBodyAdvice = InjectRequestBodyAdvice(requestBodyFieldInjectorComposite)
 
     @Bean
     internal fun exceptionHandler() = ExceptionHandler()
