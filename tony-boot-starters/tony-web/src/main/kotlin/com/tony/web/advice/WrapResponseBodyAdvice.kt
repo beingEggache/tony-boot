@@ -1,4 +1,4 @@
-package com.tony.web
+package com.tony.web.advice
 
 import com.tony.ApiProperty
 import com.tony.ApiResult
@@ -7,6 +7,10 @@ import com.tony.ApiResultLike
 import com.tony.ListResult
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
+import com.tony.web.WebApp
+import com.tony.web.WebContext
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
@@ -26,9 +30,15 @@ import java.util.Date
  * @author tangli
  * @since 2023/5/25 10:51
  */
-@ConditionalOnExpression("\${web.response-wrap-enabled:true}")
+@ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
 @RestControllerAdvice
-internal class ApiResponseWrapperAdvice : ResponseBodyAdvice<Any?> {
+internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
+
+    private val logger: Logger = LoggerFactory.getLogger(WrapResponseBodyAdvice::class.java)
+
+    init {
+        logger.info("Response wrap is enabled.")
+    }
 
     override fun beforeBodyWrite(
         body: Any?,

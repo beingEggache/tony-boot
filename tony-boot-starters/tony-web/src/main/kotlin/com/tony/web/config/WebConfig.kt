@@ -5,8 +5,9 @@ import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.utils.createObjectMapper
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
-import com.tony.web.ApiResponseWrapperAdvice
 import com.tony.web.ExceptionHandler
+import com.tony.web.advice.InjectRequestBodyAdvice
+import com.tony.web.advice.WrapResponseBodyAdvice
 import com.tony.web.converter.EnumIntValueConverterFactory
 import com.tony.web.converter.EnumStringValueConverterFactory
 import com.tony.web.filter.RequestReplaceToRepeatReadFilter
@@ -74,20 +75,16 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
-    internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter {
-        logger.info("Request trace log is enabled.")
-        if (webProperties.traceLoggerEnabled && webProperties.traceLogExcludePatterns.isNotEmpty()) {
-            logger.info("Request trace log exclude patterns: ${webProperties.traceLogExcludePatterns}")
-        }
-        return TraceLoggingFilter(requestTraceLogger, webProperties)
-    }
+    internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter =
+        TraceLoggingFilter(requestTraceLogger, webProperties)
 
-    @ConditionalOnExpression("\${web.response-wrap-enabled:true}")
+    @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
     @Bean
-    internal fun apiResponseWrapper(): ApiResponseWrapperAdvice {
-        logger.info("Response wrap is enabled.")
-        return ApiResponseWrapperAdvice()
-    }
+    internal fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice = WrapResponseBodyAdvice()
+
+    @ConditionalOnExpression("\${web.inject-request-body-enabled:true}")
+    @Bean
+    internal fun injectRequestBodyAdvice(): InjectRequestBodyAdvice = InjectRequestBodyAdvice()
 
     @Bean
     internal fun exceptionHandler() = ExceptionHandler()
@@ -130,7 +127,6 @@ internal class WebConfig(
         mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
     ) {
         if (webProperties.jsonNullValueOptimizedEnabled) {
-            logger.info("Response json null value optimizing is enabled.")
             mappingJackson2HttpMessageConverter.objectMapper = createObjectMapper().apply {
                 serializerFactory =
                     serializerFactory
@@ -154,7 +150,12 @@ internal data class WebProperties(
      * 是否包装返回值。
      */
     @DefaultValue("true")
-    val responseWrapEnabled: Boolean = true,
+    val wrapResponseBodyEnabled: Boolean = true,
+    /**
+     * 是否注入请求。
+     */
+    @DefaultValue("true")
+    val injectRequestBodyEnabled: Boolean = true,
     /**
      * 包装返回值白名单url（ant pattern）。
      */

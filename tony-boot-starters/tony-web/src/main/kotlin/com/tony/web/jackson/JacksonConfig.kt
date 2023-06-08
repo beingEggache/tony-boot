@@ -13,6 +13,8 @@ import com.tony.utils.isBooleanType
 import com.tony.utils.isDateTimeLikeType
 import com.tony.utils.isObjLikeType
 import com.tony.utils.isStringLikeType
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * 数组或列表类型为 null 时输出 "[]"
@@ -84,6 +86,12 @@ public class NullValueBeanSerializerModifier : BeanSerializerModifier() {
     private val nullArrayJsonSerializer = NullArrayJsonSerializer()
     private val nullObjJsonSerializer = NullObjJsonSerializer()
     private val nullStrJsonSerializer = NullStrJsonSerializer()
+
+    private val logger: Logger = LoggerFactory.getLogger(NullValueBeanSerializerModifier::class.java)
+
+    init {
+        logger.info("Response json null value optimizing is enabled.")
+    }
 
     override fun changeProperties(
         config: SerializationConfig,
