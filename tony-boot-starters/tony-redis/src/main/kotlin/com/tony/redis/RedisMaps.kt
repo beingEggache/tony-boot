@@ -279,7 +279,7 @@ public object RedisMaps {
         where E : EnumValue<KEY>, E : Enum<E>, KEY : Serializable {
         val value = RedisManager.redisTemplate.boundHashOps<String, KEY>(key).get(hashKey)
             ?: return null
-        return EnumCreator.getCreator(E::class.java).create(value)
+        return EnumCreator.creatorOf(E::class.java).create(value)
     }
 
     /**

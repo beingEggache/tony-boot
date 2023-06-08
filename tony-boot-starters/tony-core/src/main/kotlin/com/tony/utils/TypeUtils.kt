@@ -5,6 +5,7 @@ package com.tony.utils
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.temporal.TemporalAccessor
@@ -15,6 +16,19 @@ import java.util.Date
  * @author tangli
  * @since 2023/06/07 10:53
  */
+public fun Any.typeParameter(index: Int = 0): Type {
+    val superClass = javaClass.genericSuperclass
+    if (superClass is Class<*>) {
+        throw IllegalStateException("${superClass.simpleName} constructed without actual type information")
+    }
+    return (superClass as ParameterizedType).actualTypeArguments[index]
+}
+
+public fun Class<*>.isTypeOrSubTypeOf(type: Class<*>): Boolean =
+    (this == type) || type.isAssignableFrom(this)
+
+public fun Class<*>.isTypeOrSubTypesOf(vararg types: Class<*>): Boolean =
+    types.any { this.isTypeOrSubTypeOf(it) }
 
 private val NUMBER_TYPES: Array<Class<out Number>> = arrayOf(
     Byte::class.java,
@@ -32,12 +46,6 @@ private val NUMBER_TYPES: Array<Class<out Number>> = arrayOf(
     java.lang.Double::class.java,
     BigDecimal::class.java,
 )
-
-public fun Class<*>.isTypeOrSubTypeOf(type: Class<*>): Boolean =
-    (this == type) || type.isAssignableFrom(this)
-
-public fun Class<*>.isTypeOrSubTypesOf(vararg types: Class<*>): Boolean =
-    types.any { this.isTypeOrSubTypeOf(it) }
 
 public fun Class<*>.isNumberTypes(): Boolean = isTypeOrSubTypesOf(*NUMBER_TYPES)
 

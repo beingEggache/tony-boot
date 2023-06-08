@@ -5,7 +5,8 @@ package com.tony.enums.validate
  * @author tangli
  * @since 2021-05-19 10:58
  */
-import com.tony.enums.EnumCreator
+import com.tony.enums.DEFAULT_INT_VALUE
+import com.tony.enums.DEFAULT_STRING_VALUE
 import com.tony.enums.EnumIntValue
 import com.tony.enums.EnumStringValue
 import com.tony.enums.EnumValue
@@ -29,7 +30,7 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumVal
     override fun isValid(str: EnumValue<Int>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
                 str?.value == null ||
-                    str.value == EnumCreator.defaultIntValue
+                    str.value == DEFAULT_INT_VALUE
                 )
         ) {
             return false
@@ -62,7 +63,7 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
     override fun isValid(str: EnumValue<Int>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
                 str?.value == null ||
-                    str.value == EnumCreator.defaultIntValue
+                    str.value == DEFAULT_INT_VALUE
                 )
         ) {
             return false
@@ -88,7 +89,7 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, E
     override fun isValid(str: EnumValue<String>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
                 str?.value == null ||
-                    str.value == EnumCreator.defaultStringValue
+                    str.value == DEFAULT_STRING_VALUE
                 )
         ) {
             return false
@@ -120,7 +121,7 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<Str
     override fun isValid(str: EnumValue<String>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
                 str?.value == null ||
-                    str.value == EnumCreator.defaultStringValue
+                    str.value == DEFAULT_STRING_VALUE
                 )
         ) {
             return false

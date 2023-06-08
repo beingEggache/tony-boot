@@ -8,7 +8,6 @@ import com.tony.redis.service.ProtostuffRedisValueService
 import com.tony.redis.service.RedisValueService
 import com.tony.utils.OBJECT_MAPPER
 import org.slf4j.LoggerFactory
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -19,6 +18,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializer
+import org.springframework.data.redis.serializer.StringRedisSerializer
 
 /**
  * RedisCacheConfig
@@ -58,22 +58,19 @@ internal class RedisConfig(
         }
     }
 
-    @ConditionalOnMissingBean(name = ["redisTemplate"])
     @Bean("redisTemplate")
     internal fun redisTemplate(
         redisConnectionFactory: RedisConnectionFactory,
         redisSerializer: RedisSerializer<Any?>,
     ): RedisTemplate<String, Any> =
-        run {
-            val stringRedisSerializer = RedisSerializer.string()
-            RedisTemplate<String, Any>().apply {
-                setConnectionFactory(redisConnectionFactory)
-                keySerializer = stringRedisSerializer
-                hashKeySerializer = stringRedisSerializer
-                valueSerializer = redisSerializer
-                hashValueSerializer = redisSerializer
-                afterPropertiesSet()
-            }
+        RedisTemplate<String, Any>().apply {
+            setConnectionFactory(redisConnectionFactory)
+            setDefaultSerializer(redisSerializer)
+            keySerializer = StringRedisSerializer.UTF_8
+            hashKeySerializer = StringRedisSerializer.UTF_8
+            valueSerializer = redisSerializer
+            hashValueSerializer = redisSerializer
+            afterPropertiesSet()
         }
 }
 

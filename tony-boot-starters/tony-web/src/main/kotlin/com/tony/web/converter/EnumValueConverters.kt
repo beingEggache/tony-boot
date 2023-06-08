@@ -1,5 +1,7 @@
 package com.tony.web.converter
 
+import com.tony.enums.DEFAULT_INT_VALUE
+import com.tony.enums.DEFAULT_STRING_VALUE
 import com.tony.enums.EnumCreator
 import com.tony.enums.EnumIntValue
 import com.tony.enums.EnumStringValue
@@ -54,7 +56,7 @@ internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
     where E : EnumValue<K>,
           K : Serializable {
 
-    private val creator: EnumCreator<E, K> = EnumCreator.getCreator(enumType)
+    private val creator: EnumCreator<E, K> = EnumCreator.creatorOf(enumType)
 
     protected abstract fun convertSource(source: String): K
 
@@ -74,8 +76,7 @@ internal class EnumIntValueConverter(enumType: Class<out EnumIntValue>) :
     override fun convertSource(source: String) = source.toInt()
 
     override fun convert(source: String): EnumIntValue? {
-        val intSource = convertSource(source)
-        return if (intSource == EnumCreator.defaultIntValue) {
+        return if (source.toInt() == DEFAULT_INT_VALUE) {
             null
         } else {
             super.convert(source)
@@ -95,11 +96,10 @@ internal class EnumStringValueConverter(enumType: Class<out EnumStringValue>) :
 
     override fun convertSource(source: String) = source
 
-    override fun convert(source: String): EnumStringValue? {
-        return if (source == EnumCreator.defaultStringValue) {
+    override fun convert(source: String): EnumStringValue? =
+        if (source == DEFAULT_STRING_VALUE) {
             null
         } else {
             super.convert(source)
         }
-    }
 }

@@ -16,8 +16,7 @@ import java.util.concurrent.TimeUnit
  */
 public object RedisValues {
 
-    public val redisValueService: RedisValueService
-        by SpringContexts.getBeanByLazy<RedisValueService>()
+    public val redisValueService: RedisValueService by SpringContexts.getBeanByLazy()
 
     /**
      * 同 [RedisTemplate.hasKey]
@@ -77,7 +76,6 @@ public object RedisValues {
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = redisValueService.set(key, value, timeout, timeUnit)
 
-    @JvmStatic
     public inline fun <reified T : Any> get(key: String): T? {
         return redisValueService.get(key, (object : TypeReference<T>() {}))
     }

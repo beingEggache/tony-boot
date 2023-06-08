@@ -49,9 +49,11 @@ public class ProtostuffSerializer : RedisSerializer<Any?> {
             ProtostuffIOUtil.mergeFrom(bytes, newMessage, schema)
         } catch (e: RuntimeException) {
             if (e.cause is ProtobufException) {
-                // only incr command will cause this.
+                // increment or get enum will cause this.
                 logger.warn("Maybe source is a number literal string.")
-                return NumberFormat.getInstance().parse(String(bytes))
+                val string = String(bytes)
+                string.toIntOrNull() ?: return string
+                return NumberFormat.getInstance().parse(string)
             } else {
                 throw e
             }

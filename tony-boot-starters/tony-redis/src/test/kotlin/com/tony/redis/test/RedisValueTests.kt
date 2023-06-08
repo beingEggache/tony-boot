@@ -1,7 +1,5 @@
 package com.tony.redis.test
 
-import com.tony.enums.EnumValue
-import com.tony.exception.ApiException
 import com.tony.redis.RedisManager
 import com.tony.redis.test.model.ObjWithList
 import com.tony.redis.test.model.ObjWithMap
@@ -10,7 +8,6 @@ import com.tony.redis.test.model.ObjWithObjList
 import com.tony.redis.test.model.ObjWithObjMap
 import com.tony.redis.test.model.SimpleObj
 import com.tony.utils.toJsonString
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode

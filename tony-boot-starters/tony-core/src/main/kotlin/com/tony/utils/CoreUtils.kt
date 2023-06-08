@@ -14,6 +14,8 @@ import com.tony.exception.BaseException
 import com.tony.exception.BizException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.net.Inet4Address
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -42,18 +44,48 @@ public fun <E> Any?.asTo(): E? where E : Any = this as E?
 
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asToNumber(numberType: Class<E>): E? =
-    if (this is Number?) {
-        when (numberType) {
-            java.lang.Long::class.java -> this?.toLong()
-            Long::class.java -> this?.toLong()
-            java.lang.Integer::class.java -> this?.toInt()
-            Int::class.java -> this?.toInt()
-            java.lang.Double::class.java -> this?.toDouble()
-            Double::class.java -> this?.toDouble()
-            else -> null
+    when (this) {
+        is Number -> {
+            when (numberType) {
+                java.lang.Long::class.java -> this.toLong()
+                Long::class.java -> this.toLong()
+                java.lang.Integer::class.java -> this.toInt()
+                Int::class.java -> this.toInt()
+                java.lang.Double::class.java -> this.toDouble()
+                Double::class.java -> this.toDouble()
+                java.lang.Byte::class.java -> this.toByte()
+                Byte::class.java -> this.toByte()
+                java.lang.Short::class.java -> this.toShort()
+                Short::class.java -> this.toShort()
+                java.lang.Float::class.java -> this.toFloat()
+                Float::class.java -> this.toFloat()
+                BigInteger::class.java -> BigInteger.valueOf(this.toLong())
+                BigDecimal::class.java -> BigDecimal(this.toString())
+                else -> null
+            }
         }
-    } else {
-        null
+
+        is CharSequence -> {
+            when (numberType) {
+                java.lang.Long::class.java -> this.toString().toLong()
+                Long::class.java -> this.toString().toLong()
+                java.lang.Integer::class.java -> this.toString().toInt()
+                Int::class.java -> this.toString().toInt()
+                java.lang.Double::class.java -> this.toString().toDouble()
+                Double::class.java -> this.toString().toDouble()
+                java.lang.Byte::class.java -> this.toString().toByte()
+                Byte::class.java -> this.toString().toByte()
+                java.lang.Short::class.java -> this.toString().toShort()
+                Short::class.java -> this.toString().toShort()
+                java.lang.Float::class.java -> this.toString().toFloat()
+                Float::class.java -> this.toString().toFloat()
+                BigInteger::class.java -> BigInteger.valueOf(this.toString().toLong())
+                BigDecimal::class.java -> BigDecimal(this.toString())
+                else -> null
+            }
+        }
+
+        else -> null
     } as E?
 
 @JvmSynthetic

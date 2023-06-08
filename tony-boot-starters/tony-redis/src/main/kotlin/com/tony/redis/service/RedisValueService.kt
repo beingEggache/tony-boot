@@ -53,7 +53,7 @@ public interface RedisValueService {
 
     public fun <T : Any> get(key: String, type: Class<T>): T? {
         val value = RedisManager.redisTemplate.opsForValue().get(key)
-        if (type.isAssignableFrom(Number::class.java)) {
+        if (type.isNumberTypes()) {
             return value?.asToNumber(type)
         }
         return value?.asTo()

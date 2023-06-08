@@ -1,11 +1,11 @@
 package com.tony.web.advice
 
 import com.tony.utils.getLogger
+import com.tony.utils.typeParameter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.util.ReflectionUtils
 import java.lang.reflect.Field
-import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.concurrent.ConcurrentHashMap
 import javax.annotation.PostConstruct
@@ -32,14 +32,7 @@ public abstract class RequestBodyFieldInjector<T> {
         field.name == fieldName &&
             field.genericType.equals(type)
 
-    internal val type: Type
-        get() {
-            val superClass = javaClass.genericSuperclass
-            require(superClass !is Class<*>) { // sanity check, should never happen
-                "Internal error: RequestBodyFieldInjector constructed without actual type information"
-            }
-            return (superClass as ParameterizedType).actualTypeArguments[0]
-        }
+    internal val type: Type = typeParameter()
 }
 
 internal class RequestBodyFieldInjectorComposite(
@@ -59,11 +52,9 @@ internal class RequestBodyFieldInjectorComposite(
         if (!targetType.isAnnotationPresent(InjectRequestBody::class.java)) {
             return false
         }
-        if (supportedClassesCache[targetType] == false) {
-            return false
-        }
-        if (supportedClassesCache[targetType] == true) {
-            return true
+        val supportFromCache = supportedClassesCache[targetType]
+        if (supportFromCache != null) {
+            return supportFromCache
         }
         return process(targetType)
     }
