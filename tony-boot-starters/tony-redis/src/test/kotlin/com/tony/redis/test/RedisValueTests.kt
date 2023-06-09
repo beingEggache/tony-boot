@@ -150,7 +150,7 @@ class RedisValueTests {
         val key = genTestNumberKey(type, oper)
         logger.info("${type.name} $oper test : start.")
         val incrementResult = if (type == Double::class.java) {
-            RedisManager.values.increment(key, 2.2, if (oper == RedisOper.INCRE_WITH_INIT) 1.1 else null)
+            RedisManager.values.increment(key, 2.20, if (oper == RedisOper.INCRE_WITH_INIT) 1.1 else null)
             RedisManager.values.increment(key, 3.3)
         } else {
             RedisManager.values.increment(key, 2L, if (oper == RedisOper.INCRE_WITH_INIT) 1L else null)
@@ -180,11 +180,11 @@ class RedisValueTests {
     }
 
     private fun genTestNumberKey(type: Class<*>, oper: RedisOper): String {
-        return "test:number:${type.simpleName}:$oper";
+        return "test:number:${type.simpleName}:$oper"
     }
 
     private fun genTestObjKey(type: Class<*>, oper: RedisOper): String {
-        return "test:${type.simpleName}:$oper";
+        return "test:${type.simpleName}:$oper"
     }
 
     private inline fun <reified T : Any> testRedisObj(value1: T, value2: T) {

@@ -62,7 +62,7 @@ public class ProtostuffSerializer : RedisSerializer<Any?> {
     }
 
     override fun canSerialize(type: Class<*>): Boolean =
-        type.isNumberTypes()
+        !type.isNumberTypes()
 }
 
 private val emptyByteArray = ByteArray(0)

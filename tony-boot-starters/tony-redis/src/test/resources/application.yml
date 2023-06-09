@@ -1,5 +1,3 @@
 spring:
     application:
         name: tony-cache
-redis:
-  serializerMode: PROTOSTUFF

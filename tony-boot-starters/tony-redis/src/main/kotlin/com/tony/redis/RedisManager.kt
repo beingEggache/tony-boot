@@ -2,6 +2,7 @@ package com.tony.redis
 
 import com.tony.SpringContexts
 import com.tony.exception.ApiException
+import com.tony.utils.doIf
 import com.tony.utils.secureRandom
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.ClassPathResource
@@ -66,7 +67,7 @@ public object RedisManager {
                 return redisConnection.exec()
             } catch (e: Throwable) {
                 logger.error(e.message, e)
-                redisConnection.discard()
+                redisConnection.isQueueing.doIf { redisConnection.discard() }
                 throw e
             } finally {
                 RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
