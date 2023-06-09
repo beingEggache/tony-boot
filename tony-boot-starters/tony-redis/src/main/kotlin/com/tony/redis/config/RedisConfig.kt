@@ -3,9 +3,9 @@ package com.tony.redis.config
 import com.tony.redis.aspect.DefaultRedisCacheAspect
 import com.tony.redis.serializer.ProtostuffSerializer
 import com.tony.redis.serializer.SerializerMode
-import com.tony.redis.service.JacksonRedisValueService
-import com.tony.redis.service.ProtostuffRedisValueService
-import com.tony.redis.service.RedisValueService
+import com.tony.redis.service.RedisService
+import com.tony.redis.service.impl.JacksonRedisService
+import com.tony.redis.service.impl.ProtostuffRedisService
 import com.tony.utils.OBJECT_MAPPER
 import org.slf4j.LoggerFactory
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -41,11 +41,11 @@ internal class RedisConfig(
     }
 
     @Bean
-    internal fun redisValueService(): RedisValueService =
+    internal fun redisService(): RedisService =
         if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
-            ProtostuffRedisValueService()
+            ProtostuffRedisService()
         } else {
-            JacksonRedisValueService()
+            JacksonRedisService()
         }
 
     @Bean

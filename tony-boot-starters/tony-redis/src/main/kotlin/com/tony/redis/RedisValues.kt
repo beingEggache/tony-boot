@@ -3,7 +3,7 @@ package com.tony.redis
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.tony.SpringContexts
-import com.tony.redis.service.RedisValueService
+import com.tony.redis.service.RedisService
 import com.tony.utils.asTo
 import org.springframework.data.redis.core.RedisTemplate
 import java.util.concurrent.TimeUnit
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
  */
 public object RedisValues {
 
-    public val redisValueService: RedisValueService by SpringContexts.getBeanByLazy()
+    public val redisService: RedisService by SpringContexts.getBeanByLazy()
 
     /**
      * 同 [RedisTemplate.hasKey]
@@ -74,21 +74,21 @@ public object RedisValues {
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Unit = redisValueService.set(key, value, timeout, timeUnit)
+    ): Unit = redisService.set(key, value, timeout, timeUnit)
 
     public inline fun <reified T : Any> get(key: String): T? {
-        return redisValueService.get(key, (object : TypeReference<T>() {}))
+        return redisService.get(key, (object : TypeReference<T>() {}))
     }
 
     @JvmStatic
     public fun <T : Any> get(key: String, type: Class<T>): T? =
-        redisValueService.get(key, type)
+        redisService.get(key, type)
 
     @JvmStatic
     public fun <T : Any> get(key: String, javaType: JavaType): T? =
-        redisValueService.get(key, javaType)
+        redisService.get(key, javaType)
 
     @JvmStatic
     public fun <T : Any> get(key: String, typeReference: TypeReference<T>): T? =
-        redisValueService.get(key, typeReference)
+        redisService.get(key, typeReference)
 }
