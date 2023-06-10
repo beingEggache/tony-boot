@@ -1,6 +1,5 @@
 package com.tony.db.service
 
-import com.tony.cache.annotation.RedisCacheable
 import com.tony.db.CacheKeys
 import com.tony.db.dao.ModuleDao
 import com.tony.db.po.Module
@@ -8,6 +7,7 @@ import com.tony.dto.enums.ModuleType
 import com.tony.dto.resp.ModuleResp
 import com.tony.dto.resp.RouteAndComponentModuleResp
 import com.tony.dto.trait.listAndSetChildren
+import com.tony.redis.annotation.RedisCacheable
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfAndReturn

@@ -1,4 +1,5 @@
 package com.tony.wechat.client.req
+
 /**
  * tony-boot-starters
  * WechatMenuAndButtons
@@ -8,8 +9,8 @@ package com.tony.wechat.client.req
  */
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.tony.enums.EnumCreator
-import com.tony.enums.EnumStringValue
+import com.tony.enums.StringEnumCreator
+import com.tony.enums.StringEnumValue
 
 public data class WechatMenu(val button: List<WechatButton>)
 
@@ -59,7 +60,7 @@ public class WechatScanCodeButton(
 
 public enum class WechatButtonType(
     override val value: String,
-) : EnumStringValue {
+) : StringEnumValue {
 
     CLICK("click"),
     VIEW("view"),
@@ -73,9 +74,9 @@ public enum class WechatButtonType(
     VIEW_LIMITED("view_limited"),
     ;
 
-    public companion object : EnumCreator<WechatButtonType, String>(WechatButtonType::class.java) {
+    public companion object : StringEnumCreator(WechatButtonType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String): WechatButtonType? = super.create(value)
+        override fun create(value: String): WechatButtonType? = super.create(value) as WechatButtonType?
     }
 }

@@ -24,6 +24,7 @@ import com.tony.PageResultLike
 import com.tony.Pageable
 import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
+import com.tony.utils.isTypeOrSubTypeOf
 import com.tony.utils.throwIfNull
 import com.tony.utils.toPage
 import com.tony.utils.toPageResult
@@ -148,7 +149,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         val tableInfo = TableInfoHelper.getTableInfo(entityClass)
         return executeBatch(batchList) { sqlSession, e ->
             if (tableInfo.isWithUpdateFill && tableInfo.isWithLogicDelete) {
-                if (entityClass.isAssignableFrom(e.javaClass)) {
+                if (e::class.java.isTypeOrSubTypeOf(entityClass)) {
                     sqlSession.update(sqlStatement, e)
                 } else {
                     val instance = tableInfo.newInstance<T>()

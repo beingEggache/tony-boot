@@ -2,11 +2,11 @@ package com.tony.redis.service.impl
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.enums.EnumIntValue
-import com.tony.enums.EnumStringValue
 import com.tony.enums.EnumValue
 import com.tony.enums.IntEnumCreator
+import com.tony.enums.IntEnumValue
 import com.tony.enums.StringEnumCreator
+import com.tony.enums.StringEnumValue
 import com.tony.exception.ApiException
 import com.tony.redis.RedisManager
 import com.tony.redis.RedisManager.trimQuotes
@@ -110,11 +110,11 @@ internal class JacksonRedisService : RedisService {
             type.isNumberTypes() -> this.asToNumber(type)
             type.isStringLikeType() -> this.toString().trimQuotes()
             type == EnumValue::class.java && this is EnumValue<*> -> this
-            type.isTypeOrSubTypesOf(EnumStringValue::class.java) -> {
+            type.isTypeOrSubTypesOf(StringEnumValue::class.java) -> {
                 StringEnumCreator.getCreator(type).create(this.toString().trimQuotes())
             }
 
-            type.isTypeOrSubTypeOf(EnumIntValue::class.java) -> {
+            type.isTypeOrSubTypeOf(IntEnumValue::class.java) -> {
                 IntEnumCreator.getCreator(type).create(this.toString().toInt())
             }
 

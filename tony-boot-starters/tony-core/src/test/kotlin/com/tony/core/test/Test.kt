@@ -4,12 +4,18 @@ import com.tony.utils.println
 
 fun main() {
 
-    val clazz = TestFieldGeneric::class.java
-    val genericType1 = clazz.getDeclaredField("field1").genericType
-    val genericType2 = clazz.getDeclaredField("field2").genericType
-    println(genericType1.typeName)
-    println(genericType2.typeName)
-    println(genericType1 == genericType2)
+    val b = true
+
+    println("Boolean::class:  " + Boolean::class)
+    println("Boolean::class.java:  " + Boolean::class.java)
+    println("Boolean::class.javaObjectType:  " + Boolean::class.javaObjectType)
+    println("Boolean::class.javaPrimitiveType:  " + Boolean::class.javaPrimitiveType)
+
+    println("b.javaClass:  " + b.javaClass)
+    println("b::class:  " + b::class)
+    println("b::class.java:   " + b::class.java)
+    println("b::class.javaObjectType:  " + b::class.javaObjectType)
+    println("b::class.javaPrimitiveType:  " + b::class.javaPrimitiveType)
 }
 
 class TestFieldGeneric {

@@ -67,7 +67,7 @@ class InternalController(
     @NoPermissionCheck
     @PostMapping("/internal/close-internal-api")
     fun close() {
-        this.javaClass.methods.forEach {
+        this::class.java.methods.forEach {
             val annot = AnnotatedElementUtils.findMergedAnnotation(it, RequestMapping::class.java)
             val mappingInfo = RequestMappingInfo
                 .paths(*(annot?.path ?: arrayOf()))

@@ -6,7 +6,7 @@ import com.tony.crypto.symmetric.Aes
 import com.tony.crypto.symmetric.Des
 import com.tony.crypto.symmetric.SymmetricCrypto
 import com.tony.enums.EnumCreator
-import com.tony.enums.EnumStringValue
+import com.tony.enums.StringEnumValue
 
 /**
  * DigestMode is
@@ -17,7 +17,7 @@ import com.tony.enums.EnumStringValue
 public enum class SymmetricCryptoAlgorithm(
     override val value: String,
     public val algorithm: SymmetricCrypto,
-) : EnumStringValue {
+) : StringEnumValue {
     @JsonEnumDefaultValue
     AES("aes", Aes),
     DES("des", Des),
@@ -37,7 +37,7 @@ public enum class SymmetricCryptoAlgorithm(
  */
 public enum class CryptoEncoding(
     override val value: String,
-) : EnumStringValue {
+) : StringEnumValue {
     @JsonEnumDefaultValue
     BASE64("base64"),
     HEX("hex"),

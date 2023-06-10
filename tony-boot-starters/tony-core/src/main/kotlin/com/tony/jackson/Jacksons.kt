@@ -90,8 +90,7 @@ public class MobileMaskFun : MaskConvertFunc {
 public class MaskSerializer : JsonSerializer<Any>() {
 
     override fun serialize(value: Any, gen: JsonGenerator, serializers: SerializerProvider) {
-        val annotation = gen.currentValue
-            .javaClass
+        val annotation = gen.currentValue::class.java
             .getDeclaredField(gen.outputContext.currentName)
             .getAnnotation(MaskConverter::class.java)
 

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.tony.enums.EnumCreator
-import com.tony.enums.EnumStringValue
+import com.tony.enums.StringEnumValue
 import javax.validation.constraints.Max
 import javax.validation.constraints.Positive
 
@@ -49,7 +49,7 @@ public data class WechatQrCodeActionInfo(
 
 public enum class WechatQrCodeType(
     override val value: String,
-) : EnumStringValue {
+) : StringEnumValue {
 
     @JsonEnumDefaultValue
     QR_SCENE("QR_SCENE"),

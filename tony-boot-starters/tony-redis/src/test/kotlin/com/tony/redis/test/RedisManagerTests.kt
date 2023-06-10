@@ -2,8 +2,8 @@ package com.tony.redis.test
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
-import com.tony.enums.EnumIntValue
-import com.tony.enums.EnumStringValue
+import com.tony.enums.IntEnumValue
+import com.tony.enums.StringEnumValue
 import com.tony.enums.IntEnumCreator
 import com.tony.enums.StringEnumCreator
 import com.tony.exception.BizException
@@ -87,7 +87,7 @@ class Person(val name: String, val age: Int)
 
 enum class MyIntEnum(
     override val value: Int
-) : EnumIntValue {
+) : IntEnumValue {
 
     @JsonEnumDefaultValue
     ZERO(0),
@@ -104,7 +104,7 @@ enum class MyIntEnum(
 
 enum class MyStringEnum(
     override val value: String
-) : EnumStringValue {
+) : StringEnumValue {
 
     @JsonEnumDefaultValue
     YES("yes"),

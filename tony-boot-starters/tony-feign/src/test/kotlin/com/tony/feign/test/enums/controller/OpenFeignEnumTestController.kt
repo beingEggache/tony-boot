@@ -3,8 +3,8 @@ package com.tony.feign.test.enums.controller
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.tony.enums.EnumCreator
-import com.tony.enums.EnumIntValue
-import com.tony.enums.EnumStringValue
+import com.tony.enums.IntEnumValue
+import com.tony.enums.StringEnumValue
 import com.tony.utils.toJsonString
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -46,7 +46,7 @@ class EnumTest {
 
 enum class MyIntEnum(
     override val value: Int
-) : EnumIntValue {
+) : IntEnumValue {
 
     @JsonEnumDefaultValue
     ZERO(0),
@@ -63,7 +63,7 @@ enum class MyIntEnum(
 
 enum class MyStringEnum(
     override val value: String
-) : EnumStringValue {
+) : StringEnumValue {
 
     @JsonEnumDefaultValue
     YES("yes"),

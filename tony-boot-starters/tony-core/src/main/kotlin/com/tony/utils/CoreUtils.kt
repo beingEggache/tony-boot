@@ -46,22 +46,17 @@ public fun <E> Any?.asTo(): E? where E : Any = this as E?
 public fun <E> Any.asToNotNull(): E where E : Any = this as E
 
 @Suppress("UNCHECKED_CAST")
-public fun <E> Any?.asToNumber(numberType: Class<E>): E? =
-    when (this) {
+public fun <E> Any?.asToNumber(numberType: Class<E>): E? {
+
+    return when (this) {
         is Number -> {
             when (numberType) {
-                java.lang.Long::class.java -> this.toLong()
-                Long::class.java -> this.toLong()
-                java.lang.Integer::class.java -> this.toInt()
-                Int::class.java -> this.toInt()
-                java.lang.Double::class.java -> this.toDouble()
-                Double::class.java -> this.toDouble()
-                java.lang.Byte::class.java -> this.toByte()
-                Byte::class.java -> this.toByte()
-                java.lang.Short::class.java -> this.toShort()
-                Short::class.java -> this.toShort()
-                java.lang.Float::class.java -> this.toFloat()
-                Float::class.java -> this.toFloat()
+                Long::class.javaObjectType, Long::class.javaPrimitiveType -> this.toLong()
+                Int::class.javaObjectType, Int::class.javaPrimitiveType -> this.toInt()
+                Double::class.javaObjectType, Double::class.javaPrimitiveType -> this.toDouble()
+                Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> this.toByte()
+                Short::class.javaObjectType, Short::class.javaPrimitiveType -> this.toShort()
+                Float::class.javaObjectType, Float::class.javaPrimitiveType -> this.toFloat()
                 BigInteger::class.java -> BigInteger.valueOf(this.toLong())
                 BigDecimal::class.java -> BigDecimal(this.toString())
                 else -> null
@@ -69,27 +64,23 @@ public fun <E> Any?.asToNumber(numberType: Class<E>): E? =
         }
 
         is CharSequence -> {
+            val thisToString = this.toString()
             when (numberType) {
-                java.lang.Long::class.java -> this.toString().toLong()
-                Long::class.java -> this.toString().toLong()
-                java.lang.Integer::class.java -> this.toString().toInt()
-                Int::class.java -> this.toString().toInt()
-                java.lang.Double::class.java -> this.toString().toDouble()
-                Double::class.java -> this.toString().toDouble()
-                java.lang.Byte::class.java -> this.toString().toByte()
-                Byte::class.java -> this.toString().toByte()
-                java.lang.Short::class.java -> this.toString().toShort()
-                Short::class.java -> this.toString().toShort()
-                java.lang.Float::class.java -> this.toString().toFloat()
-                Float::class.java -> this.toString().toFloat()
-                BigInteger::class.java -> BigInteger.valueOf(this.toString().toLong())
-                BigDecimal::class.java -> BigDecimal(this.toString())
+                Long::class.javaObjectType, Long::class.javaPrimitiveType -> thisToString.toLong()
+                Int::class.javaObjectType, Int::class.javaPrimitiveType -> thisToString.toInt()
+                Double::class.javaObjectType, Double::class.javaPrimitiveType -> thisToString.toDouble()
+                Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> thisToString.toByte()
+                Short::class.javaObjectType, Short::class.javaPrimitiveType -> thisToString.toShort()
+                Float::class.javaObjectType, Float::class.javaPrimitiveType -> thisToString.toFloat()
+                BigInteger::class.java -> BigInteger.valueOf(thisToString.toLong())
+                BigDecimal::class.java -> BigDecimal(thisToString)
                 else -> null
             }
         }
 
         else -> null
     } as E?
+}
 
 @JvmSynthetic
 public inline fun Boolean.doIf(crossinline block: () -> Any) {

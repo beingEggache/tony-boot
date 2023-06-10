@@ -2,8 +2,9 @@ package com.tony.mybatis.db.enums
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
-import com.tony.enums.EnumCreator
-import com.tony.enums.EnumIntValue
+import com.tony.enums.DEFAULT_INT_VALUE
+import com.tony.enums.IntEnumValue
+import com.tony.enums.IntEnumCreator
 
 /**
  *
@@ -12,16 +13,16 @@ import com.tony.enums.EnumIntValue
  */
 enum class ModuleType(
     override val value: Int,
-) : EnumIntValue {
+) : IntEnumValue {
     API(1),
     ROUTE(2),
     COMPONENT(3),
 
     @JsonEnumDefaultValue
-    UNUSED(EnumCreator.defaultIntValue),
+    UNUSED(DEFAULT_INT_VALUE),
     ;
 
-    companion object : EnumCreator<ModuleType, Int>(ModuleType::class.java) {
+    companion object : IntEnumCreator(ModuleType::class.java) {
 
         @JsonCreator
         @JvmStatic

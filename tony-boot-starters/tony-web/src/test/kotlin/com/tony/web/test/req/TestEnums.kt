@@ -2,13 +2,14 @@ package com.tony.web.test.req
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
+import com.tony.enums.DEFAULT_INT_VALUE
 import com.tony.enums.EnumCreator
-import com.tony.enums.EnumIntValue
-import com.tony.enums.EnumStringValue
+import com.tony.enums.IntEnumValue
+import com.tony.enums.StringEnumValue
 
 enum class TestStringEnum(
     override val value: String
-) : EnumStringValue {
+) : StringEnumValue {
     TEST_1("1"),
     TEST_2("1"),
     ;
@@ -27,11 +28,11 @@ enum class TestStringEnum(
 
 enum class TestIntEnum(
     override val value: Int
-) : EnumIntValue {
+) : IntEnumValue {
     TEST_1(1),
     TEST_2(2),
     @JsonEnumDefaultValue
-    UNKNOWN(EnumCreator.defaultIntValue)
+    UNKNOWN(DEFAULT_INT_VALUE)
     ;
     companion object : EnumCreator<TestIntEnum, Int>(TestIntEnum::class.java) {
 

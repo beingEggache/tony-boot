@@ -46,8 +46,8 @@ internal fun <T : Any> BaseDao<T>.getSqlStatement(sqlMethod: SqlMethod?): String
  * @return logger
  */
 internal fun <T : Any> BaseDao<T>.getLog(): Log =
-    LOG_MAP.getOrPut(javaClass) {
-        LogFactory.getLog(javaClass)
+    LOG_MAP.getOrPut(this::class.java) {
+        LogFactory.getLog(this::class.java)
     }
 
 /**
@@ -57,8 +57,8 @@ internal fun <T : Any> BaseDao<T>.getLog(): Log =
  */
 @Suppress("UNCHECKED_CAST")
 internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
-    ENTITY_CLASS_MAP.getOrPut(this.javaClass) {
-        ReflectionKit.getSuperClassGenericType(this.javaClass, BaseDao::class.java, 0)
+    ENTITY_CLASS_MAP.getOrPut(this::class.java) {
+        ReflectionKit.getSuperClassGenericType(this::class.java, BaseDao::class.java, 0)
     } as Class<T>
 
 /**
@@ -68,9 +68,9 @@ internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
  */
 @Suppress("UNCHECKED_CAST")
 internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
-    MAPPER_CLASS_MAP.getOrPut(javaClass) {
-        if (!Proxy.isProxyClass(javaClass)) {
-            javaClass
+    MAPPER_CLASS_MAP.getOrPut(this::class.java) {
+        if (!Proxy.isProxyClass(this::class.java)) {
+            this::class.java
         } else {
             AopProxyUtils.proxiedUserInterfaces(this).first()
         }

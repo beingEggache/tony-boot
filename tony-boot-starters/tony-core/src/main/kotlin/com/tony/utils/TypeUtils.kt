@@ -17,33 +17,27 @@ import java.util.Date
  * @since 2023/06/07 10:53
  */
 public fun Any.typeParameter(index: Int = 0): Type {
-    val superClass = javaClass.genericSuperclass
+    val superClass = this::class.java.genericSuperclass
     if (superClass is Class<*>) {
         throw IllegalStateException("${superClass.simpleName} constructed without actual type information")
     }
     return (superClass as ParameterizedType).actualTypeArguments[index]
 }
 
-public fun Class<*>.isTypeOrSubTypeOf(type: Class<*>): Boolean =
-    (this == type) || type.isAssignableFrom(this)
+public fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
+    (this == type) || type?.isAssignableFrom(this) == true
 
-public fun Class<*>.isTypeOrSubTypesOf(vararg types: Class<*>): Boolean =
+public fun Class<*>.isTypeOrSubTypesOf(vararg types: Class<*>?): Boolean =
     types.any { this.isTypeOrSubTypeOf(it) }
 
-private val NUMBER_TYPES: Array<Class<out Number>> = arrayOf(
-    Byte::class.java,
-    java.lang.Byte::class.java,
-    Short::class.java,
-    java.lang.Short::class.java,
-    Int::class.java,
-    java.lang.Integer::class.java,
-    Long::class.java,
-    java.lang.Long::class.java,
+private val NUMBER_TYPES: Array<Class<*>?> = arrayOf(
+    Long::class.javaObjectType, Long::class.javaPrimitiveType,
+    Int::class.javaObjectType, Int::class.javaPrimitiveType,
+    Double::class.javaObjectType, Double::class.javaPrimitiveType,
+    Byte::class.javaObjectType, Byte::class.javaPrimitiveType,
+    Short::class.javaObjectType, Short::class.javaPrimitiveType,
+    Float::class.javaObjectType, Float::class.javaPrimitiveType,
     BigInteger::class.java,
-    Float::class.java,
-    java.lang.Float::class.java,
-    Double::class.java,
-    java.lang.Double::class.java,
     BigDecimal::class.java,
 )
 
@@ -63,8 +57,8 @@ public fun <T> TypeReference<T>.rawClass(): Class<T> = when (type) {
 public fun <T> TypeReference<T>.isStringLikeType(): Boolean =
     rawClass().isTypeOrSubTypesOf(
         CharSequence::class.java,
-        Character::class.java,
-        Char::class.java,
+        Char::class.javaObjectType,
+        Char::class.javaPrimitiveType,
     )
 
 public fun <T> TypeReference<T>.isNumberTypes(): Boolean = rawClass().isNumberTypes()
@@ -79,33 +73,33 @@ public fun JavaType.isArrayLikeType(): Boolean =
     isArrayType || isCollectionLikeType
 
 public fun JavaType.isBooleanType(): Boolean =
-    isTypeOrSubTypeOf(Boolean::class.java) || isTypeOrSubTypeOf(java.lang.Boolean::class.java)
+    isTypeOrSubTypeOf(Boolean::class.javaObjectType) || isTypeOrSubTypeOf(Boolean::class.javaPrimitiveType)
 
 public fun JavaType.isNumberType(): Boolean =
     isTypeOrSubTypeOf(Number::class.java)
 
 public fun JavaType.isByteType(): Boolean =
-    isTypeOrSubTypeOf(Byte::class.java) || isTypeOrSubTypeOf(java.lang.Byte::class.java)
+    isTypeOrSubTypeOf(Byte::class.javaObjectType) || isTypeOrSubTypeOf(Byte::class.javaPrimitiveType)
 
 public fun JavaType.isShortType(): Boolean =
-    isTypeOrSubTypeOf(Short::class.java) || isTypeOrSubTypeOf(java.lang.Short::class.java)
+    isTypeOrSubTypeOf(Short::class.javaObjectType) || isTypeOrSubTypeOf(Short::class.javaPrimitiveType)
 
 public fun JavaType.isIntType(): Boolean =
-    isTypeOrSubTypeOf(Int::class.java) || isTypeOrSubTypeOf(java.lang.Integer::class.java)
+    isTypeOrSubTypeOf(Int::class.javaObjectType) || isTypeOrSubTypeOf(Int::class.javaPrimitiveType)
 
 public fun JavaType.isLongType(): Boolean =
-    isTypeOrSubTypeOf(Long::class.java) || isTypeOrSubTypeOf(java.lang.Long::class.java)
+    isTypeOrSubTypeOf(Long::class.javaObjectType) || isTypeOrSubTypeOf(Long::class.javaPrimitiveType)
 
 public fun JavaType.isFloatType(): Boolean =
-    isTypeOrSubTypeOf(Float::class.java) || isTypeOrSubTypeOf(java.lang.Float::class.java)
+    isTypeOrSubTypeOf(Float::class.javaObjectType) || isTypeOrSubTypeOf(Float::class.javaPrimitiveType)
 
 public fun JavaType.isDoubleType(): Boolean =
-    isTypeOrSubTypeOf(Double::class.java) || isTypeOrSubTypeOf(java.lang.Double::class.java)
+    isTypeOrSubTypeOf(Double::class.javaObjectType) || isTypeOrSubTypeOf(Double::class.javaPrimitiveType)
 
 public fun JavaType.isObjLikeType(): Boolean =
     isMapLikeType || (!isArrayLikeType() && !isNumberType() && !isStringLikeType())
 
 public fun JavaType.isStringLikeType(): Boolean =
     isTypeOrSubTypeOf(CharSequence::class.java) ||
-        isTypeOrSubTypeOf(Character::class.java) ||
-        isTypeOrSubTypeOf(Char::class.java)
+        isTypeOrSubTypeOf(Char::class.javaObjectType) ||
+        isTypeOrSubTypeOf(Char::class.javaPrimitiveType)

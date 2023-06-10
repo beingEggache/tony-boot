@@ -72,7 +72,7 @@ fun main(args: Array<String>) {
 }*/
 
 @EnableTonyBoot
-@Import(value = [DbConfig::class/*, AmqpConfig::class*/])
+@Import(value = [DbConfig::class])
 @SpringBootApplication
 class MonoApiWebApp(
     private val permissionInterceptor: PermissionInterceptor,

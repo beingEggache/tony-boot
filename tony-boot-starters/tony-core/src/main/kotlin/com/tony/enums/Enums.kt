@@ -3,6 +3,8 @@
 package com.tony.enums
 
 import com.fasterxml.jackson.annotation.JsonValue
+import com.tony.utils.asToNotNull
+import com.tony.utils.isTypeOrSubTypeOf
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Serializable
@@ -22,12 +24,12 @@ public sealed interface EnumValue<T : Serializable> {
 /**
  * 全局整形枚举接口.
  */
-public interface EnumIntValue : EnumValue<Int>
+public interface IntEnumValue : EnumValue<Int>
 
 /**
  * 全局字符串枚举接口.
  */
-public interface EnumStringValue : EnumValue<String>
+public interface StringEnumValue : EnumValue<String>
 
 public const val DEFAULT_INT_VALUE: Int = 40404
 
@@ -40,34 +42,29 @@ private val logger: Logger = LoggerFactory.getLogger(EnumCreator::class.java)
 internal sealed interface EnumCreatorFactory {
 
     @JvmSynthetic
-    fun getCreator(clazz: Class<*>): EnumCreator<*, *> {
-        return creators.getOrPut(clazz) {
-            logger.debug("${clazz.name} EnumCreator initialized.")
-            clazz
-                .classes
-                .firstOrNull {
-                    EnumCreator::class.java.isAssignableFrom(it)
-                }
-                ?.constructors
-                ?.firstOrNull()
-                ?.newInstance(null) as EnumCreator<*, *>
-        }
+    fun getCreator(clazz: Class<*>): EnumCreator<*, *> = creators.getOrPut(clazz) {
+        logger.debug("${clazz.name} EnumCreator initialized.")
+        clazz
+            .classes
+            .firstOrNull { it.isTypeOrSubTypeOf(EnumCreator::class.java) }
+            ?.constructors
+            ?.firstOrNull()
+            ?.newInstance(null) as EnumCreator<*, *>
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T, R> creatorOf(clazz: Class<T>): EnumCreator<T, R> where T : EnumValue<R>, R : Serializable {
-        return creators.getOrPut(clazz) {
+    fun <T, R> creatorOf(clazz: Class<T>): EnumCreator<T, R>
+        where T : EnumValue<R>,
+              R : Serializable =
+        creators.getOrPut(clazz) {
             logger.debug("${clazz.name} EnumCreator initialized.")
             clazz
                 .classes
-                .firstOrNull {
-                    EnumCreator::class.java.isAssignableFrom(it)
-                }
+                .firstOrNull { it.isTypeOrSubTypeOf(EnumCreator::class.java) }
                 ?.constructors
                 ?.firstOrNull()
                 ?.newInstance(null) as EnumCreator<T, R>
-        } as EnumCreator<T, R>
-    }
+        }.asToNotNull()
 }
 
 /**
@@ -90,8 +87,8 @@ public abstract class EnumCreator<out E, KEY>(
     }
 }
 
-public abstract class StringEnumCreator(clazz: Class<out EnumStringValue>) :
-    EnumCreator<EnumStringValue, String>(clazz) {
+public abstract class StringEnumCreator(clazz: Class<out StringEnumValue>) :
+    EnumCreator<StringEnumValue, String>(clazz) {
     /**
      * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
      */
@@ -103,8 +100,8 @@ public abstract class StringEnumCreator(clazz: Class<out EnumStringValue>) :
     }
 }
 
-public abstract class IntEnumCreator(clazz: Class<out EnumIntValue>) :
-    EnumCreator<EnumIntValue, Int>(clazz) {
+public abstract class IntEnumCreator(clazz: Class<out IntEnumValue>) :
+    EnumCreator<IntEnumValue, Int>(clazz) {
     /**
      * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
      */

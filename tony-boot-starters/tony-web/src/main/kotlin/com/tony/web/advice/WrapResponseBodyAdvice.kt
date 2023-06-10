@@ -7,6 +7,7 @@ import com.tony.ApiResultLike
 import com.tony.ListResult
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
+import com.tony.utils.isTypeOrSubTypeOf
 import com.tony.web.WebApp
 import com.tony.web.WebContext
 import org.slf4j.Logger
@@ -50,7 +51,7 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
     ) = when {
         body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
         body.isNotCollectionLike() -> ApiResult(body, ApiProperty.okCode)
-        else -> if (body.javaClass.isArray) {
+        else -> if (body::class.java.isArray) {
             ApiResult(toListResult(body), ApiProperty.okCode)
         } else {
             ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.okCode)
@@ -61,17 +62,17 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
     ) = !WebContext.url.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
-        MappingJackson2HttpMessageConverter::class.java.isAssignableFrom(converterType) &&
+        converterType.isTypeOrSubTypeOf(MappingJackson2HttpMessageConverter::class.java) &&
         notSupportClasses.all {
-            !it.isAssignableFrom(returnType.parameterType)
+            !returnType.parameterType.isTypeOrSubTypeOf(it)
         }
 
     private companion object Utils {
         private fun Any.isNotCollectionLike() =
-            !Collection::class.java.isAssignableFrom(javaClass) && !javaClass.isArray
+            this::class.java.isTypeOrSubTypeOf(Collection::class.java) && !this::class.java.isArray
 
         @JvmStatic
-        private val notSupportClasses: Array<Class<*>> = arrayOf(
+        private val notSupportClasses: Array<Class<*>?> = arrayOf(
             ApiResultLike::class.java,
             Number::class.java,
             Enum::class.java,
@@ -80,10 +81,8 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
             // because converterType is StringHttpMessageConverter
             /*java.lang.CharSequence::class.java,
             CharSequence::class.java,*/
-            java.lang.Character::class.java,
-            Char::class.java,
-            java.lang.Boolean::class.java,
-            Boolean::class.java,
+            Char::class.javaObjectType, Char::class.javaPrimitiveType,
+            Boolean::class.javaObjectType, Boolean::class.javaPrimitiveType,
         )
 
         @JvmStatic
