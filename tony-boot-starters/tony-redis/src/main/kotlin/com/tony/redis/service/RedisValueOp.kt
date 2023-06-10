@@ -14,30 +14,20 @@ import java.util.concurrent.TimeUnit
  * @author tangli
  * @since 2023/06/06 11:01
  */
-public interface RedisValueService {
-
+public sealed interface RedisValueSetOp {
     public fun <T : Any> set(
         key: String,
         value: T,
-        timeout: Long,
-        timeUnit: TimeUnit,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = if (timeout == 0L) {
         RedisManager.redisTemplate.opsForValue().set(key, value)
     } else {
         RedisManager.redisTemplate.opsForValue().set(key, value, timeout, timeUnit)
     }
+}
 
-    public fun <T : Any> set(
-        key: String,
-        value: T,
-        timeout: Long,
-    ): Unit = set(key, value, timeout, TimeUnit.SECONDS)
-
-    public fun <T : Any> set(
-        key: String,
-        value: T,
-    ): Unit = set(key, value, 0, TimeUnit.SECONDS)
-
+public sealed interface RedisValueGetOp {
     public fun <T : Any> get(key: String, type: Class<T>): T? {
         val value = RedisManager.redisTemplate.opsForValue().get(key)
         if (type.isNumberTypes()) {

@@ -13,6 +13,7 @@ import com.tony.redis.RedisManager.trimQuotes
 import com.tony.redis.serializer.SerializerMode
 import com.tony.redis.service.RedisService
 import com.tony.utils.asTo
+import com.tony.utils.asToNotNull
 import com.tony.utils.asToNumber
 import com.tony.utils.isNumberTypes
 import com.tony.utils.isStringLikeType
@@ -21,6 +22,7 @@ import com.tony.utils.isTypeOrSubTypesOf
 import com.tony.utils.jsonToObj
 import com.tony.utils.rawClass
 import com.tony.utils.toJsonString
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 internal class JacksonRedisService : RedisService {
@@ -32,68 +34,97 @@ internal class JacksonRedisService : RedisService {
         timeout: Long,
         timeUnit: TimeUnit,
     ) {
-        val beSetValue: Any = if (value::class.java.isNumberTypes()) {
+        if (timeout == 0L) {
+            RedisManager.redisTemplate.opsForValue().set(key, ifIsNotNumberThenToJson(value))
+        } else {
+            RedisManager.redisTemplate.opsForValue().set(key, ifIsNotNumberThenToJson(value), timeout, timeUnit)
+        }
+    }
+
+    override fun <T : Any> put(
+        key: String,
+        hashKey: String,
+        value: T,
+        date: Date,
+    ) {
+        RedisManager.redisTemplate.boundHashOps<String, Any>(key).apply {
+            put(hashKey, ifIsNotNumberThenToJson(value))
+            expireAt(date)
+        }
+    }
+
+    override fun <T : Any> put(
+        key: String,
+        hashKey: String,
+        value: T,
+        timeout: Long,
+        timeUnit: TimeUnit,
+    ) {
+        if (timeout == 0L) {
+            RedisManager.redisTemplate.boundHashOps<String, Any>(key).put(hashKey, ifIsNotNumberThenToJson(value))
+        } else {
+            RedisManager.redisTemplate.boundHashOps<String, Any>(key).apply {
+                put(hashKey, ifIsNotNumberThenToJson(value))
+                expire(timeout, timeUnit)
+            }
+        }
+    }
+
+    override fun <T : Any> get(key: String, type: Class<T>): T? =
+        RedisManager.redisTemplate.opsForValue().get(key).transformTo(type)
+
+    override fun <T : Any> get(key: String, javaType: JavaType): T? =
+        RedisManager.redisTemplate.opsForValue().get(key).transformTo(javaType)
+
+    override fun <T : Any> get(key: String, typeReference: TypeReference<T>): T? =
+        RedisManager.redisTemplate.opsForValue().get(key).transformTo(typeReference)
+
+    override fun <T : Any> get(key: String, hashKey: String, type: Class<T>): T? =
+        RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey).transformTo(type)
+
+    override fun <T : Any> get(key: String, hashKey: String, javaType: JavaType): T? =
+        RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey).transformTo(javaType)
+
+    override fun <T : Any> get(key: String, hashKey: String, typeReference: TypeReference<T>): T? =
+        RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey).transformTo(typeReference)
+
+    private fun <T : Any> ifIsNotNumberThenToJson(value: T): Any =
+        if (value::class.java.isNumberTypes()) {
             value
         } else {
             value.toJsonString()
         }
-        if (timeout == 0L) {
-            RedisManager.redisTemplate.opsForValue().set(key, beSetValue)
-        } else {
-            RedisManager.redisTemplate.opsForValue().set(key, beSetValue, timeout, timeUnit)
+
+    private fun <T : Any> Any?.transformTo(typeClass: Any): T? {
+        if (this == null) {
+            return null
         }
-    }
-
-    override fun <T : Any> get(key: String, type: Class<T>): T? {
-        val value = RedisManager.redisTemplate.opsForValue().get(key) ?: return null
-        val (result, transformedValue) = transform(value, type)
-        return if (result) {
-            transformedValue
-        } else {
-            transformedValue?.toString()?.trimQuotes()?.jsonToObj(type)
+        val type = when (typeClass) {
+            is Class<*> -> typeClass
+            is TypeReference<*> -> typeClass.asToNotNull<TypeReference<T>>().rawClass()
+            is JavaType -> typeClass.asToNotNull<JavaType>().rawClass()
+            else -> throw IllegalStateException("Ain't gonna happen")
         }
-    }
 
-    override fun <T : Any> get(key: String, javaType: JavaType): T? {
-        val value = RedisManager.redisTemplate.opsForValue().get(key) ?: return null
-        val (result, transformedValue) = transform(value, javaType.rawClass)
-        return if (result) {
-            transformedValue
-        } else {
-            transformedValue?.toString()?.trimQuotes()?.jsonToObj(javaType)
-        }.asTo()
-    }
-
-    override fun <T : Any> get(key: String, typeReference: TypeReference<T>): T? {
-        val value = RedisManager.redisTemplate.opsForValue().get(key) ?: return null
-        val type = typeReference.rawClass()
-        val (result, transformedValue) = transform(value, type)
-        return if (result) {
-            transformedValue
-        } else {
-            transformedValue?.toString()?.trimQuotes()?.jsonToObj(typeReference)
-        }.asTo()
-    }
-
-    private fun <T : Any> transform(value: Any, type: Class<T>): Pair<Boolean, T?> {
         return when {
-            type.isNumberTypes() -> true to value.asToNumber(type)
-            type.isStringLikeType() -> true to value.toString().trimQuotes()
-            type == EnumValue::class.java -> {
-                if (value is EnumValue<*>) true to value
-                throw ApiException("Please use more specific type.Like EnumStringValue or EnumIntValue")
-            }
-
+            type.isNumberTypes() -> this.asToNumber(type)
+            type.isStringLikeType() -> this.toString().trimQuotes()
+            type == EnumValue::class.java && this is EnumValue<*> -> this
             type.isTypeOrSubTypesOf(EnumStringValue::class.java) -> {
-                true to StringEnumCreator.getCreator(type).create(value.toString().trimQuotes())
+                StringEnumCreator.getCreator(type).create(this.toString().trimQuotes())
             }
 
             type.isTypeOrSubTypeOf(EnumIntValue::class.java) -> {
-                true to IntEnumCreator.getCreator(type).create(value.toString().toInt())
+                IntEnumCreator.getCreator(type).create(this.toString().toInt())
             }
 
-            value::class.java.isTypeOrSubTypesOf(type) -> true to value
-            else -> false to value
-        }.asTo()!!
+            this::class.java.isTypeOrSubTypesOf(type) -> this
+            else -> when (typeClass) {
+                is Class<*> -> this.toString().trimQuotes().jsonToObj(typeClass)
+                is JavaType -> this.toString().trimQuotes().jsonToObj(typeClass)
+                is TypeReference<*> -> this.toString().trimQuotes().jsonToObj(typeClass)
+                else -> throw ApiException("Ain't gonna happen")
+            }
+        }.asTo()
     }
 }

@@ -7,7 +7,11 @@ import com.tony.redis.serializer.SerializerMode
  * @author tangli
  * @since 2023/06/09 13:30
  */
-public interface RedisService : RedisValueService {
+public interface RedisService :
+    RedisValueGetOp,
+    RedisValueSetOp,
+    RedisMapGetOp,
+    RedisMapSetOp {
 
     public val serializerMode: SerializerMode
 }

@@ -43,6 +43,9 @@ public fun getLogger(name: String?): Logger = LoggerFactory.getLogger(name)
 public fun <E> Any?.asTo(): E? where E : Any = this as E?
 
 @Suppress("UNCHECKED_CAST")
+public fun <E> Any.asToNotNull(): E where E : Any = this as E
+
+@Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asToNumber(numberType: Class<E>): E? =
     when (this) {
         is Number -> {
