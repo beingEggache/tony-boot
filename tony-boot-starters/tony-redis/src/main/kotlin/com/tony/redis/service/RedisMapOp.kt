@@ -54,8 +54,8 @@ public sealed interface RedisMapSetOp {
     public fun putAll(
         key: String,
         map: Map<String, Any?>?,
-        timeout: Long,
-        timeUnit: TimeUnit,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
     ) {
         if (map == null) {
             return
