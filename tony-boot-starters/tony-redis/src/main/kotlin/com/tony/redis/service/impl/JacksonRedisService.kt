@@ -107,22 +107,22 @@ internal class JacksonRedisService : RedisService {
         }
 
         return when {
-            type.isNumberTypes() -> this.asToNumber(type)
-            type.isStringLikeType() -> this.toString().trimQuotes()
+            type.isNumberTypes() -> asToNumber(type)
+            type.isStringLikeType() -> toString().trimQuotes()
             type == EnumValue::class.java && this is EnumValue<*> -> this
             type.isTypeOrSubTypesOf(StringEnumValue::class.java) -> {
-                StringEnumCreator.getCreator(type).create(this.toString().trimQuotes())
+                StringEnumCreator.getCreator(type).create(toString().trimQuotes())
             }
 
             type.isTypeOrSubTypeOf(IntEnumValue::class.java) -> {
-                IntEnumCreator.getCreator(type).create(this.toString().toInt())
+                IntEnumCreator.getCreator(type).create(toString().toInt())
             }
 
             this::class.java.isTypeOrSubTypesOf(type) -> this
             else -> when (typeClass) {
-                is Class<*> -> this.toString().trimQuotes().jsonToObj(typeClass)
-                is JavaType -> this.toString().trimQuotes().jsonToObj(typeClass)
-                is TypeReference<*> -> this.toString().trimQuotes().jsonToObj(typeClass)
+                is Class<*> -> toString().trimQuotes().jsonToObj(typeClass)
+                is JavaType -> toString().trimQuotes().jsonToObj(typeClass)
+                is TypeReference<*> -> toString().trimQuotes().jsonToObj(typeClass)
                 else -> throw ApiException("Ain't gonna happen")
             }
         }.asTo()

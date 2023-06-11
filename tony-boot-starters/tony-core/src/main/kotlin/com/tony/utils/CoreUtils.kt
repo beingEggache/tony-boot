@@ -45,42 +45,40 @@ public fun <E> Any?.asTo(): E? where E : Any = this as E?
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any.asToNotNull(): E where E : Any = this as E
 
-@Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asToNumber(numberType: Class<E>): E? {
-
+    if (!numberType.isNumberTypes()) throw IllegalArgumentException("Only support number types, no $numberType")
     return when (this) {
-        is Number -> {
-            when (numberType) {
-                Long::class.javaObjectType, Long::class.javaPrimitiveType -> this.toLong()
-                Int::class.javaObjectType, Int::class.javaPrimitiveType -> this.toInt()
-                Double::class.javaObjectType, Double::class.javaPrimitiveType -> this.toDouble()
-                Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> this.toByte()
-                Short::class.javaObjectType, Short::class.javaPrimitiveType -> this.toShort()
-                Float::class.javaObjectType, Float::class.javaPrimitiveType -> this.toFloat()
-                BigInteger::class.java -> BigInteger.valueOf(this.toLong())
-                BigDecimal::class.java -> BigDecimal(this.toString())
-                else -> null
-            }
-        }
-
-        is CharSequence -> {
-            val thisToString = this.toString()
-            when (numberType) {
-                Long::class.javaObjectType, Long::class.javaPrimitiveType -> thisToString.toLong()
-                Int::class.javaObjectType, Int::class.javaPrimitiveType -> thisToString.toInt()
-                Double::class.javaObjectType, Double::class.javaPrimitiveType -> thisToString.toDouble()
-                Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> thisToString.toByte()
-                Short::class.javaObjectType, Short::class.javaPrimitiveType -> thisToString.toShort()
-                Float::class.javaObjectType, Float::class.javaPrimitiveType -> thisToString.toFloat()
-                BigInteger::class.java -> BigInteger.valueOf(thisToString.toLong())
-                BigDecimal::class.java -> BigDecimal(thisToString)
-                else -> null
-            }
-        }
-
+        is Number -> toNumber(numberType)
+        is CharSequence -> toNumber(numberType)
         else -> null
-    } as E?
+    }
 }
+
+public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
+    when (numberType) {
+        Long::class.javaObjectType, Long::class.javaPrimitiveType -> this.toLong()
+        Int::class.javaObjectType, Int::class.javaPrimitiveType -> this.toInt()
+        Double::class.javaObjectType, Double::class.javaPrimitiveType -> this.toDouble()
+        Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> this.toByte()
+        Short::class.javaObjectType, Short::class.javaPrimitiveType -> this.toShort()
+        Float::class.javaObjectType, Float::class.javaPrimitiveType -> this.toFloat()
+        BigInteger::class.java -> BigInteger.valueOf(this.toLong())
+        BigDecimal::class.java -> BigDecimal(this.toString())
+        else -> throw IllegalArgumentException("Not support input type: $numberType")
+    }.asToNotNull()
+
+public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
+    when (numberType) {
+        Long::class.javaObjectType, Long::class.javaPrimitiveType -> toString().toLong()
+        Int::class.javaObjectType, Int::class.javaPrimitiveType -> toString().toInt()
+        Double::class.javaObjectType, Double::class.javaPrimitiveType -> toString().toDouble()
+        Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> toString().toByte()
+        Short::class.javaObjectType, Short::class.javaPrimitiveType -> toString().toShort()
+        Float::class.javaObjectType, Float::class.javaPrimitiveType -> toString().toFloat()
+        BigInteger::class.java -> BigInteger.valueOf(toString().toLong())
+        BigDecimal::class.java -> BigDecimal(toString())
+        else -> throw IllegalArgumentException("Not support input type: $numberType")
+    }.asToNotNull()
 
 @JvmSynthetic
 public inline fun Boolean.doIf(crossinline block: () -> Any) {

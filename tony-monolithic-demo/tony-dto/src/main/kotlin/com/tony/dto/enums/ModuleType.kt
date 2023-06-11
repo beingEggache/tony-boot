@@ -3,8 +3,8 @@ package com.tony.dto.enums
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.tony.enums.DEFAULT_INT_VALUE
-import com.tony.enums.EnumIntValue
 import com.tony.enums.IntEnumCreator
+import com.tony.enums.IntEnumValue
 
 /**
  *
@@ -13,7 +13,7 @@ import com.tony.enums.IntEnumCreator
  */
 enum class ModuleType(
     override val value: Int,
-) : EnumIntValue {
+) : IntEnumValue {
     API(1),
     ROUTE(2),
     COMPONENT(3),
