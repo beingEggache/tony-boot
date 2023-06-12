@@ -22,7 +22,6 @@ import com.tony.utils.isTypeOrSubTypesOf
 import com.tony.utils.jsonToObj
 import com.tony.utils.rawClass
 import com.tony.utils.toJsonString
-import java.util.Date
 import java.util.concurrent.TimeUnit
 
 internal class JacksonRedisService : RedisService {
@@ -41,33 +40,41 @@ internal class JacksonRedisService : RedisService {
         }
     }
 
-    override fun <T : Any> put(
+    override fun <T : Any> setIfAbsent(
         key: String,
-        hashKey: String,
         value: T,
-        date: Date,
-    ) {
-        RedisManager.redisTemplate.boundHashOps<String, Any>(key).apply {
-            put(hashKey, ifIsNotNumberThenToJson(value))
-            expireAt(date)
+        timeout: Long,
+        timeUnit: TimeUnit,
+    ): Boolean? =
+        if (timeout == 0L) {
+            RedisManager.redisTemplate.opsForValue().setIfAbsent(key, ifIsNotNumberThenToJson(value))
+        } else {
+            RedisManager.redisTemplate.opsForValue().setIfAbsent(key, ifIsNotNumberThenToJson(value), timeout, timeUnit)
         }
-    }
+
+    override fun <T : Any> setIfPresent(
+        key: String,
+        value: T,
+        timeout: Long,
+        timeUnit: TimeUnit,
+    ): Boolean? =
+        if (timeout == 0L) {
+            RedisManager.redisTemplate.opsForValue().setIfPresent(key, ifIsNotNumberThenToJson(value))
+        } else {
+            RedisManager.redisTemplate.opsForValue()
+                .setIfPresent(key, ifIsNotNumberThenToJson(value), timeout, timeUnit)
+        }
 
     override fun <T : Any> put(
         key: String,
         hashKey: String,
         value: T,
-        timeout: Long,
-        timeUnit: TimeUnit,
     ) {
-        if (timeout == 0L) {
-            RedisManager.redisTemplate.boundHashOps<String, Any>(key).put(hashKey, ifIsNotNumberThenToJson(value))
-        } else {
-            RedisManager.redisTemplate.boundHashOps<String, Any>(key).apply {
-                put(hashKey, ifIsNotNumberThenToJson(value))
-                expire(timeout, timeUnit)
-            }
-        }
+        RedisManager.redisTemplate.boundHashOps<String, Any>(key).put(hashKey, ifIsNotNumberThenToJson(value))
+    }
+
+    override fun <T : Any> putIfAbsent(key: String, hashKey: String, value: T) {
+        RedisManager.redisTemplate.boundHashOps<String, Any>(key).putIfAbsent(hashKey, ifIsNotNumberThenToJson(value))
     }
 
     override fun <T : Any> get(key: String, type: Class<T>): T? =

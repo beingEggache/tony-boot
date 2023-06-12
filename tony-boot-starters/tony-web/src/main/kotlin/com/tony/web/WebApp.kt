@@ -56,7 +56,7 @@ public object WebApp {
     internal val responseWrapExcludePatterns by lazy {
         val set = setOf(
             *whiteUrlPatternsWithContextPath.toTypedArray(),
-            *webProperties.responseWrapExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray(),
+            *webProperties.wrapResponseExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray(),
         )
         logger.info("Response Wrap Exclude Pattern are: $set")
         set

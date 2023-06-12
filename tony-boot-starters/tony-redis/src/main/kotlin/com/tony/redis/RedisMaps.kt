@@ -53,37 +53,14 @@ public object RedisMaps {
      * @param key
      * @param hashKey
      * @param value
-     * @param timeout
-     * @param timeUnit 默认为秒 [TimeUnit.SECONDS]
      */
     @JvmStatic
-    @JvmOverloads
     public fun <T : Any> put(
         key: String,
         hashKey: String,
         value: T,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Unit = redisService.put(key, hashKey, value, timeout, timeUnit)
+    ): Unit = redisService.put(key, hashKey, value)
 
-    /**
-     * 同 redisTemplate.boundHashOps(key).put(hashKey, value).
-     *
-     * 同时可设置过期时间.
-     *
-     * @param T
-     * @param key
-     * @param hashKey
-     * @param value
-     * @param date 过期时间
-     */
-    @JvmStatic
-    public fun <T : Any> put(
-        key: String,
-        hashKey: String,
-        value: T,
-        date: Date,
-    ): Unit = redisService.put(key, hashKey, value, date)
 
     /**
      * 同 redisTemplate.boundHashOps(key).putAll(map).

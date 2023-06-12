@@ -13,5 +13,8 @@ public interface RedisService :
     RedisMapGetOp,
     RedisMapSetOp {
 
+    /**
+     * 序列化反序列化方式
+     */
     public val serializerMode: SerializerMode
 }

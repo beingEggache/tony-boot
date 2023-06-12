@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisConnectionUtils
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.script.RedisScript
 import java.util.Collections
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 /**
@@ -166,6 +167,19 @@ public object RedisManager {
         timeout: Long,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Boolean = redisTemplate.expire(key, timeout, timeUnit)
+
+    /**
+     * 同 redisTemplate.expireAt(key, date)
+     *
+     * @param key
+     * @param date
+     * @return
+     */
+    @JvmStatic
+    public fun expireAt(
+        key: String,
+        date: Date,
+    ): Boolean = redisTemplate.expireAt(key, date)
 
     /**
      * 同 redisTemplate.getExpire(key, timeUnit)

@@ -76,6 +76,24 @@ public object RedisValues {
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = redisService.set(key, value, timeout, timeUnit)
 
+    @JvmStatic
+    @JvmOverloads
+    public fun <T : Any> setIfAbsent(
+        key: String,
+        value: T,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
+    ): Boolean? = redisService.setIfAbsent(key, value, timeout, timeUnit)
+
+    @JvmStatic
+    @JvmOverloads
+    public fun <T : Any> setIfPresent(
+        key: String,
+        value: T,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
+    ): Boolean? = redisService.setIfPresent(key, value, timeout, timeUnit)
+
     public inline fun <reified T : Any> get(key: String): T? {
         return redisService.get(key, (object : TypeReference<T>() {}))
     }

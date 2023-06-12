@@ -170,7 +170,7 @@ internal data class WebProperties(
     /**
      * 包装返回值白名单url（ant pattern）。
      */
-    val responseWrapExcludePatterns: List<String> = listOf(),
+    val wrapResponseExcludePatterns: List<String> = listOf(),
     /**
      * 是否记录请求日志。
      */
