@@ -52,6 +52,38 @@ internal class JacksonRedisService : RedisService {
             RedisManager.redisTemplate.opsForValue().setIfAbsent(key, ifIsNotNumberThenToJson(value), timeout, timeUnit)
         }
 
+    override fun <T : Any> getAndSet(key: String, value: T, type: Class<T>): T? =
+        RedisManager.redisTemplate.opsForValue().getAndSet(key, ifIsNotNumberThenToJson(value)).transformTo(type)
+
+    override fun <T : Any> getAndSet(key: String, value: T, javaType: JavaType): T? =
+        RedisManager.redisTemplate.opsForValue().getAndSet(key, ifIsNotNumberThenToJson(value)).transformTo(javaType)
+
+    override fun <T : Any> getAndSet(key: String, value: T, typeReference: TypeReference<T>): T? =
+        RedisManager.redisTemplate.opsForValue().getAndSet(key, ifIsNotNumberThenToJson(value))
+            .transformTo(typeReference)
+
+    override fun <T : Any> getAndExpire(key: String, type: Class<T>, timeout: Long, timeUnit: TimeUnit): T? =
+        RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).transformTo(type)
+
+    override fun <T : Any> getAndExpire(key: String, javaType: JavaType, timeout: Long, timeUnit: TimeUnit): T? =
+        RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).transformTo(javaType)
+
+    override fun <T : Any> getAndExpire(
+        key: String,
+        typeReference: TypeReference<T>,
+        timeout: Long,
+        timeUnit: TimeUnit,
+    ): T? = RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).transformTo(typeReference)
+
+    override fun <T : Any> getAndDelete(key: String, type: Class<T>): T? =
+        RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(type)
+
+    override fun <T : Any> getAndDelete(key: String, javaType: JavaType): T? =
+        RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(javaType)
+
+    override fun <T : Any> getAndDelete(key: String, typeReference: TypeReference<T>): T? =
+        RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(typeReference)
+
     override fun <T : Any> setIfPresent(
         key: String,
         value: T,
@@ -102,6 +134,7 @@ internal class JacksonRedisService : RedisService {
             value.toJsonString()
         }
 
+    @Suppress("IMPLICIT_NOTHING_TYPE_ARGUMENT_IN_RETURN_POSITION")
     private fun <T : Any> Any?.transformTo(typeClass: Any): T? {
         if (this == null) {
             return null

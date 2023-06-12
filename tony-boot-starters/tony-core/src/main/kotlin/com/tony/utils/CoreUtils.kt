@@ -45,8 +45,7 @@ public fun <E> Any?.asTo(): E? where E : Any = this as E?
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any.asToNotNull(): E where E : Any = this as E
 
-public fun <E> Any?.asToNumber(numberType: Class<E>): E? {
-    if (!numberType.isNumberTypes()) throw IllegalArgumentException("Only support number types, no $numberType")
+public fun <E : Number> Any?.asToNumber(numberType: Class<in E>): E? {
     return when (this) {
         is Number -> toNumber(numberType)
         is CharSequence -> toNumber(numberType)

@@ -47,8 +47,6 @@ public object RedisMaps {
     /**
      * 同 redisTemplate.boundHashOps(key).put(hashKey, value).
      *
-     * 同时可设置过期时间.
-     *
      * @param T
      * @param key
      * @param hashKey
@@ -61,6 +59,20 @@ public object RedisMaps {
         value: T,
     ): Unit = redisService.put(key, hashKey, value)
 
+    /**
+     * 同 redisTemplate.boundHashOps(key).putIfAbsent(hashKey, value).
+     *
+     * @param T
+     * @param key
+     * @param hashKey
+     * @param value
+     */
+    @JvmStatic
+    public fun <T : Any> putIfAbsent(
+        key: String,
+        hashKey: String,
+        value: T,
+    ): Unit = redisService.putIfAbsent(key, hashKey, value)
 
     /**
      * 同 redisTemplate.boundHashOps(key).putAll(map).

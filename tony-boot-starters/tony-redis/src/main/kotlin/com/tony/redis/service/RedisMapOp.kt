@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.tony.redis.RedisManager
 import com.tony.utils.asTo
-import com.tony.utils.asToNumber
-import com.tony.utils.isNumberTypes
 import com.tony.utils.rawClass
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -26,13 +24,8 @@ public sealed interface RedisMapGetOp {
      * @param type 值 class
      * @return
      */
-    public fun <T : Any> get(key: String, hashKey: String, type: Class<T>): T? {
-        val value = RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey)
-        if (type.isNumberTypes()) {
-            return value.asToNumber(type)
-        }
-        return value.asTo()
-    }
+    public fun <T : Any> get(key: String, hashKey: String, type: Class<T>): T? =
+        RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey).transformTo(type)
 
     /**
      * 获取 map 值
@@ -92,7 +85,7 @@ public sealed interface RedisMapSetOp {
 
     /**
      * Set multiple hash fields to multiple values using data provided in m at the [key]
-     * and expired in [timeout],[timeUnit]
+     * and expired in [timeout], [timeUnit]
      *
      * @param key
      * @param map
@@ -147,5 +140,4 @@ public sealed interface RedisMapSetOp {
     ) {
         RedisManager.redisTemplate.boundHashOps<String, Any>(key).putIfAbsent(hashKey, value)
     }
-
 }
