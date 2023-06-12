@@ -7,7 +7,9 @@ import com.tony.ApiResultLike
 import com.tony.ListResult
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
+import com.tony.utils.isCollectionLike
 import com.tony.utils.isTypeOrSubTypeOf
+import com.tony.utils.isTypeOrSubTypesOf
 import com.tony.web.WebApp
 import com.tony.web.WebContext
 import org.slf4j.Logger
@@ -50,7 +52,7 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         response: ServerHttpResponse,
     ) = when {
         body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
-        body.isNotCollectionLike() -> ApiResult(body, ApiProperty.okCode)
+        !body::class.java.isCollectionLike() -> ApiResult(body, ApiProperty.okCode)
         else -> if (body::class.java.isArray) {
             ApiResult(toListResult(body), ApiProperty.okCode)
         } else {
@@ -63,13 +65,9 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         converterType: Class<out HttpMessageConverter<*>>,
     ) = !WebContext.url.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
         converterType.isTypeOrSubTypeOf(MappingJackson2HttpMessageConverter::class.java) &&
-        notSupportClasses.all {
-            !returnType.parameterType.isTypeOrSubTypeOf(it)
-        }
+        !returnType.parameterType.isTypeOrSubTypesOf(*notSupportClasses)
 
     private companion object Utils {
-        private fun Any.isNotCollectionLike() =
-            this::class.java.isTypeOrSubTypeOf(Collection::class.java) && !this::class.java.isArray
 
         @JvmStatic
         private val notSupportClasses: Array<Class<*>?> = arrayOf(

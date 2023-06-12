@@ -91,7 +91,7 @@ public object RedisManager {
                 callback.run()
                 return redisConnection.exec()
             } catch (e: Throwable) {
-                redisConnection.discard()
+                redisConnection.isQueueing.doIf { redisConnection.discard() }
                 throw e
             } finally {
                 RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)

@@ -32,7 +32,7 @@ public abstract class RequestBodyFieldInjector<T> {
         field.name == fieldName &&
             field.genericType.equals(type)
 
-    internal val type: Type = typeParameter()
+    internal val type: Type = this::class.java.typeParameter()
 }
 
 internal class RequestBodyFieldInjectorComposite(
@@ -48,30 +48,46 @@ internal class RequestBodyFieldInjectorComposite(
     private val supportedInjector: ConcurrentHashMap<Class<*>, Map<String, RequestBodyFieldInjector<*>>> =
         ConcurrentHashMap<Class<*>, Map<String, RequestBodyFieldInjector<*>>>()
 
-    fun supports(targetType: Class<*>): Boolean {
-        if (!targetType.isAnnotationPresent(InjectRequestBody::class.java)) {
+    fun supports(targetType: Class<*>?): Boolean {
+        if (targetType == null) return false
+
+        val declaredFields = targetType.declaredFields
+        val typeHasNoInjectField = declaredFields.none { it.isAnnotationPresent(InjectRequestBodyField::class.java) }
+        if (typeHasNoInjectField) {
             return false
         }
+
         val supportFromCache = supportedClassesCache[targetType]
         if (supportFromCache != null) {
             return supportFromCache
         }
-        return process(targetType)
+
+        return process(targetType, declaredFields)
     }
 
     fun injectValues(body: Any): Any {
-        val fieldMap = supportedClassFieldsCache[body::class.java]
-        supportedInjector[body::class.java]?.forEach { (fieldName, injector) ->
-            val field = fieldMap?.get(fieldName) ?: throw IllegalStateException("Ain't gonna happened.")
-            ReflectionUtils.makeAccessible(field)
-            ReflectionUtils.setField(field, body, injector.value())
-        }
+        val bodyClass = body::class.java
+        val fieldMap = supportedClassFieldsCache.getOrDefault(bodyClass, mapOf())
+        supportedInjector
+            .getOrDefault(bodyClass, mapOf())
+            .forEach { (_, injector) ->
+                val field = fieldMap.getValue("${injector.fieldName}:${injector.type.typeName}")
+                val value = injector.value()
+                ReflectionUtils.makeAccessible(field)
+                ReflectionUtils.setField(field, body, value)
+                logger
+                    .debug(
+                        "${injector::class.java.name} " +
+                            "inject ${bodyClass.name}'s " +
+                            "field ${field.name} value:$value",
+                    )
+            }
         return body
     }
 
-    private fun process(targetType: Class<*>): Boolean {
+    private fun process(targetType: Class<*>, declaredFields: Array<Field>): Boolean {
         val annotatedFields =
-            targetType.declaredFields.filter {
+            declaredFields.filter {
                 it.isAnnotationPresent(InjectRequestBodyField::class.java)
             }
 
@@ -79,19 +95,20 @@ internal class RequestBodyFieldInjectorComposite(
             requestBodyFieldInjectors.associateBy {
                 it.fieldName
             }.filterValues { injector ->
+                val typeName = injector.type.typeName
                 annotatedFields.filter { field ->
                     val supports = injector.supports(field)
                     if (!supports) {
+                        val fieldName = field.name
                         logger.debug(
-                            "${targetType.name} field ${field.name}:${injector.type.typeName} " +
-                                "does not equal ${field.name}:${injector.type.typeName}",
+                            "${targetType.name} field $fieldName:$typeName does not equal $fieldName:$typeName",
                         )
                     }
                     supports
                 }.onEach {
                     supportedClassFieldsCache
                         .getOrPut(targetType) { mutableMapOf() }
-                        .putIfAbsent(injector.fieldName, it)
+                        .putIfAbsent("${injector.fieldName}:$typeName", it)
                 }.isNotEmpty()
             }
         }

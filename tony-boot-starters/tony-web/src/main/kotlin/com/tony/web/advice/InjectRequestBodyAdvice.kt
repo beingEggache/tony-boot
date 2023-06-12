@@ -1,5 +1,6 @@
 package com.tony.web.advice
 
+import com.tony.utils.rawClass
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
@@ -8,7 +9,6 @@ import org.springframework.http.HttpInputMessage
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter
-import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
 /**
@@ -33,8 +33,7 @@ internal class InjectRequestBodyAdvice(
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
     ): Boolean {
-        val clazz = getTypeFromTarget(targetType) ?: return false
-        return requestBodyFieldInjectorComposite.supports(clazz)
+        return requestBodyFieldInjectorComposite.supports(targetType.rawClass())
     }
 
     override fun afterBodyRead(
@@ -45,18 +44,5 @@ internal class InjectRequestBodyAdvice(
         converterType: Class<out HttpMessageConverter<*>>,
     ): Any {
         return requestBodyFieldInjectorComposite.injectValues(body)
-    }
-
-    private fun getTypeFromTarget(targetType: Type): Class<*>? {
-        return if (targetType is Class<*>) {
-            targetType
-        } else {
-            if (targetType is ParameterizedType) {
-                targetType.rawType
-            } else {
-                logger.warn("targetType is {}", targetType.typeName)
-                null
-            } as Class<*>?
-        }
     }
 }

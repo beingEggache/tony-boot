@@ -98,7 +98,7 @@ public sealed interface RedisValueSetOp {
      */
     public fun <T : Any> getAndSet(key: String, value: T, typeReference: TypeReference<T>): T? =
         RedisManager.redisTemplate.opsForValue().getAndSet(key, value)
-            .transformTo(typeReference.type.asToNotNull<Class<T>>())
+            .transformTo(typeReference.type.asToNotNull())
 
     /**
      * Return the value at key and expire the key by applying timeout.
@@ -138,7 +138,7 @@ public sealed interface RedisValueSetOp {
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): T? = RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit)
-        .transformTo(typeReference.type.asToNotNull<Class<T>>())
+        .transformTo(typeReference.type.asToNotNull())
 }
 
 /**

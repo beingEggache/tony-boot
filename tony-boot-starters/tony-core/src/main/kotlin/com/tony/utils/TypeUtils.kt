@@ -16,8 +16,15 @@ import java.util.Date
  * @author tangli
  * @since 2023/06/07 10:53
  */
-public fun Any.typeParameter(index: Int = 0): Type {
-    val superClass = this::class.java.genericSuperclass
+
+public fun Type.rawClass(): Class<*>? = when (this) {
+    is Class<*> -> this
+    is ParameterizedType -> this.rawType as Class<*>
+    else -> null
+}
+
+public fun Class<*>.typeParameter(index: Int = 0): Type {
+    val superClass = this.genericSuperclass
     if (superClass is Class<*>) {
         throw IllegalStateException("${superClass.simpleName} constructed without actual type information")
     }
@@ -47,6 +54,9 @@ public fun Class<*>.isStringLikeType(): Boolean =
     this.isTypeOrSubTypesOf(
         CharSequence::class.java,
     )
+
+public fun Class<*>.isCollectionLike(): Boolean =
+    this.isTypeOrSubTypeOf(Collection::class.java) || this::class.java.isArray
 
 @Suppress("UNCHECKED_CAST")
 public fun <T> TypeReference<T>.rawClass(): Class<T> = when (type) {

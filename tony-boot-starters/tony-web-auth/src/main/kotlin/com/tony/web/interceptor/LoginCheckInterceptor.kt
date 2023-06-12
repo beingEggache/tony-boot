@@ -36,8 +36,8 @@ public interface LoginCheckInterceptor : HandlerInterceptor {
         handler: Any,
     ): Boolean {
         if (handler !is HandlerMethod) return true
-        if (handler.beanType.getAnnotation(NoLoginCheck::class.java) != null) return true
-        if (handler.method.getAnnotation(NoLoginCheck::class.java) != null) return true
+        if (handler.beanType.isAnnotationPresent(NoLoginCheck::class.java)) return true
+        if (handler.method.isAnnotationPresent(NoLoginCheck::class.java)) return true
         throw (WebContext.apiSession.unauthorizedException ?: return true)
     }
 }

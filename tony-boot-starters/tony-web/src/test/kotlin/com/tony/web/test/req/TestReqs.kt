@@ -2,7 +2,6 @@ package com.tony.web.test.req
 
 import com.tony.enums.validate.SimpleIntEnum
 import com.tony.enums.validate.SimpleStringEnum
-import com.tony.web.advice.InjectRequestBody
 import com.tony.web.advice.InjectRequestBodyField
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.validation.constraints.NotBlank
@@ -33,7 +32,6 @@ data class TestPatternReq(
     val mobile: String?
 )
 
-@InjectRequestBody
 @Schema(description = "测试请求注入")
 data class TestInjectReq<T1, T2, T3, T4>(
     @field:InjectRequestBodyField

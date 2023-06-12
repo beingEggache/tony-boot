@@ -8,12 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
  * @author tangli
  * @since 2023/06/08 09:26
  */
-@Target(
-    AnnotationTarget.CLASS,
-)
-@Retention(AnnotationRetention.RUNTIME)
-public annotation class InjectRequestBody
-
 @JacksonAnnotationsInside
 @JsonIgnore
 @Target(
