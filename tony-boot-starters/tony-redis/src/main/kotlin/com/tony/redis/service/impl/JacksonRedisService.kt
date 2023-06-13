@@ -157,7 +157,7 @@ internal class JacksonRedisService : RedisService {
                 IntEnumCreator.getCreator(type).create(toString().toInt())
             }
 
-            this::class.java.isTypesOrSubTypesOf(type) -> this
+            this.isTypesOrSubTypesOf(type) -> this
             else -> when (typeClass) {
                 is Class<*> -> toString().trimQuotes().jsonToObj(typeClass)
                 is JavaType -> toString().trimQuotes().jsonToObj(typeClass)

@@ -148,7 +148,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         val tableInfo = TableInfoHelper.getTableInfo(entityClass)
         return executeBatch(batchList) { sqlSession, e ->
             if (tableInfo.isWithUpdateFill && tableInfo.isWithLogicDelete) {
-                if (e::class.java.isTypesOrSubTypesOf(entityClass)) {
+                if (e.isTypesOrSubTypesOf(entityClass)) {
                     sqlSession.update(sqlStatement, e)
                 } else {
                     val instance = tableInfo.newInstance<T>()

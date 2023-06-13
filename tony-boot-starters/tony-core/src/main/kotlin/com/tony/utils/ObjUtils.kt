@@ -54,3 +54,6 @@ public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E {
 @JvmSynthetic
 public fun <T> T.getLogger(): Logger where T : Any =
     LoggerFactory.getLogger(this::class.java)
+
+public fun Any.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
+    types.any { this::class.java.isTypeOrSubTypeOf(it) }
