@@ -93,7 +93,6 @@ configure(subprojects) {
         val isTest = this.name.contains("test", ignoreCase = true)
         kotlinOptions {
             jvmTarget = javaVersion
-            languageVersion = "2.0"
             allWarningsAsErrors = !isTest
             verbose = true
             freeCompilerArgs = listOf(

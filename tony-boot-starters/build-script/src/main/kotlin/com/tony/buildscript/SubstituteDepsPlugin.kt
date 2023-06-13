@@ -7,6 +7,9 @@ import java.util.concurrent.TimeUnit
 class SubstituteDepsPlugin : Plugin<Project> {
 
     private val canReplacedDependencies = mapOf(
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8" to "org.jetbrains.kotlin:kotlin-stdlib:${VersionManagement.kotlinVersion}",
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7" to "org.jetbrains.kotlin:kotlin-stdlib:${VersionManagement.kotlinVersion}",
+
         "bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:${VersionManagement.bouncycastleVersion}",
         "bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.bouncycastleVersion}",
         "bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
