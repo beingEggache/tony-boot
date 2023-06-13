@@ -5,8 +5,8 @@ import com.tony.enums.validate.SimpleIntEnum
 import com.tony.enums.validate.SimpleStringEnum
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
-import com.tony.web.test.req.TestReq
 import com.tony.web.test.req.TestIntEnum
+import com.tony.web.test.req.TestReq
 import com.tony.web.test.req.TestStringEnum
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -23,6 +23,11 @@ import java.math.BigInteger
 @Tag(name = "测试")
 @RestController
 class TestController {
+    @ApiOperationSupport(order = -1)
+    @Operation(description = "boolean")
+    @PostMapping("/")
+    fun index() {
+    }
 
     @ApiOperationSupport(order = 0)
     @Operation(description = "boolean")

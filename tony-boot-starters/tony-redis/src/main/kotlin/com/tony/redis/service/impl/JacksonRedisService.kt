@@ -14,14 +14,13 @@ import com.tony.redis.serializer.SerializerMode
 import com.tony.redis.service.RedisService
 import com.tony.utils.asTo
 import com.tony.utils.asToNotNull
-import com.tony.utils.asToNumber
 import com.tony.utils.isNumberTypes
 import com.tony.utils.isStringLikeType
-import com.tony.utils.isTypeOrSubTypeOf
-import com.tony.utils.isTypeOrSubTypesOf
+import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.jsonToObj
 import com.tony.utils.rawClass
 import com.tony.utils.toJsonString
+import com.tony.utils.toNumber
 import java.util.concurrent.TimeUnit
 
 internal class JacksonRedisService : RedisService {
@@ -147,18 +146,18 @@ internal class JacksonRedisService : RedisService {
         }
 
         return when {
-            type.isNumberTypes() -> asToNumber(type)
+            type.isNumberTypes() -> toNumber(type)
             type.isStringLikeType() -> toString().trimQuotes()
             type == EnumValue::class.java && this is EnumValue<*> -> this
-            type.isTypeOrSubTypesOf(StringEnumValue::class.java) -> {
+            type.isTypesOrSubTypesOf(StringEnumValue::class.java) -> {
                 StringEnumCreator.getCreator(type).create(toString().trimQuotes())
             }
 
-            type.isTypeOrSubTypeOf(IntEnumValue::class.java) -> {
+            type.isTypesOrSubTypesOf(IntEnumValue::class.java) -> {
                 IntEnumCreator.getCreator(type).create(toString().toInt())
             }
 
-            this::class.java.isTypeOrSubTypesOf(type) -> this
+            this::class.java.isTypesOrSubTypesOf(type) -> this
             else -> when (typeClass) {
                 is Class<*> -> toString().trimQuotes().jsonToObj(typeClass)
                 is JavaType -> toString().trimQuotes().jsonToObj(typeClass)

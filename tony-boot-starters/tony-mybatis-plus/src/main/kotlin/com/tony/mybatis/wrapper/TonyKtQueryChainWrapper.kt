@@ -26,7 +26,7 @@ public open class TonyKtQueryChainWrapper<T : Any>(
     private val baseMapper: BaseDao<T>,
 ) : AbstractChainWrapper<T, KProperty<*>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
     ChainQuery<T>,
-    Query<TonyKtQueryChainWrapper<T>, T, KProperty<*>> {
+    Query<TonyKtQueryChainWrapper<T>, T, String> {
 
     init {
         super.wrapperChildren = TonyKtQueryWrapper(entityClass)
@@ -40,12 +40,7 @@ public open class TonyKtQueryChainWrapper<T : Any>(
         super.wrapperChildren = TonyKtQueryWrapper(entity)
     }
 
-    public fun select(vararg columns: String): TonyKtQueryChainWrapper<T> {
-        wrapperChildren.select(*columns)
-        return typedThis
-    }
-
-    override fun select(vararg columns: KProperty<*>): TonyKtQueryChainWrapper<T> {
+    override fun select(vararg columns: String): TonyKtQueryChainWrapper<T> {
         wrapperChildren.select(*columns)
         return typedThis
     }

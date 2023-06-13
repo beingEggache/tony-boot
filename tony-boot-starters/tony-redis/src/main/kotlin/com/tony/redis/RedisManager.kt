@@ -115,13 +115,14 @@ public object RedisManager {
     public inline fun <reified T> String.toRedisScript(): RedisScript<T> = RedisScript.of(this, T::class.java)
 
     /**
-     * 执行 redis lua 脚本
+     * Executes the given RedisScript.
      *
      * @param T
-     * @param script
-     * @param keys
-     * @param args
-     * @return
+     * @param script The script to execute
+     * @param keys Any keys that need to be passed to the script
+     * @param args Any args that need to be passed to the script
+     * @return The return value of the script or null if RedisScript.getResultType() is null,
+     * likely indicating a throw-away status reply (i.e. "OK")
      */
     @JvmStatic
     public fun <T> executeScript(script: RedisScript<T>, keys: List<String>, args: List<Any?>): T? {
@@ -153,12 +154,13 @@ public object RedisManager {
     }
 
     /**
-     * 同 redisTemplate.expire(key, timeout, timeUnit)
+     * Set time to live for given key.
      *
-     * @param key
+     * @param key must not be null.
      * @param timeout
-     * @param timeUnit 默认为秒 [TimeUnit.SECONDS]
-     * @return
+     * @param timeUnit 默认为秒 [TimeUnit.SECONDS]. must not be null.
+     * @return null when used in pipeline / transaction.
+     * @see org.springframework.data.redis.core.RedisOperations.expire
      */
     @JvmStatic
     @JvmOverloads
@@ -169,11 +171,12 @@ public object RedisManager {
     ): Boolean = redisTemplate.expire(key, timeout, timeUnit)
 
     /**
-     * 同 redisTemplate.expireAt(key, date)
+     * Set the expiration for given key as a date timestamp.
      *
-     * @param key
-     * @param date
-     * @return
+     * @param key must not be null.
+     * @param date must not be null.
+     * @return null when used in pipeline / transaction.
+     * @see org.springframework.data.redis.core.RedisOperations.expireAt
      */
     @JvmStatic
     public fun expireAt(
@@ -182,11 +185,12 @@ public object RedisManager {
     ): Boolean = redisTemplate.expireAt(key, date)
 
     /**
-     * 同 redisTemplate.getExpire(key, timeUnit)
+     * Get the time to live for key in and convert it to the given TimeUnit.
      *
      * @param key
      * @param timeUnit 默认为秒 [TimeUnit.SECONDS]
-     * @return
+     * @return null when used in pipeline / transaction.
+     * @see org.springframework.data.redis.core.RedisOperations.getExpire
      */
     @JvmStatic
     @JvmOverloads
@@ -199,7 +203,7 @@ public object RedisManager {
      * redis 根据 [keyPatterns] 批量删除.
      *
      * @param keyPatterns 可ant匹配
-     * @return 删除的 key 个数
+     * @return The number of keys that were removed. null when used in pipeline / transaction.
      */
     @JvmStatic
     public fun deleteByKeyPatterns(vararg keyPatterns: String): Long =
@@ -209,7 +213,7 @@ public object RedisManager {
      * redis 根据 [keyPatterns] 批量删除.
      *
      * @param keyPatterns 可ant匹配
-     * @return 删除的 key 个数
+     * @return The number of keys that were removed. null when used in pipeline / transaction.
      */
     @JvmStatic
     public fun deleteByKeyPatterns(keyPatterns: List<String>): Long {
@@ -221,20 +225,20 @@ public object RedisManager {
     }
 
     /**
-     * 批量删除
+     * Delete given keys.
      *
-     * @param keys
-     * @return
+     * @param keys must not be null.
+     * @return The number of keys that were removed. null when used in pipeline / transaction.
      */
     @JvmStatic
     public fun delete(vararg keys: String): Long =
         delete(keys.asList())
 
     /**
-     * 批量删除
+     * Delete given keys.
      *
-     * @param keys
-     * @return
+     * @param keys must not be null.
+     * @return The number of keys that were removed. null when used in pipeline / transaction.
      */
     @JvmStatic
     public fun delete(keys: Collection<String>): Long {
@@ -255,19 +259,19 @@ public object RedisManager {
     }
 
     /**
-     * 获取键
+     * Find all keys matching the given pattern.
      *
-     * @param keys
-     * @return
+     * @param keys  must not be null.
+     * @return null when used in pipeline / transaction.
      */
     @Suppress("MemberVisibilityCanBePrivate")
     public fun keys(vararg keys: String): Collection<String> = keys(keys.asList())
 
     /**
-     * 获取键
+     * Find all keys matching the given pattern.
      *
-     * @param keys
-     * @return
+     * @param keys must not be null.
+     * @return null when used in pipeline / transaction.
      */
     @Suppress("MemberVisibilityCanBePrivate")
     public fun keys(keys: Collection<String>): Collection<String> = keys.fold(HashSet()) { set, key ->

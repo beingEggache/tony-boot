@@ -4,8 +4,8 @@ package com.tony.redis.service
 
 import com.tony.redis.serializer.SerializerMode
 import com.tony.utils.asTo
-import com.tony.utils.asToNumber
 import com.tony.utils.isNumberTypes
+import com.tony.utils.toNumber
 
 /**
  * RedisService is
@@ -26,7 +26,7 @@ public interface RedisService :
 
 internal fun <T : Any> Any?.transformTo(type: Class<T>): T? {
     if (type.isNumberTypes()) {
-        return this?.asToNumber(type)
+        return this?.toNumber(type)
     }
     return this?.asTo()
 }

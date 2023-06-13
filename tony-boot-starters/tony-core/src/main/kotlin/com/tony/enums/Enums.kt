@@ -4,7 +4,7 @@ package com.tony.enums
 
 import com.fasterxml.jackson.annotation.JsonValue
 import com.tony.utils.asToNotNull
-import com.tony.utils.isTypeOrSubTypeOf
+import com.tony.utils.isTypesOrSubTypesOf
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Serializable
@@ -46,7 +46,7 @@ internal sealed interface EnumCreatorFactory {
         logger.debug("${clazz.name} EnumCreator initialized.")
         clazz
             .classes
-            .firstOrNull { it.isTypeOrSubTypeOf(EnumCreator::class.java) }
+            .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
             ?.constructors
             ?.firstOrNull()
             ?.newInstance(null) as EnumCreator<*, *>
@@ -60,7 +60,7 @@ internal sealed interface EnumCreatorFactory {
             logger.debug("${clazz.name} EnumCreator initialized.")
             clazz
                 .classes
-                .firstOrNull { it.isTypeOrSubTypeOf(EnumCreator::class.java) }
+                .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
                 ?.constructors
                 ?.firstOrNull()
                 ?.newInstance(null) as EnumCreator<T, R>

@@ -8,6 +8,7 @@ package com.tony.utils
  */
 import com.tony.exception.ApiException
 import java.math.BigDecimal
+import java.math.BigInteger
 import java.math.RoundingMode
 import java.security.SecureRandom
 import java.text.NumberFormat
@@ -30,14 +31,28 @@ public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
     }
 }
 
-private fun String?.toBigDecimal(decimal: Int = 2) = BigDecimal(this ?: "0").setScale(decimal, RoundingMode.DOWN)
-
-private fun formatToPercent(number: Number?, digit: Int, roundingMode: RoundingMode = RoundingMode.DOWN): String {
-    return NumberFormat.getPercentInstance().apply {
-        maximumFractionDigits = digit
-        this.roundingMode = roundingMode
-    }.format(number ?: 0)
-}
+/**
+ * 数值类型互转, 只支持常规数字类型.
+ *
+ * 线程安全数值类型不支持.
+ *
+ * @param T 自身类型
+ * @param R 目标类型
+ * @param numberType 目标类型
+ * @return
+ */
+public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
+    when (numberType) {
+        Long::class.javaObjectType, Long::class.javaPrimitiveType -> this.toLong()
+        Int::class.javaObjectType, Int::class.javaPrimitiveType -> this.toInt()
+        Double::class.javaObjectType, Double::class.javaPrimitiveType -> this.toDouble()
+        Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> this.toByte()
+        Short::class.javaObjectType, Short::class.javaPrimitiveType -> this.toShort()
+        Float::class.javaObjectType, Float::class.javaPrimitiveType -> this.toFloat()
+        BigInteger::class.java -> BigInteger.valueOf(this.toLong())
+        BigDecimal::class.java -> BigDecimal(this.toString())
+        else -> throw IllegalArgumentException("Not support input type: $numberType")
+    }.asToNotNull()
 
 /**
  * 数字截断并转为 [BigDecimal]
@@ -98,4 +113,13 @@ public fun genRandomNumber(digit: Int): Int {
     val base = 9 * ((10).toDouble().pow((digit - 1).toDouble()).toInt())
     val fix = 10.toDouble().pow((digit - 1).toDouble()).toInt()
     return secureRandom.nextInt(base) + fix
+}
+
+private fun String?.toBigDecimal(decimal: Int = 2) = BigDecimal(this ?: "0").setScale(decimal, RoundingMode.DOWN)
+
+private fun formatToPercent(number: Number?, digit: Int, roundingMode: RoundingMode = RoundingMode.DOWN): String {
+    return NumberFormat.getPercentInstance().apply {
+        maximumFractionDigits = digit
+        this.roundingMode = roundingMode
+    }.format(number ?: 0)
 }

@@ -3,5 +3,6 @@
 ./gradlew build-script:publishJarAndSrcPublicationToMavenLocal
 
 ./gradlew clean
+./gradlew ktlintFormat
 ./gradlew publishPomPublicationToMavenLocal
 ./gradlew publishJarAndSrcPublicationToMavenLocal

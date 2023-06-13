@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache
 import com.baomidou.mybatisplus.extension.kotlin.AbstractKtWrapper
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Predicate
-import kotlin.reflect.KProperty
 
 /**
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
@@ -21,7 +20,7 @@ import kotlin.reflect.KProperty
  */
 public class TonyKtQueryWrapper<T : Any> :
     AbstractKtWrapper<T, TonyKtQueryWrapper<T>>,
-    Query<TonyKtQueryWrapper<T>, T, KProperty<*>> {
+    Query<TonyKtQueryWrapper<T>, T, String> {
 
     /**
      * 查询字段
@@ -61,21 +60,8 @@ public class TonyKtQueryWrapper<T : Any> :
         this.sqlFirst = sqlFirst
     }
 
-    /**
-     * SELECT 部分 SQL 设置
-     *
-     * @param columns 查询字段
-     */
     @SafeVarargs
-    override fun select(vararg columns: KProperty<*>): TonyKtQueryWrapper<T> {
-        if (ArrayUtils.isNotEmpty(columns)) {
-            this.sqlSelect.stringValue = columnsToString(false, *columns)
-        }
-        return typedThis
-    }
-
-    @SafeVarargs
-    public fun select(vararg columns: String?): TonyKtQueryWrapper<T> {
+    override fun select(vararg columns: String): TonyKtQueryWrapper<T> {
         if (ArrayUtils.isNotEmpty(columns)) {
             sqlSelect.stringValue = columns.joinToString(separator = StringPool.COMMA)
         }

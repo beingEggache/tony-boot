@@ -29,7 +29,7 @@ public interface ApiResultLike<T> {
      * 返回消息
      */
     public val message: String
-        get() = ""
+        get() = ApiProperty.defaultOkMessage
 }
 
 /**
@@ -44,7 +44,7 @@ public interface ApiResultLike<T> {
 public class ApiResult<T> @JvmOverloads constructor(
     override val data: T?,
     override val code: Int = ApiProperty.okCode,
-    override val message: String = "",
+    override val message: String = ApiProperty.defaultOkMessage,
 ) : ApiResultLike<T> {
 
     init {

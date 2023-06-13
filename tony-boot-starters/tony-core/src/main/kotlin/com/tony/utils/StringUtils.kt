@@ -10,6 +10,7 @@ package com.tony.utils
  */
 import com.fasterxml.jackson.core.JsonProcessingException
 import org.springframework.util.AntPathMatcher
+import java.math.BigDecimal
 import java.math.BigInteger
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -22,8 +23,8 @@ import java.util.regex.Pattern
  */
 public fun uuid(): String = UUID.randomUUID().toString().uppercase().replace("-", "")
 
-public fun String.isJson(): Boolean = try {
-    OBJECT_MAPPER.readTree(this)
+public fun CharSequence.isJson(): Boolean = try {
+    OBJECT_MAPPER.readTree(this.toString())
     true
 } catch (e: JsonProcessingException) {
     false
@@ -40,7 +41,7 @@ public fun <T> T.toQueryString(): String =
 /**
  * 判断两字符串是否相等，null == "" -> true, "" == null -> true
  */
-public fun String?.equalsIgnoreNullOrEmpty(str: String?): Boolean =
+public fun CharSequence?.equalsIgnoreNullOrEmpty(str: String?): Boolean =
     if (this.isNullOrEmpty()) {
         str.isNullOrEmpty()
     } else {
@@ -58,24 +59,26 @@ public fun Map<String, Any?>.toQueryString(): String =
 /**
  * 将queryString字符串转为map， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
  */
-public fun String.queryStringToMap(): Map<String, String> =
-    split("&")
+public fun CharSequence.queryStringToMap(): Map<String, String> =
+    toString()
+        .split("&")
         .map { it.split("=") }
         .associate { it[0] to it[1] }
 
 /**
  * 将queryString字符串转为对象， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
  */
-public inline fun <reified T> String.deepLinkToObj(): T =
-    queryStringToMap()
+public inline fun <reified T> CharSequence.deepLinkToObj(): T =
+    toString()
+        .queryStringToMap()
         .toJsonString()
         .jsonToObj<T>()
 
 /**
  * 字符串转为MD5并大写
  */
-public fun String.md5Uppercase(): String =
-    BigInteger(1, md5Digest().digest(toByteArray()))
+public fun CharSequence.md5Uppercase(): String =
+    BigInteger(1, md5Digest().digest(toString().toByteArray()))
         .toString(16)
         .padStart(32, '0')
         .uppercase()
@@ -83,42 +86,64 @@ public fun String.md5Uppercase(): String =
 /**
  * 字符串base64表示
  */
-public fun String.toBase64String(): String = toByteArray().encodeToBase64().toString(Charsets.UTF_8)
+public fun CharSequence.toBase64String(): String =
+    toString()
+        .toByteArray()
+        .encodeToBase64()
+        .toString(Charsets.UTF_8)
 
 /**
  * 字符串base64表示
  */
-public fun String.toBase64StringUrlSafe(): String = toByteArray().encodeToBase64UrlSafe().toString(Charsets.UTF_8)
+public fun CharSequence.toBase64StringUrlSafe(): String =
+    toString()
+        .toByteArray()
+        .encodeToBase64UrlSafe()
+        .toString(Charsets.UTF_8)
 
 /**
  * base64表示
  */
-public fun String.toBase64ByteArray(): ByteArray = toByteArray().encodeToBase64()
+public fun CharSequence.toBase64ByteArray(): ByteArray =
+    toString()
+        .toByteArray()
+        .encodeToBase64()
 
 /**
  * base64表示
  */
-public fun String.toBase64ByteArrayUrlSafe(): ByteArray = toByteArray().encodeToBase64UrlSafe()
+public fun CharSequence.toBase64ByteArrayUrlSafe(): ByteArray =
+    toString()
+        .toByteArray()
+        .encodeToBase64UrlSafe()
 
 /**
  * base64表示转为实际字符串
  */
-public fun String.base64ToString(): String = toByteArray().decodeBase64().toString(Charsets.UTF_8)
+public fun CharSequence.base64ToString(): String =
+    toString()
+        .toByteArray()
+        .decodeBase64()
+        .toString(Charsets.UTF_8)
 
 /**
  * base64表示转为实际字符串
  */
-public fun String.base64ToStringUrlSafe(): String = toByteArray().decodeBase64UrlSafe().toString(Charsets.UTF_8)
+public fun CharSequence.base64ToStringUrlSafe(): String =
+    toString()
+        .toByteArray()
+        .decodeBase64UrlSafe()
+        .toString(Charsets.UTF_8)
 
 /**
  * base64表示转为原二进制
  */
-public fun String.base64ToByteArray(): ByteArray = toByteArray().decodeBase64()
+public fun CharSequence.base64ToByteArray(): ByteArray = toString().toByteArray().decodeBase64()
 
 /**
  * base64表示转为原二进制
  */
-public fun String.base64ToByteArrayUrlSafe(): ByteArray = toByteArray().decodeBase64UrlSafe()
+public fun CharSequence.base64ToByteArrayUrlSafe(): ByteArray = toString().toByteArray().decodeBase64UrlSafe()
 
 /**
  * encode Hex
@@ -128,7 +153,8 @@ public fun String.base64ToByteArrayUrlSafe(): ByteArray = toByteArray().decodeBa
  * @return bytes
  */
 @JvmOverloads
-public fun String.toHexByteArray(lowerCase: Boolean = true): ByteArray = toByteArray().encodeToHex(lowerCase)
+public fun CharSequence.toHexByteArray(lowerCase: Boolean = true): ByteArray =
+    toString().toByteArray().encodeToHex(lowerCase)
 
 /**
  * encode Hex
@@ -138,7 +164,7 @@ public fun String.toHexByteArray(lowerCase: Boolean = true): ByteArray = toByteA
  * @return bytes as a hex string
  */
 @JvmOverloads
-public fun String.toHexString(lowerCase: Boolean = true): String = toHexByteArray(lowerCase).toString()
+public fun CharSequence.toHexString(lowerCase: Boolean = true): String = toString().toHexByteArray(lowerCase).toString()
 
 /**
  * decode Hex
@@ -146,7 +172,7 @@ public fun String.toHexString(lowerCase: Boolean = true): String = toHexByteArra
  * @receiver data Hex data
  * @return decode hex to bytes
  */
-public fun String.hexToByteArray(): ByteArray = toByteArray().decodeHex()
+public fun CharSequence.hexToByteArray(): ByteArray = toString().toByteArray().decodeHex()
 
 /**
  * decode Hex
@@ -154,7 +180,7 @@ public fun String.hexToByteArray(): ByteArray = toByteArray().decodeHex()
  * @receiver data Hex data
  * @return bytes as a hex string
  */
-public fun String.hexToString(): String = toByteArray().decodeHex().toString()
+public fun CharSequence.hexToString(): String = toString().toByteArray().decodeHex().toString()
 
 /**
  * 当字符串为Null 或者空字符串时 提供默认值.
@@ -163,36 +189,53 @@ public fun String.hexToString(): String = toByteArray().decodeHex().toString()
  * @return
  */
 @JvmOverloads
-public fun String?.defaultIfBlank(default: String = ""): String = if (this.isNullOrBlank()) default else this
+public fun CharSequence?.defaultIfBlank(default: String = ""): String = if (this.isNullOrBlank()) {
+    default
+} else {
+    this.toString()
+}
 
 private val mobileRegex = Regex("^1[3-9][0-9]{9}$")
 
 /**
  * 字符串是否手机号
  */
-public fun String.isMobileNumber(): Boolean = mobileRegex.matches(this)
+public fun CharSequence.isMobileNumber(): Boolean = mobileRegex.matches(this)
 
 /**
  * 字符串是否一个整形
  */
 public fun CharSequence.isInt(): Boolean = toString().toIntOrNull() != null
 
+public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
+    when (numberType) {
+        Long::class.javaObjectType, Long::class.javaPrimitiveType -> toString().toLong()
+        Int::class.javaObjectType, Int::class.javaPrimitiveType -> toString().toInt()
+        Double::class.javaObjectType, Double::class.javaPrimitiveType -> toString().toDouble()
+        Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> toString().toByte()
+        Short::class.javaObjectType, Short::class.javaPrimitiveType -> toString().toShort()
+        Float::class.javaObjectType, Float::class.javaPrimitiveType -> toString().toFloat()
+        BigInteger::class.java -> BigInteger.valueOf(toString().toLong())
+        BigDecimal::class.java -> BigDecimal(toString())
+        else -> throw IllegalArgumentException("Not support input type: $numberType")
+    }.asToNotNull()
+
 /**
  * 字符串url encode
  */
 @JvmOverloads
-public fun String?.urlEncode(charset: String = "UTF8"): String = URLEncoder.encode(defaultIfBlank(), charset)
+public fun CharSequence?.urlEncode(charset: String = "UTF8"): String = URLEncoder.encode(defaultIfBlank(), charset)
 
 @JvmOverloads
-public fun String?.urlDecode(charset: String = "UTF8"): String = URLDecoder.decode(defaultIfBlank(), charset)
+public fun CharSequence?.urlDecode(charset: String = "UTF8"): String = URLDecoder.decode(defaultIfBlank(), charset)
 
 private val lineBreakRegex = Regex("[\\n\\r]+")
 
-public fun String.removeLineBreak(): String = this.replace(lineBreakRegex, "")
+public fun CharSequence.removeLineBreak(): String = this.replace(lineBreakRegex, "")
 
 private val antPathMatcher = AntPathMatcher()
 
-public fun String?.antPathMatchAny(patterns: Collection<String>?): Boolean =
+public fun CharSequence?.antPathMatchAny(patterns: Collection<String>?): Boolean =
     patterns?.any { antPathMatcher.match(it, defaultIfBlank()) } ?: false
 
 private val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
@@ -201,15 +244,15 @@ private val snakeRegex = "_[a-zA-Z]".toRegex()
 /**
  * 字符串驼峰转 snake
  */
-public fun String.camelToSnakeCase(): String = camelRegex.replace(this) {
+public fun CharSequence.camelToSnakeCase(): String = camelRegex.replace(this) {
     "_${it.value}"
 }.lowercase(Locale.getDefault())
 
-public fun String.snakeToLowerCamelCase(): String = snakeRegex.replace(this) {
+public fun CharSequence.snakeToLowerCamelCase(): String = snakeRegex.replace(this) {
     it.value.replace("_", "").uppercase(Locale.getDefault())
 }
 
-public fun String.snakeToUpperCamelCase(): String =
+public fun CharSequence.snakeToUpperCamelCase(): String =
     snakeToLowerCamelCase()
         .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 

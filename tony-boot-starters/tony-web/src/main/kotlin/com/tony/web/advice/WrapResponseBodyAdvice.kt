@@ -8,8 +8,7 @@ import com.tony.ListResult
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
 import com.tony.utils.isCollectionLike
-import com.tony.utils.isTypeOrSubTypeOf
-import com.tony.utils.isTypeOrSubTypesOf
+import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.web.WebApp
 import com.tony.web.WebContext
 import org.slf4j.Logger
@@ -64,8 +63,8 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
     ) = !WebContext.url.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
-        converterType.isTypeOrSubTypeOf(MappingJackson2HttpMessageConverter::class.java) &&
-        !returnType.parameterType.isTypeOrSubTypesOf(*notSupportClasses)
+        converterType.isTypesOrSubTypesOf(MappingJackson2HttpMessageConverter::class.java) &&
+        !returnType.parameterType.isTypesOrSubTypesOf(*notSupportClasses)
 
     private companion object Utils {
 

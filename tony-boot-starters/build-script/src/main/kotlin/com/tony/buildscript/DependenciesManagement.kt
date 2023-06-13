@@ -174,7 +174,7 @@ internal object DepsManagement {
 
         const val commonFileUpload = "commons-fileupload:commons-fileupload:1.5"
         const val commonsCodec = "commons-codec:commons-codec:1.15"
-        const val commonsIo = "commons-io:commons-io:2.12.0"
+        const val commonsIo = "commons-io:commons-io:2.13.0"
         const val commonsCompress = "org.apache.commons:commons-compress:1.23.0"
         const val commonsPool2 = "org.apache.commons:commons-pool2:2.11.1"
         const val commonsLang3 = "org.apache.commons:commons-lang3:3.12.0"

@@ -1,12 +1,12 @@
 package com.tony.core.test
 
-import com.tony.utils.asToNumber
+import com.tony.utils.toNumber
 import com.tony.utils.println
 
 fun main() {
 
 
-    "123".asToNumber(Double::class.java).println()
+    "123".toNumber(Double::class.java).println()
 }
 
 class TestFieldGeneric {

@@ -11,7 +11,7 @@ import com.tony.enums.EnumValue
 import com.tony.enums.IntEnumValue
 import com.tony.enums.StringEnumValue
 import com.tony.utils.asTo
-import com.tony.utils.isTypeOrSubTypeOf
+import com.tony.utils.isTypesOrSubTypesOf
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
@@ -51,7 +51,7 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
     private var required = false
     override fun initialize(constraintAnnotation: IntEnum) {
         val clazz = constraintAnnotation.enumClass.java
-        if (clazz.isEnum && clazz.isTypeOrSubTypeOf(IntEnumValue::class.java)) {
+        if (clazz.isEnum && clazz.isTypesOrSubTypesOf(IntEnumValue::class.java)) {
             enums = clazz.enumConstants.mapNotNull { it.asTo<IntEnumValue>()?.value }
             required = constraintAnnotation.required
             return
@@ -107,7 +107,7 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<Str
     private var required = false
     override fun initialize(constraintAnnotation: StringEnum) {
         val clazz = constraintAnnotation.enumClass.java
-        if (clazz.isEnum && clazz.isTypeOrSubTypeOf(StringEnumValue::class.java)) {
+        if (clazz.isEnum && clazz.isTypesOrSubTypesOf(StringEnumValue::class.java)) {
             enums = clazz.enumConstants.mapNotNull { it.asTo<StringEnumValue>()?.value }
             required = constraintAnnotation.required
             return

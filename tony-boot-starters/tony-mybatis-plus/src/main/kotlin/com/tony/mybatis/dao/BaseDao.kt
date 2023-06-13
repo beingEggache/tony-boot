@@ -23,7 +23,7 @@ import com.tony.PageResultLike
 import com.tony.Pageable
 import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
-import com.tony.utils.isTypeOrSubTypeOf
+import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.throwIfNull
 import com.tony.utils.toPage
 import com.tony.utils.toPageResult
@@ -148,7 +148,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         val tableInfo = TableInfoHelper.getTableInfo(entityClass)
         return executeBatch(batchList) { sqlSession, e ->
             if (tableInfo.isWithUpdateFill && tableInfo.isWithLogicDelete) {
-                if (e::class.java.isTypeOrSubTypeOf(entityClass)) {
+                if (e::class.java.isTypesOrSubTypesOf(entityClass)) {
                     sqlSession.update(sqlStatement, e)
                 } else {
                     val instance = tableInfo.newInstance<T>()
@@ -204,14 +204,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return LambdaQueryWrapper 的包装类
      */
     public fun lambdaQuery(): TonyLambdaQueryChainWrapper<T> = TonyLambdaQueryChainWrapper(this)
-
-    /**
-     * 链式查询 lambda 式
-     * kotlin 使用
-     *
-     * @return KtQueryWrapper 的包装类
-     */
-    public fun ktQuery(): TonyKtQueryChainWrapper<T> = TonyKtQueryChainWrapper(this, getEntityClass())
 
     /**
      * 链式查询 lambda 式
