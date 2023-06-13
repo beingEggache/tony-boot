@@ -1,6 +1,7 @@
 @file:JvmName("NumberUtils")
 
 package com.tony.utils
+
 /**
  * 数字工具类
  * @author tangli
@@ -115,11 +116,15 @@ public fun genRandomNumber(digit: Int): Int {
     return secureRandom.nextInt(base) + fix
 }
 
-private fun String?.toBigDecimal(decimal: Int = 2) = BigDecimal(this ?: "0").setScale(decimal, RoundingMode.DOWN)
+private fun String?.toBigDecimal(decimal: Int = 2) =
+    BigDecimal(this ?: "0")
+        .setScale(decimal, RoundingMode.DOWN)
 
-private fun formatToPercent(number: Number?, digit: Int, roundingMode: RoundingMode = RoundingMode.DOWN): String {
-    return NumberFormat.getPercentInstance().apply {
-        maximumFractionDigits = digit
-        this.roundingMode = roundingMode
-    }.format(number ?: 0)
-}
+private fun formatToPercent(number: Number?, digit: Int, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+    NumberFormat
+        .getPercentInstance()
+        .apply {
+            maximumFractionDigits = digit
+            this.roundingMode = roundingMode
+        }
+        .format(number ?: 0)

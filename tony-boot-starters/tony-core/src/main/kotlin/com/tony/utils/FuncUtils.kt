@@ -1,4 +1,4 @@
-@file:JvmName("CoreUtils")
+@file:JvmName("FuncUtils")
 
 package com.tony.utils
 
@@ -58,20 +58,29 @@ public fun throwIf(
  * @see throwIf
  */
 @JvmOverloads
-public fun <T> T?.throwIfNull(message: String = ApiProperty.notFoundMessage, code: Int = ApiProperty.notFoundCode): T {
+public fun <T> T?.throwIfNull(
+    message: String = ApiProperty.notFoundMessage,
+    code: Int = ApiProperty.notFoundCode,
+): T {
     throwIf(this == null, message, code)
     return this!!
 }
 
 @JvmSynthetic
-public inline fun <R> throwIfAndReturn(condition: Boolean, message: String, crossinline block: () -> R): R {
+public inline fun <R> throwIfAndReturn(
+    condition: Boolean,
+    message: String,
+    crossinline block: () -> R,
+): R {
     if (condition) throw BizException(message)
     return block()
 }
 
 @JvmSynthetic
-public inline fun <T, R> T?.throwIfNullAndReturn(message: String, crossinline block: () -> R): R =
-    throwIfAndReturn(this == null, message, block)
+public inline fun <T, R> T?.throwIfNullAndReturn(
+    message: String,
+    crossinline block: () -> R,
+): R = throwIfAndReturn(this == null, message, block)
 
 @JvmSynthetic
 public inline fun <reified T> T?.returnIfNull(crossinline block: () -> T): T = this ?: block()

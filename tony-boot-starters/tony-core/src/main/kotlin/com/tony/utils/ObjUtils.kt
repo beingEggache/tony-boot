@@ -43,13 +43,12 @@ public fun <E> Any.asToNotNull(): E where E : Any = this as E
  * @param E 数值类型
  * @param numberType 数值类型
  */
-public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E {
-    return when (this) {
+public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E =
+    when (this) {
         is Number -> this.toNumber(numberType)
         is CharSequence -> this.toNumber(numberType)
         else -> throw IllegalStateException("${this?.javaClass} can't transform to number.")
     }
-}
 
 @JvmSynthetic
 public fun <T> T.getLogger(): Logger where T : Any =

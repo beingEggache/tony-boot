@@ -1,6 +1,7 @@
 @file:JvmName("JsonUtils")
 
 package com.tony.utils
+
 /**
  * Json工具类
  *
@@ -27,15 +28,17 @@ import java.util.TimeZone
 @JvmSynthetic
 public val OBJECT_MAPPER: ObjectMapper = createObjectMapper()
 
-public fun createObjectMapper(): ObjectMapper = ObjectMapper().apply {
-    registerModules(KotlinModule.Builder().build(), JavaTimeModule())
-    setTimeZone(TimeZone.getDefault())
-    setSerializationInclusion(JsonInclude.Include.ALWAYS)
-    enable(JsonGenerator.Feature.IGNORE_UNKNOWN)
-    enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
-    disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-    disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-}
+public fun createObjectMapper(): ObjectMapper =
+    ObjectMapper()
+        .apply {
+            registerModules(KotlinModule.Builder().build(), JavaTimeModule())
+            setTimeZone(TimeZone.getDefault())
+            setSerializationInclusion(JsonInclude.Include.ALWAYS)
+            enable(JsonGenerator.Feature.IGNORE_UNKNOWN)
+            enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
+            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        }
 
 @Throws(IOException::class)
 public inline fun <reified T> String.jsonToObj(): T =
@@ -53,17 +56,23 @@ public fun <T> String.jsonToObj(typeReference: TypeReference<T>): T =
 public fun <T> String.jsonToObj(javaType: JavaType): T =
     OBJECT_MAPPER.readValue(this, javaType)
 
-public fun <T> T?.toJsonString(): String = if (this != null) OBJECT_MAPPER.writeValueAsString(this) else ""
+public fun <T> T?.toJsonString(): String =
+    if (this != null) {
+        OBJECT_MAPPER.writeValueAsString(this)
+    } else {
+        ""
+    }
 
-private val valueJsonToken = setOf(
-    JsonToken.VALUE_NULL,
-    JsonToken.VALUE_TRUE,
-    JsonToken.VALUE_FALSE,
-    JsonToken.VALUE_STRING,
-    JsonToken.VALUE_NUMBER_INT,
-    JsonToken.VALUE_NUMBER_FLOAT,
-    JsonToken.VALUE_EMBEDDED_OBJECT,
-)
+private val valueJsonToken =
+    setOf(
+        JsonToken.VALUE_NULL,
+        JsonToken.VALUE_TRUE,
+        JsonToken.VALUE_FALSE,
+        JsonToken.VALUE_STRING,
+        JsonToken.VALUE_NUMBER_INT,
+        JsonToken.VALUE_NUMBER_FLOAT,
+        JsonToken.VALUE_EMBEDDED_OBJECT,
+    )
 
 private val jsonFactory = JsonFactory()
 public fun String.getFromRootAsString(field: String): String? {
@@ -80,7 +89,11 @@ public fun String.getFromRootAsString(field: String): String? {
                 it.parsingContext.parent.inRoot()
             ) {
                 val token = it.nextToken()
-                return if (token in valueJsonToken) it.text else null
+                return if (token in valueJsonToken) {
+                    it.text
+                } else {
+                    null
+                }
             }
         }
     }

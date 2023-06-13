@@ -22,11 +22,12 @@ import java.util.Date
  *
  * @return the Type object representing the class or interface that declared this type
  */
-public fun Type.rawClass(): Class<*>? = when (this) {
-    is Class<*> -> this
-    is ParameterizedType -> this.rawType as Class<*>
-    else -> null
-}
+public fun Type.rawClass(): Class<*>? =
+    when (this) {
+        is Class<*> -> this
+        is ParameterizedType -> this.rawType as Class<*>
+        else -> null
+    }
 
 /**
  * 返回范型参数的 [Type]
@@ -55,16 +56,17 @@ internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
 public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
     types.any { this.isTypeOrSubTypeOf(it) }
 
-private val NUMBER_TYPES: Array<Class<*>?> = arrayOf(
-    Long::class.javaObjectType, Long::class.javaPrimitiveType,
-    Int::class.javaObjectType, Int::class.javaPrimitiveType,
-    Double::class.javaObjectType, Double::class.javaPrimitiveType,
-    Byte::class.javaObjectType, Byte::class.javaPrimitiveType,
-    Short::class.javaObjectType, Short::class.javaPrimitiveType,
-    Float::class.javaObjectType, Float::class.javaPrimitiveType,
-    BigInteger::class.java,
-    BigDecimal::class.java,
-)
+private val NUMBER_TYPES: Array<Class<*>?> =
+    arrayOf(
+        Long::class.javaObjectType, Long::class.javaPrimitiveType,
+        Int::class.javaObjectType, Int::class.javaPrimitiveType,
+        Double::class.javaObjectType, Double::class.javaPrimitiveType,
+        Byte::class.javaObjectType, Byte::class.javaPrimitiveType,
+        Short::class.javaObjectType, Short::class.javaPrimitiveType,
+        Float::class.javaObjectType, Float::class.javaPrimitiveType,
+        BigInteger::class.java,
+        BigDecimal::class.java,
+    )
 
 /**
  * 检查 是否数值类型
@@ -83,13 +85,16 @@ public fun Class<*>.isStringLikeType(): Boolean =
  * 检查 是否列表或数组类型
  */
 public fun Class<*>.isCollectionLike(): Boolean =
-    this.isTypeOrSubTypeOf(Collection::class.java) || this::class.java.isArray || this.isArray
+    this.isTypeOrSubTypeOf(Collection::class.java) ||
+        this::class.java.isArray ||
+        this.isArray
 
 @Suppress("UNCHECKED_CAST")
-public fun <T> TypeReference<T>.rawClass(): Class<T> = when (type) {
-    is ParameterizedType -> (type as ParameterizedType).rawType
-    else -> type
-} as Class<T>
+public fun <T> TypeReference<T>.rawClass(): Class<T> =
+    when (type) {
+        is ParameterizedType -> (type as ParameterizedType).rawType
+        else -> type
+    } as Class<T>
 
 public fun <T> TypeReference<T>.isStringLikeType(): Boolean =
     rawClass().isTypesOrSubTypesOf(

@@ -1,6 +1,7 @@
 @file:JvmName("DigestUtils")
 
 package com.tony.utils
+
 /**
  * 摘要工具类
  *
@@ -10,11 +11,12 @@ package com.tony.utils
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-private fun get(algorithm: String): MessageDigest = try {
-    MessageDigest.getInstance(algorithm)
-} catch (e: NoSuchAlgorithmException) {
-    throw IllegalArgumentException(e)
-}
+private fun get(algorithm: String): MessageDigest =
+    try {
+        MessageDigest.getInstance(algorithm)
+    } catch (e: NoSuchAlgorithmException) {
+        throw IllegalArgumentException(e)
+    }
 
 public fun md5Digest(): MessageDigest = get(MD5)
 

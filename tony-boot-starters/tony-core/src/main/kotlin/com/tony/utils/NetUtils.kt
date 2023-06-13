@@ -1,3 +1,5 @@
+@file:JvmName("NetUtils")
+
 package com.tony.utils
 
 import com.tony.SpringContexts
@@ -29,7 +31,8 @@ public val localIp: String = NetworkInterface
     ?: try {
         InetAddress.getLocalHost().hostAddress
     } catch (e: UnknownHostException) {
-        e.printStackTrace()
+        getLogger("com.tony.utils.NetUtils")
+            .error(e.message, e)
         null
     } ?: "127.0.0.1"
 

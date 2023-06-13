@@ -32,7 +32,8 @@ import java.util.WeakHashMap
  * ZoneId.of(“Asia/Shanghai”) 得到ZoneRegion
  */
 @JvmField
-public val defaultZoneOffset: ZoneOffset = OffsetDateTime.now(ZoneId.systemDefault()).offset
+public val defaultZoneOffset: ZoneOffset =
+    OffsetDateTime.now(ZoneId.systemDefault()).offset
 
 @JvmField
 @JvmSynthetic
@@ -97,12 +98,18 @@ internal fun TemporalAccessor.toDate(): Date = LocalDateTime.from(this).toDate()
 /**
  * Date 转 LocalDate
  */
-public fun Date.toLocalDate(): LocalDate = toInstant().atOffset(defaultZoneOffset).toLocalDate()
+public fun Date.toLocalDate(): LocalDate =
+    toInstant()
+        .atOffset(defaultZoneOffset)
+        .toLocalDate()
 
 /**
  * Date 转 LocalDateTime
  */
-public fun Date.toLocalDateTime(): LocalDateTime = toInstant().atOffset(defaultZoneOffset).toLocalDateTime()
+public fun Date.toLocalDateTime(): LocalDateTime =
+    toInstant()
+        .atOffset(defaultZoneOffset)
+        .toLocalDateTime()
 
 /**
  * LocalDate 转 Date

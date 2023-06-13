@@ -72,7 +72,7 @@ public inline fun <reified T> CharSequence.deepLinkToObj(): T =
     toString()
         .queryStringToMap()
         .toJsonString()
-        .jsonToObj<T>()
+        .jsonToObj()
 
 /**
  * 字符串转为MD5并大写
@@ -138,12 +138,18 @@ public fun CharSequence.base64ToStringUrlSafe(): String =
 /**
  * base64表示转为原二进制
  */
-public fun CharSequence.base64ToByteArray(): ByteArray = toString().toByteArray().decodeBase64()
+public fun CharSequence.base64ToByteArray(): ByteArray =
+    toString()
+        .toByteArray()
+        .decodeBase64()
 
 /**
  * base64表示转为原二进制
  */
-public fun CharSequence.base64ToByteArrayUrlSafe(): ByteArray = toString().toByteArray().decodeBase64UrlSafe()
+public fun CharSequence.base64ToByteArrayUrlSafe(): ByteArray =
+    toString()
+        .toByteArray()
+        .decodeBase64UrlSafe()
 
 /**
  * encode Hex
@@ -154,7 +160,9 @@ public fun CharSequence.base64ToByteArrayUrlSafe(): ByteArray = toString().toByt
  */
 @JvmOverloads
 public fun CharSequence.toHexByteArray(lowerCase: Boolean = true): ByteArray =
-    toString().toByteArray().encodeToHex(lowerCase)
+    toString()
+        .toByteArray()
+        .encodeToHex(lowerCase)
 
 /**
  * encode Hex
@@ -164,7 +172,10 @@ public fun CharSequence.toHexByteArray(lowerCase: Boolean = true): ByteArray =
  * @return bytes as a hex string
  */
 @JvmOverloads
-public fun CharSequence.toHexString(lowerCase: Boolean = true): String = toString().toHexByteArray(lowerCase).toString()
+public fun CharSequence.toHexString(lowerCase: Boolean = true): String =
+    toString()
+        .toHexByteArray(lowerCase)
+        .toString()
 
 /**
  * decode Hex
@@ -172,7 +183,10 @@ public fun CharSequence.toHexString(lowerCase: Boolean = true): String = toStrin
  * @receiver data Hex data
  * @return decode hex to bytes
  */
-public fun CharSequence.hexToByteArray(): ByteArray = toString().toByteArray().decodeHex()
+public fun CharSequence.hexToByteArray(): ByteArray =
+    toString()
+        .toByteArray()
+        .decodeHex()
 
 /**
  * decode Hex
@@ -180,7 +194,11 @@ public fun CharSequence.hexToByteArray(): ByteArray = toString().toByteArray().d
  * @receiver data Hex data
  * @return bytes as a hex string
  */
-public fun CharSequence.hexToString(): String = toString().toByteArray().decodeHex().toString()
+public fun CharSequence.hexToString(): String =
+    toString()
+        .toByteArray()
+        .decodeHex()
+        .toString()
 
 /**
  * 当字符串为Null 或者空字符串时 提供默认值.
@@ -189,11 +207,12 @@ public fun CharSequence.hexToString(): String = toString().toByteArray().decodeH
  * @return
  */
 @JvmOverloads
-public fun CharSequence?.defaultIfBlank(default: String = ""): String = if (this.isNullOrBlank()) {
-    default
-} else {
-    this.toString()
-}
+public fun CharSequence?.defaultIfBlank(default: String = ""): String =
+    if (this.isNullOrBlank()) {
+        default
+    } else {
+        this.toString()
+    }
 
 private val mobileRegex = Regex("^1[3-9][0-9]{9}$")
 
@@ -244,17 +263,30 @@ private val snakeRegex = "_[a-zA-Z]".toRegex()
 /**
  * 字符串驼峰转 snake
  */
-public fun CharSequence.camelToSnakeCase(): String = camelRegex.replace(this) {
-    "_${it.value}"
-}.lowercase(Locale.getDefault())
+public fun CharSequence.camelToSnakeCase(): String =
+    camelRegex
+        .replace(this) {
+            "_${it.value}"
+        }
+        .lowercase(Locale.getDefault())
 
-public fun CharSequence.snakeToLowerCamelCase(): String = snakeRegex.replace(this) {
-    it.value.replace("_", "").uppercase(Locale.getDefault())
-}
+public fun CharSequence.snakeToLowerCamelCase(): String =
+    snakeRegex
+        .replace(this) {
+            it.value
+                .replace("_", "")
+                .uppercase(Locale.getDefault())
+        }
 
 public fun CharSequence.snakeToUpperCamelCase(): String =
     snakeToLowerCamelCase()
-        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        .replaceFirstChar {
+            if (it.isLowerCase()) {
+                it.titlecase(Locale.getDefault())
+            } else {
+                it.toString()
+            }
+        }
 
 @JvmSynthetic
 internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
@@ -265,4 +297,6 @@ internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
  * 将多个重复的斜杠转为一个.
  */
 public fun sanitizedPath(input: String): String =
-    duplicateSlash.matcher(input).replaceAll("/")
+    duplicateSlash
+        .matcher(input)
+        .replaceAll("/")

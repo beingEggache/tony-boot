@@ -14,55 +14,61 @@ import java.util.Base64
  * 转为 base64表示
  * @return
  */
-public fun ByteArray.encodeToBase64(): ByteArray = if (this.isEmpty()) {
-    this
-} else {
-    Base64.getEncoder().encode(this)
-}
+public fun ByteArray.encodeToBase64(): ByteArray =
+    if (this.isEmpty()) {
+        this
+    } else {
+        Base64.getEncoder().encode(this)
+    }
 
 /**
  * 转为 base64表示
  * @return
  */
-public fun ByteArray.encodeToBase64UrlSafe(): ByteArray = if (this.isEmpty()) {
-    this
-} else {
-    Base64.getUrlEncoder().encode(this)
-}
+public fun ByteArray.encodeToBase64UrlSafe(): ByteArray =
+    if (this.isEmpty()) {
+        this
+    } else {
+        Base64.getUrlEncoder().encode(this)
+    }
 
 /**
  * decodeToBase64
  * @return
  */
-public fun ByteArray.decodeBase64(): ByteArray = if (this.isEmpty()) {
-    this
-} else {
-    Base64.getDecoder().decode(this)
-}
+public fun ByteArray.decodeBase64(): ByteArray =
+    if (this.isEmpty()) {
+        this
+    } else {
+        Base64.getDecoder().decode(this)
+    }
 
 /**
  * decodeToBase64
  * @return
  */
-public fun ByteArray.decodeBase64UrlSafe(): ByteArray = if (this.isEmpty()) {
-    this
-} else {
-    Base64.getUrlDecoder().decode(this)
-}
+public fun ByteArray.decodeBase64UrlSafe(): ByteArray =
+    if (this.isEmpty()) {
+        this
+    } else {
+        Base64.getUrlDecoder().decode(this)
+    }
 
 /**
  * 0123456789abcdef
  */
-internal val DIGITS_LOWER = byteArrayOf(
-    48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102,
-)
+internal val DIGITS_LOWER =
+    byteArrayOf(
+        48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102,
+    )
 
 /**
  * 0123456789ABCDEF
  */
-internal val DIGITS_UPPER = byteArrayOf(
-    48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70,
-)
+internal val DIGITS_UPPER =
+    byteArrayOf(
+        48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70,
+    )
 
 /**
  * encode Hex
