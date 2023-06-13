@@ -11,6 +11,7 @@ import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
+import org.apache.ibatis.exceptions.TooManyResultsException
 import java.util.function.Predicate
 import kotlin.reflect.KProperty
 
@@ -27,12 +28,21 @@ public open class TonyKtQueryChainWrapper<T : Any>(
     ChainQuery<T>,
     Query<TonyKtQueryChainWrapper<T>, T, KProperty<*>> {
 
+    init {
+        super.wrapperChildren = TonyKtQueryWrapper(entityClass)
+    }
+
     public constructor(baseMapper: BaseDao<T>, entityClass: Class<T>) : this(baseMapper) {
         super.wrapperChildren = TonyKtQueryWrapper(entityClass)
     }
 
     public constructor(baseMapper: BaseDao<T>, entity: T) : this(baseMapper) {
         super.wrapperChildren = TonyKtQueryWrapper(entity)
+    }
+
+    public fun select(vararg columns: String): TonyKtQueryChainWrapper<T> {
+        wrapperChildren.select(*columns)
+        return typedThis
     }
 
     override fun select(vararg columns: KProperty<*>): TonyKtQueryChainWrapper<T> {
@@ -82,6 +92,53 @@ public open class TonyKtQueryChainWrapper<T : Any>(
         code: Int = ApiProperty.notFoundCode,
     ) {
         throwIf(!exists(), message, code)
+    }
+
+    /**
+     * 根据 Wrapper 条件，查询全部记录
+     * <p>注意： 只返回第一个字段的值</p>
+     */
+    public fun listObj(): List<Any?> = baseMapper.selectObjs(wrapper)
+
+    /**
+     * 根据 条件，查询一条记录.
+     * 查询一条记录，限制取一条记录, 注意：多条数据会报异常
+     */
+    public fun oneObj(): Any? {
+        val list: List<Any?> = listObj()
+        // 抄自 DefaultSqlSession#selectOne
+        return if (list.size == 1) {
+            list[0]
+        } else if (list.size > 1) {
+            throw TooManyResultsException(
+                "Expected one result (or null) to be returned by oneObj(), but found: ${list.size}",
+            )
+        } else {
+            null
+        }
+    }
+
+    /**
+     * 根据 Wrapper 条件，查询全部记录
+     */
+    public fun listMap(): List<Map<String, Any?>> = baseMapper.selectMaps(wrapper)
+
+    /**
+     * 根据 条件，查询一条记录.
+     * 查询一条记录，限制取一条记录, 注意：多条数据会报异常
+     */
+    public fun oneMap(): Map<String, Any?>? {
+        val list = listMap()
+        // 抄自 DefaultSqlSession#selectOne
+        return if (list.size == 1) {
+            list[0]
+        } else if (list.size > 1) {
+            throw TooManyResultsException(
+                "Expected one result (or null) to be returned by oneObj(), but found: ${list.size}",
+            )
+        } else {
+            null
+        }
     }
 
     /**

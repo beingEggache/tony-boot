@@ -14,7 +14,6 @@ import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
 import com.baomidou.mybatisplus.core.toolkit.Assert
 import com.baomidou.mybatisplus.core.toolkit.Constants
 import com.baomidou.mybatisplus.core.toolkit.StringUtils
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateChainWrapper
@@ -195,7 +194,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      *
      * @return QueryWrapper 的包装类
      */
-    public fun query(): QueryChainWrapper<T> = ChainWrappers.queryChain(this)
+    public fun query(): TonyKtQueryChainWrapper<T> = TonyKtQueryChainWrapper(this)
 
     /**
      * 链式查询 lambda 式

@@ -1,5 +1,6 @@
 package com.tony.mybatis.test
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.tony.SpringContexts
 import com.tony.annotation.EnableTonyBoot
 import com.tony.mybatis.db.dao.UserDao
@@ -28,15 +29,31 @@ class MyBatisAppTest {
 
     @Test
     fun testDao() {
-        userDao.insert(
-            User().apply {
-                userId = uuid()
-                userName = "tony"
-                realName = "李大毛"
-                mobile = "13984842424"
-                pwd = "123456"
-            },
-        )
+//        userDao.insert(
+//            User().apply {
+//                userId = uuid()
+//                userName = "tony2"
+//                realName = "李大毛2"
+//                mobile = "13984842425"
+//                pwd = "123456"
+//                states = 666
+//            },
+//        )
+//        userDao.insert(
+//            User().apply {
+//                userId = uuid()
+//                userName = "tony3"
+//                realName = "李大毛3"
+//                mobile = "13984842426"
+//                pwd = "123456"
+//                states = 666
+//            },
+//        )
+        val list = userDao
+            .query()
+            .select("sum(states)")
+            .oneMap()
+        println(list)
     }
 
     @Test

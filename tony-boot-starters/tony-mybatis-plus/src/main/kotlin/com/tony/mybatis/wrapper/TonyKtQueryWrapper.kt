@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils
+import com.baomidou.mybatisplus.core.toolkit.StringPool
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache
 import com.baomidou.mybatisplus.extension.kotlin.AbstractKtWrapper
 import java.util.concurrent.atomic.AtomicInteger
@@ -69,6 +70,14 @@ public class TonyKtQueryWrapper<T : Any> :
     override fun select(vararg columns: KProperty<*>): TonyKtQueryWrapper<T> {
         if (ArrayUtils.isNotEmpty(columns)) {
             this.sqlSelect.stringValue = columnsToString(false, *columns)
+        }
+        return typedThis
+    }
+
+    @SafeVarargs
+    public fun select(vararg columns: String?): TonyKtQueryWrapper<T> {
+        if (ArrayUtils.isNotEmpty(columns)) {
+            sqlSelect.stringValue = columns.joinToString(separator = StringPool.COMMA)
         }
         return typedThis
     }
