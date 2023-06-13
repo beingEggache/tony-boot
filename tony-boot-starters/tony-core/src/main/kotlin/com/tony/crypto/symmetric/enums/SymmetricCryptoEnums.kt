@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.tony.crypto.symmetric.Aes
 import com.tony.crypto.symmetric.Des
 import com.tony.crypto.symmetric.SymmetricCrypto
-import com.tony.enums.EnumCreator
+import com.tony.enums.StringEnumCreator
 import com.tony.enums.StringEnumValue
 
 /**
@@ -23,10 +23,10 @@ public enum class SymmetricCryptoAlgorithm(
     DES("des", Des),
     ;
 
-    public companion object : EnumCreator<SymmetricCryptoAlgorithm, String>(SymmetricCryptoAlgorithm::class.java) {
+    public companion object : StringEnumCreator(SymmetricCryptoAlgorithm::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String): SymmetricCryptoAlgorithm? =
+        override fun create(value: String): StringEnumValue? =
             super.create(value.lowercase())
     }
 }
@@ -43,10 +43,10 @@ public enum class CryptoEncoding(
     HEX("hex"),
     ;
 
-    public companion object : EnumCreator<CryptoEncoding, String>(CryptoEncoding::class.java) {
+    public companion object : StringEnumCreator(CryptoEncoding::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String): CryptoEncoding? =
+        override fun create(value: String): StringEnumValue? =
             super.create(value.lowercase())
     }
 }

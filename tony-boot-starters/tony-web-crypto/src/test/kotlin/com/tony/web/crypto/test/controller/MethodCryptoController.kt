@@ -24,5 +24,6 @@ class MethodCryptoController {
     @EncryptResponseBody
     @Operation(description = "method-test-crypto")
     @PostMapping("/method/test-crypto")
-    fun body(@Validated @RequestBody req: TestReq) = TestReq("test", 99)
+    fun body(@Validated @RequestBody req: TestReq) =
+        TestReq(req.name + " checked", req.age, req.mode)
 }

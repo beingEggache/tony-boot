@@ -1,5 +1,6 @@
 package com.tony.web.crypto.test.req
 
+import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
@@ -13,4 +14,5 @@ data class TestReq(
     val name: String? = null,
     @get:NotNull(message = "请输入年龄")
     val age: Int? = null,
+    val mode: SymmetricCryptoAlgorithm? = null,
 )
