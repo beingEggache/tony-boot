@@ -19,7 +19,9 @@ public interface RedisService :
     RedisValueGetOp,
     RedisValueSetOp,
     RedisMapGetOp,
-    RedisMapSetOp {
+    RedisMapSetOp,
+    RedisListSetOp,
+    RedisListGetOp {
 
     /**
      * 序列化反序列化方式
@@ -27,15 +29,18 @@ public interface RedisService :
     public val serializerMode: SerializerMode
 }
 
-public interface RedisValueTransformer {
-    public fun <T : Any> Any?.transformTo(type: Class<T>): T? {
+public sealed interface RedisValueTransformer {
+
+    public fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? {
         if (type.isNumberTypes()) {
             return this?.toNumber(type)
         }
         return this?.asTo()
     }
 
-    public fun <T : Any> Any?.transformTo(type: JavaType): T? = transformTo(type.rawClass())
+    public fun <T : Any> Any?.outputTransformTo(type: JavaType): T? = outputTransformTo(type.rawClass())
 
-    public fun <T : Any> Any?.transformTo(type: TypeReference<T>): T? = transformTo(type.rawClass())
+    public fun <T : Any> Any?.outputTransformTo(type: TypeReference<T>): T? = outputTransformTo(type.rawClass())
+
+    public fun Any.inputTransformTo(): Any = this
 }

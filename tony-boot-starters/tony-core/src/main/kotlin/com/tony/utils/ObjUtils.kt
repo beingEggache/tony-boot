@@ -1,3 +1,5 @@
+@file:JvmName("ObjUtils")
+
 package com.tony.utils
 
 import org.slf4j.Logger

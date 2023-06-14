@@ -23,7 +23,7 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @return
      */
     public fun <T : Any> get(key: String, hashKey: String, type: Class<T>): T? =
-        RedisManager.redisTemplate.opsForHash<String, T>().get(key, hashKey).transformTo(type)
+        RedisManager.redisTemplate.opsForHash<String, T>().get(key, hashKey).outputTransformTo(type)
 
     /**
      * 获取 map 值
@@ -32,7 +32,7 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @return
      */
     public fun <T : Any> get(key: String, hashKey: String, type: JavaType): T? =
-        RedisManager.redisTemplate.opsForHash<String, T>().get(key, hashKey).transformTo(type)
+        RedisManager.redisTemplate.opsForHash<String, T>().get(key, hashKey).outputTransformTo(type)
 
     /**
      * 获取 map 值
@@ -41,7 +41,7 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @return
      */
     public fun <T : Any> get(key: String, hashKey: String, type: TypeReference<T>): T? =
-        RedisManager.redisTemplate.opsForHash<String, T>().get(key, hashKey).transformTo(type)
+        RedisManager.redisTemplate.opsForHash<String, T>().get(key, hashKey).outputTransformTo(type)
 
     /**
      * 根据key值获取整个map
@@ -58,7 +58,7 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
  * @author tangli
  * @since 2023/06/09 18:20
  */
-public sealed interface RedisMapSetOp {
+public sealed interface RedisMapSetOp : RedisValueTransformer {
 
     /**
      * Set multiple hash fields to multiple values using data provided in m at the [key] and expired at [date]
@@ -121,7 +121,7 @@ public sealed interface RedisMapSetOp {
         hashKey: String,
         value: T,
     ) {
-        RedisManager.redisTemplate.opsForHash<String, Any>().put(key, hashKey, value)
+        RedisManager.redisTemplate.opsForHash<String, Any>().put(key, hashKey, value.inputTransformTo())
     }
 
     /**
@@ -136,6 +136,6 @@ public sealed interface RedisMapSetOp {
         hashKey: String,
         value: T,
     ) {
-        RedisManager.redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, value)
+        RedisManager.redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, value.inputTransformTo())
     }
 }

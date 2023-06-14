@@ -1,7 +1,10 @@
 package com.tony.redis
 
 import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.JavaType
+import com.tony.SpringContexts
 import com.tony.redis.RedisManager.trimQuotes
+import com.tony.redis.service.RedisService
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.jsonToObj
 import com.tony.utils.toJsonString
@@ -15,6 +18,8 @@ import java.util.concurrent.TimeUnit
  * @since 2021-03-24 10:12
  */
 public object RedisLists {
+
+    private val redisService: RedisService by SpringContexts.getBeanByLazy()
 
     /**
      * 同 [RedisTemplate.opsForList().rightPush()].
@@ -109,26 +114,26 @@ public object RedisLists {
         RedisManager.redisTemplate.boundListOps(key).size() ?: defaults
 
     @JvmStatic
-    public fun indexString(key: String, index: Long): String =
-        RedisManager.redisTemplate.boundListOps(key).index(index)?.toString().defaultIfBlank()
-
-    public inline fun <reified T> indexObj(key: String, index: Long): T? {
-        val indexString = indexString(key, index)
-        if (indexString.isBlank()) return null
-        return indexString.jsonToObj()
-    }
+    public fun <T : Any> leftPush(key: String, value: T): Long? =
+        redisService.leftPush(key, value)
 
     @JvmStatic
-    public fun <T> indexObj(key: String, index: Long, clazz: Class<T>): T? {
-        val indexString = indexString(key, index)
-        if (indexString.isBlank()) return null
-        return indexString.jsonToObj(clazz)
-    }
+    public fun <T : Any> leftPop(key: String, type: Class<T>): T? =
+        redisService.leftPop(key, type)
 
     @JvmStatic
-    public fun <T> indexObj(key: String, index: Long, typeReference: TypeReference<T>): T? {
-        val indexString = indexString(key, index)
-        if (indexString.isBlank()) return null
-        return indexString.jsonToObj(typeReference)
-    }
+    public inline fun <reified T : Any> leftPop(key: String): T? =
+        leftPop(key, T::class.java)
+
+    @JvmStatic
+    public fun <T : Any> index(key: String, index: Long, type: Class<T>): T? =
+        redisService.index(key, index, type)
+
+    @JvmStatic
+    public fun <T : Any> index(key: String, index: Long, type: JavaType): T? =
+        redisService.index(key, index, type)
+
+    @JvmStatic
+    public fun <T : Any> index(key: String, index: Long, type: TypeReference<T>): T? =
+        redisService.index(key, index, type)
 }
