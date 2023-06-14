@@ -1,18 +1,19 @@
 package com.tony.core.test
 
-import com.tony.utils.toNumber
 import com.tony.utils.println
+import com.tony.utils.typeParameter
 
 fun main() {
 
-
-    "123".toNumber(Double::class.java).println()
+    Child::class.java.typeParameter().println()
 }
 
-class TestFieldGeneric {
-    val field1: List<Map<String, List<String>>>? = null
-    val field2: List<Map<String, List<String>>>? = null
-}
+open class ParentT<in T>
+open class ChildT : ParentT<Parent<*>>()
+open class Parent<T>
+
+open class Child : Parent<ChildT>()
+
 
 fun quickSort(list: List<Int>): List<Int> =
     if (list.size < 2) list

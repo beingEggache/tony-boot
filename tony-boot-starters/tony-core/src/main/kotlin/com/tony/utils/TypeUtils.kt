@@ -44,6 +44,11 @@ public fun Class<*>.typeParameter(index: Int = 0): Type {
     return (superClass as ParameterizedType).actualTypeArguments[index]
 }
 
+public val Type.typeNameClearBounds: String
+    get() = typeName
+        .replace("? super ", "")
+        .replace("? extends ", "")
+
 internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
     (this == type) || type?.isAssignableFrom(this) == true
 

@@ -34,9 +34,9 @@ data class TestPatternReq(
 
 @Schema(description = "测试请求注入")
 data class TestInjectReq<T1, T2, T3, T4>(
-    @field:InjectRequestBodyField
+    @field:InjectRequestBodyField("go fuck Yourself")
     val string: String? = null,
-    @field:InjectRequestBodyField
+    @field:InjectRequestBodyField("yeah")
     val int: Int? = null,
     @field:InjectRequestBodyField
     val list: List<String>? = null,

@@ -16,8 +16,17 @@ class TestWebApp {
             override fun value(): String {
                 return "aloha"
             }
+            override val name: String = "go fuck Yourself"
+        }
+    }
 
-            override val fieldName: String = "string"
+    @Bean
+    fun listInject(): RequestBodyFieldInjector<List<String>> {
+        return object : RequestBodyFieldInjector<List<String>>() {
+            override fun value(): List<String> {
+                return listOf("go fuck your self")
+            }
+            override val name: String = "list"
         }
     }
 }

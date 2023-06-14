@@ -1,12 +1,12 @@
 package com.tony.web.advice
 
 import com.tony.utils.getLogger
+import com.tony.utils.typeNameClearBounds
 import com.tony.utils.typeParameter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.util.ReflectionUtils
 import java.lang.reflect.Field
-import java.lang.reflect.Type
 import java.util.concurrent.ConcurrentHashMap
 import javax.annotation.PostConstruct
 
@@ -21,18 +21,39 @@ public abstract class RequestBodyFieldInjector<T> {
 
     public abstract fun value(): T
 
-    public abstract val fieldName: String
+    public abstract val name: String
 
     @PostConstruct
     private fun init() {
-        logger.info("Request body will inject the $fieldName ${type.typeName} value")
+        logger.info(
+            "Request body @InjectRequestBodyField(value=\"$name\") " +
+                "field:$typeName  will injected by RequestBodyFieldInjector<$typeName>(name=$name).",
+        )
     }
 
-    internal fun supports(field: Field): Boolean =
-        field.name == fieldName &&
-            field.genericType.equals(type)
+    /**
+     * 当 [InjectRequestBodyField.value] 为空字符串时判断 [Field.getName]和[RequestBodyFieldInjector.name]是否相等.
+     *
+     * 否则判断 [InjectRequestBodyField.value]和[RequestBodyFieldInjector.name]是否相等.
+     *
+     */
+    internal fun supports(field: Field): Boolean {
+        val annotation = field.getAnnotation(InjectRequestBodyField::class.java) ?: return false
+        val fieldGenericTypeName = field.genericType.typeNameClearBounds
+        if (annotation.value.isBlank()) {
+            val support = field.name == name && fieldGenericTypeName == typeName
+            if (support) {
+                logger.info("InjectRequestBodyField value is blank, use field name instead, which is ${field.name}")
+            }
+            return support
+        }
+        return annotation.value == name && fieldGenericTypeName == typeName
+    }
 
-    internal val type: Type = this::class.java.typeParameter()
+    /**
+     *  处理 通配符类型名称
+     */
+    internal val typeName: String = this::class.java.typeParameter().typeNameClearBounds
 }
 
 internal class RequestBodyFieldInjectorComposite(
@@ -47,6 +68,26 @@ internal class RequestBodyFieldInjectorComposite(
 
     private val supportedInjector: ConcurrentHashMap<Class<*>, Map<String, RequestBodyFieldInjector<*>>> =
         ConcurrentHashMap<Class<*>, Map<String, RequestBodyFieldInjector<*>>>()
+
+    fun injectValues(body: Any): Any {
+        val bodyClass = body::class.java
+        val fieldMap = supportedClassFieldsCache.getOrDefault(bodyClass, mapOf())
+        supportedInjector
+            .getOrDefault(bodyClass, mapOf())
+            .forEach { (_, injector) ->
+                val field = fieldMap.getValue("${injector.name}:${injector.typeName}")
+                val value = injector.value()
+                ReflectionUtils.makeAccessible(field)
+                ReflectionUtils.setField(field, body, value)
+                logger
+                    .debug(
+                        "${injector::class.java.name} " +
+                            "inject ${bodyClass.name}'s " +
+                            "field ${field.name} value:$value",
+                    )
+            }
+        return body
+    }
 
     fun supports(targetType: Class<*>?): Boolean {
         if (targetType == null) return false
@@ -65,26 +106,6 @@ internal class RequestBodyFieldInjectorComposite(
         return process(targetType, declaredFields)
     }
 
-    fun injectValues(body: Any): Any {
-        val bodyClass = body::class.java
-        val fieldMap = supportedClassFieldsCache.getOrDefault(bodyClass, mapOf())
-        supportedInjector
-            .getOrDefault(bodyClass, mapOf())
-            .forEach { (_, injector) ->
-                val field = fieldMap.getValue("${injector.fieldName}:${injector.type.typeName}")
-                val value = injector.value()
-                ReflectionUtils.makeAccessible(field)
-                ReflectionUtils.setField(field, body, value)
-                logger
-                    .debug(
-                        "${injector::class.java.name} " +
-                            "inject ${bodyClass.name}'s " +
-                            "field ${field.name} value:$value",
-                    )
-            }
-        return body
-    }
-
     private fun process(targetType: Class<*>, declaredFields: Array<Field>): Boolean {
         val annotatedFields =
             declaredFields.filter {
@@ -93,9 +114,9 @@ internal class RequestBodyFieldInjectorComposite(
 
         val supportsInjectors = supportedInjector.getOrPut(targetType) {
             requestBodyFieldInjectors.associateBy {
-                it.fieldName
+                it.name
             }.filterValues { injector ->
-                val typeName = injector.type.typeName
+                val typeName = injector.typeName
                 annotatedFields.filter { field ->
                     val supports = injector.supports(field)
                     if (!supports) {
@@ -108,7 +129,7 @@ internal class RequestBodyFieldInjectorComposite(
                 }.onEach {
                     supportedClassFieldsCache
                         .getOrPut(targetType) { mutableMapOf() }
-                        .putIfAbsent("${injector.fieldName}:$typeName", it)
+                        .putIfAbsent("${injector.name}:$typeName", it)
                 }.isNotEmpty()
             }
         }
