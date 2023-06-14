@@ -6,6 +6,9 @@ import com.tony.redis.RedisManager
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
+public sealed interface RedisMapOp : RedisMapGetOp, RedisMapSetOp {
+}
+
 /**
  * redis map 值获取操作
  * @author tangli

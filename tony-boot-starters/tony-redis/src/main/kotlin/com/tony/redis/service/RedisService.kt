@@ -16,12 +16,9 @@ import com.tony.utils.toNumber
  * @since 2023/06/09 13:30
  */
 public interface RedisService :
-    RedisValueGetOp,
-    RedisValueSetOp,
-    RedisMapGetOp,
-    RedisMapSetOp,
-    RedisListSetOp,
-    RedisListGetOp {
+    RedisValueOp,
+    RedisMapOp,
+    RedisListOp {
 
     /**
      * 序列化反序列化方式

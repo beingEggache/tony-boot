@@ -100,6 +100,15 @@ public object RedisManager {
     }
 
     /**
+     * 同 [RedisTemplate.hasKey]
+     *
+     * @param key
+     * @return
+     */
+    @JvmStatic
+    public fun hasKey(key: String): Boolean = redisTemplate.hasKey(key)
+
+    /**
      * redis 分布式锁简单实现.
      *
      * @param key

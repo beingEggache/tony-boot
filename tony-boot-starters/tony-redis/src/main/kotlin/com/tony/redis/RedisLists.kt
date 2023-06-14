@@ -136,4 +136,8 @@ public object RedisLists {
     @JvmStatic
     public fun <T : Any> index(key: String, index: Long, type: TypeReference<T>): T? =
         redisService.index(key, index, type)
+
+    @JvmStatic
+    public inline fun <reified T : Any> index(key: String, index: Long): T? =
+        index(key, index, T::class.java)
 }

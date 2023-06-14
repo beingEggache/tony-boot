@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JavaType
 import com.tony.SpringContexts
 import com.tony.redis.service.RedisService
 import com.tony.utils.asTo
-import org.springframework.data.redis.core.RedisTemplate
 import java.util.concurrent.TimeUnit
 
 /**
@@ -17,15 +16,6 @@ import java.util.concurrent.TimeUnit
 public object RedisValues {
 
     public val redisService: RedisService by SpringContexts.getBeanByLazy()
-
-    /**
-     * 同 [RedisTemplate.hasKey]
-     *
-     * @param key
-     * @return
-     */
-    @JvmStatic
-    public fun hasKey(key: String): Boolean = RedisManager.redisTemplate.hasKey(key)
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JavaType
 import com.tony.redis.RedisManager
 import java.util.concurrent.TimeUnit
 
+public sealed interface RedisValueOp : RedisValueGetOp, RedisValueSetOp
+
 /**
  * redis value 保存操作
  * @author tangli
