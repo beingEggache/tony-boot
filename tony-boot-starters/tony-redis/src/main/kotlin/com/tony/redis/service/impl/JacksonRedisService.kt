@@ -7,13 +7,11 @@ import com.tony.enums.IntEnumCreator
 import com.tony.enums.IntEnumValue
 import com.tony.enums.StringEnumCreator
 import com.tony.enums.StringEnumValue
-import com.tony.exception.ApiException
 import com.tony.redis.RedisManager
 import com.tony.redis.RedisManager.trimQuotes
 import com.tony.redis.serializer.SerializerMode
 import com.tony.redis.service.RedisService
 import com.tony.utils.asTo
-import com.tony.utils.asToNotNull
 import com.tony.utils.isNumberTypes
 import com.tony.utils.isStringLikeType
 import com.tony.utils.isTypesOrSubTypesOf
@@ -51,38 +49,6 @@ internal class JacksonRedisService : RedisService {
             RedisManager.redisTemplate.opsForValue().setIfAbsent(key, ifIsNotNumberThenToJson(value), timeout, timeUnit)
         }
 
-    override fun <T : Any> getAndSet(key: String, value: T, type: Class<T>): T? =
-        RedisManager.redisTemplate.opsForValue().getAndSet(key, ifIsNotNumberThenToJson(value)).transformTo(type)
-
-    override fun <T : Any> getAndSet(key: String, value: T, javaType: JavaType): T? =
-        RedisManager.redisTemplate.opsForValue().getAndSet(key, ifIsNotNumberThenToJson(value)).transformTo(javaType)
-
-    override fun <T : Any> getAndSet(key: String, value: T, typeReference: TypeReference<T>): T? =
-        RedisManager.redisTemplate.opsForValue().getAndSet(key, ifIsNotNumberThenToJson(value))
-            .transformTo(typeReference)
-
-    override fun <T : Any> getAndExpire(key: String, type: Class<T>, timeout: Long, timeUnit: TimeUnit): T? =
-        RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).transformTo(type)
-
-    override fun <T : Any> getAndExpire(key: String, javaType: JavaType, timeout: Long, timeUnit: TimeUnit): T? =
-        RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).transformTo(javaType)
-
-    override fun <T : Any> getAndExpire(
-        key: String,
-        typeReference: TypeReference<T>,
-        timeout: Long,
-        timeUnit: TimeUnit,
-    ): T? = RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).transformTo(typeReference)
-
-    override fun <T : Any> getAndDelete(key: String, type: Class<T>): T? =
-        RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(type)
-
-    override fun <T : Any> getAndDelete(key: String, javaType: JavaType): T? =
-        RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(javaType)
-
-    override fun <T : Any> getAndDelete(key: String, typeReference: TypeReference<T>): T? =
-        RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(typeReference)
-
     override fun <T : Any> setIfPresent(
         key: String,
         value: T,
@@ -108,24 +74,6 @@ internal class JacksonRedisService : RedisService {
         RedisManager.redisTemplate.boundHashOps<String, Any>(key).putIfAbsent(hashKey, ifIsNotNumberThenToJson(value))
     }
 
-    override fun <T : Any> get(key: String, type: Class<T>): T? =
-        RedisManager.redisTemplate.opsForValue().get(key).transformTo(type)
-
-    override fun <T : Any> get(key: String, javaType: JavaType): T? =
-        RedisManager.redisTemplate.opsForValue().get(key).transformTo(javaType)
-
-    override fun <T : Any> get(key: String, typeReference: TypeReference<T>): T? =
-        RedisManager.redisTemplate.opsForValue().get(key).transformTo(typeReference)
-
-    override fun <T : Any> get(key: String, hashKey: String, type: Class<T>): T? =
-        RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey).transformTo(type)
-
-    override fun <T : Any> get(key: String, hashKey: String, javaType: JavaType): T? =
-        RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey).transformTo(javaType)
-
-    override fun <T : Any> get(key: String, hashKey: String, typeReference: TypeReference<T>): T? =
-        RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey).transformTo(typeReference)
-
     private fun <T : Any> ifIsNotNumberThenToJson(value: T): Any =
         if (value::class.java.isNumberTypes()) {
             value
@@ -133,18 +81,25 @@ internal class JacksonRedisService : RedisService {
             value.toJsonString()
         }
 
-    @Suppress("IMPLICIT_NOTHING_TYPE_ARGUMENT_IN_RETURN_POSITION")
-    private fun <T : Any> Any?.transformTo(typeClass: Any): T? {
+    override fun <T : Any> Any?.transformTo(type: Class<T>): T? =
+        jsonToObjWithTypeClass(type) {
+            it.trimQuotes().jsonToObj(type)
+        }
+
+    override fun <T : Any> Any?.transformTo(type: JavaType): T? =
+        jsonToObjWithTypeClass(type.rawClass()) {
+            it.trimQuotes().jsonToObj(type)
+        }
+
+    override fun <T : Any> Any?.transformTo(type: TypeReference<T>): T? =
+        jsonToObjWithTypeClass(type.rawClass()) {
+            it.trimQuotes().jsonToObj(type)
+        }
+
+    private fun <T : Any> Any?.jsonToObjWithTypeClass(type: Class<T>, func: (String) -> T): T? {
         if (this == null) {
             return null
         }
-        val type = when (typeClass) {
-            is Class<*> -> typeClass
-            is TypeReference<*> -> typeClass.asToNotNull<TypeReference<T>>().rawClass()
-            is JavaType -> typeClass.asToNotNull<JavaType>().rawClass()
-            else -> throw IllegalStateException("Ain't gonna happen")
-        }
-
         return when {
             type.isNumberTypes() -> toNumber(type)
             type.isStringLikeType() -> toString().trimQuotes()
@@ -158,12 +113,7 @@ internal class JacksonRedisService : RedisService {
             }
 
             this.isTypesOrSubTypesOf(type) -> this
-            else -> when (typeClass) {
-                is Class<*> -> toString().trimQuotes().jsonToObj(typeClass)
-                is JavaType -> toString().trimQuotes().jsonToObj(typeClass)
-                is TypeReference<*> -> toString().trimQuotes().jsonToObj(typeClass)
-                else -> throw ApiException("Ain't gonna happen")
-            }
+            else -> func(toString().trimQuotes())
         }.asTo()
     }
 }

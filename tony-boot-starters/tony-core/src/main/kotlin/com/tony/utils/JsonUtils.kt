@@ -28,6 +28,10 @@ import java.util.TimeZone
 @JvmSynthetic
 public val OBJECT_MAPPER: ObjectMapper = createObjectMapper()
 
+/**
+ * 创建全局统一行为 jackson object mapper.
+ *
+ */
 public fun createObjectMapper(): ObjectMapper =
     ObjectMapper()
         .apply {
@@ -44,18 +48,30 @@ public fun createObjectMapper(): ObjectMapper =
 public inline fun <reified T> String.jsonToObj(): T =
     OBJECT_MAPPER.readValue(this)
 
+/**
+ * Method to deserialize JSON content from given JSON content String.
+ */
 @Throws(IOException::class)
 public fun <T> String.jsonToObj(clazz: Class<T>): T =
     OBJECT_MAPPER.readValue(this, clazz)
 
+/**
+ * Method to deserialize JSON content from given JSON content String.
+ */
 @Throws(IOException::class)
 public fun <T> String.jsonToObj(typeReference: TypeReference<T>): T =
     OBJECT_MAPPER.readValue(this, typeReference)
 
+/**
+ * Method to deserialize JSON content from given JSON content String.
+ */
 @Throws(IOException::class)
 public fun <T> String.jsonToObj(javaType: JavaType): T =
     OBJECT_MAPPER.readValue(this, javaType)
 
+/**
+ * Method that can be used to serialize any Java value as a String.
+ */
 public fun <T> T?.toJsonString(): String =
     if (this != null) {
         OBJECT_MAPPER.writeValueAsString(this)
@@ -75,6 +91,10 @@ private val valueJsonToken =
     )
 
 private val jsonFactory = JsonFactory()
+
+/**
+ * 流式获取Json 根节点的数据.
+ */
 public fun String.getFromRootAsString(field: String): String? {
     jsonFactory.createParser(this).use {
         while (

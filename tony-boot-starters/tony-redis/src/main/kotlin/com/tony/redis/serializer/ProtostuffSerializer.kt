@@ -20,7 +20,7 @@ import java.text.NumberFormat
  * @author tangli
  * @since 2023/6/5 13:52
  */
-public class ProtostuffSerializer : RedisSerializer<Any?> {
+internal class ProtostuffSerializer : RedisSerializer<Any?> {
 
     @Throws(SerializationException::class)
     override fun serialize(t: Any?): ByteArray {

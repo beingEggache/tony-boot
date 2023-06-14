@@ -14,6 +14,7 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.net.URLDecoder
 import java.net.URLEncoder
+import java.nio.charset.Charset
 import java.util.Locale
 import java.util.UUID
 import java.util.regex.Pattern
@@ -23,6 +24,9 @@ import java.util.regex.Pattern
  */
 public fun uuid(): String = UUID.randomUUID().toString().uppercase().replace("-", "")
 
+/**
+ * 判断字符串是否是一个json
+ */
 public fun CharSequence.isJson(): Boolean = try {
     OBJECT_MAPPER.readTree(this.toString())
     true
@@ -240,20 +244,34 @@ public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
     }.asToNotNull()
 
 /**
- * 字符串url encode
+ * Translates a string into application/x-www-form-urlencoded format using a specific encoding scheme.
  */
 @JvmOverloads
-public fun CharSequence?.urlEncode(charset: String = "UTF8"): String = URLEncoder.encode(defaultIfBlank(), charset)
+public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
+    URLEncoder.encode(defaultIfBlank(), charset)
 
+/**
+ * Decodes an application/x-www-form-urlencoded string using a specific Charset.
+ *
+ * The supplied charset is used to determine what characters are represented by any consecutive sequences of the form "%xy".
+ */
 @JvmOverloads
-public fun CharSequence?.urlDecode(charset: String = "UTF8"): String = URLDecoder.decode(defaultIfBlank(), charset)
+public fun CharSequence?.urlDecode(charset: Charset = Charsets.UTF_8): String =
+    URLDecoder.decode(defaultIfBlank(), charset)
 
 private val lineBreakRegex = Regex("[\\n\\r]+")
 
+/**
+ * 去掉字符串的换行符, 比如 \n, \r
+ */
 public fun CharSequence.removeLineBreak(): String = this.replace(lineBreakRegex, "")
 
 private val antPathMatcher = AntPathMatcher()
 
+/**
+ * 字符串 ant 匹配
+ * @see AntPathMatcher.match
+ */
 public fun CharSequence?.antPathMatchAny(patterns: Collection<String>?): Boolean =
     patterns?.any { antPathMatcher.match(it, defaultIfBlank()) } ?: false
 
@@ -270,6 +288,9 @@ public fun CharSequence.camelToSnakeCase(): String =
         }
         .lowercase(Locale.getDefault())
 
+/**
+ * snake 字符串 转驼峰
+ */
 public fun CharSequence.snakeToLowerCamelCase(): String =
     snakeRegex
         .replace(this) {
@@ -278,6 +299,9 @@ public fun CharSequence.snakeToLowerCamelCase(): String =
                 .uppercase(Locale.getDefault())
         }
 
+/**
+ * snake 字符串 转驼峰
+ */
 public fun CharSequence.snakeToUpperCamelCase(): String =
     snakeToLowerCamelCase()
         .replaceFirstChar {
@@ -296,7 +320,7 @@ internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
  *
  * 将多个重复的斜杠转为一个.
  */
-public fun sanitizedPath(input: String): String =
+public fun sanitizedPath(input: CharSequence): String =
     duplicateSlash
         .matcher(input)
         .replaceAll("/")

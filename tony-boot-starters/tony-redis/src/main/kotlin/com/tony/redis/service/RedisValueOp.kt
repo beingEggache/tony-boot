@@ -3,8 +3,6 @@ package com.tony.redis.service
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.tony.redis.RedisManager
-import com.tony.utils.asToNotNull
-import com.tony.utils.rawClass
 import java.util.concurrent.TimeUnit
 
 /**
@@ -12,7 +10,7 @@ import java.util.concurrent.TimeUnit
  * @author tangli
  * @since 2023/06/06 11:01
  */
-public sealed interface RedisValueSetOp {
+public sealed interface RedisValueSetOp : RedisValueTransformer {
     /**
      * Set the value and expiration timeout for key.
      *
@@ -86,19 +84,18 @@ public sealed interface RedisValueSetOp {
         RedisManager.redisTemplate.opsForValue().getAndSet(key, value).transformTo(type)
 
     /**
-     * @param javaType 兼容jackson.
+     * @param type 兼容jackson.
      * @see [RedisValueSetOp.getAndSet]
      */
-    public fun <T : Any> getAndSet(key: String, value: T, javaType: JavaType): T? =
-        RedisManager.redisTemplate.opsForValue().getAndSet(key, value).transformTo(javaType.rawClass())
+    public fun <T : Any> getAndSet(key: String, value: T, type: JavaType): T? =
+        RedisManager.redisTemplate.opsForValue().getAndSet(key, value).transformTo(type)
 
     /**
-     * @param typeReference 兼容jackson.
+     * @param type 兼容jackson.
      * @see [RedisValueSetOp.getAndSet]
      */
-    public fun <T : Any> getAndSet(key: String, value: T, typeReference: TypeReference<T>): T? =
-        RedisManager.redisTemplate.opsForValue().getAndSet(key, value)
-            .transformTo(typeReference.type.asToNotNull())
+    public fun <T : Any> getAndSet(key: String, value: T, type: TypeReference<T>): T? =
+        RedisManager.redisTemplate.opsForValue().getAndSet(key, value).transformTo(type)
 
     /**
      * Return the value at key and expire the key by applying timeout.
@@ -117,28 +114,26 @@ public sealed interface RedisValueSetOp {
     ): T? = RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).transformTo(type)
 
     /**
-     * @param javaType 兼容jackson.
+     * @param type 兼容jackson.
      * @see [RedisValueSetOp.getAndExpire]
      */
     public fun <T : Any> getAndExpire(
         key: String,
-        javaType: JavaType,
+        type: JavaType,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? =
-        RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).transformTo(javaType.rawClass())
+    ): T? = RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).transformTo(type)
 
     /**
-     * @param typeReference 兼容jackson.
+     * @param type 兼容jackson.
      * @see [RedisValueSetOp.getAndExpire]
      */
     public fun <T : Any> getAndExpire(
         key: String,
-        typeReference: TypeReference<T>,
+        type: TypeReference<T>,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? = RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit)
-        .transformTo(typeReference.type.asToNotNull())
+    ): T? = RedisManager.redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).transformTo(type)
 }
 
 /**
@@ -147,7 +142,7 @@ public sealed interface RedisValueSetOp {
  * @author tangli
  * @since 2023/06/06 11:01
  */
-public sealed interface RedisValueGetOp {
+public sealed interface RedisValueGetOp : RedisValueTransformer {
     /**
      * Get the value of key.
      *
@@ -160,16 +155,18 @@ public sealed interface RedisValueGetOp {
         RedisManager.redisTemplate.opsForValue().get(key).transformTo(type)
 
     /**
-     * @param javaType 兼容jackson.
+     * @param type 兼容jackson.
      * @see [RedisValueGetOp.get]
      */
-    public fun <T : Any> get(key: String, javaType: JavaType): T? = get(key, javaType.rawClass.asToNotNull<Class<T>>())
+    public fun <T : Any> get(key: String, type: JavaType): T? =
+        RedisManager.redisTemplate.opsForValue().get(key).transformTo(type)
 
     /**
-     * @param typeReference 兼容jackson
+     * @param type 兼容jackson
      * @see [RedisValueGetOp.get]
      */
-    public fun <T : Any> get(key: String, typeReference: TypeReference<T>): T? = get(key, typeReference.rawClass())
+    public fun <T : Any> get(key: String, type: TypeReference<T>): T? =
+        RedisManager.redisTemplate.opsForValue().get(key).transformTo(type)
 
     /**
      * Return the value at key and delete the key.
@@ -183,16 +180,16 @@ public sealed interface RedisValueGetOp {
         RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(type)
 
     /**
-     * @param javaType 兼容jackson.
+     * @param type 兼容jackson.
      * @see [RedisValueGetOp.getAndDelete]
      */
-    public fun <T : Any> getAndDelete(key: String, javaType: JavaType): T? =
-        RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(javaType.rawClass.asToNotNull())
+    public fun <T : Any> getAndDelete(key: String, type: JavaType): T? =
+        RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(type)
 
     /**
-     * @param typeReference 兼容jackson.
+     * @param type 兼容jackson.
      * @see [RedisValueGetOp.getAndDelete]
      */
-    public fun <T : Any> getAndDelete(key: String, typeReference: TypeReference<T>): T? =
-        RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(typeReference.rawClass())
+    public fun <T : Any> getAndDelete(key: String, type: TypeReference<T>): T? =
+        RedisManager.redisTemplate.opsForValue().getAndDelete(key).transformTo(type)
 }

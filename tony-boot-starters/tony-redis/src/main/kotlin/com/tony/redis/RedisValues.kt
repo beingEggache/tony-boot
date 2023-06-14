@@ -35,7 +35,7 @@ public object RedisValues {
      * @param key
      * @param delta
      * @param initial
-     * @return
+     * @return null when used in pipeline / transaction.
      */
     @JvmStatic
     @JvmOverloads
@@ -55,7 +55,7 @@ public object RedisValues {
      * @param key
      * @param delta
      * @param initial
-     * @return
+     * @return null when used in pipeline / transaction.
      */
     @JvmStatic
     @JvmOverloads
@@ -76,6 +76,9 @@ public object RedisValues {
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = redisService.set(key, value, timeout, timeUnit)
 
+    /**
+     * @see [RedisService.setIfAbsent]
+     */
     @JvmStatic
     @JvmOverloads
     public fun <T : Any> setIfAbsent(

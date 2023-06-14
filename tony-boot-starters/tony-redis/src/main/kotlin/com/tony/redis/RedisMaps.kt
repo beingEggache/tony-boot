@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.tony.SpringContexts
 import com.tony.redis.service.RedisService
+import com.tony.utils.asTo
 import com.tony.utils.doIf
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -43,6 +44,47 @@ public object RedisMaps {
             .doIf {
                 RedisManager.redisTemplate.opsForHash<String, Any>().delete(key, hashKey)
             }
+
+    /**
+     * 同 RedisTemplate.boundValueOps.increment.
+     *
+     * 如果键不存在则创建 [initial] 初始值.
+     *
+     * @param key
+     * @param delta
+     * @param initial
+     * @return null when used in pipeline / transaction.
+     */
+    @JvmStatic
+    @JvmOverloads
+    public fun increment(key: String, hashKey: String, delta: Long = 1L, initial: Long? = null): Long? =
+        RedisManager.doInTransaction {
+            if (initial != null) {
+                RedisManager.redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, initial)
+            }
+            RedisManager.redisTemplate.opsForHash<String, Any>().increment(key, hashKey, delta)
+        }.last().asTo()
+
+    /**
+     * 同 RedisTemplate.boundValueOps.increment.
+     *
+     * 如果键不存在则创建 [initial] 初始值.
+     *
+     * @param key must not be null.
+     * @param delta
+     * @param hashKey must not be null.
+     * @param initial
+     * @return null when used in pipeline / transaction.
+     */
+    @JvmStatic
+    @JvmOverloads
+    public fun increment(key: String, hashKey: String, delta: Double = 1.0, initial: Double? = null): Double? =
+        RedisManager.doInTransaction {
+            if (initial != null) {
+                RedisManager.redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, initial)
+            }
+            RedisManager.redisTemplate.opsForHash<String, Any>().increment(key, hashKey, delta)
+        }.last().asTo()
 
     /**
      * 同 redisTemplate.boundHashOps(key).put(hashKey, value).

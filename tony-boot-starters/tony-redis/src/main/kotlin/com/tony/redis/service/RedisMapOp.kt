@@ -3,8 +3,6 @@ package com.tony.redis.service
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.tony.redis.RedisManager
-import com.tony.utils.asTo
-import com.tony.utils.rawClass
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -13,7 +11,7 @@ import java.util.concurrent.TimeUnit
  * @author tangli
  * @since 2023/06/09 18:20
  */
-public sealed interface RedisMapGetOp {
+public sealed interface RedisMapGetOp : RedisValueTransformer {
 
     /**
      * 获取 map 值
@@ -25,25 +23,25 @@ public sealed interface RedisMapGetOp {
      * @return
      */
     public fun <T : Any> get(key: String, hashKey: String, type: Class<T>): T? =
-        RedisManager.redisTemplate.boundHashOps<String, T>(key).get(hashKey).transformTo(type)
+        RedisManager.redisTemplate.opsForHash<String, T>().get(key, hashKey).transformTo(type)
 
     /**
      * 获取 map 值
      * @see [RedisMapGetOp.get]
-     * @param javaType 兼容jackson
+     * @param type 兼容jackson
      * @return
      */
-    public fun <T : Any> get(key: String, hashKey: String, javaType: JavaType): T? =
-        get(key, hashKey, javaType.rawClass).asTo()
+    public fun <T : Any> get(key: String, hashKey: String, type: JavaType): T? =
+        RedisManager.redisTemplate.opsForHash<String, T>().get(key, hashKey).transformTo(type)
 
     /**
      * 获取 map 值
      * @see [RedisMapGetOp.get]
-     * @param typeReference 兼容jackson
+     * @param type 兼容jackson
      * @return
      */
-    public fun <T : Any> get(key: String, hashKey: String, typeReference: TypeReference<T>): T? =
-        get(key, hashKey, typeReference.rawClass())
+    public fun <T : Any> get(key: String, hashKey: String, type: TypeReference<T>): T? =
+        RedisManager.redisTemplate.opsForHash<String, T>().get(key, hashKey).transformTo(type)
 
     /**
      * 根据key值获取整个map
@@ -123,7 +121,7 @@ public sealed interface RedisMapSetOp {
         hashKey: String,
         value: T,
     ) {
-        RedisManager.redisTemplate.boundHashOps<String, Any>(key).put(hashKey, value)
+        RedisManager.redisTemplate.opsForHash<String, Any>().put(key, hashKey, value)
     }
 
     /**
@@ -138,6 +136,6 @@ public sealed interface RedisMapSetOp {
         hashKey: String,
         value: T,
     ) {
-        RedisManager.redisTemplate.boundHashOps<String, Any>(key).putIfAbsent(hashKey, value)
+        RedisManager.redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, value)
     }
 }
