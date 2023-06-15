@@ -3,10 +3,24 @@ package com.tony.core.test
 import com.tony.utils.asToNotNull
 import com.tony.utils.println
 import com.tony.utils.typeParameter
+import org.springframework.util.ReflectionUtils
 import java.io.Serializable
 import java.lang.reflect.ParameterizedType
 
 fun main() {
+    val testReflect = TestReflect()
+    val field = TestReflect::class.java.getDeclaredField("int")
+    ReflectionUtils.makeAccessible(field)
+    ReflectionUtils.setField(field,testReflect,"string")
+
+}
+
+class TestReflect{
+
+    var int:Int? = 1
+}
+
+private fun printlnSuperType() {
     val firstParameter = TestLbs::class
         .java
         .methods
@@ -22,7 +36,6 @@ fun main() {
         .typeName
         .println()
     TestLbs().testLbs(ChildContainer())
-
 }
 
 class TestLbs {

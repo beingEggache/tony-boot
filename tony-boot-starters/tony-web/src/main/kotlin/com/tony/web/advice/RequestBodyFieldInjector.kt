@@ -40,14 +40,7 @@ public abstract class RequestBodyFieldInjector<T> {
     internal fun supports(field: Field): Boolean {
         val annotation = field.getAnnotation(InjectRequestBodyField::class.java) ?: return false
         val fieldGenericTypeName = field.genericType.typeNameClearBounds
-        if (annotation.value.isBlank()) {
-            val support = field.name == name && fieldGenericTypeName == typeName
-            if (support) {
-                logger.info("InjectRequestBodyField value is blank, use field name instead, which is ${field.name}")
-            }
-            return support
-        }
-        return annotation.value == name && fieldGenericTypeName == typeName
+        return (annotation.value == name || field.name == name) && fieldGenericTypeName == typeName
     }
 
     /**
@@ -72,13 +65,18 @@ internal class RequestBodyFieldInjectorComposite(
     fun injectValues(body: Any): Any {
         val bodyClass = body::class.java
         val fieldMap = supportedClassFieldsCache.getOrDefault(bodyClass, mapOf())
-        supportedInjector
-            .getOrDefault(bodyClass, mapOf())
+        val fieldInjectorMap = supportedInjector.getOrDefault(bodyClass, mapOf())
+        fieldInjectorMap
             .forEach { (_, injector) ->
                 val field = fieldMap.getValue("${injector.name}:${injector.typeName}")
                 val value = injector.value()
                 ReflectionUtils.makeAccessible(field)
-                ReflectionUtils.setField(field, body, value)
+                try {
+                    ReflectionUtils.setField(field, body, value)
+                } catch (e: IllegalArgumentException) {
+                    logger.warn(e.message)
+                    return@forEach
+                }
                 logger
                     .debug(
                         "${injector::class.java.name} " +
