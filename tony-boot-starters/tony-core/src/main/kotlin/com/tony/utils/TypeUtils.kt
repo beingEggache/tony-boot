@@ -44,6 +44,10 @@ public fun Class<*>.typeParameter(index: Int = 0): Type {
     return (superClass as ParameterizedType).actualTypeArguments[index]
 }
 
+/**
+ * Type name clear bounds
+ * @see sun.reflect.generics.reflectiveObjects.WildcardTypeImpl.toString
+ */
 public val Type.typeNameClearBounds: String
     get() = typeName
         .replace("? super ", "")

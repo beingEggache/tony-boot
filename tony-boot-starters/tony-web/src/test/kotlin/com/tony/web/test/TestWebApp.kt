@@ -16,6 +16,7 @@ class TestWebApp {
             override fun value(): String {
                 return "aloha"
             }
+
             override val name: String = "go fuck Yourself"
         }
     }
@@ -26,6 +27,7 @@ class TestWebApp {
             override fun value(): List<String> {
                 return listOf("go fuck your self")
             }
+
             override val name: String = "list"
         }
     }

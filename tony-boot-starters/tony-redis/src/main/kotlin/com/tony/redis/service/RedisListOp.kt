@@ -116,10 +116,21 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @param start
      * @param end
      * @return null when used in pipeline / transaction.
+     * @see org.springframework.data.redis.core.ListOperations.range
      */
     @Suppress("UNCHECKED_CAST")
     public fun <T : Any> range(key: String, start: Long, end: Long): List<T>? =
         RedisManager.redisTemplate.opsForList().range(key, start, end) as List<T>?
+
+    /**
+     * Get the size of list stored at key.
+     *
+     * @param key must not be null.
+     * @return null when used in pipeline / transaction.
+     * @see org.springframework.data.redis.core.ListOperations.size
+     */
+    public fun size(key: String): Long? =
+        RedisManager.redisTemplate.opsForList().size(key)
 }
 
 public sealed interface RedisListSetOp : RedisValueTransformer {

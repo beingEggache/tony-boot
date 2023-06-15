@@ -1,18 +1,38 @@
 package com.tony.core.test
 
+import com.tony.utils.asToNotNull
 import com.tony.utils.println
 import com.tony.utils.typeParameter
+import java.io.Serializable
+import java.lang.reflect.ParameterizedType
 
 fun main() {
+    val firstParameter = TestLbs::class
+        .java
+        .methods
+        .filter { it.name == "testLbs" }
+        .first()
+        .parameterTypes
+        .first()
+    firstParameter
+        .genericSuperclass
+        .asToNotNull<ParameterizedType>()
+        .actualTypeArguments
+        .first()
+        .typeName
+        .println()
+    TestLbs().testLbs(ChildContainer())
 
-    Child::class.java.typeParameter().println()
 }
 
-open class ParentT<in T>
-open class ChildT : ParentT<Parent<*>>()
-open class Parent<T>
+class TestLbs {
+    fun testLbs(list: ChildContainer) {
+        println(list::class.java.typeParameter())
+    }
+}
 
-open class Child : Parent<ChildT>()
+open class DataContainer<T> : Serializable where T : Serializable
+class ChildContainer : DataContainer<DataContainer<in Number>>()
 
 
 fun quickSort(list: List<Int>): List<Int> =

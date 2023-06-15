@@ -39,14 +39,14 @@ data class TestInjectReq<T1, T2, T3, T4>(
     @field:InjectRequestBodyField("yeah")
     val int: Int? = null,
     @field:InjectRequestBodyField
-    val list: List<String>? = null,
-    @field:InjectRequestBodyField
     val map: Map<String, String>? = null,
     @field:InjectRequestBodyField
     val objList: List<TestLoginReq>? = null,
     @field:InjectRequestBodyField
     val objMap: Map<String, TestLoginReq>? = null,
-    val testTypeParam1: T1? = null,
+    @field:InjectRequestBodyField
+    val list: T1? = null,
+    @field:InjectRequestBodyField("list")
     val testTypeParam2: T2? = null,
     val testTypeParam3: T3? = null,
     val testTypeParam4: T4? = null,
