@@ -1,53 +1,59 @@
 package com.tony.web.advice
 
+import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
-import com.tony.utils.typeNameClearBounds
-import com.tony.utils.typeParameter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.util.ReflectionUtils
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
-import javax.annotation.PostConstruct
+import java.util.function.Supplier
 
 /**
  * RequestBodyFieldInjector is
  * @author tangli
  * @since 2023/06/08 10:56
  */
-public abstract class RequestBodyFieldInjector<T>(
-    public open val name: String,
+public open class RequestBodyFieldInjector(
+    public val name: String,
+    internal val value: Supplier<*>,
 ) {
 
     private val logger: Logger = getLogger()
 
-    public abstract fun value(): T
-
-    private val lock = Any()
-
-    @PostConstruct
-    private fun init() {
-        val typeName = this::class.java.typeParameter().typeNameClearBounds
+    init {
         logger.info(
-            "Request body field with @InjectRequestBodyField(value=\"$name\") " +
-                "will injected by RequestBodyFieldInjector<$typeName>(name=$name)(${this::class.java.simpleName}).",
+            "Request body field with {} will injected by (${this::class.java.canonicalName})(name=$name).",
+            if (name.isBlank()) {
+                "@InjectRequestBodyField"
+            } else {
+                "@InjectRequestBodyField(value=\"$name\")"
+            },
         )
     }
 
-    /**
-     * 当 [InjectRequestBodyField.value] 为空字符串时判断 [Field.getName]和[RequestBodyFieldInjector.name]是否相等.
-     *
-     * 否则判断 [InjectRequestBodyField.value]和[RequestBodyFieldInjector.name]是否相等.
-     *
-     */
-    internal fun supports(field: Field): Boolean {
-        val annotation = field.getAnnotation(InjectRequestBodyField::class.java) ?: return false
-        return (annotation.value == name || field.name == name)
+    protected open fun inject(annotatedField: Field, body: Any) {
+        ReflectionUtils.setField(annotatedField, body, value.get())
+    }
+
+    internal fun internalInject(annotatedField: Field, body: Any): Boolean {
+        ReflectionUtils.makeAccessible(annotatedField)
+        return try {
+            inject(annotatedField, body)
+            true
+        } catch (e: IllegalArgumentException) {
+            logger.warn(e.message)
+            false
+        }
+    }
+
+    override fun toString(): String {
+        return this::class.java.simpleName.defaultIfBlank("RequestBodyFieldInjector") + "($name)"
     }
 }
 
 internal class RequestBodyFieldInjectorComposite(
-    private val requestBodyFieldInjectors: List<RequestBodyFieldInjector<*>>,
+    private val requestBodyFieldInjectors: List<RequestBodyFieldInjector>,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(RequestBodyFieldInjectorComposite::class.java)
 
@@ -56,8 +62,8 @@ internal class RequestBodyFieldInjectorComposite(
     private val supportedClassFieldsCache: ConcurrentHashMap<Class<*>, MutableMap<String, Field>> =
         ConcurrentHashMap<Class<*>, MutableMap<String, Field>>()
 
-    private val supportedInjector: ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector<*>>> =
-        ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector<*>>>()
+    private val supportedInjector: ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector>> =
+        ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector>>()
 
     fun injectValues(body: Any): Any {
         val bodyClass = body::class.java
@@ -67,17 +73,8 @@ internal class RequestBodyFieldInjectorComposite(
         val removedInjectorNames = injectorMap
             ?.values
             ?.filter { injector ->
-                val injectorName = injector.name
-                val field = fieldMap?.getValue(injectorName) ?: return@filter false
-                val value = injector.value()
-                ReflectionUtils.makeAccessible(field)
-                try {
-                    ReflectionUtils.setField(field, body, value)
-                    false
-                } catch (e: IllegalArgumentException) {
-                    logger.warn(e.message)
-                    true
-                }
+                val field = fieldMap?.getValue(injector.name) ?: return@filter false
+                !injector.internalInject(field, body)
             }
             ?.map { it.name }
         removeInjectorSupports(bodyClass, removedInjectorNames)
@@ -95,7 +92,7 @@ internal class RequestBodyFieldInjectorComposite(
             synchronized(supportedClassesCache) {
                 supportedClassesCache[targetType] = false
                 logger.warn(
-                    "${targetType.simpleName} remove RequestBodyFieldInjector supports",
+                    "${targetType.simpleName} has no RequestBodyFieldInjector supports",
                 )
             }
         }
@@ -108,17 +105,12 @@ internal class RequestBodyFieldInjectorComposite(
         if (injectorNameList.isNullOrEmpty()) {
             return
         }
-        logger.warn(
-            "RequestBodyFieldInjector(${injectorNameList.joinToString()}) " +
-                "removed from ${targetType.simpleName}",
-        )
-
         val fieldMap = supportedClassFieldsCache[targetType]
         val injectorMap = supportedInjector[targetType]
 
         synchronized(supportedInjector) {
             injectorNameList.forEach {
-                injectorMap?.remove(it)
+                logger.warn("${targetType.simpleName} remove ${injectorMap?.remove(it)} supports")
             }
         }
         synchronized(supportedClassFieldsCache) {
@@ -150,7 +142,18 @@ internal class RequestBodyFieldInjectorComposite(
                 .filterValues { injector ->
                     annotatedFields
                         .filter { field ->
-                            injector.supports(field)
+                            /*
+                             * 当 [InjectRequestBodyField.value] 为空字符串时判断 [Field.getName]和[RequestBodyFieldInjector.name]是否相等.
+                             *
+                             * 否则判断 [InjectRequestBodyField.value]和[RequestBodyFieldInjector.name]是否相等.
+                             *
+                             */
+                            val annotation = field.getAnnotation(InjectRequestBodyField::class.java)
+                            if (annotation.value.isNotBlank()) {
+                                annotation.value == injector.name
+                            } else {
+                                field.name == injector.name
+                            }
                         }
                         .onEach {
                             supportedClassFieldsCache

@@ -11,24 +11,30 @@ import org.springframework.context.annotation.Bean
 class TestWebApp {
 
     @Bean
-    fun stringInject(): RequestBodyFieldInjector<String> {
-        return object : RequestBodyFieldInjector<String>("go fuck Yourself") {
-            override fun value(): String {
-                return "aloha"
-            }
+    fun stringInject(): RequestBodyFieldInjector =
+        RequestBodyFieldInjector("string") {
+            "aloha"
         }
-    }
 
     @Bean
-    fun listInject(): RequestBodyFieldInjector<List<String>> {
-        return object : RequestBodyFieldInjector<List<String>>("list") {
-            override fun value(): List<String> {
-                return listOf("go fuck your self")
-            }
+    fun intInject(): RequestBodyFieldInjector =
+        RequestBodyFieldInjector("int") {
+            123
         }
-    }
+
+    @Bean
+    fun listInject(): RequestBodyFieldInjector =
+        RequestBodyFieldInjector("list") {
+            listOf("item 1")
+        }
 }
 
 fun main() {
     runApplication<TestWebApp>()
+}
+
+class FuncArgClass(val name: String, val func: () -> Any) {
+    init {
+        func()
+    }
 }

@@ -32,6 +32,12 @@ data class TestPatternReq(
     val mobile: String?
 )
 
+@Schema(description = "测试移除请求注入支持")
+data class TestRemoveInjectTestReq(
+    @field:InjectRequestBodyField("int")
+    val string: String? = null
+)
+
 @Schema(description = "测试请求注入")
 data class TestInjectReq<T1, T2, T3, T4>(
     @field:InjectRequestBodyField("go fuck Yourself")

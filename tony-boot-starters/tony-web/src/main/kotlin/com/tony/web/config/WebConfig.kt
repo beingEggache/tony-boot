@@ -87,7 +87,7 @@ internal class WebConfig(
     @ConditionalOnExpression("\${web.inject-request-body-enabled:true}")
     @Bean
     internal fun requestBodyFieldInjectorComposite(
-        requestBodyFieldInjectors: List<RequestBodyFieldInjector<*>>,
+        requestBodyFieldInjectors: List<RequestBodyFieldInjector>,
     ): RequestBodyFieldInjectorComposite =
         RequestBodyFieldInjectorComposite(requestBodyFieldInjectors)
 
