@@ -55,15 +55,21 @@ public open class RequestBodyFieldInjector(
 internal class RequestBodyFieldInjectorComposite(
     private val requestBodyFieldInjectors: List<RequestBodyFieldInjector>,
 ) {
-    private val logger: Logger = LoggerFactory.getLogger(RequestBodyFieldInjectorComposite::class.java)
+    companion object {
+        @JvmStatic
+        private val logger: Logger = LoggerFactory.getLogger(RequestBodyFieldInjectorComposite::class.java)
 
-    private val supportedClassesCache = ConcurrentHashMap<Class<*>, Boolean>()
+        @JvmStatic
+        private val supportedClassesCache = ConcurrentHashMap<Class<*>, Boolean>()
 
-    private val supportedClassFieldsCache: ConcurrentHashMap<Class<*>, MutableMap<String, Field>> =
-        ConcurrentHashMap<Class<*>, MutableMap<String, Field>>()
+        @JvmStatic
+        private val supportedClassFieldsCache: ConcurrentHashMap<Class<*>, MutableMap<String, Field>> =
+            ConcurrentHashMap<Class<*>, MutableMap<String, Field>>()
 
-    private val supportedInjector: ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector>> =
-        ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector>>()
+        @JvmStatic
+        private val supportedInjector: ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector>> =
+            ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector>>()
+    }
 
     fun injectValues(body: Any): Any {
         val bodyClass = body::class.java
