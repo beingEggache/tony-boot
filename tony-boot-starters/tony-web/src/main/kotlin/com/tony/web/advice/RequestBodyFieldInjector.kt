@@ -25,16 +25,6 @@ public abstract class RequestBodyFieldInjector<T>(
 
     private val lock = Any()
 
-    /**
-     * 执行过一次注入后判断是否匹配
-     */
-    internal var supportsWhenAfterInject: Boolean? = null
-        set(value) {
-            synchronized(lock) {
-                field = value
-            }
-        }
-
     @PostConstruct
     private fun init() {
         val typeName = this::class.java.typeParameter().typeNameClearBounds
@@ -51,9 +41,6 @@ public abstract class RequestBodyFieldInjector<T>(
      *
      */
     internal fun supports(field: Field): Boolean {
-        if (supportsWhenAfterInject != null) {
-            return supportsWhenAfterInject ?: false
-        }
         val annotation = field.getAnnotation(InjectRequestBodyField::class.java) ?: return false
         return (annotation.value == name || field.name == name)
     }
@@ -74,46 +61,71 @@ internal class RequestBodyFieldInjectorComposite(
 
     fun injectValues(body: Any): Any {
         val bodyClass = body::class.java
-        val fieldMap = supportedClassFieldsCache.getOrDefault(bodyClass, mapOf())
-        val fieldInjectorMap = supportedInjector.getOrDefault(bodyClass, mapOf())
+        val fieldMap = supportedClassFieldsCache[bodyClass]
+        val injectorMap = supportedInjector[bodyClass]
 
-        val injectResult = fieldInjectorMap
-            .map { (_, injector) ->
-                val field = fieldMap.getValue(injector.name)
-                injectAndReGetSupports(injector, body, field)
+        val removedInjectorNames = injectorMap
+            ?.values
+            ?.filter { injector ->
+                val injectorName = injector.name
+                val field = fieldMap?.getValue(injectorName) ?: return@filter false
+                val value = injector.value()
+                ReflectionUtils.makeAccessible(field)
+                try {
+                    ReflectionUtils.setField(field, body, value)
+                    false
+                } catch (e: IllegalArgumentException) {
+                    logger.warn(e.message)
+                    true
+                }
             }
-        if (injectResult.any { false }) {
-            logger.info("I'm here")
-            supportedClassesCache.remove(bodyClass)
-        }
+            ?.map { it.name }
+        removeInjectorSupports(bodyClass, removedInjectorNames)
+        removeClassSupports(bodyClass)
         return body
     }
 
-    /**
-     * 执行注入 , 如果注入失败则标记注入不支持此字段类型.
-     * @param injector
-     * @param body
-     * @param field
-     * @return
-     */
-    private fun injectAndReGetSupports(injector: RequestBodyFieldInjector<*>, body: Any, field: Field): Boolean {
-        ReflectionUtils.makeAccessible(field)
-        val value = injector.value()
-        try {
-            ReflectionUtils.setField(field, body, value)
-            injector.supportsWhenAfterInject = true
-        } catch (e: IllegalArgumentException) {
-            logger.warn(e.message)
-            injector.supportsWhenAfterInject = false
-            return false
+    private fun removeClassSupports(
+        targetType: Class<*>,
+    ) {
+        val fieldMap = supportedClassFieldsCache[targetType]
+        val injectorMap = supportedInjector[targetType]
+
+        if (injectorMap?.size == 0 && fieldMap?.size == 0) {
+            synchronized(supportedClassesCache) {
+                supportedClassesCache[targetType] = false
+                logger.warn(
+                    "${targetType.simpleName} remove RequestBodyFieldInjector supports",
+                )
+            }
         }
-        logger
-            .debug(
-                "${injector::class.java.name} " +
-                    "inject ${body::class.java.name}'s " +
-                    "field ${field.name} value:$value",
-            )
-        return true
+    }
+
+    private fun removeInjectorSupports(
+        targetType: Class<*>,
+        injectorNameList: List<String>?,
+    ) {
+        if (injectorNameList.isNullOrEmpty()) {
+            return
+        }
+        logger.warn(
+            "RequestBodyFieldInjector(${injectorNameList.joinToString()}) " +
+                "removed from ${targetType.simpleName}",
+        )
+
+        val fieldMap = supportedClassFieldsCache[targetType]
+        val injectorMap = supportedInjector[targetType]
+
+        synchronized(supportedInjector) {
+            injectorNameList.forEach {
+                injectorMap?.remove(it)
+            }
+        }
+        synchronized(supportedClassFieldsCache) {
+            injectorNameList.forEach {
+                fieldMap?.remove(it)
+            }
+        }
     }
 
     fun supports(targetType: Class<*>): Boolean {
@@ -126,10 +138,10 @@ internal class RequestBodyFieldInjectorComposite(
             return false
         }
 
-        return supportedClassesCache[targetType] ?: process(targetType, annotatedFields)
+        return supportedClassesCache[targetType] ?: getSupportsAndProcessCache(targetType, annotatedFields)
     }
 
-    private fun process(targetType: Class<*>, annotatedFields: List<Field>): Boolean {
+    private fun getSupportsAndProcessCache(targetType: Class<*>, annotatedFields: List<Field>): Boolean {
         val supportsInjectors = supportedInjector.getOrPut(targetType) {
             requestBodyFieldInjectors
                 .associateBy {
@@ -138,7 +150,7 @@ internal class RequestBodyFieldInjectorComposite(
                 .filterValues { injector ->
                     annotatedFields
                         .filter { field ->
-                            injector.supportsWhenAfterInject ?: injector.supports(field)
+                            injector.supports(field)
                         }
                         .onEach {
                             supportedClassFieldsCache
