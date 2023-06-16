@@ -36,18 +36,20 @@ data class TestPatternReq(
 data class TestInjectReq<T1, T2, T3, T4>(
     @field:InjectRequestBodyField("go fuck Yourself")
     val string: String? = null,
-    @field:InjectRequestBodyField("yeah")
+    @field:InjectRequestBodyField("list")
     val int: Int? = null,
-    @field:InjectRequestBodyField
+    @field:InjectRequestBodyField("go fuck Yourself")
     val map: Map<String, String>? = null,
     @field:InjectRequestBodyField
     val objList: List<TestLoginReq>? = null,
-    @field:InjectRequestBodyField
+    @field:InjectRequestBodyField("go fuck Yourself")
     val objMap: Map<String, TestLoginReq>? = null,
     @field:InjectRequestBodyField
     val list: T1? = null,
     @field:InjectRequestBodyField("list")
     val testTypeParam2: T2? = null,
+    @field:InjectRequestBodyField("list")
     val testTypeParam3: T3? = null,
+    @field:InjectRequestBodyField("list")
     val testTypeParam4: T4? = null,
 )

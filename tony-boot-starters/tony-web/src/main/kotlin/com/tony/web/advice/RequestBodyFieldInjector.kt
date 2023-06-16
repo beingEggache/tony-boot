@@ -16,14 +16,24 @@ import javax.annotation.PostConstruct
  * @since 2023/06/08 10:56
  */
 public abstract class RequestBodyFieldInjector<T>(
-    public open val name: String
+    public open val name: String,
 ) {
 
     private val logger: Logger = getLogger()
 
     public abstract fun value(): T
 
-    internal var supports: Boolean? = null
+    private val lock = Any()
+
+    /**
+     * 执行过一次注入后判断是否匹配
+     */
+    internal var supportsWhenAfterInject: Boolean? = null
+        set(value) {
+            synchronized(lock) {
+                field = value
+            }
+        }
 
     @PostConstruct
     private fun init() {
@@ -41,20 +51,11 @@ public abstract class RequestBodyFieldInjector<T>(
      *
      */
     internal fun supports(field: Field): Boolean {
-        if (supports != null) {
-            return supports ?: false
+        if (supportsWhenAfterInject != null) {
+            return supportsWhenAfterInject ?: false
         }
-
-        val annotation = field.getAnnotation(InjectRequestBodyField::class.java)
-        if (annotation == null) {
-            supports = false
-            return false
-        }
-
-        return run {
-            supports = (annotation.value == name || field.name == name)
-            (annotation.value == name || field.name == name)
-        }
+        val annotation = field.getAnnotation(InjectRequestBodyField::class.java) ?: return false
+        return (annotation.value == name || field.name == name)
     }
 }
 
@@ -68,30 +69,42 @@ internal class RequestBodyFieldInjectorComposite(
     private val supportedClassFieldsCache: ConcurrentHashMap<Class<*>, MutableMap<String, Field>> =
         ConcurrentHashMap<Class<*>, MutableMap<String, Field>>()
 
-    private val supportedInjector: ConcurrentHashMap<Class<*>, Map<String, RequestBodyFieldInjector<*>>> =
-        ConcurrentHashMap<Class<*>, Map<String, RequestBodyFieldInjector<*>>>()
+    private val supportedInjector: ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector<*>>> =
+        ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector<*>>>()
 
     fun injectValues(body: Any): Any {
         val bodyClass = body::class.java
         val fieldMap = supportedClassFieldsCache.getOrDefault(bodyClass, mapOf())
         val fieldInjectorMap = supportedInjector.getOrDefault(bodyClass, mapOf())
 
-        fieldInjectorMap
-            .forEach { (_, injector) ->
+        val injectResult = fieldInjectorMap
+            .map { (_, injector) ->
                 val field = fieldMap.getValue(injector.name)
-                injectAndProcess(injector, body, field)
+                injectAndReGetSupports(injector, body, field)
             }
+        if (injectResult.any { false }) {
+            logger.info("I'm here")
+            supportedClassesCache.remove(bodyClass)
+        }
         return body
     }
 
-    private fun injectAndProcess(injector: RequestBodyFieldInjector<*>, body: Any, field: Field): Boolean {
+    /**
+     * 执行注入 , 如果注入失败则标记注入不支持此字段类型.
+     * @param injector
+     * @param body
+     * @param field
+     * @return
+     */
+    private fun injectAndReGetSupports(injector: RequestBodyFieldInjector<*>, body: Any, field: Field): Boolean {
         ReflectionUtils.makeAccessible(field)
         val value = injector.value()
         try {
             ReflectionUtils.setField(field, body, value)
+            injector.supportsWhenAfterInject = true
         } catch (e: IllegalArgumentException) {
             logger.warn(e.message)
-            injector.supports = false
+            injector.supportsWhenAfterInject = false
             return false
         }
         logger
@@ -103,41 +116,37 @@ internal class RequestBodyFieldInjectorComposite(
         return true
     }
 
-    fun supports(targetType: Class<*>?): Boolean {
-        if (targetType == null) return false
+    fun supports(targetType: Class<*>): Boolean {
+        val annotatedFields =
+            targetType
+                .declaredFields
+                .filter { it.isAnnotationPresent(InjectRequestBodyField::class.java) }
 
-        val declaredFields = targetType.declaredFields
-        val typeHasNoInjectField = declaredFields.none { it.isAnnotationPresent(InjectRequestBodyField::class.java) }
-        if (typeHasNoInjectField) {
+        if (annotatedFields.isEmpty()) {
             return false
         }
 
-        val supportFromCache = supportedClassesCache[targetType]
-        if (supportFromCache != null) {
-            return supportFromCache
-        }
-
-        return process(targetType, declaredFields)
+        return supportedClassesCache[targetType] ?: process(targetType, annotatedFields)
     }
 
-    private fun process(targetType: Class<*>, declaredFields: Array<Field>): Boolean {
-        val annotatedFields =
-            declaredFields.filter {
-                it.isAnnotationPresent(InjectRequestBodyField::class.java)
-            }
-
+    private fun process(targetType: Class<*>, annotatedFields: List<Field>): Boolean {
         val supportsInjectors = supportedInjector.getOrPut(targetType) {
-            requestBodyFieldInjectors.associateBy {
-                it.name
-            }.filterValues { injector ->
-                annotatedFields.filter { field ->
-                    injector.supports(field)
-                }.onEach {
-                    supportedClassFieldsCache
-                        .getOrPut(targetType) { mutableMapOf() }
-                        .putIfAbsent(injector.name, it)
-                }.isNotEmpty()
-            }
+            requestBodyFieldInjectors
+                .associateBy {
+                    it.name
+                }
+                .filterValues { injector ->
+                    annotatedFields
+                        .filter { field ->
+                            injector.supportsWhenAfterInject ?: injector.supports(field)
+                        }
+                        .onEach {
+                            supportedClassFieldsCache
+                                .getOrPut(targetType) { mutableMapOf() }
+                                .putIfAbsent(injector.name, it)
+                        }
+                        .isNotEmpty()
+                }.toMutableMap()
         }
         val targetTypeSupport = supportsInjectors.isNotEmpty()
         supportedClassesCache[targetType] = targetTypeSupport

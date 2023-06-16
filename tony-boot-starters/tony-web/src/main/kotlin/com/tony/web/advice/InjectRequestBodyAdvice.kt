@@ -33,7 +33,7 @@ internal class InjectRequestBodyAdvice(
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
     ): Boolean {
-        return requestBodyFieldInjectorComposite.supports(targetType.rawClass())
+        return requestBodyFieldInjectorComposite.supports(targetType.rawClass()!!)
     }
 
     override fun afterBodyRead(
