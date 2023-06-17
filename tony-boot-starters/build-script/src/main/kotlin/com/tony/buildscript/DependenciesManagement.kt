@@ -27,8 +27,6 @@ internal object DepsManagement {
         const val bom = "org.jetbrains.kotlin:kotlin-bom:${VersionManagement.kotlinVersion}"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${VersionManagement.kotlinVersion}"
         const val stdlibCommon = "org.jetbrains.kotlin:kotlin-stdlib-common:${VersionManagement.kotlinVersion}"
-        const val stdlibJdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${VersionManagement.kotlinVersion}"
-        const val stdlibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${VersionManagement.kotlinVersion}"
         const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${VersionManagement.kotlinVersion}"
         const val test = "org.jetbrains.kotlin:kotlin-test:${VersionManagement.kotlinVersion}"
         const val testJunit = "org.jetbrains.kotlin:kotlin-test-junit:${VersionManagement.kotlinVersion}"

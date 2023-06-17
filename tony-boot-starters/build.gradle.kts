@@ -85,8 +85,17 @@ configure(subprojects) {
     }
 
     configure<KaptExtension> {
-        keepJavacAnnotationProcessors = true
-        showProcessorStats = true
+        generateStubs= false
+        inheritedAnnotations= true
+        useLightAnalysis= true
+        correctErrorTypes= true
+        dumpDefaultParameterValues= true
+        mapDiagnosticLocations= true
+        strictMode= true
+        stripMetadata= true
+        showProcessorStats= true
+        keepJavacAnnotationProcessors= true
+        useBuildCache= true
     }
 
     tasks.withType<KotlinCompile>().configureEach {
