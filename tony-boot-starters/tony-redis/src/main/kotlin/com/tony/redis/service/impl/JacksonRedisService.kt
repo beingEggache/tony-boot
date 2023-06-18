@@ -7,9 +7,9 @@ import com.tony.enums.IntEnumCreator
 import com.tony.enums.IntEnumValue
 import com.tony.enums.StringEnumCreator
 import com.tony.enums.StringEnumValue
-import com.tony.redis.RedisManager.trimQuotes
 import com.tony.redis.serializer.SerializerMode
 import com.tony.redis.service.RedisService
+import com.tony.redis.trimQuotes
 import com.tony.utils.asTo
 import com.tony.utils.isNumberTypes
 import com.tony.utils.isStringLikeType

@@ -1,5 +1,3 @@
-@file:JvmName("RedisUtils")
-
 package com.tony.redis.service
 
 import com.fasterxml.jackson.core.type.TypeReference

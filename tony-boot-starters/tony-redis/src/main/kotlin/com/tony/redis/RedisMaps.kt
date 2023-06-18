@@ -2,10 +2,7 @@ package com.tony.redis
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.SpringContexts
-import com.tony.redis.service.RedisService
 import com.tony.utils.asTo
-import com.tony.utils.doIf
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -17,33 +14,29 @@ import java.util.concurrent.TimeUnit
  */
 public object RedisMaps {
 
-    private val redisService: RedisService by SpringContexts.getBeanByLazy()
-
     /**
-     * 同 redisTemplate.boundHashOps(key).hasKey(hashKey)
+     * Determine if given hash hashKey exists.
      *
-     * @param key
-     * @param hashKey
-     * @return
+     * @param key must not be null.
+     * @param hashKey must not be null.
+     * @return null when used in pipeline / transaction.
      */
+    @Suppress("SimplifyBooleanWithConstants")
     @JvmStatic
     public fun hasKey(key: String, hashKey: String): Boolean =
-        true == RedisManager.redisTemplate.boundHashOps<String, Any>(key).hasKey(hashKey)
+        true == redisTemplate.opsForHash<String, Any>().hasKey(key, hashKey)
 
     /**
-     * 先进行 判断  redisTemplate.opsForHash().hasKey(key, hashKey).
-     * 同 redisTemplate.opsForHash().delete(key, hashKey).
+     * Delete given hash hashKeys.
      *
-     * @param key
-     * @param hashKey
+     * @param key must not be null.
+     * @param hashKeys must not be null.
+     * @return null when used in pipeline / transaction.
      */
+    @Suppress("RedundantNullableReturnType")
     @JvmStatic
-    public fun delete(key: String, vararg hashKey: String): Unit =
-        RedisManager.redisTemplate.opsForHash<String, Any>()
-            .hasKey(key, hashKey)
-            .doIf {
-                RedisManager.redisTemplate.opsForHash<String, Any>().delete(key, hashKey)
-            }
+    public fun delete(key: String, vararg hashKeys: String): Long? =
+        redisTemplate.opsForHash<String, Any>().delete(key, *hashKeys)
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.
@@ -60,9 +53,9 @@ public object RedisMaps {
     public fun increment(key: String, hashKey: String, delta: Long = 1L, initial: Long? = null): Long? =
         RedisManager.doInTransaction {
             if (initial != null) {
-                RedisManager.redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, initial)
+                redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, initial)
             }
-            RedisManager.redisTemplate.opsForHash<String, Any>().increment(key, hashKey, delta)
+            redisTemplate.opsForHash<String, Any>().increment(key, hashKey, delta)
         }.last().asTo()
 
     /**
@@ -81,9 +74,9 @@ public object RedisMaps {
     public fun increment(key: String, hashKey: String, delta: Double = 1.0, initial: Double? = null): Double? =
         RedisManager.doInTransaction {
             if (initial != null) {
-                RedisManager.redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, initial)
+                redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, initial)
             }
-            RedisManager.redisTemplate.opsForHash<String, Any>().increment(key, hashKey, delta)
+            redisTemplate.opsForHash<String, Any>().increment(key, hashKey, delta)
         }.last().asTo()
 
     /**

@@ -121,11 +121,11 @@ class RedisValueTests {
         )
         val objList1 = ObjWithObjList("obj list1", listOf(simpleObj1, simpleObj2))
         val objList2 = ObjWithObjList("obj list2", listOf(simpleObj1, simpleObj2))
-        testRedisObj<ObjWithObjList>(
+        testRedisObj(
             objList1,
             objList2,
         )
-        testRedisObj<ObjWithObjMap>(
+        testRedisObj(
             ObjWithObjMap("obj map1", mapOf("a" to objList1, "b" to objList2)),
             ObjWithObjMap("obj map2", mapOf("c" to objList1, "d" to objList2)),
         )

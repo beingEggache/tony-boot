@@ -31,22 +31,6 @@ class RedisManagerTests {
 
     @Execution(ExecutionMode.CONCURRENT)
     @Test
-    fun testList(testInfo: TestInfo) {
-        val keyPrefix = testInfo.testMethod.get().name
-
-        RedisManager.doInTransaction {
-            RedisManager.lists.rightPushString(keyPrefix, "1")
-            RedisManager.lists.rightPushString(keyPrefix, "1")
-            RedisManager.lists.rightPushString(keyPrefix, "1")
-            RedisManager.lists.rightPushString(keyPrefix, "1")
-            RedisManager.lists.rightPushString(keyPrefix, "1")
-            RedisManager.lists.rightPushString(keyPrefix, "1")
-        }
-        RedisManager.deleteByKeyPatterns("$keyPrefix:*")
-    }
-
-    @Execution(ExecutionMode.CONCURRENT)
-    @Test
     fun testListener(testInfo: TestInfo) {
         val keyPrefix = testInfo.testMethod.get().name
 

@@ -2,7 +2,6 @@ package com.tony.redis
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.SpringContexts
 import com.tony.redis.service.RedisService
 import com.tony.utils.asTo
 import java.util.concurrent.TimeUnit
@@ -14,8 +13,6 @@ import java.util.concurrent.TimeUnit
  * @since 2023/5/25 9:24
  */
 public object RedisValues {
-
-    public val redisService: RedisService by SpringContexts.getBeanByLazy()
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.
@@ -32,9 +29,9 @@ public object RedisValues {
     public fun increment(key: String, delta: Long = 1L, initial: Long? = null): Long? =
         RedisManager.doInTransaction {
             if (initial != null) {
-                RedisManager.redisTemplate.boundValueOps(key).setIfAbsent(initial)
+                redisTemplate.opsForValue().setIfAbsent(key, initial)
             }
-            RedisManager.redisTemplate.boundValueOps(key).increment(delta)
+            redisTemplate.opsForValue().increment(key, delta)
         }.last().asTo()
 
     /**
@@ -52,9 +49,9 @@ public object RedisValues {
     public fun increment(key: String, delta: Double = 1.0, initial: Double? = null): Double? =
         RedisManager.doInTransaction {
             if (initial != null) {
-                RedisManager.redisTemplate.boundValueOps(key).setIfAbsent(initial)
+                redisTemplate.boundValueOps(key).setIfAbsent(initial)
             }
-            RedisManager.redisTemplate.boundValueOps(key).increment(delta)
+            redisTemplate.boundValueOps(key).increment(delta)
         }.last().asTo()
 
     @JvmStatic

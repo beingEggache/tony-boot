@@ -2,14 +2,85 @@ package com.tony.redis.service
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.redis.RedisManager
+import com.tony.redis.redisTemplate
+import java.util.concurrent.TimeUnit
 
 /**
  * RedisListOp is
  * @author tangli
  * @since 2023/06/14 13:38
  */
-public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp
+public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
+
+    /**
+     * Remove the last element from list at sourceKey,
+     * append it to destinationKey and return its value.
+     *
+     * Blocks connection until element available or timeout reached.
+     *
+     * @param sourceKey must not be null.
+     * @param destinationKey must not be null.
+     * @param type
+     * @param timeout
+     * @param timeUnit must not be null.
+     * @return can be null.
+     *
+     * @see org.springframework.data.redis.core.ListOperations.rightPopAndLeftPush
+     */
+    public fun <T : Any> rightPopAndLeftPush(
+        sourceKey: String,
+        destinationKey: String,
+        type: Class<T>,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
+    ): T? =
+        redisTemplate
+            .opsForList()
+            .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
+            .outputTransformTo(type)
+
+    /**
+     * @see [rightPopAndLeftPush]
+     */
+    public fun <T : Any> rightPopAndLeftPush(
+        sourceKey: String,
+        destinationKey: String,
+        type: JavaType,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
+    ): T? =
+        redisTemplate
+            .opsForList()
+            .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
+            .outputTransformTo(type)
+
+    /**
+     * @see [rightPopAndLeftPush]
+     */
+    public fun <T : Any> rightPopAndLeftPush(
+        sourceKey: String,
+        destinationKey: String,
+        type: TypeReference<T>,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
+    ): T? =
+        redisTemplate
+            .opsForList()
+            .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
+            .outputTransformTo(type)
+
+    /**
+     * Trim list at key to elements between start and end.
+     * @param key must not be null.
+     * @param start
+     * @param end
+     *
+     * @see org.springframework.data.redis.core.ListOperations.trim
+     */
+    public fun trim(key: String, start: Long, end: Long) {
+        redisTemplate.opsForList().trim(key, start, end)
+    }
+}
 
 public sealed interface RedisListGetOp : RedisValueTransformer {
 
@@ -22,19 +93,19 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.leftPop
      */
     public fun <T : Any> leftPop(key: String, type: Class<T>): T? =
-        RedisManager.redisTemplate.opsForList().leftPop(key).outputTransformTo(type)
+        redisTemplate.opsForList().leftPop(key).outputTransformTo(type)
 
     /**
      * @see [leftPop]
      */
     public fun <T : Any> leftPop(key: String, type: JavaType): T? =
-        RedisManager.redisTemplate.opsForList().leftPop(key).outputTransformTo(type)
+        redisTemplate.opsForList().leftPop(key).outputTransformTo(type)
 
     /**
      * @see [leftPop]
      */
     public fun <T : Any> leftPop(key: String, type: TypeReference<T>): T? =
-        RedisManager.redisTemplate.opsForList().leftPop(key).outputTransformTo(type)
+        redisTemplate.opsForList().leftPop(key).outputTransformTo(type)
 
     /**
      * Removes and returns first elements in list stored at key.
@@ -46,7 +117,7 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.leftPop
      */
     public fun <T : Any> leftPop(key: String, count: Long): List<Any>? =
-        RedisManager.redisTemplate.opsForList().leftPop(key, count)
+        redisTemplate.opsForList().leftPop(key, count)
 
     /**
      * Removes and returns last element in list stored at key.
@@ -57,19 +128,19 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.rightPop
      */
     public fun <T : Any> rightPop(key: String, type: Class<T>): T? =
-        RedisManager.redisTemplate.opsForList().rightPop(key).outputTransformTo(type)
+        redisTemplate.opsForList().rightPop(key).outputTransformTo(type)
 
     /**
      * @see [rightPop]
      */
     public fun <T : Any> rightPop(key: String, type: JavaType): T? =
-        RedisManager.redisTemplate.opsForList().rightPop(key).outputTransformTo(type)
+        redisTemplate.opsForList().rightPop(key).outputTransformTo(type)
 
     /**
      * @see [rightPop]
      */
     public fun <T : Any> rightPop(key: String, type: TypeReference<T>): T? =
-        RedisManager.redisTemplate.opsForList().rightPop(key).outputTransformTo(type)
+        redisTemplate.opsForList().rightPop(key).outputTransformTo(type)
 
     /**
      * Removes and returns last elements in list stored at key.
@@ -81,7 +152,7 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.rightPop
      */
     public fun <T : Any> rightPop(key: String, count: Long): List<Any>? =
-        RedisManager.redisTemplate.opsForList().rightPop(key, count)
+        redisTemplate.opsForList().rightPop(key, count)
 
     /**
      * Get element at index form list at key.
@@ -94,19 +165,19 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.index
      */
     public fun <T : Any> index(key: String, index: Long, type: Class<T>): T? =
-        RedisManager.redisTemplate.opsForList().index(key, index).outputTransformTo(type)
+        redisTemplate.opsForList().index(key, index).outputTransformTo(type)
 
     /**
      * @see [RedisListGetOp.index]
      */
     public fun <T : Any> index(key: String, index: Long, type: JavaType): T? =
-        RedisManager.redisTemplate.opsForList().index(key, index).outputTransformTo(type)
+        redisTemplate.opsForList().index(key, index).outputTransformTo(type)
 
     /**
      * @see [RedisListGetOp.index]
      */
     public fun <T : Any> index(key: String, index: Long, type: TypeReference<T>): T? =
-        RedisManager.redisTemplate.opsForList().index(key, index).outputTransformTo(type)
+        redisTemplate.opsForList().index(key, index).outputTransformTo(type)
 
     /**
      * TODO
@@ -120,7 +191,7 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      */
     @Suppress("UNCHECKED_CAST")
     public fun <T : Any> range(key: String, start: Long, end: Long): List<T>? =
-        RedisManager.redisTemplate.opsForList().range(key, start, end) as List<T>?
+        redisTemplate.opsForList().range(key, start, end) as List<T>?
 
     /**
      * Get the size of list stored at key.
@@ -130,7 +201,7 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.size
      */
     public fun size(key: String): Long? =
-        RedisManager.redisTemplate.opsForList().size(key)
+        redisTemplate.opsForList().size(key)
 }
 
 public sealed interface RedisListSetOp : RedisValueTransformer {
@@ -143,7 +214,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.leftPush
      */
     public fun <T : Any> leftPush(key: String, value: T): Long? =
-        RedisManager.redisTemplate.opsForList().leftPush(key, value.inputTransformTo())
+        redisTemplate.opsForList().leftPush(key, value.inputTransformTo())
 
     /**
      * Insert value to key before pivot.
@@ -155,7 +226,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.leftPush
      */
     public fun <T : Any> leftPush(key: String, pivot: Long, value: T): Long? =
-        RedisManager.redisTemplate.opsForList().leftPush(key, pivot, value.inputTransformTo())
+        redisTemplate.opsForList().leftPush(key, pivot, value.inputTransformTo())
 
     /**
      * Prepend values to key only if the list exists.
@@ -166,7 +237,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.leftPushIfPresent
      */
     public fun <T : Any> leftPushIfPresent(key: String, value: T): Long? =
-        RedisManager.redisTemplate.opsForList().leftPushIfPresent(key, value.inputTransformTo())
+        redisTemplate.opsForList().leftPushIfPresent(key, value.inputTransformTo())
 
     /**
      * Prepend values to key.
@@ -177,7 +248,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.leftPushAll
      */
     public fun <T : Any> leftPushAll(key: String, vararg value: T): Long? =
-        RedisManager.redisTemplate.opsForList().leftPushAll(key, value.onEach { it.inputTransformTo() })
+        redisTemplate.opsForList().leftPushAll(key, value.onEach { it.inputTransformTo() })
 
     /**
      * Prepend values to key.
@@ -188,7 +259,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.leftPushAll
      */
     public fun <T : Any> leftPushAll(key: String, value: Collection<T>): Long? =
-        RedisManager.redisTemplate.opsForList().leftPushAll(key, value.onEach { it.inputTransformTo() })
+        redisTemplate.opsForList().leftPushAll(key, value.onEach { it.inputTransformTo() })
 
     /**
      * Append value to key.
@@ -199,7 +270,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.rightPush
      */
     public fun <T : Any> rightPush(key: String, value: T): Long? =
-        RedisManager.redisTemplate.opsForList().rightPush(key, value.inputTransformTo())
+        redisTemplate.opsForList().rightPush(key, value.inputTransformTo())
 
     /**
      * Insert value to key after pivot.
@@ -211,7 +282,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.rightPush
      */
     public fun <T : Any> rightPush(key: String, pivot: Long, value: T): Long? =
-        RedisManager.redisTemplate.opsForList().rightPush(key, pivot, value.inputTransformTo())
+        redisTemplate.opsForList().rightPush(key, pivot, value.inputTransformTo())
 
     /**
      * Append values to key only if the list exists.
@@ -222,7 +293,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.rightPushIfPresent
      */
     public fun <T : Any> rightPushIfPresent(key: String, value: T): Long? =
-        RedisManager.redisTemplate.opsForList().rightPushIfPresent(key, value.inputTransformTo())
+        redisTemplate.opsForList().rightPushIfPresent(key, value.inputTransformTo())
 
     /**
      * Append values to key.
@@ -233,7 +304,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.rightPushAll
      */
     public fun <T : Any> rightPushAll(key: String, vararg value: T): Long? =
-        RedisManager.redisTemplate.opsForList().rightPushAll(key, value.onEach { it.inputTransformTo() })
+        redisTemplate.opsForList().rightPushAll(key, value.onEach { it.inputTransformTo() })
 
     /**
      * Append values to key.
@@ -244,5 +315,5 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.rightPushAll
      */
     public fun <T : Any> rightPushAll(key: String, value: Collection<T>): Long? =
-        RedisManager.redisTemplate.opsForList().rightPushAll(key, value.onEach { it.inputTransformTo() })
+        redisTemplate.opsForList().rightPushAll(key, value.onEach { it.inputTransformTo() })
 }

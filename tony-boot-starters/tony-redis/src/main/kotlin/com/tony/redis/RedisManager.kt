@@ -1,11 +1,9 @@
 package com.tony.redis
 
-import com.tony.SpringContexts
 import com.tony.exception.ApiException
 import com.tony.utils.doIf
 import com.tony.utils.secureRandom
 import org.slf4j.LoggerFactory
-import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.RedisConnectionUtils
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.script.RedisScript
@@ -33,22 +31,6 @@ public object RedisManager {
 
     @JvmField
     public val keys: RedisKeys = RedisKeys
-
-    @JvmStatic
-    public val redisTemplate: RedisTemplate<String, Any> by SpringContexts.getBeanByLazy("redisTemplate")
-
-    /**
-     * 简单锁脚本引用
-     */
-    private val lockScript: RedisScript<Long> =
-        RedisScript.of(ClassPathResource("META-INF/scripts/lockKey.lua"), Long::class.java)
-
-    /**
-     * 批量删除脚本
-     * @since redis 3.2+
-     */
-    private val deleteKeyByPatternScript: RedisScript<Long?> =
-        RedisScript.of(ClassPathResource("META-INF/scripts/deleteByKeyPatterns.lua"), Long::class.java)
 
     /**
      * redis 事务操作.
@@ -286,12 +268,5 @@ public object RedisManager {
     public fun keys(keys: Collection<String>): Collection<String> = keys.fold(HashSet()) { set, key ->
         set.addAll(redisTemplate.keys(key))
         set
-    }
-
-    private val QUOTES_CHARS = arrayOf('\'', '\"')
-    internal fun String.trimQuotes(): String = when {
-        this.length < 2 -> this
-        first() in QUOTES_CHARS && last() in QUOTES_CHARS -> substring(1, this.length - 1)
-        else -> this
     }
 }
