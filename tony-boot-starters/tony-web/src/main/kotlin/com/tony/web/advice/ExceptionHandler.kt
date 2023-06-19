@@ -1,4 +1,4 @@
-package com.tony.web
+package com.tony.web.advice
 
 import com.tony.ApiProperty
 import com.tony.exception.ApiException
@@ -6,7 +6,9 @@ import com.tony.exception.BizException
 import com.tony.utils.getLogger
 import com.tony.web.WebApp.badRequest
 import com.tony.web.WebApp.errorResponse
+import com.tony.web.WebContext
 import com.tony.web.WebContext.toResponse
+import com.tony.wrapExceptionHeaderName
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -34,7 +36,11 @@ internal class ExceptionHandler : ErrorController {
     private val logger = getLogger()
 
     @ExceptionHandler(BizException::class)
-    fun bizException(e: BizException) = e.toResponse()
+    fun bizException(e: BizException) =
+        e.toResponse()
+            .also {
+                WebContext.response?.addHeader(wrapExceptionHeaderName, "true")
+            }
 
     @ExceptionHandler(ApiException::class)
     fun apiException(e: ApiException) = run {
@@ -42,7 +48,7 @@ internal class ExceptionHandler : ErrorController {
             logger.warn(message, cause)
         }
         e.toResponse()
-    }
+    }.also { WebContext.response?.addHeader(wrapExceptionHeaderName, "true") }
 
     @ExceptionHandler(Exception::class)
     fun exception(e: Exception) = run {
@@ -50,7 +56,7 @@ internal class ExceptionHandler : ErrorController {
         // handle the json generate exception
         WebContext.response?.resetBuffer()
         errorResponse(ApiProperty.errorMsg)
-    }
+    }.also { WebContext.response?.addHeader(wrapExceptionHeaderName, "true") }
 
     private fun bindingResultMessages(bindingResult: BindingResult) =
         bindingResult.fieldErrors.first().let {
@@ -59,15 +65,19 @@ internal class ExceptionHandler : ErrorController {
             } else {
                 it.defaultMessage ?: ""
             }
-        }
+        }.also { WebContext.response?.addHeader(wrapExceptionHeaderName, "true") }
 
     @ExceptionHandler(BindException::class)
     fun bindingResultException(e: BindException) =
-        badRequest(bindingResultMessages(e.bindingResult))
+        badRequest(bindingResultMessages(e.bindingResult)).also {
+            WebContext.response?.addHeader(wrapExceptionHeaderName, "true")
+        }
 
     @ExceptionHandler(ConstraintViolationException::class)
     fun constraintViolationException(e: ConstraintViolationException) =
-        badRequest(e.constraintViolations.first().message)
+        badRequest(e.constraintViolations.first().message).also {
+            WebContext.response?.addHeader(wrapExceptionHeaderName, "true")
+        }
 
     @ExceptionHandler(
         value = [
@@ -78,7 +88,9 @@ internal class ExceptionHandler : ErrorController {
     )
     fun badRequestException(e: Exception) = run {
         logger.warn(e.localizedMessage)
-        badRequest(ApiProperty.badRequestMsg)
+        badRequest(ApiProperty.badRequestMsg).also {
+            WebContext.response?.addHeader(wrapExceptionHeaderName, "true")
+        }
     }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
@@ -91,5 +103,7 @@ internal class ExceptionHandler : ErrorController {
         }
 
         else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
+    }.also {
+        WebContext.response?.addHeader(wrapExceptionHeaderName, "true")
     }
 }

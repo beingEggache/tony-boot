@@ -99,7 +99,7 @@ public object WebContext {
         @JvmSynthetic
         get() = errorAttributes["status"] as Int
 
-    private val errorAttributes
+    internal val errorAttributes
         @JvmStatic
         get() = current
             .getAttribute("errorAttribute", SCOPE_REQUEST)

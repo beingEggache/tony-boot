@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonToken
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JavaType
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -68,6 +69,24 @@ public fun <T> String.jsonToObj(typeReference: TypeReference<T>): T =
 @Throws(IOException::class)
 public fun <T> String.jsonToObj(javaType: JavaType): T =
     OBJECT_MAPPER.readValue(this, javaType)
+
+/**
+ * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
+ */
+public fun String.jsonNode(): JsonNode = OBJECT_MAPPER.readTree(this)
+
+/**
+ * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
+ */
+public fun ByteArray.jsonNode(): JsonNode = OBJECT_MAPPER.readTree(this)
+
+/**
+ * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
+ */
+public fun InputStream.jsonNode(): JsonNode = OBJECT_MAPPER.readTree(this)
 
 /**
  * Method that can be used to serialize any Java value as a String.

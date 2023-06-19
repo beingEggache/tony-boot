@@ -5,7 +5,7 @@ import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.utils.createObjectMapper
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
-import com.tony.web.ExceptionHandler
+import com.tony.web.advice.ExceptionHandler
 import com.tony.web.advice.InjectRequestBodyAdvice
 import com.tony.web.advice.RequestBodyFieldInjector
 import com.tony.web.advice.RequestBodyFieldInjectorComposite

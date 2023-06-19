@@ -4,6 +4,7 @@ package com.tony.feign
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.tony.utils.OBJECT_MAPPER
+import com.tony.utils.jsonNode
 import com.tony.utils.md5Uppercase
 import com.tony.utils.toJsonString
 import okhttp3.RequestBody
@@ -29,7 +30,7 @@ public fun RequestBody.string(): String = run {
 public fun RequestBody.jsonNode(): JsonNode = run {
     val buffer = Buffer()
     writeTo(buffer)
-    OBJECT_MAPPER.readTree(buffer.readByteArray())
+    buffer.readByteArray().jsonNode()
 }
 
 /**

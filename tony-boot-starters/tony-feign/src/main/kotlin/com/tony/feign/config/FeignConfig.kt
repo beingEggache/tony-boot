@@ -1,6 +1,7 @@
 package com.tony.feign.config
 
 import com.tony.feign.decoder.DefaultErrorDecoder
+import com.tony.feign.decoder.UnwrapResponseDecoder
 import com.tony.feign.interceptor.AppInterceptor
 import com.tony.feign.interceptor.NetworkInterceptor
 import com.tony.feign.log.DefaultFeignRequestTraceLogger
@@ -22,7 +23,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer
-import org.springframework.cloud.openfeign.support.SpringDecoder
 import org.springframework.cloud.openfeign.support.SpringEncoder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -48,7 +48,7 @@ public class FeignConfig {
     internal fun decoder(
         messageConverters: ObjectFactory<HttpMessageConverters>,
         customizers: ObjectProvider<HttpMessageConverterCustomizer>,
-    ): Decoder = SpringDecoder(messageConverters, customizers)
+    ): Decoder = UnwrapResponseDecoder(messageConverters, customizers)
 
     @ConditionalOnMissingBean(ErrorDecoder::class)
     @Bean

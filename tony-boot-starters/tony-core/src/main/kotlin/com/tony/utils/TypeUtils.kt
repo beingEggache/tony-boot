@@ -4,6 +4,7 @@ package com.tony.utils
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
+import com.fasterxml.jackson.databind.type.TypeFactory
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.math.BigDecimal
@@ -28,6 +29,8 @@ public fun Type.rawClass(): Class<*>? =
         is ParameterizedType -> this.rawType as Class<*>
         else -> null
     }
+
+public fun Type.toJavaType(): JavaType = TypeFactory.defaultInstance().constructType(this)
 
 /**
  * 返回范型参数的 [Type]
