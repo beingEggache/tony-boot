@@ -22,8 +22,9 @@ public open class RequestBodyFieldInjector(
     private val logger: Logger = getLogger()
 
     init {
+        @Suppress("LeakingThis")
         logger.info(
-            "Request body field with {} will injected by (${this::class.java.canonicalName})(name=$name).",
+            "Request body field with {} will injected by $this.",
             if (name.isBlank()) {
                 "@InjectRequestBodyField"
             } else {

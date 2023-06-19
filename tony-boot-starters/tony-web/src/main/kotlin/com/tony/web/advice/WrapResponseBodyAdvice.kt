@@ -11,6 +11,7 @@ import com.tony.utils.isCollectionLike
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.web.WebApp
 import com.tony.web.WebContext
+import com.tony.wrapResponseHeaderName
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
@@ -49,13 +50,16 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         selectedConverterType: Class<out HttpMessageConverter<*>>,
         request: ServerHttpRequest,
         response: ServerHttpResponse,
-    ) = when {
-        body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
-        !body::class.java.isCollectionLike() -> ApiResult(body, ApiProperty.okCode)
-        else -> if (body::class.java.isArray) {
-            ApiResult(toListResult(body), ApiProperty.okCode)
-        } else {
-            ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.okCode)
+    ): ApiResult<*> {
+        response.headers.add(wrapResponseHeaderName, "true")
+        return when {
+            body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
+            !body::class.java.isCollectionLike() -> ApiResult(body, ApiProperty.okCode)
+            else -> if (body::class.java.isArray) {
+                ApiResult(toListResult(body), ApiProperty.okCode)
+            } else {
+                ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.okCode)
+            }
         }
     }
 

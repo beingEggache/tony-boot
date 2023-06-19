@@ -7,3 +7,7 @@
 package com.tony
 
 public const val PROJECT_GROUP: String = "com.tony"
+
+public const val traceIdHeaderName: String = "X-B3-TraceId"
+
+public const val wrapResponseHeaderName: String = "X-Wrap-Response"

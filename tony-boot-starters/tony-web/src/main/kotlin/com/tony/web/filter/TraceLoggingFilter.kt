@@ -1,5 +1,6 @@
 package com.tony.web.filter
 
+import com.tony.traceIdHeaderName
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.sanitizedPath
@@ -107,14 +108,13 @@ internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
         response: HttpServletResponse,
         chain: FilterChain,
     ) {
-        val traceIdKey = "X-B3-TraceId"
         try {
-            val traceId = request.getHeader(traceIdKey).defaultIfBlank(uuid())
-            MDC.put(traceIdKey, traceId)
-            response.setHeader(traceIdKey, traceId)
+            val traceId = request.getHeader(traceIdHeaderName).defaultIfBlank(uuid())
+            MDC.put(traceIdHeaderName, traceId)
+            response.setHeader(traceIdHeaderName, traceId)
             chain.doFilter(request, response)
         } finally {
-            MDC.remove(traceIdKey)
+            MDC.remove(traceIdHeaderName)
         }
     }
 

@@ -1,4 +1,13 @@
 feign:
+  compression:
+    request:
+      enabled: true
+      min-request-size: 2048
+      mime-types:
+        - text/xml
+        - text/plain
+        - application/xml
+        - application/json
   okhttp:
     enabled: true
   httpclient:
