@@ -1,6 +1,9 @@
-package com.tony.redis.test
+package com.tony.redis.test.protostuff
 
 import com.tony.redis.RedisManager
+import com.tony.redis.test.MyIntEnum
+import com.tony.redis.test.MyStringEnum
+import com.tony.redis.test.TestRedisApp
 import com.tony.redis.test.model.ObjWithList
 import com.tony.redis.test.model.ObjWithMap
 import com.tony.redis.test.model.ObjWithNumberTypes
@@ -16,7 +19,14 @@ import org.springframework.boot.test.context.SpringBootTest
 import java.math.BigDecimal
 import java.math.BigInteger
 
-@SpringBootTest(classes = [TestRedisApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@Suppress("SpringBootApplicationProperties")
+@SpringBootTest(
+    properties = [
+        "redis.serializerMode=PROTOSTUFF",
+    ],
+    classes = [TestRedisApp::class],
+    webEnvironment = SpringBootTest.WebEnvironment.NONE
+)
 class RedisValueTests {
 
     private val logger = LoggerFactory.getLogger(RedisValueTests::class.java)

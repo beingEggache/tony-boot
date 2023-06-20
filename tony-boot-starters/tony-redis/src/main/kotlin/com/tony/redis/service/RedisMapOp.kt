@@ -2,6 +2,7 @@ package com.tony.redis.service
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
+import com.tony.redis.hashOp
 import com.tony.redis.redisTemplate
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -25,7 +26,7 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @return
      */
     public fun <T : Any> get(key: String, hashKey: String, type: Class<T>): T? =
-        redisTemplate.opsForHash<String, T>().get(key, hashKey).outputTransformTo(type)
+        hashOp.get(key, hashKey).outputTransformTo(type)
 
     /**
      * 获取 map 值
@@ -34,7 +35,7 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @return
      */
     public fun <T : Any> get(key: String, hashKey: String, type: JavaType): T? =
-        redisTemplate.opsForHash<String, T>().get(key, hashKey).outputTransformTo(type)
+        hashOp.get(key, hashKey).outputTransformTo(type)
 
     /**
      * 获取 map 值
@@ -43,7 +44,7 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @return
      */
     public fun <T : Any> get(key: String, hashKey: String, type: TypeReference<T>): T? =
-        redisTemplate.opsForHash<String, T>().get(key, hashKey).outputTransformTo(type)
+        hashOp.get(key, hashKey).outputTransformTo(type)
 
     /**
      * 根据key值获取整个map
@@ -52,7 +53,7 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @return
      */
     public fun entries(key: String): Map<String, Any?> =
-        redisTemplate.opsForHash<String, Any?>().entries(key)
+        hashOp.entries(key)
 }
 
 /**
@@ -102,7 +103,7 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
             return
         }
         if (timeout == 0L) {
-            redisTemplate.boundHashOps<String, Any?>(key).putAll(map)
+            hashOp.putAll(key, map)
         } else {
             redisTemplate.boundHashOps<String, Any?>(key).apply {
                 putAll(map)
@@ -123,7 +124,7 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
         hashKey: String,
         value: T,
     ) {
-        redisTemplate.opsForHash<String, Any>().put(key, hashKey, value.inputTransformTo())
+        hashOp.put(key, hashKey, value.inputTransformTo())
     }
 
     /**
@@ -138,6 +139,6 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
         hashKey: String,
         value: T,
     ) {
-        redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, value.inputTransformTo())
+        hashOp.putIfAbsent(key, hashKey, value.inputTransformTo())
     }
 }

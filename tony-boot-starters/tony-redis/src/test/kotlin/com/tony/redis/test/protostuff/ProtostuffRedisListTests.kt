@@ -1,7 +1,8 @@
-package com.tony.redis.test
+package com.tony.redis.test.protostuff
 
 import com.tony.redis.RedisKeys
 import com.tony.redis.RedisManager
+import com.tony.redis.test.TestRedisApp
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInfo
 import org.junit.jupiter.api.parallel.Execution
@@ -16,10 +17,17 @@ import java.math.BigInteger
  * @author tangli
  * @since 2023/6/14 18:04
  */
-@SpringBootTest(classes = [TestRedisApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class RedisListTests {
+@Suppress("SpringBootApplicationProperties")
+@SpringBootTest(
+    properties = [
+        "redis.serializerMode=PROTOSTUFF",
+    ],
+    classes = [TestRedisApp::class],
+    webEnvironment = SpringBootTest.WebEnvironment.NONE
+)
+class ProtostuffRedisListTests {
 
-    private val logger = LoggerFactory.getLogger(RedisManagerTests::class.java)
+    private val logger = LoggerFactory.getLogger(ProtostuffRedisListTests::class.java)
 
 
     @Execution(ExecutionMode.CONCURRENT)

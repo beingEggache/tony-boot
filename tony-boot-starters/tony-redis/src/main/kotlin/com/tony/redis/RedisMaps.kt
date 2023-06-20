@@ -24,7 +24,7 @@ public object RedisMaps {
     @Suppress("SimplifyBooleanWithConstants")
     @JvmStatic
     public fun hasKey(key: String, hashKey: String): Boolean =
-        true == redisTemplate.opsForHash<String, Any>().hasKey(key, hashKey)
+        true == hashOp.hasKey(key, hashKey)
 
     /**
      * Delete given hash hashKeys.
@@ -36,7 +36,7 @@ public object RedisMaps {
     @Suppress("RedundantNullableReturnType")
     @JvmStatic
     public fun delete(key: String, vararg hashKeys: String): Long? =
-        redisTemplate.opsForHash<String, Any>().delete(key, *hashKeys)
+        hashOp.delete(key, *hashKeys)
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.
@@ -53,9 +53,9 @@ public object RedisMaps {
     public fun increment(key: String, hashKey: String, delta: Long = 1L, initial: Long? = null): Long? =
         RedisManager.doInTransaction {
             if (initial != null) {
-                redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, initial)
+                hashOp.putIfAbsent(key, hashKey, initial)
             }
-            redisTemplate.opsForHash<String, Any>().increment(key, hashKey, delta)
+            hashOp.increment(key, hashKey, delta)
         }.last().asTo()
 
     /**
@@ -74,9 +74,9 @@ public object RedisMaps {
     public fun increment(key: String, hashKey: String, delta: Double = 1.0, initial: Double? = null): Double? =
         RedisManager.doInTransaction {
             if (initial != null) {
-                redisTemplate.opsForHash<String, Any>().putIfAbsent(key, hashKey, initial)
+                hashOp.putIfAbsent(key, hashKey, initial)
             }
-            redisTemplate.opsForHash<String, Any>().increment(key, hashKey, delta)
+            hashOp.increment(key, hashKey, delta)
         }.last().asTo()
 
     /**

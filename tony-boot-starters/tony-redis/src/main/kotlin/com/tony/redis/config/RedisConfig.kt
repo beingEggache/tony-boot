@@ -8,6 +8,7 @@ import com.tony.redis.service.impl.JacksonRedisService
 import com.tony.redis.service.impl.ProtostuffRedisService
 import com.tony.utils.OBJECT_MAPPER
 import org.slf4j.LoggerFactory
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -40,23 +41,31 @@ internal class RedisConfig(
         return DefaultRedisCacheAspect()
     }
 
+    @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "PROTOSTUFF")
     @Bean
-    internal fun redisService(): RedisService =
-        if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
-            ProtostuffRedisService()
-        } else {
-            JacksonRedisService()
-        }
-
-    @Bean
-    internal fun redisSerializer(): RedisSerializer<Any?> {
+    internal fun protostuffSerializer(): ProtostuffSerializer = ProtostuffSerializer().also {
         logger.info("Redis serializer mode is ${redisProperties.serializerMode}")
-        return if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
-            ProtostuffSerializer()
+    }
+
+    @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "PROTOSTUFF")
+    @Bean
+    internal fun protostuffRedisService(): ProtostuffRedisService = ProtostuffRedisService()
+
+    @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON")
+    @Bean
+    internal fun genericJackson2JsonRedisSerializer() = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER).also {
+        if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
+            logger.warn(
+                "Your serializer mode is ${SerializerMode.PROTOSTUFF},but got ${SerializerMode.JACKSON}",
+            )
         } else {
-            GenericJackson2JsonRedisSerializer(OBJECT_MAPPER)
+            logger.info("Redis serializer mode is ${redisProperties.serializerMode}")
         }
     }
+
+    @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON")
+    @Bean
+    internal fun jacksonRedisService(): RedisService = JacksonRedisService()
 
     @Bean("redisTemplate")
     internal fun redisTemplate(

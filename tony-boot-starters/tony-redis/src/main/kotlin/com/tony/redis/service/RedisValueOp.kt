@@ -2,7 +2,7 @@ package com.tony.redis.service
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.redis.redisTemplate
+import com.tony.redis.valueOp
 import java.util.concurrent.TimeUnit
 
 public sealed interface RedisValueOp : RedisValueGetOp, RedisValueSetOp
@@ -28,9 +28,9 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Unit = if (timeout == 0L) {
-        redisTemplate.opsForValue().set(key, value.inputTransformTo())
+        valueOp.set(key, value.inputTransformTo())
     } else {
-        redisTemplate.opsForValue().set(key, value.inputTransformTo(), timeout, timeUnit)
+        valueOp.set(key, value.inputTransformTo(), timeout, timeUnit)
     }
 
     /**
@@ -49,9 +49,9 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Boolean? = if (timeout == 0L) {
-        redisTemplate.opsForValue().setIfAbsent(key, value.inputTransformTo())
+        valueOp.setIfAbsent(key, value.inputTransformTo())
     } else {
-        redisTemplate.opsForValue().setIfAbsent(key, value.inputTransformTo(), timeout, timeUnit)
+        valueOp.setIfAbsent(key, value.inputTransformTo(), timeout, timeUnit)
     }
 
     /**
@@ -70,9 +70,9 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): Boolean? = if (timeout == 0L) {
-        redisTemplate.opsForValue().setIfPresent(key, value.inputTransformTo())
+        valueOp.setIfPresent(key, value.inputTransformTo())
     } else {
-        redisTemplate.opsForValue().setIfPresent(key, value.inputTransformTo(), timeout, timeUnit)
+        valueOp.setIfPresent(key, value.inputTransformTo(), timeout, timeUnit)
     }
 
     /**
@@ -83,21 +83,21 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
      * @return null when key does not exist or used in pipeline / transaction.
      */
     public fun <T : Any> getAndSet(key: String, value: T, type: Class<T>): T? =
-        redisTemplate.opsForValue().getAndSet(key, value.inputTransformTo()).outputTransformTo(type)
+        valueOp.getAndSet(key, value.inputTransformTo()).outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
      * @see [RedisValueSetOp.getAndSet]
      */
     public fun <T : Any> getAndSet(key: String, value: T, type: JavaType): T? =
-        redisTemplate.opsForValue().getAndSet(key, value.inputTransformTo()).outputTransformTo(type)
+        valueOp.getAndSet(key, value.inputTransformTo()).outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
      * @see [RedisValueSetOp.getAndSet]
      */
     public fun <T : Any> getAndSet(key: String, value: T, type: TypeReference<T>): T? =
-        redisTemplate.opsForValue().getAndSet(key, value.inputTransformTo()).outputTransformTo(type)
+        valueOp.getAndSet(key, value.inputTransformTo()).outputTransformTo(type)
 
     /**
      * Return the value at key and expire the key by applying timeout.
@@ -113,7 +113,7 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         type: Class<T>,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? = redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).outputTransformTo(type)
+    ): T? = valueOp.getAndExpire(key, timeout, timeUnit).outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
@@ -124,7 +124,7 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         type: JavaType,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? = redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).outputTransformTo(type)
+    ): T? = valueOp.getAndExpire(key, timeout, timeUnit).outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
@@ -135,7 +135,7 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         type: TypeReference<T>,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? = redisTemplate.opsForValue().getAndExpire(key, timeout, timeUnit).outputTransformTo(type)
+    ): T? = valueOp.getAndExpire(key, timeout, timeUnit).outputTransformTo(type)
 }
 
 /**
@@ -154,21 +154,21 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
      * @return null when key does not exist or used in pipeline / transaction.
      */
     public fun <T : Any> get(key: String, type: Class<T>): T? =
-        redisTemplate.opsForValue().get(key).outputTransformTo(type)
+        valueOp.get(key).outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
      * @see [RedisValueGetOp.get]
      */
     public fun <T : Any> get(key: String, type: JavaType): T? =
-        redisTemplate.opsForValue().get(key).outputTransformTo(type)
+        valueOp.get(key).outputTransformTo(type)
 
     /**
      * @param type 兼容jackson
      * @see [RedisValueGetOp.get]
      */
     public fun <T : Any> get(key: String, type: TypeReference<T>): T? =
-        redisTemplate.opsForValue().get(key).outputTransformTo(type)
+        valueOp.get(key).outputTransformTo(type)
 
     /**
      * Return the value at key and delete the key.
@@ -179,19 +179,19 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
      * @return null when key does not exist or used in pipeline / transaction.
      */
     public fun <T : Any> getAndDelete(key: String, type: Class<T>): T? =
-        redisTemplate.opsForValue().getAndDelete(key).outputTransformTo(type)
+        valueOp.getAndDelete(key).outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
      * @see [RedisValueGetOp.getAndDelete]
      */
     public fun <T : Any> getAndDelete(key: String, type: JavaType): T? =
-        redisTemplate.opsForValue().getAndDelete(key).outputTransformTo(type)
+        valueOp.getAndDelete(key).outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
      * @see [RedisValueGetOp.getAndDelete]
      */
     public fun <T : Any> getAndDelete(key: String, type: TypeReference<T>): T? =
-        redisTemplate.opsForValue().getAndDelete(key).outputTransformTo(type)
+        valueOp.getAndDelete(key).outputTransformTo(type)
 }

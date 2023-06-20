@@ -1,7 +1,11 @@
-package com.tony.redis.test
+package com.tony.redis.test.jackson
 
 import com.tony.redis.RedisKeys
 import com.tony.redis.RedisManager
+import com.tony.redis.test.MyIntEnum
+import com.tony.redis.test.MyStringEnum
+import com.tony.redis.test.Person
+import com.tony.redis.test.TestRedisApp
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInfo
 import org.junit.jupiter.api.parallel.Execution
@@ -14,11 +18,17 @@ import org.springframework.boot.test.context.SpringBootTest
  * @author tangli
  * @since 2021-05-19 15:22
  */
+@Suppress("SpringBootApplicationProperties")
+@SpringBootTest(
+    properties = [
+        "redis.serializerMode=JACKSON",
+    ],
+    classes = [TestRedisApp::class],
+    webEnvironment = SpringBootTest.WebEnvironment.NONE
+)
+class JacksonRedisMapTests {
 
-@SpringBootTest(classes = [TestRedisApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class RedisMapTests {
-
-    private val logger = LoggerFactory.getLogger(RedisManagerTests::class.java)
+    private val logger = LoggerFactory.getLogger(JacksonRedisMapTests::class.java)
 
 
     @Execution(ExecutionMode.CONCURRENT)
