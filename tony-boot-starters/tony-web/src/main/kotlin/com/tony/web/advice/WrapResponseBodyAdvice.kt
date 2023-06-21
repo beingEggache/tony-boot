@@ -5,8 +5,10 @@ import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.ApiResultLike
 import com.tony.ListResult
+import com.tony.fromInternalHeaderName
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
+import com.tony.utils.doIf
 import com.tony.utils.isCollectionLike
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.web.WebApp
@@ -51,7 +53,9 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         request: ServerHttpRequest,
         response: ServerHttpResponse,
     ): ApiResult<*> {
-        response.headers.add(wrapResponseHeaderName, "true")
+        request.headers.containsKey(fromInternalHeaderName).doIf {
+            response.headers.add(wrapResponseHeaderName, "true")
+        }
         return when {
             body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
             !body::class.java.isCollectionLike() -> ApiResult(body, ApiProperty.okCode)

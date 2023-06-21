@@ -20,6 +20,11 @@ class OpenFeignTestUnwrapController : OpenFeignTestApi {
     override fun person(@RequestBody person: Person) = person
 
     @NoLoginCheck
+    override fun validate(@Validated @RequestBody person: Person): Person = person
+
+    override fun unauthorizedException(person: Person): Person = person
+
+    @NoLoginCheck
     override fun exception(@RequestBody person: Person): Person = throw Exception("go fuck yourself")
 
     @NoLoginCheck

@@ -21,25 +21,47 @@ class OpenFeignUnwrapTest {
 
     @Test
     fun testUnwrap() {
-        val personReq = Person(listOf(1, 2, 3).toIntArray(), 123, "432", mapOf("qwe" to 123))
+        val personReq = Person(listOf(1, 2, 3).toIntArray(), 123, "http:", mapOf("qwe" to 123))
+
         val map = openFeignTestUnwrapClient.map(personReq)
-        logger.info(map.toJsonString())
+        logger.info("map ------- ${map.toJsonString()}")
+
         val personResp = openFeignTestUnwrapClient.person(personReq)
-        logger.info(personResp.toJsonString())
+        logger.info("personResp ------- ${personResp.toJsonString()}")
+
+        try {
+            val validate = openFeignTestUnwrapClient.validate(Person(listOf(1, 2, 3).toIntArray(), null, "http:", mapOf("qwe" to 123)))
+            logger.info("validate ------- ${validate.toJsonString()}")
+        }catch (e: Exception){
+            logger.warn("validate exception ------- ${ e.message }")
+        }
+
         try {
             val exception = openFeignTestUnwrapClient.exception(personReq)
-            logger.info(exception.toJsonString())
-        }catch (e:Exception){
+            logger.info("exception -------${exception.toJsonString()}")
+        } catch (e: Exception) {
+            logger.warn("exception exception ------- ${ e.message }")
         }
+
         try {
-            val exception = openFeignTestUnwrapClient.bizException(personReq)
-            logger.info(exception.toJsonString())
-        }catch (e:Exception){
+            val unauthorizedException = openFeignTestUnwrapClient.unauthorizedException(personReq)
+            logger.info("unauthorizedException -------${unauthorizedException.toJsonString()}")
+        } catch (e: Exception) {
+            logger.warn("unauthorizedException exception ------- ${ e.message }")
         }
+
         try {
-            val exception = openFeignTestUnwrapClient.apiException(personReq)
-            logger.info(exception.toJsonString())
-        }catch (e:Exception){
+            val bizException = openFeignTestUnwrapClient.bizException(personReq)
+            logger.info("bizException -------${bizException.toJsonString()}")
+        } catch (e: Exception) {
+            logger.warn("bizException exception ------- ${ e.message }")
+        }
+
+        try {
+            val apiException = openFeignTestUnwrapClient.apiException(personReq)
+            logger.info("apiException -------${apiException.toJsonString()}")
+        } catch (e: Exception) {
+            logger.warn("apiException exception ------- ${ e.message }")
         }
     }
 }

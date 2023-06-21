@@ -8,9 +8,12 @@
  */
 package com.tony.feign.test.unwrap.dto
 
+import javax.validation.constraints.NotNull
+
 
 data class Person(
     val array: IntArray?,
+    @field:NotNull(message = "请输入号码")
     val number: Int?,
     val string: String?,
     val map: Map<String, *>?

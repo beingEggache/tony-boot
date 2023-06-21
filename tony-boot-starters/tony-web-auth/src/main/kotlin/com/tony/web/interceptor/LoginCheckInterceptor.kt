@@ -9,6 +9,7 @@ import com.tony.web.WebContext
 import com.tony.web.WebContextExtensions.apiSession
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
+import java.lang.annotation.Inherited
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
+@Inherited
 public annotation class NoLoginCheck
 
 /**

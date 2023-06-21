@@ -3,6 +3,8 @@ package com.tony.web.advice
 import com.tony.ApiProperty
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
+import com.tony.fromInternalHeaderName
+import com.tony.utils.doIf
 import com.tony.utils.getLogger
 import com.tony.web.WebApp.badRequest
 import com.tony.web.WebApp.errorResponse
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import javax.validation.ConstraintViolationException
 
 /**
@@ -36,27 +40,45 @@ internal class ExceptionHandler : ErrorController {
     private val logger = getLogger()
 
     @ExceptionHandler(BizException::class)
-    fun bizException(e: BizException) =
+    fun bizException(
+        e: BizException,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+    ) =
         e.toResponse()
-            .also {
-                WebContext.response?.addHeader(wrapExceptionHeaderName, "true")
+            .doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
+                response.addHeader(wrapExceptionHeaderName, "true")
             }
 
     @ExceptionHandler(ApiException::class)
-    fun apiException(e: ApiException) = run {
-        e.cause?.apply {
-            logger.warn(message, cause)
+    fun apiException(
+        e: ApiException,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+    ) =
+        run {
+            e.cause?.apply {
+                logger.warn(message, cause)
+            }
+            e.toResponse()
+        }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
+            response.addHeader(wrapExceptionHeaderName, "true")
         }
-        e.toResponse()
-    }.also { WebContext.response?.addHeader(wrapExceptionHeaderName, "true") }
 
     @ExceptionHandler(Exception::class)
-    fun exception(e: Exception) = run {
-        logger.error(e.message, e)
-        // handle the json generate exception
-        WebContext.response?.resetBuffer()
-        errorResponse(ApiProperty.errorMsg)
-    }.also { WebContext.response?.addHeader(wrapExceptionHeaderName, "true") }
+    fun exception(
+        e: Exception,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+    ) =
+        run {
+            logger.error(e.message, e)
+            // handle the json generate exception
+            response.resetBuffer()
+            errorResponse(ApiProperty.errorMsg)
+        }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
+            response.addHeader(wrapExceptionHeaderName, "true")
+        }
 
     private fun bindingResultMessages(bindingResult: BindingResult) =
         bindingResult.fieldErrors.first().let {
@@ -65,19 +87,29 @@ internal class ExceptionHandler : ErrorController {
             } else {
                 it.defaultMessage ?: ""
             }
-        }.also { WebContext.response?.addHeader(wrapExceptionHeaderName, "true") }
+        }
 
     @ExceptionHandler(BindException::class)
-    fun bindingResultException(e: BindException) =
-        badRequest(bindingResultMessages(e.bindingResult)).also {
-            WebContext.response?.addHeader(wrapExceptionHeaderName, "true")
-        }
+    fun bindingResultException(
+        e: BindException,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+    ) =
+        badRequest(bindingResultMessages(e.bindingResult))
+            .doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
+                response.addHeader(wrapExceptionHeaderName, "true")
+            }
 
     @ExceptionHandler(ConstraintViolationException::class)
-    fun constraintViolationException(e: ConstraintViolationException) =
-        badRequest(e.constraintViolations.first().message).also {
-            WebContext.response?.addHeader(wrapExceptionHeaderName, "true")
-        }
+    fun constraintViolationException(
+        e: ConstraintViolationException,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+    ) =
+        badRequest(e.constraintViolations.first().message)
+            .doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
+                response.addHeader(wrapExceptionHeaderName, "true")
+            }
 
     @ExceptionHandler(
         value = [
@@ -86,16 +118,24 @@ internal class ExceptionHandler : ErrorController {
             HttpRequestMethodNotSupportedException::class,
         ],
     )
-    fun badRequestException(e: Exception) = run {
-        logger.warn(e.localizedMessage)
-        badRequest(ApiProperty.badRequestMsg).also {
-            WebContext.response?.addHeader(wrapExceptionHeaderName, "true")
+    fun badRequestException(
+        e: Exception,
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+    ) =
+        run {
+            logger.warn(e.localizedMessage)
+            badRequest(ApiProperty.badRequestMsg)
+        }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
+            response.addHeader(wrapExceptionHeaderName, "true")
         }
-    }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
     @ResponseStatus(HttpStatus.OK)
-    fun error() = when {
+    fun error(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+    ) = when {
         WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
         WebContext.httpStatus >= 500 -> {
             logger.error(WebContext.errorMessage)
@@ -103,7 +143,7 @@ internal class ExceptionHandler : ErrorController {
         }
 
         else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
-    }.also {
-        WebContext.response?.addHeader(wrapExceptionHeaderName, "true")
+    }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
+        response.addHeader(wrapExceptionHeaderName, "true")
     }
 }

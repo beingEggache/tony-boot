@@ -2,6 +2,7 @@ package com.tony.feign.config
 
 import com.tony.feign.decoder.DefaultErrorDecoder
 import com.tony.feign.decoder.UnwrapResponseDecoder
+import com.tony.feign.interceptor.AddCommonHeaderInterceptor
 import com.tony.feign.interceptor.AppInterceptor
 import com.tony.feign.interceptor.NetworkInterceptor
 import com.tony.feign.log.DefaultFeignRequestTraceLogger
@@ -64,6 +65,9 @@ public class FeignConfig {
     internal fun feignLogInterceptor(
         feignRequestTraceLogger: FeignRequestTraceLogger,
     ) = FeignLogInterceptor(feignRequestTraceLogger)
+
+    @Bean
+    internal fun addCommonHeaderInterceptor() = AddCommonHeaderInterceptor()
 
     @ConditionalOnExpression("\${feign.okhttp.enabled:true}")
     @ConditionalOnMissingBean(OkHttpClient::class)
