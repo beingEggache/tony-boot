@@ -156,6 +156,12 @@ internal class RequestBodyFieldInjectorComposite(
     }
 
     fun supports(targetType: Class<*>): Boolean {
+        val targetTypeSupport = supportedClassesCache[targetType]
+
+        if (targetTypeSupport != null) {
+            return targetTypeSupport
+        }
+
         val annotatedFields =
             targetType
                 .declaredFields
