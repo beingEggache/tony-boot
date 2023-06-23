@@ -156,7 +156,9 @@ internal class RequestBodyFieldInjectorComposite(
             return false
         }
 
-        return supportedClassesCache[targetType] ?: getSupportsAndProcessCache(targetType, annotatedFields)
+        return supportedClassesCache[targetType] ?: synchronized(supportedClassesCache) {
+            getSupportsAndProcessCache(targetType, annotatedFields)
+        }
     }
 
     private fun getSupportsAndProcessCache(targetType: Class<*>, annotatedFields: List<Field>): Boolean {
@@ -181,11 +183,15 @@ internal class RequestBodyFieldInjectorComposite(
                                 field.name == injector.name
                             }
                         }
-                        .onEach {
-                            supportedClassFieldsCache
-                                .getOrPut(targetType) { ConcurrentHashMap() }
-                                .getOrPut(injector.name) { mutableListOf() }
-                                .add(it)
+                        .apply {
+                            synchronized(supportedClassFieldsCache) {
+                                onEach {
+                                    supportedClassFieldsCache
+                                        .getOrPut(targetType) { ConcurrentHashMap() }
+                                        .getOrPut(injector.name) { mutableListOf() }
+                                        .add(it)
+                                }
+                            }
                         }
                         .isNotEmpty()
                 }.let {
