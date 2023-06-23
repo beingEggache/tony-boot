@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.util.ReflectionUtils
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentMap
 import java.util.function.Supplier
 
 /**
@@ -63,25 +64,43 @@ internal class RequestBodyFieldInjectorComposite(
         @JvmStatic
         private val supportedClassesCache = ConcurrentHashMap<Class<*>, Boolean>()
 
+        /**
+         * <被注入的类, <注入器名, 被注入的类字段列表>>
+         */
         @JvmStatic
-        private val supportedClassFieldsCache: ConcurrentHashMap<Class<*>, MutableMap<String, Field>> =
-            ConcurrentHashMap<Class<*>, MutableMap<String, Field>>()
+        private val supportedClassFieldsCache =
+            ConcurrentHashMap<Class<*>, ConcurrentMap<String, MutableList<Field>>>()
 
         @JvmStatic
-        private val supportedInjector: ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector>> =
-            ConcurrentHashMap<Class<*>, MutableMap<String, RequestBodyFieldInjector>>()
+        private val supportedInjector =
+            ConcurrentHashMap<Class<*>, ConcurrentMap<String, RequestBodyFieldInjector>>()
     }
 
     fun injectValues(body: Any): Any {
         val bodyClass = body::class.java
-        val fieldMap = supportedClassFieldsCache[bodyClass]
+        val fieldListMap = supportedClassFieldsCache[bodyClass]
         val injectorMap = supportedInjector[bodyClass]
 
         val removedInjectorNames = injectorMap
             ?.values
             ?.filter { injector ->
-                val field = fieldMap?.getValue(injector.name) ?: return@filter false
-                !injector.internalInject(field, body)
+                val fieldList = fieldListMap?.getValue(injector.name) ?: return@filter false
+                val injectResultList = fieldList.map { field ->
+                    field to injector.internalInject(field, body)
+                }
+                synchronized(fieldListMap) {
+                    injectResultList.forEachIndexed { index, (field, injectResult) ->
+                        if (!injectResult) {
+                            fieldList.removeAt(index)
+                            logger.warn("${bodyClass.simpleName}.${field.name} inject failed, remove supports.")
+                        }
+                    }
+                    if (fieldList.isEmpty()) {
+                        logger.warn("${bodyClass.simpleName} inject supports field is empty.")
+                        fieldListMap.remove(injector.name)
+                    }
+                }
+                fieldList.isEmpty()
             }
             ?.map { it.name }
         removeInjectorSupports(bodyClass, removedInjectorNames)
@@ -164,11 +183,16 @@ internal class RequestBodyFieldInjectorComposite(
                         }
                         .onEach {
                             supportedClassFieldsCache
-                                .getOrPut(targetType) { mutableMapOf() }
-                                .putIfAbsent(injector.name, it)
+                                .getOrPut(targetType) { ConcurrentHashMap() }
+                                .getOrPut(injector.name) { mutableListOf() }
+                                .add(it)
                         }
                         .isNotEmpty()
-                }.toMutableMap()
+                }.let {
+                    ConcurrentHashMap<String, RequestBodyFieldInjector>().apply {
+                        putAll(it)
+                    }
+                }
         }
         val targetTypeSupport = supportsInjectors.isNotEmpty()
         supportedClassesCache[targetType] = targetTypeSupport

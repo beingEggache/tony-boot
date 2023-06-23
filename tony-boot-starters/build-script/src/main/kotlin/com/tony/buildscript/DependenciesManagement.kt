@@ -171,7 +171,7 @@ internal object DepsManagement {
         const val okhttp = "com.squareup.okhttp3:okhttp:4.11.0"
 
         const val commonFileUpload = "commons-fileupload:commons-fileupload:1.5"
-        const val commonsCodec = "commons-codec:commons-codec:1.15"
+        const val commonsCodec = "commons-codec:commons-codec:1.16.0"
         const val commonsIo = "commons-io:commons-io:2.13.0"
         const val commonsCompress = "org.apache.commons:commons-compress:1.23.0"
         const val commonsPool2 = "org.apache.commons:commons-pool2:2.11.1"

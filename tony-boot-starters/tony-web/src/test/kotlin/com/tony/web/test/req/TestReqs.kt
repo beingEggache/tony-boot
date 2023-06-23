@@ -40,22 +40,26 @@ data class TestRemoveInjectTestReq(
 
 @Schema(description = "测试请求注入")
 data class TestInjectReq<T1, T2, T3, T4>(
-    @field:InjectRequestBodyField("go fuck Yourself")
+    @field:InjectRequestBodyField
     val string: String? = null,
-    @field:InjectRequestBodyField("list")
+    @field:InjectRequestBodyField("string")
+    val string1: String? = null,
+    @field:InjectRequestBodyField
     val int: Int? = null,
+    @field:InjectRequestBodyField("int")
+    val int2: Int? = null,
     @field:InjectRequestBodyField("go fuck Yourself")
     val map: Map<String, String>? = null,
-    @field:InjectRequestBodyField
+    @field:InjectRequestBodyField("list")
     val objList: List<TestLoginReq>? = null,
-    @field:InjectRequestBodyField("go fuck Yourself")
+    @field:InjectRequestBodyField("list")
     val objMap: Map<String, TestLoginReq>? = null,
     @field:InjectRequestBodyField
     val list: T1? = null,
-    @field:InjectRequestBodyField("list")
+    @field:InjectRequestBodyField("go fuck Yourself")
     val testTypeParam2: T2? = null,
-    @field:InjectRequestBodyField("list")
+    @field:InjectRequestBodyField("go fuck Yourself")
     val testTypeParam3: T3? = null,
-    @field:InjectRequestBodyField("list")
+    @field:InjectRequestBodyField("go fuck Yourself")
     val testTypeParam4: T4? = null,
 )
