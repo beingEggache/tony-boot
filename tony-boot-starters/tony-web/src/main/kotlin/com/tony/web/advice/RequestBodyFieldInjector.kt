@@ -72,14 +72,14 @@ internal class RequestBodyFieldInjectorComposite(
             ConcurrentHashMap<Class<*>, ConcurrentMap<String, MutableList<Field>>>()
 
         @JvmStatic
-        private val supportedInjector =
+        private val classSupportedInjectorMap =
             ConcurrentHashMap<Class<*>, ConcurrentMap<String, RequestBodyFieldInjector>>()
     }
 
     fun injectValues(body: Any): Any {
         val bodyClass = body::class.java
         val fieldListMap = supportedClassFieldsCache[bodyClass]
-        val injectorMap = supportedInjector[bodyClass]
+        val injectorMap = classSupportedInjectorMap[bodyClass]
 
         val removedInjectorNames = injectorMap
             ?.values
@@ -112,7 +112,7 @@ internal class RequestBodyFieldInjectorComposite(
         targetType: Class<*>,
     ) {
         val fieldMap = supportedClassFieldsCache[targetType]
-        val injectorMap = supportedInjector[targetType]
+        val injectorMap = classSupportedInjectorMap[targetType]
 
         if (injectorMap?.size == 0 && fieldMap?.size == 0) {
             synchronized(supportedClassesCache) {
@@ -132,9 +132,9 @@ internal class RequestBodyFieldInjectorComposite(
             return
         }
         val fieldMap = supportedClassFieldsCache[targetType]
-        val injectorMap = supportedInjector[targetType]
+        val injectorMap = classSupportedInjectorMap[targetType]
 
-        synchronized(supportedInjector) {
+        synchronized(classSupportedInjectorMap) {
             injectorNameList.forEach {
                 logger.warn("${targetType.simpleName} remove ${injectorMap?.remove(it)} supports")
             }
@@ -156,13 +156,24 @@ internal class RequestBodyFieldInjectorComposite(
             return false
         }
 
-        return supportedClassesCache[targetType] ?: synchronized(supportedClassesCache) {
-            getSupportsAndProcessCache(targetType, annotatedFields)
-        }
+        return supportedClassesCache[targetType] ?: getSupportsAndProcessCache(targetType, annotatedFields)
     }
 
-    private fun getSupportsAndProcessCache(targetType: Class<*>, annotatedFields: List<Field>): Boolean {
-        val supportsInjectors = supportedInjector.getOrPut(targetType) {
+    private fun getSupportsAndProcessCache(targetType: Class<*>, annotatedFields: List<Field>): Boolean =
+        supportedClassesCache.getOrPut(targetType) {
+            synchronized(supportedClassFieldsCache) {
+                processSupportedInjectors(
+                    targetType,
+                    annotatedFields
+                ).isNotEmpty()
+            }
+        }
+
+    private fun processSupportedInjectors(
+        targetType: Class<*>,
+        annotatedFields: List<Field>
+    ): ConcurrentMap<String, RequestBodyFieldInjector> =
+        classSupportedInjectorMap.getOrPut(targetType) {
             requestBodyFieldInjectors
                 .associateBy {
                     it.name
@@ -170,28 +181,13 @@ internal class RequestBodyFieldInjectorComposite(
                 .filterValues { injector ->
                     annotatedFields
                         .filter { field ->
-                            /*
-                             * 当 [InjectRequestBodyField.value] 为空字符串时判断 [Field.getName]和[RequestBodyFieldInjector.name]是否相等.
-                             *
-                             * 否则判断 [InjectRequestBodyField.value]和[RequestBodyFieldInjector.name]是否相等.
-                             *
-                             */
-                            val annotation = field.getAnnotation(InjectRequestBodyField::class.java)
-                            if (annotation.value.isNotBlank()) {
-                                annotation.value == injector.name
-                            } else {
-                                field.name == injector.name
-                            }
+                            isFieldBasicSupport(field, injector)
                         }
-                        .apply {
-                            synchronized(supportedClassFieldsCache) {
-                                onEach {
-                                    supportedClassFieldsCache
-                                        .getOrPut(targetType) { ConcurrentHashMap() }
-                                        .getOrPut(injector.name) { mutableListOf() }
-                                        .add(it)
-                                }
-                            }
+                        .onEach {
+                            supportedClassFieldsCache
+                                .getOrPut(targetType) { ConcurrentHashMap() }
+                                .getOrPut(injector.name) { mutableListOf() }
+                                .add(it)
                         }
                         .isNotEmpty()
                 }.let {
@@ -200,8 +196,19 @@ internal class RequestBodyFieldInjectorComposite(
                     }
                 }
         }
-        val targetTypeSupport = supportsInjectors.isNotEmpty()
-        supportedClassesCache[targetType] = targetTypeSupport
-        return targetTypeSupport
+
+    private fun isFieldBasicSupport(field: Field, injector: RequestBodyFieldInjector): Boolean {
+        /*
+         * 当 [InjectRequestBodyField.value] 为空字符串时判断 [Field.getName]和[RequestBodyFieldInjector.name]是否相等.
+         *
+         * 否则判断 [InjectRequestBodyField.value]和[RequestBodyFieldInjector.name]是否相等.
+         *
+         */
+        val annotation = field.getAnnotation(InjectRequestBodyField::class.java)
+        return if (annotation.value.isNotBlank()) {
+            annotation.value == injector.name
+        } else {
+            field.name == injector.name
+        }
     }
 }
