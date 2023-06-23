@@ -4,7 +4,6 @@ import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.util.ReflectionUtils
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
@@ -35,11 +34,11 @@ public open class RequestBodyFieldInjector(
     }
 
     protected open fun inject(annotatedField: Field, body: Any) {
-        ReflectionUtils.setField(annotatedField, body, value.get())
+        annotatedField.set(body, value.get())
     }
 
     internal fun internalInject(annotatedField: Field, body: Any): Boolean {
-        ReflectionUtils.makeAccessible(annotatedField)
+        annotatedField.trySetAccessible()
         return try {
             inject(annotatedField, body)
             true
@@ -88,24 +87,34 @@ internal class RequestBodyFieldInjectorComposite(
                 val injectResultList = fieldList.map { field ->
                     field to injector.internalInject(field, body)
                 }
-                synchronized(fieldListMap) {
-                    injectResultList.forEachIndexed { index, (field, injectResult) ->
-                        if (!injectResult) {
-                            fieldList.removeAt(index)
-                            logger.warn("${bodyClass.simpleName}.${field.name} inject failed, remove supports.")
-                        }
-                    }
-                    if (fieldList.isEmpty()) {
-                        logger.warn("${bodyClass.simpleName} inject supports field is empty.")
-                        fieldListMap.remove(injector.name)
-                    }
-                }
-                fieldList.isEmpty()
+                injectorHasNoSupportedFields(fieldListMap, injectResultList, fieldList, bodyClass, injector.name)
             }
             ?.map { it.name }
         removeInjectorSupports(bodyClass, removedInjectorNames)
         removeClassSupports(bodyClass)
         return body
+    }
+
+    private fun injectorHasNoSupportedFields(
+        fieldListMap: ConcurrentMap<String, MutableList<Field>>,
+        injectResultList: List<Pair<Field, Boolean>>,
+        fieldList: MutableList<Field>,
+        bodyClass: Class<out Any>,
+        injectorName: String
+    ): Boolean {
+        synchronized(fieldListMap) {
+            injectResultList.forEachIndexed { index, (field, injectResult) ->
+                if (!injectResult) {
+                    fieldList.removeAt(index)
+                    logger.warn("${bodyClass.simpleName}.${field.name} inject failed, remove supports.")
+                }
+            }
+            if (fieldList.isEmpty()) {
+                logger.warn("${bodyClass.simpleName} inject supports field is empty.")
+                fieldListMap.remove(injectorName)
+            }
+        }
+        return fieldList.isEmpty()
     }
 
     private fun removeClassSupports(
@@ -156,22 +165,19 @@ internal class RequestBodyFieldInjectorComposite(
             return false
         }
 
-        return supportedClassesCache[targetType] ?: getSupportsAndProcessCache(targetType, annotatedFields)
-    }
-
-    private fun getSupportsAndProcessCache(targetType: Class<*>, annotatedFields: List<Field>): Boolean =
-        supportedClassesCache.getOrPut(targetType) {
+        return supportedClassesCache.getOrPut(targetType) {
             synchronized(supportedClassFieldsCache) {
                 processSupportedInjectors(
                     targetType,
-                    annotatedFields
+                    annotatedFields,
                 ).isNotEmpty()
             }
         }
+    }
 
     private fun processSupportedInjectors(
         targetType: Class<*>,
-        annotatedFields: List<Field>
+        annotatedFields: List<Field>,
     ): ConcurrentMap<String, RequestBodyFieldInjector> =
         classSupportedInjectorMap.getOrPut(targetType) {
             requestBodyFieldInjectors
@@ -179,23 +185,29 @@ internal class RequestBodyFieldInjectorComposite(
                     it.name
                 }
                 .filterValues { injector ->
-                    annotatedFields
-                        .filter { field ->
-                            isFieldBasicSupport(field, injector)
-                        }
-                        .onEach {
-                            supportedClassFieldsCache
-                                .getOrPut(targetType) { ConcurrentHashMap() }
-                                .getOrPut(injector.name) { mutableListOf() }
-                                .add(it)
-                        }
-                        .isNotEmpty()
+                    hasSupportInjectorFields(annotatedFields, injector, targetType)
                 }.let {
                     ConcurrentHashMap<String, RequestBodyFieldInjector>().apply {
                         putAll(it)
                     }
                 }
         }
+
+    private fun hasSupportInjectorFields(
+        annotatedFields: List<Field>,
+        injector: RequestBodyFieldInjector,
+        targetType: Class<*>
+    ) = annotatedFields
+        .filter { field ->
+            isFieldBasicSupport(field, injector)
+        }
+        .onEach {
+            supportedClassFieldsCache
+                .getOrPut(targetType) { ConcurrentHashMap() }
+                .getOrPut(injector.name) { mutableListOf() }
+                .add(it)
+        }
+        .isNotEmpty()
 
     private fun isFieldBasicSupport(field: Field, injector: RequestBodyFieldInjector): Boolean {
         /*
