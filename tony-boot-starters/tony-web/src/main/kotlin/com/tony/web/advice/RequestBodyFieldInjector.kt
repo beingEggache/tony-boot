@@ -205,7 +205,11 @@ internal class RequestBodyFieldInjectorComposite(
         targetType: Class<*>
     ) = annotatedFields
         .filter { field ->
-            isFieldBasicSupport(field, injector)
+            isFieldSupportByAnnoValueOrFieldName(
+                field.name,
+                field.getAnnotation(InjectRequestBodyField::class.java).value,
+                injector.name,
+            )
         }
         .onEach {
             supportedClassFieldsCache
@@ -215,18 +219,16 @@ internal class RequestBodyFieldInjectorComposite(
         }
         .isNotEmpty()
 
-    private fun isFieldBasicSupport(field: Field, injector: RequestBodyFieldInjector): Boolean {
-        /*
-         * 当 [InjectRequestBodyField.value] 为空字符串时判断 [Field.getName]和[RequestBodyFieldInjector.name]是否相等.
-         *
-         * 否则判断 [InjectRequestBodyField.value]和[RequestBodyFieldInjector.name]是否相等.
-         *
-         */
-        val annotation = field.getAnnotation(InjectRequestBodyField::class.java)
-        return if (annotation.value.isNotBlank()) {
-            annotation.value == injector.name
+    /**
+     * 根据注解值或字段名 判断字段是否支持注入
+     * @param fieldName 将被注入的字段名
+     * @param annotationValue 注解上的值
+     * @param injectorName 注入器的名
+     */
+    private fun isFieldSupportByAnnoValueOrFieldName(fieldName: String, annotationValue: String, injectorName: String): Boolean =
+        if (annotationValue.isNotBlank()) {
+            annotationValue == injectorName
         } else {
-            field.name == injector.name
+            fieldName == injectorName
         }
-    }
 }
