@@ -100,7 +100,7 @@ internal class RequestBodyFieldInjectorComposite(
         injectResultList: List<Pair<Field, Boolean>>,
         fieldList: MutableList<Field>,
         bodyClass: Class<out Any>,
-        injectorName: String
+        injectorName: String,
     ): Boolean {
         synchronized(fieldListMap) {
             injectResultList.forEachIndexed { index, (field, injectResult) ->
@@ -202,7 +202,7 @@ internal class RequestBodyFieldInjectorComposite(
     private fun hasSupportInjectorFields(
         annotatedFields: List<Field>,
         injector: RequestBodyFieldInjector,
-        targetType: Class<*>
+        targetType: Class<*>,
     ) = annotatedFields
         .filter { field ->
             isFieldSupportByAnnoValueOrFieldName(
