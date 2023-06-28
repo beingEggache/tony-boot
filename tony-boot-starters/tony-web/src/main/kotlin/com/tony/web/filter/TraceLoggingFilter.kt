@@ -2,7 +2,7 @@ package com.tony.web.filter
 
 import com.tony.traceIdHeaderName
 import com.tony.utils.antPathMatchAny
-import com.tony.utils.defaultIfBlank
+import com.tony.utils.mdcPutOrGetDefault
 import com.tony.utils.sanitizedPath
 import com.tony.utils.toInstant
 import com.tony.utils.uuid
@@ -109,8 +109,10 @@ internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
         chain: FilterChain,
     ) {
         try {
-            val traceId = request.getHeader(traceIdHeaderName).defaultIfBlank(uuid())
-            MDC.put(traceIdHeaderName, traceId)
+            val traceId =
+                mdcPutOrGetDefault(traceIdHeaderName, uuid()) {
+                    request.getHeader(traceIdHeaderName)
+                }
             response.setHeader(traceIdHeaderName, traceId)
             chain.doFilter(request, response)
         } finally {

@@ -72,7 +72,7 @@ public fun CharSequence.queryStringToMap(): Map<String, String> =
 /**
  * 将queryString字符串转为对象， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
  */
-public inline fun <reified T> CharSequence.deepLinkToObj(): T =
+public inline fun <reified T> CharSequence.queryStringToObj(): T =
     toString()
         .queryStringToMap()
         .toJsonString()

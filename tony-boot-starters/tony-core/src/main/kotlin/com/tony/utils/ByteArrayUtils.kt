@@ -57,18 +57,12 @@ public fun ByteArray.decodeBase64UrlSafe(): ByteArray =
 /**
  * 0123456789abcdef
  */
-internal val DIGITS_LOWER =
-    byteArrayOf(
-        48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102,
-    )
+internal val DIGITS_LOWER = "0123456789abcdef".toCharArray().map { it.code.toByte() }.toByteArray()
 
 /**
  * 0123456789ABCDEF
  */
-internal val DIGITS_UPPER =
-    byteArrayOf(
-        48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70,
-    )
+internal val DIGITS_UPPER = "0123456789ABCDEF".toCharArray().map { it.code.toByte() }.toByteArray()
 
 /**
  * encode Hex

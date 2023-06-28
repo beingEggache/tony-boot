@@ -225,7 +225,11 @@ internal class RequestBodyFieldInjectorComposite(
      * @param annotationValue 注解上的值
      * @param injectorName 注入器的名
      */
-    private fun isFieldSupportByAnnoValueOrFieldName(fieldName: String, annotationValue: String, injectorName: String): Boolean =
+    private fun isFieldSupportByAnnoValueOrFieldName(
+        fieldName: String,
+        annotationValue: String,
+        injectorName: String,
+    ): Boolean =
         if (annotationValue.isNotBlank()) {
             annotationValue == injectorName
         } else {
