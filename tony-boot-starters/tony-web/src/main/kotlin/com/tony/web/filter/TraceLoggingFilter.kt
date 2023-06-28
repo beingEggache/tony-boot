@@ -92,7 +92,7 @@ internal class TraceLoggingFilter(
             .plus(WebApp.whiteUrlPatternsWithContextPath)
     }
 
-    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 1
+    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 2
 }
 
 /**
