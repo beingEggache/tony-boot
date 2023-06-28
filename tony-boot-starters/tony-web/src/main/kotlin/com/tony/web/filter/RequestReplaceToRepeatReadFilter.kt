@@ -47,7 +47,7 @@ internal class RequestReplaceToRepeatReadFilter(
     override fun shouldNotFilter(request: HttpServletRequest) =
         request.requestURI.antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
 
-    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE
+    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 1
 
     private val excludedUrls by lazy {
         webProperties.traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") }
