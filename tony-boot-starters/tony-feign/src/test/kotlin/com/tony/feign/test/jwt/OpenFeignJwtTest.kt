@@ -8,6 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import javax.annotation.Resource
 
 @SpringBootTest(
+    properties = [
+        "jwt.secret: $secret",
+    ],
     classes = [OpenFeignTestJwtApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
@@ -20,7 +23,7 @@ class OpenFeignJwtTest {
 
     @Test
     fun testJwt() {
-        val login = openFeignTestJwtClient.testLogin(LoginReq("123", "pwd"))
+        val login = openFeignTestJwtClient.login(LoginReq("123", "pwd"))
         logger.info(login)
     }
 }

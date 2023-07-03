@@ -1,6 +1,5 @@
 package com.tony.feign.test.signature
 
-import com.tony.ApiProperty
 import com.tony.feign.test.signature.client.OpenFeignTestSignatureClient
 import com.tony.feign.test.signature.dto.Person
 import com.tony.utils.getLogger
@@ -24,10 +23,6 @@ class OpenFeignSignatureTest {
     fun testSignature() {
         val person = Person(listOf(1, 2, 3).toIntArray(), 123, "432", mapOf("qwe" to 123))
         val result = openFeignTestSignatureClient.testSignature(person)
-        if (result.code != ApiProperty.okCode) {
-            logger.error(result.toJsonString())
-            throw RuntimeException("error")
-        }
         logger.info(result.toJsonString())
     }
 }

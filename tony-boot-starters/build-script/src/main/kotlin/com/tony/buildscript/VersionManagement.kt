@@ -33,14 +33,14 @@ object VersionManagement  {
     const val byteBuddyVersion = "1.14.5"
     const val bouncycastleVersion = "1.75"
     const val javaJwtVersion = "4.4.0"
-    const val guavaVersion = "32.0.1-jre"
+    const val guavaVersion = "32.1.1-jre"
 
     const val swaggerV3Version = "2.2.14"
     const val knife4jVersion = "4.1.0"
     const val springdocVersion = "1.7.0"
 
     const val springCloudAlibabaVersion = "2021.0.5.0"
-    const val springCloudVersion = "2021.0.7"
+    const val springCloudVersion = "2021.0.8"
 
     const val alipaySdkJavaVersion = "4.35.171.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.30"

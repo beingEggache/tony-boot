@@ -9,6 +9,3 @@ server:
   port: 8080
 test-file-path-to: "C://workspace//test"
 test-file-path-from: "C://Users//being//Pictures"
-jwt:
-  secret: saoidadsio3jsdfn12323
-

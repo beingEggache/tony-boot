@@ -13,3 +13,8 @@ data class LoginReq(
     val account: String?,
     val pwd: String?
 )
+
+data class Person(
+    val name: String,
+    val age: Int
+)

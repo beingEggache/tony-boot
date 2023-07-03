@@ -9,3 +9,5 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 @SpringBootApplication
 class OpenFeignTestJwtApp
 
+const val secret = "saoidadsio3jsdfn12323"
+
