@@ -189,6 +189,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 2. 根据条件删除一条数据: `update().eq("column", value).remove()`
      *
      */
+
     /**
      * 链式查询 普通
      *
@@ -199,16 +200,22 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     /**
      * 链式查询 lambda 式
      *
-     * 注意：不支持 Kotlin
+     * <p>注意：不支持 Kotlin </p>
      *
      * @return LambdaQueryWrapper 的包装类
      */
     public fun lambdaQuery(): TonyLambdaQueryChainWrapper<T> = TonyLambdaQueryChainWrapper(this)
 
     /**
+     * 链式查询 普通
+     * kotlin 使用
+     * @return QueryWrapper 的包装类
+     */
+    public fun ktQuery(): TonyKtQueryChainWrapper<T> = TonyKtQueryChainWrapper(this)
+
+    /**
      * 链式查询 lambda 式
      * kotlin 使用
-     *
      * @return KtQueryWrapper 的包装类
      */
     public fun ktUpdate(): KtUpdateChainWrapper<T> = ChainWrappers.ktUpdateChain(this, getEntityClass())

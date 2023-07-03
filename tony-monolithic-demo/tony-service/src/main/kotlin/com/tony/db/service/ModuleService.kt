@@ -1,5 +1,6 @@
 package com.tony.db.service
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.tony.db.CacheKeys
 import com.tony.db.dao.ModuleDao
 import com.tony.db.po.Module
@@ -59,7 +60,7 @@ class ModuleService(
     @Transactional
     fun saveModules(modules: List<Module>, moduleType: List<ModuleType>, appId: String) {
         throwIf(modules.isEmpty(), "模块列表为空")
-        moduleDao.delete(where<Module>().`in`(Module::moduleType, moduleType))
+        moduleDao.delete(Wrappers.lambdaQuery(Module::class.java).`in`(Module::moduleType, moduleType))
         modules.forEach {
             it.appId = appId
             moduleDao.insert(it)
@@ -68,11 +69,17 @@ class ModuleService(
     }
 
     fun tree(moduleTypes: List<ModuleType>) =
-        moduleDao.selectList(where<Module>().`in`(Module::moduleType, moduleTypes)).map { it.toDto() }
+        moduleDao
+            .lambdaQuery()
+            .`in`(Module::moduleType, moduleTypes)
+            .list()
+            .map { it.toDto() }
             .listAndSetChildren()
 
     fun listModuleGroups(appId: String) =
-        moduleDao.selectList(where<Module>().eq(Module::appId, appId))
+        moduleDao.lambdaQuery()
+            .eq(Module::appId, appId)
+            .list()
             .filter { !it.moduleGroup.isNullOrEmpty() }
             .flatMap { it.moduleGroup.defaultIfBlank().split(",") }
             .distinct()

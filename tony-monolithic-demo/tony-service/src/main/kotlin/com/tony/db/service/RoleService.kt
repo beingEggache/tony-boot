@@ -59,7 +59,6 @@ class RoleService(
             .query()
             .like(!query.isNullOrBlank(), Role::roleName, query)
             .page(Page(page, size))
-            .toPageResult()
 
     fun selectByUserId(userId: String?, appId: String): List<Role> = roleDao.selectByUserId(userId, appId)
 

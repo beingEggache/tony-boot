@@ -5,6 +5,7 @@ import com.tony.exception.ApiException
 import com.tony.exception.BaseException
 import com.tony.exception.BizException
 import com.tony.utils.asTo
+import java.util.Collections
 
 /**
  * 全局响应统一结构.
@@ -359,50 +360,29 @@ public data class PageResult<T>(
 public interface Pageable {
 
     /**
-     * get 页码
-     * @return 页码
+     * 页码,当前页
      */
-    public fun getPage(): Long? = 0L
+    public var page: Long?
 
     /**
-     * set 页码
-     * @param page 页码
+     * 每页数量
      */
-    public fun setPage(page: Long?): Unit = Unit
+    public var size: Long?
 
     /**
-     * get 每页数量
-     * @return 页码
+     * 升序字段
      */
-    public fun getSize(): Long? = 0L
+    public var ascs: MutableCollection<out CharSequence?>?
 
     /**
-     * set 每页数量
-     * @param size 页码
+     * 降序字段
      */
-    public fun setSize(size: Long?): Unit = Unit
-
-    /**
-     * get 倒序排序字段
-     * @return 倒序排序字段
-     */
-    public fun getDescs(): MutableCollection<String?>? = mutableListOf()
-
-    /**
-     * set 倒序排序字段
-     * @param descs 倒序排序字段
-     */
-    public fun setDescs(descs: List<String?>?): Unit = Unit
-
-    /**
-     * get 顺序排序字段
-     * @return 顺序排序字段
-     */
-    public fun getAscs(): MutableCollection<String?>? = mutableListOf()
-
-    /**
-     * set 顺序排序字段
-     * @param ascs 顺序排序字段
-     */
-    public fun setAscs(ascs: List<String?>?): Unit = Unit
+    public var descs: MutableCollection<out CharSequence?>?
 }
+
+public class PageQuery @JvmOverloads constructor(
+    override var page: Long?,
+    override var size: Long? = 10L,
+    override var descs: MutableCollection<out CharSequence?>? = Collections.emptyList(),
+    override var ascs: MutableCollection<out CharSequence?>? = Collections.emptyList(),
+) : Pageable

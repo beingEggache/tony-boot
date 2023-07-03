@@ -1,11 +1,9 @@
 package com.tony.mybatis.test
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.tony.SpringContexts
 import com.tony.annotation.EnableTonyBoot
 import com.tony.mybatis.db.dao.UserDao
 import com.tony.mybatis.db.po.User
-import com.tony.utils.uuid
 import org.junit.jupiter.api.Test
 import org.mybatis.spring.annotation.MapperScan
 import org.springframework.beans.factory.getBean
@@ -50,7 +48,7 @@ class MyBatisAppTest {
 //            },
 //        )
         val list = userDao
-            .query()
+            .ktQuery()
             .select("sum(states)")
             .oneMap()
         println(list)

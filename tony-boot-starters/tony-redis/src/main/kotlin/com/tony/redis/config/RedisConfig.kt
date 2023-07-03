@@ -7,7 +7,11 @@ import com.tony.redis.service.RedisService
 import com.tony.redis.service.impl.JacksonRedisService
 import com.tony.redis.service.impl.ProtostuffRedisService
 import com.tony.utils.OBJECT_MAPPER
+import io.protostuff.LinkedBuffer
+import io.protostuff.runtime.RuntimeSchema
 import org.slf4j.LoggerFactory
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
@@ -41,29 +45,35 @@ internal class RedisConfig(
         return DefaultRedisCacheAspect()
     }
 
+    @ConditionalOnClass(value = [LinkedBuffer::class, RuntimeSchema::class])
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "PROTOSTUFF")
     @Bean
-    internal fun protostuffSerializer(): ProtostuffSerializer = ProtostuffSerializer().also {
-        logger.info("Redis serializer mode is ${redisProperties.serializerMode}")
-    }
+    internal fun protostuffSerializer(): RedisSerializer<Any?> =
+        ProtostuffSerializer()
+            .also {
+                logger.info("Redis serializer mode is ${redisProperties.serializerMode}")
+            }
 
+    @ConditionalOnClass(value = [LinkedBuffer::class, RuntimeSchema::class])
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "PROTOSTUFF")
     @Bean
-    internal fun protostuffRedisService(): ProtostuffRedisService = ProtostuffRedisService()
+    internal fun protostuffRedisService(): RedisService = ProtostuffRedisService()
 
-    @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON")
+    @ConditionalOnMissingBean(RedisSerializer::class)
     @Bean
-    internal fun genericJackson2JsonRedisSerializer() = GenericJackson2JsonRedisSerializer(OBJECT_MAPPER).also {
-        if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
-            logger.warn(
-                "Your serializer mode is ${SerializerMode.PROTOSTUFF},but got ${SerializerMode.JACKSON}",
-            )
-        } else {
-            logger.info("Redis serializer mode is ${redisProperties.serializerMode}")
+    internal fun genericJackson2JsonRedisSerializer(): RedisSerializer<Any?> =
+        GenericJackson2JsonRedisSerializer(OBJECT_MAPPER).also {
+            if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
+                logger.warn(
+                    "Your serializer mode is ${SerializerMode.PROTOSTUFF}, but got ${SerializerMode.JACKSON}," +
+                        " please check protostuff dependencies(protostuff-core, protostuff-runtime) are ready.",
+                )
+            } else {
+                logger.info("Redis serializer mode is ${redisProperties.serializerMode}")
+            }
         }
-    }
 
-    @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON")
+    @ConditionalOnMissingBean(RedisService::class)
     @Bean
     internal fun jacksonRedisService(): RedisService = JacksonRedisService()
 

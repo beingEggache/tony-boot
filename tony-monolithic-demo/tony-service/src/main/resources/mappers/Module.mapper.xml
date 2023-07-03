@@ -12,7 +12,7 @@
         <result column="module_description" jdbcType="VARCHAR" property="moduleDescription"/>
     </resultMap>
 
-    <select id="selectModulesByUserIdAndAppId" parameterType="hashMap" resultMap="BaseResultMap">
+    <select id="selectModulesByUserIdAndAppId" resultMap="BaseResultMap">
         select m.module_id,
         m.app_id,
         m.module_name,

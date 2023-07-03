@@ -1,6 +1,7 @@
 package com.tony.db.service
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page
+import com.tony.PageQuery
+import com.tony.PageResultLike
 import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
@@ -30,11 +31,11 @@ class UserService(
 ) {
 
     fun login(req: UserLoginReq) =
-        userDao.selectOne(
-            where<User>()
-                .eq(User::userName, req.userName)
-                .eq(User::pwd, "${req.pwd}${req.userName}".md5Uppercase()),
-        ) ?: throw BizException("用户名或密码错误")
+        userDao
+            .query()
+            .eq(User::userName, req.userName)
+            .eq(User::pwd, "${req.pwd}${req.userName}".md5Uppercase())
+            .oneNotNull("用户名或密码错误")
 
     fun info(userId: String, appId: String) =
         userDao.selectById(userId)?.run {
@@ -46,18 +47,18 @@ class UserService(
         } ?: throw BizException("没有此用户")
 
     fun list(query: String?, page: Long = 1, size: Long = 10) =
-        userDao.selectPage(
-            Page(page, size),
-            where<User>().like(
+        userDao
+            .lambdaQuery()
+            .like(
                 !query.isNullOrBlank(),
                 User::userName,
                 query,
-            ).or(!query.isNullOrBlank()) {
+            )
+            .or(!query.isNullOrBlank()) {
                 it.like(User::realName, query)
-            },
-        ).toPageResult().map {
-            it.toDto()
-        }
+            }
+            .pageResult<PageResultLike<User>>(PageQuery(page, size))
+            .map { it.toDto() }
 
     fun listRolesByUserId(userId: String?, appId: String) =
         roleDao.selectByUserId(userId, appId).map { it.toDto() }
@@ -65,15 +66,12 @@ class UserService(
     @Transactional
     fun add(req: UserCreateReq): Boolean {
         throwIf(req.pwd != req.confirmPwd, "两次密码不相等")
-
-        throwIf(
-            userDao.selectOne(
-                where<User>()
-                    .eq(User::userName, req.userName)
-                    .or().eq(User::mobile, req.mobile),
-            ) != null,
-            "用户名或手机号已重复",
-        )
+        userDao
+            .lambdaQuery()
+            .eq(User::userName, req.userName)
+            .or()
+            .eq(User::mobile, req.mobile)
+            .throwIfExists("用户名或手机号已重复")
 
         return userDao.insert(
             User().apply {
@@ -90,15 +88,13 @@ class UserService(
     fun update(req: UserUpdateReq): Boolean {
         val userId = checkNotNull(req.userId)
         userDao.selectById(userId).throwIfNull("没有此用户")
-
-        throwIf(
-            userDao.selectOne(
-                where<User>()
-                    .eq(User::userName, req.userName)
-                    .or().eq(User::mobile, req.mobile),
-            )?.userId != userId,
-            "用户名或手机号已重复",
-        )
+        userDao
+            .lambdaQuery()
+            .eq(User::userName, req.userName)
+            .or()
+            .eq(User::mobile, req.mobile)
+            .ne(User::userId, userId)
+            .throwIfExists("用户名或手机号已重复")
 
         return userDao.updateById(
             User().apply {

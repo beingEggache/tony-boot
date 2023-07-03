@@ -3,16 +3,16 @@ package com.tony.api
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
 import com.tony.db.config.DbConfig
-import com.tony.web.ApiSession
+import com.tony.db.service.UserService
 import com.tony.web.WebApp
-import com.tony.web.WebContext
-import com.tony.web.exception.UnauthorizedException
+import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
+import org.springframework.context.annotation.Profile
 import org.springframework.core.PriorityOrdered
 import org.springframework.stereotype.Component
-import org.springframework.util.StringUtils
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -22,54 +22,17 @@ fun main(args: Array<String>) {
     }
 }
 
-// @Profile(value = ["!prod"])
-// @Component
-/*open class InitApp(
-    private val moduleService: ModuleService,
-    private val userService: UserService
+@Profile(value = ["!prod"])
+@Component
+class InitApp(
+    private val userService: UserService,
 ) : CommandLineRunner {
-
-    @Lazy
-    @Resource
-    lateinit var requestMappingHandlerMapping: RequestMappingHandlerMapping
-
-    private fun listApiModulesInProject() = requestMappingHandlerMapping.handlerMethods.filterValues {
-        it.hasMethodAnnotation(ApiOperation::class.java) &&
-            !it.hasMethodAnnotation(NoPermissionCheck::class.java)
-    }.map { (requestMappingInfo, handlerMethod) ->
-
-        val apiOperation = handlerMethod.getMethodAnnotation(ApiOperation::class.java)
-        val moduleName = apiOperation?.value
-        if (moduleName.isNullOrEmpty()) throw ApiException("${handlerMethod.shortLogMessage} apiOperation value null")
-        val moduleId = requestMappingInfo.name ?: handlerMethod.shortLogMessage
-        val nickname = apiOperation.nickname
-        if (nickname.isBlank()) throw ApiException("${handlerMethod.shortLogMessage} apiOperation nickname null")
-        val moduleGroup = nickname.split(",").sorted().joinToString(",")
-        val moduleDescription = apiOperation.notes.defaultIfBlank()
-        val moduleValue = "${requestMappingInfo.methodsCondition.methods.first()} " +
-            requestMappingInfo.patternValues.first()
-        Module().apply {
-            this.moduleId = moduleId
-            this.appId = WebApp.appId
-            this.moduleName = moduleName
-            this.moduleValue = moduleValue
-            this.moduleType = ModuleType.API
-            this.moduleGroup = moduleGroup
-            this.moduleDescription = moduleDescription
-        }
-    }
 
     @Transactional
     override fun run(vararg args: String?) {
-        moduleService.saveModules(
-            this.listApiModulesInProject(),
-            listOf(ModuleType.API),
-            WebApp.appId
-        )
-
         userService.initSuperAdmin(WebApp.appId)
     }
-}*/
+}
 
 @EnableTonyBoot
 @Import(value = [DbConfig::class])
@@ -83,17 +46,4 @@ class MonoApiWebApp(
             .excludePathPatterns(*WebApp.whiteUrlPatternsWithContextPath.toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE + 1)
     }
-}
-
-@Component
-class StaticApiSession : ApiSession {
-    final override val userId: String
-        get() = WebContext.request.getParameter("userId")
-
-    override val unauthorizedException: UnauthorizedException?
-        get() = if (!StringUtils.hasLength(userId)) {
-            UnauthorizedException("请登录")
-        } else {
-            null
-        }
 }

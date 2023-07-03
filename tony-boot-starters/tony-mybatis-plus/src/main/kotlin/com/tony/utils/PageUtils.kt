@@ -23,7 +23,7 @@ import java.util.Collections
  */
 public fun <T> Pageable.toPage(): Page<T> =
     Page<T>().also { page ->
-        getPage().also {
+        this.page.also {
             if (it == null || it < 0) {
                 page.current = 0L
             } else {
@@ -31,7 +31,7 @@ public fun <T> Pageable.toPage(): Page<T> =
             }
         }
 
-        getSize().also {
+        this.size.also {
             if (it == null || it <= 0) {
                 page.size = 10L
             } else {
@@ -39,12 +39,12 @@ public fun <T> Pageable.toPage(): Page<T> =
             }
         }
 
-        getDescs()?.forEach { desc ->
+        descs?.forEach { desc ->
             val orderItem = OrderItem.desc(desc?.camelToSnakeCase())
             page.addOrder(orderItem)
         }
 
-        getAscs()?.forEach { asc ->
+        ascs?.forEach { asc ->
             val orderItem = OrderItem.asc(asc?.camelToSnakeCase())
             page.addOrder(orderItem)
         }
