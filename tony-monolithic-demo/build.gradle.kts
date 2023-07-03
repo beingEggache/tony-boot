@@ -30,8 +30,8 @@ configure(subprojects) {
 //            isAllowInsecureProtocol = true
 //        }
 
-        maven(url = "https://maven.aliyun.com/repository/public")
         mavenCentral()
+        maven(url = "https://maven.aliyun.com/repository/public")
     }
 
     apply {

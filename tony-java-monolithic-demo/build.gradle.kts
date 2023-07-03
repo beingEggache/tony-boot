@@ -5,7 +5,7 @@ import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 
 plugins {
     idea
-	id("io.freefair.lombok") version "8.0.1"
+	id("io.freefair.lombok") version "8.1.0"
 }
 
 val javaVersion: String by project
@@ -30,8 +30,8 @@ configure(subprojects) {
 //            isAllowInsecureProtocol = true
 //        }
 
-        maven(url = "https://maven.aliyun.com/repository/public")
         mavenCentral()
+        maven(url = "https://maven.aliyun.com/repository/public")
     }
 
     apply {

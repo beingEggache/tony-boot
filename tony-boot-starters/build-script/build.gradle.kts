@@ -41,7 +41,7 @@ tasks.withType<KotlinCompile>().configureEach {
 
 repositories {
     mavenLocal()
-    maven(url = "https://maven.aliyun.com/repository/public")
+    maven(url = "https://maven.aliyun.com/repository/gradle-plugin")
     gradlePluginPortal()
 //    val privateGradleRepoUrl: String by project
 //    maven(url = privateGradleRepoUrl) {
