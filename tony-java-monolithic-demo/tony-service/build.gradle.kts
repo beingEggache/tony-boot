@@ -2,8 +2,9 @@ import com.tony.buildscript.Deps
 dependencies {
 
     api(Deps.Template.templateCore) { isChanging = true }
-    api(Deps.Template.templateMybatisPlus) { isChanging = true }
     implementation(Deps.Other.mysql)
+    implementation(Deps.Template.templateId) { isChanging = true }
+    api(Deps.Template.templateMybatisPlus) { isChanging = true }
     implementation(Deps.Template.templateRedis) { isChanging = true }
     implementation(Deps.Template.templateFeign) { isChanging = true }
 //    implementation(Deps.Template.templateWechat) { isChanging = true }

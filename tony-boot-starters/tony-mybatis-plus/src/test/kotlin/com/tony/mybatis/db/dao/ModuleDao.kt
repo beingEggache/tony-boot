@@ -4,9 +4,7 @@ import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.db.enums.ModuleType
 import com.tony.mybatis.db.po.Module
 import org.apache.ibatis.annotations.Param
-import org.springframework.stereotype.Repository
 
-@Repository
 interface ModuleDao : BaseDao<Module> {
 
     fun selectModulesByUserIdAndAppId(

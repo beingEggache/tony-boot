@@ -39,9 +39,14 @@ public open class RequestBodyFieldInjector(
 
     internal fun internalInject(annotatedField: Field, body: Any): Boolean {
         annotatedField.trySetAccessible()
+        val defaultIfNull = annotatedField.getAnnotation(InjectRequestBodyField::class.java).defaultIfNull
         return try {
-            inject(annotatedField, body)
-            true
+            if (defaultIfNull && annotatedField.get(body) != null) {
+                true
+            } else {
+                inject(annotatedField, body)
+                true
+            }
         } catch (e: IllegalArgumentException) {
             logger.warn(e.message)
             false

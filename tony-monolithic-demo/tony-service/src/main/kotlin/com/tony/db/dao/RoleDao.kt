@@ -3,9 +3,7 @@ package com.tony.db.dao
 import com.tony.db.po.Role
 import com.tony.mybatis.dao.BaseDao
 import org.apache.ibatis.annotations.Param
-import org.springframework.stereotype.Repository
 
-@Repository
 interface RoleDao : BaseDao<Role> {
 
     fun selectByUserId(

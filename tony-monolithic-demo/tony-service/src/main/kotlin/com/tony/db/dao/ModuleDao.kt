@@ -7,9 +7,7 @@ import com.tony.mybatis.dao.BaseDao
 import com.tony.redis.RedisKeys
 import com.tony.redis.RedisManager
 import org.apache.ibatis.annotations.Param
-import org.springframework.stereotype.Repository
 
-@Repository
 interface ModuleDao : BaseDao<Module> {
 
     fun selectModulesByUserIdAndAppId(

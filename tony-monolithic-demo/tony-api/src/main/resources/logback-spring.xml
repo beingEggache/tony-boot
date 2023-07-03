@@ -10,4 +10,7 @@
     <springProfile name="qa,prod">
         <include resource="logback-web.xml"/>
     </springProfile>
+
+    <logger name="com.tony.db.dao" level="DEBUG" />
+
 </configuration>

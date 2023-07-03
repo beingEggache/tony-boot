@@ -211,6 +211,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * kotlin 使用
      * @return QueryWrapper 的包装类
      */
+    @JvmSynthetic
     public fun ktQuery(): TonyKtQueryChainWrapper<T> = TonyKtQueryChainWrapper(this)
 
     /**
@@ -218,6 +219,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * kotlin 使用
      * @return KtQueryWrapper 的包装类
      */
+    @JvmSynthetic
     public fun ktUpdate(): KtUpdateChainWrapper<T> = ChainWrappers.ktUpdateChain(this, getEntityClass())
 
     /**

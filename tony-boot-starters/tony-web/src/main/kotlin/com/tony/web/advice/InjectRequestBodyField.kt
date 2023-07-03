@@ -14,4 +14,9 @@ public annotation class InjectRequestBodyField(
      * 获取与[value]相等的[InjectRequestBodyAdvice]注入值.
      */
     val value: String = "",
+
+    /**
+     * 当为 null 时才设值
+     */
+    val defaultIfNull: Boolean = false,
 )

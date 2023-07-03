@@ -1,4 +1,4 @@
-@file:JvmName("MiscUtils")
+@file:JvmName("LoggerUtils")
 
 package com.tony.utils
 

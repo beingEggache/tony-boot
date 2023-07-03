@@ -1,7 +1,10 @@
 package com.tony.mono.api.controller;
 
+import com.tony.PageResult;
 import com.tony.jwt.JwtToken;
+import com.tony.mono.db.po.User;
 import com.tony.mono.db.service.UserService;
+import com.tony.mono.dto.req.UserListQueryReq;
 import com.tony.mono.dto.req.UserLoginReq;
 import com.tony.web.WebApp;
 import com.tony.web.interceptor.NoLoginCheck;
@@ -42,5 +45,15 @@ public class IndexController {
     @NoLoginCheck
     @PostMapping("/info")
     public void info() {
+    }
+
+    @Operation(summary = "用户列表")
+    @NoLoginCheck
+    @PostMapping("/user/list")
+    public PageResult<User> list(
+        @Validated
+        @RequestBody final UserListQueryReq req
+    ) {
+        return userService.list(req);
     }
 }

@@ -1,12 +1,12 @@
 package com.tony.db.service
 
-import com.tony.PageQuery
-import com.tony.PageResultLike
+import com.tony.PageResult
 import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
 import com.tony.db.po.User
 import com.tony.dto.req.UserCreateReq
+import com.tony.dto.req.UserListQueryReq
 import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
 import com.tony.dto.resp.UserInfoResp
@@ -14,7 +14,6 @@ import com.tony.exception.BizException
 import com.tony.utils.md5Uppercase
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
-import com.tony.utils.uuid
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -46,18 +45,20 @@ class UserService(
             )
         } ?: throw BizException("没有此用户")
 
-    fun list(query: String?, page: Long = 1, size: Long = 10) =
+    fun list(
+        req: UserListQueryReq,
+    ) =
         userDao
-            .lambdaQuery()
+            .query()
             .like(
-                !query.isNullOrBlank(),
+                !req.query.isNullOrBlank(),
                 User::userName,
-                query,
+                req.query,
             )
-            .or(!query.isNullOrBlank()) {
-                it.like(User::realName, query)
+            .or(!req.query.isNullOrBlank()) {
+                it.like(User::realName, req.query)
             }
-            .pageResult<PageResultLike<User>>(PageQuery(page, size))
+            .pageResult<PageResult<User>>(req)
             .map { it.toDto() }
 
     fun listRolesByUserId(userId: String?, appId: String) =
@@ -67,7 +68,7 @@ class UserService(
     fun add(req: UserCreateReq): Boolean {
         throwIf(req.pwd != req.confirmPwd, "两次密码不相等")
         userDao
-            .lambdaQuery()
+            .ktQuery()
             .eq(User::userName, req.userName)
             .or()
             .eq(User::mobile, req.mobile)
@@ -75,11 +76,10 @@ class UserService(
 
         return userDao.insert(
             User().apply {
-                this.userId = uuid()
                 userName = req.userName
                 realName = req.realName
                 mobile = req.mobile
-                pwd = "${req.pwd}"
+                pwd = "${req.pwd}${req.userName}".md5Uppercase()
             },
         ) > 0
     }

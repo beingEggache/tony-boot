@@ -100,21 +100,21 @@ public class ApiResult<T> @JvmOverloads constructor(
          * @param result CharSequence
          */
         @JvmStatic
-        public fun of(result: CharSequence): ApiResult<OneResult<CharSequence>> = ApiResult(OneResult(result))
+        public fun <E : CharSequence> of(result: E): ApiResult<OneResult<E>> = ApiResult(OneResult(result))
 
         /**
          * 用 [OneResult] 包装 [Number]
          * @param result Number
          */
         @JvmStatic
-        public fun of(result: Number): ApiResult<OneResult<Number>> = ApiResult(OneResult(result))
+        public fun <E : Number> of(result: E): ApiResult<OneResult<E>> = ApiResult(OneResult(result))
 
         /**
          * 用 [OneResult] 包装 [Enum]
          * @param result Enum
          */
         @JvmStatic
-        public fun of(result: Enum<*>): ApiResult<OneResult<Enum<*>>> = ApiResult(OneResult(result))
+        public fun <E : Enum<*>> of(result: E): ApiResult<OneResult<E>> = ApiResult(OneResult(result))
     }
 }
 
@@ -372,17 +372,17 @@ public interface Pageable {
     /**
      * 升序字段
      */
-    public var ascs: MutableCollection<out CharSequence?>?
+    public var ascs: MutableCollection<String?>?
 
     /**
      * 降序字段
      */
-    public var descs: MutableCollection<out CharSequence?>?
+    public var descs: MutableCollection<String?>?
 }
 
-public class PageQuery @JvmOverloads constructor(
-    override var page: Long?,
+public open class PageQuery @JvmOverloads constructor(
+    override var page: Long? = 1L,
     override var size: Long? = 10L,
-    override var descs: MutableCollection<out CharSequence?>? = Collections.emptyList(),
-    override var ascs: MutableCollection<out CharSequence?>? = Collections.emptyList(),
+    override var descs: MutableCollection<String?>? = Collections.emptyList(),
+    override var ascs: MutableCollection<String?>? = Collections.emptyList(),
 ) : Pageable

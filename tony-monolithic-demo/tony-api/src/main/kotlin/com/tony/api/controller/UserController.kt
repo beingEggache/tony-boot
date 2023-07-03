@@ -3,9 +3,11 @@ package com.tony.api.controller
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserCreateReq
+import com.tony.dto.req.UserListQueryReq
 import com.tony.web.WebApp
 import com.tony.web.WebContext
 import com.tony.web.WebContextExtensions.userId
+import com.tony.web.utils.ofResult
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.validation.annotation.Validated
@@ -31,10 +33,18 @@ class UserController(
         @Validated
         @RequestBody
         req: UserCreateReq,
-    ) = userService.add(req)
+    ) = userService.add(req).ofResult()
 
     @Operation(summary = "登录用户信息", description = "当前用户权限")
     @NoPermissionCheck
     @GetMapping("/user/info")
     fun info() = userService.info(WebContext.userId, WebApp.appId)
+
+    @Operation(summary = "用户列表", description = "用户列表")
+    @NoPermissionCheck
+    @PostMapping("/user/list")
+    fun list(
+        @Validated
+        @RequestBody req: UserListQueryReq,
+    ) = userService.list(req)
 }
