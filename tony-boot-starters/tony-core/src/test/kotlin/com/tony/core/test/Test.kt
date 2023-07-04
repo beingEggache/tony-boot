@@ -7,8 +7,6 @@ import java.io.Serializable
 import java.lang.reflect.ParameterizedType
 
 fun main() {
-
-
 }
 
 open class Parent

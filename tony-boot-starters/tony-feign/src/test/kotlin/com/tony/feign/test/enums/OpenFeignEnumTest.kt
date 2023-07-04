@@ -10,8 +10,6 @@ package com.tony.feign.test.enums
 
 import com.tony.feign.test.enums.client.OpenFeignTestEnumClient
 import com.tony.feign.test.enums.controller.EnumTest
-import com.tony.feign.test.enums.controller.MyIntEnum
-import com.tony.feign.test.enums.controller.MyStringEnum
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import javax.annotation.Resource
@@ -24,8 +22,6 @@ class OpenFeignEnumTest {
 
     @Test
     fun testEnum() {
-        MyIntEnum
-        MyStringEnum
         openFeignTestEnumClient.testIntEnum(1)
         openFeignTestEnumClient.testStringEnum("yes")
         openFeignTestEnumClient.testPostEnum(EnumTest().apply {

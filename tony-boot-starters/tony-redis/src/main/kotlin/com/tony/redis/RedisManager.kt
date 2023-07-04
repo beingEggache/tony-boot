@@ -207,11 +207,11 @@ public object RedisManager {
      * @return The number of keys that were removed. null when used in pipeline / transaction.
      */
     @JvmStatic
-    public fun deleteByKeyPatterns(keyPatterns: List<String>): Long {
+    public fun deleteByKeyPatterns(keyPatterns: Collection<String>): Long {
         if (keyPatterns.isEmpty()) throw ApiException("keyPatterns must not be empty.")
         if (keyPatterns.any { it.isBlank() }) throw ApiException("keyPattern must not be blank.")
         @Suppress("RedundantNullableReturnType")
-        val result: Long? = redisTemplate.execute(deleteKeyByPatternScript, keyPatterns)
+        val result: Long? = redisTemplate.execute(deleteKeyByPatternScript, keyPatterns.toList())
         return result ?: 0L
     }
 

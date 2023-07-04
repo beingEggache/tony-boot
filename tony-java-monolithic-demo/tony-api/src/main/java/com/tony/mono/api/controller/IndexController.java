@@ -1,5 +1,7 @@
 package com.tony.mono.api.controller;
 
+import com.tony.ApiResult;
+import com.tony.OneResult;
 import com.tony.PageResult;
 import com.tony.jwt.JwtToken;
 import com.tony.mono.db.po.User;
@@ -8,6 +10,7 @@ import com.tony.mono.dto.req.UserListQueryReq;
 import com.tony.mono.dto.req.UserLoginReq;
 import com.tony.web.WebApp;
 import com.tony.web.interceptor.NoLoginCheck;
+import com.tony.web.utils.ResultUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import kotlin.Pair;
 import lombok.RequiredArgsConstructor;
@@ -34,11 +37,11 @@ public class IndexController {
     @Operation(summary = "登录")
     @NoLoginCheck
     @PostMapping("/login")
-    public String login(
+    public ApiResult<OneResult<String>> login(
         @Validated
         @RequestBody final UserLoginReq req) {
         //noinspection unchecked
-        return JwtToken.gen(new Pair<>("userId", userService.login(req)));
+        return ResultUtils.ofResult(JwtToken.gen(new Pair<>("userId", userService.login(req))));
     }
 
     @Operation(summary = "用户信息")

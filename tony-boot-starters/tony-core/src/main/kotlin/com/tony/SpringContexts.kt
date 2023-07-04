@@ -16,9 +16,11 @@ import org.springframework.core.env.Environment
  */
 public object SpringContexts : ApplicationContext by ApplicationContextHolder.springContext {
 
+    @JvmSynthetic
     @JvmStatic
     public inline fun <reified T : Any> getBeanByLazy(): Lazy<T> = lazy { getBean() }
 
+    @JvmSynthetic
     @JvmStatic
     public inline fun <reified T : Any> getBeanByLazy(name: String): Lazy<T> = lazy { getBean(name) as T }
 
@@ -39,6 +41,7 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
      */
     public object Env : Environment by SpringContexts.environment {
 
+        @JvmSynthetic
         @JvmStatic
         public inline fun <reified T> getPropertyByLazy(key: String, defaultValue: T): Lazy<T> = lazy {
             getProperty(key, T::class.java, defaultValue!!) ?: throw ApiException("$key bean not exists")
