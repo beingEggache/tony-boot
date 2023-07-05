@@ -217,6 +217,8 @@ internal object DepsManagement {
         const val springdocCommon = "org.springdoc:springdoc-openapi-common:${VersionManagement.springdocVersion}"
         const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin:${VersionManagement.springdocVersion}"
 
+        const val snakeYaml = "org.yaml:snakeyaml:2.0"
+
         const val yitterIdgenerator = "com.github.yitter:yitter-idgenerator:1.0.6"
         const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
     }
