@@ -36,7 +36,7 @@ public open class EnumTypeHandler<E, KEY>(enumClass: Class<E>) :
         }
     }
 
-    override fun getNullableResult(rs: ResultSet, columnName: String?): E? =
+    override fun getNullableResult(rs: ResultSet, columnName: String): E? =
         if (null == rs.getObject(columnName) && rs.wasNull()) {
             null
         } else {

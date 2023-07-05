@@ -9,6 +9,7 @@ import org.mybatis.spring.annotation.MapperScan
 import org.springframework.beans.factory.getBean
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.AdviceMode
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
@@ -26,27 +27,14 @@ class MyBatisAppTest {
     lateinit var userDao: UserDao
 
     @Test
-    fun testDao() {
-//        userDao.insert(
-//            User().apply {
-//                userId = uuid()
-//                userName = "tony2"
-//                realName = "李大毛2"
-//                mobile = "13984842425"
-//                pwd = "123456"
-//                states = 666
-//            },
-//        )
-//        userDao.insert(
-//            User().apply {
-//                userId = uuid()
-//                userName = "tony3"
-//                realName = "李大毛3"
-//                mobile = "13984842426"
-//                pwd = "123456"
-//                states = 666
-//            },
-//        )
+    fun testDaoQuery() {
+        val list = userDao.ktQuery().list()
+        println(userDao::class.java)
+        println(list)
+    }
+
+    @Test
+    fun testDaoOneMap() {
         val list = userDao
             .ktQuery()
             .select("sum(states)")
@@ -76,7 +64,7 @@ class MyBatisAppTest {
 @ComponentScan(
     basePackages = ["com.tony.mybatis.db"],
 )
-@EnableTransactionManagement(proxyTargetClass = true)
+@EnableTransactionManagement(proxyTargetClass = true, mode = AdviceMode.ASPECTJ)
 @MapperScan("com.tony.mybatis.db.dao")
 @EnableTonyBoot
 @SpringBootApplication

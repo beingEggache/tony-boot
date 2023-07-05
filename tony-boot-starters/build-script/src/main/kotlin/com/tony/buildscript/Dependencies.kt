@@ -80,6 +80,7 @@ object Deps {
 
     object Spring {
         const val aop = "org.springframework:spring-aop"
+        const val aspects = "org.springframework:spring-aspects"
         const val beans = "org.springframework:spring-beans"
         const val context = "org.springframework:spring-context"
         const val contextSupport = "org.springframework:spring-context-support"

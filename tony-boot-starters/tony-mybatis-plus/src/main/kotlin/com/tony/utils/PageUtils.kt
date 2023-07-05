@@ -1,4 +1,5 @@
 @file:JvmName("PageUtils")
+
 /**
  * PageUtils
  *
@@ -23,31 +24,20 @@ import java.util.Collections
  */
 public fun <T> PageQueryLike<*>.toPage(): Page<T> =
     Page<T>().also { page ->
-        this.page.also {
-            if (it == null || it < 0) {
-                page.current = 0L
-            } else {
-                page.current = it
-            }
-        }
-
-        this.size.also {
-            if (it == null || it <= 0) {
-                page.size = 10L
-            } else {
-                page.size = it
-            }
-        }
-
-        descs?.forEach { desc ->
-            val orderItem = OrderItem.desc(desc?.camelToSnakeCase())
-            page.addOrder(orderItem)
-        }
-
-        ascs?.forEach { asc ->
-            val orderItem = OrderItem.asc(asc?.camelToSnakeCase())
-            page.addOrder(orderItem)
-        }
+        page.current = this.page?.takeIf { it > 0 } ?: 1L
+        page.size = this.size?.takeIf { it > 0 } ?: 10L
+        descs
+            ?.filterNotNull()
+            ?.filter { it.isNotBlank() }
+            ?.map { OrderItem.desc(it.camelToSnakeCase()) }
+            ?.takeIf { it.any() }
+            ?.let { page.addOrder(it) }
+        ascs
+            ?.filterNotNull()
+            ?.filter { it.isNotBlank() }
+            ?.map { OrderItem.asc(it.camelToSnakeCase()) }
+            ?.takeIf { it.any() }
+            ?.let { page.addOrder(it) }
     }
 
 /**
@@ -58,20 +48,18 @@ public fun <T> PageQueryLike<*>.toPage(): Page<T> =
  * @param E
  * @return
  */
-@Suppress("UNCHECKED_CAST")
 public fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
     if (this == null) {
-        EMPTY_PAGE_RESULT as E
+        EMPTY_PAGE_RESULT
     } else {
-        PageResult(records, current, size, pages, total, current < pages) as E
-    }
+        PageResult(records, current, size, pages, total, current < pages)
+    }.asToNotNull()
 
 /**
  * 空分页结构.
  * @param T
  * @return
  */
-@Suppress("UNCHECKED_CAST")
-public fun <T> emptyPageResult(): PageResult<T> = EMPTY_PAGE_RESULT as PageResult<T>
+public fun <T> emptyPageResult(): PageResultLike<T> = EMPTY_PAGE_RESULT.asToNotNull()
 
 private val EMPTY_PAGE_RESULT: PageResult<*> = PageResult<Nothing>(Collections.emptyList(), 1L, 0L, 0L, 0L, false)

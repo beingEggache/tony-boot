@@ -2,7 +2,7 @@ package com.tony.core.test
 
 import com.tony.utils.asToNotNull
 import com.tony.utils.println
-import com.tony.utils.typeParameter
+import com.tony.utils.typeParamOfSuperClass
 import java.io.Serializable
 import java.lang.reflect.ParameterizedType
 
@@ -36,7 +36,7 @@ private fun printlnSuperType() {
 
 class TestLbs {
     fun testLbs(list: ChildContainer) {
-        println(list::class.java.typeParameter())
+        println(list::class.java.typeParamOfSuperClass())
     }
 }
 

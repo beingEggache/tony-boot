@@ -10,9 +10,10 @@
 package com.tony.mybatis.dao
 
 import com.baomidou.mybatisplus.core.enums.SqlMethod
-import com.baomidou.mybatisplus.core.toolkit.ReflectionKit
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper
 import com.tony.SpringContexts
+import com.tony.utils.rawClass
+import com.tony.utils.typeParamOfSuperInterface
 import org.apache.ibatis.logging.Log
 import org.apache.ibatis.logging.LogFactory
 import org.apache.ibatis.session.SqlSession
@@ -20,16 +21,24 @@ import org.springframework.aop.framework.AopProxyUtils
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import java.lang.reflect.Proxy
+import java.util.concurrent.ConcurrentHashMap
 import java.util.function.BiConsumer
 
-internal val ENTITY_CLASS_MAP = HashMap<Class<*>, Class<*>>()
+internal val ENTITY_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
 
-internal val MAPPER_CLASS_MAP = HashMap<Class<*>, Class<*>>()
+internal val MAPPER_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
 
-internal val LOG_MAP = HashMap<Class<*>, Log>()
+internal val LOG_MAP = ConcurrentHashMap<Class<*>, Log>()
 
 public val namedParameterJdbcTemplate: NamedParameterJdbcTemplate by SpringContexts
     .getBeanByLazy<NamedParameterJdbcTemplate>()
+
+internal fun <T : Any> BaseDao<T>.actualClass() =
+    if (!Proxy.isProxyClass(this::class.java)) {
+        this::class.java
+    } else {
+        AopProxyUtils.proxiedUserInterfaces(this).first()
+    }
 
 /**
  * 获取mybatis-plus 语句
@@ -46,8 +55,8 @@ internal fun <T : Any> BaseDao<T>.getSqlStatement(sqlMethod: SqlMethod?): String
  * @return logger
  */
 internal fun <T : Any> BaseDao<T>.getLog(): Log =
-    LOG_MAP.getOrPut(this::class.java) {
-        LogFactory.getLog(this::class.java)
+    LOG_MAP.getOrPut(actualClass()) {
+        LogFactory.getLog(actualClass())
     }
 
 /**
@@ -57,8 +66,8 @@ internal fun <T : Any> BaseDao<T>.getLog(): Log =
  */
 @Suppress("UNCHECKED_CAST")
 internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
-    ENTITY_CLASS_MAP.getOrPut(this::class.java) {
-        ReflectionKit.getSuperClassGenericType(this::class.java, BaseDao::class.java, 0)
+    ENTITY_CLASS_MAP.getOrPut(actualClass()) {
+        actualClass().typeParamOfSuperInterface(BaseDao::class.java).rawClass()
     } as Class<T>
 
 /**
@@ -68,12 +77,8 @@ internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
  */
 @Suppress("UNCHECKED_CAST")
 internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
-    MAPPER_CLASS_MAP.getOrPut(this::class.java) {
-        if (!Proxy.isProxyClass(this::class.java)) {
-            this::class.java
-        } else {
-            AopProxyUtils.proxiedUserInterfaces(this).first()
-        }
+    MAPPER_CLASS_MAP.getOrPut(actualClass()) {
+        actualClass()
     } as Class<out BaseDao<T>>
 
 /**

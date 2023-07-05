@@ -39,12 +39,24 @@ public fun Type.toJavaType(): JavaType = TypeFactory.defaultInstance().construct
  * @return Type object representing the actual type arguments to this type
  */
 @JvmOverloads
-public fun Class<*>.typeParameter(index: Int = 0): Type {
+public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
     val superClass = this.genericSuperclass
     if (superClass is Class<*>) {
         throw IllegalStateException("${superClass.simpleName} constructed without actual type information")
     }
     return (superClass as ParameterizedType).actualTypeArguments[index]
+}
+
+@JvmOverloads
+public fun Class<*>.typeParamOfSuperInterface(type: Class<*>, index: Int = 0): Type {
+    val genericInterfaces = this.genericInterfaces
+    val matchedInterface = genericInterfaces.firstOrNull {
+        it.rawClass()?.name == type.typeName
+    } ?: throw IllegalStateException("$this does not implement the $type")
+    if (matchedInterface is Class<*>) {
+        throw IllegalStateException("${matchedInterface.simpleName} constructed without actual type information")
+    }
+    return (matchedInterface as ParameterizedType).actualTypeArguments[index]
 }
 
 /**

@@ -53,6 +53,7 @@ internal object DepsManagement {
 
     object Spring {
         const val aop = "org.springframework:spring-aop:${VersionManagement.springVersion}"
+        const val aspects = "org.springframework:spring-aspects:${VersionManagement.springVersion}"
         const val beans = "org.springframework:spring-beans:${VersionManagement.springVersion}"
         const val context = "org.springframework:spring-context:${VersionManagement.springVersion}"
         const val contextSupport = "org.springframework:spring-context-support:${VersionManagement.springVersion}"
