@@ -1,6 +1,7 @@
 package com.tony
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import com.tony.MonoResult.Companion.ofMonoResult
 import com.tony.exception.ApiException
 import com.tony.exception.BaseException
 import com.tony.exception.BizException
@@ -33,6 +34,8 @@ public interface ApiResultLike<T> {
         get() = ApiProperty.defaultOkMessage
 }
 
+public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
+
 /**
  * 全局响应统一结构.
  *
@@ -42,7 +45,7 @@ public interface ApiResultLike<T> {
  * @since 2021/12/6 10:51
  */
 @JsonPropertyOrder(value = ["code", "message", "data"])
-public class ApiResult<T> @JvmOverloads constructor(
+public data class ApiResult<T> @JvmOverloads constructor(
     override val data: T?,
     override val code: Int = ApiProperty.okCode,
     override val message: String = ApiProperty.defaultOkMessage,
@@ -89,32 +92,44 @@ public class ApiResult<T> @JvmOverloads constructor(
             ApiResult(Unit, ApiProperty.okCode, message)
 
         /**
-         * 用 [OneResult] 包装 [Boolean]
+         * 用 [MonoResult] 包装 [Boolean]
          * @param result Boolean
          */
         @JvmStatic
-        public fun of(result: Boolean): ApiResult<OneResult<Boolean>> = ApiResult(OneResult(result))
+        public fun of(
+            result: Boolean,
+            message: String = ApiProperty.defaultOkMessage,
+        ): ApiMonoResult<Boolean> = ApiResult(result.ofMonoResult(), ApiProperty.okCode, message)
 
         /**
-         * 用 [OneResult] 包装 [CharSequence]
+         * 用 [MonoResult] 包装 [CharSequence]
          * @param result CharSequence
          */
         @JvmStatic
-        public fun <E : CharSequence> of(result: E): ApiResult<OneResult<E>> = ApiResult(OneResult(result))
+        public fun <E : CharSequence> of(
+            result: E,
+            message: String = ApiProperty.defaultOkMessage,
+        ): ApiMonoResult<E> = ApiResult(result.ofMonoResult(), ApiProperty.okCode, message)
 
         /**
-         * 用 [OneResult] 包装 [Number]
+         * 用 [MonoResult] 包装 [Number]
          * @param result Number
          */
         @JvmStatic
-        public fun <E : Number> of(result: E): ApiResult<OneResult<E>> = ApiResult(OneResult(result))
+        public fun <E : Number> of(
+            result: E,
+            message: String = ApiProperty.defaultOkMessage,
+        ): ApiMonoResult<E> = ApiResult(result.ofMonoResult(), ApiProperty.okCode, message)
 
         /**
-         * 用 [OneResult] 包装 [Enum]
+         * 用 [MonoResult] 包装 [Enum]
          * @param result Enum
          */
         @JvmStatic
-        public fun <E : Enum<*>> of(result: E): ApiResult<OneResult<E>> = ApiResult(OneResult(result))
+        public fun <E : Enum<*>> of(
+            result: E,
+            message: String = ApiProperty.defaultOkMessage,
+        ): ApiMonoResult<E> = ApiResult(result.ofMonoResult(), ApiProperty.okCode, message)
     }
 }
 
@@ -124,7 +139,22 @@ public class ApiResult<T> @JvmOverloads constructor(
  * @author tangli
  * @since 2021/12/6 10:51
  */
-public data class OneResult<T>(val result: T? = null)
+public data class MonoResult<T>(val result: T? = null) {
+    public companion object {
+
+        @JvmStatic
+        public fun Boolean.ofMonoResult(): MonoResult<Boolean> = MonoResult(this)
+
+        @JvmStatic
+        public fun <E : CharSequence> E.ofMonoResult(): MonoResult<E> = MonoResult(this)
+
+        @JvmStatic
+        public fun <E : Number> E.ofMonoResult(): MonoResult<E> = MonoResult(this)
+
+        @JvmStatic
+        public fun <E : Enum<*>> E.ofMonoResult(): MonoResult<E> = MonoResult(this)
+    }
+}
 
 /**
  * 全局响应统一列表结构.
@@ -357,32 +387,32 @@ public data class PageResult<T>(
  * @author tangli
  * @since 2021/12/6 10:51
  */
-public interface Pageable {
+public interface PageQueryLike {
 
     /**
      * 页码,当前页
      */
-    public var page: Long?
+    public val page: Long?
 
     /**
      * 每页数量
      */
-    public var size: Long?
+    public val size: Long?
 
     /**
      * 升序字段
      */
-    public var ascs: MutableCollection<String?>?
+    public val ascs: MutableCollection<String?>?
 
     /**
      * 降序字段
      */
-    public var descs: MutableCollection<String?>?
+    public val descs: MutableCollection<String?>?
 }
 
-public open class PageQuery @JvmOverloads constructor(
-    override var page: Long? = 1L,
-    override var size: Long? = 10L,
-    override var descs: MutableCollection<String?>? = Collections.emptyList(),
-    override var ascs: MutableCollection<String?>? = Collections.emptyList(),
-) : Pageable
+public class PageQuery @JvmOverloads constructor(
+    override val page: Long? = 1L,
+    override val size: Long? = 10L,
+    override val descs: MutableCollection<String?>? = Collections.emptyList(),
+    override val ascs: MutableCollection<String?>? = Collections.emptyList(),
+) : PageQueryLike

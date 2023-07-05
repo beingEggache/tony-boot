@@ -11,17 +11,17 @@ package com.tony.utils
 import com.baomidou.mybatisplus.core.metadata.IPage
 import com.baomidou.mybatisplus.core.metadata.OrderItem
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
+import com.tony.PageQueryLike
 import com.tony.PageResult
 import com.tony.PageResultLike
-import com.tony.Pageable
 import java.util.Collections
 
 /**
  * Pageable对象转成mybatis的page对象
- * @receiver [Pageable]
+ * @receiver [PageQueryLike]
  * @return mybatis 分页对象, 一般用来查询.
  */
-public fun <T> Pageable.toPage(): Page<T> =
+public fun <T> PageQueryLike.toPage(): Page<T> =
     Page<T>().also { page ->
         this.page.also {
             if (it == null || it < 0) {
