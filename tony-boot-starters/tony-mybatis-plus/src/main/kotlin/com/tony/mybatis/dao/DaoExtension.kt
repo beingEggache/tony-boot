@@ -12,12 +12,12 @@ package com.tony.mybatis.dao
 import com.baomidou.mybatisplus.core.enums.SqlMethod
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper
 import com.tony.SpringContexts
+import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.rawClass
 import com.tony.utils.typeParamOfSuperInterface
 import org.apache.ibatis.logging.Log
 import org.apache.ibatis.logging.LogFactory
 import org.apache.ibatis.session.SqlSession
-import org.springframework.aop.framework.AopProxyUtils
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import java.lang.reflect.Proxy
@@ -30,14 +30,19 @@ internal val MAPPER_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
 
 internal val LOG_MAP = ConcurrentHashMap<Class<*>, Log>()
 
-public val namedParameterJdbcTemplate: NamedParameterJdbcTemplate by SpringContexts
-    .getBeanByLazy<NamedParameterJdbcTemplate>()
+public val namedParameterJdbcTemplate: NamedParameterJdbcTemplate by SpringContexts.getBeanByLazy()
 
 internal fun <T : Any> BaseDao<T>.actualClass() =
     if (!Proxy.isProxyClass(this::class.java)) {
         this::class.java
     } else {
-        AopProxyUtils.proxiedUserInterfaces(this).first()
+        this::class.java
+            .genericInterfaces
+            .first {
+                it.rawClass()
+                    .isTypesOrSubTypesOf(BaseDao::class.java)
+            }
+            .rawClass()
     }
 
 /**

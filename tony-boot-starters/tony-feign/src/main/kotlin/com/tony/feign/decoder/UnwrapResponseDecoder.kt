@@ -35,7 +35,7 @@ public class UnwrapResponseDecoder(
             throw ApiException(message, code)
         }
         if (response.headers().containsKey(wrapResponseHeaderName)) {
-            if (type.rawClass()?.isTypesOrSubTypesOf(ApiResultLike::class.java) == true) {
+            if (type.rawClass().isTypesOrSubTypesOf(ApiResultLike::class.java)) {
                 return super.decode(response, type)
             }
             val jsonNode = response.body().asInputStream().jsonNode()

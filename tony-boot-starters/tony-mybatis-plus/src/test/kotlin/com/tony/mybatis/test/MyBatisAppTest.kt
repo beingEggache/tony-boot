@@ -9,7 +9,6 @@ import org.mybatis.spring.annotation.MapperScan
 import org.springframework.beans.factory.getBean
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.AdviceMode
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
@@ -64,7 +63,7 @@ class MyBatisAppTest {
 @ComponentScan(
     basePackages = ["com.tony.mybatis.db"],
 )
-@EnableTransactionManagement(proxyTargetClass = true, mode = AdviceMode.ASPECTJ)
+@EnableTransactionManagement(proxyTargetClass = true)
 @MapperScan("com.tony.mybatis.db.dao")
 @EnableTonyBoot
 @SpringBootApplication

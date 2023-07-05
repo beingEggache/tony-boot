@@ -23,11 +23,11 @@ import java.util.Date
  *
  * @return the Type object representing the class or interface that declared this type
  */
-public fun Type.rawClass(): Class<*>? =
+public fun Type.rawClass(): Class<*> =
     when (this) {
         is Class<*> -> this
         is ParameterizedType -> this.rawType as Class<*>
-        else -> null
+        else -> throw IllegalStateException("Ain't gonna happen.")
     }
 
 public fun Type.toJavaType(): JavaType = TypeFactory.defaultInstance().constructType(this)
@@ -51,7 +51,7 @@ public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
 public fun Class<*>.typeParamOfSuperInterface(type: Class<*>, index: Int = 0): Type {
     val genericInterfaces = this.genericInterfaces
     val matchedInterface = genericInterfaces.firstOrNull {
-        it.rawClass()?.name == type.typeName
+        it.rawClass().name == type.typeName
     } ?: throw IllegalStateException("$this does not implement the $type")
     if (matchedInterface is Class<*>) {
         throw IllegalStateException("${matchedInterface.simpleName} constructed without actual type information")
