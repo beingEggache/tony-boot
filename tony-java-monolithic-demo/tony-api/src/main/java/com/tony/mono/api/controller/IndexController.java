@@ -1,11 +1,11 @@
 package com.tony.mono.api.controller;
 
 import com.tony.MonoResult;
+import com.tony.PageQuery;
 import com.tony.PageResult;
 import com.tony.jwt.JwtToken;
 import com.tony.mono.db.po.User;
 import com.tony.mono.db.service.UserService;
-import com.tony.mono.dto.req.UserListQueryReq;
 import com.tony.mono.dto.req.UserLoginReq;
 import com.tony.web.WebApp;
 import com.tony.web.interceptor.NoLoginCheck;
@@ -53,7 +53,7 @@ public class IndexController {
     @PostMapping("/user/list")
     public PageResult<User> list(
         @Validated
-        @RequestBody final UserListQueryReq req
+        @RequestBody final PageQuery<String> req
     ) {
         return userService.list(req);
     }

@@ -7,6 +7,8 @@ import com.tony.exception.BaseException
 import com.tony.exception.BizException
 import com.tony.utils.asTo
 import java.util.Collections
+import javax.validation.Valid
+import javax.validation.constraints.Positive
 
 /**
  * 全局响应统一结构.
@@ -387,16 +389,21 @@ public data class PageResult<T>(
  * @author tangli
  * @since 2021/12/6 10:51
  */
-public interface PageQueryLike {
+public interface PageQueryLike<T : Any?> {
+
+    @get:Valid
+    public val query: T?
 
     /**
      * 页码,当前页
      */
+    @get:Positive(message = "页码请输入正数")
     public val page: Long?
 
     /**
      * 每页数量
      */
+    @get:Positive(message = "每页数量请输入正数")
     public val size: Long?
 
     /**
@@ -410,9 +417,10 @@ public interface PageQueryLike {
     public val descs: MutableCollection<String?>?
 }
 
-public class PageQuery @JvmOverloads constructor(
+public data class PageQuery<T> @JvmOverloads constructor(
+    override val query: T? = null,
     override val page: Long? = 1L,
     override val size: Long? = 10L,
     override val descs: MutableCollection<String?>? = Collections.emptyList(),
     override val ascs: MutableCollection<String?>? = Collections.emptyList(),
-) : PageQueryLike
+) : PageQueryLike<T>

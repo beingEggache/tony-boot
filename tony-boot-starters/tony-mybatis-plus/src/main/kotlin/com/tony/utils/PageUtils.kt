@@ -21,7 +21,7 @@ import java.util.Collections
  * @receiver [PageQueryLike]
  * @return mybatis 分页对象, 一般用来查询.
  */
-public fun <T> PageQueryLike.toPage(): Page<T> =
+public fun <T> PageQueryLike<*>.toPage(): Page<T> =
     Page<T>().also { page ->
         this.page.also {
             if (it == null || it < 0) {

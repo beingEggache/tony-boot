@@ -169,7 +169,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return
      */
     public fun <E : PageResultLike<T>> selectPageResult(
-        page: PageQueryLike,
+        page: PageQueryLike<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
     ): E = selectPage(page.toPage(), queryWrapper).toPageResult()
 

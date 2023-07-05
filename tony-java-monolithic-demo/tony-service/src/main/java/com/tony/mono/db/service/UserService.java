@@ -1,9 +1,9 @@
 package com.tony.mono.db.service;
 
+import com.tony.PageQueryLike;
 import com.tony.PageResult;
 import com.tony.mono.db.dao.UserDao;
 import com.tony.mono.db.po.User;
-import com.tony.mono.dto.req.UserListQueryReq;
 import com.tony.mono.dto.req.UserLoginReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class UserService {
         return req.getUserName();
     }
 
-    public PageResult<User> list(UserListQueryReq req) {
+    public PageResult<User> list(PageQueryLike<String> req) {
         return userDao
             .lambdaQuery()
             .like(

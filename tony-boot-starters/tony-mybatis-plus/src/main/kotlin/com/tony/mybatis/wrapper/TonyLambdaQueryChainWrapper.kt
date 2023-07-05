@@ -97,7 +97,9 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
      * @param page 全局统一请求分页结构.
      * @return
      */
-    public fun <E : PageResultLike<T>> pageResult(page: PageQueryLike): E = baseMapper.selectPageResult(page, wrapper)
+    public fun <E : PageResultLike<T>> pageResult(
+        page: PageQueryLike<*>,
+    ): E = baseMapper.selectPageResult(page, wrapper)
 
     override fun select(
         entityClass: Class<T>,
