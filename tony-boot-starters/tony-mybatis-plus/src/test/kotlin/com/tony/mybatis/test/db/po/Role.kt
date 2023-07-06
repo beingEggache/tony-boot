@@ -1,4 +1,4 @@
-package com.tony.mybatis.db.po
+package com.tony.mybatis.test.db.po
 
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId

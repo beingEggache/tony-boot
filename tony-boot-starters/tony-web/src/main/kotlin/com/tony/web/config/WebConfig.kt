@@ -7,8 +7,6 @@ import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
 import com.tony.web.advice.ExceptionHandler
 import com.tony.web.advice.InjectRequestBodyAdvice
-import com.tony.web.advice.RequestBodyFieldInjector
-import com.tony.web.advice.RequestBodyFieldInjectorComposite
 import com.tony.web.advice.WrapResponseBodyAdvice
 import com.tony.web.converter.EnumIntValueConverterFactory
 import com.tony.web.converter.EnumStringValueConverterFactory
@@ -20,6 +18,9 @@ import com.tony.web.listeners.ContextClosedListener
 import com.tony.web.listeners.DefaultContextClosedListener
 import com.tony.web.log.DefaultRequestTraceLogger
 import com.tony.web.log.RequestTraceLogger
+import com.tony.web.support.IfNullRequestBodyFieldInjector
+import com.tony.web.support.RequestBodyFieldInjector
+import com.tony.web.support.RequestBodyFieldInjectorComposite
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -98,6 +99,9 @@ internal class WebConfig(
     ): InjectRequestBodyAdvice = InjectRequestBodyAdvice(requestBodyFieldInjectorComposite)
 
     @Bean
+    internal fun ifNullRequestBodyFieldInjector() = IfNullRequestBodyFieldInjector()
+
+    @Bean
     internal fun exceptionHandler() = ExceptionHandler()
 
     @ConditionalOnMissingBean(ContextClosedListener::class)
@@ -137,7 +141,7 @@ internal class WebConfig(
     private fun initMappingJackson2HttpMessageConverter(
         mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
     ) {
-        if (webProperties.jsonNullValueOptimizedEnabled) {
+        if (webProperties.fillResponseNullValueEnabled) {
             mappingJackson2HttpMessageConverter.objectMapper = createObjectMapper().apply {
                 serializerFactory =
                     serializerFactory
@@ -184,7 +188,7 @@ internal data class WebProperties(
      * 是否处理响应json null值。
      */
     @DefaultValue("true")
-    val jsonNullValueOptimizedEnabled: Boolean = true,
+    val fillResponseNullValueEnabled: Boolean = true,
 )
 
 /**

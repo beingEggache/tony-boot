@@ -12,6 +12,7 @@ package com.tony.mybatis.dao
 import com.baomidou.mybatisplus.core.enums.SqlMethod
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper
 import com.tony.SpringContexts
+import com.tony.utils.asToNotNull
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.rawClass
 import com.tony.utils.typeParamOfSuperInterface
@@ -60,7 +61,7 @@ internal fun <T : Any> BaseDao<T>.getSqlStatement(sqlMethod: SqlMethod?): String
  * @return logger
  */
 internal fun <T : Any> BaseDao<T>.getLog(): Log =
-    LOG_MAP.getOrPut(actualClass()) {
+    LOG_MAP.getOrPut(this::class.java) {
         LogFactory.getLog(actualClass())
     }
 
@@ -69,22 +70,20 @@ internal fun <T : Any> BaseDao<T>.getLog(): Log =
  *
  * @return entityClass
  */
-@Suppress("UNCHECKED_CAST")
 internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
-    ENTITY_CLASS_MAP.getOrPut(actualClass()) {
+    ENTITY_CLASS_MAP.getOrPut(this::class.java) {
         actualClass().typeParamOfSuperInterface(BaseDao::class.java).rawClass()
-    } as Class<T>
+    }.asToNotNull()
 
 /**
  * 获取mapper类型
  *
  * @return mapper类型
  */
-@Suppress("UNCHECKED_CAST")
 internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
-    MAPPER_CLASS_MAP.getOrPut(actualClass()) {
+    MAPPER_CLASS_MAP.getOrPut(this::class.java) {
         actualClass()
-    } as Class<out BaseDao<T>>
+    }.asToNotNull()
 
 /**
  * 批量执行

@@ -1,66 +1,33 @@
-package com.tony.web.advice
+package com.tony.web.support
 
-import com.tony.utils.defaultIfBlank
-import com.tony.utils.getLogger
+import com.tony.utils.annotation
+import com.tony.utils.hasAnnotation
+import com.tony.web.support.annotation.InjectRequestBodyField
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
-import java.util.function.Supplier
 
 /**
- * RequestBodyFieldInjector is
+ * RequestBody 注入
+ *
  * @author tangli
- * @since 2023/06/08 10:56
+ * @since 2023/7/6 14:59
  */
-public open class RequestBodyFieldInjector(
-    public val name: String,
-    internal val value: Supplier<*>,
-) {
-
-    private val logger: Logger = getLogger()
-
-    init {
-        @Suppress("LeakingThis")
-        logger.info(
-            "Request body field with {} will injected by $this.",
-            if (name.isBlank()) {
-                "@InjectRequestBodyField"
-            } else {
-                "@InjectRequestBodyField(value=\"$name\")"
-            },
-        )
-    }
-
-    protected open fun inject(annotatedField: Field, body: Any) {
-        annotatedField.set(body, value.get())
-    }
-
-    internal fun internalInject(annotatedField: Field, body: Any): Boolean {
-        annotatedField.trySetAccessible()
-        val defaultIfNull = annotatedField.getAnnotation(InjectRequestBodyField::class.java).defaultIfNull
-        return try {
-            if (defaultIfNull && annotatedField.get(body) != null) {
-                true
-            } else {
-                inject(annotatedField, body)
-                true
-            }
-        } catch (e: IllegalArgumentException) {
-            logger.warn(e.message)
-            false
-        }
-    }
-
-    override fun toString(): String {
-        return this::class.java.simpleName.defaultIfBlank("RequestBodyFieldInjector") + "($name)"
-    }
-}
-
 internal class RequestBodyFieldInjectorComposite(
     private val requestBodyFieldInjectors: List<RequestBodyFieldInjector>,
 ) {
+    init {
+        val injectorNameSet = HashSet<String>(requestBodyFieldInjectors.size)
+        requestBodyFieldInjectors.map { it.name }.forEach {
+            if (injectorNameSet.contains(it)) {
+                throw IllegalStateException("RequestBodyFieldInjector Name $it duplicate.")
+            }
+            injectorNameSet.add(it)
+        }
+    }
+
     companion object {
         @JvmStatic
         private val logger: Logger = LoggerFactory.getLogger(RequestBodyFieldInjectorComposite::class.java)
@@ -73,7 +40,7 @@ internal class RequestBodyFieldInjectorComposite(
          */
         @JvmStatic
         private val supportedClassFieldsCache =
-            ConcurrentHashMap<Class<*>, ConcurrentMap<String, MutableList<Field>>>()
+            ConcurrentHashMap<Class<*>, ConcurrentMap<String, MutableSet<Field>>>()
 
         @JvmStatic
         private val classSupportedInjectorMap =
@@ -101,16 +68,16 @@ internal class RequestBodyFieldInjectorComposite(
     }
 
     private fun injectorHasNoSupportedFields(
-        fieldListMap: ConcurrentMap<String, MutableList<Field>>,
+        fieldListMap: ConcurrentMap<String, MutableSet<Field>>,
         injectResultList: List<Pair<Field, Boolean>>,
-        fieldList: MutableList<Field>,
+        fieldList: MutableSet<Field>,
         bodyClass: Class<out Any>,
         injectorName: String,
     ): Boolean {
         synchronized(fieldListMap) {
-            injectResultList.forEachIndexed { index, (field, injectResult) ->
+            injectResultList.forEach { (field, injectResult) ->
                 if (!injectResult) {
-                    fieldList.removeAt(index)
+                    fieldList.remove(field)
                     logger.warn("${bodyClass.simpleName}.${field.name} inject failed, remove supports.")
                 }
             }
@@ -170,7 +137,9 @@ internal class RequestBodyFieldInjectorComposite(
         val annotatedFields =
             targetType
                 .declaredFields
-                .filter { it.isAnnotationPresent(InjectRequestBodyField::class.java) }
+                .filter {
+                    it.hasAnnotation(InjectRequestBodyField::class.java)
+                }
 
         if (annotatedFields.isEmpty()) {
             return false
@@ -212,14 +181,14 @@ internal class RequestBodyFieldInjectorComposite(
         .filter { field ->
             isFieldSupportByAnnoValueOrFieldName(
                 field.name,
-                field.getAnnotation(InjectRequestBodyField::class.java).value,
+                field.annotation(InjectRequestBodyField::class.java)!!.value,
                 injector.name,
             )
         }
         .onEach {
             supportedClassFieldsCache
                 .getOrPut(targetType) { ConcurrentHashMap() }
-                .getOrPut(injector.name) { mutableListOf() }
+                .getOrPut(injector.name) { mutableSetOf() }
                 .add(it)
         }
         .isNotEmpty()

@@ -1,8 +1,8 @@
-package com.tony.mybatis.db.dao
+package com.tony.mybatis.test.db.dao
 
 import com.tony.mybatis.dao.BaseDao
-import com.tony.mybatis.db.enums.ModuleType
-import com.tony.mybatis.db.po.Module
+import com.tony.mybatis.test.db.enums.ModuleType
+import com.tony.mybatis.test.db.po.Module
 import org.apache.ibatis.annotations.Param
 
 interface ModuleDao : BaseDao<Module> {

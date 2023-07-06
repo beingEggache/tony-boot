@@ -1,9 +1,9 @@
-package com.tony.mybatis.db.po
+package com.tony.mybatis.test.db.po
 
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
-import com.tony.mybatis.db.enums.ModuleType
+import com.tony.mybatis.test.db.enums.ModuleType
 
 /**
  * <p>

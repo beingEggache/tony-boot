@@ -1,4 +1,4 @@
-package com.tony.mybatis.db.enums
+package com.tony.mybatis.test.db.enums
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue

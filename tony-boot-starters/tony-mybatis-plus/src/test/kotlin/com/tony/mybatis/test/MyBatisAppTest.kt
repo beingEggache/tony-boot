@@ -2,8 +2,9 @@ package com.tony.mybatis.test
 
 import com.tony.SpringContexts
 import com.tony.annotation.EnableTonyBoot
-import com.tony.mybatis.db.dao.UserDao
-import com.tony.mybatis.db.po.User
+import com.tony.mybatis.test.db.dao.UserDao
+import com.tony.mybatis.test.db.po.User
+import com.tony.utils.md5Uppercase
 import org.junit.jupiter.api.Test
 import org.mybatis.spring.annotation.MapperScan
 import org.springframework.beans.factory.getBean
@@ -30,6 +31,20 @@ class MyBatisAppTest {
         val list = userDao.ktQuery().list()
         println(userDao::class.java)
         println(list)
+    }
+
+    @Test
+    fun testDaoInsertBatch() {
+        val users = (1..9).map {
+            User().apply {
+                val s = "hcy$it"
+                userName = s
+                realName = "华晨宇$it"
+                mobile = "1398484268$it"
+                pwd = "123456$s".md5Uppercase()
+            }
+        }
+        userDao.insertBatch(users)
     }
 
     @Test
@@ -61,10 +76,10 @@ class MyBatisAppTest {
 
 
 @ComponentScan(
-    basePackages = ["com.tony.mybatis.db"],
+    basePackages = ["com.tony.mybatis.test.db"],
 )
 @EnableTransactionManagement(proxyTargetClass = true)
-@MapperScan("com.tony.mybatis.db.dao")
+@MapperScan("com.tony.mybatis.test.db.dao")
 @EnableTonyBoot
 @SpringBootApplication
 class TestMyBatisApp

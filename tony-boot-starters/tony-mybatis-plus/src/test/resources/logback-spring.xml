@@ -4,4 +4,6 @@
 
     <logger name="trace-logger" level="TRACE"/>
     <logger name="request-logger" level="TRACE"/>
+
+    <logger name="com.tony.mybatis.test.db.dao" level="DEBUG" />
 </configuration>

@@ -42,7 +42,7 @@ internal class JwtApiSession : ApiSession {
             try {
                 JwtToken.parse(WebContext.request.getHeader("x-token").defaultIfBlank())
             } catch (e: JWTVerificationException) {
-                logger.warn(e.message)
+                logger.warn(e.message, e)
                 throw UnauthorizedException("请登录")
             }
         }

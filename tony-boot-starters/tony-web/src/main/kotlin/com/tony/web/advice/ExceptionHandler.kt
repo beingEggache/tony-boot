@@ -124,7 +124,7 @@ internal class ExceptionHandler : ErrorController {
         response: HttpServletResponse,
     ) =
         run {
-            logger.warn(e.localizedMessage)
+            logger.warn(e.localizedMessage, e)
             badRequest(ApiProperty.badRequestMsg)
         }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
             response.addHeader(wrapExceptionHeaderName, "true")

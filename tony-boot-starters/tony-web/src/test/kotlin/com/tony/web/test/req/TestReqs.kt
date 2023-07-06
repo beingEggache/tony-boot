@@ -2,7 +2,7 @@ package com.tony.web.test.req
 
 import com.tony.enums.validate.SimpleIntEnum
 import com.tony.enums.validate.SimpleStringEnum
-import com.tony.web.advice.InjectRequestBodyField
+import com.tony.web.support.annotation.InjectRequestBodyField
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull

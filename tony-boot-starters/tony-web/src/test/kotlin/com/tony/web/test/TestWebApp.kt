@@ -1,7 +1,7 @@
 package com.tony.web.test
 
 import com.tony.annotation.EnableTonyBoot
-import com.tony.web.advice.RequestBodyFieldInjector
+import com.tony.web.support.RequestBodyFieldInjector
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -12,20 +12,21 @@ class TestWebApp {
 
     @Bean
     fun stringInject(): RequestBodyFieldInjector =
-        RequestBodyFieldInjector("string") {
-            "aloha"
+        object : RequestBodyFieldInjector("string") {
+            override fun value(fieldType: Class<*>) = "aloha"
         }
 
     @Bean
     fun intInject(): RequestBodyFieldInjector =
-        RequestBodyFieldInjector("int") {
-            123
+        object : RequestBodyFieldInjector("int") {
+            override fun value(fieldType: Class<*>) = 123
+
         }
 
     @Bean
     fun listInject(): RequestBodyFieldInjector =
-        RequestBodyFieldInjector("list") {
-            listOf("item 1")
+        object : RequestBodyFieldInjector("list") {
+            override fun value(fieldType: Class<*>) = listOf("item 1")
         }
 }
 
