@@ -1,13 +1,21 @@
 package com.tony.core.test
 
 import com.tony.utils.asToNotNull
+import com.tony.utils.jsonToObj
 import com.tony.utils.println
 import com.tony.utils.typeParamOfSuperClass
 import java.io.Serializable
 import java.lang.reflect.ParameterizedType
 
 fun main() {
+    val person = """{"age":18}""".jsonToObj<Person>()
+    println(person)
 }
+
+data class Person(
+    val name: Array<String> = emptyArray(),
+    val age: Int
+)
 
 open class Parent
 

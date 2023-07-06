@@ -20,8 +20,10 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import java.io.IOException
 import java.io.InputStream
 import java.util.TimeZone
@@ -36,13 +38,29 @@ public val OBJECT_MAPPER: ObjectMapper = createObjectMapper()
 public fun createObjectMapper(): ObjectMapper =
     ObjectMapper()
         .apply {
-            registerModules(KotlinModule.Builder().build(), JavaTimeModule())
+            val kotlinModule = KotlinModule.Builder()
+                .apply {
+                    enable(KotlinFeature.NullIsSameAsDefault)
+                    enable(KotlinFeature.NullToEmptyCollection)
+                    enable(KotlinFeature.NullToEmptyMap)
+                }.build()
+            registerModules(kotlinModule, JavaTimeModule(), ParameterNamesModule())
             setTimeZone(TimeZone.getDefault())
             setSerializationInclusion(JsonInclude.Include.ALWAYS)
-            enable(JsonGenerator.Feature.IGNORE_UNKNOWN)
-            enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
-            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+
+            enable(
+                DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE,
+                DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS,
+                DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT,
+            )
             disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            @Suppress("DEPRECATION")
+            enable(
+                JsonGenerator.Feature.IGNORE_UNKNOWN,
+                JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN,
+                JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS,
+            )
+            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         }
 
 @Throws(IOException::class)

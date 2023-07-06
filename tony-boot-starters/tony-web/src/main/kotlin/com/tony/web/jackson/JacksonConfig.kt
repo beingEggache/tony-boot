@@ -98,11 +98,12 @@ public class NullValueBeanSerializerModifier : BeanSerializerModifier() {
         beanDesc: BeanDescription,
         beanProperties: MutableList<BeanPropertyWriter>,
     ): MutableList<BeanPropertyWriter> = beanProperties.onEach {
+        val type = it.type
         when {
-            it.type.isDateTimeLikeType() || it.type.isBooleanType() || it.type.isEnumType -> Unit
-            it.type.isArrayLikeType() -> it.assignNullSerializer(nullArrayJsonSerializer)
-            it.type.isObjLikeType() -> it.assignNullSerializer(nullObjJsonSerializer)
-            it.type.isStringLikeType() -> it.assignNullSerializer(nullStrJsonSerializer)
+            type.isDateTimeLikeType() || type.isBooleanType() || type.isEnumType -> Unit
+            type.isArrayLikeType() -> it.assignNullSerializer(nullArrayJsonSerializer)
+            type.isObjLikeType() -> it.assignNullSerializer(nullObjJsonSerializer)
+            type.isStringLikeType() -> it.assignNullSerializer(nullStrJsonSerializer)
         }
     }
 }
