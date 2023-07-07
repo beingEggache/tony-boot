@@ -11,7 +11,7 @@ enum class TestStringEnum(
     override val value: String
 ) : StringEnumValue {
     TEST_1("1"),
-    TEST_2("1"),
+    TEST_2("2"),
     ;
     init {
         TestStringEnum.Companion

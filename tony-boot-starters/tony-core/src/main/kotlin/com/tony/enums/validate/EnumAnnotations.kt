@@ -1,4 +1,5 @@
 package com.tony.enums.validate
+
 /**
  *
  * @author tangli
@@ -93,7 +94,7 @@ public annotation class IntEnum(
  * @since 2021-05-19 10:58
  */
 @MustBeDocumented
-@Constraint(validatedBy = [SimpleIntEnumValidator::class])
+@Constraint(validatedBy = [SimpleStringEnumValidator::class])
 @Target(
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,

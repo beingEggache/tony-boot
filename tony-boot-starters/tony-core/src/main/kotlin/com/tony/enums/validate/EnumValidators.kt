@@ -7,7 +7,6 @@ package com.tony.enums.validate
  */
 import com.tony.enums.DEFAULT_INT_VALUE
 import com.tony.enums.DEFAULT_STRING_VALUE
-import com.tony.enums.EnumValue
 import com.tony.enums.IntEnumValue
 import com.tony.enums.StringEnumValue
 import com.tony.utils.asTo
@@ -20,7 +19,7 @@ import javax.validation.ConstraintValidatorContext
  * @author tangli
  * @since 2021-05-19 10:58
  */
-public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumValue<Int>?> {
+public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, IntEnumValue?> {
     private var enums: IntArray = intArrayOf()
     private var required = false
     override fun initialize(constraintAnnotation: SimpleIntEnum) {
@@ -28,7 +27,7 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumVal
         required = constraintAnnotation.required
     }
 
-    override fun isValid(str: EnumValue<Int>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
+    override fun isValid(str: IntEnumValue?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
                 str?.value == null ||
                     str.value == DEFAULT_INT_VALUE
@@ -46,7 +45,7 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, EnumVal
  * @author tangli
  * @since 2021-05-19 10:58
  */
-public class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
+public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
     private var enums: List<Int> = listOf()
     private var required = false
     override fun initialize(constraintAnnotation: IntEnum) {
@@ -59,7 +58,7 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
         throw IllegalStateException("class is not valid")
     }
 
-    override fun isValid(str: EnumValue<Int>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
+    override fun isValid(str: IntEnumValue?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
                 str?.value == null ||
                     str.value == DEFAULT_INT_VALUE
@@ -76,7 +75,7 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, EnumValue<Int>?> {
  * @author tangli
  * @since 2021-05-19 10:58
  */
-public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, EnumValue<String>?> {
+public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, StringEnumValue?> {
 
     private lateinit var enums: Array<out String>
     private var required = false
@@ -85,7 +84,7 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, E
         required = constraintAnnotation.required
     }
 
-    override fun isValid(str: EnumValue<String>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
+    override fun isValid(str: StringEnumValue?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
                 str?.value == null ||
                     str.value == DEFAULT_STRING_VALUE
@@ -102,7 +101,7 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, E
  * @author tangli
  * @since 2021-05-19 10:58
  */
-public class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<String>?> {
+public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumValue?> {
     private var enums: List<String> = listOf()
     private var required = false
     override fun initialize(constraintAnnotation: StringEnum) {
@@ -115,7 +114,7 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, EnumValue<Str
         throw IllegalStateException("class is not valid")
     }
 
-    override fun isValid(str: EnumValue<String>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
+    override fun isValid(str: StringEnumValue?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         if (required && (
                 str?.value == null ||
                     str.value == DEFAULT_STRING_VALUE
