@@ -1,5 +1,6 @@
 package com.tony.web.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.utils.createObjectMapper
@@ -25,6 +26,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -33,6 +35,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.format.FormatterRegistry
 import org.springframework.http.HttpHeaders
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.http.server.ServerHttpResponse
 import org.springframework.web.cors.CorsConfiguration
@@ -40,7 +43,6 @@ import org.springframework.web.cors.DefaultCorsProcessor
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.filter.CorsFilter
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import javax.annotation.Resource
 import javax.servlet.http.HttpServletResponse
 
 /**
@@ -137,17 +139,33 @@ internal class WebConfig(
         }
     }
 
-    @Resource
-    private fun initMappingJackson2HttpMessageConverter(
+    @Bean
+    internal fun jackson2ObjectMapperBuilder(
+        jackson2ObjectMapperBuilderCustomizer: Jackson2ObjectMapperBuilderCustomizer,
+    ): Jackson2ObjectMapperBuilder = Jackson2ObjectMapperBuilder().apply {
+        jackson2ObjectMapperBuilderCustomizer.customize(this)
+    }
+
+    @Bean
+    internal fun objectMapper(jackson2ObjectMapperBuilder: Jackson2ObjectMapperBuilder): ObjectMapper =
+        createObjectMapper().apply {
+            jackson2ObjectMapperBuilder.configure(this)
+        }
+
+    @Bean
+    internal fun initMappingJackson2HttpMessageConverter(
         mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
-    ) {
+        objectMapper: ObjectMapper,
+    ): String {
         if (webProperties.fillResponseNullValueEnabled) {
-            mappingJackson2HttpMessageConverter.objectMapper = createObjectMapper().apply {
+            logger.info("Fill response null value enabled.")
+            mappingJackson2HttpMessageConverter.objectMapper = objectMapper.apply {
                 serializerFactory =
                     serializerFactory
                         .withSerializerModifier(NullValueBeanSerializerModifier())
             }
         }
+        return ""
     }
 }
 
@@ -223,11 +241,13 @@ internal class ApiCorsProcessor : DefaultCorsProcessor() {
 
     private companion object {
         @JvmStatic
-        val invalidCorsRequestResponseByteArray = ApiResult(
-            EMPTY_RESULT,
-            HttpServletResponse.SC_FORBIDDEN,
-            "Invalid CORS request",
-        ).toJsonString().toByteArray()
+        val invalidCorsRequestResponseByteArray by lazy(LazyThreadSafetyMode.NONE) {
+            ApiResult(
+                EMPTY_RESULT,
+                HttpServletResponse.SC_FORBIDDEN,
+                "Invalid CORS request",
+            ).toJsonString().toByteArray()
+        }
     }
 
     override fun rejectRequest(response: ServerHttpResponse) {

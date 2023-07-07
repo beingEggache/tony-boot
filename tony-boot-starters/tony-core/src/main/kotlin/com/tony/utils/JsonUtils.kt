@@ -8,10 +8,12 @@ package com.tony.utils
  * @author tangli
  * @since 2022/9/29 10:20
  */
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParseException
+import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -24,12 +26,22 @@ import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
+import com.tony.SpringContexts
 import java.io.IOException
 import java.io.InputStream
+import java.time.LocalDateTime
+import java.util.Date
 import java.util.TimeZone
 
-@JvmSynthetic
-public val OBJECT_MAPPER: ObjectMapper = createObjectMapper()
+public val globalObjectMapper: ObjectMapper by lazy {
+    try {
+        SpringContexts.getBean(ObjectMapper::class.java)
+    } catch (e: Throwable) {
+        // If not in spring env.
+        getLogger("com.tony.utils.JsonUtils").warn("We don't have a spring context.")
+        createObjectMapper()
+    }
+}
 
 /**
  * 创建全局统一行为 jackson object mapper.
@@ -47,7 +59,13 @@ public fun createObjectMapper(): ObjectMapper =
             registerModules(kotlinModule, JavaTimeModule(), ParameterNamesModule())
             setTimeZone(TimeZone.getDefault())
             setSerializationInclusion(JsonInclude.Include.ALWAYS)
-
+            configOverride(Date::class.java).setFormat(
+                JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss"),
+            )
+            configOverride(LocalDateTime::class.java).setFormat(
+                JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss"),
+            )
+            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             enable(
                 DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE,
                 DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS,
@@ -59,59 +77,63 @@ public fun createObjectMapper(): ObjectMapper =
                 JsonGenerator.Feature.IGNORE_UNKNOWN,
                 JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN,
                 JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS,
+                JsonGenerator.Feature.USE_FAST_DOUBLE_WRITER,
             )
-            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            enable(
+                JsonParser.Feature.USE_FAST_BIG_NUMBER_PARSER,
+                JsonParser.Feature.USE_FAST_DOUBLE_PARSER,
+            )
         }
 
 @Throws(IOException::class)
 public inline fun <reified T> String.jsonToObj(): T =
-    OBJECT_MAPPER.readValue(this)
+    globalObjectMapper.readValue(this)
 
 /**
  * Method to deserialize JSON content from given JSON content String.
  */
 @Throws(IOException::class)
 public fun <T> String.jsonToObj(clazz: Class<T>): T =
-    OBJECT_MAPPER.readValue(this, clazz)
+    globalObjectMapper.readValue(this, clazz)
 
 /**
  * Method to deserialize JSON content from given JSON content String.
  */
 @Throws(IOException::class)
 public fun <T> String.jsonToObj(typeReference: TypeReference<T>): T =
-    OBJECT_MAPPER.readValue(this, typeReference)
+    globalObjectMapper.readValue(this, typeReference)
 
 /**
  * Method to deserialize JSON content from given JSON content String.
  */
 @Throws(IOException::class)
 public fun <T> String.jsonToObj(javaType: JavaType): T =
-    OBJECT_MAPPER.readValue(this, javaType)
+    globalObjectMapper.readValue(this, javaType)
 
 /**
  * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
-public fun String.jsonNode(): JsonNode = OBJECT_MAPPER.readTree(this)
+public fun String.jsonNode(): JsonNode = globalObjectMapper.readTree(this)
 
 /**
  * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
-public fun ByteArray.jsonNode(): JsonNode = OBJECT_MAPPER.readTree(this)
+public fun ByteArray.jsonNode(): JsonNode = globalObjectMapper.readTree(this)
 
 /**
  * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
-public fun InputStream.jsonNode(): JsonNode = OBJECT_MAPPER.readTree(this)
+public fun InputStream.jsonNode(): JsonNode = globalObjectMapper.readTree(this)
 
 /**
  * Method that can be used to serialize any Java value as a String.
  */
 public fun <T> T?.toJsonString(): String =
     if (this != null) {
-        OBJECT_MAPPER.writeValueAsString(this)
+        globalObjectMapper.writeValueAsString(this)
     } else {
         ""
     }
@@ -159,8 +181,8 @@ public fun String.getFromRootAsString(field: String): String? {
 
 @Throws(IOException::class)
 public inline fun <reified T> ByteArray.jsonToObj(): T =
-    OBJECT_MAPPER.readValue(this)
+    globalObjectMapper.readValue(this)
 
 @Throws(IOException::class)
 public inline fun <reified T> InputStream.jsonToObj(): T =
-    OBJECT_MAPPER.readValue(this)
+    globalObjectMapper.readValue(this)

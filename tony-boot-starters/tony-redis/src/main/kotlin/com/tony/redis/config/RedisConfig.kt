@@ -1,12 +1,12 @@
 package com.tony.redis.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.tony.redis.aspect.DefaultRedisCacheAspect
 import com.tony.redis.serializer.ProtostuffSerializer
 import com.tony.redis.serializer.SerializerMode
 import com.tony.redis.service.RedisService
 import com.tony.redis.service.impl.JacksonRedisService
 import com.tony.redis.service.impl.ProtostuffRedisService
-import com.tony.utils.OBJECT_MAPPER
 import io.protostuff.LinkedBuffer
 import io.protostuff.runtime.RuntimeSchema
 import org.slf4j.LoggerFactory
@@ -61,8 +61,10 @@ internal class RedisConfig(
 
     @ConditionalOnMissingBean(RedisSerializer::class)
     @Bean
-    internal fun genericJackson2JsonRedisSerializer(): RedisSerializer<Any?> =
-        GenericJackson2JsonRedisSerializer(OBJECT_MAPPER).also {
+    internal fun genericJackson2JsonRedisSerializer(
+        objectMapper: ObjectMapper,
+    ): RedisSerializer<Any?> =
+        GenericJackson2JsonRedisSerializer(objectMapper).also {
             if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
                 logger.warn(
                     "Your serializer mode is ${SerializerMode.PROTOSTUFF}, but got ${SerializerMode.JACKSON}," +

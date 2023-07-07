@@ -33,9 +33,3 @@ class TestWebApp {
 fun main() {
     runApplication<TestWebApp>()
 }
-
-class FuncArgClass(val name: String, val func: () -> Any) {
-    init {
-        func()
-    }
-}

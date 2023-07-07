@@ -3,7 +3,7 @@
 package com.tony.feign
 
 import com.fasterxml.jackson.databind.JsonNode
-import com.tony.utils.OBJECT_MAPPER
+import com.tony.utils.globalObjectMapper
 import com.tony.utils.jsonNode
 import com.tony.utils.md5Uppercase
 import com.tony.utils.toJsonString
@@ -82,7 +82,7 @@ private val TEXT_MEDIA_TYPES = listOf(
 public fun String.sortRequestBody(
     timestampStr: String,
 ): String =
-    OBJECT_MAPPER
+    globalObjectMapper
         .readTree(this)
         .sortRequestBody(timestampStr)
 

@@ -17,17 +17,17 @@ fun main(args: Array<String>) {
     }
 }
 
-//@Profile(value = ["!prod"])
-//@Component
-//class InitApp(
-//    private val userService: UserService,
-//) : CommandLineRunner {
+// @Profile(value = ["!prod"])
+// @Component
+// class InitApp(
+//     private val userService: UserService,
+// ) : CommandLineRunner {
 //
-//    @Transactional
-//    override fun run(vararg args: String?) {
-//        userService.initSuperAdmin(WebApp.appId)
-//    }
-//}
+//     @Transactional
+//     override fun run(vararg args: String?) {
+//         userService.initSuperAdmin(WebApp.appId)
+//     }
+// }
 
 @EnableTonyBoot
 @Import(value = [DbConfig::class])

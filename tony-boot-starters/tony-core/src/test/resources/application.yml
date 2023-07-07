@@ -1,0 +1,15 @@
+spring:
+  jackson:
+    date-format: 'yyyy'
+
+    serialization:
+      write-bigdecimal-as-plain:
+    deserialization:
+      wrap-exceptions:
+    generator:
+      use-fast-double-writer:
+
+    mapper:
+      apply-default-values:
+    parser:
+      use-fast-big-number-parser:

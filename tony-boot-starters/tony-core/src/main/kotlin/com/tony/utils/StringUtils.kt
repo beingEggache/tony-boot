@@ -28,7 +28,7 @@ public fun uuid(): String = UUID.randomUUID().toString().uppercase().replace("-"
  * 判断字符串是否是一个json
  */
 public fun CharSequence.isJson(): Boolean = try {
-    OBJECT_MAPPER.readTree(this.toString())
+    globalObjectMapper.readTree(this.toString())
     true
 } catch (e: JsonProcessingException) {
     false

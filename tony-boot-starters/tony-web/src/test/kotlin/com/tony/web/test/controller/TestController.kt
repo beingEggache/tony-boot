@@ -5,6 +5,7 @@ import com.tony.enums.validate.SimpleIntEnum
 import com.tony.enums.validate.SimpleStringEnum
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
+import com.tony.web.test.req.TestDateTimesReq
 import com.tony.web.test.req.TestIntEnum
 import com.tony.web.test.req.TestReq
 import com.tony.web.test.req.TestStringEnum
@@ -217,4 +218,13 @@ class TestController {
         @RequestBody
         testReq: TestReq
     ): TestReq = testReq
+
+    @ApiOperationSupport(order = 32)
+    @Operation(description = "datetime")
+    @PostMapping("/datetime")
+    fun datetime(
+        @Validated
+        @RequestBody
+        testReq: TestDateTimesReq
+    ): TestDateTimesReq = testReq
 }
