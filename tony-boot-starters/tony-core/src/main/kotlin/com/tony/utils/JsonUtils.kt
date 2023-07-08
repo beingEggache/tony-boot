@@ -8,30 +8,18 @@ package com.tony.utils
  * @author tangli
  * @since 2022/9/29 10:20
  */
-import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParseException
-import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinFeature
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import com.tony.SpringContexts
+import com.tony.jackson.initialize
 import java.io.IOException
 import java.io.InputStream
-import java.time.LocalDateTime
-import java.util.Date
-import java.util.TimeZone
 
 public val globalObjectMapper: ObjectMapper by lazy {
     try {
@@ -47,43 +35,7 @@ public val globalObjectMapper: ObjectMapper by lazy {
  * 创建全局统一行为 jackson object mapper.
  *
  */
-public fun createObjectMapper(): ObjectMapper =
-    ObjectMapper()
-        .apply {
-            val kotlinModule = KotlinModule.Builder()
-                .apply {
-                    enable(KotlinFeature.NullIsSameAsDefault)
-                    enable(KotlinFeature.NullToEmptyCollection)
-                    enable(KotlinFeature.NullToEmptyMap)
-                }.build()
-            registerModules(kotlinModule, JavaTimeModule(), ParameterNamesModule())
-            setTimeZone(TimeZone.getDefault())
-            setSerializationInclusion(JsonInclude.Include.ALWAYS)
-            configOverride(Date::class.java).setFormat(
-                JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss"),
-            )
-            configOverride(LocalDateTime::class.java).setFormat(
-                JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss"),
-            )
-            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            enable(
-                DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE,
-                DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS,
-                DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT,
-            )
-            disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            @Suppress("DEPRECATION")
-            enable(
-                JsonGenerator.Feature.IGNORE_UNKNOWN,
-                JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN,
-                JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS,
-                JsonGenerator.Feature.USE_FAST_DOUBLE_WRITER,
-            )
-            enable(
-                JsonParser.Feature.USE_FAST_BIG_NUMBER_PARSER,
-                JsonParser.Feature.USE_FAST_DOUBLE_PARSER,
-            )
-        }
+public fun createObjectMapper(): ObjectMapper = ObjectMapper().initialize()
 
 @Throws(IOException::class)
 public inline fun <reified T> String.jsonToObj(): T =
