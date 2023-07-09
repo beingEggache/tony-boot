@@ -20,7 +20,6 @@ class TestWebApp {
     fun intInject(): RequestBodyFieldInjector =
         object : RequestBodyFieldInjector("int") {
             override fun value(fieldType: Class<*>) = 123
-
         }
 
     @Bean

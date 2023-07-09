@@ -1,12 +1,12 @@
 package com.tony.db.service
 
+import com.tony.PageQuery
 import com.tony.PageResult
 import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
 import com.tony.db.po.User
 import com.tony.dto.req.UserCreateReq
-import com.tony.dto.req.UserListQueryReq
 import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
 import com.tony.dto.resp.UserInfoResp
@@ -46,20 +46,19 @@ class UserService(
         } ?: throw BizException("没有此用户")
 
     fun list(
-        req: UserListQueryReq,
-    ) =
-        userDao
-            .query()
-            .like(
-                !req.query.isNullOrBlank(),
-                User::userName,
-                req.query,
-            )
-            .or(!req.query.isNullOrBlank()) {
-                it.like(User::realName, req.query)
-            }
-            .pageResult<PageResult<User>>(req)
-            .map { it.toDto() }
+        req: PageQuery<String>,
+    ) = userDao
+        .query()
+        .like(
+            !req.query.isNullOrBlank(),
+            User::userName,
+            req.query,
+        )
+        .or(!req.query.isNullOrBlank()) {
+            it.like(User::realName, req.query)
+        }
+        .pageResult<PageResult<User>>(req)
+        .map { it.toDto() }
 
     fun listRolesByUserId(userId: String?, appId: String) =
         roleDao.selectByUserId(userId, appId).map { it.toDto() }

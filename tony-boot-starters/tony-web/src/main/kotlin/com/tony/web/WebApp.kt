@@ -93,7 +93,7 @@ public object WebApp {
      */
     @JvmOverloads
     @JvmStatic
-    public fun errorResponse(msg: String = "", code: Int = ApiProperty.errorCode): ApiResult<Map<Any?, Any?>> =
+    public fun errorResponse(msg: String = "", code: Int = ApiProperty.errorCode): ApiResult<*> =
         ApiResult(EMPTY_RESULT, code, msg)
 
     /**
@@ -105,7 +105,7 @@ public object WebApp {
      */
     @JvmOverloads
     @JvmStatic
-    public fun badRequest(msg: String = "", code: Int = ApiProperty.badRequestCode): ApiResult<Map<Any?, Any?>> =
+    public fun badRequest(msg: String = "", code: Int = ApiProperty.badRequestCode): ApiResult<*> =
         ApiResult(EMPTY_RESULT, code, msg)
 
     private fun whiteUrlPatterns(prefix: String = ""): Set<String> {

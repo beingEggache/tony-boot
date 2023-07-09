@@ -5,8 +5,10 @@ package com.tony.web.test.req
  * @author tangli
  * @since 2023/07/06 15:26
  */
+@Suppress("ArrayInDataClass")
 data class TestDefaultInjectReq(
     val name: String = "ok then",
+    val arr: BooleanArray,
     val list: List<String>,
     val set: Set<String>,
     val obj: TestInjectReqObjField = TestInjectReqObjField().apply { this.list = listOf("aloha") },

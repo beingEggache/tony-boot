@@ -1,5 +1,14 @@
-package com.tony.web.jackson
+@file:JvmName("BeanSerializerModifiers")
 
+package com.tony.jackson
+
+/**
+ * jackson 相关类
+ *
+ *
+ * @author tangli
+ * @since 2022/4/24 16:44
+ */
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.BeanDescription
 import com.fasterxml.jackson.databind.JsonSerializer

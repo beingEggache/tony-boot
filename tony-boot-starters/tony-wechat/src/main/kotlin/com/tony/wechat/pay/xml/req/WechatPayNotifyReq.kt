@@ -7,6 +7,7 @@ import com.tony.utils.getLogger
 import com.tony.wechat.pay.xml.resp.WechatPayNotifyResp
 import com.tony.wechat.xml.XStreamCDataConverter
 import com.tony.wechat.xml.toXmlString
+import java.util.function.Consumer
 
 /**
  * ## 支付回调请求对象
@@ -190,6 +191,8 @@ public data class WechatPayNotifyReq(
     public companion object {
         private val logger = getLogger()
 
+        @JvmSynthetic
+        @JvmStatic
         public fun process(
             notifyRequest: WechatPayNotifyReq,
             signValid: Boolean,
@@ -209,6 +212,34 @@ public data class WechatPayNotifyReq(
                 } else {
                     val errorDetail = "${notifyRequest.errCode}:${notifyRequest.errCodeDes}"
                     doOnFailed(errorDetail)
+                    logger.error("Wechat pay order(${notifyRequest.outTradeNo}) error:$errorDetail")
+                }
+            } catch (e: BaseException) {
+                logger.error(e.message)
+            }
+            return WechatPayNotifyResp().toXmlString()
+        }
+
+        @JvmStatic
+        public fun process(
+            notifyRequest: WechatPayNotifyReq,
+            signValid: Boolean,
+            doOnSuccess: Runnable,
+            doOnFailed: Consumer<String>,
+        ): String {
+            if (!signValid) {
+                logger.error(
+                    "wechat pay order ${notifyRequest.outTradeNo} " +
+                        "sign invalid,notify request:${notifyRequest.toXmlString()}",
+                )
+                return WechatPayNotifyResp().toXmlString()
+            }
+            try {
+                if (notifyRequest.returnCode == "SUCCESS" && notifyRequest.resultCode == "SUCCESS") {
+                    doOnSuccess.run()
+                } else {
+                    val errorDetail = "${notifyRequest.errCode}:${notifyRequest.errCodeDes}"
+                    doOnFailed.accept(errorDetail)
                     logger.error("Wechat pay order(${notifyRequest.outTradeNo}) error:$errorDetail")
                 }
             } catch (e: BaseException) {

@@ -3,6 +3,7 @@ package com.tony.web.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
+import com.tony.jackson.NullValueBeanSerializerModifier
 import com.tony.utils.createObjectMapper
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
@@ -14,7 +15,6 @@ import com.tony.web.converter.EnumStringValueConverterFactory
 import com.tony.web.filter.RequestReplaceToRepeatReadFilter
 import com.tony.web.filter.TraceIdFilter
 import com.tony.web.filter.TraceLoggingFilter
-import com.tony.web.jackson.NullValueBeanSerializerModifier
 import com.tony.web.listeners.ContextClosedListener
 import com.tony.web.listeners.DefaultContextClosedListener
 import com.tony.web.log.DefaultRequestTraceLogger

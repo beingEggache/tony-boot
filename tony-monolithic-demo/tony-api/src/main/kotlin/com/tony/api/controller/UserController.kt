@@ -1,10 +1,10 @@
 package com.tony.api.controller
 
 import com.tony.MonoResult.Companion.ofMonoResult
+import com.tony.PageQuery
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserCreateReq
-import com.tony.dto.req.UserListQueryReq
 import com.tony.web.WebApp
 import com.tony.web.WebContext
 import com.tony.web.WebContextExtensions.userId
@@ -45,6 +45,6 @@ class UserController(
     @PostMapping("/user/list")
     fun list(
         @Validated
-        @RequestBody req: UserListQueryReq,
+        @RequestBody req: PageQuery<String>,
     ) = userService.list(req)
 }

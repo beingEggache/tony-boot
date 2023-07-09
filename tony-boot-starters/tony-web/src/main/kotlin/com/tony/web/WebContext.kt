@@ -76,8 +76,9 @@ public object WebContext {
     public val url: URL
         get() = request.url
 
+    @Suppress("MemberVisibilityCanBePrivate")
     @JvmSynthetic
-    public fun BaseException.toResponse(): ApiResult<Map<Any?, Any?>> =
+    public fun BaseException.toResponse(): ApiResult<*> =
         ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
 
     internal val response: HttpServletResponse?
@@ -99,6 +100,7 @@ public object WebContext {
         @JvmSynthetic
         get() = errorAttributes["status"] as Int
 
+    @Suppress("MemberVisibilityCanBePrivate")
     internal val errorAttributes
         @JvmStatic
         get() = current

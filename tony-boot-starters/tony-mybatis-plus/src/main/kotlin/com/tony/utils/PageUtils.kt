@@ -29,14 +29,14 @@ public fun <T> PageQueryLike<*>.toPage(): Page<T> =
         descs
             ?.filterNotNull()
             ?.filter { it.isNotBlank() }
-            ?.map { OrderItem.desc(it.camelToSnakeCase()) }
             ?.takeIf { it.any() }
+            ?.map { OrderItem.desc(it.camelToSnakeCase()) }
             ?.let { page.addOrder(it) }
         ascs
             ?.filterNotNull()
             ?.filter { it.isNotBlank() }
-            ?.map { OrderItem.asc(it.camelToSnakeCase()) }
             ?.takeIf { it.any() }
+            ?.map { OrderItem.asc(it.camelToSnakeCase()) }
             ?.let { page.addOrder(it) }
     }
 

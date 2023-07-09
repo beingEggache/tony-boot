@@ -1,6 +1,8 @@
 package com.tony.wechat.pay.req
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
+import com.fasterxml.jackson.databind.annotation.JsonNaming
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
 import com.tony.wechat.xml.XStreamCDataConverter
@@ -8,7 +10,9 @@ import com.tony.wechat.xml.XStreamCDataConverter
 /**
  * 统一下单请求对象
  */
+@Suppress("SpellCheckingInspection")
 @XStreamAlias("xml")
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 public data class WechatPayOrderReq(
 
     /**
@@ -34,7 +38,6 @@ public data class WechatPayOrderReq(
      * 微信支付分配的商户号
      */
     @XStreamAlias("mch_id")
-    @JsonProperty("mch_id")
     var mchId: String?,
 
     /**
@@ -42,7 +45,6 @@ public data class WechatPayOrderReq(
      * > 默认请传"WEB"
      */
     @XStreamAlias("device_info")
-    @JsonProperty("device_info")
     var deviceInfo: String? = null,
 
     /**
@@ -52,7 +54,6 @@ public data class WechatPayOrderReq(
      * @see <a href='https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_3'>随机数生成算法</a>
      */
     @XStreamAlias("nonce_str")
-    @JsonProperty("nonce_str")
     var nonceStr: String,
 
     /**
@@ -62,7 +63,6 @@ public data class WechatPayOrderReq(
      * @see <a href='https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_3'>签名生成算法</a>
      */
     @XStreamAlias("sign")
-    @JsonProperty("sign")
     var sign: String? = null,
 
     /**
@@ -70,7 +70,6 @@ public data class WechatPayOrderReq(
      * > 目前支持HMAC-SHA256和MD5，默认为MD5
      */
     @XStreamAlias("sign_type")
-    @JsonProperty("sign_type")
     var signType: String = "MD5",
 
     /**
@@ -109,7 +108,6 @@ public data class WechatPayOrderReq(
      * @see <a href='https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_2'>商户订单号</a>
      */
     @XStreamAlias("out_trade_no")
-    @JsonProperty("out_trade_no")
     var outTradeNo: String?,
 
     /**
@@ -119,7 +117,6 @@ public data class WechatPayOrderReq(
      * @see <a href='https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_2'>货币类型</a>
      */
     @XStreamAlias("fee_type")
-    @JsonProperty("fee_type")
     var feeType: String = "CNY",
 
     /**
@@ -128,7 +125,6 @@ public data class WechatPayOrderReq(
      * @see <a href='https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_2'>支付金额</a>
      */
     @XStreamAlias("total_fee")
-    @JsonProperty("total_fee")
     var totalFee: Long?,
 
     /**
@@ -136,7 +132,6 @@ public data class WechatPayOrderReq(
      * > 用户端实际ip
      */
     @XStreamAlias("spbill_create_ip")
-    @JsonProperty("spbill_create_ip")
     var spbillCreateIP: String,
 
     /**
@@ -149,7 +144,6 @@ public data class WechatPayOrderReq(
      * @see <a href='https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_2'>时间规则</a>
      */
     @XStreamAlias("time_start")
-    @JsonProperty("time_start")
     var timeStart: String? = null,
 
     /**
@@ -169,7 +163,6 @@ public data class WechatPayOrderReq(
      * @see <a href='https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_2'>时间规则</a>
      */
     @XStreamAlias("time_expire")
-    @JsonProperty("time_expire")
     var timeExpire: String? = null,
 
     /**
@@ -179,7 +172,6 @@ public data class WechatPayOrderReq(
      * @see <a href='https://pay.weixin.qq.com/wiki/doc/api/tools/sp_coupon.php?chapter=12_1'>代金券或立减优惠</a>
      */
     @XStreamAlias("goods_tag")
-    @JsonProperty("goods_tag")
     var goodsTag: String? = null,
 
     /**
@@ -188,7 +180,6 @@ public data class WechatPayOrderReq(
      *    通知url必须为直接可访问的url，不能携带参数。
      */
     @XStreamAlias("notify_url")
-    @JsonProperty("notify_url")
     var notifyUrl: String,
 
     /**
@@ -198,7 +189,6 @@ public data class WechatPayOrderReq(
      *    APP APP支付
      */
     @XStreamAlias("trade_type")
-    @JsonProperty("trade_type")
     var tradeType: String,
 
     /**
@@ -208,7 +198,6 @@ public data class WechatPayOrderReq(
      *    此参数为二维码中包含的商品ID，商户自行定义。
      */
     @XStreamAlias("product_id")
-    @JsonProperty("product_id")
     var productId: String? = null,
 
     /**
@@ -216,7 +205,6 @@ public data class WechatPayOrderReq(
      *    no_credit--指定不能使用信用卡支付
      */
     @XStreamAlias("limit_pay")
-    @JsonProperty("limit_pay")
     var limitPay: String? = null,
 
     /**
@@ -229,7 +217,6 @@ public data class WechatPayOrderReq(
      *    }
      */
     @XStreamAlias("scene_info")
-    @JsonProperty("scene_info")
     var sceneInfo: String? = null,
 
     /**

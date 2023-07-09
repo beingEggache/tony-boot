@@ -82,7 +82,7 @@ public data class ApiResult<T> @JvmOverloads constructor(
 
     public companion object {
         @JvmField
-        public val EMPTY_RESULT: Map<Any?, Any?> = emptyMap()
+        public val EMPTY_RESULT: Any = emptyMap<String?, Any?>()
 
         /**
          * 只返回消息
@@ -417,10 +417,10 @@ public interface PageQueryLike<T : Any?> {
     public val descs: MutableCollection<String?>?
 }
 
-public data class PageQuery<T> @JvmOverloads constructor(
+public class PageQuery<T> @JvmOverloads constructor(
     override val query: T? = null,
-    override val page: Long? = 1L,
-    override val size: Long? = 10L,
+    override val page: Long = 1L,
+    override val size: Long = 10L,
     override val descs: MutableCollection<String?>? = Collections.emptyList(),
     override val ascs: MutableCollection<String?>? = Collections.emptyList(),
 ) : PageQueryLike<T>
