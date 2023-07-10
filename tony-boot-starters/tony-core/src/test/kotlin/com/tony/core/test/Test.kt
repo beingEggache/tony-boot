@@ -1,5 +1,6 @@
 package com.tony.core.test
 
+import com.tony.ApiResultLike
 import com.tony.utils.asToNotNull
 import com.tony.utils.jsonToObj
 import com.tony.utils.println
@@ -10,17 +11,10 @@ import java.lang.reflect.ParameterizedType
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Date
+import java.util.Locale
 
 fun main() {
-    val person1 = """{"age":18}""".jsonToObj<Person>()
-    val person2 = """{"age":18}""".jsonToObj<Person>()
-    val person3 = """{"age":18}""".jsonToObj<Person>()
-    println(person1)
-    println(person2)
-    println(person3)
-    println(person1.toJsonString())
-    println(person2.toJsonString())
-    println(person3.toJsonString())
+    ApiResultLike<*>::getMessage.name.substring(3).replaceFirstChar { it.lowercase(Locale.getDefault()) }.println()
 }
 
 data class Person(

@@ -1,5 +1,6 @@
 package com.tony.feign.decoder
 
+import com.tony.ApiResult
 import com.tony.ApiResultLike
 import com.tony.exception.ApiException
 import com.tony.utils.isTypesOrSubTypesOf
@@ -11,6 +12,7 @@ import com.tony.wrapExceptionHeaderName
 import com.tony.wrapResponseHeaderName
 import feign.Response
 import java.lang.reflect.Type
+import java.util.Locale
 import org.springframework.beans.factory.ObjectFactory
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters
@@ -30,8 +32,8 @@ public class UnwrapResponseDecoder(
     override fun decode(response: Response, type: Type): Any {
         if (response.headers().containsKey(wrapExceptionHeaderName)) {
             val jsonNode = response.body().asInputStream().jsonNode()
-            val message = jsonNode.get(ApiResultLike<*>::message.name).asText()
-            val code = jsonNode.get(ApiResultLike<*>::code.name).asInt()
+            val message = jsonNode.get(ApiResultLike<*>::getMessage.name.lTrimAndDecapitalize()).asText()
+            val code = jsonNode.get(ApiResultLike<*>::getCode.name.lTrimAndDecapitalize()).asInt()
             throw ApiException(message, code)
         }
         if (response.headers().containsKey(wrapResponseHeaderName)) {
@@ -40,10 +42,13 @@ public class UnwrapResponseDecoder(
             }
             val jsonNode = response.body().asInputStream().jsonNode()
             return jsonNode
-                .get(ApiResultLike<*>::data.name)
+                .get(ApiResult<*>::getData.name.lTrimAndDecapitalize())
                 .toString()
                 .jsonToObj(type.toJavaType())
         }
         return super.decode(response, type)
     }
+
+    private fun String.lTrimAndDecapitalize(): String = this.substring(3)
+        .replaceFirstChar { it.lowercase(Locale.getDefault()) }
 }

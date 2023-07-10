@@ -65,6 +65,7 @@ configure(subprojects) {
         plugin("com.tony.build.ktlint")
         plugin("com.tony.build.dep-substitute")
         plugin("com.tony.build.maven-publish")
+        plugin("org.gradle.java-library")
     }
 
     configure<JavaPluginExtension> {
@@ -85,17 +86,17 @@ configure(subprojects) {
     }
 
     configure<KaptExtension> {
-        generateStubs= false
-        inheritedAnnotations= true
-        useLightAnalysis= true
-        correctErrorTypes= true
-        dumpDefaultParameterValues= true
-        mapDiagnosticLocations= true
-        strictMode= true
-        stripMetadata= true
-        showProcessorStats= true
-        keepJavacAnnotationProcessors= true
-        useBuildCache= true
+        generateStubs = false
+        inheritedAnnotations = true
+        useLightAnalysis = true
+        correctErrorTypes = true
+        dumpDefaultParameterValues = true
+        mapDiagnosticLocations = true
+        strictMode = true
+        stripMetadata = true
+        showProcessorStats = true
+        keepJavacAnnotationProcessors = true
+        useBuildCache = true
     }
 
     tasks.withType<KotlinCompile>().configureEach {

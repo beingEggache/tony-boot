@@ -7,34 +7,6 @@ import com.tony.exception.BaseException
 import com.tony.exception.BizException
 import com.tony.utils.asTo
 import java.util.Collections
-import javax.validation.Valid
-import javax.validation.constraints.Positive
-
-/**
- * 全局响应统一结构.
- * @param T 响应体对象类型.
- *
- * @author tangli
- * @since 2021/12/6 10:51
- */
-public interface ApiResultLike<T> {
-    /**
-     * 响应体
-     */
-    public val data: T?
-
-    /**
-     * 返回码
-     */
-    public val code: Int
-        get() = ApiProperty.okCode
-
-    /**
-     * 返回消息
-     */
-    public val message: String
-        get() = ApiProperty.defaultOkMessage
-}
 
 public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
 
@@ -46,13 +18,12 @@ public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
  * @author tangli
  * @since 2021/12/6 10:51
  */
-@JsonPropertyOrder(value = ["code", "message", "data"])
 public data class ApiResult<T>
     @JvmOverloads
     constructor(
-        override val data: T?,
-        override val code: Int = ApiProperty.okCode,
-        override val message: String = ApiProperty.defaultOkMessage,
+        private val data: T?,
+        private val code: Int = ApiProperty.okCode,
+        private val message: CharSequence = ApiProperty.defaultOkMessage,
     ) : ApiResultLike<T> {
 
         init {
@@ -66,6 +37,17 @@ public data class ApiResult<T>
             }
         }
 
+        override fun getData(): T? = data
+
+        override fun getCode(): Int = code
+
+        override fun getMessage(): CharSequence = message
+
+        /**
+         * 将 data 的属性拉到根节点
+         */
+        public fun flatten(): ApiResultLike<T> = FlattenApiResult(data, code, message)
+
         /**
          * 如果返回码不成功, 则抛出异常.
          *
@@ -74,10 +56,10 @@ public data class ApiResult<T>
          */
         @JvmOverloads
         public fun returnIfSuccessOrThrow(
-            message: String = this.message,
+            message: CharSequence = this.message,
             ex: (message: String, code: Int) -> BaseException = ::BizException,
         ): T? = if (code != ApiProperty.okCode) {
-            throw ex.invoke(message, ApiProperty.preconditionFailedCode)
+            throw ex.invoke(message.toString(), ApiProperty.preconditionFailedCode)
         } else {
             data
         }
@@ -92,48 +74,48 @@ public data class ApiResult<T>
              */
             @JvmOverloads
             @JvmStatic
-            public fun message(message: String = ApiProperty.defaultOkMessage): ApiResult<Unit> =
+            public fun message(message: CharSequence = ApiProperty.defaultOkMessage): ApiResult<Unit> =
                 ApiResult(Unit, ApiProperty.okCode, message)
 
             /**
              * 用 [MonoResult] 包装 [Boolean]
-             * @param result Boolean
+             * @param value Boolean
              */
             @JvmStatic
             public fun of(
-                result: Boolean,
-                message: String = ApiProperty.defaultOkMessage,
-            ): ApiMonoResult<Boolean> = ApiResult(result.ofMonoResult(), ApiProperty.okCode, message)
+                value: Boolean,
+                message: CharSequence = ApiProperty.defaultOkMessage,
+            ): ApiMonoResult<Boolean> = ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
 
             /**
              * 用 [MonoResult] 包装 [CharSequence]
-             * @param result CharSequence
+             * @param value CharSequence
              */
             @JvmStatic
             public fun <E : CharSequence> of(
-                result: E,
-                message: String = ApiProperty.defaultOkMessage,
-            ): ApiMonoResult<E> = ApiResult(result.ofMonoResult(), ApiProperty.okCode, message)
+                value: E,
+                message: CharSequence = ApiProperty.defaultOkMessage,
+            ): ApiMonoResult<E> = ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
 
             /**
              * 用 [MonoResult] 包装 [Number]
-             * @param result Number
+             * @param value Number
              */
             @JvmStatic
             public fun <E : Number> of(
-                result: E,
-                message: String = ApiProperty.defaultOkMessage,
-            ): ApiMonoResult<E> = ApiResult(result.ofMonoResult(), ApiProperty.okCode, message)
+                value: E,
+                message: CharSequence = ApiProperty.defaultOkMessage,
+            ): ApiMonoResult<E> = ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
 
             /**
              * 用 [MonoResult] 包装 [Enum]
-             * @param result Enum
+             * @param value Enum
              */
             @JvmStatic
             public fun <E : Enum<*>> of(
-                result: E,
-                message: String = ApiProperty.defaultOkMessage,
-            ): ApiMonoResult<E> = ApiResult(result.ofMonoResult(), ApiProperty.okCode, message)
+                value: E,
+                message: CharSequence = ApiProperty.defaultOkMessage,
+            ): ApiMonoResult<E> = ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
         }
     }
 
@@ -143,7 +125,7 @@ public data class ApiResult<T>
  * @author tangli
  * @since 2021/12/6 10:51
  */
-public data class MonoResult<T>(val result: T? = null) {
+public data class MonoResult<T>(val value: T? = null) {
     public companion object {
 
         @JvmStatic
@@ -162,20 +144,6 @@ public data class MonoResult<T>(val result: T? = null) {
 
 /**
  * 全局响应统一列表结构.
- * @param T
- *
- * @author tangli
- * @since 2021/12/6 10:51
- */
-public interface ListResultLike<T> {
-    /**
-     * 列表
-     */
-    public val items: Collection<T>?
-}
-
-/**
- * 全局响应统一列表结构.
  *
  * @param T
  * @param items 列表
@@ -185,8 +153,8 @@ public interface ListResultLike<T> {
  */
 public data class ListResult<T>
     @JvmOverloads
-    constructor(override val items: Collection<T>? = listOf()) :
-    ListResultLike<T> {
+    constructor(private val items: Collection<T>? = mutableListOf()) :
+    ItemsWrapper<T> {
 
         public constructor(array: Array<*>) : this(array.asList().asTo())
         public constructor(byteArray: ByteArray) : this(byteArray.asList().asTo())
@@ -197,62 +165,9 @@ public data class ListResult<T>
         public constructor(doubleArray: DoubleArray) : this(doubleArray.asList().asTo())
         public constructor(booleanArray: BooleanArray) : this(booleanArray.asList().asTo())
         public constructor(charArray: CharArray) : this(charArray.asList().asTo())
+
+        override fun getItems(): Collection<T> = items ?: Collections.emptyList()
     }
-
-/**
- * 全局响应统一分页结构.
- * @param T
- *
- * @author tangli
- * @since 2021/12/6 10:51
- */
-public interface PageResultLike<T> {
-    /**
-     * 列表
-     */
-    public val items: Collection<T>?
-
-    /**
-     * 当前页
-     */
-    public val page: Long
-
-    /**
-     * 每页数量
-     */
-    public val size: Long
-
-    /**
-     * 总页数
-     */
-    public val pages: Long
-
-    /**
-     * 总个数
-     */
-    public val total: Long
-
-    /**
-     * 是否有下一页
-     */
-    public val hasNext: Boolean
-
-    /**
-     * map, 和 [List.map] 行为一致, 将返回类型改为自身.
-     * @see [List.map]
-     */
-    public fun <R> map(transform: (T) -> R): PageResult<R> =
-        PageResult(items?.map(transform), page, size, pages, total, hasNext)
-
-    /**
-     * onEach, 和 [List.onEach] 行为一致, 将返回类型改为自身.
-     * @see [List.onEach]
-     */
-    public fun onEach(action: (T) -> Unit): PageResult<T> =
-        PageResult(items?.onEach(action), page, size, pages, total, hasNext)
-
-    public fun firstOrNull(predicate: (T) -> Boolean): T? = items?.firstOrNull(predicate)
-}
 
 /**
  * 全局响应统一分页结构.
@@ -269,13 +184,25 @@ public interface PageResultLike<T> {
  */
 @JsonPropertyOrder(value = ["page", "size", "total", "pages", "hasNext", "items"])
 public data class PageResult<T>(
-    override val items: Collection<T>?,
-    override val page: Long,
-    override val size: Long,
-    override val pages: Long,
-    override val total: Long,
-    override val hasNext: Boolean,
+    private val items: Collection<T>?,
+    private val page: Long,
+    private val size: Long,
+    private val pages: Long,
+    private val total: Long,
+    private val hasNext: Boolean,
 ) : PageResultLike<T> {
+
+    override fun getItems(): Collection<T> = items ?: emptyList()
+
+    override fun getPage(): Long = page
+
+    override fun getSize(): Long = size
+
+    override fun getPages(): Long = pages
+
+    override fun getTotal(): Long = total
+
+    override fun getHasNext(): Boolean = hasNext
 
     /**
      * @see [PageResult]
@@ -385,47 +312,3 @@ public data class PageResult<T>(
         hasNext: Boolean,
     ) : this(charArray.asList().asTo(), page, size, pages, total, hasNext)
 }
-
-/**
- * 全局统一请求分页结构.
- *
- * @author tangli
- * @since 2021/12/6 10:51
- */
-public interface PageQueryLike<T : Any?> {
-
-    @get:Valid
-    public val query: T?
-
-    /**
-     * 页码,当前页
-     */
-    @get:Positive(message = "页码请输入正数")
-    public val page: Long?
-
-    /**
-     * 每页数量
-     */
-    @get:Positive(message = "每页数量请输入正数")
-    public val size: Long?
-
-    /**
-     * 升序字段
-     */
-    public val ascs: MutableCollection<String?>?
-
-    /**
-     * 降序字段
-     */
-    public val descs: MutableCollection<String?>?
-}
-
-public class PageQuery<T>
-    @JvmOverloads
-    constructor(
-        override val query: T? = null,
-        override val page: Long = 1L,
-        override val size: Long = 10L,
-        override val descs: MutableCollection<String?>? = Collections.emptyList(),
-        override val ascs: MutableCollection<String?>? = Collections.emptyList(),
-    ) : PageQueryLike<T>

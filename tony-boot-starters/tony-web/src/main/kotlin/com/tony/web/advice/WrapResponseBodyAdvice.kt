@@ -86,8 +86,10 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
             // because converterType is StringHttpMessageConverter
             /*java.lang.CharSequence::class.java,
             CharSequence::class.java,*/
-            Char::class.javaObjectType, Char::class.javaPrimitiveType,
-            Boolean::class.javaObjectType, Boolean::class.javaPrimitiveType
+            Char::class.javaObjectType,
+            Char::class.javaPrimitiveType,
+            Boolean::class.javaObjectType,
+            Boolean::class.javaPrimitiveType
         )
 
         @JvmStatic

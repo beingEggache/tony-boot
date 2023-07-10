@@ -36,7 +36,7 @@ public open class ApiException
         override val message: String? = "",
         override val code: Int = ApiProperty.errorCode,
         cause: Throwable? = null,
-    ) : BaseException(message, code, cause) {
+    ) : BaseException(message.toString(), code, cause) {
 
         public constructor(message: String?, cause: Throwable) : this(message, ApiProperty.errorCode, cause)
     }

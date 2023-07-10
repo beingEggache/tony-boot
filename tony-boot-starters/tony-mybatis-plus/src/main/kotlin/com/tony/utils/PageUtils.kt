@@ -22,10 +22,10 @@ import java.util.Collections
  * @receiver [PageQueryLike]
  * @return mybatis 分页对象, 一般用来查询.
  */
-public fun <T> PageQueryLike<*>.toPage(): Page<T> =
+public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
     Page<T>().also { page ->
-        page.current = this.page?.takeIf { it > 0 } ?: 1L
-        page.size = this.size?.takeIf { it > 0 } ?: 10L
+        page.current = this.page.takeIf { it > 0 } ?: 1L
+        page.size = this.size.takeIf { it > 0 } ?: 10L
         descs
             ?.filterNotNull()
             ?.filter { it.isNotBlank() }
