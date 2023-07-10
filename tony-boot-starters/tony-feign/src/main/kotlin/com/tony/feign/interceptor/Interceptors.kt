@@ -42,7 +42,7 @@ public interface GlobalHeaderInterceptor : AppInterceptor {
 
     private fun internalHeaders(): MutableMap<String, String> = mutableMapOf(
         fromInternalHeaderName to "true",
-        traceIdHeaderName to mdcPutOrGetDefault(traceIdHeaderName),
+        traceIdHeaderName to mdcPutOrGetDefault(traceIdHeaderName)
     ).apply {
         putAll(headers())
     }

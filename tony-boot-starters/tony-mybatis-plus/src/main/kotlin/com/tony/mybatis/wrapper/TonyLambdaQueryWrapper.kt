@@ -113,7 +113,7 @@ public class TonyLambdaQueryWrapper<T : Any> :
             paramAlias,
             SharedString.emptyString(),
             SharedString.emptyString(),
-            SharedString.emptyString(),
+            SharedString.emptyString()
         )
 
     override fun clear() {

@@ -4,7 +4,7 @@ import com.tony.exception.ApiException
 import com.tony.exception.BizException
 import com.tony.feign.test.unwrap.api.OpenFeignTestApi
 import com.tony.feign.test.unwrap.dto.Person
-import com.tony.web.interceptor.NoLoginCheck
+import com.tony.annotation.web.auth.NoLoginCheck
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController

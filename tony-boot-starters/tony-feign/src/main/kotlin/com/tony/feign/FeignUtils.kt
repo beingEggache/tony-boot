@@ -71,7 +71,7 @@ private val TEXT_MEDIA_TYPES = listOf(
     MediaType.TEXT_HTML,
     MediaType.TEXT_PLAIN,
     MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_FORM_URLENCODED,
+    MediaType.APPLICATION_FORM_URLENCODED
 )
 
 /**
@@ -107,7 +107,7 @@ public fun JsonNode.sortRequestBody(
         .asSequence()
         .sorted()
         .fold<String, LinkedHashMap<String, Any?>>(
-            linkedMapOf("timestamp" to timestampStr),
+            linkedMapOf("timestamp" to timestampStr)
         ) { map, key ->
             if (key == "timestamp") {
                 return@fold map

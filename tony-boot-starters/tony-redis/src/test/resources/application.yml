@@ -1,5 +1,7 @@
 spring:
-    application:
+  application:
         name: tony-cache
+  redis:
+    password: '123456'
 redis:
   serializerMode: JACKSON

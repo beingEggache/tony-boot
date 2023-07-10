@@ -7,12 +7,12 @@
 package com.tony.mybatis.typehandler
 
 import com.tony.enums.EnumValue
-import org.apache.ibatis.type.BaseTypeHandler
-import org.apache.ibatis.type.JdbcType
 import java.io.Serializable
 import java.sql.CallableStatement
 import java.sql.PreparedStatement
 import java.sql.ResultSet
+import org.apache.ibatis.type.BaseTypeHandler
+import org.apache.ibatis.type.JdbcType
 
 /**
  * EnumTypeHandler

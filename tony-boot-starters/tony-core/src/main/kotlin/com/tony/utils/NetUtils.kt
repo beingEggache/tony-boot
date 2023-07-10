@@ -45,7 +45,7 @@ public fun isPreferredAddress(address: InetAddress): Boolean {
         SpringContexts.Env.getProperty(
             "spring.cloud.inetutils.use-only-site-local-interfaces",
             Boolean::class.java,
-            false,
+            false
         )
     if (useOnlySiteLocalInterfaces) {
         return address.isSiteLocalAddress
@@ -55,7 +55,7 @@ public fun isPreferredAddress(address: InetAddress): Boolean {
         SpringContexts.Env.getProperty(
             "spring.cloud.inetutils.preferred-networks",
             List::class.java,
-            emptyList<String>(),
+            emptyList<String>()
         ) as List<String>
 
     if (preferredNetworks.isEmpty()) {

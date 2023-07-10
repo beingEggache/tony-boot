@@ -35,7 +35,7 @@ public fun ObjectMapper.initialize(): ObjectMapper = apply {
     enable(
         DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE,
         DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS,
-        DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT,
+        DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT
     )
     disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
     @Suppress("DEPRECATION")
@@ -43,10 +43,10 @@ public fun ObjectMapper.initialize(): ObjectMapper = apply {
         JsonGenerator.Feature.IGNORE_UNKNOWN,
         JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN,
         JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS,
-        JsonGenerator.Feature.USE_FAST_DOUBLE_WRITER,
+        JsonGenerator.Feature.USE_FAST_DOUBLE_WRITER
     )
     enable(
         JsonParser.Feature.USE_FAST_BIG_NUMBER_PARSER,
-        JsonParser.Feature.USE_FAST_DOUBLE_PARSER,
+        JsonParser.Feature.USE_FAST_DOUBLE_PARSER
     )
 }

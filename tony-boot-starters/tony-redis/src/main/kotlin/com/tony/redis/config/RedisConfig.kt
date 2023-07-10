@@ -68,7 +68,7 @@ internal class RedisConfig(
             if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
                 logger.warn(
                     "Your serializer mode is ${SerializerMode.PROTOSTUFF}, but got ${SerializerMode.JACKSON}," +
-                        " please check protostuff dependencies(protostuff-core, protostuff-runtime) are ready.",
+                        " please check protostuff dependencies(protostuff-core, protostuff-runtime) are ready."
                 )
             } else {
                 logger.info("Redis serializer mode is ${redisProperties.serializerMode}")

@@ -1,7 +1,7 @@
 package com.tony.utils
 
-import org.springframework.core.annotation.AnnotationUtils
 import java.lang.reflect.AnnotatedElement
+import org.springframework.core.annotation.AnnotationUtils
 
 /**
  * AnnotationUtils is

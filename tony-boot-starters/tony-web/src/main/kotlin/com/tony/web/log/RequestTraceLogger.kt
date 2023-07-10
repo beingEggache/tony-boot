@@ -21,10 +21,10 @@ import com.tony.web.utils.remoteIp
 import com.tony.web.utils.status1xxInformational
 import com.tony.web.utils.status2xxSuccessful
 import com.tony.web.utils.status3xxRedirection
+import javax.servlet.http.HttpServletResponse
 import org.slf4j.Logger
 import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
-import javax.servlet.http.HttpServletResponse
 
 /**
  * 请求日志记录接口.

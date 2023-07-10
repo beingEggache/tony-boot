@@ -7,9 +7,9 @@ import com.tony.SpringContexts.Env
 import com.tony.SpringContexts.getBeanByLazy
 import com.tony.utils.sanitizedPath
 import com.tony.web.config.WebProperties
+import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.ErrorAttributes
-import javax.servlet.http.HttpServletRequest
 
 /**
  * Web 全局变量
@@ -56,7 +56,7 @@ public object WebApp {
     internal val responseWrapExcludePatterns by lazy {
         val set = setOf(
             *whiteUrlPatternsWithContextPath.toTypedArray(),
-            *webProperties.wrapResponseExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray(),
+            *webProperties.wrapResponseExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray()
         )
         logger.info("Response Wrap Exclude Pattern are: $set")
         set
@@ -129,7 +129,7 @@ public object WebApp {
             sanitizedPath(Env.getProperty(SWAGGER_UI_PATH, SWAGGER_UI_PATH_VALUE)),
             sanitizedPath(Env.getProperty(SWAGGER_UI_CONFIG, SWAGGER_UI_CONFIG_VALUE)),
             sanitizedPath(Env.getProperty(SWAGGER_UI_OAUTH2_REDIRECT_URL, SWAGGER_UI_OAUTH2_REDIRECT_URL_VALUE)),
-            sanitizedPath(Env.getProperty(SPRINGDOC_API_DOCS_PATH, SPRINGDOC_API_DOCS_PATH_VALUE)),
+            sanitizedPath(Env.getProperty(SPRINGDOC_API_DOCS_PATH, SPRINGDOC_API_DOCS_PATH_VALUE))
         )
     }
 }

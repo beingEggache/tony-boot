@@ -34,7 +34,7 @@ internal class Knife4jExtensionConfig(
                     .title(knife4jExtensionProperties.title)
                     .version(knife4jExtensionProperties.version)
                     .description(knife4jExtensionProperties.description)
-                    .contact(knife4jExtensionProperties.contact),
+                    .contact(knife4jExtensionProperties.contact)
             )
 
     @Bean

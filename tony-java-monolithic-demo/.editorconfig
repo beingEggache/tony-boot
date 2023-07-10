@@ -8,36 +8,5 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 end_of_line = lf
 
-[*.{yml, yaml}]
+[*.{yml,yaml}]
 indent_size = 2
-
-# noinspection EditorConfigKeyCorrectness
-[*.{kt, kts}]
-chain-wrapping = false
-
-ij_continuation_indent_size = 4
-
-ij_kotlin_code_style_defaults  = KOTLIN_OFFICIAL
-ij_kotlin_align_multiline_parameters = false
-ij_kotlin_imports_layout = *,java.**,javax.**,kotlin.**,^
-
-import-ordering = true
-
-max_line_length = 120
-modifier-order=true
-
-no-blank-line-before-rbrace = true
-no-blank-lines-in-chained-method-calls=true
-no-consecutive-blank-lines = true
-
-no-empty-class-body = true
-no-empty-first-line-in-method-block = true
-
-no-line-break-before-assignment = true
-no-semi = true
-no-trailing-spaces = true
-no-unit-return = true
-no-unused-imports = true
-no-wildcard-imports = true
-
-string-template = true

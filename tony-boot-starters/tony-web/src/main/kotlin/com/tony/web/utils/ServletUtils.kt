@@ -10,16 +10,16 @@ package com.tony.web.utils
  */
 import com.tony.utils.doIf
 import com.tony.web.WebContext
+import java.net.URL
+import java.net.URLEncoder
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.cors.CorsUtils
-import java.net.URL
-import java.net.URLEncoder
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 /**
  * 获取请求根路径, 包含 [HttpServletRequest.getContextPath].
@@ -95,7 +95,7 @@ private val TEXT_MEDIA_TYPES = listOf(
     MediaType.TEXT_HTML,
     MediaType.TEXT_PLAIN,
     MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_FORM_URLENCODED,
+    MediaType.APPLICATION_FORM_URLENCODED
 )
 
 /**

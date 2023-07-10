@@ -26,6 +26,7 @@ rootProject.name = "$projectPrefix-dependencies"
 
 include("$projectPrefix-aliyun-oss")
 include("$projectPrefix-aliyun-sms")
+include("$projectPrefix-annotations")
 include("$projectPrefix-web")
 include("$projectPrefix-core")
 include("$projectPrefix-redis")
@@ -42,4 +43,3 @@ include("$projectPrefix-knife4j-api")
 include("$projectPrefix-web-crypto")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
-

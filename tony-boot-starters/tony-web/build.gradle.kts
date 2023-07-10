@@ -3,6 +3,7 @@ import com.tony.buildscript.addTestDependencies
 
 dependencies {
     api(projects.tonyCore)
+    api(projects.tonyAnnotations)
     api(Deps.SpringBoot.starterWeb)
     implementation(Deps.SpringBoot.starterValidation)
 

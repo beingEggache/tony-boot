@@ -9,7 +9,9 @@ import com.tony.exception.ApiException
  * @property message
  * @property code 默认为 [ApiProperty.unauthorizedCode]
  */
-public class UnauthorizedException @JvmOverloads constructor(
-    override val message: String?,
-    override val code: Int = ApiProperty.unauthorizedCode,
-) : ApiException(message, code)
+public class UnauthorizedException
+    @JvmOverloads
+    constructor(
+        override val message: String?,
+        override val code: Int = ApiProperty.unauthorizedCode,
+    ) : ApiException(message, code)

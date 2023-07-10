@@ -89,7 +89,7 @@ private val NUMBER_TYPES: Array<Class<*>?> =
         Short::class.javaObjectType, Short::class.javaPrimitiveType,
         Float::class.javaObjectType, Float::class.javaPrimitiveType,
         BigInteger::class.java,
-        BigDecimal::class.java,
+        BigDecimal::class.java
     )
 
 /**
@@ -102,7 +102,7 @@ public fun Class<*>.isNumberTypes(): Boolean = isTypesOrSubTypesOf(*NUMBER_TYPES
  */
 public fun Class<*>.isStringLikeType(): Boolean =
     this.isTypesOrSubTypesOf(
-        CharSequence::class.java,
+        CharSequence::class.java
     )
 
 /**
@@ -124,7 +124,7 @@ public fun <T> TypeReference<T>.isStringLikeType(): Boolean =
     rawClass().isTypesOrSubTypesOf(
         CharSequence::class.java,
         Char::class.javaObjectType,
-        Char::class.javaPrimitiveType,
+        Char::class.javaPrimitiveType
     )
 
 public fun <T> TypeReference<T>.isNumberTypes(): Boolean = rawClass().isNumberTypes()

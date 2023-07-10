@@ -18,7 +18,7 @@ import kotlin.reflect.KClass
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Mobile(

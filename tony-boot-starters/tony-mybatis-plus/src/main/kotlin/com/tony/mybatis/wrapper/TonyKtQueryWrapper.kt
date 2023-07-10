@@ -111,7 +111,7 @@ public class TonyKtQueryWrapper<T : Any> :
             columnMap,
             SharedString.emptyString(),
             SharedString.emptyString(),
-            SharedString.emptyString(),
+            SharedString.emptyString()
         )
 
     override fun clear() {

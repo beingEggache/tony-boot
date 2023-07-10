@@ -132,7 +132,7 @@ public fun LocalDateTime.toInstant(): Instant = toInstant(defaultZoneOffset)
 public fun secondOfTodayRest(): Long =
     ChronoUnit.SECONDS.between(
         LocalDateTime.now(),
-        LocalDateTime.now().with(LocalTime.MAX),
+        LocalDateTime.now().with(LocalTime.MAX)
     )
 
 /**

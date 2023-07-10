@@ -1,5 +1,6 @@
 package com.tony.api.controller.internal
 
+import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.po.Module
 import com.tony.db.service.ModuleService
@@ -8,7 +9,6 @@ import com.tony.dto.req.ListReq
 import com.tony.dto.req.internal.FrontEndModuleReq
 import com.tony.utils.getLogger
 import com.tony.web.WebApp
-import com.tony.web.interceptor.NoLoginCheck
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.context.annotation.Profile
@@ -43,7 +43,7 @@ class InternalController(
     ) = moduleService.saveModules(
         req.items.map { it.toPo() },
         listOf(ModuleType.ROUTE, ModuleType.COMPONENT),
-        WebApp.appId,
+        WebApp.appId
     )
 
     private fun FrontEndModuleReq.toPo() = let {

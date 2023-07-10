@@ -5,7 +5,7 @@ import com.tony.feign.test.jwt.api.OpenFeignTestJwtApi
 import com.tony.feign.test.jwt.dto.LoginReq
 import com.tony.feign.test.jwt.dto.Person
 import com.tony.jwt.JwtToken
-import com.tony.web.interceptor.NoLoginCheck
+import com.tony.annotation.web.auth.NoLoginCheck
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController

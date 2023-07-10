@@ -1,7 +1,7 @@
 package com.tony.feign.test.signature.controller
 
 import com.tony.feign.test.signature.dto.Person
-import com.tony.web.interceptor.NoLoginCheck
+import com.tony.annotation.web.auth.NoLoginCheck
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

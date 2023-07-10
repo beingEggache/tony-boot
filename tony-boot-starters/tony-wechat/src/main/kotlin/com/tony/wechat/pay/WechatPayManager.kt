@@ -123,7 +123,7 @@ public object WechatPayManager {
         `package` = `package`,
         nonceStr = nonceStr,
         timestamp = timestamp,
-        sign = sign,
+        sign = sign
     )
 
     /**
@@ -180,10 +180,10 @@ public object WechatPayManager {
                 timeExpire = timeExpire?.toString("yyyyMMddHHmmss"),
                 notifyUrl = notifyUrl,
                 tradeType = "APP",
-                openId = openId,
+                openId = openId
             ).apply {
                 sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
-            },
+            }
         )
 
         return WechatAppPayReq(
@@ -192,7 +192,7 @@ public object WechatPayManager {
             prepayId = orderResponse.prePayId
                 ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}"),
             nonceStr = genNonceStr(),
-            timestamp = genTimeStamp().toString(),
+            timestamp = genTimeStamp().toString()
         ).apply {
             sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
         }
@@ -231,10 +231,10 @@ public object WechatPayManager {
                 timeExpire = timeExpire?.toString("yyyyMMddHHmmss"),
                 notifyUrl = notifyUrl,
                 tradeType = "JSAPI",
-                openId = openId,
+                openId = openId
             ).apply {
                 sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
-            },
+            }
         )
 
         val prePayId = orderResponse.prePayId
@@ -245,7 +245,7 @@ public object WechatPayManager {
             timeStamp = genTimeStamp().toString(),
             nonceStr = genNonceStr(),
             `package` = "prepay_id=$prePayId",
-            signType = signType,
+            signType = signType
         ).apply {
             paySign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
         }

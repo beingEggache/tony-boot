@@ -16,14 +16,14 @@ import com.tony.utils.asToNotNull
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.rawClass
 import com.tony.utils.typeParamOfSuperInterface
+import java.lang.reflect.Proxy
+import java.util.concurrent.ConcurrentHashMap
+import java.util.function.BiConsumer
 import org.apache.ibatis.logging.Log
 import org.apache.ibatis.logging.LogFactory
 import org.apache.ibatis.session.SqlSession
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
-import java.lang.reflect.Proxy
-import java.util.concurrent.ConcurrentHashMap
-import java.util.function.BiConsumer
 
 internal val ENTITY_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
 

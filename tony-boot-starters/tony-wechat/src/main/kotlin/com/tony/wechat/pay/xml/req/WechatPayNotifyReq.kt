@@ -202,7 +202,7 @@ public data class WechatPayNotifyReq(
             if (!signValid) {
                 logger.error(
                     "wechat pay order ${notifyRequest.outTradeNo} " +
-                        "sign invalid,notify request:${notifyRequest.toXmlString()}",
+                        "sign invalid,notify request:${notifyRequest.toXmlString()}"
                 )
                 return WechatPayNotifyResp().toXmlString()
             }
@@ -230,7 +230,7 @@ public data class WechatPayNotifyReq(
             if (!signValid) {
                 logger.error(
                     "wechat pay order ${notifyRequest.outTradeNo} " +
-                        "sign invalid,notify request:${notifyRequest.toXmlString()}",
+                        "sign invalid,notify request:${notifyRequest.toXmlString()}"
                 )
                 return WechatPayNotifyResp().toXmlString()
             }

@@ -18,7 +18,7 @@ public class AliyunSmsConfig(
         aliyunSMSProperties.accessKeyId ?: "",
         aliyunSMSProperties.accessKeySecret ?: "",
         aliyunSMSProperties.signName ?: "",
-        aliyunSMSProperties.timeout ?: "",
+        aliyunSMSProperties.timeout ?: ""
     )
 }
 

@@ -1,7 +1,7 @@
 package com.tony.web.crypto.test.controller
 
-import com.tony.web.crpto.DecryptRequestBody
-import com.tony.web.crpto.EncryptResponseBody
+import com.tony.annotation.web.crypto.DecryptRequestBody
+import com.tony.annotation.web.crypto.EncryptResponseBody
 import com.tony.web.crypto.test.req.TestReq
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag

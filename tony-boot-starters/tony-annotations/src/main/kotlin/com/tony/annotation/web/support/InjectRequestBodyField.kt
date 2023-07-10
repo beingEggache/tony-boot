@@ -1,6 +1,6 @@
-package com.tony.web.support.annotation
+package com.tony.annotation.web.support
 
-import com.tony.web.support.DEFAULT_EMPTY
+import com.tony.annotation.web.support.InjectEmptyIfNull.Companion.DEFAULT_EMPTY
 
 /**
  * RequestBody 字段值注入.
@@ -9,7 +9,7 @@ import com.tony.web.support.DEFAULT_EMPTY
  */
 @Target(
     AnnotationTarget.FIELD,
-    AnnotationTarget.ANNOTATION_CLASS,
+    AnnotationTarget.ANNOTATION_CLASS
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class InjectRequestBodyField(
@@ -33,8 +33,12 @@ public annotation class InjectRequestBodyField(
  * @since 2023/7/6 15:07
  */
 @Target(
-    AnnotationTarget.FIELD,
+    AnnotationTarget.FIELD
 )
 @Retention(AnnotationRetention.RUNTIME)
 @InjectRequestBodyField(value = DEFAULT_EMPTY, defaultIfNull = true)
-public annotation class InjectEmptyIfNull
+public annotation class InjectEmptyIfNull {
+    public companion object {
+        public const val DEFAULT_EMPTY: String = "DEFAULT_EMPTY"
+    }
+}

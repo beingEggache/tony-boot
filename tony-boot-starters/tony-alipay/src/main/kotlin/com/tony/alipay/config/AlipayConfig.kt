@@ -28,7 +28,7 @@ internal class AlipayConfig(
             appId,
             publicKey,
             privateKey,
-            aliPublicKey,
+            aliPublicKey
         )
     }
 

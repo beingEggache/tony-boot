@@ -2,6 +2,7 @@ import com.tony.buildscript.Deps
 import com.tony.buildscript.addTestDependencies
 dependencies {
     implementation(projects.tonyCore)
+    api(projects.tonyAnnotations)
     implementation(Deps.SpringData.starterRedis)
     implementation(Deps.SpringBoot.starterAop)
     compileOnly("io.protostuff:protostuff-core:1.8.0")

@@ -14,9 +14,9 @@ import com.tony.utils.defaultIfBlank
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfAndReturn
 import com.tony.utils.throwIfNullAndReturn
+import javax.validation.Valid
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import javax.validation.Valid
 
 /**
  *
@@ -31,7 +31,10 @@ class RoleService(
 ) {
 
     @Transactional
-    fun add(@Valid req: RoleCreateReq, appId: String) =
+    fun add(
+        @Valid req: RoleCreateReq,
+        appId: String,
+    ) =
         throwIfAndReturn(roleDao.selectById(req.roleId) != null, "角色ID已重复") {
             roleDao.insert(
                 Role().apply {
@@ -39,18 +42,20 @@ class RoleService(
                     this.roleName = req.roleName
                     this.remark = req.remark
                     this.appId = appId
-                },
+                }
             )
         }
 
     @Transactional
-    fun update(@Valid req: RoleUpdateReq) = roleDao.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
+    fun update(
+        @Valid req: RoleUpdateReq,
+    ) = roleDao.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
         roleDao.updateById(
             Role().apply {
                 this.roleId = req.roleId
                 this.roleName = req.roleName
                 this.remark = req.remark
-            },
+            }
         )
     }
 

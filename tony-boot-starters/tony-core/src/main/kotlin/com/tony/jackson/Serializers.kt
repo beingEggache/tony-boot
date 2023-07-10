@@ -8,13 +8,13 @@ import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.tony.exception.ApiException
-import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
+import org.slf4j.LoggerFactory
 
 @JvmSynthetic
 internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> = mutableMapOf(
     MobileMaskFun::class.java to MobileMaskFun(),
-    NameMaskFun::class.java to NameMaskFun(),
+    NameMaskFun::class.java to NameMaskFun()
 )
 
 /**

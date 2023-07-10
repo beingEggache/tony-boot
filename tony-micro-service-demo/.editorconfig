@@ -8,36 +8,98 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 end_of_line = lf
 
-[*.{yml, yaml}]
+[*.{yml,yaml}]
 indent_size = 2
 
 # noinspection EditorConfigKeyCorrectness
-[*.{kt, kts}]
-chain-wrapping = false
+[/*/src/main/**.{kt,kts}]
+# ktlint_standard_final-newline = disabled # Disables the `final-newline` rule provided by KtLint
+# ktlint_standard_some-experimental-rule = enabled # Enables the (experimental) `some-experimental-rule` in the `standard` rule set provided by KtLint
+# ktlint_custom-rule-set_custom-rule = disabled # Disables the `custom-rule` rule in the `custom-rule-set` rule set (not provided by KtLint)
 
-ij_continuation_indent_size = 4
+ktlint_code_style = ktlint_official
+annotation = true
+argument-list-wrapping = true
+block-comment-initial-star-alignment = true
+chain-wrapping = true
+class-naming = true
+enum-entry-name-case = true
 
-ij_kotlin_code_style_defaults  = KOTLIN_OFFICIAL
-ij_kotlin_align_multiline_parameters = false
-ij_kotlin_imports_layout = *,java.**,javax.**,kotlin.**,^
+filename = unset
+ktlint_standard_filename = disabled
 
 import-ordering = true
+# Import layouts¶
+# By default, the same imports are allowed as in IntelliJ IDEA. The import path can be a full path, e.g. "java.util.List." as well as wildcard path, e.g. "kotlin.*".
+#
+# The layout can be composed by the following symbols:
+#
+# * - wildcard. There must be at least one entry of a single wildcard to match all other imports. Matches anything after a specified symbol/import as well.
+# | - blank line. Supports only single blank lines between imports. No blank line is allowed in the beginning or end of the layout.
+# ^ - alias import, e.g. "^android.*" will match all android alias imports, "^" will match all other alias imports.
+# Examples:
+#
+# ij_kotlin_imports_layout=* # alphabetical with capital letters before lower case letters (e.g. Z before a), no blank lines
+# ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^ # default IntelliJ IDEA style, same as alphabetical, but with "java", "javax", "kotlin" and alias imports in the end of the imports list
+# ij_kotlin_imports_layout=android.**,|,^org.junit.**,kotlin.io.Closeable.*,|,*,^ # custom imports layout
+ij_kotlin_imports_layout = *, |, java.*, |, javax.*, |, kotlin.*, |, org.springframework.*, |, ^
 
+# indent_size = 4
 max_line_length = 120
-modifier-order=true
-
+modifier-order = true
+multiline-if-else = true
 no-blank-line-before-rbrace = true
-no-blank-lines-in-chained-method-calls=true
+no-blank-lines-in-chained-method-calls = true
 no-consecutive-blank-lines = true
-
 no-empty-class-body = true
 no-empty-first-line-in-method-block = true
-
+no-line-break-after-else = true
 no-line-break-before-assignment = true
+no-multi-spaces = true
 no-semi = true
 no-trailing-spaces = true
 no-unit-return = true
 no-unused-imports = true
 no-wildcard-imports = true
-
+package-name = true
+parameter-list-wrapping = true
+parameter-wrapping = true
+property-wrapping = true
 string-template = true
+
+trailing-comma-on-call-site = true
+ij_kotlin_allow_trailing_comma_on_call_site = false
+trailing-comma-on-declaration-site = true
+# ij_kotlin_allow_trailing_comma = false
+
+unnecessary-parentheses-before-trailing-lambda = true
+wrapping = true
+comment-wrapping = true
+spacing-around-angle-brackets = true
+annotation-spacing = true
+spacing-between-declarations-with-annotations = true
+spacing-between-declarations-with-comments = true
+colon-spacing = true
+comma-spacing = true
+comment-spacing = true
+curly-spacing = true
+dot-spacing = true
+double-colon-spacing = true
+function-return-type-spacing = true
+function-start-of-body-spacing = true
+function-type-reference-spacing = true
+fun-keyword-spacing = true
+kdoc-wrapping = true
+keyword-spacing = true
+modifier-list-spacing = true
+nullable-type-spacing = true
+op-spacing = true
+paren-spacing = true
+range-spacing = true
+spacing-between-function-name-and-opening-parenthesis = true
+unary-op-spacing = true
+
+# noinspection EditorConfigKeyCorrectness
+[/*/src/test/**.{kt,kts}]
+ktlint_standard = disabled
+ktlint_experimental = disabled

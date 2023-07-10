@@ -7,10 +7,10 @@ import io.protostuff.ProtobufException
 import io.protostuff.ProtostuffIOUtil
 import io.protostuff.Schema
 import io.protostuff.runtime.RuntimeSchema
+import java.text.NumberFormat
 import org.slf4j.LoggerFactory
 import org.springframework.data.redis.serializer.RedisSerializer
 import org.springframework.data.redis.serializer.SerializationException
-import java.text.NumberFormat
 
 /**
  * Protostuff redis 序列化.

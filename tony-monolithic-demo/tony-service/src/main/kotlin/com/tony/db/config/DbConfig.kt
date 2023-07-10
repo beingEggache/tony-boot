@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 
 @Configuration
 @ComponentScan(
-    basePackages = ["com.tony.db"],
+    basePackages = ["com.tony.db"]
 )
 @PropertySource("classpath:mybatis-plus.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableTransactionManagement(proxyTargetClass = true)

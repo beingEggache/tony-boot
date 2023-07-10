@@ -11,16 +11,16 @@ import com.tony.web.config.WebProperties
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
 import com.tony.web.log.RequestTraceLogger
 import com.tony.web.utils.isCorsPreflightRequest
-import org.slf4j.MDC
-import org.springframework.core.PriorityOrdered
-import org.springframework.web.filter.OncePerRequestFilter
-import org.springframework.web.util.ContentCachingResponseWrapper
 import java.io.IOException
 import java.time.LocalDateTime
 import javax.servlet.FilterChain
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import org.slf4j.MDC
+import org.springframework.core.PriorityOrdered
+import org.springframework.web.filter.OncePerRequestFilter
+import org.springframework.web.util.ContentCachingResponseWrapper
 
 /**
  * TraceLoggingFilter
@@ -49,7 +49,7 @@ internal class TraceLoggingFilter(
         request.toRepeatRead(),
         ContentCachingResponseWrapper(response),
         filterChain,
-        LocalDateTime.now(),
+        LocalDateTime.now()
     )
 
     @Throws(IOException::class, ServletException::class)
@@ -76,7 +76,7 @@ internal class TraceLoggingFilter(
         requestTraceLogger.requestTraceLog(
             request,
             response,
-            elapsedTime,
+            elapsedTime
         )
     } catch (e: Exception) {
         logger.error(e.message, e)

@@ -14,6 +14,9 @@ import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.web.WebApp
 import com.tony.web.WebContext
 import com.tony.wrapResponseHeaderName
+import java.time.temporal.TemporalAccessor
+import java.util.Collections
+import java.util.Date
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
@@ -25,9 +28,6 @@ import org.springframework.http.server.ServerHttpRequest
 import org.springframework.http.server.ServerHttpResponse
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
-import java.time.temporal.TemporalAccessor
-import java.util.Collections
-import java.util.Date
 
 /**
  * 响应包装, 将直接返回的类型包装为全局结构 [ApiResult].
@@ -87,7 +87,7 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
             /*java.lang.CharSequence::class.java,
             CharSequence::class.java,*/
             Char::class.javaObjectType, Char::class.javaPrimitiveType,
-            Boolean::class.javaObjectType, Boolean::class.javaPrimitiveType,
+            Boolean::class.javaObjectType, Boolean::class.javaPrimitiveType
         )
 
         @JvmStatic

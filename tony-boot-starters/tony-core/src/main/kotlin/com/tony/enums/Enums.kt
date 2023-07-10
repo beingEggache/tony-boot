@@ -5,9 +5,9 @@ package com.tony.enums
 import com.fasterxml.jackson.annotation.JsonValue
 import com.tony.utils.asToNotNull
 import com.tony.utils.isTypesOrSubTypesOf
+import java.io.Serializable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.Serializable
 
 /**
  * 全局枚举接口.
@@ -89,26 +89,26 @@ public abstract class EnumCreator<out E, KEY>(
 
 public abstract class StringEnumCreator(clazz: Class<out StringEnumValue>) :
     EnumCreator<StringEnumValue, String>(clazz) {
-    /**
-     * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
-     */
-    public companion object : EnumCreatorFactory {
+        /**
+         * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
+         */
+        public companion object : EnumCreatorFactory {
 
-        @JvmStatic
-        override fun getCreator(clazz: Class<*>): StringEnumCreator =
-            super.getCreator(clazz) as StringEnumCreator
+            @JvmStatic
+            override fun getCreator(clazz: Class<*>): StringEnumCreator =
+                super.getCreator(clazz) as StringEnumCreator
+        }
     }
-}
 
 public abstract class IntEnumCreator(clazz: Class<out IntEnumValue>) :
     EnumCreator<IntEnumValue, Int>(clazz) {
-    /**
-     * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
-     */
-    public companion object : EnumCreatorFactory {
+        /**
+         * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
+         */
+        public companion object : EnumCreatorFactory {
 
-        @JvmStatic
-        override fun getCreator(clazz: Class<*>): IntEnumCreator =
-            super.getCreator(clazz) as IntEnumCreator
+            @JvmStatic
+            override fun getCreator(clazz: Class<*>): IntEnumCreator =
+                super.getCreator(clazz) as IntEnumCreator
+        }
     }
-}

@@ -16,7 +16,7 @@ public object AliYunOssManager {
         OSSClientBuilder().build(
             aliyunOssProperties.endpoint,
             aliyunOssProperties.accessKeyId,
-            aliyunOssProperties.accessKeySecret,
+            aliyunOssProperties.accessKeySecret
         )
     }
 

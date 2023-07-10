@@ -27,11 +27,11 @@ import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.throwIfNull
 import com.tony.utils.toPage
 import com.tony.utils.toPageResult
+import java.io.Serializable
+import java.util.Objects
 import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.binding.MapperMethod.ParamMap
 import org.springframework.transaction.annotation.Transactional
-import java.io.Serializable
-import java.util.Objects
 
 public interface BaseDao<T : Any> : BaseMapper<T> {
 
@@ -110,7 +110,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
             val isInsert =
                 StringUtils.checkValNull(tableInfo.getPropertyValue(entity, keyProperty)) || sqlSession.selectList<T>(
                     getSqlStatement(SqlMethod.SELECT_BY_ID),
-                    entity,
+                    entity
                 ).isNullOrEmpty()
             if (isInsert) {
                 sqlSession.insert(sqlStatement, entity)

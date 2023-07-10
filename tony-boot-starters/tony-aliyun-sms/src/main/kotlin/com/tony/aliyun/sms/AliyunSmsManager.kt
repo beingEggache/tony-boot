@@ -6,8 +6,8 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse
 import com.aliyuncs.exceptions.ClientException
 import com.aliyuncs.http.MethodType
 import com.aliyuncs.profile.DefaultProfile
-import org.slf4j.LoggerFactory
 import javax.annotation.PostConstruct
+import org.slf4j.LoggerFactory
 
 public class AliyunSmsManager(
     private val accessKeyId: String,
@@ -20,7 +20,7 @@ public class AliyunSmsManager(
         val profile = DefaultProfile.getProfile(
             regionId,
             accessKeyId,
-            accessKeySecret,
+            accessKeySecret
         )
 
         DefaultProfile.addEndpoint(regionId, product, endpoint)
@@ -50,7 +50,7 @@ public class AliyunSmsManager(
                     signName = smsSignName
                     this.templateCode = templateCode
                     this.templateParam = templateParam
-                },
+                }
             )
         } catch (e: ClientException) {
             logger.error("${e.errCode}:${e.errMsg}")

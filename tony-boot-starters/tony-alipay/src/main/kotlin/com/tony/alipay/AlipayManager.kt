@@ -56,7 +56,7 @@ public class AlipayManager(
                         this.passbackParams = passBackParams?.urlEncode()
                         this.productCode = "QUICK_MSECURITY_PAY"
                     }
-                },
+                }
             )
         } catch (e: AlipayApiException) {
             throw AlipayException(e.message, e)

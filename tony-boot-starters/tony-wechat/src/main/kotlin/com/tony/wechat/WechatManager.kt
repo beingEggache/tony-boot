@@ -13,9 +13,9 @@ import com.tony.wechat.client.resp.WechatQrCodeResp
 import com.tony.wechat.client.resp.WechatResp
 import com.tony.wechat.client.resp.WechatUserInfoResp
 import com.tony.wechat.client.resp.WechatUserTokenResp
+import java.util.Base64
 import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.validation.annotation.Validated
-import java.util.Base64
 
 public object WechatManager {
 
@@ -29,7 +29,7 @@ public object WechatManager {
         DigestUtils.sha1Hex(
             listOf(wechatPropProvider.getToken(app), timestamp, nonce)
                 .sorted()
-                .joinToString(""),
+                .joinToString("")
         ) == signature
 
     @JvmStatic
@@ -37,7 +37,7 @@ public object WechatManager {
         DigestUtils.sha1Hex(
             listOf(token, timestamp, nonce)
                 .sorted()
-                .joinToString(""),
+                .joinToString("")
         ) == signature
 
     @JvmOverloads
@@ -46,7 +46,7 @@ public object WechatManager {
         wechatPropProvider.getAppId(app),
         wechatPropProvider.getAppSecret(app),
         "authorization_code",
-        jsCode,
+        jsCode
     ).check()
 
     @JvmOverloads
@@ -88,10 +88,10 @@ public object WechatManager {
                 "jsapi_ticket" to getTicket(app),
                 "noncestr" to nonceStr,
                 "timestamp" to timestamp,
-                "url" to url,
+                "url" to url
             ).joinToString("&") {
                 "${it.first}=${it.second}"
-            },
+            }
         )
 
     @JvmOverloads
@@ -104,7 +104,7 @@ public object WechatManager {
             appId = app,
             timestamp = timestamp,
             nonceStr = nonceStr,
-            signature = getJsApiSignature(nonceStr, timestamp, url, app),
+            signature = getJsApiSignature(nonceStr, timestamp, url, app)
         )
     }
 
@@ -116,12 +116,12 @@ public object WechatManager {
         apiAccessTokenProvider.userAccessToken(
             wechatPropProvider.getAppId(app),
             wechatPropProvider.getAppSecret(app),
-            code,
+            code
         )
 
     private fun accessTokenStr(app: String = "") = apiAccessTokenProvider.accessTokenStr(
         wechatPropProvider.getAppId(app),
-        wechatPropProvider.getAppSecret(app),
+        wechatPropProvider.getAppSecret(app)
     )
 
     @Suppress("unused")

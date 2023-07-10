@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody
 public interface WechatPayClient {
 
     @PostMapping("/pay/unifiedorder")
-    public fun unifiedOrder(@RequestBody req: String): String
+    public fun unifiedOrder(
+        @RequestBody req: String,
+    ): String
 
     @PostMapping("/mmpaymkttransfers/promotion/transfers")
     public fun transfers(): String

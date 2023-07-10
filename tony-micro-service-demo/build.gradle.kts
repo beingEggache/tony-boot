@@ -62,10 +62,10 @@ configure(subprojects) {
             freeCompilerArgs = listOf(
                 "-Xjsr305=strict",
                 "-Xjvm-default=all",
-                "-Werror",
                 "-verbose",
                 "-version",
                 "-progressive",
+                "-Werror",
 //                "-deprecation",
 //                "-Xlint:all",
 //                "-encoding UTF-8",

@@ -21,7 +21,7 @@ public sealed class WechatButton(
 public sealed class WechatTypedButton(
     override val name: String,
 ) : WechatButton(
-    name,
+    name
 ) {
     @get:JsonProperty("type")
     protected abstract val type: WechatButtonType
@@ -37,7 +37,7 @@ public class WechatViewButton(
     override val name: String,
     public val url: String,
 ) : WechatTypedButton(
-    name,
+    name
 ) {
     override val type: WechatButtonType = WechatButtonType.VIEW
 }
@@ -53,7 +53,7 @@ public class WechatScanCodeButton(
     override val name: String,
     public val key: String,
 ) : WechatTypedButton(
-    name,
+    name
 ) {
     override val type: WechatButtonType = WechatButtonType.SCANCODE_PUSH
 }

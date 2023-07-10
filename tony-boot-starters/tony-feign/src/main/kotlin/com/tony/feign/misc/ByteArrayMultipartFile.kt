@@ -6,11 +6,11 @@
  */
 package com.tony.feign.misc
 
-import org.springframework.web.multipart.MultipartFile
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import org.springframework.web.multipart.MultipartFile
 
 /**
  * 二进制 MultipartFile.

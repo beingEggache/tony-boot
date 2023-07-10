@@ -1,7 +1,11 @@
 package com.tony.web.crpto
 
+import com.tony.annotation.web.crypto.DecryptRequestBody
 import com.tony.crypto.symmetric.decryptToBytes
 import com.tony.web.crpto.config.WebCryptoProperties
+import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.lang.reflect.Type
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
@@ -11,9 +15,6 @@ import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter
-import java.io.ByteArrayInputStream
-import java.io.InputStream
-import java.lang.reflect.Type
 
 /**
  * 将请求体解密, 目前只支持 RequestBody
@@ -53,9 +54,9 @@ internal class DecryptRequestBodyAdvice(
                     .decryptToBytes(
                         webCryptoProperties.algorithm,
                         webCryptoProperties.secret,
-                        webCryptoProperties.encoding,
-                    ),
-            ),
+                        webCryptoProperties.encoding
+                    )
+            )
         )
     }
 

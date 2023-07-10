@@ -21,8 +21,8 @@ import org.springframework.core.type.AnnotationMetadata
 @Import(
     value = [
         TonyBootImportSelector::class,
-        TonyBootConfiguration::class,
-    ],
+        TonyBootConfiguration::class
+    ]
 )
 public annotation class EnableTonyBoot
 
@@ -51,7 +51,7 @@ internal class TonyBootImportSelector : ImportSelector {
         "$PROJECT_GROUP.web.config.WebConfig",
         "$PROJECT_GROUP.wechat.config.WechatConfig",
         "$PROJECT_GROUP.xxljob.config.XxlJobConfig",
-        "$PROJECT_GROUP.knife4j.config.Knife4jExtensionConfig",
+        "$PROJECT_GROUP.knife4j.config.Knife4jExtensionConfig"
     ).filter(::hasClass).toTypedArray()
 
     private fun hasClass(className: String) = try {

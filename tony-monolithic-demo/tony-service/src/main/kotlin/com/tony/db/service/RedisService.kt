@@ -4,14 +4,12 @@ import com.tony.redis.RedisManager
 import org.springframework.stereotype.Service
 
 /**
- * TestService is
+ * RedisService is
  * @author tangli
- * @since 2023/07/03 16:33
+ * @since 2023/07/10 14:28
  */
 @Service
-class TestService {
+class RedisService {
 
-    fun testRedis() {
-        RedisManager.values.set("test", "test")
-    }
+    val delegate = RedisManager
 }

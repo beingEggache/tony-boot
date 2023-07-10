@@ -14,6 +14,7 @@ import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
 import feign.form.spring.SpringFormEncoder
+import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.ObjectFactory
 import org.springframework.beans.factory.ObjectProvider
@@ -29,7 +30,6 @@ import org.springframework.cloud.openfeign.support.SpringEncoder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
-import java.util.concurrent.TimeUnit
 
 /**
  * FeignConfig

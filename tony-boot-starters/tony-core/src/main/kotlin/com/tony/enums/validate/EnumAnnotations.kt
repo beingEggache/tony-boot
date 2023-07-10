@@ -23,7 +23,7 @@ import kotlin.reflect.KClass
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class SimpleEnum(
@@ -48,7 +48,7 @@ public annotation class SimpleEnum(
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class SimpleIntEnum(
@@ -74,7 +74,7 @@ public annotation class SimpleIntEnum(
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class IntEnum(
@@ -100,7 +100,7 @@ public annotation class IntEnum(
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class SimpleStringEnum(
@@ -126,7 +126,7 @@ public annotation class SimpleStringEnum(
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
     AnnotationTarget.FIELD,
-    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class StringEnum(

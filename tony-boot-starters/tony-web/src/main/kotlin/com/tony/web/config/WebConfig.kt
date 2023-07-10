@@ -22,6 +22,7 @@ import com.tony.web.log.RequestTraceLogger
 import com.tony.web.support.IfNullRequestBodyFieldInjector
 import com.tony.web.support.RequestBodyFieldInjector
 import com.tony.web.support.RequestBodyFieldInjectorComposite
+import javax.servlet.http.HttpServletResponse
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -43,7 +44,6 @@ import org.springframework.web.cors.DefaultCorsProcessor
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.filter.CorsFilter
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import javax.servlet.http.HttpServletResponse
 
 /**
  * WebConfig
@@ -129,8 +129,8 @@ internal class WebConfig(
                     "allowedHeaders is $allowedHeaders",
                     "allowedMethods is $allowedMethods",
                     "exposedHeaders is $exposedHeaders",
-                    "maxAge is $maxAge",
-                ).joinToString(),
+                    "maxAge is $maxAge"
+                ).joinToString()
             )
         }
         source.registerCorsConfiguration("/**", corsConfiguration)
@@ -245,7 +245,7 @@ internal class ApiCorsProcessor : DefaultCorsProcessor() {
             ApiResult(
                 EMPTY_RESULT,
                 HttpServletResponse.SC_FORBIDDEN,
-                "Invalid CORS request",
+                "Invalid CORS request"
             ).toJsonString().toByteArray()
         }
     }

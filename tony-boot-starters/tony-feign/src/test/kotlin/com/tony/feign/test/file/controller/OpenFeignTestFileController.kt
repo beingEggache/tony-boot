@@ -8,7 +8,7 @@
  */
 package com.tony.feign.test.file.controller
 
-import com.tony.web.interceptor.NoLoginCheck
+import com.tony.annotation.web.auth.NoLoginCheck
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping

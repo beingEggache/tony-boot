@@ -12,8 +12,10 @@ package com.tony.alipay.exception
 import com.tony.ApiProperty
 import com.tony.exception.ApiException
 
-public class AlipayException @JvmOverloads constructor(
-    override val message: String? = "",
-    override val cause: Throwable? = null,
-    override val code: Int = ApiProperty.errorCode,
-) : ApiException(message, code, cause)
+public class AlipayException
+    @JvmOverloads
+    constructor(
+        override val message: String? = "",
+        override val cause: Throwable? = null,
+        override val code: Int = ApiProperty.errorCode,
+    ) : ApiException(message, code, cause)

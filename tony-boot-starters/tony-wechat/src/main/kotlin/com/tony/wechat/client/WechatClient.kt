@@ -50,7 +50,7 @@ public interface WechatClient {
         @RequestParam(
             "grant_type",
             required = true,
-            defaultValue = "client_credential",
+            defaultValue = "client_credential"
         ) grantType: String? = "client_credential",
     ): WechatApiTokenResp
 
@@ -70,7 +70,7 @@ public interface WechatClient {
         @RequestParam(
             "grant_type",
             required = true,
-            defaultValue = "authorization_code",
+            defaultValue = "authorization_code"
         ) grantType: String? = "authorization_code",
     ): WechatUserTokenResp
 
@@ -101,10 +101,15 @@ public interface WechatClient {
     ): WechatUserInfoResp
 
     @PostMapping("/cgi-bin/menu/create?access_token={accessToken}")
-    public fun createMenu(@PathVariable("accessToken") accessToken: String?, @RequestBody menu: WechatMenu): WechatResp
+    public fun createMenu(
+        @PathVariable("accessToken") accessToken: String?,
+        @RequestBody menu: WechatMenu,
+    ): WechatResp
 
     @GetMapping("/cgi-bin/menu/delete")
-    public fun deleteMenu(@RequestParam("access_token") accessToken: String?): WechatResp
+    public fun deleteMenu(
+        @RequestParam("access_token") accessToken: String?,
+    ): WechatResp
 
     @PostMapping("/cgi-bin/qrcode/create?access_token={accessToken}")
     public fun createQrCode(

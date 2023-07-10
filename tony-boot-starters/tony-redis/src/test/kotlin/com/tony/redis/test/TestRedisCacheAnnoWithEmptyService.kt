@@ -6,8 +6,8 @@
  */
 package com.tony.redis.test
 
-import com.tony.redis.annotation.RedisCacheEvict
-import com.tony.redis.annotation.RedisCacheable
+import com.tony.annotation.redis.RedisCacheEvict
+import com.tony.annotation.redis.RedisCacheable
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.math.BigInteger

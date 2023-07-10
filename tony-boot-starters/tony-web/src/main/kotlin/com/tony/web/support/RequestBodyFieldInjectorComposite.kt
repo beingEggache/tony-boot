@@ -1,13 +1,13 @@
 package com.tony.web.support
 
+import com.tony.annotation.web.support.InjectRequestBodyField
 import com.tony.utils.annotation
 import com.tony.utils.hasAnnotation
-import com.tony.web.support.annotation.InjectRequestBodyField
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * RequestBody 注入
@@ -99,7 +99,7 @@ internal class RequestBodyFieldInjectorComposite(
             synchronized(supportedClassesCache) {
                 supportedClassesCache[targetType] = false
                 logger.warn(
-                    "${targetType.simpleName} has no RequestBodyFieldInjector supports",
+                    "${targetType.simpleName} has no RequestBodyFieldInjector supports"
                 )
             }
         }
@@ -149,7 +149,7 @@ internal class RequestBodyFieldInjectorComposite(
             synchronized(supportedClassFieldsCache) {
                 processSupportedInjectors(
                     targetType,
-                    annotatedFields,
+                    annotatedFields
                 ).isNotEmpty()
             }
         }
@@ -182,7 +182,7 @@ internal class RequestBodyFieldInjectorComposite(
             isFieldSupportByAnnoValueOrFieldName(
                 field.name,
                 field.annotation(InjectRequestBodyField::class.java)!!.value,
-                injector.name,
+                injector.name
             )
         }
         .onEach {

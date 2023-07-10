@@ -98,7 +98,7 @@ private val valueJsonToken =
         JsonToken.VALUE_STRING,
         JsonToken.VALUE_NUMBER_INT,
         JsonToken.VALUE_NUMBER_FLOAT,
-        JsonToken.VALUE_EMBEDDED_OBJECT,
+        JsonToken.VALUE_EMBEDDED_OBJECT
     )
 
 private val jsonFactory = JsonFactory()

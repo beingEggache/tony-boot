@@ -41,7 +41,7 @@ class UserService(
             UserInfoResp(
                 realName,
                 mobile,
-                moduleService.listRouteAndComponentModules(userId, appId),
+                moduleService.listRouteAndComponentModules(userId, appId)
             )
         } ?: throw BizException("没有此用户")
 
@@ -52,7 +52,7 @@ class UserService(
         .like(
             !req.query.isNullOrBlank(),
             User::userName,
-            req.query,
+            req.query
         )
         .or(!req.query.isNullOrBlank()) {
             it.like(User::realName, req.query)
@@ -79,7 +79,7 @@ class UserService(
                 realName = req.realName
                 mobile = req.mobile
                 pwd = "${req.pwd}${req.userName}".md5Uppercase()
-            },
+            }
         ) > 0
     }
 
@@ -101,7 +101,7 @@ class UserService(
                 userName = req.userName
                 realName = req.realName
                 mobile = req.mobile
-            },
+            }
         ) > 0
     }
 
@@ -123,7 +123,7 @@ class UserService(
                 roleId = superAdmin
                 this.appId = appId
                 roleName = "超级管理员"
-            },
+            }
         )
 
         // TODO

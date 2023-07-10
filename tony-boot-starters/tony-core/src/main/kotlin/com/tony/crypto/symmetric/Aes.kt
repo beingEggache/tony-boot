@@ -1,10 +1,10 @@
 package com.tony.crypto.symmetric
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.Security
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 
 /**
  * Aes对称加密单例类

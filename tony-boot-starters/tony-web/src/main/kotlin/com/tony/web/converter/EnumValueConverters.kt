@@ -6,10 +6,10 @@ import com.tony.enums.EnumCreator
 import com.tony.enums.EnumValue
 import com.tony.enums.IntEnumValue
 import com.tony.enums.StringEnumValue
-import org.springframework.core.convert.converter.Converter
-import org.springframework.core.convert.converter.ConverterFactory
 import java.io.Serializable
 import java.util.WeakHashMap
+import org.springframework.core.convert.converter.Converter
+import org.springframework.core.convert.converter.ConverterFactory
 
 /**
  *
@@ -73,16 +73,16 @@ internal class EnumIntValueConverter(enumType: Class<out IntEnumValue>) :
     EnumValueConverter<IntEnumValue, Int>(enumType),
     Converter<String, EnumValue<Int>> {
 
-    override fun convertSource(source: String) = source.toInt()
+        override fun convertSource(source: String) = source.toInt()
 
-    override fun convert(source: String): IntEnumValue? {
-        return if (source.toInt() == DEFAULT_INT_VALUE) {
-            null
-        } else {
-            super.convert(source)
+        override fun convert(source: String): IntEnumValue? {
+            return if (source.toInt() == DEFAULT_INT_VALUE) {
+                null
+            } else {
+                super.convert(source)
+            }
         }
     }
-}
 
 /**
  * EnumStringValueConverter
@@ -94,12 +94,12 @@ internal class EnumStringValueConverter(enumType: Class<out StringEnumValue>) :
     EnumValueConverter<StringEnumValue, String>(enumType),
     Converter<String, EnumValue<String>> {
 
-    override fun convertSource(source: String) = source
+        override fun convertSource(source: String) = source
 
-    override fun convert(source: String): StringEnumValue? =
-        if (source == DEFAULT_STRING_VALUE) {
-            null
-        } else {
-            super.convert(source)
-        }
-}
+        override fun convert(source: String): StringEnumValue? =
+            if (source == DEFAULT_STRING_VALUE) {
+                null
+            } else {
+                super.convert(source)
+            }
+    }

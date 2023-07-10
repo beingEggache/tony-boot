@@ -11,6 +11,9 @@ import com.tony.web.WebApp.errorResponse
 import com.tony.web.WebContext
 import com.tony.web.WebContext.toResponse
 import com.tony.wrapExceptionHeaderName
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+import javax.validation.ConstraintViolationException
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -23,9 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-import javax.validation.ConstraintViolationException
 
 /**
  * 全局异常处理
@@ -115,8 +115,8 @@ internal class ExceptionHandler : ErrorController {
         value = [
             MissingRequestValueException::class,
             HttpMessageNotReadableException::class,
-            HttpRequestMethodNotSupportedException::class,
-        ],
+            HttpRequestMethodNotSupportedException::class
+        ]
     )
     fun badRequestException(
         e: Exception,

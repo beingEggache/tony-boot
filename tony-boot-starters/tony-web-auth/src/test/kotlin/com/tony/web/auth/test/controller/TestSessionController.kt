@@ -4,7 +4,7 @@ import com.tony.ApiResult
 import com.tony.jwt.JwtToken
 import com.tony.web.WebContext
 import com.tony.web.WebContextExtensions.apiSession
-import com.tony.web.interceptor.NoLoginCheck
+import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.web.auth.test.req.TestLoginReq
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag

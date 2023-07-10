@@ -58,14 +58,14 @@ public interface WechatApiAccessTokenProvider {
 
     public fun accessTokenStr(appId: String?, appSecret: String?): String? = wechatClient.accessToken(
         appId,
-        appSecret,
+        appSecret
     ).check().accessToken
 
     public fun userAccessToken(appId: String?, secret: String?, code: String?): WechatUserTokenResp =
         wechatClient.userAccessToken(
             appId,
             secret,
-            code,
+            code
         ).check()
 
     public val wechatClient: WechatClient
