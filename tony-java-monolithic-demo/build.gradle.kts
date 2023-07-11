@@ -5,7 +5,7 @@ import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 
 plugins {
     idea
-	id("io.freefair.lombok") version "8.1.0"
+    id("io.freefair.lombok") version "8.1.0"
 }
 
 val javaVersion: String by project
@@ -35,7 +35,7 @@ configure(subprojects) {
 
     apply {
         plugin("org.gradle.java-library")
-		plugin("io.freefair.lombok")
+        plugin("io.freefair.lombok")
         plugin("com.tony.build.dep-substitute")
     }
 
@@ -50,18 +50,17 @@ configure(subprojects) {
     tasks.withType<JavaCompile>().configureEach {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
-
         options.encoding = "UTF-8"
         options.isDeprecation = true
         if (getProfile() != "prod") {
             options.isDebug = true
+            options.debugOptions.debugLevel = "variable"
             options.isFork = true
             options.forkOptions.jvmArgs?.add("-Duser.language=en")
             options.isIncremental = true
         } else {
             options.isDebug = false
         }
-
         options.compilerArgs = mutableListOf(
 //            "-Xlint:all,-serial,-processing,-classfile,-unchecked",
             "-Xlint:all,-processing,-unchecked",
