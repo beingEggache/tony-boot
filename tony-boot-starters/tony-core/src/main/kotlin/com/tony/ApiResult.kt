@@ -1,3 +1,5 @@
+@file:JvmName("ApiResults")
+
 package com.tony
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
@@ -9,6 +11,9 @@ import com.tony.utils.asTo
 import java.util.Collections
 
 public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
+
+public fun <T> T.flattenResult(): ApiResultLike<T> =
+    FlattenApiResult(this, ApiProperty.okCode, ApiProperty.defaultOkMessage)
 
 /**
  * 全局响应统一结构.

@@ -3,6 +3,12 @@ package com.tony;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * @see com.tony.PageQueryLike
+ * @param <T>
+ * @author tangli
+ * @since 2023/07/11 09:21
+ */
 @SuppressWarnings("unused")
 public class PageQuery<T> implements PageQueryLike<T> {
 
@@ -63,6 +69,7 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.descs = descs;
     }
 
+    @Override
     public T getQuery() {
         return query;
     }
@@ -71,6 +78,7 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.query = query;
     }
 
+    @Override
     public long getPage() {
         return page;
     }
@@ -79,6 +87,7 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.page = page;
     }
 
+    @Override
     public long getSize() {
         return size;
     }
@@ -87,6 +96,7 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.size = size;
     }
 
+    @Override
     public Collection<String> getAscs() {
         return ascs;
     }
@@ -95,6 +105,7 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.ascs = ascs;
     }
 
+    @Override
     public Collection<String> getDescs() {
         return descs;
     }

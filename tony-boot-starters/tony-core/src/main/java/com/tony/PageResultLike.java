@@ -18,38 +18,47 @@ public interface PageResultLike<T> {
 
     /**
      * items
+     * @return 分页集合.
      */
     Collection<T> getItems();
 
     /**
-     * current page
+     * current page.
+     * @return current page.
      */
     long getPage();
 
     /**
-     * per page item size
+     * per page item size.
+     * @return page item size.
      */
     long getSize();
 
     /**
      * total pages
+     * @return page total pages.
      */
     long getPages();
 
     /**
      * total item count
+     * @return total item count.
      */
     long getTotal();
 
     /**
      * has next page
+     * @return has next page.
      */
     boolean getHasNext();
 
     /**
      * map
      *
+     * @param <R> transform to.
+     * @param transform transform function.
      * @see [List.map]
+     * @return this.
      */
     default <R> PageResultLike<R> map(Function<T, R> transform) {
         Collection<T> items = getItems();
@@ -69,7 +78,9 @@ public interface PageResultLike<T> {
     /**
      * onEach
      *
+     * @param action on each.
      * @see [List.onEach]
+     * @return this.
      */
     default PageResultLike<T> onEach(Consumer<T> action) {
         Collection<T> items = getItems();
@@ -87,6 +98,11 @@ public interface PageResultLike<T> {
         );
     }
 
+    /**
+     * firstOrNull.
+     * @param predicate predicate.
+     * @return first item.
+     */
     default T firstOrNull(Predicate<T> predicate) {
         Collection<T> items = getItems();
         if (items == null || items.size() == 0) {

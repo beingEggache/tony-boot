@@ -11,5 +11,10 @@ import java.util.Collection;
 @SuppressWarnings("unused")
 public interface ItemsWrapper<T> {
 
+    /**
+     * 返回包装集合对象.
+     *
+     * @return 集合对象
+     */
     Collection<? extends T> getItems();
 }

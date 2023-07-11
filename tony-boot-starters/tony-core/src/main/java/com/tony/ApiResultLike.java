@@ -13,16 +13,19 @@ public interface ApiResultLike<T> {
 
     /**
      * 响应体
+     * @return data.
      */
     T getData();
 
     /**
      * 返回码
+     * @return code.
      */
     int getCode();
 
     /**
      * 返回消息
+     * @return message.
      */
     CharSequence getMessage();
 }
