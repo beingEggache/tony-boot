@@ -47,8 +47,7 @@ public abstract class RequestBodyFieldInjector(
             }
 
         return try {
-            val getter = annotatedField.getter()
-            if (override && getter?.invoke(body) != null) {
+            if (override && annotatedField.getter()?.invoke(body) != null) {
                 true
             } else {
                 inject(annotatedField, body)
