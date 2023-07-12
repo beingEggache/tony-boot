@@ -17,6 +17,18 @@ class TestWebApp {
         }
 
     @Bean
+    fun string1Inject(): RequestBodyFieldInjector =
+        object : RequestBodyFieldInjector("string1") {
+            override fun value(fieldType: Class<*>) = "aloha heihei"
+        }
+
+    @Bean
+    fun string2Inject(): RequestBodyFieldInjector =
+        object : RequestBodyFieldInjector("string2") {
+            override fun value(fieldType: Class<*>) = "aloha heihei hehe"
+        }
+
+    @Bean
     fun intInject(): RequestBodyFieldInjector =
         object : RequestBodyFieldInjector("int") {
             override fun value(fieldType: Class<*>) = 123

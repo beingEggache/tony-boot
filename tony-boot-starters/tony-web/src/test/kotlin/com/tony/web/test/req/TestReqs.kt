@@ -1,8 +1,8 @@
 package com.tony.web.test.req
 
+import com.tony.annotation.web.support.InjectRequestBodyField
 import com.tony.enums.validate.SimpleIntEnum
 import com.tony.enums.validate.SimpleStringEnum
-import com.tony.annotation.web.support.InjectRequestBodyField
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -40,10 +40,11 @@ data class TestRemoveInjectTestReq(
 
 @Schema(description = "测试请求注入")
 data class TestInjectReq<T1, T2, T3, T4>(
-    @field:InjectRequestBodyField
-    val string: String? = null,
-    @field:InjectRequestBodyField("string")
-    val string1: String? = null,
+
+    override val string: String? = null,
+
+    override var string1: String? = null,
+
     @field:InjectRequestBodyField
     val int: Int? = null,
     @field:InjectRequestBodyField("int")
@@ -54,7 +55,6 @@ data class TestInjectReq<T1, T2, T3, T4>(
     val objList: List<TestLoginReq>? = null,
     @field:InjectRequestBodyField("list")
     val objMap: Map<String, TestLoginReq>? = null,
-    @field:InjectRequestBodyField
     val list: T1? = null,
     @field:InjectRequestBodyField("go fuck Yourself")
     val testTypeParam2: T2? = null,
@@ -62,4 +62,25 @@ data class TestInjectReq<T1, T2, T3, T4>(
     val testTypeParam3: T3? = null,
     @field:InjectRequestBodyField("go fuck Yourself")
     val testTypeParam4: T4? = null,
-)
+) : TestInjectParent(), TestInjectInterface
+
+abstract class TestInjectParent {
+
+    @set:InjectRequestBodyField("string2")
+    abstract var string1: String?
+
+}
+
+interface TestInjectInterface : TestInjectInterfaceParent {
+    @get:InjectRequestBodyField("string1")
+    override val string1: String?
+}
+
+interface TestInjectInterfaceParent {
+
+    @get:InjectRequestBodyField
+    val string: String?
+
+    @get:InjectRequestBodyField("string")
+    val string1: String?
+}

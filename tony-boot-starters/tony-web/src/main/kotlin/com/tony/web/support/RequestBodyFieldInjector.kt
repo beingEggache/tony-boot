@@ -1,9 +1,11 @@
 package com.tony.web.support
 
 import com.tony.annotation.web.support.InjectRequestBodyField
-import com.tony.utils.annotation
+import com.tony.utils.annotationFromSelfOrGetterOrSetter
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
+import com.tony.utils.setValueFirstUseSetter
+import com.tony.web.support.RequestBodyFieldInjectorComposite.Companion.fieldOverrideMap
 import java.lang.reflect.Field
 import org.slf4j.Logger
 
@@ -33,21 +35,25 @@ public abstract class RequestBodyFieldInjector(
     }
 
     protected open fun inject(annotatedField: Field, body: Any) {
-        annotatedField.set(body, value(annotatedField.type))
+        annotatedField.setValueFirstUseSetter(body, value(annotatedField.type))
     }
 
     internal fun internalInject(annotatedField: Field, body: Any): Boolean {
-        annotatedField.trySetAccessible()
-        val defaultIfNull = annotatedField.annotation(InjectRequestBodyField::class.java)!!.defaultIfNull
+        val override =
+            fieldOverrideMap.getOrPut(annotatedField) {
+                annotatedField
+                    .annotationFromSelfOrGetterOrSetter(InjectRequestBodyField::class.java)!!.override
+            }
+
         return try {
-            if (defaultIfNull && annotatedField.get(body) != null) {
+            if (override && annotatedField.get(body) != null) {
                 true
             } else {
                 inject(annotatedField, body)
                 true
             }
         } catch (e: IllegalArgumentException) {
-            logger.warn(e.message, e)
+            logger.warn(e.message)
             false
         }
     }

@@ -1,8 +1,8 @@
 package com.tony.web.support
 
 import com.tony.annotation.web.support.InjectRequestBodyField
-import com.tony.utils.annotation
-import com.tony.utils.hasAnnotation
+import com.tony.utils.annotationFromSelfOrGetterOrSetter
+import com.tony.utils.selfOrGetterOrSetterHasAnnotation
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
@@ -33,18 +33,22 @@ internal class RequestBodyFieldInjectorComposite(
         private val logger: Logger = LoggerFactory.getLogger(RequestBodyFieldInjectorComposite::class.java)
 
         @JvmStatic
-        private val supportedClassesCache = ConcurrentHashMap<Class<*>, Boolean>()
+        internal val supportedClassesCache = ConcurrentHashMap<Class<*>, Boolean>()
 
         /**
          * <被注入的类, <注入器名, 被注入的类字段列表>>
          */
         @JvmStatic
-        private val supportedClassFieldsCache =
+        internal val supportedClassFieldsCache =
             ConcurrentHashMap<Class<*>, ConcurrentMap<String, MutableSet<Field>>>()
 
         @JvmStatic
-        private val classSupportedInjectorMap =
+        internal val classSupportedInjectorMap =
             ConcurrentHashMap<Class<*>, ConcurrentMap<String, RequestBodyFieldInjector>>()
+
+        @JvmStatic
+        internal val fieldOverrideMap =
+            ConcurrentHashMap<Field, Boolean>()
     }
 
     fun injectValues(body: Any): Any {
@@ -138,7 +142,7 @@ internal class RequestBodyFieldInjectorComposite(
             targetType
                 .declaredFields
                 .filter {
-                    it.hasAnnotation(InjectRequestBodyField::class.java)
+                    it.selfOrGetterOrSetterHasAnnotation(InjectRequestBodyField::class.java)
                 }
 
         if (annotatedFields.isEmpty()) {
@@ -181,7 +185,7 @@ internal class RequestBodyFieldInjectorComposite(
         .filter { field ->
             isFieldSupportByAnnoValueOrFieldName(
                 field.name,
-                field.annotation(InjectRequestBodyField::class.java)!!.value,
+                field.annotationFromSelfOrGetterOrSetter(InjectRequestBodyField::class.java)!!.value,
                 injector.name
             )
         }

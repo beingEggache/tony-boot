@@ -5,36 +5,79 @@ import com.tony.utils.println
 import org.springframework.beans.BeanUtils
 
 fun main() {
-    val obj = ReflectObj(1)
+//    testKotlinAnno()
+//    testJavaAnno()
+    val field = JavaReflect::class.java.getDeclaredField("data")
+    field.type.println()
+    field.declaringClass.println()
+}
+
+private fun testJavaAnno(){
+    val obj = JavaReflect()
 
     val propertyDescriptor = BeanUtils.getPropertyDescriptor(obj::class.java, "data")
 
+    val field = obj::class.java.getDeclaredField("data")
     val getter = propertyDescriptor?.readMethod
     val setter = propertyDescriptor?.writeMethod
 
-    println(getter)
+    val fieldAnnotation = field.annotation(ReflectAnno::class.java)
     val getterAnnotation = getter?.annotation(ReflectAnno::class.java)
-    println(getterAnnotation)
-    println(setter)
+    val setterAnnotation = setter?.annotation(ReflectAnno::class.java)
+
+
+    println("field:$field")
+    println("getter:$getter")
+    println("setter:$setter")
+
+    println("fieldAnnotation:$fieldAnnotation")
+    println("setterAnnotation:$setterAnnotation")
+    println("getterAnnotation:$getterAnnotation")
+
     propertyDescriptor?.setValue("data", 2)  // not work
     propertyDescriptor?.getValue("data").println()
     println(obj)
 }
 
-data class ReflectObj(override val data: Any) : ReflectLike
+private fun testKotlinAnno() {
+    val obj = ReflectObj(1)
 
-interface ReflectLike {
+    val propertyDescriptor = BeanUtils.getPropertyDescriptor(obj::class.java, "data")
 
-    @get:ReflectAnno
-    val data: Any
+    val field = obj::class.java.getDeclaredField("data")
+    val getter = propertyDescriptor?.readMethod
+    val setter = propertyDescriptor?.writeMethod
+
+    val fieldAnnotation = field.annotation(ReflectAnno::class.java)
+    val getterAnnotation = getter?.annotation(ReflectAnno::class.java)
+    val setterAnnotation = setter?.annotation(ReflectAnno::class.java)
+
+
+    println("field:$field")
+    println("getter:$getter")
+    println("setter:$setter")
+
+    println("fieldAnnotation:$fieldAnnotation")
+    println("setterAnnotation:$setterAnnotation")
+    println("getterAnnotation:$getterAnnotation")
+
+    propertyDescriptor?.setValue("data", 2)  // not work
+    propertyDescriptor?.getValue("data").println()
+    println(obj)
 }
 
+data class ReflectObj(override var data: Any) : ReflectLike
+
+interface ReflectLike {
+    @get:ReflectAnno
+    var data: Any
+}
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(
     AnnotationTarget.FIELD,
-    AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
 )
 @MustBeDocumented
 annotation class ReflectAnno

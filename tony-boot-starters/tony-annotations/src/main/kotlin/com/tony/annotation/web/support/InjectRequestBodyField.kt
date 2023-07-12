@@ -9,7 +9,9 @@ import com.tony.annotation.web.support.InjectEmptyIfNull.Companion.DEFAULT_EMPTY
  */
 @Target(
     AnnotationTarget.FIELD,
-    AnnotationTarget.ANNOTATION_CLASS
+    AnnotationTarget.ANNOTATION_CLASS,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class InjectRequestBodyField(
@@ -19,9 +21,9 @@ public annotation class InjectRequestBodyField(
     val value: String = "",
 
     /**
-     * 当为 null 时才设值
+     * 是否覆盖原值
      */
-    val defaultIfNull: Boolean = false,
+    val override: Boolean = false,
 )
 
 /**
@@ -33,10 +35,12 @@ public annotation class InjectRequestBodyField(
  * @since 2023/7/6 15:07
  */
 @Target(
-    AnnotationTarget.FIELD
+    AnnotationTarget.FIELD,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
 )
 @Retention(AnnotationRetention.RUNTIME)
-@InjectRequestBodyField(value = DEFAULT_EMPTY, defaultIfNull = true)
+@InjectRequestBodyField(value = DEFAULT_EMPTY, override = true)
 public annotation class InjectEmptyIfNull {
     public companion object {
         public const val DEFAULT_EMPTY: String = "DEFAULT_EMPTY"
