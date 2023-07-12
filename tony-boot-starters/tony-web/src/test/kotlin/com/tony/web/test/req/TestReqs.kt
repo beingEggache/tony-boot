@@ -1,5 +1,6 @@
 package com.tony.web.test.req
 
+import com.tony.annotation.web.support.InjectEmptyIfNull
 import com.tony.annotation.web.support.InjectRequestBodyField
 import com.tony.enums.validate.SimpleIntEnum
 import com.tony.enums.validate.SimpleStringEnum
@@ -41,6 +42,7 @@ data class TestRemoveInjectTestReq(
 @Schema(description = "测试请求注入")
 data class TestInjectReq<T1, T2, T3, T4>(
 
+    @get:InjectEmptyIfNull
     override val string: String? = null,
 
     override var string1: String? = null,

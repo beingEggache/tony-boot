@@ -4,6 +4,7 @@ import com.tony.annotation.web.support.InjectRequestBodyField
 import com.tony.utils.annotationFromSelfOrGetterOrSetter
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
+import com.tony.utils.getter
 import com.tony.utils.setValueFirstUseSetter
 import com.tony.web.support.RequestBodyFieldInjectorComposite.Companion.fieldOverrideMap
 import java.lang.reflect.Field
@@ -46,7 +47,8 @@ public abstract class RequestBodyFieldInjector(
             }
 
         return try {
-            if (override && annotatedField.get(body) != null) {
+            val getter = annotatedField.getter()
+            if (override && getter?.invoke(body) != null) {
                 true
             } else {
                 inject(annotatedField, body)
