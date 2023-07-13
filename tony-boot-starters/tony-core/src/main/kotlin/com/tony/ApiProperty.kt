@@ -11,7 +11,7 @@ import com.tony.SpringContexts.Env
  * @author tangli
  * @since 2022/9/29 10:20
  */
-public object ApiProperty {
+public data object ApiProperty {
 
     /**
      * 全局成功返回码.

@@ -12,7 +12,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
  * @author tangli
  * @since 2023/5/25 16:16
  */
-public object Aes : SymmetricCrypto {
+public data object Aes : SymmetricCrypto {
 
     /**
      * 块长度

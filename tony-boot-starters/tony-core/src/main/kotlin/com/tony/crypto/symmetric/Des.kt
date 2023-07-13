@@ -11,7 +11,7 @@ import javax.crypto.spec.DESKeySpec
  * @author tangli
  * @since 2023/5/29 11:20
  */
-public object Des : SymmetricCrypto {
+public data object Des : SymmetricCrypto {
 
     private const val DES = "DES"
 
