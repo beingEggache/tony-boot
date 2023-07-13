@@ -5,7 +5,7 @@ object VersionManagement  {
 
     const val kotlinVersion = "1.9.0"
 
-    const val springVersion = "5.3.28"
+    const val springVersion = "5.3.29"
     const val springBootVersion = "2.7.13"
 
     const val openFeignVersion = "11.10"
@@ -25,7 +25,7 @@ object VersionManagement  {
     const val fastjsonVersion = "2.0.35"
     const val nettyVersion = "4.1.94.Final"
 
-    const val reactorVersion = "3.4.30"
+    const val reactorVersion = "3.4.31"
     const val reactorKotlinExtensions = "1.2.2"
     const val reactorNettyVersion = "1.1.8"
     const val slf4jVersion = "1.7.36"
