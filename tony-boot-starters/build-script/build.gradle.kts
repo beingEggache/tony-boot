@@ -46,8 +46,8 @@ repositories {
 //    maven(url = privateGradleRepoUrl) {
 //        isAllowInsecureProtocol = true
 //    }
-    mavenCentral()
     maven(url = "https://maven.aliyun.com/repository/gradle-plugin")
+    mavenCentral()
 }
 
 gradlePlugin {

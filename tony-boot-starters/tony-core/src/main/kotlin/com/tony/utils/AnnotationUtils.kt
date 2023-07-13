@@ -24,7 +24,7 @@ public fun <A : Annotation> Field.selfOrGetterOrSetterHasAnnotation(annotationTy
     annotationFromSelfOrGetterOrSetter(annotationType) != null
 
 public fun <A : Annotation> Field.annotationFromSelfOrGetterOrSetter(annotationType: Class<A>): A? =
-    AnnotationUtils.findAnnotation(this, annotationType)
+    annotation(annotationType)
         ?: getter()?.annotation(annotationType)
         ?: setter()?.annotation(annotationType)
 
