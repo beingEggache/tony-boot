@@ -4,6 +4,8 @@ package com.tony.jackson
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -27,6 +29,7 @@ public fun ObjectMapper.initialize(): ObjectMapper = apply {
     registerModules(kotlinModule, JavaTimeModule(), ParameterNamesModule())
     setTimeZone(TimeZone.getDefault())
     setSerializationInclusion(JsonInclude.Include.ALWAYS)
+    setDefaultSetterInfo(JsonSetter.Value.forValueNulls(Nulls.SKIP, Nulls.SKIP))
 
     configOverride(Date::class.java).format = JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss")
     configOverride(LocalDateTime::class.java).format = JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss")

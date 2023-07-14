@@ -6,7 +6,7 @@ package com.tony.core.test;
  * @author tangli
  * @since 2023/07/12 10:12
  */
-public class JavaReflect implements ReflectLike {
+public class JavaTestReflect implements ReflectLike {
 
     private Object data;
 

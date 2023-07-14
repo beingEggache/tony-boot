@@ -18,6 +18,7 @@ public interface PageQueryLike<T> {
 
     /**
      * query condition.
+     *
      * @return query.
      */
     @Valid
@@ -25,6 +26,7 @@ public interface PageQueryLike<T> {
 
     /**
      * current page.
+     *
      * @return current page.
      */
     @Positive(message = "页码请输入正数")
@@ -32,6 +34,7 @@ public interface PageQueryLike<T> {
 
     /**
      * size per page.
+     *
      * @return size per page.
      */
     @Positive(message = "每页数量请输入正数")
@@ -39,6 +42,7 @@ public interface PageQueryLike<T> {
 
     /**
      * asc fields.
+     *
      * @return asc fields.
      */
     @JsonSetter(nulls = Nulls.AS_EMPTY)
@@ -46,6 +50,7 @@ public interface PageQueryLike<T> {
 
     /**
      * desc fields.
+     *
      * @return desc fields.
      */
     @JsonSetter(nulls = Nulls.AS_EMPTY)

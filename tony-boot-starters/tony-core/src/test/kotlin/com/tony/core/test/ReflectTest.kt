@@ -7,13 +7,13 @@ import org.springframework.beans.BeanUtils
 fun main() {
 //    testKotlinAnno()
 //    testJavaAnno()
-    val field = JavaReflect::class.java.getDeclaredField("data")
+    val field = JavaTestReflect::class.java.getDeclaredField("data")
     field.type.println()
     field.declaringClass.println()
 }
 
 private fun testJavaAnno(){
-    val obj = JavaReflect()
+    val obj = JavaTestReflect()
 
     val propertyDescriptor = BeanUtils.getPropertyDescriptor(obj::class.java, "data")
 

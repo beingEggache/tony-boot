@@ -1,6 +1,5 @@
 package com.tony.core.test
 
-import com.tony.ApiResultLike
 import com.tony.utils.asToNotNull
 import com.tony.utils.jsonToObj
 import com.tony.utils.println
@@ -11,10 +10,10 @@ import java.lang.reflect.ParameterizedType
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Date
-import java.util.Locale
 
 fun main() {
-    ApiResultLike<*>::getMessage.name.substring(3).replaceFirstChar { it.lowercase(Locale.getDefault()) }.println()
+    val obj = """{"name":null,"age":null}""".jsonToObj<JavaTestPojo>()
+    println(obj.toJsonString())
 }
 
 data class Person(
