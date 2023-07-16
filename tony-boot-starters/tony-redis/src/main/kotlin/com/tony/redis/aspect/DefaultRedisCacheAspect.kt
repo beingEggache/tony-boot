@@ -16,6 +16,7 @@ import com.tony.utils.isDoubleType
 import com.tony.utils.isFloatType
 import com.tony.utils.isIntType
 import com.tony.utils.isLongType
+import com.tony.utils.isNumberType
 import com.tony.utils.isShortType
 import com.tony.utils.isStringLikeType
 import com.tony.utils.jsonToObj
@@ -173,14 +174,7 @@ public class DefaultRedisCacheAspect {
 
     private fun getCachedEmptyValueByType(javaType: JavaType): String = when {
         javaType.isStringLikeType() -> ""
-        javaType.isByteType() -> ""
-        javaType.isShortType() -> ""
-        javaType.isIntType() -> ""
-        javaType.isLongType() -> ""
-        javaType.isFloatType() -> ""
-        javaType.isDoubleType() -> ""
-        javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> ""
-        javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> ""
+        javaType.isNumberType() -> ""
         javaType.isBooleanType() -> ""
         javaType.isArrayLikeType() -> "[]"
         else -> "{}"

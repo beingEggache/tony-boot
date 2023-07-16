@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * @see com.tony.PageQueryLike
  * @param <T>
  * @author tangli
+ * @see com.tony.PageQueryLike
  * @since 2023/07/11 09:21
  */
 @SuppressWarnings("unused")
