@@ -34,6 +34,7 @@ public fun ObjectMapper.initialize(): ObjectMapper = apply {
     configOverride(Date::class.java).format = JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss")
     configOverride(LocalDateTime::class.java).format = JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss")
 
+    disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
     disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     enable(
         DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE,

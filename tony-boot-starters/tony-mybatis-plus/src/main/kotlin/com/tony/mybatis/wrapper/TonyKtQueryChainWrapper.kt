@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
 import com.baomidou.mybatisplus.extension.conditions.AbstractChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.query.ChainQuery
 import com.tony.ApiProperty
-import com.tony.PageQueryLike
+import com.tony.JPageQueryLike
 import com.tony.PageResultLike
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
@@ -144,7 +144,7 @@ public open class TonyKtQueryChainWrapper<T : Any>(
          * @return
          */
         public fun <E : PageResultLike<T>> pageResult(
-            page: PageQueryLike<*>,
+            page: JPageQueryLike<*>,
         ): E = baseMapper.selectPageResult(page, wrapper)
 
         override fun getBaseMapper(): BaseDao<T> = baseMapper

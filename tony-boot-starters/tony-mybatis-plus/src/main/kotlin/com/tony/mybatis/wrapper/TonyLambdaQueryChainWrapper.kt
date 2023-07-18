@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction
 import com.baomidou.mybatisplus.extension.conditions.AbstractChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.query.ChainQuery
 import com.tony.ApiProperty
-import com.tony.PageQueryLike
+import com.tony.JPageQueryLike
 import com.tony.PageResultLike
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
@@ -98,7 +98,7 @@ public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: B
          * @return
          */
         public fun <E : PageResultLike<T>> pageResult(
-            page: PageQueryLike<*>,
+            page: JPageQueryLike<*>,
         ): E = baseMapper.selectPageResult(page, wrapper)
 
         override fun select(

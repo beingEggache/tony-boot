@@ -2,9 +2,9 @@ package com.tony;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
+import org.jetbrains.annotations.NotNull;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.Collection;
 
@@ -14,7 +14,7 @@ import java.util.Collection;
  * @author tangli
  * @since 2021/12/6 10:51
  */
-public interface PageQueryLike<T> {
+public interface JPageQueryLike<T> {
 
 
     /**
@@ -22,7 +22,6 @@ public interface PageQueryLike<T> {
      *
      * @return query.
      */
-    @NotNull
     @Valid
     @JsonSetter(nulls = Nulls.AS_EMPTY, contentNulls = Nulls.AS_EMPTY)
     T getQuery();
@@ -48,6 +47,7 @@ public interface PageQueryLike<T> {
      *
      * @return asc fields.
      */
+    @NotNull
     @JsonSetter(nulls = Nulls.AS_EMPTY)
     Collection<? extends CharSequence> getAscs();
 
@@ -56,6 +56,7 @@ public interface PageQueryLike<T> {
      *
      * @return desc fields.
      */
+    @NotNull
     @JsonSetter(nulls = Nulls.AS_EMPTY)
     Collection<? extends CharSequence> getDescs();
 }

@@ -1,22 +1,23 @@
 package com.tony;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
 
 /**
- * 将 query 放到根节点.
- * @see com.tony.PageQueryLike
  * @param <T>
  * @author tangli
+ * @see JPageQueryLike
  * @since 2023/07/11 09:21
  */
 @SuppressWarnings("unused")
-public class FlattenPageQuery<T> implements PageQueryLike<T> {
+public class JPageQuery<T> implements JPageQueryLike<T> {
 
-    @JsonUnwrapped
-    private T query;
+    private static final Logger logger = LoggerFactory.getLogger(JPageQuery.class);
+    private Object query;
 
     private long page = 1L;
 
@@ -26,17 +27,16 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
 
     private Collection<String> descs = Collections.emptyList();
 
-
-    public FlattenPageQuery() {
+    public JPageQuery() {
     }
 
-    public FlattenPageQuery(
+    public JPageQuery(
         long page
     ) {
         this.page = page;
     }
 
-    public FlattenPageQuery(
+    public JPageQuery(
         long page,
         long size
     ) {
@@ -44,7 +44,7 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         this.size = size;
     }
 
-    public FlattenPageQuery(
+    public JPageQuery(
         long page,
         long size,
         Collection<String> ascs,
@@ -56,7 +56,7 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         this.descs = descs;
     }
 
-    public FlattenPageQuery(
+    public JPageQuery(
         long page,
         Collection<String> ascs,
         Collection<String> descs
@@ -66,7 +66,7 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         this.descs = descs;
     }
 
-    public FlattenPageQuery(T query, long page, long size, Collection<String> ascs, Collection<String> descs) {
+    public JPageQuery(T query, long page, long size, Collection<String> ascs, Collection<String> descs) {
         this.query = query;
         this.page = page;
         this.size = size;
@@ -74,9 +74,10 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         this.descs = descs;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T getQuery() {
-        return query;
+        return (T) query;
     }
 
     public void setQuery(T query) {
@@ -101,6 +102,7 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         this.size = size;
     }
 
+    @NotNull
     @Override
     public Collection<String> getAscs() {
         return ascs;
@@ -110,6 +112,7 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         this.ascs = ascs;
     }
 
+    @NotNull
     @Override
     public Collection<String> getDescs() {
         return descs;

@@ -1,18 +1,24 @@
 package com.tony;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 import java.util.Collections;
 
 /**
+ * 将 query 放到根节点.
+ *
  * @param <T>
  * @author tangli
- * @see com.tony.PageQueryLike
+ * @see JPageQueryLike
  * @since 2023/07/11 09:21
  */
 @SuppressWarnings("unused")
-public class PageQuery<T> implements PageQueryLike<T> {
+public class JFlattenPageQuery<T> implements JPageQueryLike<T> {
 
-    private T query;
+    @JsonUnwrapped
+    private Object query;
 
     private long page = 1L;
 
@@ -22,16 +28,17 @@ public class PageQuery<T> implements PageQueryLike<T> {
 
     private Collection<String> descs = Collections.emptyList();
 
-    public PageQuery() {
+
+    public JFlattenPageQuery() {
     }
 
-    public PageQuery(
+    public JFlattenPageQuery(
         long page
     ) {
         this.page = page;
     }
 
-    public PageQuery(
+    public JFlattenPageQuery(
         long page,
         long size
     ) {
@@ -39,7 +46,7 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.size = size;
     }
 
-    public PageQuery(
+    public JFlattenPageQuery(
         long page,
         long size,
         Collection<String> ascs,
@@ -51,7 +58,7 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.descs = descs;
     }
 
-    public PageQuery(
+    public JFlattenPageQuery(
         long page,
         Collection<String> ascs,
         Collection<String> descs
@@ -61,7 +68,7 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.descs = descs;
     }
 
-    public PageQuery(T query, long page, long size, Collection<String> ascs, Collection<String> descs) {
+    public JFlattenPageQuery(T query, long page, long size, Collection<String> ascs, Collection<String> descs) {
         this.query = query;
         this.page = page;
         this.size = size;
@@ -69,9 +76,11 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.descs = descs;
     }
 
+    @NotNull
+    @SuppressWarnings("unchecked")
     @Override
     public T getQuery() {
-        return query;
+        return (T) query;
     }
 
     public void setQuery(T query) {
@@ -96,6 +105,7 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.size = size;
     }
 
+    @NotNull
     @Override
     public Collection<String> getAscs() {
         return ascs;
@@ -105,6 +115,7 @@ public class PageQuery<T> implements PageQueryLike<T> {
         this.ascs = ascs;
     }
 
+    @NotNull
     @Override
     public Collection<String> getDescs() {
         return descs;

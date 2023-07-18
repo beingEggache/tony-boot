@@ -19,7 +19,7 @@ import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateChainWrapper
 import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers
 import com.tony.ApiProperty
-import com.tony.PageQueryLike
+import com.tony.JPageQueryLike
 import com.tony.PageResultLike
 import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
@@ -169,7 +169,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return
      */
     public fun <E : PageResultLike<T>> selectPageResult(
-        page: PageQueryLike<*>,
+        page: JPageQueryLike<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
     ): E = selectPage(page.toPage(), queryWrapper).toPageResult()
 

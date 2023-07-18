@@ -1,6 +1,6 @@
 package com.tony.web.test.controller
 
-import com.tony.PageQuery
+import com.tony.JPageQuery
 import com.tony.flattenResult
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -23,7 +23,7 @@ class TestDtoController {
     fun testPageQuery(
         @Validated
         @RequestBody
-        req: PageQuery<String>
+        req: JPageQuery<String>
     ) = req
 
     @Operation(description = "dto")
@@ -31,6 +31,6 @@ class TestDtoController {
     fun testFlattenApiResult(
         @Validated
         @RequestBody
-        req: PageQuery<String>
+        req: JPageQuery<String>
     ) = req.flattenResult()
 }
