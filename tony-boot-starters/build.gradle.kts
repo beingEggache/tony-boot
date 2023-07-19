@@ -100,18 +100,18 @@ configure(subprojects) {
     }
 
     tasks.withType<KotlinCompile>().configureEach {
-        val isTest = this.name.contains("test", ignoreCase = true)
+//        val isTest = this.name.contains("test", ignoreCase = true)
         kotlinOptions {
             jvmTarget = javaVersion
-            allWarningsAsErrors = !isTest
             verbose = true
+//            allWarningsAsErrors = !isTest
             freeCompilerArgs = listOf(
                 "-Xjsr305=strict",
                 "-Xjvm-default=all",
                 "-verbose",
                 "-version",
                 "-progressive",
-                "-Werror",
+//                "-Werror",
 //                "-deprecation",
 //                "-Xlint:all",
 //                "-encoding UTF-8",

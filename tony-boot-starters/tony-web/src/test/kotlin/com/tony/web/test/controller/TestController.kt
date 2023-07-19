@@ -7,6 +7,7 @@ import com.tony.exception.ApiException
 import com.tony.exception.BizException
 import com.tony.web.test.req.TestDateTimesReq
 import com.tony.web.test.req.TestIntEnum
+import com.tony.web.test.req.TestNullValues
 import com.tony.web.test.req.TestReq
 import com.tony.web.test.req.TestStringEnum
 import io.swagger.v3.oas.annotations.Operation
@@ -24,13 +25,13 @@ import java.math.BigInteger
 @Tag(name = "测试")
 @RestController
 class TestController {
-    @ApiOperationSupport(order = -1)
+    @ApiOperationSupport(order = -2)
     @Operation(description = "boolean")
     @PostMapping("/")
     fun index() {
     }
 
-    @ApiOperationSupport(order = 0)
+    @ApiOperationSupport(order = -1)
     @Operation(description = "boolean")
     @PostMapping("/boolean")
     fun boolean(): Boolean = true
@@ -227,4 +228,9 @@ class TestController {
         @RequestBody
         testReq: TestDateTimesReq
     ): TestDateTimesReq = testReq
+
+    @ApiOperationSupport(order = 33)
+    @Operation(description = "datetime")
+    @PostMapping("/null-values")
+    fun eachTypeNullValue(): TestNullValues? = TestNullValues()
 }

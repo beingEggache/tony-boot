@@ -1,0 +1,7 @@
+CREATE USER IF NOT EXISTS 'tony_api'@'%' IDENTIFIED BY 'tony_api';
+
+CREATE DATABASE IF NOT EXISTS `tony_api`  DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+GRANT ALL ON tony_api.* TO 'tony_api'@'%' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;

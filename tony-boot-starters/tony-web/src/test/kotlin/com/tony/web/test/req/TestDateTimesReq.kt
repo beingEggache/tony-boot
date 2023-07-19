@@ -10,7 +10,7 @@ import java.util.Date
  * @since 2023/07/07 11:46
  */
 data class TestDateTimesReq(
-    val date: Date = Date(),
-    val localDateTime: LocalDateTime = LocalDateTime.now(),
-    val localDate: LocalDate = LocalDate.now(),
+    val date: Date? = null,
+    val localDateTime: LocalDateTime? = null,
+    val localDate: LocalDate? = null,
 )

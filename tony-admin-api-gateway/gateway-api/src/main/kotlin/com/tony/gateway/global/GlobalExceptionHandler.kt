@@ -35,16 +35,16 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
                 ApiResult(
                     EMPTY_RESULT,
                     httpStatus.value() * 100,
-                    httpStatus.reasonPhrase,
-                ),
+                    httpStatus.reasonPhrase
+                )
             )
         } else {
             response.jsonBody(
                 ApiResult(
                     EMPTY_RESULT,
                     ApiProperty.errorCode,
-                    ApiProperty.errorMsg,
-                ),
+                    ApiProperty.errorMsg
+                )
             )
         }
     }

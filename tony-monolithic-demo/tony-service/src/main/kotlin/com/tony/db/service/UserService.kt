@@ -1,7 +1,8 @@
 package com.tony.db.service
 
-import com.tony.PageQuery
+import com.tony.JPageQuery
 import com.tony.PageResult
+import com.tony.PageResultLike
 import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
@@ -10,6 +11,7 @@ import com.tony.dto.req.UserCreateReq
 import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
 import com.tony.dto.resp.UserInfoResp
+import com.tony.dto.resp.UserResp
 import com.tony.exception.BizException
 import com.tony.utils.md5Uppercase
 import com.tony.utils.throwIf
@@ -46,8 +48,8 @@ class UserService(
         } ?: throw BizException("没有此用户")
 
     fun list(
-        req: PageQuery<String>,
-    ) = userDao
+        req: JPageQuery<String>,
+    ): PageResultLike<UserResp> = userDao
         .query()
         .like(
             !req.query.isNullOrBlank(),

@@ -18,6 +18,8 @@ import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier
 import com.tony.ApiResult
 import com.tony.utils.isArrayLikeType
+import com.tony.utils.isBooleanType
+import com.tony.utils.isDateTimeLikeType
 import com.tony.utils.isObjLikeType
 import com.tony.utils.isStringLikeType
 import org.slf4j.Logger
@@ -107,9 +109,10 @@ public class NullValueBeanSerializerModifier : BeanSerializerModifier() {
     ): MutableList<BeanPropertyWriter> = beanProperties.onEach {
         val type = it.type
         when {
+            type.isStringLikeType() || type.isDateTimeLikeType() -> it.assignNullSerializer(nullStrJsonSerializer)
             type.isArrayLikeType() -> it.assignNullSerializer(nullArrayJsonSerializer)
+            type.isBooleanType() || type.isEnumType -> Unit
             type.isObjLikeType() -> it.assignNullSerializer(nullObjJsonSerializer)
-            type.isStringLikeType() -> it.assignNullSerializer(nullStrJsonSerializer)
         }
     }
 }

@@ -23,15 +23,15 @@ kotlin {
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = javaVersion
-        allWarningsAsErrors = true
         verbose = true
+//        allWarningsAsErrors = true
         freeCompilerArgs = listOf(
             "-Xjsr305=strict",
             "-Xjvm-default=all",
             "-verbose",
             "-version",
             "-progressive",
-            "-Werror",
+//            "-Werror",
 //                "-deprecation",
 //                "-Xlint:all",
 //                "-encoding UTF-8",

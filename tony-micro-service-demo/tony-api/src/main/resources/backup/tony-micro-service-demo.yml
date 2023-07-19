@@ -1,16 +1,18 @@
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.51.15:3306/tony-demo?serverTimezone=GMT%2B8&&characterEncoding=utf8&autoReconnect=true
-    username: root
-    password: root
+    url: jdbc:mysql://localhost:3306/tony-demo?serverTimezone=GMT%2B8&&characterEncoding=utf8&autoReconnect=true
+    username: tony_api
+    password: tony_api
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: localhost
-    password: "test_redi"
+    password: "123456"
     database: 8
     timeout: 3000
-swagger:
-  base-packages:
-    - "com.tony.api"
-  title: "tony-micro-service-demo"
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    display-request-duration: true
+  paths-to-exclude:
+    - ${server.error.path:${error.path:/error}}

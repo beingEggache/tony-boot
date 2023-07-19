@@ -1,5 +1,14 @@
 spring:
   cloud:
     nacos:
+      username: nacos
+      password: Nacos@ktwl
       discovery:
         namespace: "dev"
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "*"
+            allowed-headers: "*"
+            allowed-methods: "*"

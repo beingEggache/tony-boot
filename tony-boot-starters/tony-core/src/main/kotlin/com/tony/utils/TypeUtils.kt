@@ -163,7 +163,9 @@ public fun JavaType.isDoubleType(): Boolean =
     isTypeOrSubTypeOf(Double::class.javaObjectType) || isTypeOrSubTypeOf(Double::class.javaPrimitiveType)
 
 public fun JavaType.isObjLikeType(): Boolean =
-    isMapLikeType || (!isArrayLikeType() && !isNumberType() && !isStringLikeType())
+    isMapLikeType ||
+        (!isDateTimeLikeType() && !isBooleanType() && !isEnumType) &&
+        (!isArrayType && !isNumberType() && !isStringLikeType())
 
 public fun JavaType.isStringLikeType(): Boolean =
     isTypeOrSubTypeOf(CharSequence::class.java) ||

@@ -1,7 +1,7 @@
 package com.tony.api.controller
 
+import com.tony.JPageQuery
 import com.tony.MonoResult.Companion.ofMonoResult
-import com.tony.PageQuery
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserCreateReq
@@ -45,6 +45,6 @@ class UserController(
     @PostMapping("/user/list")
     fun list(
         @Validated
-        @RequestBody req: PageQuery<String>,
+        @RequestBody req: JPageQuery<String>,
     ) = userService.list(req)
 }
