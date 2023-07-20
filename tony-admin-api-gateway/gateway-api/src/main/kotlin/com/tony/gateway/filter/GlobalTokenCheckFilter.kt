@@ -3,7 +3,7 @@
  * @author tangli
  * @since 2021/8/5 14:29
  */
-package com.tony.gateway.global
+package com.tony.gateway.filter
 
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.tony.ApiProperty

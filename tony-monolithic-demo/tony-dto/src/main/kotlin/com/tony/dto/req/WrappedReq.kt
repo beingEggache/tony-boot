@@ -1,8 +1,8 @@
 package com.tony.dto.req
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped
-import com.tony.annotation.web.support.InjectEmptyIfNull
 import javax.validation.Valid
+import javax.validation.constraints.NotNull
 
 /**
  * WrappedReq is
@@ -12,6 +12,6 @@ import javax.validation.Valid
 class WrappedReq<T> {
     @field:Valid
     @field:JsonUnwrapped
-    @field:InjectEmptyIfNull
+    @field:NotNull(message = "请输入")
     var value: T? = null
 }

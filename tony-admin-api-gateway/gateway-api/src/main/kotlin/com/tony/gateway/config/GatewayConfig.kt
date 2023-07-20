@@ -6,8 +6,10 @@
 package com.tony.gateway.config
 
 import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties
+import com.tony.gateway.filter.factory.RemoveResponseHeadersGatewayFilterFactory
 import com.tony.utils.antPathMatchAny
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.cloud.gateway.config.conditional.ConditionalOnEnabledFilter
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -33,6 +35,10 @@ class GatewayConfig {
     fun ipKeyResolver() = KeyResolver { exchange ->
         Mono.just(exchange.request.remoteAddress?.address?.hostAddress ?: "")
     }
+
+    @Bean
+    @ConditionalOnEnabledFilter
+    fun removeResponseHeadersGatewayFilterFactory() = RemoveResponseHeadersGatewayFilterFactory()
 }
 
 @Component

@@ -8,7 +8,7 @@ package com.tony
 
 public const val PROJECT_GROUP: String = "com.tony"
 
-public const val traceIdHeaderName: String = "X-B3-TraceId"
+public const val traceIdHeaderName: String = "X-B3-Trace-Id"
 
 public const val fromInternalHeaderName: String = "X-From-Internal"
 
