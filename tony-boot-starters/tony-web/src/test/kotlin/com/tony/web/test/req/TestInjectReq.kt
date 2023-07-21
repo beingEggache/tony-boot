@@ -1,5 +1,8 @@
 package com.tony.web.test.req
 
+import com.fasterxml.jackson.annotation.JacksonInject
+import com.fasterxml.jackson.annotation.OptBoolean
+
 /**
  * TestInjectReq is
  * @author tangli
@@ -7,7 +10,8 @@ package com.tony.web.test.req
  */
 @Suppress("ArrayInDataClass")
 data class TestDefaultInjectReq(
-    val name: String = "ok then",
+    @field:JacksonInject("string", useInput = OptBoolean.TRUE)
+    val name: String = "",
     val arr: BooleanArray,
     val list: List<String>,
     val set: Set<String>,

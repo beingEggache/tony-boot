@@ -1,43 +1,30 @@
 package com.tony.web.test
 
 import com.tony.annotation.EnableTonyBoot
-import com.tony.web.support.RequestBodyFieldInjector
+import com.tony.jackson.InjectableValueSupplier
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import java.lang.reflect.AnnotatedElement
 
 @EnableTonyBoot
 @SpringBootApplication
 class TestWebApp {
 
     @Bean
-    fun stringInject(): RequestBodyFieldInjector =
-        object : RequestBodyFieldInjector("string") {
-            override fun value(fieldType: Class<*>) = "aloha"
-        }
+    fun stringInject(): InjectableValueSupplier =
+        object : InjectableValueSupplier {
+            var count: Int = 0
+            override val name: String
+                get() = "string"
 
-    @Bean
-    fun string1Inject(): RequestBodyFieldInjector =
-        object : RequestBodyFieldInjector("string1") {
-            override fun value(fieldType: Class<*>) = "aloha heihei"
-        }
-
-    @Bean
-    fun string2Inject(): RequestBodyFieldInjector =
-        object : RequestBodyFieldInjector("string2") {
-            override fun value(fieldType: Class<*>) = "aloha heihei hehe"
-        }
-
-    @Bean
-    fun intInject(): RequestBodyFieldInjector =
-        object : RequestBodyFieldInjector("int") {
-            override fun value(fieldType: Class<*>) = 123
-        }
-
-    @Bean
-    fun listInject(): RequestBodyFieldInjector =
-        object : RequestBodyFieldInjector("list") {
-            override fun value(fieldType: Class<*>) = listOf("item 1")
+            override fun value(e: AnnotatedElement?, instance: Any?, originValue: Any?): String {
+                println(e)
+                println(instance)
+                println(originValue)
+                println(count++)
+                return "go fuck yourself"
+            }
         }
 }
 
