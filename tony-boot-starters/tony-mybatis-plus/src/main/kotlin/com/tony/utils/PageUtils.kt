@@ -27,15 +27,15 @@ public fun <T> JPageQueryLike<*>.toPage(): IPage<T> =
         page.current = this.page.takeIf { it > 0 } ?: 1L
         page.size = this.size.takeIf { it > 0 } ?: 10L
         descs
-            ?.filterNotNull()
-            ?.filter { it.isNotBlank() }
-            ?.takeIf { it.any() }
+            .filterNotNull()
+            .filter { it.isNotBlank() }
+            .takeIf { it.any() }
             ?.map { OrderItem.desc(it.camelToSnakeCase()) }
             ?.let { page.addOrder(it) }
         ascs
-            ?.filterNotNull()
-            ?.filter { it.isNotBlank() }
-            ?.takeIf { it.any() }
+            .filterNotNull()
+            .filter { it.isNotBlank() }
+            .takeIf { it.any() }
             ?.map { OrderItem.asc(it.camelToSnakeCase()) }
             ?.let { page.addOrder(it) }
     }

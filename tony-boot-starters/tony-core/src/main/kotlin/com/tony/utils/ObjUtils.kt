@@ -49,7 +49,7 @@ public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E =
     when (this) {
         is Number -> this.toNumber(numberType)
         is CharSequence -> this.toNumber(numberType)
-        else -> throw IllegalStateException("${this?.javaClass} can't transform to number.")
+        else -> error("${this?.javaClass} can't transform to number.")
     }
 
 @JvmSynthetic

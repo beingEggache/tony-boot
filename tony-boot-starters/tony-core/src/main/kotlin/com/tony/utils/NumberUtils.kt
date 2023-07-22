@@ -21,7 +21,7 @@ import kotlin.math.pow
  */
 @JvmOverloads
 public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
-    if (decimal < 0) throw IllegalArgumentException("decimal must >= 0")
+    require(decimal >= 0) { "decimal must >= 0" }
     return when (this) {
         null -> "0".toBigDecimal(decimal)
         is Int -> "$this".toBigDecimal(decimal)

@@ -27,7 +27,7 @@ public fun Type.rawClass(): Class<*> =
     when (this) {
         is Class<*> -> this
         is ParameterizedType -> this.rawType as Class<*>
-        else -> throw IllegalStateException("Ain't gonna happen.")
+        else -> error("Ain't gonna happen.")
     }
 
 public fun Type.toJavaType(): JavaType = TypeFactory.defaultInstance().constructType(this)
@@ -41,9 +41,7 @@ public fun Type.toJavaType(): JavaType = TypeFactory.defaultInstance().construct
 @JvmOverloads
 public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
     val superClass = this.genericSuperclass
-    if (superClass is Class<*>) {
-        throw IllegalStateException("${superClass.simpleName} constructed without actual type information")
-    }
+    check(superClass !is Class<*>) { "${superClass.typeName} constructed without actual type information" }
     return (superClass as ParameterizedType).actualTypeArguments[index]
 }
 
@@ -53,9 +51,7 @@ public fun Class<*>.typeParamOfSuperInterface(type: Class<*>, index: Int = 0): T
     val matchedInterface = genericInterfaces.firstOrNull {
         it.rawClass().name == type.typeName
     } ?: throw IllegalStateException("$this does not implement the $type")
-    if (matchedInterface is Class<*>) {
-        throw IllegalStateException("${matchedInterface.simpleName} constructed without actual type information")
-    }
+    check(matchedInterface !is Class<*>) { "${matchedInterface.typeName} constructed without actual type information" }
     return (matchedInterface as ParameterizedType).actualTypeArguments[index]
 }
 

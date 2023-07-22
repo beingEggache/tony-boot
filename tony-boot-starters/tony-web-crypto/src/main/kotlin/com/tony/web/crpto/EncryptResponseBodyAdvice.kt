@@ -39,7 +39,7 @@ internal class EncryptResponseBodyAdvice(
         response: ServerHttpResponse,
     ): Any? {
         response.headers.contentType = MediaType.TEXT_PLAIN
-        // TODO 这里会有个问题, 加密后的字符串会在前后加上双引号.
+        //  这里会有个问题, 加密后的字符串会在前后加上双引号.
         return body
             .toJsonString()
             .encryptToString(

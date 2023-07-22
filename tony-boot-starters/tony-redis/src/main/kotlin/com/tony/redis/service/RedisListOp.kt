@@ -177,10 +177,10 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
         listOp.index(key, index).outputTransformTo(type)
 
     /**
-     * TODO
+     * Get elements between begin and end from list at key.
      *
      * @param T
-     * @param key
+     * @param key must not be null.
      * @param start
      * @param end
      * @return null when used in pipeline / transaction.

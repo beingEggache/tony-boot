@@ -31,9 +31,7 @@ public data object Aes : SymmetricCrypto {
     }
 
     override fun crypto(src: ByteArray, secret: ByteArray, mode: Int): ByteArray {
-        if (secret.size != BLOCK_SIZE) {
-            throw IllegalArgumentException("IllegalAesKey, aesKey's length must be $BLOCK_SIZE")
-        }
+        require(secret.size == BLOCK_SIZE) { "IllegalAesKey, aesKey's length must be $BLOCK_SIZE" }
         val secretKeySpec = SecretKeySpec(secret, AES)
         return Cipher.getInstance(CIPHER_ALGORITHM, "BC")
             .apply {

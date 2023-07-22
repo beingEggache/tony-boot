@@ -1,6 +1,6 @@
-package com.tony.backup.web.support
+package com.tony.web.support
 
-import com.tony.backup.annotation.web.support.InjectRequestBodyField
+import com.tony.annotation.web.support.InjectRequestBodyField
 import com.tony.utils.annotationFromSelfOrGetterOrSetter
 import com.tony.utils.selfOrGetterOrSetterHasAnnotation
 import org.slf4j.Logger
@@ -21,9 +21,7 @@ internal class RequestBodyFieldInjectorComposite(
     init {
         val injectorNameSet = HashSet<String>(requestBodyFieldInjectors.size)
         requestBodyFieldInjectors.map { it.name }.forEach {
-            if (injectorNameSet.contains(it)) {
-                throw IllegalStateException("RequestBodyFieldInjector Name $it duplicate.")
-            }
+            check(it !in injectorNameSet) { "RequestBodyFieldInjector Name $it duplicate." }
             injectorNameSet.add(it)
         }
     }

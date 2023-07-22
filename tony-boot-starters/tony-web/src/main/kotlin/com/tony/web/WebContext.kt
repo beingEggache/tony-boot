@@ -98,7 +98,7 @@ public object WebContext {
 
     internal val httpStatus: Int
         @JvmSynthetic
-        get() = errorAttributes["status"] as Int
+        get() = errorAttributes["status"] as? Int ?: 0
 
     @Suppress("MemberVisibilityCanBePrivate")
     internal val errorAttributes

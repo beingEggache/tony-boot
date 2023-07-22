@@ -179,7 +179,7 @@ public fun CharSequence.toHexByteArray(lowerCase: Boolean = true): ByteArray =
 public fun CharSequence.toHexString(lowerCase: Boolean = true): String =
     toString()
         .toHexByteArray(lowerCase)
-        .toString()
+        .contentToString()
 
 /**
  * decode Hex

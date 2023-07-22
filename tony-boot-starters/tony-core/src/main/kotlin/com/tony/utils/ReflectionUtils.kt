@@ -2,8 +2,10 @@
 
 package com.tony.utils
 
+import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.Field
 import java.lang.reflect.Method
+import java.util.Locale
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
@@ -38,5 +40,23 @@ public fun Field.setValueFirstUseSetter(obj: Any?, value: Any?) {
     } else {
         trySetAccessible()
         set(obj, value)
+    }
+}
+
+public fun AnnotatedElement.valueOf(instance: Any?): Any? {
+    return when {
+        instance == null -> null
+        this is Field -> this[instance]
+        this is Method && this.name.startsWith("get") -> this.invoke(instance)
+        this is Method && this.name.startsWith("set") -> {
+            val fieldName = this.name.removePrefix("set").replaceFirstChar { it.lowercase(Locale.getDefault()) }
+            run {
+                val field = this.declaringClass.getDeclaredField(fieldName)
+                field.trySetAccessible()
+                field[instance]
+            }
+        }
+
+        else -> null
     }
 }

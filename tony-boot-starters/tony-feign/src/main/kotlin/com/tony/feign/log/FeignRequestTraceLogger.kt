@@ -116,7 +116,7 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
  * @author tangli
  * @since 2023/5/25 15:49
  */
-public interface FeignRequestTraceLogger {
+public fun interface FeignRequestTraceLogger {
     public fun log(
         connection: Connection?,
         request: Request,

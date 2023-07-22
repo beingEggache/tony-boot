@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.OptBoolean
 import com.fasterxml.jackson.databind.BeanProperty
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.InjectableValues
-import com.fasterxml.jackson.databind.util.ClassUtil
 import com.tony.utils.annotation
 import com.tony.utils.asToNotNull
+import com.tony.utils.valueOf
 import java.lang.reflect.AnnotatedElement
 
 /**
@@ -22,9 +22,18 @@ import java.lang.reflect.AnnotatedElement
  * ```
  * {} 是可接受的, { "name": null } 是不可接受的.
  *
- * 对于kotlin, 建议对应注解只加在 字段上, 比如 [@field:JacksonInject("string", useInput = OptBoolean.FALSE)].
+ * 对于kotlin 不可变字段, 建议对应注解只加在 字段上, 比如 [@field:JacksonInject("string", useInput = OptBoolean.FALSE)].
  *
  * 加在getter 或 setter上 有一些古怪的行为.
+ *
+ * 对 Kotlin 不 友好, 建议只在 Java  使用, Kotlin 环境下, 建议只在 可变修饰的可空类型的 setter上使用.
+ * 比如.
+ * ```
+ * data class Person(
+ *   @set:JacksonInject
+ *   var name: String?
+ * )
+ * ```
  *
  * @author tangli
  * @since 2023/07/21 14:23
@@ -39,24 +48,14 @@ public class InjectableValuesBySupplier(
         forProperty: BeanProperty,
         beanInstance: Any?,
     ): Any? {
-        if (valueId !is String) {
-            ctxt.reportBadDefinition<Any>(
-                ClassUtil.classOf(valueId),
-                String.format(
-                    "Unrecognized inject value id type (%s), expecting String",
-                    ClassUtil.classNameOf(valueId)
-                )
-            )
-        }
         val key = valueId as String
         val member = forProperty.member.member.asToNotNull<AnnotatedElement>()
-        val originValue = if (beanInstance != null) forProperty.member?.getValue(beanInstance) else null
+        println("forProperty.fullName:" + forProperty.fullName)
+        val originValue = member.valueOf(beanInstance)
 
         val ob = values[key]?.value(member, beanInstance, originValue)
-        if (ob == null && !values.containsKey(key)) {
-            throw IllegalArgumentException(
-                """No injectable id with value '$key' found (for property '${forProperty.name}')"""
-            )
+        require(!(ob == null && !values.containsKey(key))) {
+            """No injectable id with value '$key' found (for property '${forProperty.name}')"""
         }
         val useInput = member.annotation(JacksonInject::class.java)?.useInput
         if (useInput == OptBoolean.TRUE || useInput == OptBoolean.DEFAULT) {

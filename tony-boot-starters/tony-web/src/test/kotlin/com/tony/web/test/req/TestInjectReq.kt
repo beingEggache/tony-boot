@@ -1,6 +1,7 @@
 package com.tony.web.test.req
 
 import com.fasterxml.jackson.annotation.JacksonInject
+import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.OptBoolean
 
 /**
@@ -8,17 +9,19 @@ import com.fasterxml.jackson.annotation.OptBoolean
  * @author tangli
  * @since 2023/07/06 15:26
  */
-@Suppress("ArrayInDataClass")
 data class TestDefaultInjectReq(
-    @field:JacksonInject("string", useInput = OptBoolean.TRUE)
-    val name: String = "",
-    val arr: BooleanArray,
-    val list: List<String>,
-    val set: Set<String>,
-    val obj: TestInjectReqObjField = TestInjectReqObjField().apply { this.list = listOf("aloha") },
-)
 
-class TestInjectReqObjField {
-    var list: List<String>? = null
-    var obj: Map<String, Int>? = null
-}
+    @JsonSetter
+    @get:JacksonInject("string0", useInput = OptBoolean.TRUE)
+    val valNotNullTrue: String,
+
+    @JsonSetter
+    @get:JacksonInject("string1", useInput = OptBoolean.FALSE)
+    val valNotNullFalse: String,
+
+    @set:JacksonInject("string2", useInput = OptBoolean.TRUE)
+    var varSetterTrue: String?,
+
+    @set:JacksonInject("string3", useInput = OptBoolean.FALSE)
+    var varSetterFalse: String?,
+)
