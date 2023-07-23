@@ -31,7 +31,7 @@ public interface IntEnumValue : EnumValue<Int>
  */
 public interface StringEnumValue : EnumValue<String>
 
-public const val DEFAULT_INT_VALUE: Int = 40404
+public const val DEFAULT_INT_VALUE: Int = -1
 
 public const val DEFAULT_STRING_VALUE: String = ""
 
