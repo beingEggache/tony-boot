@@ -16,7 +16,7 @@ import com.tony.redis.RedisManager
  * @author tangli
  * @since 2023/5/25 15:35
  */
-public interface CaptchaService {
+public fun interface CaptchaService {
     /**
      * 验证
      * @param vo 验证码

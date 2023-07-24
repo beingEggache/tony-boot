@@ -202,7 +202,7 @@ public fun CharSequence.hexToString(): String =
     toString()
         .toByteArray()
         .decodeHex()
-        .toString()
+        .contentToString()
 
 /**
  * 当字符串为Null 或者空字符串时 提供默认值.
