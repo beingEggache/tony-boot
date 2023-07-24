@@ -1,19 +1,17 @@
 package com.tony.jackson
 
-import com.fasterxml.jackson.annotation.JacksonInject
-import com.fasterxml.jackson.annotation.OptBoolean
 import com.fasterxml.jackson.databind.BeanProperty
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.InjectableValues
-import com.tony.utils.annotation
-import com.tony.utils.asToNotNull
-import com.tony.utils.valueOf
-import java.lang.reflect.AnnotatedElement
+import com.tony.utils.getLogger
 
 /**
  * Jackson 注入.
  *
+ * [com.fasterxml.jackson.annotation.JacksonInject.useInput] 没用.
+ *
  * 对于 Kotlin 非空字段, 接受 absent, 不接受 null 值.
+ *
  * 比如有个类
  * ```
  * data class Person(
@@ -21,10 +19,6 @@ import java.lang.reflect.AnnotatedElement
  * )
  * ```
  * {} 是可接受的, { "name": null } 是不可接受的.
- *
- * 对于kotlin 不可变字段, 建议对应注解只加在 字段上, 比如 [@field:JacksonInject("string", useInput = OptBoolean.FALSE)].
- *
- * 加在getter 或 setter上 有一些古怪的行为.
  *
  * 对 Kotlin 不 友好, 建议只在 Java  使用, Kotlin 环境下, 建议只在 可变修饰的可空类型的 setter上使用.
  * 比如.
@@ -42,24 +36,18 @@ public class InjectableValuesBySupplier(
     private val values: Map<String, InjectableValueSupplier>,
 ) : InjectableValues() {
 
+    private val logger = getLogger()
+
     override fun findInjectableValue(
         valueId: Any,
         ctxt: DeserializationContext,
-        forProperty: BeanProperty,
+        property: BeanProperty,
         beanInstance: Any?,
     ): Any? {
         val key = valueId as String
-        val member = forProperty.member.member.asToNotNull<AnnotatedElement>()
-        println("forProperty.fullName:" + forProperty.fullName)
-        val originValue = member.valueOf(beanInstance)
-
-        val ob = values[key]?.value(member, beanInstance, originValue)
-        require(!(ob == null && !values.containsKey(key))) {
-            """No injectable id with value '$key' found (for property '${forProperty.name}')"""
-        }
-        val useInput = member.annotation(JacksonInject::class.java)?.useInput
-        if (useInput == OptBoolean.TRUE || useInput == OptBoolean.DEFAULT) {
-            return originValue ?: ob
+        val ob = values[key]?.value(property, beanInstance)
+        if (!values.containsKey(key)) {
+            logger.warn("""No injectable id with value '$key' found (for property '${property.name}')""")
         }
         return ob
     }
@@ -67,7 +55,7 @@ public class InjectableValuesBySupplier(
 
 public interface InjectableValueSupplier {
     public val name: String
-    public fun value(e: AnnotatedElement?, instance: Any?, originValue: Any?): Any?
+    public fun value(property: BeanProperty?, instance: Any?): Any
 }
 
 public abstract class AbstractInjectableValueSupplier(override val name: String) : InjectableValueSupplier {

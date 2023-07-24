@@ -62,7 +62,7 @@ public interface PageResultLike<T> {
      */
     default <R> PageResultLike<R> map(Function<T, R> transform) {
         Collection<T> items = getItems();
-        if (items == null || items.size() == 0) {
+        if (items == null || items.isEmpty()) {
             items = Collections.emptyList();
         }
         return new PageResult<>(
@@ -84,7 +84,7 @@ public interface PageResultLike<T> {
      */
     default PageResultLike<T> onEach(Consumer<T> action) {
         Collection<T> items = getItems();
-        if (items == null || items.size() == 0) {
+        if (items == null || items.isEmpty()) {
             items = Collections.emptyList();
         }
 
@@ -105,7 +105,7 @@ public interface PageResultLike<T> {
      */
     default T firstOrNull(Predicate<T> predicate) {
         Collection<T> items = getItems();
-        if (items == null || items.size() == 0) {
+        if (items == null || items.isEmpty()) {
             items = Collections.emptyList();
         }
         return items.stream().filter(predicate).findFirst().orElse(null);

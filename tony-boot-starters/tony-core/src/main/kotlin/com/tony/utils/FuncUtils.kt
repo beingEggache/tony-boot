@@ -13,7 +13,7 @@ import com.tony.exception.BaseException
 import com.tony.exception.BizException
 
 @JvmSynthetic
-public inline fun Boolean.doIf(crossinline block: () -> Any) {
+public inline fun Boolean.doIf(crossinline block: () -> Unit) {
     if (this) block()
 }
 

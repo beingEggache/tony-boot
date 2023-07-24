@@ -1,7 +1,6 @@
 package com.tony.alipay.config
 
 import com.tony.alipay.AlipayManager
-import com.tony.exception.ApiException
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -18,26 +17,15 @@ internal class AlipayConfig(
     private val resourceResolver = PathMatchingResourcePatternResolver()
 
     @Bean
-    internal fun alipayService() = let {
-        val appId = alipayProperties.appId
-        val publicKey = getKey(alipayProperties.publicKeyPath, "publicKey")
-        val privateKey = getKey(alipayProperties.privateKeyPath, "privateKey")
-        val aliPublicKey = getKey(alipayProperties.aliPublicKeyPath, "aliPublicKey")
-
+    internal fun alipayService() =
         AlipayManager(
-            appId,
-            publicKey,
-            privateKey,
-            aliPublicKey
+            alipayProperties.appId,
+            getFrom(alipayProperties.publicKeyPath),
+            getFrom(alipayProperties.privateKeyPath),
+            getFrom(alipayProperties.aliPublicKeyPath)
         )
-    }
 
-    private fun getKey(path: String?, name: String): String {
-        val resourceLocation = path ?: throw ApiException("$name Path must not be null")
-        val resource = resourceResolver.getResources(resourceLocation).firstOrNull()
-            ?: throw ApiException("$name resource not found")
-        return resource.file.readText()
-    }
+    private fun getFrom(path: String): String = resourceResolver.getResource(path).file.readText()
 }
 
 @ConstructorBinding

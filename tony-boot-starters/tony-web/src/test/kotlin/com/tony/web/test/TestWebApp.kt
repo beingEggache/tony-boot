@@ -1,11 +1,11 @@
 package com.tony.web.test
 
+import com.fasterxml.jackson.databind.BeanProperty
 import com.tony.annotation.EnableTonyBoot
 import com.tony.jackson.InjectableValueSupplier
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
-import java.lang.reflect.AnnotatedElement
 
 @EnableTonyBoot
 @SpringBootApplication
@@ -18,10 +18,9 @@ class TestWebApp {
             override val name: String
                 get() = "string0"
 
-            override fun value(e: AnnotatedElement?, instance: Any?, originValue: Any?): String {
-                println(e)
+            override fun value(property: BeanProperty?, instance: Any?): String {
+                println(property)
                 println(instance)
-                println(originValue)
                 println(count++)
                 return "string0"
             }
@@ -34,10 +33,9 @@ class TestWebApp {
             override val name: String
                 get() = "string1"
 
-            override fun value(e: AnnotatedElement?, instance: Any?, originValue: Any?): String {
-                println(e)
+            override fun value(property: BeanProperty?, instance: Any?): String {
+                println(property)
                 println(instance)
-                println(originValue)
                 println(count++)
                 return "string1"
             }
@@ -50,10 +48,9 @@ class TestWebApp {
             override val name: String
                 get() = "string2"
 
-            override fun value(e: AnnotatedElement?, instance: Any?, originValue: Any?): String {
-                println(e)
+            override fun value(property: BeanProperty?, instance: Any?): String {
+                println(property)
                 println(instance)
-                println(originValue)
                 println(count++)
                 return "string2"
             }
@@ -66,10 +63,9 @@ class TestWebApp {
             override val name: String
                 get() = "string3"
 
-            override fun value(e: AnnotatedElement?, instance: Any?, originValue: Any?): String {
-                println(e)
+            override fun value(property: BeanProperty?, instance: Any?): String {
+                println(property)
                 println(instance)
-                println(originValue)
                 println(count++)
                 return "string3"
             }

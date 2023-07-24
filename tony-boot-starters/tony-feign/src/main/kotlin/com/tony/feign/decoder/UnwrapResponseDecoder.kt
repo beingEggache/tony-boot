@@ -20,7 +20,7 @@ import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomize
 import org.springframework.cloud.openfeign.support.SpringDecoder
 
 /**
- * ReponseUnwrapDecoder is
+ * UnwrapResponseDecoder is
  * @author tangli
  * @since 2023/06/19 18:11
  */

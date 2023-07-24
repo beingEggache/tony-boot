@@ -3,5 +3,3 @@ spring:
     default: dev
   application:
     name: tony-api
-  main:
-    banner-mode: off
