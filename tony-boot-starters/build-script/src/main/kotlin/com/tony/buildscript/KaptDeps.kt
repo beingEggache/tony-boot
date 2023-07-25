@@ -8,4 +8,8 @@ object KaptDeps {
         const val autoconfigureProcessor =
             "org.springframework.boot:spring-boot-autoconfigure-processor:${VersionManagement.springBootVersion}"
     }
+
+    object Spring {
+        const val contextIndexer = "org.springframework:spring-context-indexer:${VersionManagement.springVersion}"
+    }
 }

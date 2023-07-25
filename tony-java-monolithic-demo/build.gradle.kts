@@ -1,4 +1,5 @@
 import com.tony.buildscript.Deps
+import com.tony.buildscript.KaptDeps
 import com.tony.buildscript.getProfile
 import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
@@ -41,6 +42,7 @@ configure(subprojects) {
 
     dependencies {
         add("implementation", platform(Deps.Template.templateDependencies))
+        add("annotationProcessor", KaptDeps.Spring.contextIndexer)
     }
 
     configure<JavaPluginExtension> {

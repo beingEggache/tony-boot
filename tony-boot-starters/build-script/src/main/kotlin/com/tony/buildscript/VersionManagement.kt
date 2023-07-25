@@ -44,5 +44,5 @@ object VersionManagement  {
 
     const val alipaySdkJavaVersion = "4.38.10.ALL"
     const val aliyunJavaSdkCoreVersion = "4.5.30"
-    const val aliyunSdkOssVersion = "3.17.0"
+    const val aliyunSdkOssVersion = "3.17.1"
 }

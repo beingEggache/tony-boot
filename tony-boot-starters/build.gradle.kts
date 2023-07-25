@@ -1,4 +1,8 @@
-import com.tony.buildscript.*
+import com.tony.buildscript.Deps
+import com.tony.buildscript.KaptDeps
+import com.tony.buildscript.VersionManagement
+import com.tony.buildscript.addDepsManagement
+import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
@@ -83,6 +87,7 @@ configure(subprojects) {
         add("implementation", platform(rootProject))
         add("kapt", KaptDeps.SpringBoot.configurationProcessor)
         add("kapt", KaptDeps.SpringBoot.autoconfigureProcessor)
+        add("kapt", KaptDeps.Spring.contextIndexer)
     }
 
     configure<KaptExtension> {

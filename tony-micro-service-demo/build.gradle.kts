@@ -1,4 +1,5 @@
 import com.tony.buildscript.Deps
+import com.tony.buildscript.KaptDeps
 import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
@@ -35,12 +36,14 @@ configure(subprojects) {
 
     apply {
         plugin("kotlin")
+        plugin("kotlin-kapt")
         plugin("com.tony.build.ktlint")
         plugin("com.tony.build.dep-substitute")
     }
 
     dependencies {
         add("implementation", platform(Deps.Template.templateDependencies))
+        add("kapt", KaptDeps.Spring.contextIndexer)
     }
 
     configure<JavaPluginExtension> {
