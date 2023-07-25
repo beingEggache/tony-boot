@@ -1,25 +1,21 @@
-FROM eclipse-temurin:11.0.19_7-jre-alpine as builder
-WORKDIR application
+FROM eclipse-temurin:11.0.19_7-jre-alpine AS builder
+WORKDIR app
 ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} application.jar
-RUN java -Djarmode=layertools -jar application.jar extract
+COPY ${JAR_FILE} app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
 
 FROM eclipse-temurin:11.0.19_7-jre-alpine
 
 RUN echo "Asia/Shanghai" > /etc/timezone && \
-    addgroup app_group && \
-    adduser -S -D -h application app app_group  && \
-    mkdir -p /logs && \
-    chown app:app_group /application && \
-    chown app:app_group /logs && \
-    chmod -R o+rw,o-x /logs
+    addgroup app && \
+    adduser -S app -G app -h app
 
-USER app:app_group
-WORKDIR application
+USER app:app
+WORKDIR app
 VOLUME ["/logs"]
 
-COPY --chown=app:app_group --from=builder application/dependencies/ ./
-COPY --chown=app:app_group --from=builder application/spring-boot-loader/ ./
-COPY --chown=app:app_group --from=builder application/snapshot-dependencies/ ./
-COPY --chown=app:app_group --from=builder application/application/ ./
+COPY --chown=app:app --from=builder app/dependencies/ ./
+COPY --chown=app:app --from=builder app/spring-boot-loader/ ./
+COPY --chown=app:app --from=builder app/snapshot-dependencies/ ./
+COPY --chown=app:app --from=builder app/application/ ./
 ENTRYPOINT ["sh","-c","java ${JAVA_OPTS} -noverify -XX:TieredStopAtLevel=1 org.springframework.boot.loader.JarLauncher"]

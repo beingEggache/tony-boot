@@ -98,7 +98,6 @@ internal class WebConfig(
     @ConditionalOnProperty("web.cors.enabled")
     @Bean
     internal fun corsFilter(): CorsFilter {
-        logger.info("Cors is enabled.")
         val source = UrlBasedCorsConfigurationSource()
         val corsConfiguration = CorsConfiguration().apply {
             allowCredentials = webCorsProperties.allowCredentials
@@ -109,7 +108,8 @@ internal class WebConfig(
             maxAge = webCorsProperties.maxAge
             logger.info(
                 listOf(
-                    "Cors allowCredentials is $allowCredentials",
+                    "Cors is enabled",
+                    "allowCredentials is $allowCredentials",
                     "allowedOrigins is $allowedOriginPatterns",
                     "allowedHeaders is $allowedHeaders",
                     "allowedMethods is $allowedMethods",
