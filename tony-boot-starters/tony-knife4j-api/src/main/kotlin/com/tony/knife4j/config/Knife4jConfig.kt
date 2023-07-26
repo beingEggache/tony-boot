@@ -39,7 +39,7 @@ internal class Knife4jExtensionConfig(
 
     @Bean
     internal fun api(): GroupedOpenApi {
-        logger.info("Knife4j is Enabled.")
+        logger.info("Knife4j is Enabled")
         return GroupedOpenApi
             .builder()
             .group("default")

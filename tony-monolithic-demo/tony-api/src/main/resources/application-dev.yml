@@ -22,7 +22,6 @@ springdoc:
     display-request-duration: true
   paths-to-exclude:
     - ${server.error.path:${error.path:/error}}
-redis:
-  serializer-mode: protostuff
 jwt:
   secret: 'dsfnn32SDFF&*&#bfds;;,.ks^&3@'
+

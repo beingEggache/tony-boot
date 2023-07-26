@@ -26,7 +26,7 @@ internal class InjectRequestBodyAdvice(
     private val logger: Logger = LoggerFactory.getLogger(InjectRequestBodyAdvice::class.java)
 
     init {
-        logger.info("Request body inject is enabled.")
+        logger.info("Request body inject is enabled")
     }
 
     override fun supports(

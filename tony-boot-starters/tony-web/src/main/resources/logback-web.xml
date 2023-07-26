@@ -9,7 +9,7 @@
     <property name="HTTP_TRACE_PATTERN" value="${HTTP_TRACE_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS}|${APP_NAME:-[null]}|%X{X-B3-TraceId:-[null]}|%msg|%ip%n}"/>
 
     <property name="LOG_FILE_PATH" value="${LOG_FILE_PATH:-../logs}"/>
-    <property name="MAX_File_SIZE" value="${MAX_File_SIZE:-10MB}"/>
+    <property name="MAX_FILE_SIZE" value="${MAX_FILE_SIZE:-10MB}"/>
     <property name="MAX_HISTORY" value="${MAX_HISTORY:-30}"/>
 
     <!-- RollingFileAppender：滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
@@ -32,7 +32,7 @@
             <maxHistory>${MAX_HISTORY}</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- maxFileSize:这是活动文件的大小，默认值是10MB，测试时可改成1KB看效果 -->
-                <maxFileSize>${MAX_File_SIZE}</maxFileSize>
+                <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
@@ -54,7 +54,7 @@
             <fileNamePattern>${LOG_FILE_PATH}/%d/warn.%i.log</fileNamePattern>
             <maxHistory>${MAX_HISTORY}</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>${MAX_File_SIZE}</maxFileSize>
+                <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
@@ -72,7 +72,7 @@
             <fileNamePattern>${LOG_FILE_PATH}/%d/error.%i.log</fileNamePattern>
             <maxHistory>${MAX_HISTORY}</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>${MAX_File_SIZE}</maxFileSize>
+                <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
@@ -92,7 +92,7 @@
             <fileNamePattern>${LOG_FILE_PATH}/%d/trace.%i.log</fileNamePattern>
             <maxHistory>${MAX_HISTORY}</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>${MAX_File_SIZE}</maxFileSize>
+                <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
@@ -112,7 +112,7 @@
             <fileNamePattern>${LOG_FILE_PATH}/%d/request.%i.log</fileNamePattern>
             <maxHistory>${MAX_HISTORY}</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>${MAX_File_SIZE}</maxFileSize>
+                <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
@@ -142,9 +142,7 @@
     <logger name="org.apache.catalina.core.StandardService" level="ERROR" additivity="false" />
     <logger name="org.apache.catalina.core.ContainerBase" level="ERROR" additivity="false" />
     <logger name="org.apache.catalina.core.StandardEngine" level="ERROR" additivity="false" />
-    <logger name="org.springframework.boot.web.embedded.tomcat.TomcatWebServer" level="ERROR" additivity="false" />
     <logger name="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext" level="ERROR" additivity="false" />
     <logger name="org.springframework.cloud.context.scope.GenericScope" level="ERROR" additivity="false" />
-    <logger name="org.springframework.data.repository.config.RepositoryConfigurationDelegate" level="ERROR" additivity="false" />
     <!-- hide info end-->
 </included>

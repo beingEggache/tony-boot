@@ -26,11 +26,7 @@
     <logger name="org.apache.catalina.core.StandardService" level="ERROR" additivity="false"/>
     <logger name="org.apache.catalina.core.ContainerBase" level="ERROR" additivity="false"/>
     <logger name="org.apache.catalina.core.StandardEngine" level="ERROR" additivity="false"/>
-    <logger name="org.springframework.boot.web.embedded.tomcat.TomcatWebServer" level="ERROR" additivity="false"/>
-    <logger name="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext" level="ERROR"
-            additivity="false"/>
+    <logger name="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext" level="ERROR" additivity="false"/>
     <logger name="org.springframework.cloud.context.scope.GenericScope" level="ERROR" additivity="false"/>
-    <logger name="org.springframework.data.repository.config.RepositoryConfigurationDelegate" level="ERROR"
-            additivity="false"/>
     <!-- hide info end-->
 </included>

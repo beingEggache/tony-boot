@@ -33,13 +33,6 @@ internal class TraceLoggingFilter(
     private val webProperties: WebProperties,
 ) : OncePerRequestFilter(), PriorityOrdered {
 
-    init {
-        logger.info("Request trace log is enabled.")
-        if (webProperties.traceLoggerEnabled && webProperties.traceLogExcludePatterns.isNotEmpty()) {
-            logger.info("Request trace log exclude patterns: ${webProperties.traceLogExcludePatterns}")
-        }
-    }
-
     @Throws(IOException::class, ServletException::class)
     override fun doFilterInternal(
         request: HttpServletRequest,

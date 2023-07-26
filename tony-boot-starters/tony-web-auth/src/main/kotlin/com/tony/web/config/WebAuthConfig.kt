@@ -1,6 +1,7 @@
 package com.tony.web.config
 
 import com.tony.jwt.config.JwtProperties
+import com.tony.utils.getLogger
 import com.tony.web.ApiSession
 import com.tony.web.JwtApiSession
 import com.tony.web.NoopApiSession
@@ -43,8 +44,9 @@ internal class WebAuthConfig(
     @Bean
     internal fun apiSession(): ApiSession =
         if (jwtProperties.secret.isNotBlank()) {
-            logger.info("Jwt auth is enabled")
-            JwtApiSession()
+            JwtApiSession().apply {
+                getLogger().info("Jwt auth is enabled")
+            }
         } else {
             NoopApiSession()
         }

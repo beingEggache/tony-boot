@@ -60,8 +60,6 @@ internal class WebConfig(
     private val webCorsProperties: WebCorsProperties,
 ) : WebMvcConfigurer {
 
-    private val logger = getLogger(WebConfig::class.java.name)
-
     override fun addFormatters(registry: FormatterRegistry) {
         registry.addConverterFactory(EnumIntValueConverterFactory())
         registry.addConverterFactory(EnumStringValueConverterFactory())
@@ -81,8 +79,14 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
-    internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter =
-        TraceLoggingFilter(requestTraceLogger, webProperties)
+    internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter {
+        val logger = getLogger(TraceLoggingFilter::class.java.name)
+        logger.info("Request trace log is enabled")
+        if (webProperties.traceLoggerEnabled && webProperties.traceLogExcludePatterns.isNotEmpty()) {
+            logger.info("Request trace log exclude patterns: ${webProperties.traceLogExcludePatterns}")
+        }
+        return TraceLoggingFilter(requestTraceLogger, webProperties)
+    }
 
     @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
     @Bean
@@ -106,7 +110,8 @@ internal class WebConfig(
             allowedMethods = webCorsProperties.allowedMethods.ifEmpty { setOf("*") }.toList()
             exposedHeaders = webCorsProperties.exposedHeaders.plus(HttpHeaders.CONTENT_DISPOSITION).toList()
             maxAge = webCorsProperties.maxAge
-            logger.info(
+
+            getLogger(CorsFilter::class.java.name).info(
                 listOf(
                     "Cors is enabled",
                     "allowCredentials is $allowCredentials",
@@ -147,7 +152,7 @@ internal class WebConfig(
         objectMapper: ObjectMapper,
     ): String {
         if (webProperties.fillResponseNullValueEnabled) {
-            logger.info("Fill response null value enabled.")
+            getLogger(NullValueBeanSerializerModifier::class.java.name).info("Fill response null value enabled")
             mappingJackson2HttpMessageConverter.objectMapper = objectMapper.apply {
                 serializerFactory =
                     serializerFactory

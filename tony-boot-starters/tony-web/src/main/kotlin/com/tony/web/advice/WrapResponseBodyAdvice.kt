@@ -42,7 +42,7 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
     private val logger: Logger = LoggerFactory.getLogger(WrapResponseBodyAdvice::class.java)
 
     init {
-        logger.info("Response wrap is enabled.")
+        logger.info("Response wrap is enabled")
     }
 
     override fun beforeBodyWrite(
