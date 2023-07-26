@@ -1,10 +1,10 @@
-FROM eclipse-temurin:11.0.19_7-jre-alpine AS builder
+FROM eclipse-temurin:11.0.20_8-jre-alpine AS builder
 WORKDIR app
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-FROM eclipse-temurin:11.0.19_7-jre-alpine
+FROM eclipse-temurin:11.0.20_8-jre-alpine
 
 RUN echo "Asia/Shanghai" > /etc/timezone && \
     addgroup app && \
