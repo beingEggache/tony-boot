@@ -4,7 +4,6 @@ import com.tony.ApiProperty
 import com.tony.utils.getFromRootAsString
 import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
-import com.tony.utils.toJsonString
 import com.tony.web.WebApp
 import com.tony.web.filter.RepeatReadRequestWrapper
 import com.tony.web.log.RequestTraceLogger.Const.BAD_REQUEST
@@ -87,7 +86,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         val origin = request.requestURL?.toString() ?: ""
         val path = request.requestURI.removePrefix(WebApp.contextPath)
         val query = request.queryString ?: NULL
-        val headers = request.headers.toJsonString()
+        val headers = request.headers.entries.joinToString { "${it.key}:${it.value}" }
         val remoteIp = request.remoteIp
         val logStr =
             """

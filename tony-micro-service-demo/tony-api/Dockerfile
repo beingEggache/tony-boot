@@ -12,7 +12,7 @@ RUN echo "Asia/Shanghai" > /etc/timezone && \
 
 USER app:app
 WORKDIR app
-VOLUME ["/logs"]
+VOLUME ["/logs","/tmp"]
 
 COPY --chown=app:app --from=builder app/dependencies/ ./
 COPY --chown=app:app --from=builder app/spring-boot-loader/ ./
