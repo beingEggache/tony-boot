@@ -15,7 +15,7 @@ dependencies {
     if (profile == "dev") {
         implementation(Deps.Template.templateKnife4j)
         implementation(Deps.Knife4j.openapi3Ui)
-        implementation(Deps.SpringBoot.devtools)
+//        implementation(Deps.SpringBoot.devtools)
     }
     implementation(Deps.Template.templateWeb) { isChanging = true }
     implementation(Deps.Template.templateWebAuth) { isChanging = true }

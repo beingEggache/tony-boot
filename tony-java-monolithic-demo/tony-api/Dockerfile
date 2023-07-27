@@ -12,10 +12,24 @@ RUN echo "Asia/Shanghai" > /etc/timezone && \
 
 USER app:app
 WORKDIR app
-VOLUME ["/logs","/tmp"]
 
+ENV JAVA_OPTS="\
+-noverify \
+-XX:TieredStopAtLevel=1 \
+-Xmn2g \
+-Xms2g \
+-Xmx2g \
+-Xlog:gc*=info:file=/logs/gc.log:time,tid,level,tags:filecount=5,filesize=10M \
+-XX:ErrorFile=/logs/hs_err_pid.log \
+-XX:+ExtensiveErrorReports \
+-XX:+HeapDumpOnOutOfMemoryError \
+-XX:HeapDumpPath=/logs/java_pid.hprof"
+
+ENV PROP=""
+
+VOLUME ["/logs","/tmp"]
 COPY --chown=app:app --from=builder app/dependencies/ ./
 COPY --chown=app:app --from=builder app/spring-boot-loader/ ./
 COPY --chown=app:app --from=builder app/snapshot-dependencies/ ./
 COPY --chown=app:app --from=builder app/application/ ./
-ENTRYPOINT ["sh","-c","java ${JAVA_OPTS} -noverify -XX:TieredStopAtLevel=1 org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["sh","-c","java ${JAVA_OPTS} ${PROP} org.springframework.boot.loader.JarLauncher"]

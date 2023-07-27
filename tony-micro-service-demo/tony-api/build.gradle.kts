@@ -15,7 +15,7 @@ dependencies {
     if (profile == "dev") {
         implementation(Deps.Template.templateKnife4j)
         implementation(Deps.Knife4j.openapi3Ui)
-        implementation(Deps.SpringBoot.devtools)
+//        implementation(Deps.SpringBoot.devtools)
     }
 
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")

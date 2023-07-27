@@ -7,12 +7,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     password: "123456"
-#  rabbitmq:
-#    host: "192.168.51.25"
-#    port: 5672
-#    username: "ktwl"
-#    password: "Ktwl@123!@#"
-#    virtual-host: /
 web:
   cors:
     enabled: true
