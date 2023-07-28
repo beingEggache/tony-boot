@@ -23,8 +23,8 @@ import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MissingRequestValueException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
 /**
@@ -34,12 +34,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
  * @since 2023/5/25 10:53
  */
 @RestControllerAdvice
-@RestController
 internal class ExceptionHandler : ErrorController {
 
     private val logger = getLogger()
 
     @ExceptionHandler(BizException::class)
+    @ResponseBody
     fun bizException(
         e: BizException,
         request: HttpServletRequest,
@@ -51,6 +51,7 @@ internal class ExceptionHandler : ErrorController {
             }
 
     @ExceptionHandler(ApiException::class)
+    @ResponseBody
     fun apiException(
         e: ApiException,
         request: HttpServletRequest,
@@ -66,6 +67,7 @@ internal class ExceptionHandler : ErrorController {
         }
 
     @ExceptionHandler(Exception::class)
+    @ResponseBody
     fun exception(
         e: Exception,
         request: HttpServletRequest,
@@ -90,6 +92,7 @@ internal class ExceptionHandler : ErrorController {
         }
 
     @ExceptionHandler(BindException::class)
+    @ResponseBody
     fun bindingResultException(
         e: BindException,
         request: HttpServletRequest,
@@ -101,6 +104,7 @@ internal class ExceptionHandler : ErrorController {
             }
 
     @ExceptionHandler(ConstraintViolationException::class)
+    @ResponseBody
     fun constraintViolationException(
         e: ConstraintViolationException,
         request: HttpServletRequest,
@@ -118,6 +122,7 @@ internal class ExceptionHandler : ErrorController {
             HttpRequestMethodNotSupportedException::class
         ]
     )
+    @ResponseBody
     fun badRequestException(
         e: Exception,
         request: HttpServletRequest,
@@ -132,6 +137,7 @@ internal class ExceptionHandler : ErrorController {
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     fun error(
         request: HttpServletRequest,
         response: HttpServletResponse,

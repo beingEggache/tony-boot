@@ -90,7 +90,9 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
     @Bean
-    internal fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice = WrapResponseBodyAdvice()
+    internal fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice = WrapResponseBodyAdvice().apply {
+        getLogger(WrapResponseBodyAdvice::class.java.name).info("Response wrap is enabled")
+    }
 
     @Bean
     internal fun exceptionHandler() = ExceptionHandler()
@@ -173,7 +175,9 @@ internal class WebConfig(
     @Bean
     internal fun injectRequestBodyAdvice(
         requestBodyFieldInjectorComposite: RequestBodyFieldInjectorComposite,
-    ): InjectRequestBodyAdvice = InjectRequestBodyAdvice(requestBodyFieldInjectorComposite)
+    ): InjectRequestBodyAdvice = InjectRequestBodyAdvice(requestBodyFieldInjectorComposite).apply {
+        getLogger(RequestBodyFieldInjectorComposite::class.java.name).info("Request body inject is enabled")
+    }
 }
 
 /**

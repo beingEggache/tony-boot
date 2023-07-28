@@ -17,8 +17,6 @@ import com.tony.wrapResponseHeaderName
 import java.time.temporal.TemporalAccessor
 import java.util.Collections
 import java.util.Date
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
@@ -38,12 +36,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
 @RestControllerAdvice
 internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
-
-    private val logger: Logger = LoggerFactory.getLogger(WrapResponseBodyAdvice::class.java)
-
-    init {
-        logger.info("Response wrap is enabled")
-    }
 
     override fun beforeBodyWrite(
         body: Any?,

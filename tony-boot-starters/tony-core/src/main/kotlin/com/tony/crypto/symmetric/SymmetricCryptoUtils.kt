@@ -1,7 +1,7 @@
 @file:JvmName("SymmetricCryptoUtils")
-@file:JvmMultifileClass
 
 package com.tony.crypto.symmetric
+
 /**
  * 对称加密/解密 工具
  * @author tangli

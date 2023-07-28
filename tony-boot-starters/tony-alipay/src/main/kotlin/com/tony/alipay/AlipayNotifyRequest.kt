@@ -12,7 +12,7 @@ private const val TRADE_SUCCESS = "TRADE_SUCCESS"
 
 private const val TRADE_CLOSED = "TRADE_CLOSED"
 
-@Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
+@Suppress("MemberVisibilityCanBePrivate")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 public class AlipayNotifyRequest(
     public val appId: String? = null,

@@ -3,8 +3,6 @@ package com.tony.web.advice
 import com.tony.utils.rawClass
 import com.tony.web.support.RequestBodyFieldInjectorComposite
 import java.lang.reflect.Type
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
 import org.springframework.http.HttpInputMessage
@@ -22,12 +20,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAd
 internal class InjectRequestBodyAdvice(
     private val requestBodyFieldInjectorComposite: RequestBodyFieldInjectorComposite,
 ) : RequestBodyAdviceAdapter() {
-
-    private val logger: Logger = LoggerFactory.getLogger(InjectRequestBodyAdvice::class.java)
-
-    init {
-        logger.info("Request body inject is enabled")
-    }
 
     override fun supports(
         methodParameter: MethodParameter,
