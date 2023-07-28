@@ -17,7 +17,6 @@ import com.tony.wrapResponseHeaderName
 import java.time.temporal.TemporalAccessor
 import java.util.Collections
 import java.util.Date
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter
@@ -33,7 +32,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
  * @author tangli
  * @since 2023/5/25 10:51
  */
-@ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
 @RestControllerAdvice
 internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
 
