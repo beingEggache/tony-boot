@@ -1,3 +1,0 @@
-spring:
-  jackson:
-    date-format: "yyyy"

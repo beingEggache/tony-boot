@@ -15,6 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
+import org.springframework.core.annotation.AnnotationUtils
 
 @EnableKnife4j
 @EnableConfigurationProperties(Knife4jExtensionProperties::class)
@@ -44,9 +45,7 @@ internal class Knife4jExtensionConfig(
             .builder()
             .group("default")
             .addOpenApiMethodFilter {
-                it.annotations.map { annotation ->
-                    annotation.annotationClass
-                }.contains(Operation::class)
+                AnnotationUtils.getAnnotation(it, Operation::class.java) != null
             }
             .build()
     }
