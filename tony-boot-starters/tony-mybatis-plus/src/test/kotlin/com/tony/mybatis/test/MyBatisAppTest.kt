@@ -5,6 +5,7 @@ import com.tony.annotation.EnableTonyBoot
 import com.tony.mybatis.test.db.dao.UserDao
 import com.tony.mybatis.test.db.po.User
 import com.tony.utils.md5Uppercase
+import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.mybatis.spring.annotation.MapperScan
 import org.springframework.beans.factory.getBean
@@ -14,7 +15,6 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.transaction.annotation.EnableTransactionManagement
-import javax.annotation.Resource
 
 
 @SpringBootTest(

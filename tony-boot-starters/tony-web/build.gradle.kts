@@ -8,11 +8,9 @@ dependencies {
     implementation(Deps.SpringBoot.starterValidation)
 
     addTestDependencies()
-    testImplementation(Deps.Other.swaggerV3Annotaion)
-//    testImplementation(Deps.Other.springdocCommon)
-    testImplementation(Deps.Knife4j.core)
-//    testImplementation(Deps.Template.templateKnife4j)
-//    testImplementation(Deps.Knife4j.openapi3Ui)
+    testImplementation(projects.tonyKnife4jApi)
+    testImplementation(Deps.Knife4j.openapi3Ui)
+
 }
 
 tasks.named<Test>("test") {

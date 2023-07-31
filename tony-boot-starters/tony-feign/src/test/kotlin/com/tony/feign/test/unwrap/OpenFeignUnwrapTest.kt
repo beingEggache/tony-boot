@@ -4,9 +4,9 @@ import com.tony.feign.test.unwrap.client.OpenFeignTestUnwrapClient
 import com.tony.feign.test.unwrap.dto.Person
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
+import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import javax.annotation.Resource
 
 @SpringBootTest(
     classes = [OpenFeignTestUnwrapApp::class],

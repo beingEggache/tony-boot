@@ -10,9 +10,9 @@ package com.tony.feign.test.enums
 
 import com.tony.feign.test.enums.client.OpenFeignTestEnumClient
 import com.tony.feign.test.enums.controller.EnumTest
+import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import javax.annotation.Resource
 
 @SpringBootTest(classes = [OpenFeignTestEnumApp::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class OpenFeignEnumTest {

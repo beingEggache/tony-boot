@@ -4,9 +4,9 @@ import com.tony.feign.test.signature.client.OpenFeignTestSignatureClient
 import com.tony.feign.test.signature.dto.Person
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
+import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import javax.annotation.Resource
 
 @SpringBootTest(
     classes = [OpenFeignTestSignatureApp::class],

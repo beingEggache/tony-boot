@@ -1,7 +1,7 @@
 package com.tony.web.auth.test.req
 
 import io.swagger.v3.oas.annotations.media.Schema
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 @Schema(description = "测试登录请求")
 data class TestLoginReq(

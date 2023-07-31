@@ -215,6 +215,7 @@ object Deps {
         const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations"
         const val springdocUi = "org.springdoc:springdoc-openapi-ui"
         const val springdocCommon = "org.springdoc:springdoc-openapi-common"
+        const val springdocStarterCommon = "org.springdoc:springdoc-openapi-starter-common"
         const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin"
 
         const val yitterIdgenerator = "com.github.yitter:yitter-idgenerator"

@@ -56,7 +56,7 @@ configure(subprojects) {
         options.isDeprecation = true
         if (getProfile() != "prod") {
             options.isDebug = true
-            options.debugOptions.debugLevel = "variable"
+            options.debugOptions.debugLevel = "vars"
             options.isFork = true
             options.forkOptions.jvmArgs?.add("-Duser.language=en")
             options.isIncremental = true

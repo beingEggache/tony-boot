@@ -30,12 +30,13 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
             return Mono.error(ex)
         }
         return if (ex is ResponseStatusException) {
-            val httpStatus = ex.status
+            val httpStatus = ex.statusCode
+
             response.jsonBody(
                 ApiResult(
                     EMPTY_RESULT,
                     httpStatus.value() * 100,
-                    httpStatus.reasonPhrase
+                    ex.reason ?: ""
                 )
             )
         } else {

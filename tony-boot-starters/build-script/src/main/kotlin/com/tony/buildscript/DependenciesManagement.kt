@@ -2,10 +2,10 @@
 
 package com.tony.buildscript
 
-import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.kotlin.dsl.DependencyConstraintHandlerScope
 import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
+import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.DependencyConstraintHandlerScope
 
 internal object DepsManagement {
 
@@ -216,6 +216,7 @@ internal object DepsManagement {
         const val swaggerV3Models = "io.swagger.core.v3:swagger-models:${VersionManagement.swaggerV3Version}"
         const val springdocUi = "org.springdoc:springdoc-openapi-ui:${VersionManagement.springdocVersion}"
         const val springdocCommon = "org.springdoc:springdoc-openapi-common:${VersionManagement.springdocVersion}"
+        const val springdocStarterCommon = "org.springdoc:springdoc-openapi-starter-common:${VersionManagement.springdocStarterVersion}"
         const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin:${VersionManagement.springdocVersion}"
 
         const val snakeYaml = "org.yaml:snakeyaml:2.0"

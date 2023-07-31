@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.PriorityOrdered
@@ -67,11 +66,9 @@ internal class WebAuthConfig(
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.auth")
-public data class WebAuthProperties
-    @ConstructorBinding
-    constructor(
-        /**
-         * 不需要登录校验的地址.
-         */
-        val noLoginCheckUrl: Set<String> = setOf(),
-    )
+public data class WebAuthProperties(
+    /**
+     * 不需要登录校验的地址.
+     */
+    val noLoginCheckUrl: Set<String> = setOf(),
+)
