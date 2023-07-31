@@ -50,7 +50,7 @@ internal class ProtostuffSerializer : RedisSerializer<Any?> {
         } catch (e: RuntimeException) {
             if (e.cause is ProtobufException) {
                 // increment or get enum will cause this.
-                logger.warn(e.message, e)
+                logger.warn(e.message)
                 val string = String(bytes)
                 string.toIntOrNull() ?: return string
                 return NumberFormat.getInstance().parse(string)

@@ -1,6 +1,8 @@
 package com.tony.redis.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.tony.jackson.InjectableValueSupplier
+import com.tony.jackson.InjectableValuesBySupplier
 import com.tony.misc.YamlPropertySourceFactory
 import com.tony.redis.aspect.DefaultRedisCacheAspect
 import com.tony.redis.serializer.ProtostuffSerializer
@@ -8,12 +10,14 @@ import com.tony.redis.serializer.SerializerMode
 import com.tony.redis.service.RedisService
 import com.tony.redis.service.impl.JacksonRedisService
 import com.tony.redis.service.impl.ProtostuffRedisService
+import com.tony.utils.createObjectMapper
 import com.tony.utils.getLogger
 import io.protostuff.LinkedBuffer
 import io.protostuff.runtime.RuntimeSchema
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.ConstructorBinding
@@ -26,6 +30,7 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 
 /**
  * RedisCacheConfig
@@ -61,6 +66,27 @@ internal class RedisConfig(
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "PROTOSTUFF")
     @Bean
     internal fun protostuffRedisService(): RedisService = ProtostuffRedisService()
+
+    @ConditionalOnMissingBean(Jackson2ObjectMapperBuilder::class)
+    @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON", matchIfMissing = true)
+    @Bean
+    internal fun jackson2ObjectMapperBuilder(
+        jackson2ObjectMapperBuilderCustomizer: Jackson2ObjectMapperBuilderCustomizer,
+    ): Jackson2ObjectMapperBuilder = Jackson2ObjectMapperBuilder().apply {
+        jackson2ObjectMapperBuilderCustomizer.customize(this)
+    }
+
+    @ConditionalOnMissingBean(ObjectMapper::class)
+    @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON", matchIfMissing = true)
+    @Bean
+    internal fun objectMapper(
+        jackson2ObjectMapperBuilder: Jackson2ObjectMapperBuilder,
+        injectableValueSuppliers: List<InjectableValueSupplier>,
+    ): ObjectMapper =
+        createObjectMapper().apply {
+            jackson2ObjectMapperBuilder.configure(this)
+            injectableValues = InjectableValuesBySupplier(injectableValueSuppliers.associateBy { it.name })
+        }
 
     @ConditionalOnMissingBean(RedisSerializer::class)
     @Bean

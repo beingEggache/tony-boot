@@ -27,7 +27,7 @@ internal class JacksonRedisService : RedisService {
         if (this::class.java.isNumberTypes()) {
             this
         } else {
-            this.toJsonString()
+            this.toJsonString().trimQuotes()
         }
 
     override fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? =

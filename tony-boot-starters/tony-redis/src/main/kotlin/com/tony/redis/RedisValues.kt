@@ -29,7 +29,7 @@ public object RedisValues {
     public fun increment(key: String, delta: Long = 1L, initial: Long? = null): Long? =
         RedisManager.doInTransaction {
             if (initial != null) {
-                redisTemplate.opsForValue().setIfAbsent(key, initial)
+                redisTemplate.opsForValue().increment(key, initial)
             }
             redisTemplate.opsForValue().increment(key, delta)
         }.last().asTo()
@@ -49,7 +49,7 @@ public object RedisValues {
     public fun increment(key: String, delta: Double = 1.0, initial: Double? = null): Double? =
         RedisManager.doInTransaction {
             if (initial != null) {
-                redisTemplate.boundValueOps(key).setIfAbsent(initial)
+                redisTemplate.opsForValue().increment(key, initial)
             }
             redisTemplate.boundValueOps(key).increment(delta)
         }.last().asTo()
