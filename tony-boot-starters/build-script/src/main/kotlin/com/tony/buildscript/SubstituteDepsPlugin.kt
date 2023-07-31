@@ -22,18 +22,18 @@ class SubstituteDepsPlugin : Plugin<Project> {
         "org.bouncycastle:bcmail-jdk15on" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.bouncycastleVersion}",
         "org.bouncycastle:bcpkix-jdk15on" to "org.bouncycastle:bcpkix-jdk18on:${VersionManagement.bouncycastleVersion}",
 
-        "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
-        "javax.annotation:javax.annotation-api" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
-        "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to "jakarta.annotation:jakarta.annotation-api:1.3.5",
-        "javax.activation:javax.activation-api" to "jakarta.activation:jakarta.activation-api:1.2.2",
+        "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:${VersionManagement.annotationApiVersion}",
+        "javax.annotation:javax.annotation-api" to "jakarta.annotation:jakarta.annotation-api:${VersionManagement.annotationApiVersion}",
+        "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to "jakarta.annotation:jakarta.annotation-api:${VersionManagement.annotationApiVersion}",
+        "javax.activation:javax.activation-api" to "jakarta.activation:jakarta.activation-api:${VersionManagement.activationApiVersion}",
 
-        "javax.el:el-api" to "jakarta.el:jakarta.el-api:3.0.3",
-        "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:3.0.3",
-        "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:9.0.78",
+        "javax.el:el-api" to "jakarta.el:jakarta.el-api:${VersionManagement.elApiVersion}",
+        "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:${VersionManagement.elApiVersion}",
+        "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:10.1.11",
 
-        "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:1.1.2",
-        "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:2.0.2",
-        "javax.xml.bind:jaxb-api" to "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3",
+        "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:${VersionManagement.websocketApiVersion}",
+        "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:${VersionManagement.validationApiVersion}",
+        "javax.xml.bind:jaxb-api" to "jakarta.xml.bind:jakarta.xml.bind-api:${VersionManagement.bindApiVersion}",
         "commons-logging:commons-logging" to "org.springframework:spring-jcl:${VersionManagement.springVersion}"
     )
 

@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.tony.enums.EnumCreator
 import com.tony.enums.StringEnumValue
-import javax.validation.constraints.Max
-import javax.validation.constraints.Positive
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Positive
 
 public data class WechatQrCodeCreateReq(
 

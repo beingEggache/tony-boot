@@ -40,6 +40,7 @@ class KtlintPlugin : Plugin<Project> {
             group = "verification"
             classpath = ktlint
             mainClass.set("com.pinterest.ktlint.Main")
+            jvmArgs = mutableListOf("--add-opens","java.base/java.lang=ALL-UNNAMED")
             args("-F", "src/main/**/*.kt")
         }
         target.tasks.named("compileKotlin") {

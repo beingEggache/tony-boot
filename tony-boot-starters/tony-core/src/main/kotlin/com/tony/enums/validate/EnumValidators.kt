@@ -11,8 +11,8 @@ import com.tony.enums.IntEnumValue
 import com.tony.enums.StringEnumValue
 import com.tony.utils.asTo
 import com.tony.utils.isTypesOrSubTypesOf
-import javax.validation.ConstraintValidator
-import javax.validation.ConstraintValidatorContext
+import jakarta.validation.ConstraintValidator
+import jakarta.validation.ConstraintValidatorContext
 
 /**
  * 简单整形枚举校验

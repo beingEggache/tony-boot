@@ -7,7 +7,7 @@ dependencies {
     api(Deps.Other.swaggerV3Annotaion)
     api(Deps.Other.springdocCommon)
     implementation(Deps.Other.springdocKotlin)
-    implementation(Deps.Knife4j.openapi3SpringBootStarter) {
+    implementation(Deps.Knife4j.openapi3JakartaSpringBootStarter) {
         exclude("com.github.xiaoymin", "knife4j-openapi3-ui")
         exclude("org.springdoc","springdoc-openapi-webflux-core")
         exclude("org.webjars","swagger-ui")

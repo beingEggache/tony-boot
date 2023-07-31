@@ -15,8 +15,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -105,13 +105,15 @@ internal class RedisConfig(
  * @author tangli
  * @since 2023/5/25 10:31
  */
-@ConstructorBinding
 @ConfigurationProperties(prefix = "redis")
-internal data class RedisProperties(
-    val keyPrefix: String?,
-    /**
-     * redis 序列化/反序列化 方式
-     */
-    @DefaultValue("JACKSON")
-    val serializerMode: SerializerMode = SerializerMode.JACKSON,
-)
+internal data class RedisProperties
+    @ConstructorBinding
+    constructor(
+        @DefaultValue("")
+        val keyPrefix: String,
+        /**
+         * redis 序列化/反序列化 方式
+         */
+        @DefaultValue("JACKSON")
+        val serializerMode: SerializerMode,
+    )

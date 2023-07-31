@@ -11,8 +11,9 @@ import com.tony.captcha.DefaultCaptchaServiceImpl
 import com.tony.captcha.NoopCaptchaServiceImpl
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.ConstructorBinding
+import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -44,14 +45,16 @@ internal class CaptchaConfig(
  * @author tangli
  * @since 2023/5/25 15:42
  */
-@ConstructorBinding
 @ConfigurationProperties(prefix = "captcha")
-internal data class CaptchaProperties(
-    /**
-     * captcha mode.
-     */
-    val mode: CaptchaMode = CaptchaMode.NOOP,
-)
+internal data class CaptchaProperties
+    @ConstructorBinding
+    constructor(
+        /**
+         * captcha mode.
+         */
+        @DefaultValue("NOOP")
+        val mode: CaptchaMode = CaptchaMode.NOOP,
+    )
 
 public enum class CaptchaMode {
     NOOP,

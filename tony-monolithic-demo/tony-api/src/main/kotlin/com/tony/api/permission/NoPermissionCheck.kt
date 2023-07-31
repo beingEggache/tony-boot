@@ -5,8 +5,8 @@ import com.tony.exception.BizException
 import com.tony.web.WebApp
 import com.tony.web.WebContext
 import com.tony.web.WebContextExtensions.userId
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod

@@ -8,8 +8,8 @@ import com.tony.web.crpto.EncryptResponseBodyAdvice
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -49,29 +49,30 @@ internal class WebCryptoConfig(
  * @author tangli
  * @since 2023/5/26 17:06
  */
-@ConstructorBinding
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.crypto")
 @ConditionalOnExpression("\${web.crypto.enabled:false}")
-internal data class WebCryptoProperties(
+internal data class WebCryptoProperties
+    @ConstructorBinding
+    constructor(
 
-    @DefaultValue("false")
-    val enabled: Boolean = false,
-    /**
-     * 加解密算法, 目前只支持 aes/des, 默认des
-     */
-    @DefaultValue("des")
-    val algorithm: SymmetricCryptoAlgorithm = SymmetricCryptoAlgorithm.DES,
+        @DefaultValue("false")
+        val enabled: Boolean,
+        /**
+         * 加解密算法, 目前只支持 aes/des, 默认des
+         */
+        @DefaultValue("des")
+        val algorithm: SymmetricCryptoAlgorithm,
 
-    /**
-     * 秘钥
-     */
-    @DefaultValue("")
-    val secret: String = "",
+        /**
+         * 秘钥
+         */
+        @DefaultValue("")
+        val secret: String,
 
-    /**
-     * 二进制编码
-     */
-    @DefaultValue("base64")
-    val encoding: CryptoEncoding = CryptoEncoding.BASE64,
-)
+        /**
+         * 二进制编码
+         */
+        @DefaultValue("base64")
+        val encoding: CryptoEncoding,
+    )

@@ -1,8 +1,8 @@
 package com.tony.dto.req
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotNull
 
 /**
  * WrappedReq is

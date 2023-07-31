@@ -20,7 +20,7 @@ import com.tony.web.utils.remoteIp
 import com.tony.web.utils.status1xxInformational
 import com.tony.web.utils.status2xxSuccessful
 import com.tony.web.utils.status3xxRedirection
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.Logger
 import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
@@ -109,7 +109,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
     private fun requestBody(request: RepeatReadRequestWrapper) =
         if (!isTextMediaTypes(request.parsedMedia)) {
             "[${request.contentType}]"
-        } else if (request.method.equals(HttpMethod.POST.name, true)) {
+        } else if (request.method.equals(HttpMethod.POST.name(), true)) {
             val bytes = request.contentAsByteArray
             when {
                 bytes.isEmpty() -> NULL

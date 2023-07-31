@@ -12,7 +12,6 @@ import com.tony.web.test.req.TestReq
 import com.tony.web.test.req.TestStringEnum
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.springdoc.api.annotations.ParameterObject
 import org.springframework.http.MediaType
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
@@ -25,7 +24,6 @@ import java.math.BigInteger
 @Tag(name = "测试")
 @RestController
 class TestController {
-    @ApiOperationSupport(order = -2)
     @Operation(description = "boolean")
     @PostMapping("/")
     fun index() {
@@ -207,7 +205,6 @@ class TestController {
     @Operation(description = "form")
     @PostMapping("/form")
     fun form(
-        @ParameterObject
         testReq: TestReq
     ): TestReq = testReq
 

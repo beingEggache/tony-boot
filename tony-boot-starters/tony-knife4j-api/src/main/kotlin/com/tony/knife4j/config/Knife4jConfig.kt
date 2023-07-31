@@ -10,8 +10,9 @@ import org.slf4j.LoggerFactory
 import org.springdoc.core.GroupedOpenApi
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.ConstructorBinding
+import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
@@ -52,11 +53,15 @@ internal class Knife4jExtensionConfig(
     }
 }
 
-@ConstructorBinding
 @ConfigurationProperties(prefix = "knife4j.extension")
-internal data class Knife4jExtensionProperties(
-    val title: String = "Tony-Api",
-    val version: String = "1.0",
-    val description: String = "",
-    val contact: Contact = Contact(),
-)
+public data class Knife4jExtensionProperties
+    @ConstructorBinding
+    constructor(
+        @DefaultValue("Tony-Api")
+        val title: String,
+        @DefaultValue("1.0")
+        val version: String,
+        @DefaultValue("")
+        val description: String,
+        val contact: Contact = Contact(),
+    )

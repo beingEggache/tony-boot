@@ -5,9 +5,9 @@ import com.tony.annotation.web.support.InjectRequestBodyField
 import com.tony.enums.validate.SimpleIntEnum
 import com.tony.enums.validate.SimpleStringEnum
 import io.swagger.v3.oas.annotations.media.Schema
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Pattern
 
 data class TestReq(
     @get:NotBlank(message = "请输入姓名")

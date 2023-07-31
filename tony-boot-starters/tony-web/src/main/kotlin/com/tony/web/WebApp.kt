@@ -7,7 +7,6 @@ import com.tony.SpringContexts.Env
 import com.tony.SpringContexts.getBeanByLazy
 import com.tony.utils.sanitizedPath
 import com.tony.web.config.WebProperties
-import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 
@@ -77,7 +76,7 @@ public object WebApp {
      *
      * 一般默认包含 文档地址, 及对应的静态文件地址.
      *
-     * 将 [HttpServletRequest.getContextPath] 包含进去.
+     * 将 [ HttpServletRequest.getContextPath] 包含进去.
      */
     @JvmStatic
     public val whiteUrlPatternsWithContextPath: Set<String> by lazy {

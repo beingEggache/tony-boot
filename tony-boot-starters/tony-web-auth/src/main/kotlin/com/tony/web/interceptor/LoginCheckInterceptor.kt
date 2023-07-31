@@ -9,8 +9,8 @@ import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.utils.hasAnnotation
 import com.tony.web.WebContext
 import com.tony.web.WebContextExtensions.apiSession
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
 

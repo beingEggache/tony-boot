@@ -23,15 +23,15 @@ import com.tony.web.log.DefaultRequestTraceLogger
 import com.tony.web.log.RequestTraceLogger
 import com.tony.web.support.RequestBodyFieldInjector
 import com.tony.web.support.RequestBodyFieldInjectorComposite
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -186,39 +186,40 @@ internal class WebConfig(
  * @author tangli
  * @since 2023/5/25 10:35
  */
-@ConstructorBinding
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web")
-internal data class WebProperties(
-    /**
-     * 是否包装返回值。
-     */
-    @DefaultValue("true")
-    val wrapResponseBodyEnabled: Boolean = true,
-    /**
-     * 是否注入请求。
-     */
-    @DefaultValue("true")
-    val injectRequestBodyEnabled: Boolean = true,
-    /**
-     * 包装返回值白名单url（ant pattern）。
-     */
-    val wrapResponseExcludePatterns: List<String> = listOf(),
-    /**
-     * 是否记录请求日志。
-     */
-    @DefaultValue("true")
-    val traceLoggerEnabled: Boolean = true,
-    /**
-     * 请求日志排除url
-     */
-    val traceLogExcludePatterns: List<String> = listOf(),
-    /**
-     * 是否处理响应json null值。
-     */
-    @DefaultValue("true")
-    val fillResponseNullValueEnabled: Boolean = true,
-)
+internal data class WebProperties
+    @ConstructorBinding
+    constructor(
+        /**
+         * 是否包装返回值。
+         */
+        @DefaultValue("true")
+        val wrapResponseBodyEnabled: Boolean,
+        /**
+         * 是否注入请求。
+         */
+        @DefaultValue("true")
+        val injectRequestBodyEnabled: Boolean,
+        /**
+         * 包装返回值白名单url（ant pattern）。
+         */
+        val wrapResponseExcludePatterns: List<String> = listOf(),
+        /**
+         * 是否记录请求日志。
+         */
+        @DefaultValue("true")
+        val traceLoggerEnabled: Boolean,
+        /**
+         * 请求日志排除url
+         */
+        val traceLogExcludePatterns: List<String> = listOf(),
+        /**
+         * 是否处理响应json null值。
+         */
+        @DefaultValue("true")
+        val fillResponseNullValueEnabled: Boolean,
+    )
 
 /**
  * WebCorsProperties
@@ -226,20 +227,19 @@ internal data class WebProperties(
  * @author tangli
  * @since 2023/5/25 10:35
  */
-@ConstructorBinding
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.cors")
 @ConditionalOnExpression("\${web.cors-enabled:false}")
 public data class WebCorsProperties(
     @DefaultValue("false")
-    val enabled: Boolean = false,
+    val enabled: Boolean,
     val allowedOrigins: Set<String> = setOf(),
     val allowedHeaders: Set<String> = setOf(),
     val allowedMethods: Set<String> = setOf(),
     val exposedHeaders: Set<String> = setOf(),
     val maxAge: Long = Long.MAX_VALUE,
     @DefaultValue("true")
-    val allowCredentials: Boolean = true,
+    val allowCredentials: Boolean,
 )
 
 /**

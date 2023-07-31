@@ -9,9 +9,9 @@ import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toInstant
 import com.tony.utils.toJsonString
+import jakarta.annotation.Priority
 import java.net.URL
 import java.time.LocalDateTime
-import javax.annotation.Priority
 import okhttp3.Connection
 import okhttp3.Interceptor
 import okhttp3.Request

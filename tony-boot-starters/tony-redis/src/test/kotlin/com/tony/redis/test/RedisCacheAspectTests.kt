@@ -9,9 +9,9 @@
 package com.tony.redis.test
 
 import com.tony.utils.println
+import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import javax.annotation.Resource
 
 @SpringBootTest(classes = [TestRedisApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class RedisCacheAspectTests {

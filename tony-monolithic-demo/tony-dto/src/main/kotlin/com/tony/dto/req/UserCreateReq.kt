@@ -2,7 +2,7 @@ package com.tony.dto.req
 
 import com.tony.validator.annotation.Mobile
 import io.swagger.v3.oas.annotations.media.Schema
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 /**
  *

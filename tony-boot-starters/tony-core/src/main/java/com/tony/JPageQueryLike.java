@@ -2,10 +2,10 @@ package com.tony;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.jetbrains.annotations.NotNull;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 import java.util.Collection;
 
 /**

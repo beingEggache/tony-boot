@@ -14,7 +14,7 @@ import com.tony.utils.defaultIfBlank
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfAndReturn
 import com.tony.utils.throwIfNullAndReturn
-import javax.validation.Valid
+import jakarta.validation.Valid
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

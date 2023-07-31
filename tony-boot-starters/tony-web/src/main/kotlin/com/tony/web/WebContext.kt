@@ -10,9 +10,9 @@ import com.tony.web.utils.headers
 import com.tony.web.utils.origin
 import com.tony.web.utils.remoteIp
 import com.tony.web.utils.url
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import java.net.URL
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.error.ErrorAttributeOptions.Include
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST

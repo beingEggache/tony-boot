@@ -154,12 +154,12 @@ internal object DepsManagement {
         const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${VersionManagement.mybatisPlusVersion}"
 
         const val mybatisTypehandlersJsr310 = "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"
-        const val validationApi = "jakarta.validation:jakarta.validation-api:2.0.2"
-        const val annotationApi = "jakarta.annotation:jakarta.annotation-api:1.3.5"
-        const val activationApi = "jakarta.activation:jakarta.activation-api:1.2.2"
-        const val elApi = "jakarta.el:jakarta.el-api:3.0.3"
-        const val websocketApi = "jakarta.websocket:jakarta.websocket-api:1.1.2"
-        const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3"
+        const val validationApi = "jakarta.validation:jakarta.validation-api:${VersionManagement.validationApiVersion}"
+        const val annotationApi = "jakarta.annotation:jakarta.annotation-api:${VersionManagement.annotationApiVersion}"
+        const val activationApi = "jakarta.activation:jakarta.activation-api:${VersionManagement.activationApiVersion}"
+        const val elApi = "jakarta.el:jakarta.el-api:${VersionManagement.elApiVersion}"
+        const val websocketApi = "jakarta.websocket:jakarta.websocket-api:${VersionManagement.websocketApiVersion}"
+        const val bindApi = "jakarta.xml.bind:jakarta.xml.bind-api:${VersionManagement.bindApiVersion}"
 
         const val gson = "com.google.code.gson:gson:${VersionManagement.gsonVersion}"
         const val fastjson = "com.alibaba:fastjson:${VersionManagement.fastjsonVersion}"

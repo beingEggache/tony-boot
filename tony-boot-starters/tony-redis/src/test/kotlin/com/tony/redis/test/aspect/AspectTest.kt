@@ -1,8 +1,8 @@
 package com.tony.redis.test.aspect
 
+import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import javax.annotation.Resource
 
 @SpringBootTest(classes = [TestAspectApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class AspectTest {

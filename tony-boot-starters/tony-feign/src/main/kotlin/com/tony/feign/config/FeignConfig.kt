@@ -22,8 +22,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer
 import org.springframework.cloud.openfeign.support.SpringEncoder
@@ -93,21 +93,22 @@ public class FeignConfig {
         .build()
 }
 
-@ConstructorBinding
 @ConfigurationProperties(prefix = "feign")
-internal data class FeignConfigProperties(
-    @DefaultValue("0")
-    val callTimeout: Long = 0,
-    @DefaultValue("10000")
-    val connectTimeout: Long = 10000,
-    @DefaultValue("10000")
-    val readTimeout: Long = 10000,
-    @DefaultValue("10000")
-    val writeTimeout: Long = 10000,
-    @DefaultValue("10000")
-    val pingInterval: Long = 10000,
-    @DefaultValue("true")
-    val retryOnConnectionFailure: Boolean = true,
-    @DefaultValue("true")
-    val followRedirects: Boolean = true,
-)
+internal data class FeignConfigProperties
+    @ConstructorBinding
+    constructor(
+        @DefaultValue("0")
+        val callTimeout: Long,
+        @DefaultValue("10000")
+        val connectTimeout: Long,
+        @DefaultValue("10000")
+        val readTimeout: Long,
+        @DefaultValue("10000")
+        val writeTimeout: Long,
+        @DefaultValue("10000")
+        val pingInterval: Long,
+        @DefaultValue("true")
+        val retryOnConnectionFailure: Boolean,
+        @DefaultValue("true")
+        val followRedirects: Boolean,
+    )

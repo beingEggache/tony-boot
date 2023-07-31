@@ -85,7 +85,7 @@ configure(subprojects) {
 
     dependencies {
         add("implementation", platform(rootProject))
-        add("kapt", KaptDeps.SpringBoot.configurationProcessor)
+        //add("kapt", KaptDeps.SpringBoot.configurationProcessor)
         add("kapt", KaptDeps.SpringBoot.autoconfigureProcessor)
         add("kapt", KaptDeps.Spring.contextIndexer)
     }

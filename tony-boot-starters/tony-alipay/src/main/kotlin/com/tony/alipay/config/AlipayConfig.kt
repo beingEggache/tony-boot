@@ -2,8 +2,8 @@ package com.tony.alipay.config
 
 import com.tony.alipay.AlipayManager
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
@@ -28,11 +28,12 @@ internal class AlipayConfig(
     private fun getFrom(path: String): String = resourceResolver.getResource(path).file.readText()
 }
 
-@ConstructorBinding
 @ConfigurationProperties(prefix = "alipay")
-internal data class AlipayProperties(
-    val appId: String,
-    val publicKeyPath: String,
-    val privateKeyPath: String,
-    val aliPublicKeyPath: String,
-)
+internal data class AlipayProperties
+    @ConstructorBinding
+    constructor(
+        val appId: String,
+        val publicKeyPath: String,
+        val privateKeyPath: String,
+        val aliPublicKeyPath: String,
+    )

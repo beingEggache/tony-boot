@@ -5,12 +5,12 @@ import com.tony.wechat.DefaultWechatPropProvider
 import com.tony.wechat.WechatApiAccessTokenProvider
 import com.tony.wechat.WechatPropProvider
 import com.tony.wechat.client.WechatClient
-import javax.annotation.Resource
+import jakarta.annotation.Resource
 import kotlin.reflect.full.findAnnotation
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.cloud.openfeign.FeignClientBuilder
 import org.springframework.context.ApplicationContext
@@ -56,18 +56,19 @@ internal class WechatConfig {
  * @author tangli
  * @since 2023/5/25 15:22
  */
-@ConstructorBinding
 @ConfigurationProperties(prefix = "wechat")
-public data class WechatProperties(
-    val token: String?,
-    val appId: String?,
-    val appSecret: String?,
-    val mchId: String?,
-    val mchSecretKey: String?,
-    val app: LinkedHashMap<String, WechatAppProperties>?,
-) {
-    public fun getAppByAppId(appId: String): String? = app?.entries?.firstOrNull { it.value.appId == appId }?.key
-}
+public data class WechatProperties
+    @ConstructorBinding
+    constructor(
+        val token: String?,
+        val appId: String?,
+        val appSecret: String?,
+        val mchId: String?,
+        val mchSecretKey: String?,
+        val app: LinkedHashMap<String, WechatAppProperties>?,
+    ) {
+        public fun getAppByAppId(appId: String): String? = app?.entries?.firstOrNull { it.value.appId == appId }?.key
+    }
 
 /**
  * 微信配置

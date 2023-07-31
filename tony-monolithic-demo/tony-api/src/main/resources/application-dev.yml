@@ -5,8 +5,9 @@ spring:
     username: tony_api
     password: tony_api
     driver-class-name: com.mysql.cj.jdbc.Driver
-  redis:
-    password: "123456"
+  data:
+    redis:
+      password: "123456"
 web:
   cors:
     enabled: true

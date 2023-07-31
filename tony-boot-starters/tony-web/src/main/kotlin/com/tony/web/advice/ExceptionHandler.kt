@@ -11,9 +11,9 @@ import com.tony.web.WebApp.errorResponse
 import com.tony.web.WebContext
 import com.tony.web.WebContext.toResponse
 import com.tony.wrapExceptionHeaderName
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-import javax.validation.ConstraintViolationException
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+import jakarta.validation.ConstraintViolationException
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
