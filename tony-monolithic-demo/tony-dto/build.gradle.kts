@@ -9,6 +9,6 @@ dependencies {
     implementation(Deps.Template.templateAnnotations) { isChanging = true }
     implementation(Deps.Spring.web)
     implementation(Deps.Spring.context)
-
+    api("com.alibaba:easyexcel:3.3.2")
 //    implementation(Deps.SpringBoot.starterActuator)
 }

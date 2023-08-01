@@ -1,16 +1,11 @@
-FROM eclipse-temurin:11.0.20_8-jre-alpine AS builder
+FROM eclipse-temurin:17.0.8_7-jre-alpine AS builder
 WORKDIR app
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-FROM eclipse-temurin:11.0.20_8-jre-alpine
-
-RUN echo "Asia/Shanghai" > /etc/timezone && \
-    addgroup app && \
-    adduser -S app -G app -h app
-
-USER app:app
+FROM eclipse-temurin:17.0.8_7-jre-alpine
+RUN echo "Asia/Shanghai" > /etc/timezone
 WORKDIR app
 
 ENV JAVA_OPTS="\
@@ -26,8 +21,8 @@ ENV JAVA_OPTS="\
 -XX:HeapDumpPath=/logs/java_pid.hprof"
 
 ENV PROP=""
+EXPOSE 8080
 
-VOLUME ["/logs","/tmp"]
 COPY --chown=app:app --from=builder app/dependencies/ ./
 COPY --chown=app:app --from=builder app/spring-boot-loader/ ./
 COPY --chown=app:app --from=builder app/snapshot-dependencies/ ./

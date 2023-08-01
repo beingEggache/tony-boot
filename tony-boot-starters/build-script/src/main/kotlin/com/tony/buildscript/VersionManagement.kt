@@ -31,7 +31,7 @@ object VersionManagement  {
     const val slf4jVersion = "2.0.7"
 
     const val byteBuddyVersion = "1.14.5"
-    const val bouncycastleVersion = "1.76"
+    const val bouncycastleVersion = "1.75"
     const val javaJwtVersion = "4.4.0"
     const val guavaVersion = "32.1.1-jre"
 
