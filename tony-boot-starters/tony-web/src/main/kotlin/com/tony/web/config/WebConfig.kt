@@ -26,7 +26,6 @@ import com.tony.web.support.RequestBodyFieldInjectorComposite
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -101,7 +100,7 @@ internal class WebConfig(
     @Bean
     internal fun contextClosedListener() = DefaultContextClosedListener()
 
-    @ConditionalOnProperty("web.cors.enabled")
+    @ConditionalOnExpression("\${web.cors.enabled:true}")
     @Bean
     internal fun corsFilter(): CorsFilter {
         val source = UrlBasedCorsConfigurationSource()

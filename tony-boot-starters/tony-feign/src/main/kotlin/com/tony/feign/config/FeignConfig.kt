@@ -57,11 +57,11 @@ public class FeignConfig {
     internal fun errorDecoder() = DefaultErrorDecoder()
 
     @ConditionalOnMissingBean(FeignRequestTraceLogger::class)
-    @ConditionalOnExpression("\${feign.okhttp.enabled:true}")
+    @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
     @Bean
     internal fun feignRequestTraceLogger(): FeignRequestTraceLogger = DefaultFeignRequestTraceLogger()
 
-    @ConditionalOnExpression("\${feign.okhttp.enabled:true}")
+    @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
     @Bean
     internal fun feignLogInterceptor(
         feignRequestTraceLogger: FeignRequestTraceLogger,
@@ -71,7 +71,7 @@ public class FeignConfig {
     @Bean
     internal fun globalHeaderInterceptor() = DefaultGlobalHeaderInterceptor()
 
-    @ConditionalOnExpression("\${feign.okhttp.enabled:true}")
+    @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
     @ConditionalOnMissingBean(OkHttpClient::class)
     @Bean
     internal fun okHttpClient(
@@ -93,7 +93,7 @@ public class FeignConfig {
         .build()
 }
 
-@ConfigurationProperties(prefix = "feign")
+@ConfigurationProperties(prefix = "spring.cloud.openfeign.okhttp")
 internal data class FeignConfigProperties
     @ConstructorBinding
     constructor(

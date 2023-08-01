@@ -9,9 +9,9 @@ import com.tony.wechat.client.req.WechatQrCodeActionInfo
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
 import com.tony.wechat.client.req.WechatQrCodeType
 import com.tony.wechat.client.req.WechatScanCodeButton
+import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import javax.annotation.Resource
 
 @SpringBootTest
 class WechatClientTest {

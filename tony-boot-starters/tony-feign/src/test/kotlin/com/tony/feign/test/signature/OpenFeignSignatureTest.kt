@@ -17,6 +17,7 @@ class OpenFeignSignatureTest {
     @Resource
     lateinit var openFeignTestSignatureClient: OpenFeignTestSignatureClient
 
+
     private val logger = getLogger()
 
     @Test

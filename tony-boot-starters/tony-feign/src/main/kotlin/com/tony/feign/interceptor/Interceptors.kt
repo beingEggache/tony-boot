@@ -48,7 +48,7 @@ public interface GlobalHeaderInterceptor : AppInterceptor {
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val headers = internalHeaders()
+        val internalHeaders = internalHeaders()
             .entries
             .fold(Headers.Builder()) { headerBuilder, entry ->
                 headerBuilder.add(entry.key, entry.value)
@@ -56,6 +56,12 @@ public interface GlobalHeaderInterceptor : AppInterceptor {
             }
             .build()
         val request = chain.request()
+
+        val headers = request
+            .headers
+            .newBuilder()
+            .addAll(internalHeaders)
+            .build()
 
         val newRequest = request
             .newBuilder()
