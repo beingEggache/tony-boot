@@ -9,8 +9,6 @@ RUN echo "Asia/Shanghai" > /etc/timezone
 WORKDIR app
 
 ENV JAVA_OPTS="\
--noverify \
--XX:TieredStopAtLevel=1 \
 -Xmn2g \
 -Xms2g \
 -Xmx2g \
@@ -22,9 +20,11 @@ ENV JAVA_OPTS="\
 
 ENV PROP=""
 EXPOSE 8080
+VOLUME ["/logs","/tmp"]
 
-COPY --chown=app:app --from=builder app/dependencies/ ./
-COPY --chown=app:app --from=builder app/spring-boot-loader/ ./
-COPY --chown=app:app --from=builder app/snapshot-dependencies/ ./
-COPY --chown=app:app --from=builder app/application/ ./
+COPY --from=builder app/dependencies/ ./
+COPY --from=builder app/spring-boot-loader/ ./
+COPY --from=builder app/snapshot-dependencies/ ./
+COPY --from=builder app/application/ ./
+
 ENTRYPOINT ["sh","-c","java ${JAVA_OPTS} ${PROP} org.springframework.boot.loader.JarLauncher"]
