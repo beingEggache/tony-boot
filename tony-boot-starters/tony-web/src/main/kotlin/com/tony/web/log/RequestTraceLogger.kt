@@ -86,7 +86,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         val origin = request.requestURL?.toString() ?: ""
         val path = request.requestURI.removePrefix(WebApp.contextPath)
         val query = request.queryString ?: NULL
-        val headers = request.headers.entries.joinToString { "${it.key}:${it.value}" }
+        val headers = request.headers.entries.joinToString(";") { "${it.key}:${it.value}" }
         val remoteIp = request.remoteIp
         val logStr =
             """

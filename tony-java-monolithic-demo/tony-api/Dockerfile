@@ -18,7 +18,7 @@ ENV JAVA_OPTS="\
 -XX:+HeapDumpOnOutOfMemoryError \
 -XX:HeapDumpPath=/logs/java_pid.hprof"
 
-ENV PROP=""
+ENV PROPS=""
 EXPOSE 8080
 VOLUME ["/logs","/tmp"]
 
@@ -27,4 +27,4 @@ COPY --from=builder app/spring-boot-loader/ ./
 COPY --from=builder app/snapshot-dependencies/ ./
 COPY --from=builder app/application/ ./
 
-ENTRYPOINT ["sh","-c","java ${JAVA_OPTS} ${PROP} org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["sh","-c","java ${JAVA_OPTS} ${PROPS} org.springframework.boot.loader.JarLauncher"]

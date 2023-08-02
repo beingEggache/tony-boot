@@ -8,7 +8,6 @@ import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toInstant
-import com.tony.utils.toJsonString
 import jakarta.annotation.Priority
 import java.net.URL
 import java.time.LocalDateTime
@@ -65,7 +64,12 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val origin = url.origin
         val path = url.path
         val query = url.query.defaultIfBlank("[null]")
-        val headers = request.headers.toMultimap().toMap().mapValues { it.value.joinToString() }.toJsonString()
+        val headers = request.headers
+            .toMultimap()
+            .toMap()
+            .mapValues { it.value.joinToString() }
+            .entries
+            .joinToString(";") { "${it.key}:${it.value}" }
         val requestBody = request.body?.run {
             if (isTextMediaTypes(parsedMedia)) {
                 string()

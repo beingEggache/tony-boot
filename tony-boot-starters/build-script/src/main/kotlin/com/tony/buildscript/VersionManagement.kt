@@ -31,7 +31,7 @@ object VersionManagement  {
     const val slf4jVersion = "2.0.7"
 
     const val byteBuddyVersion = "1.14.5"
-    const val bouncycastleVersion = "1.75"
+    const val bouncycastleVersion = "1.76"
     const val javaJwtVersion = "4.4.0"
     const val guavaVersion = "32.1.1-jre"
 
@@ -48,7 +48,7 @@ object VersionManagement  {
     const val bindApiVersion = "4.0.0"
 
     const val springCloudAlibabaVersion = "2022.0.0.0"
-    const val springCloudVersion = "2022.0.3"
+    const val springCloudVersion = "2022.0.4"
 
     const val alipaySdkJavaVersion = "4.38.10.ALL"
     const val aliyunJavaSdkCoreVersion = "4.6.3"

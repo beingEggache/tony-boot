@@ -6,6 +6,6 @@ spring:
   main:
     banner-mode: off
 server:
-  port: 8080
+  port: 9090
 test-file-path-to: "C://workspace//test"
 test-file-path-from: "C://Users//being//Pictures"
