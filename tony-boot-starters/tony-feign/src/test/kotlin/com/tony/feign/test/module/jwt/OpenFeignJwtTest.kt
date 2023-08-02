@@ -1,7 +1,7 @@
 package com.tony.feign.test.module.jwt
 
 import com.tony.feign.test.dto.LoginReq
-import com.tony.feign.test.jwt.client.OpenFeignTestJwtClient
+import com.tony.feign.test.module.jwt.client.OpenFeignTestJwtClient
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource

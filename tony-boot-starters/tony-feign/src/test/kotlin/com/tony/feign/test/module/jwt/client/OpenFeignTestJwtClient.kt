@@ -1,7 +1,7 @@
 package com.tony.feign.test.module.jwt.client
 
 import com.tony.feign.test.dto.Person
-import com.tony.feign.test.jwt.api.OpenFeignTestJwtApi
+import com.tony.feign.test.module.jwt.api.OpenFeignTestJwtApi
 import feign.Headers
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
