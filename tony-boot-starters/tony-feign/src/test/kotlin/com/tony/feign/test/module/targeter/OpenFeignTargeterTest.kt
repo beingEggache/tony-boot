@@ -1,7 +1,7 @@
 package com.tony.feign.test.module.targeter
 
 import com.tony.feign.test.dto.Person
-import com.tony.feign.test.module.targeter.client.OpenFeignTestClient
+import com.tony.feign.test.module.targeter.client.OpenFeignTestTargerterClient
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
@@ -9,13 +9,13 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(
-    classes = [OpenFeignWhateverApp::class],
+    classes = [OpenFeignTestTargeterApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
-class OpenFeignWhateverTest {
+class OpenFeignTargeterTest {
 
     @Resource
-    lateinit var openFeignTestClient: OpenFeignTestClient
+    lateinit var openFeignTestClient: OpenFeignTestTargerterClient
 
     private val logger = getLogger()
 

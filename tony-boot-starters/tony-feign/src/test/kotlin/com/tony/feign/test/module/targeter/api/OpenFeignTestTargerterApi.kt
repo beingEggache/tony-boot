@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 
 @NoLoginCheck
-interface OpenFeignTestApi {
+interface OpenFeignTestTargerterApi {
 
     @PostMapping("/test/test-json-unwrap1")
     fun map(@RequestBody person: Person): Map<String, *>
