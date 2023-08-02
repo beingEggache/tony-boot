@@ -3,14 +3,11 @@ package com.tony.web.advice
 import com.tony.ApiProperty
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
-import com.tony.fromInternalHeaderName
-import com.tony.utils.doIf
 import com.tony.utils.getLogger
 import com.tony.web.WebApp.badRequest
 import com.tony.web.WebApp.errorResponse
 import com.tony.web.WebContext
 import com.tony.web.WebContext.toResponse
-import com.tony.wrapExceptionHeaderName
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.ConstraintViolationException
@@ -44,11 +41,7 @@ internal class ExceptionHandler : ErrorController {
         e: BizException,
         request: HttpServletRequest,
         response: HttpServletResponse,
-    ) =
-        e.toResponse()
-            .doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-                response.addHeader(wrapExceptionHeaderName, "true")
-            }
+    ) = e.toResponse()
 
     @ExceptionHandler(ApiException::class)
     @ResponseBody
@@ -56,15 +49,12 @@ internal class ExceptionHandler : ErrorController {
         e: ApiException,
         request: HttpServletRequest,
         response: HttpServletResponse,
-    ) =
-        run {
-            e.cause?.apply {
-                logger.warn(message, cause)
-            }
-            e.toResponse()
-        }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-            response.addHeader(wrapExceptionHeaderName, "true")
+    ) = run {
+        e.cause?.apply {
+            logger.warn(message, cause)
         }
+        e.toResponse()
+    }
 
     @ExceptionHandler(Exception::class)
     @ResponseBody
@@ -72,15 +62,12 @@ internal class ExceptionHandler : ErrorController {
         e: Exception,
         request: HttpServletRequest,
         response: HttpServletResponse,
-    ) =
-        run {
-            logger.error(e.message, e)
-            // handle the json generate exception
-            response.resetBuffer()
-            errorResponse(ApiProperty.errorMsg)
-        }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-            response.addHeader(wrapExceptionHeaderName, "true")
-        }
+    ) = run {
+        logger.error(e.message, e)
+        // handle the json generate exception
+        response.resetBuffer()
+        errorResponse(ApiProperty.errorMsg)
+    }
 
     private fun bindingResultMessages(bindingResult: BindingResult) =
         bindingResult.fieldErrors.first().let {
@@ -97,11 +84,7 @@ internal class ExceptionHandler : ErrorController {
         e: BindException,
         request: HttpServletRequest,
         response: HttpServletResponse,
-    ) =
-        badRequest(bindingResultMessages(e.bindingResult))
-            .doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-                response.addHeader(wrapExceptionHeaderName, "true")
-            }
+    ) = badRequest(bindingResultMessages(e.bindingResult))
 
     @ExceptionHandler(ConstraintViolationException::class)
     @ResponseBody
@@ -109,11 +92,7 @@ internal class ExceptionHandler : ErrorController {
         e: ConstraintViolationException,
         request: HttpServletRequest,
         response: HttpServletResponse,
-    ) =
-        badRequest(e.constraintViolations.first().message)
-            .doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-                response.addHeader(wrapExceptionHeaderName, "true")
-            }
+    ) = badRequest(e.constraintViolations.first().message)
 
     @ExceptionHandler(
         value = [
@@ -127,13 +106,10 @@ internal class ExceptionHandler : ErrorController {
         e: Exception,
         request: HttpServletRequest,
         response: HttpServletResponse,
-    ) =
-        run {
-            logger.warn(e.localizedMessage, e)
-            badRequest(ApiProperty.badRequestMsg)
-        }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-            response.addHeader(wrapExceptionHeaderName, "true")
-        }
+    ) = run {
+        logger.warn(e.localizedMessage, e)
+        badRequest(ApiProperty.badRequestMsg)
+    }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
     @ResponseStatus(HttpStatus.OK)
@@ -149,7 +125,5 @@ internal class ExceptionHandler : ErrorController {
         }
 
         else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
-    }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-        response.addHeader(wrapExceptionHeaderName, "true")
     }
 }

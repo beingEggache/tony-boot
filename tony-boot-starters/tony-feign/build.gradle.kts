@@ -4,7 +4,7 @@ import com.tony.buildscript.addTestDependencies
 dependencies {
 
     api(projects.tonyCore)
-
+    api(projects.tonyAnnotations)
     api("org.springframework.cloud:spring-cloud-starter-openfeign"){
         exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
         exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk7")

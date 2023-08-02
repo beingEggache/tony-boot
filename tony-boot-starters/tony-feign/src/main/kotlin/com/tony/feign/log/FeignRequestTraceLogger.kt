@@ -1,11 +1,13 @@
 package com.tony.feign.log
 
-import com.tony.feign.interceptor.NetworkInterceptor
 import com.tony.feign.isTextMediaTypes
+import com.tony.feign.okhttp.interceptor.NetworkInterceptor
 import com.tony.feign.parsedMedia
 import com.tony.feign.string
+import com.tony.traceIdHeaderName
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
+import com.tony.utils.mdcPutOrGetDefault
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toInstant
 import jakarta.annotation.Priority
@@ -35,7 +37,18 @@ internal class FeignLogInterceptor(
         val response = chain.proceed(request)
         val elapsedTime = System.currentTimeMillis() - startTime.toInstant().toEpochMilli()
 
-        feignRequestTraceLogger.log(chain.connection(), request, response, elapsedTime)
+        val headers = request
+            .headers
+            .newBuilder()
+            .add(traceIdHeaderName, mdcPutOrGetDefault(traceIdHeaderName))
+            .build()
+
+        val newRequest = request
+            .newBuilder()
+            .headers(headers)
+            .build()
+
+        feignRequestTraceLogger.log(chain.connection(), newRequest, response, elapsedTime)
         return response
     }
 }

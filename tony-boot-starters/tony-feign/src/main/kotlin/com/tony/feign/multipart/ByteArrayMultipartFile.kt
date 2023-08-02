@@ -4,7 +4,7 @@
  * @author tangli
  * @since 2021/12/8 9:06
  */
-package com.tony.feign.misc
+package com.tony.feign.multipart
 
 import java.io.ByteArrayInputStream
 import java.io.File

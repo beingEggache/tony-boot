@@ -1,15 +1,17 @@
 package com.tony.feign.config
 
-import com.tony.feign.decoder.DefaultErrorDecoder
-import com.tony.feign.decoder.UnwrapResponseDecoder
-import com.tony.feign.interceptor.AppInterceptor
-import com.tony.feign.interceptor.DefaultGlobalHeaderInterceptor
-import com.tony.feign.interceptor.GlobalHeaderInterceptor
-import com.tony.feign.interceptor.NetworkInterceptor
+import com.tony.feign.FeignTargeter
+import com.tony.feign.codec.DefaultErrorDecoder
+import com.tony.feign.interceptor.GlobalRequestInterceptorProvider
+import com.tony.feign.interceptor.GlobalResponseInterceptorProvider
+import com.tony.feign.interceptor.UnwrapResponseInterceptor
 import com.tony.feign.log.DefaultFeignRequestTraceLogger
 import com.tony.feign.log.FeignLogInterceptor
 import com.tony.feign.log.FeignRequestTraceLogger
+import com.tony.feign.okhttp.interceptor.AppInterceptor
+import com.tony.feign.okhttp.interceptor.NetworkInterceptor
 import com.tony.misc.YamlPropertySourceFactory
+import feign.ResponseInterceptor
 import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
@@ -26,6 +28,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer
+import org.springframework.cloud.openfeign.support.SpringDecoder
 import org.springframework.cloud.openfeign.support.SpringEncoder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -50,7 +53,7 @@ public class FeignConfig {
     internal fun decoder(
         messageConverters: ObjectFactory<HttpMessageConverters>,
         customizers: ObjectProvider<HttpMessageConverterCustomizer>,
-    ): Decoder = UnwrapResponseDecoder(messageConverters, customizers)
+    ): Decoder = SpringDecoder(messageConverters, customizers)
 
     @ConditionalOnMissingBean(ErrorDecoder::class)
     @Bean
@@ -67,9 +70,18 @@ public class FeignConfig {
         feignRequestTraceLogger: FeignRequestTraceLogger,
     ) = FeignLogInterceptor(feignRequestTraceLogger)
 
-    @ConditionalOnMissingBean(GlobalHeaderInterceptor::class)
     @Bean
-    internal fun globalHeaderInterceptor() = DefaultGlobalHeaderInterceptor()
+    internal fun defaultGlobalResponseInterceptor(): GlobalResponseInterceptorProvider<ResponseInterceptor> =
+        GlobalResponseInterceptorProvider(UnwrapResponseInterceptor())
+
+    @Bean
+    internal fun feignTargeter(
+        globalRequestInterceptors: List<GlobalRequestInterceptorProvider<*>>,
+        globalResponseInterceptors: List<GlobalResponseInterceptorProvider<*>>,
+    ) = FeignTargeter(
+        globalRequestInterceptors.map { it.getObject() },
+        globalResponseInterceptors.map { it.getObject() }
+    )
 
     @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
     @ConditionalOnMissingBean(OkHttpClient::class)

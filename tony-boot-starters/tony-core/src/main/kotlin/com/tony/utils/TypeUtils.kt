@@ -104,7 +104,7 @@ public fun Class<*>.isStringLikeType(): Boolean =
 /**
  * 检查 是否列表或数组类型
  */
-public fun Class<*>.isCollectionLike(): Boolean =
+public fun Class<*>.isArrayLikeType(): Boolean =
     this.isTypeOrSubTypeOf(Collection::class.java) ||
         this::class.java.isArray ||
         this.isArray

@@ -1,10 +1,9 @@
-package com.tony.feign.decoder
+package com.tony.feign.codec
 
 import com.tony.exception.ApiException
 import feign.FeignException
 import feign.Response
 import feign.codec.ErrorDecoder
-import java.lang.Exception
 
 /**
  * Feign 错误默认解析器.

@@ -3,20 +3,15 @@ package com.tony.web.advice
 import com.tony.ApiProperty
 import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
-import com.tony.ApiResultLike
 import com.tony.ListResult
-import com.tony.fromInternalHeaderName
+import com.tony.misc.notSupportResponseWrapClasses
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
-import com.tony.utils.doIf
-import com.tony.utils.isCollectionLike
+import com.tony.utils.isArrayLikeType
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.web.WebApp
 import com.tony.web.WebContext
-import com.tony.wrapResponseHeaderName
-import java.time.temporal.TemporalAccessor
 import java.util.Collections
-import java.util.Date
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter
@@ -42,45 +37,25 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         selectedConverterType: Class<out HttpMessageConverter<*>>,
         request: ServerHttpRequest,
         response: ServerHttpResponse,
-    ): ApiResult<*> {
-        request.headers.containsKey(fromInternalHeaderName).doIf {
-            response.headers.add(wrapResponseHeaderName, "true")
-        }
-        return when {
+    ): ApiResult<*> =
+        when {
             body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
-            !body::class.java.isCollectionLike() -> ApiResult(body, ApiProperty.okCode)
+            !body::class.java.isArrayLikeType() -> ApiResult(body, ApiProperty.okCode)
             else -> if (body::class.java.isArray) {
                 ApiResult(toListResult(body), ApiProperty.okCode)
             } else {
                 ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.okCode)
             }
         }
-    }
 
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
     ) = !WebContext.url.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
         converterType.isTypesOrSubTypesOf(MappingJackson2HttpMessageConverter::class.java) &&
-        !returnType.parameterType.isTypesOrSubTypesOf(*notSupportClasses)
+        !returnType.parameterType.isTypesOrSubTypesOf(*notSupportResponseWrapClasses)
 
     private companion object Utils {
-
-        @JvmStatic
-        private val notSupportClasses: Array<Class<*>?> = arrayOf(
-            ApiResultLike::class.java,
-            Number::class.java,
-            Enum::class.java,
-            Date::class.java,
-            TemporalAccessor::class.java,
-            // because converterType is StringHttpMessageConverter
-            /*java.lang.CharSequence::class.java,
-            CharSequence::class.java,*/
-            Char::class.javaObjectType,
-            Char::class.javaPrimitiveType,
-            Boolean::class.javaObjectType,
-            Boolean::class.javaPrimitiveType
-        )
 
         @JvmStatic
         private fun toListResult(body: Any?) = when (body) {

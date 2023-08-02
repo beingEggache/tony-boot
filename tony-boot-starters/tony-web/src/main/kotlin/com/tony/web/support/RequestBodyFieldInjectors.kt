@@ -3,7 +3,7 @@
 package com.tony.web.support
 
 import com.tony.annotation.web.support.InjectEmptyIfNull.Companion.DEFAULT_EMPTY
-import com.tony.utils.isCollectionLike
+import com.tony.utils.isArrayLikeType
 import com.tony.utils.isNumberTypes
 import com.tony.utils.isStringLikeType
 import com.tony.utils.isTypesOrSubTypesOf
@@ -22,7 +22,7 @@ internal class IfNullRequestBodyFieldInjector : RequestBodyFieldInjector(DEFAULT
     private val logger = LoggerFactory.getLogger(IfNullRequestBodyFieldInjector::class.java)
     override fun value(fieldType: Class<*>): Any? = when {
         fieldType.isStringLikeType() -> ""
-        fieldType.isCollectionLike() -> "[]".jsonToObj(fieldType)
+        fieldType.isArrayLikeType() -> "[]".jsonToObj(fieldType)
         !fieldType.isTypesOrSubTypesOf(
             Enum::class.java,
             Date::class.java,

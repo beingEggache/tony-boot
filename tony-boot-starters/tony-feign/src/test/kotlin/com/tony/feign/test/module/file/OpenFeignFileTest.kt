@@ -10,8 +10,7 @@ package com.tony.feign.test.module.file
 
 import com.tony.ApiProperty
 import com.tony.exception.BizException
-import com.tony.feign.misc.ByteArrayMultipartFile
-import com.tony.feign.test.module.file.client.OpenFeignTestFileClient
+import com.tony.feign.multipart.ByteArrayMultipartFile
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
@@ -21,7 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import java.nio.file.Files
 import java.nio.file.Paths
 
-@SpringBootTest(classes = [com.tony.feign.test.module.file.OpenFeignTestFileApp::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = [OpenFeignTestFileApp::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class OpenFeignFileTest {
 
     @Resource

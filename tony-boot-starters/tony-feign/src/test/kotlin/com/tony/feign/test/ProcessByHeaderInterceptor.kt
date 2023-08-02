@@ -1,7 +1,7 @@
 package com.tony.feign.test
 
 import com.tony.SpringContexts
-import com.tony.feign.interceptor.AppInterceptor
+import com.tony.feign.okhttp.interceptor.AppInterceptor
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response

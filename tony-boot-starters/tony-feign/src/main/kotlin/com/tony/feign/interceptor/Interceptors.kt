@@ -1,76 +1,91 @@
-/**
- * Interceptors
- *
- * @author tangli
- * @since 2021/12/16 10:15
- */
 package com.tony.feign.interceptor
 
-import com.tony.fromInternalHeaderName
-import com.tony.traceIdHeaderName
-import com.tony.utils.mdcPutOrGetDefault
-import okhttp3.Headers
-import okhttp3.Interceptor
-import okhttp3.Response
+import com.tony.ApiProperty
+import com.tony.ApiResult
+import com.tony.ApiResultLike
+import com.tony.ListResult
+import com.tony.exception.ApiException
+import com.tony.misc.notSupportResponseWrapClasses
+import com.tony.utils.isArrayLikeType
+import com.tony.utils.isTypesOrSubTypesOf
+import com.tony.utils.jsonNode
+import com.tony.utils.jsonToObj
+import com.tony.utils.rawClass
+import com.tony.utils.toJavaType
+import feign.InvocationContext
+import feign.RequestInterceptor
+import feign.ResponseInterceptor
+import java.util.Locale
+import org.springframework.beans.factory.ObjectProvider
 
 /**
- * okhttp网络层拦截器.
+ * Global request interceptor provider.
  *
- * 会暴露出 [Interceptor.Chain.connection]
+ * 用这个避免自动注册.
  *
+ * @param T
+ * @property obj
  * @author tangli
- * @since 2023/5/25 15:45
+ * @since 2023/08/02 21:00
  */
-public interface NetworkInterceptor : Interceptor
-
-/**
- * okhttp应用层拦截器.
- *
- * @author tangli
- * @since 2023/5/25 15:47
- */
-public interface AppInterceptor : Interceptor
-
-/**
- * okhttp 全局请求头拦截器
- *
- * @author tangli
- * @since 2023/7/4 17:54
- */
-public interface GlobalHeaderInterceptor : AppInterceptor {
-    public fun headers(): MutableMap<String, String>
-
-    private fun internalHeaders(): MutableMap<String, String> = mutableMapOf(
-        fromInternalHeaderName to "true",
-        traceIdHeaderName to mdcPutOrGetDefault(traceIdHeaderName)
-    ).apply {
-        putAll(headers())
-    }
-
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val internalHeaders = internalHeaders()
-            .entries
-            .fold(Headers.Builder()) { headerBuilder, entry ->
-                headerBuilder.add(entry.key, entry.value)
-                headerBuilder
-            }
-            .build()
-        val request = chain.request()
-
-        val headers = request
-            .headers
-            .newBuilder()
-            .addAll(internalHeaders)
-            .build()
-
-        val newRequest = request
-            .newBuilder()
-            .headers(headers)
-            .build()
-        return chain.proceed(newRequest)
-    }
+public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
+    private val obj: T,
+) : ObjectProvider<T> {
+    override fun getObject(vararg args: Any?): T = obj
+    override fun getObject(): T = obj
+    override fun getIfAvailable(): T = obj
+    override fun getIfUnique(): T = obj
 }
 
-internal class DefaultGlobalHeaderInterceptor : GlobalHeaderInterceptor {
-    override fun headers(): MutableMap<String, String> = mutableMapOf()
+internal class UnwrapResponseInterceptor : ResponseInterceptor {
+    override fun aroundDecode(invocationContext: InvocationContext): Any {
+        val returnType = invocationContext.returnType()
+        val returnJavaType = returnType.toJavaType()
+        val returnRawClass = returnType.rawClass()
+
+        if (returnRawClass.isTypesOrSubTypesOf(*notSupportResponseWrapClasses)) {
+            return invocationContext.proceed()
+        }
+
+        val jsonNode = invocationContext.response().body().asInputStream().jsonNode()
+        val message = jsonNode.get(ApiResultLike<*>::getMessage.name.lTrimAndDecapitalize()).asText()
+        val code = jsonNode.get(ApiResultLike<*>::getCode.name.lTrimAndDecapitalize()).asInt()
+
+        if (code != ApiProperty.okCode) {
+            throw ApiException(message, code)
+        }
+
+        val dataJsonNode = jsonNode.get(ApiResult<*>::getData.name.lTrimAndDecapitalize())
+        if (returnRawClass.isArrayLikeType()) {
+            val itemFieldName = ListResult<*>::getItems.name.lTrimAndDecapitalize()
+            return dataJsonNode.get(itemFieldName).toString().jsonToObj(returnJavaType)
+        }
+
+        return dataJsonNode.toString().jsonToObj(returnJavaType)
+    }
+
+    private fun String.lTrimAndDecapitalize(): String = this.substring(3)
+        .replaceFirstChar { it.lowercase(Locale.getDefault()) }
+}
+
+/**
+ * Global response interceptor provider.
+ *
+ * 用这个避免自动注册.
+ *
+ * @param T
+ * @property obj
+ * @author tangli
+ * @since 2023/08/02 21:00
+ */
+public class GlobalResponseInterceptorProvider<T : ResponseInterceptor>(
+    private val obj: T,
+) : ObjectProvider<T> {
+    override fun getObject(vararg args: Any?): T = obj
+
+    override fun getObject(): T = obj
+
+    override fun getIfAvailable(): T = obj
+
+    override fun getIfUnique(): T = obj
 }
