@@ -38,7 +38,7 @@ internal fun <T> genMd5UpperCaseSign(obj: T, vararg params: Pair<String, Any?>):
 }
 
 public fun <T : WechatResp> T.check(): T {
-    if (!success()) {
+    if (!success) {
         throw WechatException("errcode: $errCode, errmsg: $errMsg")
     }
     return this

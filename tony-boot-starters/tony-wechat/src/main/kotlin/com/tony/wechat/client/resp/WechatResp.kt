@@ -20,7 +20,8 @@ public open class WechatResp {
     @JsonProperty("errmsg")
     public var errMsg: String? = null
 
-    public fun success(): Boolean = errCode == null || errCode == "0"
+    public val success: Boolean
+        get() = errCode == null || errCode == "0"
 }
 
 public data class WechatApiTokenResp(

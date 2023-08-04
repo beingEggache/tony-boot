@@ -15,15 +15,15 @@ object VersionManagement  {
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.3.1"
     const val mybatisVersion = "3.5.13"
-    const val lettuceCoreVersion = "6.2.4.RELEASE"
+    const val lettuceCoreVersion = "6.2.5.RELEASE"
 
     const val xxlJobVersion = "2.4.0"
 
     const val jacksonVersion = "2.15.2"
 
     const val gsonVersion = "2.10.1"
-    const val fastjsonVersion = "2.0.35"
-    const val nettyVersion = "4.1.94.Final"
+    const val fastjsonVersion = "2.0.38"
+    const val nettyVersion = "4.1.96.Final"
 
     const val reactorVersion = "3.5.8"
     const val reactorKotlinExtensions = "1.2.2"
@@ -33,7 +33,7 @@ object VersionManagement  {
     const val byteBuddyVersion = "1.14.5"
     const val bouncycastleVersion = "1.76"
     const val javaJwtVersion = "4.4.0"
-    const val guavaVersion = "32.1.1-jre"
+    const val guavaVersion = "32.1.2-jre"
 
     const val swaggerV3Version = "2.2.15"
     const val knife4jVersion = "4.2.0"
