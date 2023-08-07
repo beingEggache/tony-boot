@@ -6,7 +6,6 @@ import com.tony.web.crpto.config.WebCryptoProperties
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.lang.reflect.Type
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpHeaders
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAd
  * @author tangli
  * @since 2023/05/26 16:53
  */
-@ConditionalOnExpression("\${web.crypto.enabled:false}")
 @RestControllerAdvice
 internal class DecryptRequestBodyAdvice(
     internal val webCryptoProperties: WebCryptoProperties,

@@ -2,6 +2,7 @@ import com.tony.buildscript.Deps
 import com.tony.buildscript.KaptDeps
 import com.tony.buildscript.VersionManagement
 import com.tony.buildscript.addDepsManagement
+import com.tony.buildscript.addTestDependencies
 import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
@@ -91,6 +92,11 @@ configure(subprojects) {
         add("kapt", KaptDeps.Spring.contextIndexer)
 
         add("kaptTest", KaptDeps.Spring.contextIndexer)
+        addTestDependencies()
+    }
+
+    tasks.named<Test>("test") {
+        useJUnitPlatform()
     }
 
     configure<KaptExtension> {

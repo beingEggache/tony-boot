@@ -89,9 +89,10 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
     @Bean
-    internal fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice = WrapResponseBodyAdvice().apply {
-        getLogger(WrapResponseBodyAdvice::class.java.name).info("Response wrap is enabled")
-    }
+    internal fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice =
+        WrapResponseBodyAdvice().apply {
+            getLogger(WrapResponseBodyAdvice::class.java.name).info("Response wrap is enabled")
+        }
 
     @Bean
     internal fun exceptionHandler() = ExceptionHandler()
@@ -228,7 +229,6 @@ internal data class WebProperties
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.cors")
-@ConditionalOnExpression("\${web.cors-enabled:false}")
 public data class WebCorsProperties(
     @DefaultValue("false")
     val enabled: Boolean,

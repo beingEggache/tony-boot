@@ -1,11 +1,9 @@
 import com.tony.buildscript.Deps
-import com.tony.buildscript.addTestDependencies
 import com.tony.buildscript.getProfile
 
 apply(plugin = "kotlin-spring")
 apply(plugin = "com.tony.build.docker")
 dependencies {
-
     val profile = getProfile()
     //while execute gradle task, use -Dprofile=prod
     if (profile == "qa") {
@@ -25,10 +23,4 @@ dependencies {
     implementation(Deps.Template.templateWeb)
 
     implementation(project(":tony-service"))
-
-    addTestDependencies()
-}
-
-tasks.named<Test>("test") {
-    useJUnitPlatform()
 }

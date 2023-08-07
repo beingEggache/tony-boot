@@ -1,7 +1,7 @@
 import com.tony.buildscript.Deps
+
 apply(plugin = "kotlin-spring")
 apply(plugin = "com.tony.build.docker")
-
 dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
@@ -16,8 +16,4 @@ dependencies {
 
     implementation(Deps.Template.templateCore)
     implementation(Deps.Template.templateJwt)
-}
-
-tasks.named<Test>("test") {
-    useJUnitPlatform()
 }

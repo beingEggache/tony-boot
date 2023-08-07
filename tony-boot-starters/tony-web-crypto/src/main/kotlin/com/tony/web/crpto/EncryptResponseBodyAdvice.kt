@@ -4,7 +4,6 @@ import com.tony.annotation.web.crypto.EncryptResponseBody
 import com.tony.crypto.symmetric.encryptToString
 import com.tony.utils.toJsonString
 import com.tony.web.crpto.config.WebCryptoProperties
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.MediaType
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
  * @author tangli
  * @since 2023/05/26 16:53
  */
-@ConditionalOnExpression("\${web.crypto.enabled:false}")
 @RestControllerAdvice
 internal class EncryptResponseBodyAdvice(
     internal val webCryptoProperties: WebCryptoProperties,

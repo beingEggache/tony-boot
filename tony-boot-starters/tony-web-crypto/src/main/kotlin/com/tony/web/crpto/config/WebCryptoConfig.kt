@@ -26,21 +26,19 @@ internal class WebCryptoConfig(
     private val webCryptoProperties: WebCryptoProperties,
 ) {
 
-    private val logger = getLogger(WebCryptoConfig::class.java.name)
+    @ConditionalOnExpression("\${web.crypto.enabled:false}")
+    @Bean
+    internal fun decryptRequestBodyAdvice(): DecryptRequestBodyAdvice =
+        DecryptRequestBodyAdvice(webCryptoProperties).apply {
+            getLogger(this::class.java.name).info("Request body decrypt is enabled.")
+        }
 
     @ConditionalOnExpression("\${web.crypto.enabled:false}")
     @Bean
-    internal fun decryptRequestBodyAdvice(): DecryptRequestBodyAdvice {
-        logger.info("Request body decrypt is enabled.")
-        return DecryptRequestBodyAdvice(webCryptoProperties)
-    }
-
-    @ConditionalOnExpression("\${web.crypto.enabled:false}")
-    @Bean
-    internal fun encryptResponseBodyAdvice(): EncryptResponseBodyAdvice {
-        logger.info("Response body encrypt is enabled.")
-        return EncryptResponseBodyAdvice(webCryptoProperties)
-    }
+    internal fun encryptResponseBodyAdvice(): EncryptResponseBodyAdvice =
+        EncryptResponseBodyAdvice(webCryptoProperties).apply {
+            getLogger(this::class.java.name).info("Response body encrypt is enabled.")
+        }
 }
 
 /**
@@ -51,7 +49,6 @@ internal class WebCryptoConfig(
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.crypto")
-@ConditionalOnExpression("\${web.crypto.enabled:false}")
 internal data class WebCryptoProperties
     @ConstructorBinding
     constructor(

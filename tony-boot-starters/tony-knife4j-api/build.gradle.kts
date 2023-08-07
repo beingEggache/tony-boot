@@ -1,5 +1,4 @@
 import com.tony.buildscript.Deps
-import com.tony.buildscript.addTestDependencies
 
 dependencies {
     api(projects.tonyCore)
@@ -14,7 +13,7 @@ dependencies {
 
     }
     implementation(Deps.SpringBoot.autoconfigure)
-    addTestDependencies()
+
     testImplementation(projects.tonyWeb)
     testImplementation(Deps.Knife4j.openapi3Ui)
     testImplementation("com.alibaba:easyexcel:3.3.2")

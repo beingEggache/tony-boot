@@ -1,6 +1,5 @@
 import com.tony.buildscript.Deps
 dependencies {
-
     api(Deps.Template.templateCore) { isChanging = true }
     implementation(Deps.Other.mysql)
     implementation(Deps.Template.templateId) { isChanging = true }
@@ -16,5 +15,4 @@ dependencies {
     api(project(":tony-dto"))
     api(Deps.Other.mybatisPlusBootStarter)
     api(Deps.Spring.web)
-
 }

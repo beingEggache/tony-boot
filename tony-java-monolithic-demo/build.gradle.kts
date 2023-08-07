@@ -1,5 +1,6 @@
 import com.tony.buildscript.Deps
 import com.tony.buildscript.KaptDeps
+import com.tony.buildscript.addTestDependencies
 import com.tony.buildscript.getProfile
 import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
@@ -43,6 +44,11 @@ configure(subprojects) {
     dependencies {
         add("implementation", platform(Deps.Template.templateDependencies))
         add("annotationProcessor", KaptDeps.Spring.contextIndexer)
+        addTestDependencies()
+    }
+
+    tasks.named<Test>("test") {
+        useJUnitPlatform()
     }
 
     configure<JavaPluginExtension> {
@@ -54,6 +60,7 @@ configure(subprojects) {
         targetCompatibility = javaVersion
         options.encoding = "UTF-8"
         options.isDeprecation = true
+//        options.isVerbose = true
         if (getProfile() != "prod") {
             options.isDebug = true
             options.debugOptions.debugLevel = "vars"
@@ -66,6 +73,7 @@ configure(subprojects) {
         options.compilerArgs = mutableListOf(
 //            "-Xlint:all,-serial,-processing,-classfile,-unchecked",
             "-Xlint:all,-processing,-unchecked",
+            "-Xdoclint:all,-missing",
             "-Werror"
         )
     }
