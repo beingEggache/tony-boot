@@ -7,7 +7,6 @@ import com.tony.utils.sanitizedPath
 import com.tony.utils.toInstant
 import com.tony.utils.uuid
 import com.tony.web.WebApp
-import com.tony.web.config.WebProperties
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
 import com.tony.web.log.RequestTraceLogger
 import com.tony.web.utils.isCorsPreflightRequest
@@ -30,8 +29,15 @@ import org.springframework.web.util.ContentCachingResponseWrapper
  */
 internal class TraceLoggingFilter(
     private val requestTraceLogger: RequestTraceLogger,
-    private val webProperties: WebProperties,
+    traceLogExcludePatterns: List<String>,
 ) : OncePerRequestFilter(), PriorityOrdered {
+
+    private val excludedUrls by lazy {
+        WebApp
+            .responseWrapExcludePatterns
+            .plus(traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") })
+            .plus(WebApp.whiteUrlPatternsWithContextPath)
+    }
 
     @Throws(IOException::class, ServletException::class)
     override fun doFilterInternal(
@@ -77,13 +83,6 @@ internal class TraceLoggingFilter(
 
     override fun shouldNotFilter(request: HttpServletRequest) =
         request.requestURI.antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
-
-    private val excludedUrls by lazy {
-        WebApp
-            .responseWrapExcludePatterns
-            .plus(webProperties.traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") })
-            .plus(WebApp.whiteUrlPatternsWithContextPath)
-    }
 
     override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 2
 }

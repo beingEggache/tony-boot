@@ -27,9 +27,12 @@ internal class WechatConfig {
     private fun initMappingJackson2HttpMessageConverter(
         mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
     ) {
-        val supportedMediaTypes = mappingJackson2HttpMessageConverter.supportedMediaTypes
-        mappingJackson2HttpMessageConverter.supportedMediaTypes =
-            listOf(*supportedMediaTypes.toTypedArray(), MediaType.TEXT_PLAIN)
+        val supportedMediaTypes = mappingJackson2HttpMessageConverter
+            .supportedMediaTypes
+            .toMutableSet()
+            .apply { add(MediaType.TEXT_PLAIN) }
+            .toTypedArray()
+        mappingJackson2HttpMessageConverter.supportedMediaTypes = listOf(*supportedMediaTypes)
     }
 
     @Bean

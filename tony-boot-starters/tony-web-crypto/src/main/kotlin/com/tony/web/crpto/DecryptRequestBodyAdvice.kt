@@ -2,7 +2,8 @@ package com.tony.web.crpto
 
 import com.tony.annotation.web.crypto.DecryptRequestBody
 import com.tony.crypto.symmetric.decryptToBytes
-import com.tony.web.crpto.config.WebCryptoProperties
+import com.tony.crypto.symmetric.enums.CryptoEncoding
+import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.lang.reflect.Type
@@ -10,6 +11,7 @@ import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpInputMessage
+import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -20,17 +22,21 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAd
  * @author tangli
  * @since 2023/05/26 16:53
  */
+@Suppress("SpringJavaInjectionPointsAutowiringInspection")
 @RestControllerAdvice
 internal class DecryptRequestBodyAdvice(
-    internal val webCryptoProperties: WebCryptoProperties,
+    private val algorithm: SymmetricCryptoAlgorithm,
+    private val secret: String,
+    private val encoding: CryptoEncoding,
 ) : PriorityOrdered, RequestBodyAdviceAdapter() {
 
     override fun supports(
         methodParameter: MethodParameter,
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean = methodParameter.hasMethodAnnotation(DecryptRequestBody::class.java) &&
-        methodParameter.hasParameterAnnotation(RequestBody::class.java)
+    ): Boolean =
+        methodParameter.hasMethodAnnotation(DecryptRequestBody::class.java) &&
+            methodParameter.hasParameterAnnotation(RequestBody::class.java)
 
     override fun beforeBodyRead(
         inputMessage: HttpInputMessage,
@@ -41,18 +47,22 @@ internal class DecryptRequestBodyAdvice(
         val bytes = inputMessage
             .body
             .readAllBytes()
-            // application/json 类型给加密字符串多加了双引号.
             .run {
-                copyOfRange(1, this.size - 1)
+                // application/json 类型给加密字符串多加了双引号.
+                if (inputMessage.headers.contentType?.includes(MediaType.APPLICATION_JSON) == true) {
+                    copyOfRange(1, this.size - 1)
+                } else {
+                    this
+                }
             }
         return DecryptHttpInputMessage(
-            inputMessage.headers,
+            inputMessage.headers.apply { contentType = MediaType.TEXT_PLAIN },
             ByteArrayInputStream(
                 bytes
                     .decryptToBytes(
-                        webCryptoProperties.algorithm,
-                        webCryptoProperties.secret,
-                        webCryptoProperties.encoding
+                        algorithm,
+                        secret,
+                        encoding
                     )
             )
         )

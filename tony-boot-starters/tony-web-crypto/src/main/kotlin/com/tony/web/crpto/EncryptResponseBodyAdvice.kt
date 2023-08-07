@@ -2,8 +2,9 @@ package com.tony.web.crpto
 
 import com.tony.annotation.web.crypto.EncryptResponseBody
 import com.tony.crypto.symmetric.encryptToString
+import com.tony.crypto.symmetric.enums.CryptoEncoding
+import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.toJsonString
-import com.tony.web.crpto.config.WebCryptoProperties
 import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.MediaType
@@ -18,9 +19,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
  * @author tangli
  * @since 2023/05/26 16:53
  */
+@Suppress("SpringJavaInjectionPointsAutowiringInspection")
 @RestControllerAdvice
 internal class EncryptResponseBodyAdvice(
-    internal val webCryptoProperties: WebCryptoProperties,
+    private val algorithm: SymmetricCryptoAlgorithm,
+    private val secret: String,
+    private val encoding: CryptoEncoding,
 ) : PriorityOrdered, ResponseBodyAdvice<Any?> {
 
     override fun supports(
@@ -35,15 +39,15 @@ internal class EncryptResponseBodyAdvice(
         selectedConverterType: Class<out HttpMessageConverter<*>>,
         request: ServerHttpRequest,
         response: ServerHttpResponse,
-    ): Any? {
+    ): String? {
         response.headers.contentType = MediaType.TEXT_PLAIN
         //  这里会有个问题, 加密后的字符串会在前后加上双引号.
         return body
             .toJsonString()
             .encryptToString(
-                webCryptoProperties.algorithm,
-                webCryptoProperties.secret,
-                webCryptoProperties.encoding
+                algorithm,
+                secret,
+                encoding
             )
     }
 

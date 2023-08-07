@@ -66,7 +66,8 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
-    internal fun requestReplaceToRepeatReadFilter() = RequestReplaceToRepeatReadFilter(webProperties)
+    internal fun requestReplaceToRepeatReadFilter() =
+        RequestReplaceToRepeatReadFilter(webProperties.traceLogExcludePatterns)
 
     @Bean
     internal fun traceIdFilter() = TraceIdFilter()
@@ -84,7 +85,7 @@ internal class WebConfig(
         if (webProperties.traceLoggerEnabled && webProperties.traceLogExcludePatterns.isNotEmpty()) {
             logger.info("Request trace log exclude patterns: ${webProperties.traceLogExcludePatterns}")
         }
-        return TraceLoggingFilter(requestTraceLogger, webProperties)
+        return TraceLoggingFilter(requestTraceLogger, webProperties.traceLogExcludePatterns)
     }
 
     @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
@@ -229,17 +230,19 @@ internal data class WebProperties
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.cors")
-public data class WebCorsProperties(
-    @DefaultValue("false")
-    val enabled: Boolean,
-    val allowedOrigins: Set<String> = setOf(),
-    val allowedHeaders: Set<String> = setOf(),
-    val allowedMethods: Set<String> = setOf(),
-    val exposedHeaders: Set<String> = setOf(),
-    val maxAge: Long = Long.MAX_VALUE,
-    @DefaultValue("true")
-    val allowCredentials: Boolean,
-)
+public data class WebCorsProperties
+    @ConstructorBinding
+    constructor(
+        @DefaultValue("false")
+        val enabled: Boolean,
+        val allowedOrigins: Set<String> = setOf(),
+        val allowedHeaders: Set<String> = setOf(),
+        val allowedMethods: Set<String> = setOf(),
+        val exposedHeaders: Set<String> = setOf(),
+        val maxAge: Long = Long.MAX_VALUE,
+        @DefaultValue("true")
+        val allowCredentials: Boolean,
+    )
 
 /**
  * ApiCorsProcessor

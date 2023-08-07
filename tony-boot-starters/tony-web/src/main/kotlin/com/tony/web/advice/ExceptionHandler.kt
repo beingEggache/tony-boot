@@ -8,7 +8,6 @@ import com.tony.web.WebApp.badRequest
 import com.tony.web.WebApp.errorResponse
 import com.tony.web.WebContext
 import com.tony.web.WebContext.toResponse
-import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.ConstraintViolationException
 import org.springframework.boot.web.servlet.error.ErrorController
@@ -37,30 +36,22 @@ internal class ExceptionHandler : ErrorController {
 
     @ExceptionHandler(BizException::class)
     @ResponseBody
-    fun bizException(
-        e: BizException,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) = e.toResponse()
+    fun bizException(e: BizException) = e.toResponse()
 
     @ExceptionHandler(ApiException::class)
     @ResponseBody
-    fun apiException(
-        e: ApiException,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) = run {
-        e.cause?.apply {
-            logger.warn(message, cause)
+    fun apiException(e: ApiException) =
+        run {
+            e.cause?.apply {
+                logger.warn(message, cause)
+            }
+            e.toResponse()
         }
-        e.toResponse()
-    }
 
     @ExceptionHandler(Exception::class)
     @ResponseBody
     fun exception(
         e: Exception,
-        request: HttpServletRequest,
         response: HttpServletResponse,
     ) = run {
         logger.error(e.message, e)
@@ -80,19 +71,13 @@ internal class ExceptionHandler : ErrorController {
 
     @ExceptionHandler(BindException::class)
     @ResponseBody
-    fun bindingResultException(
-        e: BindException,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) = badRequest(bindingResultMessages(e.bindingResult))
+    fun bindingResultException(e: BindException) =
+        badRequest(bindingResultMessages(e.bindingResult))
 
     @ExceptionHandler(ConstraintViolationException::class)
     @ResponseBody
-    fun constraintViolationException(
-        e: ConstraintViolationException,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) = badRequest(e.constraintViolations.first().message)
+    fun constraintViolationException(e: ConstraintViolationException) =
+        badRequest(e.constraintViolations.first().message)
 
     @ExceptionHandler(
         value = [
@@ -102,22 +87,16 @@ internal class ExceptionHandler : ErrorController {
         ]
     )
     @ResponseBody
-    fun badRequestException(
-        e: Exception,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) = run {
-        logger.warn(e.localizedMessage, e)
-        badRequest(ApiProperty.badRequestMsg)
-    }
+    fun badRequestException(e: Exception) =
+        run {
+            logger.warn(e.localizedMessage, e)
+            badRequest(ApiProperty.badRequestMsg)
+        }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun error(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) = when {
+    fun error() = when {
         WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
         WebContext.httpStatus >= 500 -> {
             logger.error(WebContext.errorMessage)
