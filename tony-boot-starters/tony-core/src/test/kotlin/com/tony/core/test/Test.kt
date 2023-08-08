@@ -3,7 +3,6 @@ package com.tony.core.test
 import com.tony.utils.asToNotNull
 import com.tony.utils.println
 import com.tony.utils.toJsonString
-import com.tony.utils.toNumber
 import com.tony.utils.typeParamOfSuperClass
 import java.io.Serializable
 import java.lang.reflect.ParameterizedType
@@ -12,8 +11,6 @@ import java.time.LocalDateTime
 import java.util.Date
 
 fun main() {
-
-
     "adasdasd".toJsonString().println()
 }
 

@@ -4,9 +4,6 @@ import com.tony.annotation.web.crypto.DecryptRequestBody
 import com.tony.crypto.symmetric.decryptToBytes
 import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
-import java.io.ByteArrayInputStream
-import java.io.InputStream
-import java.lang.reflect.Type
 import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpHeaders
@@ -15,20 +12,21 @@ import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter
+import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice
+import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.lang.reflect.Type
 
 /**
  * 将请求体解密, 目前只支持 RequestBody
  * @author tangli
  * @since 2023/05/26 16:53
  */
-@Suppress("SpringJavaInjectionPointsAutowiringInspection")
-@RestControllerAdvice
-internal class DecryptRequestBodyAdvice(
-    private val algorithm: SymmetricCryptoAlgorithm,
-    private val secret: String,
-    private val encoding: CryptoEncoding,
-) : PriorityOrdered, RequestBodyAdviceAdapter() {
+public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice{
+
+    public val algorithm: SymmetricCryptoAlgorithm
+    public val secret: String
+    public val encoding: CryptoEncoding
 
     override fun supports(
         methodParameter: MethodParameter,
@@ -36,7 +34,7 @@ internal class DecryptRequestBodyAdvice(
         converterType: Class<out HttpMessageConverter<*>>,
     ): Boolean =
         methodParameter.hasMethodAnnotation(DecryptRequestBody::class.java) &&
-            methodParameter.hasParameterAnnotation(RequestBody::class.java)
+                methodParameter.hasParameterAnnotation(RequestBody::class.java)
 
     override fun beforeBodyRead(
         inputMessage: HttpInputMessage,
@@ -67,8 +65,23 @@ internal class DecryptRequestBodyAdvice(
             )
         )
     }
-
     override fun getOrder(): Int = PriorityOrdered.HIGHEST_PRECEDENCE
+
+    override fun afterBodyRead(
+        body: Any,
+        inputMessage: HttpInputMessage,
+        parameter: MethodParameter,
+        targetType: Type,
+        converterType: Class<out HttpMessageConverter<*>>
+    ): Any = body
+
+    override fun handleEmptyBody(
+        body: Any?,
+        inputMessage: HttpInputMessage,
+        parameter: MethodParameter,
+        targetType: Type,
+        converterType: Class<out HttpMessageConverter<*>>
+    ): Any?  = body
 
     private class DecryptHttpInputMessage(
         private val httpHeaders: HttpHeaders,
@@ -79,3 +92,10 @@ internal class DecryptRequestBodyAdvice(
         override fun getBody(): InputStream = inputStream
     }
 }
+
+@RestControllerAdvice
+internal class DefaultDecryptRequestBodyAdvice(
+    override val algorithm: SymmetricCryptoAlgorithm,
+    override val secret: String,
+    override val encoding: CryptoEncoding,
+) : DecryptRequestBodyAdvice

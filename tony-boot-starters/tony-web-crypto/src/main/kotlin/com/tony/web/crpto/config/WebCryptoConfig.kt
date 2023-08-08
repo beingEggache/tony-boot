@@ -4,9 +4,12 @@ import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.getLogger
 import com.tony.web.crpto.DecryptRequestBodyAdvice
+import com.tony.web.crpto.DefaultDecryptRequestBodyAdvice
+import com.tony.web.crpto.DefaultEncryptResponseBodyAdvice
 import com.tony.web.crpto.EncryptResponseBodyAdvice
 import jakarta.annotation.Resource
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -45,9 +48,10 @@ internal class WebCryptoConfig(
     }
 
     @ConditionalOnExpression("\${web.crypto.enabled:false}")
+    @ConditionalOnMissingBean(DecryptRequestBodyAdvice::class)
     @Bean
     internal fun decryptRequestBodyAdvice(): DecryptRequestBodyAdvice =
-        DecryptRequestBodyAdvice(
+        DefaultDecryptRequestBodyAdvice(
             webCryptoProperties.algorithm,
             webCryptoProperties.secret,
             webCryptoProperties.encoding
@@ -56,9 +60,10 @@ internal class WebCryptoConfig(
         }
 
     @ConditionalOnExpression("\${web.crypto.enabled:false}")
+    @ConditionalOnMissingBean(EncryptResponseBodyAdvice::class)
     @Bean
     internal fun encryptResponseBodyAdvice(): EncryptResponseBodyAdvice =
-        EncryptResponseBodyAdvice(
+        DefaultEncryptResponseBodyAdvice(
             webCryptoProperties.algorithm,
             webCryptoProperties.secret,
             webCryptoProperties.encoding
