@@ -39,11 +39,3 @@ internal val lockScript: RedisScript<Long> =
  */
 internal val deleteKeyByPatternScript: RedisScript<Long?> =
     RedisScript.of(ClassPathResource("META-INF/scripts/deleteByKeyPatterns.lua"), Long::class.java)
-
-private val QUOTES_CHARS = arrayOf('\'', '\"')
-
-internal fun String.trimQuotes(): String = when {
-    this.length < 2 -> this
-    first() in QUOTES_CHARS && last() in QUOTES_CHARS -> substring(1, this.length - 1)
-    else -> this
-}

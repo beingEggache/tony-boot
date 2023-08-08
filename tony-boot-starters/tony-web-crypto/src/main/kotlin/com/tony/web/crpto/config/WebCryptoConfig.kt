@@ -73,7 +73,6 @@ internal class WebCryptoConfig(
  * @author tangli
  * @since 2023/5/26 17:06
  */
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.crypto")
 internal data class WebCryptoProperties
     @ConstructorBinding

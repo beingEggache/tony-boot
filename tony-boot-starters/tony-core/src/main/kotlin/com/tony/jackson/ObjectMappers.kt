@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.Nulls
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.StreamWriteFeature
+import com.fasterxml.jackson.core.json.JsonWriteFeature
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -42,12 +44,11 @@ public fun ObjectMapper.initialize(): ObjectMapper = apply {
         DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT
     )
     disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-    @Suppress("DEPRECATION")
     enable(
         JsonGenerator.Feature.IGNORE_UNKNOWN,
         JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN,
-        JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS,
-        JsonGenerator.Feature.USE_FAST_DOUBLE_WRITER
+        JsonWriteFeature.WRITE_NUMBERS_AS_STRINGS.mappedFeature(),
+        StreamWriteFeature.USE_FAST_DOUBLE_WRITER.mappedFeature()
     )
     enable(
         JsonParser.Feature.USE_FAST_BIG_NUMBER_PARSER,

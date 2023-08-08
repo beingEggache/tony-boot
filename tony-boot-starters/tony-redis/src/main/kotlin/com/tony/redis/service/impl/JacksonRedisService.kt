@@ -9,7 +9,6 @@ import com.tony.enums.StringEnumCreator
 import com.tony.enums.StringEnumValue
 import com.tony.redis.serializer.SerializerMode
 import com.tony.redis.service.RedisService
-import com.tony.redis.trimQuotes
 import com.tony.utils.asTo
 import com.tony.utils.isNumberTypes
 import com.tony.utils.isStringLikeType
@@ -18,6 +17,7 @@ import com.tony.utils.jsonToObj
 import com.tony.utils.rawClass
 import com.tony.utils.toJsonString
 import com.tony.utils.toNumber
+import com.tony.utils.trimQuotes
 
 internal class JacksonRedisService : RedisService {
 

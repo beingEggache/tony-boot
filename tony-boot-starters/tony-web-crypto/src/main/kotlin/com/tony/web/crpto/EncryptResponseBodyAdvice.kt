@@ -1,10 +1,16 @@
 package com.tony.web.crpto
 
+import com.tony.ApiResultLike
+import com.tony.EncryptApiResult
 import com.tony.annotation.web.crypto.EncryptResponseBody
 import com.tony.crypto.symmetric.encryptToString
 import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.toJsonString
+import com.tony.utils.trimQuotes
+import com.tony.web.WebContext
+import com.tony.web.utils.isTextMediaTypes
+import com.tony.web.utils.parsedMedia
 import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.MediaType
@@ -30,7 +36,8 @@ internal class EncryptResponseBodyAdvice(
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean = returnType.hasMethodAnnotation(EncryptResponseBody::class.java)
+    ): Boolean = returnType.hasMethodAnnotation(EncryptResponseBody::class.java) &&
+        isTextMediaTypes(WebContext.request.parsedMedia)
 
     override fun beforeBodyWrite(
         body: Any?,
@@ -39,11 +46,28 @@ internal class EncryptResponseBodyAdvice(
         selectedConverterType: Class<out HttpMessageConverter<*>>,
         request: ServerHttpRequest,
         response: ServerHttpResponse,
-    ): String? {
-        response.headers.contentType = MediaType.TEXT_PLAIN
-        //  这里会有个问题, 加密后的字符串会在前后加上双引号.
+    ): Any? {
+        if (body != null &&
+            body is ApiResultLike<*>
+        ) {
+            return if (body.success) {
+                EncryptApiResult().apply {
+                    code = body.code
+                    message = body.message
+                    data = body.data.toJsonString()
+                        .encryptToString(
+                            algorithm,
+                            secret,
+                            encoding
+                        )
+                }
+            } else {
+                body
+            }
+        }
         return body
             .toJsonString()
+            .trimQuotes()
             .encryptToString(
                 algorithm,
                 secret,

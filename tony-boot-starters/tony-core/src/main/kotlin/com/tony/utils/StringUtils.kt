@@ -324,3 +324,10 @@ public fun sanitizedPath(input: CharSequence): String =
     duplicateSlash
         .matcher(input)
         .replaceAll("/")
+
+private val QUOTES_CHARS = arrayOf('\'', '\"')
+public fun String.trimQuotes(): String = when {
+    this.length < 2 -> this
+    first() in QUOTES_CHARS && last() in QUOTES_CHARS -> substring(1, this.length - 1)
+    else -> this
+}

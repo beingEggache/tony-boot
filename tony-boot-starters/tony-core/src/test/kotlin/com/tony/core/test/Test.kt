@@ -2,6 +2,7 @@ package com.tony.core.test
 
 import com.tony.utils.asToNotNull
 import com.tony.utils.println
+import com.tony.utils.toJsonString
 import com.tony.utils.toNumber
 import com.tony.utils.typeParamOfSuperClass
 import java.io.Serializable
@@ -11,8 +12,9 @@ import java.time.LocalDateTime
 import java.util.Date
 
 fun main() {
-    "127".toNumber(Byte::class.java).println()
-    127.toNumber(Byte::class.java).println()
+
+
+    "adasdasd".toJsonString().println()
 }
 
 data class Person(
