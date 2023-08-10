@@ -29,7 +29,8 @@ public object WechatManager {
         signature: String,
         nonce: String,
         timestamp: String,
-        app: String = ""): Boolean =
+        app: String = "",
+    ): Boolean =
         DigestUtils.sha1Hex(
             listOf(wechatPropProvider.getToken(app), timestamp, nonce)
                 .sorted()
@@ -41,7 +42,8 @@ public object WechatManager {
         signature: String,
         nonce: String,
         timestamp: String,
-        token: String): Boolean =
+        token: String,
+    ): Boolean =
         DigestUtils.sha1Hex(
             listOf(token, timestamp, nonce)
                 .sorted()
@@ -70,15 +72,18 @@ public object WechatManager {
     @JvmOverloads
     @JvmStatic
     public fun createMenu(
-        menu: WechatMenu, app: String = "",
-        accessToken: String? = accessTokenStr(app)): WechatResp =
+        menu: WechatMenu,
+        app: String = "",
+        accessToken: String? = accessTokenStr(app),
+    ): WechatResp =
         wechatClient.createMenu(accessToken, menu).check()
 
     @JvmOverloads
     @JvmStatic
     public fun deleteMenu(
         app: String = "",
-        accessToken: String? = accessTokenStr(app)): WechatResp =
+        accessToken: String? = accessTokenStr(app),
+    ): WechatResp =
         wechatClient.deleteMenu(accessToken).check()
 
     @JvmOverloads

@@ -5,6 +5,7 @@ import com.tony.annotation.EnableTonyBoot
 import com.tony.mybatis.test.db.dao.UserDao
 import com.tony.mybatis.test.db.po.User
 import com.tony.utils.md5Uppercase
+import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.mybatis.spring.annotation.MapperScan
@@ -28,9 +29,8 @@ class MyBatisAppTest {
 
     @Test
     fun testDaoQuery() {
-        val list = userDao.ktQuery().list()
-        println(userDao::class.java)
-        println(list)
+        val list = userDao.ktQuery().isNotNull(User::userName).list()
+        println(list.toJsonString())
     }
 
     @Test

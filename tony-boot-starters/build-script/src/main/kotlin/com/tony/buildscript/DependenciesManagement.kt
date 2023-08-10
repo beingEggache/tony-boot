@@ -209,7 +209,7 @@ internal object DepsManagement {
             "io.projectreactor.kotlin:reactor-kotlin-extensions:${VersionManagement.reactorKotlinExtensions}"
         const val reactorNetty = "io.projectreactor.netty:reactor-netty:${VersionManagement.reactorNettyVersion}"
 
-        const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.1.7"
+        const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.1.8"
 
         const val swaggerV3Core = "io.swagger.core.v3:swagger-core:${VersionManagement.swaggerV3Version}"
         const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations:${VersionManagement.swaggerV3Version}"

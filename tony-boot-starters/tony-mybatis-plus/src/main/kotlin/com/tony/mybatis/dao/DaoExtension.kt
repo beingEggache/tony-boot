@@ -22,6 +22,7 @@ import java.util.function.BiConsumer
 import org.apache.ibatis.logging.Log
 import org.apache.ibatis.logging.LogFactory
 import org.apache.ibatis.session.SqlSession
+import org.apache.ibatis.session.SqlSessionFactory
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 
@@ -97,7 +98,13 @@ internal fun <T : Any, E> BaseDao<T>.executeBatch(
     batchList: Collection<E>,
     consumer: BiConsumer<SqlSession, E>,
 ): Boolean =
-    SqlHelper.executeBatch(getEntityClass(), getLog(), batchList, batchList.size + 1, consumer)
+    SqlHelper.executeBatch(
+        SpringContexts.getBean(SqlSessionFactory::class.java),
+        getLog(),
+        batchList,
+        batchList.size + 1,
+        consumer
+    )
 
 @JvmSynthetic
 public inline fun <reified T> queryObject(sql: String, params: Map<String, Any?> = mapOf()): List<T> =

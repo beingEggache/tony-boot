@@ -4,6 +4,9 @@ import com.tony.annotation.web.crypto.DecryptRequestBody
 import com.tony.crypto.symmetric.decryptToBytes
 import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
+import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.lang.reflect.Type
 import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpHeaders
@@ -13,16 +16,13 @@ import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice
-import java.io.ByteArrayInputStream
-import java.io.InputStream
-import java.lang.reflect.Type
 
 /**
  * 将请求体解密, 目前只支持 RequestBody
  * @author tangli
  * @since 2023/05/26 16:53
  */
-public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice{
+public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
 
     public val algorithm: SymmetricCryptoAlgorithm
     public val secret: String
@@ -34,7 +34,7 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice{
         converterType: Class<out HttpMessageConverter<*>>,
     ): Boolean =
         methodParameter.hasMethodAnnotation(DecryptRequestBody::class.java) &&
-                methodParameter.hasParameterAnnotation(RequestBody::class.java)
+            methodParameter.hasParameterAnnotation(RequestBody::class.java)
 
     override fun beforeBodyRead(
         inputMessage: HttpInputMessage,
@@ -65,6 +65,7 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice{
             )
         )
     }
+
     override fun getOrder(): Int = PriorityOrdered.HIGHEST_PRECEDENCE
 
     override fun afterBodyRead(
@@ -72,7 +73,7 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice{
         inputMessage: HttpInputMessage,
         parameter: MethodParameter,
         targetType: Type,
-        converterType: Class<out HttpMessageConverter<*>>
+        converterType: Class<out HttpMessageConverter<*>>,
     ): Any = body
 
     override fun handleEmptyBody(
@@ -80,8 +81,8 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice{
         inputMessage: HttpInputMessage,
         parameter: MethodParameter,
         targetType: Type,
-        converterType: Class<out HttpMessageConverter<*>>
-    ): Any?  = body
+        converterType: Class<out HttpMessageConverter<*>>,
+    ): Any? = body
 
     private class DecryptHttpInputMessage(
         private val httpHeaders: HttpHeaders,

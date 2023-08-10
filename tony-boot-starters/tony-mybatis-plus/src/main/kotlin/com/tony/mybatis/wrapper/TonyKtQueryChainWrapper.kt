@@ -12,7 +12,7 @@ import com.tony.mybatis.dao.getEntityClass
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
 import java.util.function.Predicate
-import kotlin.reflect.KProperty
+import kotlin.reflect.KMutableProperty1
 import org.apache.ibatis.exceptions.TooManyResultsException
 
 /**
@@ -22,26 +22,22 @@ import org.apache.ibatis.exceptions.TooManyResultsException
  * @author tangli
  * @since 2023/5/25 15:26
  */
+@Suppress("MemberVisibilityCanBePrivate")
 public open class TonyKtQueryChainWrapper<T : Any>(
     private val baseMapper: BaseDao<T>,
-) : AbstractChainWrapper<T, KProperty<*>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
+) : AbstractChainWrapper<T, KMutableProperty1<T, *>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
     ChainQuery<T>,
-    Query<TonyKtQueryChainWrapper<T>, T, String> {
+    Query<TonyKtQueryChainWrapper<T>, T, KMutableProperty1<T, *>> {
 
         init {
-            super.wrapperChildren = TonyKtQueryWrapper(entityClass)
+            super.wrapperChildren = TonyKtQueryWrapper(baseMapper.getEntityClass())
         }
 
-        public constructor(baseMapper: BaseDao<T>, entityClass: Class<T>) : this(baseMapper) {
-            super.wrapperChildren = TonyKtQueryWrapper(entityClass)
-        }
-
-        public constructor(baseMapper: BaseDao<T>, entity: T) : this(baseMapper) {
-            super.wrapperChildren = TonyKtQueryWrapper(entity)
-        }
-
-        override fun select(vararg columns: String): TonyKtQueryChainWrapper<T> {
-            wrapperChildren.select(*columns)
+        override fun select(
+            condition: Boolean,
+            columns: MutableList<KMutableProperty1<T, *>>,
+        ): TonyKtQueryChainWrapper<T> {
+            wrapperChildren.select(condition, columns)
             return typedThis
         }
 
@@ -49,6 +45,15 @@ public open class TonyKtQueryChainWrapper<T : Any>(
             wrapperChildren.select(entityClass, predicate)
             return typedThis
         }
+
+        public fun select(vararg columns: String): TonyKtQueryChainWrapper<T> {
+            wrapperChildren.select(*columns)
+            return typedThis
+        }
+
+        override fun getBaseMapper(): BaseDao<T> = baseMapper
+
+        override fun getEntityClass(): Class<T> = baseMapper.getEntityClass()
 
         /**
          * 查出不可空的单个实体, 为空时抛错.
@@ -146,8 +151,4 @@ public open class TonyKtQueryChainWrapper<T : Any>(
         public fun <E : PageResultLike<T>> pageResult(
             page: JPageQueryLike<*>,
         ): E = baseMapper.selectPageResult(page, wrapper)
-
-        override fun getBaseMapper(): BaseDao<T> = baseMapper
-
-        override fun getEntityClass(): Class<T> = baseMapper.getEntityClass()
     }

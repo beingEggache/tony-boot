@@ -28,17 +28,17 @@ public class TonyLambdaQueryWrapper<T : Any> :
 
     @JvmOverloads
     public constructor(entity: T? = null) {
-        this.entity = entity
-        initNeed()
+        super.setEntity(entity)
+        super.initNeed()
     }
 
-    public constructor(entityClass: Class<T>?) {
-        this.entityClass = entityClass
-        initNeed()
+    public constructor(entityClass: Class<T>) {
+        super.setEntityClass(entityClass)
+        super.initNeed()
     }
 
     internal constructor(
-        entity: T?,
+        entity: T,
         entityClass: Class<T>?,
         sqlSelect: SharedString?,
         paramNameSeq: AtomicInteger?,
@@ -49,11 +49,11 @@ public class TonyLambdaQueryWrapper<T : Any> :
         sqlComment: SharedString?,
         sqlFirst: SharedString?,
     ) {
-        this.entity = entity
-        this.entityClass = entityClass
+        super.setEntity(entity)
+        super.setEntityClass(entityClass)
         this.paramNameSeq = paramNameSeq
         this.paramNameValuePairs = paramNameValuePairs
-        this.expression = mergeSegments
+        expression = mergeSegments
         this.sqlSelect = sqlSelect
         this.paramAlias = paramAlias
         this.lastSql = lastSql
@@ -61,16 +61,11 @@ public class TonyLambdaQueryWrapper<T : Any> :
         this.sqlFirst = sqlFirst
     }
 
-    /**
-     * SELECT 部分 SQL 设置
-     *
-     * @param columns 查询字段
-     */
-    @SafeVarargs
-    override fun select(vararg columns: SFunction<T, *>): TonyLambdaQueryWrapper<T> = apply {
-        if (columns.isNotEmpty()) {
-            sqlSelect?.stringValue = columnsToString(false, *columns)
+    override fun select(condition: Boolean, columns: List<SFunction<T, *>?>): TonyLambdaQueryWrapper<T> {
+        if (condition && columns.isNotEmpty()) {
+            sqlSelect?.setStringValue(columnsToString(false, columns))
         }
+        return typedThis
     }
 
     /**
@@ -91,7 +86,7 @@ public class TonyLambdaQueryWrapper<T : Any> :
      */
     override fun select(entityClass: Class<T>?, predicate: Predicate<TableFieldInfo>): TonyLambdaQueryWrapper<T> {
         this.entityClass = (entityClass ?: this.entityClass).throwIfNull("entityClass can not be null")
-        sqlSelect?.stringValue = TableInfoHelper.getTableInfo(this.entityClass).chooseSelect(predicate)
+        sqlSelect?.setStringValue(TableInfoHelper.getTableInfo(this.entityClass).chooseSelect(predicate))
         return typedThis
     }
 
@@ -105,7 +100,7 @@ public class TonyLambdaQueryWrapper<T : Any> :
     override fun instance(): TonyLambdaQueryWrapper<T> =
         TonyLambdaQueryWrapper(
             entity,
-            entityClass,
+            getEntityClass(),
             null,
             paramNameSeq,
             paramNameValuePairs,
