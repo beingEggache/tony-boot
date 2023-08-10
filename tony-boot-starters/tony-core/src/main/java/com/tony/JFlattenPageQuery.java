@@ -76,7 +76,6 @@ public class JFlattenPageQuery<T> implements JPageQueryLike<T> {
         this.descs = descs;
     }
 
-    @NotNull
     @SuppressWarnings("unchecked")
     @Override
     public T getQuery() {

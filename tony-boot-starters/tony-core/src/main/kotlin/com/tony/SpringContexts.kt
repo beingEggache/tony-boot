@@ -26,7 +26,7 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
     internal object ApplicationContextHolder : ApplicationContextAware {
 
         @JvmStatic
-        lateinit var springContext: ApplicationContext
+        internal lateinit var springContext: ApplicationContext
 
         override fun setApplicationContext(applicationContext: ApplicationContext) {
             springContext = applicationContext
