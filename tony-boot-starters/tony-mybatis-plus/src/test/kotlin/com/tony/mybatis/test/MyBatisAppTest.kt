@@ -4,6 +4,7 @@ import com.tony.SpringContexts
 import com.tony.annotation.EnableTonyBoot
 import com.tony.mybatis.test.db.dao.UserDao
 import com.tony.mybatis.test.db.po.User
+import com.tony.utils.getLogger
 import com.tony.utils.md5Uppercase
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
@@ -27,10 +28,17 @@ class MyBatisAppTest {
     @Resource
     lateinit var userDao: UserDao
 
+    private val logger = getLogger()
+
     @Test
     fun testDaoQuery() {
-        val list = userDao.ktQuery().isNotNull(User::userName).list()
-        println(list.toJsonString())
+
+        val userId = userDao.ktQuery().list().first().userId
+        val oneMap = userDao.ktQuery().eq(User::userId, userId).oneMap()
+        val oneObj = userDao.ktQuery().eq(User::userId, userId).oneObj<String>()
+        logger.info(oneMap.toJsonString())
+        logger.info(oneObj!!::class.java.name)
+        logger.info(oneObj.toJsonString())
     }
 
     @Test

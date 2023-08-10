@@ -9,6 +9,7 @@ import com.tony.JPageQueryLike
 import com.tony.PageResultLike
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
+import com.tony.utils.asToNotNull
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
 import java.util.function.Predicate
@@ -95,17 +96,38 @@ public open class TonyKtQueryChainWrapper<T : Any>(
         }
 
         /**
-         * 根据 Wrapper 条件，查询全部记录
-         * <p>注意： 只返回第一个字段的值</p>
+         * 分页查询出全局统一结构.
+         *
+         * @param E
+         * @param page 全局统一请求分页结构.
+         * @return
          */
-        public fun listObj(): List<Any?> = baseMapper.selectObjs(wrapper)
+        public fun <E : PageResultLike<T>> pageResult(
+            page: JPageQueryLike<*>,
+        ): E = baseMapper.selectPageResult(page, wrapper)
+
+        /**
+         * 根据 Wrapper 条件，查询全部记录.
+         *
+         * 注意： 只返回第一个字段的值.
+         *
+         * @param E
+         * @return
+         */
+        public fun <E> listObj(): List<E?> = baseMapper.selectObjs(wrapper).asToNotNull()
 
         /**
          * 根据 条件，查询一条记录.
-         * 查询一条记录，限制取一条记录, 注意：多条数据会报异常
+         *
+         * 查询一条记录，限制取一条记录, 注意：多条数据会报异常.
+         *
+         * 注意： 只返回第一个字段的值.
+         *
+         * @param E
+         * @return
          */
-        public fun oneObj(): Any? {
-            val list: List<Any?> = listObj()
+        public fun <E> oneObj(): E? {
+            val list: List<E?> = listObj<E>()
             // 抄自 DefaultSqlSession#selectOne
             return if (list.size == 1) {
                 list[0]
@@ -117,6 +139,11 @@ public open class TonyKtQueryChainWrapper<T : Any>(
                 null
             }
         }
+
+        public fun <E> oneObjNotNull(
+            message: String = ApiProperty.notFoundMessage,
+            code: Int = ApiProperty.notFoundCode,
+        ): E = oneObj<E>().throwIfNull(message, code)
 
         /**
          * 根据 Wrapper 条件，查询全部记录
@@ -141,14 +168,8 @@ public open class TonyKtQueryChainWrapper<T : Any>(
             }
         }
 
-        /**
-         * 分页查询出全局统一结构.
-         *
-         * @param E
-         * @param page 全局统一请求分页结构.
-         * @return
-         */
-        public fun <E : PageResultLike<T>> pageResult(
-            page: JPageQueryLike<*>,
-        ): E = baseMapper.selectPageResult(page, wrapper)
+        public fun oneMapNotNull(
+            message: String = ApiProperty.notFoundMessage,
+            code: Int = ApiProperty.notFoundCode,
+        ): Map<String, Any?> = oneMap().throwIfNull(message, code)
     }
