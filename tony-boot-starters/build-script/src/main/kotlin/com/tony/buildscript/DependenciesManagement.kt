@@ -183,7 +183,7 @@ internal object DepsManagement {
         const val javaJwt = "com.auth0:java-jwt:${VersionManagement.javaJwtVersion}"
 
         const val postgresql = "org.postgresql:postgresql:${VersionManagement.postgresqlVersion}"
-        const val mysql = "mysql:mysql-connector-java:${VersionManagement.mysqlVersion}"
+        const val mysql = "com.mysql:mysql-connector-j:${VersionManagement.mysqlVersion}"
         const val HikariCP = "com.zaxxer:HikariCP:${VersionManagement.hikariCPVersion}"
 
         const val xxlJob = "com.xuxueli:xxl-job-core:${VersionManagement.xxlJobVersion}"

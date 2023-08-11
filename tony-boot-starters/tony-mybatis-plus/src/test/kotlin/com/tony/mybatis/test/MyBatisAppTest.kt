@@ -1,5 +1,7 @@
 package com.tony.mybatis.test
 
+import com.tony.JPageQuery
+import com.tony.PageResult
 import com.tony.SpringContexts
 import com.tony.annotation.EnableTonyBoot
 import com.tony.mybatis.test.db.dao.UserDao
@@ -35,20 +37,22 @@ class MyBatisAppTest {
 
         val userId = userDao.ktQuery().list().first().userId
         val oneMap = userDao.ktQuery().eq(User::userId, userId).oneMap()
-        val oneObj = userDao.ktQuery().eq(User::userId, userId).oneObj<String>()
         logger.info(oneMap.toJsonString())
+        val oneObj = userDao.ktQuery().eq(User::userId, userId).oneObj<String>()
         logger.info(oneObj!!::class.java.name)
         logger.info(oneObj.toJsonString())
+        val pageResult = userDao.ktQuery().pageResult<PageResult<User>>(JPageQuery<String>())
+        logger.info(pageResult.toJsonString())
     }
 
     @Test
     fun testDaoInsertBatch() {
         val users = (1..9).map {
             User().apply {
-                val s = "hcy$it"
+                val s = "sxc$it"
                 userName = s
-                realName = "华晨宇$it"
-                mobile = "1398484268$it"
+                realName = "孙笑川$it"
+                mobile = "1398184268$it"
                 pwd = "123456$s".md5Uppercase()
             }
         }

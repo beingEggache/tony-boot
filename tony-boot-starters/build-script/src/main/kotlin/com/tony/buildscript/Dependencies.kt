@@ -185,7 +185,7 @@ object Deps {
         const val javaJwt = "com.auth0:java-jwt"
 
         const val postgresql = "org.postgresql:postgresql"
-        const val mysql = "mysql:mysql-connector-java"
+        const val mysql = "com.mysql:mysql-connector-j"
         const val HikariCP = "com.zaxxer:HikariCP"
 
         const val xxlJob = "com.xuxueli:xxl-job-core"

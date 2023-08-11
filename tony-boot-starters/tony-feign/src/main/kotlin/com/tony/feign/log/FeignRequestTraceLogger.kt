@@ -82,7 +82,7 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             .toMap()
             .mapValues { it.value.joinToString() }
             .entries
-            .joinToString(";") { "${it.key}:${it.value}" }
+            .joinToString(";;") { "${it.key}:${it.value}" }
         val requestBody = request.body?.run {
             if (isTextMediaTypes(parsedMedia)) {
                 string()

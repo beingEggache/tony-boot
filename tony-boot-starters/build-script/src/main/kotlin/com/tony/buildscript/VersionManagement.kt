@@ -11,7 +11,7 @@ object VersionManagement  {
     const val openFeignVersion = "12.4"
 
     const val postgresqlVersion = "42.6.0"
-    const val mysqlVersion = "8.0.33"
+    const val mysqlVersion = "8.1.0"
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.3.2"
     const val mybatisVersion = "3.5.13"
