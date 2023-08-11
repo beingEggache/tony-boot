@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.tony.build.dep-substitute") apply false
+    id("com.tony.build.dep-configurations") apply false
     idea
 }
 
@@ -68,7 +68,7 @@ configure(subprojects) {
         plugin("kotlin-spring")
         plugin("kotlin-kapt")
         plugin("com.tony.build.ktlint")
-        plugin("com.tony.build.dep-substitute")
+        plugin("com.tony.build.dep-configurations")
         plugin("com.tony.build.maven-publish")
         plugin("org.gradle.java-library")
     }

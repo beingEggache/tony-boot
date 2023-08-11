@@ -6,12 +6,7 @@ dependencies {
     api(Deps.Other.swaggerV3Annotaion)
     api(Deps.Other.springdocStarterCommon)
 
-    implementation(Deps.Knife4j.openapi3JakartaSpringBootStarter) {
-        exclude("org.springdoc","springdoc-openapi-starter-webflux-ui")
-        exclude("org.webjars","swagger-ui")
-        exclude("org.webjars","webjars-locator-core")
-
-    }
+    implementation(Deps.Knife4j.openapi3JakartaSpringBootStarter)
     implementation(Deps.SpringBoot.autoconfigure)
 
     testImplementation(projects.tonyWeb)

@@ -51,9 +51,9 @@ repositories {
 
 gradlePlugin {
     plugins {
-        create("com.tony.build.dep-substitute") {
-            id = "com.tony.build.dep-substitute"
-            implementationClass = "com.tony.buildscript.SubstituteDepsPlugin"
+        create("com.tony.build.dep-configurations") {
+            id = "com.tony.build.dep-configurations"
+            implementationClass = "com.tony.buildscript.DependenciesConfigurationsPlugin"
         }
 
         create("com.tony.build.ktlint") {

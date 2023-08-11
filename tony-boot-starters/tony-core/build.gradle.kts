@@ -4,9 +4,7 @@ dependencies {
     api(Deps.Kotlin.stdlib)
 
     api(Deps.Spring.context)
-    api(Deps.SpringBoot.starterLogging) {
-        exclude("org.apache.logging.log4j","log4j-to-slf4j")
-    }
+    api(Deps.SpringBoot.starterLogging)
     api(Deps.Other.validationApi)
     api(Deps.Jackson.datatypeJdk8)
     api(Deps.Jackson.datatypeJsr310)

@@ -1,10 +1,11 @@
 package com.tony.buildscript
 
+import java.util.concurrent.TimeUnit
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import java.util.concurrent.TimeUnit
+import org.gradle.kotlin.dsl.exclude
 
-class SubstituteDepsPlugin : Plugin<Project> {
+class DependenciesConfigurationsPlugin : Plugin<Project> {
 
     private val canReplacedDependencies = mapOf(
         "org.jetbrains.kotlin:kotlin-stdlib-jdk8" to "org.jetbrains.kotlin:kotlin-stdlib:${VersionManagement.kotlinVersion}",
@@ -39,6 +40,15 @@ class SubstituteDepsPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         target.configurations.all {
+
+            exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
+            exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
+            exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk7")
+
+            exclude(group = "org.springdoc", module = "springdoc-openapi-starter-webflux-ui")
+            exclude(group = "org.webjars", module = "swagger-ui")
+            exclude(group = "org.webjars", module = "webjars-locator-core")
+
             resolutionStrategy {
                 //disable cache
                 cacheChangingModulesFor(0, TimeUnit.NANOSECONDS)
