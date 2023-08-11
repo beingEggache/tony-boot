@@ -77,10 +77,18 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val origin = url.origin
         val path = url.path
         val query = url.query.defaultIfBlank("[null]")
-        val headers = request.headers
-            .toMultimap()
-            .toMap()
-            .mapValues { it.value.joinToString() }
+        val requestHeaders = request.headers
+            .names()
+            .associateWith {
+                request.header(it)
+            }
+            .entries
+            .joinToString(";;") { "${it.key}:${it.value}" }
+        val responseHeaders = response.headers
+            .names()
+            .associateWith {
+                response.header(it)
+            }
             .entries
             .joinToString(";;") { "${it.key}:${it.value}" }
         val requestBody = request.body?.run {
@@ -109,7 +117,8 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             |$origin|
             |$path|
             |$query|
-            |$headers|
+            |$requestHeaders|
+            |$responseHeaders|
             |$requestBody|
             |$responseBody|
             |$remoteIp"""

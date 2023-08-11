@@ -51,6 +51,17 @@ public val HttpServletRequest.headers: Map<String, String>
         }
 
 /**
+ * 响应头
+ * @receiver [HttpServletRequest]
+ */
+public val HttpServletResponse.headers: Map<String, String>
+    get() = headerNames
+        .asSequence()
+        .associateWith {
+            getHeaders(it).toList().joinToString(",")
+        }
+
+/**
  * 获取请求ip.
  *
  * 针对反向代理的情况, 会依次从 X-Real-IP, X-Forwarded-For, ip 中获取.

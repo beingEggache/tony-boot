@@ -55,7 +55,7 @@ class SignatureInterceptor : HandlerInterceptor {
         val repeatReadRequestWrapper = request.toRepeatRead()
         val bodyStr = String(repeatReadRequestWrapper.contentAsByteArray)
 
-        val timestampStrFromHeader = request.getHeader("x-timestamp")
+        val timestampStrFromHeader = request.getHeader("X-Timestamp")
         if (timestampStrFromHeader.isNullOrBlank()) {
             logger.warn("Check signature: timestamp from  is null or blank.")
             throw SignInvalidException("验签失败")
@@ -79,7 +79,7 @@ class SignatureInterceptor : HandlerInterceptor {
             throw SignInvalidException("签名已过期")
         }
 
-        val appId = request.getHeader("x-app-id")
+        val appId = request.getHeader("X-App-Id")
         if (appId.isNullOrBlank()) {
             logger.warn("Check signature: appId from header is null or blank.")
             throw SignInvalidException("验签失败")
@@ -88,7 +88,7 @@ class SignatureInterceptor : HandlerInterceptor {
         // TODO
         val secret = "secret"
 
-        val signatureRemote = request.getHeader("x-signature")
+        val signatureRemote = request.getHeader("X-Signature")
         val signatureLocal = bodyStr.sortRequestBody(timestampStrFromHeader).genSign(appId, secret)
 
         logger.debug("Check signature: request body is {}.", bodyStr)
@@ -122,9 +122,9 @@ class SignatureRequestProcessor : ByHeaderRequestProcessor {
         val sortedJsonStr = requestBody.jsonNode().sortRequestBody(timestampStr)
         val sign = sortedJsonStr.genSign(appId, secret)
         return request.newBuilder()
-            .addHeader("x-app-id", appId)
-            .addHeader("x-signature", sign)
-            .addHeader("x-timestamp", timestampStr)
+            .addHeader("X-App-Id", appId)
+            .addHeader("X-Signature", sign)
+            .addHeader("X-Timestamp", timestampStr)
             .method(request.method, sortedJsonStr.toRequestBody(requestBody.contentType()))
             .build()
     }
