@@ -70,7 +70,6 @@ configure(subprojects) {
         plugin("com.tony.build.ktlint")
         plugin("com.tony.build.dep-configurations")
         plugin("com.tony.build.maven-publish")
-        plugin("org.gradle.java-library")
     }
 
     configure<JavaPluginExtension> {
