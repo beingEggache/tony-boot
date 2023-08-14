@@ -2,7 +2,7 @@ import com.tony.buildscript.Deps
 
 dependencies {
     api(projects.tonyCore)
-    api(projects.tonyAnnotations)
+    api(projects.tonyInterfaces)
     api(Deps.SpringBoot.starterWeb) {
         exclude("org.springframework.boot", "spring-boot-starter-tomcat")
     }

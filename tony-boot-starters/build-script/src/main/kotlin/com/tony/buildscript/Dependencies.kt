@@ -24,7 +24,7 @@ object Deps {
     object Template {
         const val templateDependencies = "$projectGroup:$projectPrefix-dependencies:${VersionManagement.templateVersion}"
         const val templateCore = "$projectGroup:$projectPrefix-core:${VersionManagement.templateVersion}"
-        const val templateAnnotations = "$projectGroup:$projectPrefix-annotations:${VersionManagement.templateVersion}"
+        const val templateInterfaces = "$projectGroup:$projectPrefix-interfaces:${VersionManagement.templateVersion}"
         const val templateId = "$projectGroup:$projectPrefix-snowflake-id:${VersionManagement.templateVersion}"
         const val templateXxlJob = "$projectGroup:$projectPrefix-xxl-job:${VersionManagement.templateVersion}"
         const val templateWeb = "$projectGroup:$projectPrefix-web:${VersionManagement.templateVersion}"

@@ -2,7 +2,7 @@ import com.tony.buildscript.Deps
 
 dependencies {
     implementation(projects.tonyCore)
-    api(projects.tonyAnnotations)
+    api(projects.tonyInterfaces)
     implementation(Deps.SpringData.starterRedis)
     implementation(Deps.SpringBoot.starterAop)
     implementation(Deps.SpringBoot.starterJson)

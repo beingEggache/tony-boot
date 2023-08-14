@@ -2,9 +2,9 @@ package com.tony.feign.config
 
 import com.tony.feign.FeignTargeter
 import com.tony.feign.codec.DefaultErrorDecoder
-import com.tony.feign.interceptor.GlobalRequestInterceptorProvider
-import com.tony.feign.interceptor.GlobalResponseInterceptorProvider
-import com.tony.feign.interceptor.UnwrapResponseInterceptor
+import com.tony.feign.interceptor.request.GlobalRequestInterceptorProvider
+import com.tony.feign.interceptor.response.GlobalResponseInterceptorProvider
+import com.tony.feign.interceptor.response.UnwrapResponseInterceptor
 import com.tony.feign.log.DefaultFeignRequestTraceLogger
 import com.tony.feign.log.FeignLogInterceptor
 import com.tony.feign.log.FeignRequestTraceLogger

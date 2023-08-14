@@ -26,7 +26,7 @@ rootProject.name = "$projectPrefix-dependencies"
 
 include("$projectPrefix-aliyun-oss")
 include("$projectPrefix-aliyun-sms")
-include("$projectPrefix-annotations")
+include("$projectPrefix-interfaces")
 include("$projectPrefix-web")
 include("$projectPrefix-core")
 include("$projectPrefix-redis")

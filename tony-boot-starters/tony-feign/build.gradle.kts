@@ -2,7 +2,7 @@ import com.tony.buildscript.Deps
 
 dependencies {
     api(projects.tonyCore)
-    api(projects.tonyAnnotations)
+    api(projects.tonyInterfaces)
     api("org.springframework.cloud:spring-cloud-starter-openfeign")
     api("org.springframework.cloud:spring-cloud-starter-loadbalancer")
 

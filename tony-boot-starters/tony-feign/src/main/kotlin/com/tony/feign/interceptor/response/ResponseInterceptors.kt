@@ -1,4 +1,4 @@
-package com.tony.feign.interceptor
+package com.tony.feign.interceptor.response
 
 import com.tony.ApiProperty
 import com.tony.ApiResult
@@ -13,29 +13,9 @@ import com.tony.utils.jsonToObj
 import com.tony.utils.rawClass
 import com.tony.utils.toJavaType
 import feign.InvocationContext
-import feign.RequestInterceptor
 import feign.ResponseInterceptor
 import java.util.Locale
 import org.springframework.beans.factory.ObjectProvider
-
-/**
- * Global request interceptor provider.
- *
- * 用这个避免自动注册.
- *
- * @param T
- * @property obj
- * @author tangli
- * @since 2023/08/02 21:00
- */
-public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
-    private val obj: T,
-) : ObjectProvider<T> {
-    override fun getObject(vararg args: Any?): T = obj
-    override fun getObject(): T = obj
-    override fun getIfAvailable(): T = obj
-    override fun getIfUnique(): T = obj
-}
 
 internal class UnwrapResponseInterceptor : ResponseInterceptor {
     override fun aroundDecode(invocationContext: InvocationContext): Any {
