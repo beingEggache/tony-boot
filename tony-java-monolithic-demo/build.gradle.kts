@@ -42,7 +42,7 @@ configure(subprojects) {
     }
 
     tasks.withType<Javadoc>().configureEach {
-//        this.enabled = false
+        this.enabled = false
      }
 
     configure<JavaPluginExtension> {
