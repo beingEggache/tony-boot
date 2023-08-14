@@ -6,7 +6,6 @@ import com.tony.buildscript.addTestDependencies
 import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -72,8 +71,8 @@ configure(subprojects) {
         plugin("com.tony.build.maven-publish")
     }
 
-    configure<JavaPluginExtension> {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    tasks.withType<Javadoc>().configureEach {
+        this.enabled = false
     }
 
     configure<KotlinJvmProjectExtension> {
@@ -81,35 +80,6 @@ configure(subprojects) {
             languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         }
         explicitApi()
-    }
-
-    dependencies {
-        add("implementation", platform(rootProject))
-
-        add("kapt", KaptDeps.SpringBoot.configurationProcessor)
-        add("kapt", KaptDeps.SpringBoot.autoconfigureProcessor)
-        add("kapt", KaptDeps.Spring.contextIndexer)
-
-        add("kaptTest", KaptDeps.Spring.contextIndexer)
-        addTestDependencies()
-    }
-
-    tasks.named<Test>("test") {
-        useJUnitPlatform()
-    }
-
-    configure<KaptExtension> {
-        generateStubs = false
-        inheritedAnnotations = true
-        useLightAnalysis = true
-        correctErrorTypes = true
-        dumpDefaultParameterValues = true
-        mapDiagnosticLocations = true
-        strictMode = true
-        stripMetadata = true
-        showProcessorStats = true
-        keepJavacAnnotationProcessors = true
-        useBuildCache = true
     }
 
     tasks.withType<KotlinCompile>().configureEach {
@@ -128,5 +98,20 @@ configure(subprojects) {
                 "-Werror",
             )
         }
+    }
+
+    dependencies {
+        add("implementation", platform(rootProject))
+
+        add("kapt", KaptDeps.SpringBoot.configurationProcessor)
+        add("kapt", KaptDeps.SpringBoot.autoconfigureProcessor)
+        add("kapt", KaptDeps.Spring.contextIndexer)
+
+        add("kaptTest", KaptDeps.Spring.contextIndexer)
+        addTestDependencies()
+    }
+
+    tasks.named<Test>("test") {
+        useJUnitPlatform()
     }
 }

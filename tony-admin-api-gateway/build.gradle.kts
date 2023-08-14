@@ -42,18 +42,8 @@ configure(subprojects) {
         plugin("com.tony.build.dep-configurations")
     }
 
-    dependencies {
-        add("implementation", platform(Deps.Template.templateDependencies))
-        add("kapt", KaptDeps.Spring.contextIndexer)
-        addTestDependencies()
-    }
-
-    tasks.named<Test>("test") {
-        useJUnitPlatform()
-    }
-
-    configure<JavaPluginExtension> {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    tasks.withType<Javadoc>().configureEach {
+        this.enabled = false
     }
 
     configure<KotlinJvmProjectExtension> {
@@ -78,5 +68,15 @@ configure(subprojects) {
                 "-Werror",
             )
         }
+    }
+
+    dependencies {
+        add("implementation", platform(Deps.Template.templateDependencies))
+        add("kapt", KaptDeps.Spring.contextIndexer)
+        addTestDependencies()
+    }
+
+    tasks.named<Test>("test") {
+        useJUnitPlatform()
     }
 }

@@ -41,15 +41,9 @@ configure(subprojects) {
         plugin("com.tony.build.dep-configurations")
     }
 
-    dependencies {
-        add("implementation", platform(Deps.Template.templateDependencies))
-        add("annotationProcessor", KaptDeps.Spring.contextIndexer)
-        addTestDependencies()
-    }
-
-    tasks.named<Test>("test") {
-        useJUnitPlatform()
-    }
+    tasks.withType<Javadoc>().configureEach {
+//        this.enabled = false
+     }
 
     configure<JavaPluginExtension> {
         toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
@@ -76,5 +70,15 @@ configure(subprojects) {
             "-Xdoclint:all,-missing",
             "-Werror"
         )
+    }
+
+    dependencies {
+        add("implementation", platform(Deps.Template.templateDependencies))
+        add("annotationProcessor", KaptDeps.Spring.contextIndexer)
+        addTestDependencies()
+    }
+
+    tasks.named<Test>("test") {
+        useJUnitPlatform()
     }
 }
