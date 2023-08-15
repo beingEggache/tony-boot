@@ -5,7 +5,12 @@ import com.tony.feign.interceptor.request.RequestProcessor
 import kotlin.reflect.KClass
 
 /**
- * Feign request add global header
+ * FeignUseGlobalRequestInterceptor.
+ *
+ * When annotated a class, register a global request interceptor.
+ *
+ * Avoiding to auto register.
+ *
  * @author tangli
  * @since 2023/08/02 21:00
  */
@@ -15,7 +20,12 @@ import kotlin.reflect.KClass
 public annotation class FeignUseGlobalRequestInterceptor
 
 /**
- * Feign response unwrap
+ * FeignUseGlobalResponseInterceptor.
+ *
+ * When annotated a class, register a global response interceptor.
+ *
+ * Avoiding to auto register.
+ *
  * @author tangli
  * @since 2023/08/02 21:00
  */
@@ -25,7 +35,7 @@ public annotation class FeignUseGlobalRequestInterceptor
 public annotation class FeignUseGlobalResponseInterceptor
 
 /**
- * Feign global process.
+ * Feign global interceptors.
  *
  * with [FeignUseGlobalRequestInterceptor] and [FeignUseGlobalResponseInterceptor]
  * @author tangli
@@ -38,6 +48,14 @@ public annotation class FeignUseGlobalResponseInterceptor
 @MustBeDocumented
 public annotation class FeignUseGlobalInterceptor
 
+/**
+ * With [FeignUseGlobalRequestInterceptor] to apply processors explicitly.
+ *
+ * Avoiding to auto register.
+ *
+ * @author tangli
+ * @since 2023/8/15 9:59
+ */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented

@@ -13,7 +13,11 @@ import org.springframework.cloud.openfeign.FeignClientFactoryBean
 import org.springframework.cloud.openfeign.Targeter
 
 /**
- * Feign targeter
+ * with [FeignUseGlobalRequestInterceptor] and [FeignUseGlobalResponseInterceptor].
+ *
+ * Register interceptors explicitly.
+ *
+ * Avoiding to auto register.
  *
  * @property globalRequestInterceptors
  * @property globalResponseInterceptors
