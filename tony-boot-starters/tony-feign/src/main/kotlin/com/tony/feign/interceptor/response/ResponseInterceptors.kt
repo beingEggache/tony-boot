@@ -19,6 +19,12 @@ import org.springframework.beans.factory.ObjectProvider
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.MediaType
 
+/**
+ * Unwrap response
+ *
+ * @author tangli
+ * @since 2023/08/02 21:00
+ */
 internal class UnwrapResponseInterceptor : ResponseInterceptor {
     override fun aroundDecode(invocationContext: InvocationContext): Any {
         val returnType = invocationContext.returnType()

@@ -1,5 +1,6 @@
 package com.tony.feign.test.module.targeter_signature.client
 
+import com.tony.annotation.feign.FeignUnwrapResponse
 import com.tony.annotation.feign.FeignUseGlobalInterceptor
 import com.tony.annotation.feign.RequestProcessors
 import com.tony.feign.test.dto.Person
@@ -9,6 +10,7 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 
+@FeignUnwrapResponse
 @FeignUseGlobalInterceptor
 @FeignClient(name = "OpenFeignTestTargeterSignatureClient", url = "http://localhost:9090")
 interface OpenFeignTestTargeterSignatureClient : OpenFeignTestTargeterSignatureApi {

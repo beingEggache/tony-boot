@@ -1,7 +1,9 @@
 package com.tony.feign
 
+import com.tony.annotation.feign.FeignUnwrapResponse
 import com.tony.annotation.feign.FeignUseGlobalRequestInterceptor
 import com.tony.annotation.feign.FeignUseGlobalResponseInterceptor
+import com.tony.feign.interceptor.response.UnwrapResponseInterceptor
 import com.tony.utils.doIf
 import com.tony.utils.hasAnnotation
 import feign.Feign
@@ -36,6 +38,9 @@ public class FeignTargeter(
     ): T {
         val type = target.type()
         return feign
+            .doIf(type.hasAnnotation(FeignUnwrapResponse::class.java)) {
+                responseInterceptor(UnwrapResponseInterceptor())
+            }
             .doIf(type.hasAnnotation(FeignUseGlobalRequestInterceptor::class.java)) {
                 globalRequestInterceptors.forEach { requestInterceptor(it) }
             }

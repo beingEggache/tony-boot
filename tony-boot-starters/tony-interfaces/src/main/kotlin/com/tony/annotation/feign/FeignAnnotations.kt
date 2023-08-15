@@ -35,6 +35,21 @@ public annotation class FeignUseGlobalRequestInterceptor
 public annotation class FeignUseGlobalResponseInterceptor
 
 /**
+ * FeignUnwrapResponse.
+ *
+ * When annotated a class, register a global response interceptor.
+ *
+ * Avoiding to auto register.
+ *
+ * @author tangli
+ * @since 2023/08/02 21:00
+ */
+@Target(AnnotationTarget.CLASS, AnnotationTarget.ANNOTATION_CLASS)
+@Retention(AnnotationRetention.RUNTIME)
+@MustBeDocumented
+public annotation class FeignUnwrapResponse
+
+/**
  * Feign global interceptors.
  *
  * with [FeignUseGlobalRequestInterceptor] and [FeignUseGlobalResponseInterceptor]
