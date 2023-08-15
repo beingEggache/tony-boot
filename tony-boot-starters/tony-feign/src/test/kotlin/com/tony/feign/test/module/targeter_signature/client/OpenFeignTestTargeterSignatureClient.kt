@@ -1,7 +1,7 @@
 package com.tony.feign.test.module.targeter_signature.client
 
 import com.tony.annotation.feign.RequestProcessors
-import com.tony.annotation.web.feign.FeignUseGlobalInterceptor
+import com.tony.annotation.feign.FeignUseGlobalInterceptor
 import com.tony.feign.interceptor.request.BeanType
 import com.tony.feign.test.module.targeter_signature.FeignRequestProcess3
 import com.tony.feign.test.module.targeter_signature.api.OpenFeignTestTargeterSignatureApi

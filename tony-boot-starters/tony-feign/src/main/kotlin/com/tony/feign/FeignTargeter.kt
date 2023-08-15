@@ -1,7 +1,7 @@
 package com.tony.feign
 
-import com.tony.annotation.web.feign.FeignUseGlobalRequestInterceptor
-import com.tony.annotation.web.feign.FeignUseGlobalResponseInterceptor
+import com.tony.annotation.feign.FeignUseGlobalRequestInterceptor
+import com.tony.annotation.feign.FeignUseGlobalResponseInterceptor
 import com.tony.utils.doIf
 import com.tony.utils.hasAnnotation
 import feign.Feign
