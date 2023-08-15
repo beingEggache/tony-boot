@@ -54,4 +54,4 @@ public open class BizException
     constructor(
         override val message: String,
         override val code: Int = ApiProperty.preconditionFailedCode,
-    ) : BaseException(message, code, null)
+    ) : BaseException(message, code)

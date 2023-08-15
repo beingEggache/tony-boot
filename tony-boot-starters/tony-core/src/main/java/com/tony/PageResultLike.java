@@ -1,5 +1,7 @@
 package com.tony;
 
+import com.tony.utils.ObjUtils;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Consumer;
@@ -18,36 +20,42 @@ public interface PageResultLike<T> {
 
     /**
      * items
+     *
      * @return 分页集合.
      */
     Collection<T> getItems();
 
     /**
      * current page.
+     *
      * @return current page.
      */
     long getPage();
 
     /**
      * per page item size.
+     *
      * @return page item size.
      */
     long getSize();
 
     /**
      * total pages
+     *
      * @return page total pages.
      */
     long getPages();
 
     /**
      * total item count
+     *
      * @return total item count.
      */
     long getTotal();
 
     /**
      * has next page
+     *
      * @return has next page.
      */
     boolean getHasNext();
@@ -55,51 +63,52 @@ public interface PageResultLike<T> {
     /**
      * map
      *
-     * @param <R> transform to.
+     * @param <R>       transform to.
      * @param transform transform function.
-     * @see [List.map]
      * @return this.
+     * @see [List.map]
      */
-    default <R> PageResultLike<R> map(Function<T, R> transform) {
+    default <R, E extends PageResultLike<R>> E map(Function<T, R> transform) {
         Collection<T> items = getItems();
         if (items == null || items.isEmpty()) {
             items = Collections.emptyList();
         }
-        return new PageResult<>(
+        return ObjUtils.asToNotNull(new PageResult<>(
             items.stream().map(transform).collect(Collectors.toList()),
             getPage(),
             getSize(),
             getPages(),
             getTotal(),
             getHasNext()
-        );
+        ));
     }
 
     /**
      * onEach
      *
      * @param action on each.
-     * @see [List.onEach]
      * @return this.
+     * @see [List.onEach]
      */
-    default PageResultLike<T> onEach(Consumer<T> action) {
+    default <E extends PageResultLike<T>> E onEach(Consumer<T> action) {
         Collection<T> items = getItems();
         if (items == null || items.isEmpty()) {
             items = Collections.emptyList();
         }
 
-        return new PageResult<>(
+        return ObjUtils.asToNotNull(new PageResult<>(
             items.stream().peek(action).collect(Collectors.toList()),
             getPage(),
             getSize(),
             getPages(),
             getTotal(),
             getHasNext()
-        );
+        ));
     }
 
     /**
      * firstOrNull.
+     *
      * @param predicate predicate.
      * @return first item.
      */

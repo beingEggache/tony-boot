@@ -47,7 +47,7 @@ public fun <T> JPageQueryLike<*>.toPage(): IPage<T> =
  * @param T
  * @return
  */
-public fun <T> IPage<T>?.toPageResult(): PageResultLike<T> =
+public fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
     if (this == null) {
         EMPTY_PAGE_RESULT
     } else {
@@ -56,9 +56,6 @@ public fun <T> IPage<T>?.toPageResult(): PageResultLike<T> =
 
 /**
  * 空分页结构.
- * @param T
  * @return
  */
-public fun <T> emptyPageResult(): PageResultLike<T> = EMPTY_PAGE_RESULT.asToNotNull()
-
 private val EMPTY_PAGE_RESULT: PageResult<*> = PageResult<Nothing>(Collections.emptyList(), 1L, 0L, 0L, 0L, false)

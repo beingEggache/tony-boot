@@ -62,7 +62,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param page 全局统一请求分页结构.
      * @return
      */
-    public fun pageResult(page: JPageQueryLike<*>): PageResultLike<T> =
+    public fun <E : PageResultLike<T>> pageResult(page: JPageQueryLike<*>): E =
         baseMapper.selectPageResult(page, wrapper)
 
     /**

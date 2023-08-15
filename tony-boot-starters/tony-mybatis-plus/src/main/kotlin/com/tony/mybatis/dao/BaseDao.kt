@@ -167,10 +167,10 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param queryWrapper
      * @return
      */
-    public fun selectPageResult(
+    public fun <E : PageResultLike<T>> selectPageResult(
         page: JPageQueryLike<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
-    ): PageResultLike<T> = selectPage(page.toPage(), queryWrapper).toPageResult()
+    ): E = selectPage(page.toPage(), queryWrapper).toPageResult()
 
     /**
      * 以下的方法使用介绍:

@@ -1,7 +1,7 @@
 package com.tony.db.service
 
 import com.tony.JPageQuery
-import com.tony.PageResultLike
+import com.tony.PageResult
 import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
@@ -48,7 +48,7 @@ class UserService(
 
     fun list(
         req: JPageQuery<String>,
-    ): PageResultLike<UserResp> = userDao
+    ): PageResult<UserResp> = userDao
         .query()
         .like(
             !req.query.isNullOrBlank(),
@@ -58,7 +58,7 @@ class UserService(
         .or(!req.query.isNullOrBlank()) {
             it.like(User::realName, req.query)
         }
-        .pageResult(req)
+        .pageResult<PageResult<User>>(req)
         .map { it.toDto() }
 
     fun listRolesByUserId(userId: String?, appId: String) =

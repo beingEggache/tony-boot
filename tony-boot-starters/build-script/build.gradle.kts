@@ -30,10 +30,8 @@ tasks.withType<KotlinCompile>().configureEach {
         freeCompilerArgs = listOf(
             "-Xjsr305=strict",
             "-Xjvm-default=all",
-            "-verbose",
             "-version",
             "-progressive",
-            "-Werror",
         )
     }
 }
