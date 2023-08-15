@@ -23,6 +23,7 @@ import com.tony.JPageQueryLike
 import com.tony.PageResultLike
 import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
+import com.tony.mybatis.wrapper.TonyQueryChainWrapper
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.throwIfNull
 import com.tony.utils.toPage
@@ -194,7 +195,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      *
      * @return QueryWrapper 的包装类
      */
-    public fun query(): TonyKtQueryChainWrapper<T> = TonyKtQueryChainWrapper(this)
+    public fun query(): TonyQueryChainWrapper<T> = TonyQueryChainWrapper(this)
 
     /**
      * 链式查询 lambda 式
