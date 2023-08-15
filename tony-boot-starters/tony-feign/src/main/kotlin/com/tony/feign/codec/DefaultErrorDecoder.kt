@@ -1,7 +1,6 @@
 package com.tony.feign.codec
 
 import com.tony.exception.ApiException
-import feign.FeignException
 import feign.Response
 import feign.codec.ErrorDecoder
 
@@ -12,15 +11,18 @@ import feign.codec.ErrorDecoder
  * @since 2023/5/25 15:44
  */
 public class DefaultErrorDecoder : ErrorDecoder {
+
+    private val default = ErrorDecoder.Default()
     override fun decode(methodKey: String?, response: Response): Exception {
         val status = response.status()
-        return if (status >= 400) {
+        return if (status in 400..<500) {
             val url = response.request().url()
             ApiException(
-                "$methodKey error,status:$status,reason:${response.reason()},url: $url"
+                "$methodKey error,status:$status,reason:${response.reason()},url: $url",
+                status * 100
             )
         } else {
-            FeignException.errorStatus(methodKey, response)
+            default.decode(methodKey, response)
         }
     }
 }

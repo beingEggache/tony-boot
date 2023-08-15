@@ -16,6 +16,8 @@ import feign.InvocationContext
 import feign.ResponseInterceptor
 import java.util.Locale
 import org.springframework.beans.factory.ObjectProvider
+import org.springframework.http.HttpHeaders.CONTENT_TYPE
+import org.springframework.http.MediaType
 
 internal class UnwrapResponseInterceptor : ResponseInterceptor {
     override fun aroundDecode(invocationContext: InvocationContext): Any {
@@ -23,11 +25,13 @@ internal class UnwrapResponseInterceptor : ResponseInterceptor {
         val returnJavaType = returnType.toJavaType()
         val returnRawClass = returnType.rawClass()
 
-        if (returnRawClass.isTypesOrSubTypesOf(*notSupportResponseWrapClasses)) {
+        val response = invocationContext.response()
+        val isJson = response.headers()[CONTENT_TYPE]?.firstOrNull() == MediaType.APPLICATION_JSON_VALUE
+        if (returnRawClass.isTypesOrSubTypesOf(*notSupportResponseWrapClasses) && !isJson) {
             return invocationContext.proceed()
         }
 
-        val jsonNode = invocationContext.response().body().asInputStream().jsonNode()
+        val jsonNode = response.body().asInputStream().jsonNode()
         val message = jsonNode.get(ApiResultLike<*>::getMessage.name.lTrimAndDecapitalize()).asText()
         val code = jsonNode.get(ApiResultLike<*>::getCode.name.lTrimAndDecapitalize()).asInt()
 

@@ -60,7 +60,7 @@ public annotation class FeignUseGlobalInterceptor
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 public annotation class RequestProcessors(
-    val values: Array<Value>,
+    vararg val values: Value,
 ) {
     @Target()
     @Retention(AnnotationRetention.RUNTIME)

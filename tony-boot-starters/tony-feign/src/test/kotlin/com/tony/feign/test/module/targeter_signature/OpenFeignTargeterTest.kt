@@ -1,5 +1,6 @@
 package com.tony.feign.test.module.targeter_signature
 
+import com.tony.feign.test.dto.Person
 import com.tony.feign.test.module.targeter_signature.client.OpenFeignTestTargeterSignatureClient
 import com.tony.utils.getLogger
 import com.tony.utils.println
@@ -23,6 +24,6 @@ class OpenFeignTargeterTest {
     @Test
     fun testWithGlobalInterceptor() {
         val client = openFeignTestTargeterSignatureClient
-        client.boolean().toJsonString().println()
+        client.person(Person(listOf(1, 2, 3).toIntArray(), 123, "432", mapOf("age" to 456))).toJsonString().println()
     }
 }

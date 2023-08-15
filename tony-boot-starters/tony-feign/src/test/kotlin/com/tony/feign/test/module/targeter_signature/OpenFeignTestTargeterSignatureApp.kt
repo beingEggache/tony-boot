@@ -1,39 +1,37 @@
 package com.tony.feign.test.module.targeter_signature
 
 import com.tony.annotation.EnableTonyBoot
+import com.tony.feign.genSign
 import com.tony.feign.interceptor.request.GlobalRequestInterceptorProvider
 import com.tony.feign.interceptor.request.RequestProcessor
 import com.tony.feign.interceptor.request.UseRequestProcessorsRequestInterceptor
+import com.tony.feign.sortRequestBody
+import com.tony.feign.test.SignatureInterceptor
+import com.tony.utils.jsonNode
+import com.tony.utils.toString
 import feign.RequestInterceptor
 import feign.RequestTemplate
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
+import org.springframework.core.PriorityOrdered
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import java.time.LocalDateTime
 
 @EnableFeignClients
 @EnableTonyBoot
 @SpringBootApplication
-class OpenFeignTestTargeterSignatureApp {
+class OpenFeignTestTargeterSignatureApp : WebMvcConfigurer {
 
-    @Bean("feignRequestProcess1")
-    fun feignRequestProcess1(): RequestProcessor {
-        return RequestProcessor { template ->
-            println(1)
-            template.header("X-1", "1")
-        }
-    }
-
-    @Bean("feignRequestProcess2")
-    fun feignRequestProcess2(): RequestProcessor {
-        return RequestProcessor { template ->
-            println(2)
-            template.header("X-2", "2")
-        }
+    override fun addInterceptors(registry: InterceptorRegistry) {
+        registry.addInterceptor(SignatureInterceptor())
+            .order(PriorityOrdered.HIGHEST_PRECEDENCE)
     }
 
     @Bean
-    fun feignRequestProcess3(): FeignRequestProcess3 {
-        return FeignRequestProcess3()
+    fun signatureRequestProcessor(): SignatureRequestProcessor {
+        return SignatureRequestProcessor()
     }
 
     @Bean
@@ -43,9 +41,22 @@ class OpenFeignTestTargeterSignatureApp {
 }
 
 
-class FeignRequestProcess3 : RequestProcessor {
+class SignatureRequestProcessor : RequestProcessor {
     override operator fun invoke(template: RequestTemplate) {
-        println(3)
-        template.header("X-3", "3")
+        val body = template.body()
+        if (body?.isNotEmpty() != true) {
+            return
+        }
+        val appId = "appId"
+        val secret = "secret"
+
+        val timestampStr = LocalDateTime.now().toString("yyyy-MM-dd HH:mm:ss")
+        val sortedJsonStr = body.jsonNode().sortRequestBody(timestampStr)
+        val sign = sortedJsonStr.genSign(appId, secret)
+        template
+            .header("X-App-Id", appId)
+            .header("X-Signature", sign)
+            .header("X-Timestamp", timestampStr)
+            .body(sortedJsonStr)
     }
 }
