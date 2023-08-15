@@ -49,6 +49,12 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
             exclude(group = "org.webjars", module = "swagger-ui")
             exclude(group = "org.webjars", module = "webjars-locator-core")
 
+            exclude(group = "com.google.errorprone", module = "error_prone_annotations")
+            exclude(group = "com.google.guava", module = "listenablefuture")
+            exclude(group = "com.google.j2objc", module = "j2objc-annotations")
+            exclude(group = "com.vaadin.external.google", module = "android-json")
+            exclude(group = "org.checkerframework", module = "checker-qual")
+
             resolutionStrategy {
                 //disable cache
                 cacheChangingModulesFor(0, TimeUnit.NANOSECONDS)

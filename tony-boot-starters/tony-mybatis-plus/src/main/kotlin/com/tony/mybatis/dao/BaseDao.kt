@@ -163,15 +163,14 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 分页查询出全局统一结构.
-     * @param E
      * @param page
      * @param queryWrapper
      * @return
      */
-    public fun <E : PageResultLike<T>> selectPageResult(
+    public fun selectPageResult(
         page: JPageQueryLike<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
-    ): E = selectPage(page.toPage(), queryWrapper).toPageResult()
+    ): PageResultLike<T> = selectPage(page.toPage(), queryWrapper).toPageResult()
 
     /**
      * 以下的方法使用介绍:

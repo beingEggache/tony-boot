@@ -45,10 +45,9 @@ public fun <T> JPageQueryLike<*>.toPage(): IPage<T> =
  *
  * @receiver [IPage]
  * @param T
- * @param E
  * @return
  */
-public fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
+public fun <T> IPage<T>?.toPageResult(): PageResultLike<T> =
     if (this == null) {
         EMPTY_PAGE_RESULT
     } else {
