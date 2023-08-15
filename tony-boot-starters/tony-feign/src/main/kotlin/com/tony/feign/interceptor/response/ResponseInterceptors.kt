@@ -20,12 +20,46 @@ import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.MediaType
 
 /**
+ * Global response interceptor provider.
+ *
+ * 用这个避免自动注册.
+ *
+ * @param T
+ * @property obj
+ * @author tangli
+ * @since 2023/08/02 21:00
+ */
+public class GlobalResponseInterceptorProvider<T : ResponseInterceptor>(
+    private val obj: T,
+) : ObjectProvider<T> {
+    override fun getObject(vararg args: Any?): T = obj
+
+    override fun getObject(): T = obj
+
+    override fun getIfAvailable(): T = obj
+
+    override fun getIfUnique(): T = obj
+}
+
+internal class UnwrapResponseInterceptorProvider(
+    private val obj: UnwrapResponseInterceptor,
+) : ObjectProvider<UnwrapResponseInterceptor> {
+    override fun getObject(vararg args: Any?): UnwrapResponseInterceptor = obj
+
+    override fun getObject(): UnwrapResponseInterceptor = obj
+
+    override fun getIfAvailable(): UnwrapResponseInterceptor = obj
+
+    override fun getIfUnique(): UnwrapResponseInterceptor = obj
+}
+
+/**
  * Unwrap response
  *
  * @author tangli
  * @since 2023/08/02 21:00
  */
-internal class UnwrapResponseInterceptor : ResponseInterceptor {
+public class UnwrapResponseInterceptor : ResponseInterceptor {
     override fun aroundDecode(invocationContext: InvocationContext): Any {
         val returnType = invocationContext.returnType()
         val returnJavaType = returnType.toJavaType()
@@ -56,26 +90,4 @@ internal class UnwrapResponseInterceptor : ResponseInterceptor {
 
     private fun String.lTrimAndDecapitalize(): String = this.substring(3)
         .replaceFirstChar { it.lowercase(Locale.getDefault()) }
-}
-
-/**
- * Global response interceptor provider.
- *
- * 用这个避免自动注册.
- *
- * @param T
- * @property obj
- * @author tangli
- * @since 2023/08/02 21:00
- */
-public class GlobalResponseInterceptorProvider<T : ResponseInterceptor>(
-    private val obj: T,
-) : ObjectProvider<T> {
-    override fun getObject(vararg args: Any?): T = obj
-
-    override fun getObject(): T = obj
-
-    override fun getIfAvailable(): T = obj
-
-    override fun getIfUnique(): T = obj
 }

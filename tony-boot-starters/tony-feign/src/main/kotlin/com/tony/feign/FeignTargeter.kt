@@ -29,6 +29,7 @@ import org.springframework.cloud.openfeign.Targeter
 public class FeignTargeter(
     private val globalRequestInterceptors: List<RequestInterceptor>,
     private val globalResponseInterceptors: List<ResponseInterceptor>,
+    private val unwrapResponseInterceptor: UnwrapResponseInterceptor,
 ) : Targeter {
     override fun <T : Any?> target(
         factory: FeignClientFactoryBean,
@@ -39,7 +40,7 @@ public class FeignTargeter(
         val type = target.type()
         return feign
             .doIf(type.hasAnnotation(FeignUnwrapResponse::class.java)) {
-                responseInterceptor(UnwrapResponseInterceptor())
+                responseInterceptor(unwrapResponseInterceptor)
             }
             .doIf(type.hasAnnotation(FeignUseGlobalRequestInterceptor::class.java)) {
                 globalRequestInterceptors.forEach { requestInterceptor(it) }

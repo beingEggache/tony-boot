@@ -4,6 +4,8 @@ import com.tony.feign.FeignTargeter
 import com.tony.feign.codec.DefaultErrorDecoder
 import com.tony.feign.interceptor.request.GlobalRequestInterceptorProvider
 import com.tony.feign.interceptor.response.GlobalResponseInterceptorProvider
+import com.tony.feign.interceptor.response.UnwrapResponseInterceptor
+import com.tony.feign.interceptor.response.UnwrapResponseInterceptorProvider
 import com.tony.feign.log.DefaultFeignRequestTraceLogger
 import com.tony.feign.log.FeignLogInterceptor
 import com.tony.feign.log.FeignRequestTraceLogger
@@ -69,12 +71,18 @@ public class FeignConfig {
     ) = FeignLogInterceptor(feignRequestTraceLogger)
 
     @Bean
+    internal fun unwrapResponseInterceptorProvider() =
+        UnwrapResponseInterceptorProvider(UnwrapResponseInterceptor())
+
+    @Bean
     internal fun feignTargeter(
         globalRequestInterceptors: List<GlobalRequestInterceptorProvider<*>>,
         globalResponseInterceptors: List<GlobalResponseInterceptorProvider<*>>,
+        unwrapResponseInterceptorProvider: UnwrapResponseInterceptorProvider,
     ) = FeignTargeter(
         globalRequestInterceptors.map { it.getObject() },
-        globalResponseInterceptors.map { it.getObject() }
+        globalResponseInterceptors.map { it.getObject() },
+        unwrapResponseInterceptorProvider.`object`
     )
 
     @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
