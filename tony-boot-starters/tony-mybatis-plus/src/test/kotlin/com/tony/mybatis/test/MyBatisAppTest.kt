@@ -1,6 +1,7 @@
 package com.tony.mybatis.test
 
 import com.tony.JPageQuery
+import com.tony.PageResult
 import com.tony.SpringContexts
 import com.tony.annotation.EnableTonyBoot
 import com.tony.mybatis.test.db.dao.UserDao
@@ -40,7 +41,7 @@ class MyBatisAppTest {
         val oneObj = userDao.ktQuery().eq(User::userId, userId).oneObj<String>()
         logger.info(oneObj!!::class.java.name)
         logger.info(oneObj.toJsonString())
-        val pageResult = userDao.ktQuery().pageResult(JPageQuery<String>())
+        val pageResult = userDao.ktQuery().pageResult<PageResult<User>>(JPageQuery<String>())
         logger.info(pageResult.toJsonString())
     }
 

@@ -89,7 +89,7 @@ class UserService(
         val userId = checkNotNull(req.userId)
         userDao.selectById(userId).throwIfNull("没有此用户")
         userDao
-            .lambdaQuery()
+            .ktQuery()
             .eq(User::userName, req.userName)
             .or()
             .eq(User::mobile, req.mobile)
