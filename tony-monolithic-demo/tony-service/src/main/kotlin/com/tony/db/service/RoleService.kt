@@ -61,7 +61,7 @@ class RoleService(
 
     fun page(query: String?, page: Long = 1, size: Long = 10) =
         roleDao
-            .query()
+            .ktQuery()
             .like(!query.isNullOrBlank(), Role::roleName, query)
             .page(Page(page, size))
 

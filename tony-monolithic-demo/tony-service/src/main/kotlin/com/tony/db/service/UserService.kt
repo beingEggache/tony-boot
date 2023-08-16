@@ -32,7 +32,7 @@ class UserService(
 
     fun login(req: UserLoginReq) =
         userDao
-            .query()
+            .ktQuery()
             .eq(User::userName, req.userName)
             .eq(User::pwd, "${req.pwd}${req.userName}".md5Uppercase())
             .oneNotNull("用户名或密码错误")
@@ -49,7 +49,7 @@ class UserService(
     fun list(
         req: JPageQuery<String>,
     ): PageResult<UserResp> = userDao
-        .query()
+        .ktQuery()
         .like(
             !req.query.isNullOrBlank(),
             User::userName,
