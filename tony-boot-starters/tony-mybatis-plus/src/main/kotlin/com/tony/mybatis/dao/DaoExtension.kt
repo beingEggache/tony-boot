@@ -23,16 +23,12 @@ import org.apache.ibatis.logging.Log
 import org.apache.ibatis.logging.LogFactory
 import org.apache.ibatis.session.SqlSession
 import org.apache.ibatis.session.SqlSessionFactory
-import org.springframework.jdbc.core.BeanPropertyRowMapper
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 
 internal val ENTITY_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
 
 internal val MAPPER_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
 
 internal val LOG_MAP = ConcurrentHashMap<Class<*>, Log>()
-
-public val namedParameterJdbcTemplate: NamedParameterJdbcTemplate by SpringContexts.getBeanByLazy()
 
 internal fun <T : Any> BaseDao<T>.actualClass() =
     if (!Proxy.isProxyClass(this::class.java)) {
@@ -105,11 +101,3 @@ internal fun <T : Any, E> BaseDao<T>.executeBatch(
         batchList.size + 1,
         consumer
     )
-
-@JvmSynthetic
-public inline fun <reified T> queryObject(sql: String, params: Map<String, Any?> = mapOf()): List<T> =
-    namedParameterJdbcTemplate.query(sql, params, BeanPropertyRowMapper(T::class.java))
-
-@JvmOverloads
-public fun <T> queryObject(sql: String, clazz: Class<T>, params: Map<String, Any?> = mapOf()): MutableList<T> =
-    namedParameterJdbcTemplate.query(sql, params, BeanPropertyRowMapper(clazz))

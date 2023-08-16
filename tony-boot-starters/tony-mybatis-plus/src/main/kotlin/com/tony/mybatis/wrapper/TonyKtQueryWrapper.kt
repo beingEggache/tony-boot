@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils
-import com.baomidou.mybatisplus.core.toolkit.StringPool
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache
 import com.baomidou.mybatisplus.extension.kotlin.AbstractKtWrapper
 import java.util.concurrent.atomic.AtomicInteger
@@ -27,11 +26,6 @@ public open class TonyKtQueryWrapper<T : Any> :
      * 查询字段
      */
     private var sqlSelect: SharedString = SharedString()
-
-    public constructor(entity: T) {
-        this.entity = entity
-        super.initNeed()
-    }
 
     public constructor(entityClass: Class<T>) {
         this.entityClass = entityClass
@@ -77,7 +71,7 @@ public open class TonyKtQueryWrapper<T : Any> :
     @SafeVarargs
     public fun select(vararg columns: String): TonyKtQueryWrapper<T> {
         if (ArrayUtils.isNotEmpty(columns)) {
-            sqlSelect.stringValue = columns.joinToString(separator = StringPool.COMMA)
+            sqlSelect.stringValue = columns.joinToString()
         }
         return typedThis
     }

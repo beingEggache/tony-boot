@@ -7,8 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils
-import com.baomidou.mybatisplus.core.toolkit.StringPool
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Predicate
@@ -28,20 +26,9 @@ public open class TonyQueryWrapper<T : Any> :
      */
     private val sqlSelect: SharedString = SharedString()
 
-    public constructor(entity: T) {
-        super.setEntity(entity)
-        super.initNeed()
-    }
-
     public constructor(entityClass: Class<T>) {
         super.setEntityClass(entityClass)
         super.initNeed()
-    }
-
-    public constructor(entity: T, vararg columns: String) {
-        super.setEntity(entity)
-        super.initNeed()
-        this.select(*columns)
     }
 
     /**
@@ -92,8 +79,8 @@ public open class TonyQueryWrapper<T : Any> :
     }
 
     override fun select(condition: Boolean, columns: List<String>): TonyQueryWrapper<T> {
-        if (condition && CollectionUtils.isNotEmpty(columns)) {
-            sqlSelect.setStringValue(java.lang.String.join(StringPool.COMMA, columns))
+        if (condition && columns.isNotEmpty()) {
+            sqlSelect.setStringValue(columns.joinToString())
         }
         return typedThis
     }

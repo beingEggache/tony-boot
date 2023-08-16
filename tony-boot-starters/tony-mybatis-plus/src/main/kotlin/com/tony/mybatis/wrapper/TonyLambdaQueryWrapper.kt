@@ -26,12 +26,6 @@ public class TonyLambdaQueryWrapper<T : Any> :
      */
     private var sqlSelect: SharedString? = SharedString()
 
-    @JvmOverloads
-    public constructor(entity: T? = null) {
-        super.setEntity(entity)
-        super.initNeed()
-    }
-
     public constructor(entityClass: Class<T>) {
         super.setEntityClass(entityClass)
         super.initNeed()
@@ -100,7 +94,7 @@ public class TonyLambdaQueryWrapper<T : Any> :
     override fun instance(): TonyLambdaQueryWrapper<T> =
         TonyLambdaQueryWrapper(
             entity,
-            getEntityClass(),
+            entityClass,
             null,
             paramNameSeq,
             paramNameValuePairs,
