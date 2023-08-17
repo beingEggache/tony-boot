@@ -27,9 +27,9 @@ public open class TonyKtQueryWrapper<T : Any> :
      */
     private var sqlSelect: SharedString = SharedString()
 
-    public constructor(entityClass: Class<T>) {
+    internal constructor(entityClass: Class<T>) {
         this.entityClass = entityClass
-        super.initNeed()
+        this.initNeed()
     }
 
     internal constructor(

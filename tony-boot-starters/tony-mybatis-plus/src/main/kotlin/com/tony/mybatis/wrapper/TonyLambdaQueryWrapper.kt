@@ -26,9 +26,9 @@ public class TonyLambdaQueryWrapper<T : Any> :
      */
     private var sqlSelect: SharedString? = SharedString()
 
-    public constructor(entityClass: Class<T>) {
-        super.setEntityClass(entityClass)
-        super.initNeed()
+    internal constructor(entityClass: Class<T>) {
+        this.entityClass = entityClass
+        this.initNeed()
     }
 
     internal constructor(
@@ -43,11 +43,11 @@ public class TonyLambdaQueryWrapper<T : Any> :
         sqlComment: SharedString?,
         sqlFirst: SharedString?,
     ) {
-        super.setEntity(entity)
-        super.setEntityClass(entityClass)
+        this.entity = entity
+        this.entityClass = entityClass
         this.paramNameSeq = paramNameSeq
         this.paramNameValuePairs = paramNameValuePairs
-        expression = mergeSegments
+        this.expression = mergeSegments
         this.sqlSelect = sqlSelect
         this.paramAlias = paramAlias
         this.lastSql = lastSql

@@ -16,13 +16,14 @@ import kotlin.reflect.KMutableProperty1
  * @since 2023/5/25 15:26
  */
 @Suppress("MemberVisibilityCanBePrivate")
-public open class TonyKtQueryChainWrapper<T : Any>(private val baseMapper: BaseDao<T>) :
+public open class TonyKtQueryChainWrapper<T : Any>
+    internal constructor(private val baseMapper: BaseDao<T>) :
     AbstractChainWrapper<T, KMutableProperty1<T, *>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
     TonyChainQuery<T>,
     Query<TonyKtQueryChainWrapper<T>, T, KMutableProperty1<T, *>> {
 
         init {
-            super.wrapperChildren = TonyKtQueryWrapper(baseMapper.getEntityClass())
+            wrapperChildren = TonyKtQueryWrapper(baseMapper.getEntityClass())
         }
 
         override fun select(

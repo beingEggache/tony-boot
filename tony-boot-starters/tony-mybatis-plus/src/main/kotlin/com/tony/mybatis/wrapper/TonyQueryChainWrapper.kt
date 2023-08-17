@@ -15,13 +15,14 @@ import java.util.function.Predicate
  * @since 2023/5/25 15:26
  */
 @Suppress("MemberVisibilityCanBePrivate")
-public open class TonyQueryChainWrapper<T : Any>(private val baseMapper: BaseDao<T>) :
+public open class TonyQueryChainWrapper<T : Any>
+    internal constructor(private val baseMapper: BaseDao<T>) :
     AbstractChainWrapper<T, String, TonyQueryChainWrapper<T>, TonyQueryWrapper<T>>(),
     TonyChainQuery<T>,
     Query<TonyQueryChainWrapper<T>, T, String> {
 
         init {
-            super.wrapperChildren = TonyQueryWrapper(baseMapper.getEntityClass())
+            wrapperChildren = TonyQueryWrapper(baseMapper.getEntityClass())
         }
 
         override fun select(

@@ -26,9 +26,9 @@ public open class TonyQueryWrapper<T : Any> :
      */
     private val sqlSelect: SharedString = SharedString()
 
-    public constructor(entityClass: Class<T>) {
-        super.setEntityClass(entityClass)
-        super.initNeed()
+    internal constructor(entityClass: Class<T>) {
+        this.entityClass = entityClass
+        this.initNeed()
     }
 
     /**
@@ -47,11 +47,11 @@ public open class TonyQueryWrapper<T : Any> :
         sqlComment: SharedString,
         sqlFirst: SharedString,
     ) {
-        super.setEntity(entity)
-        super.setEntityClass(entityClass)
+        this.entity = entity
+        this.entityClass = entityClass
         this.paramNameSeq = paramNameSeq
         this.paramNameValuePairs = paramNameValuePairs
-        expression = mergeSegments
+        this.expression = mergeSegments
         this.paramAlias = paramAlias
         this.lastSql = lastSql
         this.sqlComment = sqlComment
@@ -66,9 +66,8 @@ public open class TonyQueryWrapper<T : Any> :
     /**
      * 开启检查 SQL 注入
      */
-    public fun checkSqlInjection(): TonyQueryWrapper<T> {
+    public fun checkSqlInjection(): TonyQueryWrapper<T> = apply {
         checkSqlInjection = true
-        return this
     }
 
     protected override fun columnToString(column: String): String {
@@ -91,19 +90,15 @@ public open class TonyQueryWrapper<T : Any> :
         return typedThis
     }
 
-    override fun getSqlSelect(): String {
-        return sqlSelect.stringValue
-    }
+    override fun getSqlSelect(): String = sqlSelect.stringValue
 
     /**
      * 返回一个支持 lambda 函数写法的 wrapper
      */
-    public fun lambda(): TonyLambdaQueryWrapper<T> {
-        return TonyLambdaQueryWrapper(
-            entity, entityClass, sqlSelect, paramNameSeq, paramNameValuePairs,
-            expression, paramAlias, lastSql, sqlComment, sqlFirst
-        )
-    }
+    public fun lambda(): TonyLambdaQueryWrapper<T> = TonyLambdaQueryWrapper(
+        entity, entityClass, sqlSelect, paramNameSeq, paramNameValuePairs,
+        expression, paramAlias, lastSql, sqlComment, sqlFirst
+    )
 
     /**
      * 用于生成嵌套 sql
@@ -112,12 +107,10 @@ public open class TonyQueryWrapper<T : Any> :
      * 故 sqlSelect 不向下传递
      *
      */
-    override fun instance(): TonyQueryWrapper<T> {
-        return TonyQueryWrapper(
-            entity, entityClass, paramNameSeq, paramNameValuePairs, MergeSegments(),
-            paramAlias, SharedString.emptyString(), SharedString.emptyString(), SharedString.emptyString()
-        )
-    }
+    override fun instance(): TonyQueryWrapper<T> = TonyQueryWrapper(
+        entity, entityClass, paramNameSeq, paramNameValuePairs, MergeSegments(),
+        paramAlias, SharedString.emptyString(), SharedString.emptyString(), SharedString.emptyString()
+    )
 
     override fun clear() {
         super.clear()

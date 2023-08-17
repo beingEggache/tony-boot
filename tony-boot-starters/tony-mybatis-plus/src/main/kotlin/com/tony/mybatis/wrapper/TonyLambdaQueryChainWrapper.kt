@@ -21,13 +21,14 @@ import java.util.function.Predicate
  * @author tangli
  * @since 2023/5/25 15:33
  */
-public open class TonyLambdaQueryChainWrapper<T : Any>(private val baseMapper: BaseDao<T>) :
+public open class TonyLambdaQueryChainWrapper<T : Any>
+    internal constructor(private val baseMapper: BaseDao<T>) :
     AbstractChainWrapper<T, SFunction<T, *>, TonyLambdaQueryChainWrapper<T>, TonyLambdaQueryWrapper<T>>(),
     TonyChainQuery<T>,
     Query<TonyLambdaQueryChainWrapper<T>, T, SFunction<T, *>> {
 
         init {
-            super.wrapperChildren = TonyLambdaQueryWrapper(baseMapper.getEntityClass())
+            wrapperChildren = TonyLambdaQueryWrapper(baseMapper.getEntityClass())
         }
 
         override fun select(condition: Boolean, columns: List<SFunction<T, *>?>): TonyLambdaQueryChainWrapper<T> {
