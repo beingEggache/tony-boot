@@ -11,12 +11,6 @@ spring:
 web:
   cors:
     enabled: true
-springdoc:
-  swagger-ui:
-    disable-swagger-default-url: true
-    display-request-duration: true
-  paths-to-exclude:
-    - ${server.error.path:${error.path:/error}}
 jwt:
   secret: 'dsfnn32SDFF&*&#bfds;;,.ks^&3@'
 

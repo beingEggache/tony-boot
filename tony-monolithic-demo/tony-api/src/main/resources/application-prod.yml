@@ -7,6 +7,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     redis:
+      host: "192.168.31.51"
       password: "123456"
 web:
   cors:
