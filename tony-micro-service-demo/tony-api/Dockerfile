@@ -27,13 +27,11 @@ $([ ${ENABLE_GC_LOGS} == 'true' ] && echo -n '\
 -XX:ErrorFile=/logs/hs_err_pid.log \
 -XX:HeapDumpPath=/logs/java_heapdump.hprof \
 -XX:+ExtensiveErrorReports \
--XX:+HeapDumpOnOutOfMemoryError'\
-|| echo -n '') \
+-XX:+HeapDumpOnOutOfMemoryError') \
 $([ ${ENABLE_JVM_LOGS} == 'true' ] && echo -n '\
 -XX:+UnlockDiagnosticVMOptions \
 -XX:LogFile=/logs/hotspot.log \
 -XX:+LogCompilation \
 -XX:+PrintCompilation \
--XX:+PrintInlining'\
-|| echo -n '') \
+-XX:+PrintInlining') \
 org.springframework.boot.loader.JarLauncher"]
