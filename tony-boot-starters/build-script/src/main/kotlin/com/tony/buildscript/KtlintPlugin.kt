@@ -18,7 +18,7 @@ class KtlintPlugin : Plugin<Project> {
             ktlint("com.pinterest:ktlint:0.50.0")
             // ktlint(project(":custom-ktlint-ruleset")) // in case of custom ruleset
         }
-        val outputDir = "${target.buildDir}/reports/ktlint/"
+        val outputDir = "${target.layout.buildDirectory.get()}/reports/ktlint/"
         val inputFiles: ConfigurableFileTree = target.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
 
         target.tasks.register("ktlintCheck", JavaExec::class.java) {

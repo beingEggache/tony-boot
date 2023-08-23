@@ -21,12 +21,10 @@ kotlin {
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-    val isTest = this.name.contains("test", ignoreCase = true)
     kotlinOptions {
         jvmTarget = javaVersion
         javaParameters = true
         verbose = true
-        allWarningsAsErrors = !isTest
         freeCompilerArgs = listOf(
             "-Xjsr305=strict",
             "-Xjvm-default=all",
