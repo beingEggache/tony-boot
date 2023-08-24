@@ -6,7 +6,7 @@ object VersionManagement  {
     const val kotlinVersion = "1.9.10"
 
     const val springVersion = "6.0.11"
-    const val springBootVersion = "3.1.2"
+    const val springBootVersion = "3.1.3"
 
     const val openFeignVersion = "12.4"
 
@@ -15,7 +15,7 @@ object VersionManagement  {
     const val hikariCPVersion = "5.0.1"
     const val mybatisPlusVersion = "3.5.3.2"
     const val mybatisVersion = "3.5.13"
-    const val lettuceCoreVersion = "6.2.5.RELEASE"
+    const val lettuceCoreVersion = "6.2.6.RELEASE"
 
     const val xxlJobVersion = "2.4.0"
 
@@ -23,14 +23,14 @@ object VersionManagement  {
 
     const val gsonVersion = "2.10.1"
     const val fastjsonVersion = "2.0.38"
-    const val nettyVersion = "4.1.96.Final"
+    const val nettyVersion = "4.1.97.Final"
 
-    const val reactorVersion = "3.5.8"
+    const val reactorVersion = "3.5.9"
     const val reactorKotlinExtensions = "1.2.2"
-    const val reactorNettyVersion = "1.1.9"
+    const val reactorNettyVersion = "1.1.10"
     const val slf4jVersion = "2.0.7"
 
-    const val byteBuddyVersion = "1.14.5"
+    const val byteBuddyVersion = "1.14.6"
     const val bouncycastleVersion = "1.76"
     const val javaJwtVersion = "4.4.0"
     const val guavaVersion = "32.1.2-jre"

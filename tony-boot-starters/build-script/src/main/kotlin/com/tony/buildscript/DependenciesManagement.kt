@@ -176,7 +176,7 @@ internal object DepsManagement {
         const val commonsIo = "commons-io:commons-io:2.13.0"
         const val commonsCompress = "org.apache.commons:commons-compress:1.23.0"
         const val commonsPool2 = "org.apache.commons:commons-pool2:2.11.1"
-        const val commonsLang3 = "org.apache.commons:commons-lang3:3.12.0"
+        const val commonsLang3 = "org.apache.commons:commons-lang3:3.13.0"
 
         const val guava = "com.google.guava:guava:${VersionManagement.guavaVersion}"
         const val findbugsJsr305 = "com.google.code.findbugs:jsr305:3.0.2"
@@ -219,7 +219,7 @@ internal object DepsManagement {
         const val springdocStarterCommon = "org.springdoc:springdoc-openapi-starter-common:${VersionManagement.springdocStarterVersion}"
         const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin:${VersionManagement.springdocVersion}"
 
-        const val snakeYaml = "org.yaml:snakeyaml:2.0"
+        const val snakeYaml = "org.yaml:snakeyaml:2.1"
 
         const val yitterIdgenerator = "com.github.yitter:yitter-idgenerator:1.0.6"
         const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"
