@@ -146,7 +146,7 @@ object Deps {
 
     object Test {
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test"
-        const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test"
+        const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test-junit"
         const val springBootStarterTest = "org.springframework.boot:spring-boot-starter-test"
     }
 

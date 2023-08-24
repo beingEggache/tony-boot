@@ -138,7 +138,7 @@ internal object DepsManagement {
 
     object Test {
         const val kotlinTest = "org.jetbrains.kotlin:kotlin-test:${VersionManagement.kotlinVersion}"
-        const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test:${VersionManagement.kotlinVersion}"
+        const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test-junit:${VersionManagement.kotlinVersion}"
         const val springBootStarterTest =
             "org.springframework.boot:spring-boot-starter-test:${VersionManagement.springBootVersion}"
     }
@@ -241,6 +241,6 @@ fun DependencyConstraintHandlerScope.addDepsManagement() {
 }
 
 fun DependencyHandler.addTestDependencies(configuration: String = "testImplementation") {
-    add(configuration, "org.jetbrains.kotlin:kotlin-test")
-    add(configuration, "org.springframework.boot:spring-boot-starter-test")
+    add(configuration, Deps.Test.springBootStarterTest)
+    add(configuration, Deps.Test.kotlinTest)
 }
