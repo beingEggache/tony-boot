@@ -21,7 +21,6 @@ import com.tony.utils.isShortType
 import com.tony.utils.isStringLikeType
 import com.tony.utils.jsonToObj
 import com.tony.utils.secondOfTodayRest
-import com.tony.utils.toJsonString
 import java.math.BigDecimal
 import java.math.BigInteger
 import org.aspectj.lang.JoinPoint
@@ -121,7 +120,7 @@ public class DefaultRedisCacheAspect {
                     )
                 }
             } else {
-                RedisManager.values.set(cacheKey, toCachedValueByType(result, javaType) as Any, timeout)
+                RedisManager.values.set(cacheKey, result, timeout)
             }
             return result
         }
@@ -156,20 +155,6 @@ public class DefaultRedisCacheAspect {
             logger.error(e.message, e)
             throw ApiException(e.message, cause = e)
         }
-    }
-
-    private fun toCachedValueByType(result: Any?, javaType: JavaType): Any? = when {
-        javaType.isStringLikeType() -> result
-        javaType.isByteType() -> result
-        javaType.isShortType() -> result
-        javaType.isIntType() -> result
-        javaType.isLongType() -> result
-        javaType.isFloatType() -> result
-        javaType.isDoubleType() -> result
-        javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> result
-        javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> result
-        javaType.isBooleanType() -> result
-        else -> result.toJsonString()
     }
 
     private fun getCachedEmptyValueByType(javaType: JavaType): String = when {
