@@ -8,34 +8,34 @@ import org.gradle.kotlin.dsl.exclude
 class DependenciesConfigurationsPlugin : Plugin<Project> {
 
     private val canReplacedDependencies = mapOf(
-        "org.jetbrains.kotlin:kotlin-stdlib-jdk8" to "org.jetbrains.kotlin:kotlin-stdlib:${VersionManagement.kotlinVersion}",
-        "org.jetbrains.kotlin:kotlin-stdlib-jdk7" to "org.jetbrains.kotlin:kotlin-stdlib:${VersionManagement.kotlinVersion}",
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8" to "org.jetbrains.kotlin:kotlin-stdlib:${VersionManagement.KOTLIN_VERSION}",
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7" to "org.jetbrains.kotlin:kotlin-stdlib:${VersionManagement.KOTLIN_VERSION}",
 
-        "bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:${VersionManagement.bouncycastleVersion}",
-        "bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.bouncycastleVersion}",
+        "bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:${VersionManagement.BOUNCYCASTLE_VERSION}",
+        "bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.BOUNCYCASTLE_VERSION}",
         "bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
 
-        "org.bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:${VersionManagement.bouncycastleVersion}",
-        "org.bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.bouncycastleVersion}",
+        "org.bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:${VersionManagement.BOUNCYCASTLE_VERSION}",
+        "org.bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.BOUNCYCASTLE_VERSION}",
         "org.bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
 
-        "org.bouncycastle:bcprov-jdk15on" to "org.bouncycastle:bcprov-jdk18on:${VersionManagement.bouncycastleVersion}",
-        "org.bouncycastle:bcmail-jdk15on" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.bouncycastleVersion}",
-        "org.bouncycastle:bcpkix-jdk15on" to "org.bouncycastle:bcpkix-jdk18on:${VersionManagement.bouncycastleVersion}",
+        "org.bouncycastle:bcprov-jdk15on" to "org.bouncycastle:bcprov-jdk18on:${VersionManagement.BOUNCYCASTLE_VERSION}",
+        "org.bouncycastle:bcmail-jdk15on" to "org.bouncycastle:bcmail-jdk18on:${VersionManagement.BOUNCYCASTLE_VERSION}",
+        "org.bouncycastle:bcpkix-jdk15on" to "org.bouncycastle:bcpkix-jdk18on:${VersionManagement.BOUNCYCASTLE_VERSION}",
 
-        "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:${VersionManagement.annotationApiVersion}",
-        "javax.annotation:javax.annotation-api" to "jakarta.annotation:jakarta.annotation-api:${VersionManagement.annotationApiVersion}",
-        "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to "jakarta.annotation:jakarta.annotation-api:${VersionManagement.annotationApiVersion}",
-        "javax.activation:javax.activation-api" to "jakarta.activation:jakarta.activation-api:${VersionManagement.activationApiVersion}",
+        "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:${VersionManagement.ANNOTATION_API_VERSION}",
+        "javax.annotation:javax.annotation-api" to "jakarta.annotation:jakarta.annotation-api:${VersionManagement.ANNOTATION_API_VERSION}",
+        "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to "jakarta.annotation:jakarta.annotation-api:${VersionManagement.ANNOTATION_API_VERSION}",
+        "javax.activation:javax.activation-api" to "jakarta.activation:jakarta.activation-api:${VersionManagement.ACTIVATION_API_VERSION}",
 
-        "javax.el:el-api" to "jakarta.el:jakarta.el-api:${VersionManagement.elApiVersion}",
-        "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:${VersionManagement.elApiVersion}",
+        "javax.el:el-api" to "jakarta.el:jakarta.el-api:${VersionManagement.EL_API_VERSION}",
+        "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:${VersionManagement.EL_API_VERSION}",
         "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:10.1.12",
 
-        "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:${VersionManagement.websocketApiVersion}",
-        "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:${VersionManagement.validationApiVersion}",
-        "javax.xml.bind:jaxb-api" to "jakarta.xml.bind:jakarta.xml.bind-api:${VersionManagement.bindApiVersion}",
-        "commons-logging:commons-logging" to "org.springframework:spring-jcl:${VersionManagement.springVersion}"
+        "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:${VersionManagement.WEBSOCKET_API_VERSION}",
+        "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:${VersionManagement.VALIDATION_API_VERSION}",
+        "javax.xml.bind:jaxb-api" to "jakarta.xml.bind:jakarta.xml.bind-api:${VersionManagement.BIND_API_VERSION}",
+        "commons-logging:commons-logging" to "org.springframework:spring-jcl:${VersionManagement.SPRING_VERSION}"
     )
 
     override fun apply(target: Project) {

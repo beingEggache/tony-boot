@@ -15,7 +15,7 @@ plugins {
 
 configure(allprojects) {
     group = projectGroup
-    version = VersionManagement.templateVersion
+    version = VersionManagement.TEMPLATE_VERSION
     repositories {
         mavenLocal()
 

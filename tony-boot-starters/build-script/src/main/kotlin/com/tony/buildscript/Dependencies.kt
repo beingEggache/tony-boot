@@ -1,4 +1,4 @@
-@file:Suppress("unused", "SpellCheckingInspection")
+@file:Suppress("unused", "SpellCheckingInspection", "ConstPropertyName")
 
 package com.tony.buildscript
 
@@ -9,35 +9,35 @@ object Deps {
 
     object SpringCloudDeps {
         const val springCloudAlibabaDenpendencies =
-            "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${VersionManagement.springCloudAlibabaVersion}"
+            "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${VersionManagement.SPRING_CLOUD_ALIBABA_VERSION}"
         const val springCloudDependencies =
-            "org.springframework.cloud:spring-cloud-dependencies:${VersionManagement.springCloudVersion}"
+            "org.springframework.cloud:spring-cloud-dependencies:${VersionManagement.SPRING_CLOUD_VERSION}"
     }
 
     object Aliyun {
-        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:${VersionManagement.alipaySdkJavaVersion}"
-        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:${VersionManagement.aliyunJavaSdkCoreVersion}"
-        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:${VersionManagement.aliyunSdkOssVersion}"
+        const val alipaySdkJava = "com.alipay.sdk:alipay-sdk-java:${VersionManagement.ALIPAY_SDK_JAVA_VERSION}"
+        const val aliyunJavaSdkCore = "com.aliyun:aliyun-java-sdk-core:${VersionManagement.ALIYUN_JAVA_SDK_CORE_VERSION}"
+        const val aliyunSdkOss = "com.aliyun.oss:aliyun-sdk-oss:${VersionManagement.ALIYUN_SDK_OSS_VERSION}"
         const val aliyunJavaSdkDysmsapi = "com.aliyun:aliyun-java-sdk-dysmsapi:2.2.1"
     }
 
     object Template {
-        const val templateDependencies = "$projectGroup:$projectPrefix-dependencies:${VersionManagement.templateVersion}"
-        const val templateCore = "$projectGroup:$projectPrefix-core:${VersionManagement.templateVersion}"
-        const val templateInterfaces = "$projectGroup:$projectPrefix-interfaces:${VersionManagement.templateVersion}"
-        const val templateId = "$projectGroup:$projectPrefix-snowflake-id:${VersionManagement.templateVersion}"
-        const val templateXxlJob = "$projectGroup:$projectPrefix-xxl-job:${VersionManagement.templateVersion}"
-        const val templateWeb = "$projectGroup:$projectPrefix-web:${VersionManagement.templateVersion}"
-        const val templateKnife4j = "$projectGroup:$projectPrefix-knife4j-api:${VersionManagement.templateVersion}"
-        const val templateJwt = "$projectGroup:$projectPrefix-jwt:${VersionManagement.templateVersion}"
-        const val templateWebAuth = "$projectGroup:$projectPrefix-web-auth:${VersionManagement.templateVersion}"
-        const val templateMybatisPlus = "$projectGroup:$projectPrefix-mybatis-plus:${VersionManagement.templateVersion}"
-        const val templateRedis = "$projectGroup:$projectPrefix-redis:${VersionManagement.templateVersion}"
-        const val templateFeign = "$projectGroup:$projectPrefix-feign:${VersionManagement.templateVersion}"
-        const val templateWechat = "$projectGroup:$projectPrefix-wechat:${VersionManagement.templateVersion}"
-        const val templateAlipay = "$projectGroup:$projectPrefix-alipay:${VersionManagement.templateVersion}"
-        const val templateAliyunOss = "$projectGroup:$projectPrefix-aliyun-oss:${VersionManagement.templateVersion}"
-        const val templateAliyunSms = "$projectGroup:$projectPrefix-aliyun-sms:${VersionManagement.templateVersion}"
+        const val templateDependencies = "$projectGroup:$projectPrefix-dependencies:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateCore = "$projectGroup:$projectPrefix-core:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateInterfaces = "$projectGroup:$projectPrefix-interfaces:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateId = "$projectGroup:$projectPrefix-snowflake-id:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateXxlJob = "$projectGroup:$projectPrefix-xxl-job:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateWeb = "$projectGroup:$projectPrefix-web:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateKnife4j = "$projectGroup:$projectPrefix-knife4j-api:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateJwt = "$projectGroup:$projectPrefix-jwt:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateWebAuth = "$projectGroup:$projectPrefix-web-auth:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateMybatisPlus = "$projectGroup:$projectPrefix-mybatis-plus:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateRedis = "$projectGroup:$projectPrefix-redis:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateFeign = "$projectGroup:$projectPrefix-feign:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateWechat = "$projectGroup:$projectPrefix-wechat:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateAlipay = "$projectGroup:$projectPrefix-alipay:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateAliyunOss = "$projectGroup:$projectPrefix-aliyun-oss:${VersionManagement.TEMPLATE_VERSION}"
+        const val templateAliyunSms = "$projectGroup:$projectPrefix-aliyun-sms:${VersionManagement.TEMPLATE_VERSION}"
     }
 
     object Jackson {

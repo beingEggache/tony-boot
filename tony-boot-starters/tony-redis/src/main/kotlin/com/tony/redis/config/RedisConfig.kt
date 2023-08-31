@@ -115,7 +115,7 @@ internal class RedisConfig(
         redisSerializer: RedisSerializer<Any?>,
     ): RedisTemplate<String, Any> =
         RedisTemplate<String, Any>().apply {
-            setConnectionFactory(redisConnectionFactory)
+            connectionFactory = redisConnectionFactory
             setDefaultSerializer(redisSerializer)
             keySerializer = StringRedisSerializer.UTF_8
             hashKeySerializer = StringRedisSerializer.UTF_8
