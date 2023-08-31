@@ -8,7 +8,7 @@ object VersionManagement  {
     const val SPRING_VERSION = "6.0.11"
     const val SPRING_BOOT_VERSION = "3.1.3"
 
-    const val OPEN_FEIGN_VERSION = "12.4"
+    const val OPEN_FEIGN_VERSION = "12.5"
 
     const val POSTGRESQL_VERSION = "42.6.0"
     const val MYSQL_VERSION = "8.1.0"
