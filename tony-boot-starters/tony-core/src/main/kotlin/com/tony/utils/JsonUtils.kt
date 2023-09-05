@@ -20,11 +20,12 @@ import com.tony.SpringContexts
 import com.tony.jackson.initialize
 import java.io.IOException
 import java.io.InputStream
+import org.springframework.beans.BeansException
 
-public val globalObjectMapper: ObjectMapper by lazy {
+public val globalObjectMapper: ObjectMapper by lazy(LazyThreadSafetyMode.PUBLICATION) {
     try {
         SpringContexts.getBean(ObjectMapper::class.java)
-    } catch (e: Throwable) {
+    } catch (e: BeansException) {
         // If not in spring env.
         getLogger("com.tony.utils.JsonUtils").warn("We don't have a spring context.")
         createObjectMapper()

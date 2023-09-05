@@ -52,7 +52,7 @@ public object WebApp {
     @JvmStatic
     public val contextPath: String by Env.getPropertyByLazy("server.servlet.context-path", "")
 
-    internal val responseWrapExcludePatterns by lazy {
+    internal val responseWrapExcludePatterns by lazy(LazyThreadSafetyMode.PUBLICATION) {
         val set = setOf(
             *whiteUrlPatternsWithContextPath.toTypedArray(),
             *webProperties.wrapResponseExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray()
@@ -67,7 +67,7 @@ public object WebApp {
      * 一般默认包含 文档地址, 及对应的静态文件地址.
      */
     @JvmStatic
-    public val whiteUrlPatterns: Set<String> by lazy {
+    public val whiteUrlPatterns: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
         whiteUrlPatterns()
     }
 
@@ -79,7 +79,7 @@ public object WebApp {
      * 将 [ HttpServletRequest.getContextPath] 包含进去.
      */
     @JvmStatic
-    public val whiteUrlPatternsWithContextPath: Set<String> by lazy {
+    public val whiteUrlPatternsWithContextPath: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
         whiteUrlPatterns(contextPath)
     }
 

@@ -1,13 +1,13 @@
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.31.51:3306/tony_api?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&rewriteBatchedStatements=true
+    url: jdbc:mysql://192.168.2.110:3306/tony_api?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&rewriteBatchedStatements=true
     username: tony_api
     password: tony_api
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     redis:
-      host: "192.168.31.51"
+      host: "192.168.2.110"
       password: "123456"
 web:
   cors:

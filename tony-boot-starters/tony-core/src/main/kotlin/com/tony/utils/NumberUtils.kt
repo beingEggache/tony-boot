@@ -56,6 +56,19 @@ public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
     }.asToNotNull()
 
 /**
+ * 将字符串类型或数值类型转换成数值.
+ *
+ * @param E 数值类型
+ * @param numberType 数值类型
+ */
+public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E =
+    when (this) {
+        is Number -> this.toNumber(numberType)
+        is CharSequence -> this.toNumber(numberType)
+        else -> error("${this?.javaClass} can't transform to number.")
+    }
+
+/**
  * 数字截断并转为 [BigDecimal]
  * @param digit 截断位数
  * @param decimal 保留几位小数

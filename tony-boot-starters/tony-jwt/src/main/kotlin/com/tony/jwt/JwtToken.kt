@@ -17,12 +17,12 @@ import java.util.Date
 public object JwtToken {
 
     @JvmStatic
-    private val algorithm by lazy {
+    private val algorithm by lazy(LazyThreadSafetyMode.PUBLICATION) {
         Algorithm.HMAC256(jwtProperties.secret)
     }
 
     @JvmStatic
-    private val expiredMinutes by lazy {
+    private val expiredMinutes by lazy(LazyThreadSafetyMode.PUBLICATION) {
         jwtProperties.expiredMinutes
     }
 

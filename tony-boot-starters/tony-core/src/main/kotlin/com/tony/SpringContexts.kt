@@ -17,11 +17,13 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
 
     @JvmSynthetic
     @JvmStatic
-    public inline fun <reified T : Any> getBeanByLazy(): Lazy<T> = lazy { getBean() }
+    public inline fun <reified T : Any> getBeanByLazy(): Lazy<T> = lazy(LazyThreadSafetyMode.PUBLICATION) { getBean() }
 
     @JvmSynthetic
     @JvmStatic
-    public inline fun <reified T : Any> getBeanByLazy(name: String): Lazy<T> = lazy { getBean(name) as T }
+    public inline fun <reified T : Any> getBeanByLazy(
+        name: String,
+    ): Lazy<T> = lazy(LazyThreadSafetyMode.PUBLICATION) { getBean(name) as T }
 
     internal object ApplicationContextHolder : ApplicationContextAware {
 
@@ -42,7 +44,10 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
 
         @JvmSynthetic
         @JvmStatic
-        public inline fun <reified T : Any> getPropertyByLazy(key: String, defaultValue: T): Lazy<T> = lazy {
+        public inline fun <reified T : Any> getPropertyByLazy(
+            key: String,
+            defaultValue: T,
+        ): Lazy<T> = lazy(LazyThreadSafetyMode.PUBLICATION) {
             getProperty(key, T::class.java, defaultValue)
         }
     }

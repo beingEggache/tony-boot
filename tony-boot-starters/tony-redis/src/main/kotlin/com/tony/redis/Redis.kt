@@ -15,15 +15,15 @@ internal val redisTemplate: RedisTemplate<String, Any> by SpringContexts.getBean
 
 public val redisService: RedisService by SpringContexts.getBeanByLazy()
 
-public val valueOp: ValueOperations<String, Any> by lazy {
+public val valueOp: ValueOperations<String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForValue()
 }
 
-public val listOp: ListOperations<String, Any> by lazy {
+public val listOp: ListOperations<String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForList()
 }
 
-public val hashOp: HashOperations<String, String, Any> by lazy {
+public val hashOp: HashOperations<String, String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForHash()
 }
 

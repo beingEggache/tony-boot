@@ -39,19 +39,6 @@ public fun <E> Any?.asTo(): E? where E : Any = this as E?
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any.asToNotNull(): E where E : Any = this as E
 
-/**
- * 将字符串类型或数值类型转换成数值.
- *
- * @param E 数值类型
- * @param numberType 数值类型
- */
-public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E =
-    when (this) {
-        is Number -> this.toNumber(numberType)
-        is CharSequence -> this.toNumber(numberType)
-        else -> error("${this?.javaClass} can't transform to number.")
-    }
-
 @JvmSynthetic
 public fun <T> T.getLogger(): Logger where T : Any =
     LoggerFactory.getLogger(this::class.java)

@@ -34,7 +34,7 @@ internal class RequestReplaceToRepeatReadFilter(
     traceLogExcludePatterns: List<String>,
 ) : OncePerRequestFilter(), PriorityOrdered {
 
-    private val excludedUrls by lazy {
+    private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
         traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") }
             .plus(WebApp.whiteUrlPatternsWithContextPath)
     }

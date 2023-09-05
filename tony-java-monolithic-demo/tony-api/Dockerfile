@@ -1,10 +1,10 @@
-FROM eclipse-temurin:17.0.8_7-jre-alpine AS builder
+FROM eclipse-temurin:17.0.8.1_1-jre-alpine AS builder
 WORKDIR app
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-FROM eclipse-temurin:17.0.8_7-jre-alpine
+FROM eclipse-temurin:17.0.8.1_1-jre-alpine
 RUN echo "Asia/Shanghai" > /etc/timezone
 WORKDIR app
 

@@ -1,6 +1,7 @@
 @file:JvmName("DateUtils")
 
 package com.tony.utils
+
 /**
  * 日期工具类
  *
@@ -167,3 +168,63 @@ public fun LocalDate.isBetween(
  * 获取某天的23:59:59
  */
 public fun LocalDate.atEndOfDay(): LocalDateTime = LocalDateTime.of(this, LocalTime.MAX)
+
+public class TimePeriod {
+
+    private val start: Any
+    private val end: Any
+
+    public constructor(start: LocalDate, end: LocalDate) {
+        this.start = start
+        this.end = end
+    }
+
+    public constructor(start: LocalDateTime, end: LocalDateTime) {
+        this.start = start
+        this.end = end
+    }
+
+    public constructor(start: Date, end: Date) {
+        this.start = start
+        this.end = end
+    }
+
+    public constructor(start: LocalDate, end: LocalDateTime) {
+        this.start = start
+        this.end = end
+    }
+
+    public constructor(start: LocalDate, end: Date) {
+        this.start = start
+        this.end = end
+    }
+
+    public constructor(start: LocalDateTime, end: LocalDate) {
+        this.start = start
+        this.end = end
+    }
+
+    public constructor(start: LocalDateTime, end: Date) {
+        this.start = start
+        this.end = end
+    }
+
+    private fun startSeconds(time: LocalTime = LocalTime.MIN) = seconds(start, time)
+    private fun endSeconds(time: LocalTime = LocalTime.MIN) = seconds(start, time)
+
+    public fun overlapWith(another: TimePeriod): Boolean {
+        val anotherStartSeconds = another.startSeconds()
+        val endSeconds = if (another.start is LocalDate) endSeconds(LocalTime.MAX) else endSeconds()
+        val startSeconds = startSeconds()
+        val anotherEndSeconds = if (start is LocalDate) another.endSeconds(LocalTime.MAX) else another.endSeconds()
+
+        return !(endSeconds <= anotherStartSeconds || startSeconds >= anotherEndSeconds)
+    }
+
+    private fun seconds(dateTimeObject: Any, time: LocalTime = LocalTime.MIN) = when (dateTimeObject) {
+        is LocalDate -> dateTimeObject.toEpochSecond(time, defaultZoneOffset)
+        is LocalDateTime -> dateTimeObject.toEpochSecond(defaultZoneOffset)
+        is Date -> dateTimeObject.toLocalDateTime().toEpochSecond(defaultZoneOffset)
+        else -> error("Ain't gonna happen.")
+    }
+}

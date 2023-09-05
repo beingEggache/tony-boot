@@ -32,7 +32,7 @@ internal class TraceLoggingFilter(
     traceLogExcludePatterns: List<String>,
 ) : OncePerRequestFilter(), PriorityOrdered {
 
-    private val excludedUrls by lazy {
+    private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
         WebApp
             .responseWrapExcludePatterns
             .plus(traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") })

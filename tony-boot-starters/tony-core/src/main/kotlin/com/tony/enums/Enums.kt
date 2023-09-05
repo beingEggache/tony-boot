@@ -75,7 +75,7 @@ public abstract class EnumCreator<out E, KEY>(
 ) where E : EnumValue<KEY>, KEY : Serializable {
     public open fun create(value: KEY): E? = enumValues.firstOrNull { value == it.value }
 
-    private val enumValues: Array<out E> by lazy {
+    private val enumValues: Array<out E> by lazy(LazyThreadSafetyMode.NONE) {
         clazz.enumConstants
     }
 
