@@ -1,11 +1,12 @@
 package com.tony.api.controller
 
-import com.tony.ApiResult
 import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserLoginReq
+import com.tony.dto.resp.UserLoginResp
 import com.tony.jwt.JwtToken
+import com.tony.jwt.config.JwtProperties
 import com.tony.utils.defaultZoneOffset
 import com.tony.utils.toString
 import com.tony.web.WebApp
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 @Validated
 class IndexController(
     private val userService: UserService,
+    private val jwtProperties: JwtProperties,
 ) {
 
     @Operation(summary = "首页")
@@ -56,7 +58,10 @@ class IndexController(
         @Validated
         @RequestBody
         loginReq: UserLoginReq,
-    ) = ApiResult.of(JwtToken.gen("userId" to userService.login(loginReq).userId))
+    ): UserLoginResp {
+        val token = JwtToken.gen("userId" to userService.login(loginReq).userId)
+        return UserLoginResp(token, token, LocalDateTime.now().minusMinutes(jwtProperties.expiredMinutes))
+    }
 
     @Operation(summary = "空")
     @NoLoginCheck
