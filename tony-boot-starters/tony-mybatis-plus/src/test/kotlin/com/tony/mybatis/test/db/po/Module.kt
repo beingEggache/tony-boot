@@ -10,8 +10,8 @@ import com.tony.mybatis.test.db.enums.ModuleType
  * 模块/权限表
  * </p>
  *
- * @author tangli
- * @since 2020-11-15
+ * @author Tang Li
+ * @date 2020-11-15
  */
 @TableName("t_sys_module")
 class Module {

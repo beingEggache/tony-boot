@@ -14,8 +14,8 @@ import java.math.BigInteger
 /**
  * RedisListTests
  *
- * @author tangli
- * @since 2023/6/14 18:04
+ * @author Tang Li
+ * @date 2023/6/14 18:04
  */
 @Suppress("SpringBootApplicationProperties")
 @SpringBootTest(

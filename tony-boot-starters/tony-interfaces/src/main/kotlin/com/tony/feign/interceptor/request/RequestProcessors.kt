@@ -7,8 +7,8 @@ import feign.RequestTemplate
  *
  * 不用 [feign.RequestInterceptor] 是为了避免自动注册.
  *
- * @author tangli
- * @since 2023/8/15 9:53
+ * @author Tang Li
+ * @date 2023/8/15 9:53
  */
 public fun interface RequestProcessor {
     public operator fun invoke(template: RequestTemplate)
@@ -17,8 +17,8 @@ public fun interface RequestProcessor {
 /**
  * 获取 [RequestProcessor] 的方式.
  *
- * @author tangli
- * @since 2023/8/15 9:54
+ * @author Tang Li
+ * @date 2023/8/15 9:54
  */
 public enum class BeanType {
     CLASS,

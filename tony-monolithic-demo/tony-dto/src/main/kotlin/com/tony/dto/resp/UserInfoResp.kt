@@ -2,11 +2,6 @@ package com.tony.dto.resp
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-/**
- *
- * @author tangli
- * @since 2020-11-04 14:49
- */
 
 @Schema(description = "登录用户信息")
 data class UserInfoResp(
@@ -21,11 +16,6 @@ data class UserInfoResp(
     val modules: RouteAndComponentModuleResp,
 )
 
-/**
- *
- * @author tangli
- * @since 2020-11-04 14:49
- */
 @Schema(description = "路由和控件")
 data class RouteAndComponentModuleResp(
 

@@ -28,8 +28,8 @@ import org.springframework.web.util.ContentCachingResponseWrapper
 /**
  * 请求日志记录接口.
  *
- * @author tangli
- * @since 2023/5/25 10:29
+ * @author Tang Li
+ * @date 2023/5/25 10:29
  */
 public fun interface RequestTraceLogger {
 
@@ -67,8 +67,8 @@ public fun interface RequestTraceLogger {
 /**
  * 请求日志记录默认实现
  *
- * @author tangli
- * @since 2023/5/25 10:30
+ * @author Tang Li
+ * @date 2023/5/25 10:30
  */
 internal class DefaultRequestTraceLogger : RequestTraceLogger {
 

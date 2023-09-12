@@ -20,8 +20,8 @@ public fun <T> T.flattenResult(): ApiResultLike<T> =
  *
  * @param T 响应体对象类型. 不支持 [Boolean] ,[CharSequence], [Number], [Enum].
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 public data class ApiResult<T>
     @JvmOverloads
@@ -127,8 +127,8 @@ public data class ApiResult<T>
 /**
  * 包装 [Boolean] ,[CharSequence], [Number], [Enum]
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 public data class MonoResult<T>(val value: T? = null) {
     public companion object {
@@ -153,8 +153,8 @@ public data class MonoResult<T>(val value: T? = null) {
  * @param T
  * @param items 列表
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 public data class ListResult<T>
     @JvmOverloads
@@ -184,8 +184,8 @@ public data class ListResult<T>
  * @param total 总个数
  * @param hasNext 是否有下页
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 @JsonPropertyOrder(value = ["page", "size", "total", "pages", "hasNext", "items"])
 public data class PageResult<T>(

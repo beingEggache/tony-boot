@@ -8,12 +8,13 @@ import com.tony.crypto.symmetric.SymmetricCrypto
 import com.tony.enums.StringEnumCreator
 import com.tony.enums.StringEnumValue
 
-/**
- * DigestMode is
- * @author tangli
- * @since 2023/05/26 10:45
- */
 
+/**
+ * 对称加密算法
+ * @author Tang Li
+ * @date 2023/09/12 17:46
+ * @since 1.0.0
+ */
 public enum class SymmetricCryptoAlgorithm(
     override val value: String,
     public val algorithm: SymmetricCrypto,
@@ -24,26 +25,6 @@ public enum class SymmetricCryptoAlgorithm(
     ;
 
     public companion object : StringEnumCreator(SymmetricCryptoAlgorithm::class.java) {
-        @JsonCreator
-        @JvmStatic
-        override fun create(value: String): StringEnumValue? =
-            super.create(value.lowercase())
-    }
-}
-
-/**
- * 加解密的二进制编码
- * @property value
- */
-public enum class CryptoEncoding(
-    override val value: String,
-) : StringEnumValue {
-    @JsonEnumDefaultValue
-    BASE64("base64"),
-    HEX("hex"),
-    ;
-
-    public companion object : StringEnumCreator(CryptoEncoding::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: String): StringEnumValue? =

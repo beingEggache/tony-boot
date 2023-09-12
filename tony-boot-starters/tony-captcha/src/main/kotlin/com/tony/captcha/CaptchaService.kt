@@ -4,8 +4,8 @@ package com.tony.captcha
  * tony-boot-dependencies
  * CaptchaService
  *
- * @author tangli
- * @since 2022/7/12 11:39
+ * @author Tang Li
+ * @date 2022/7/12 11:39
  */
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.tony.redis.RedisManager
@@ -13,8 +13,8 @@ import com.tony.redis.RedisManager
 /**
  * 验证码 服务
  *
- * @author tangli
- * @since 2023/5/25 15:35
+ * @author Tang Li
+ * @date 2023/5/25 15:35
  */
 public fun interface CaptchaService {
     /**
@@ -28,8 +28,8 @@ public fun interface CaptchaService {
 /**
  * 验证码 vo
  *
- * @author tangli
- * @since 2023/5/25 15:35
+ * @author Tang Li
+ * @date 2023/5/25 15:35
  * @param captchaId
  * @param captcha
  * @param captchaKeyRule captcha key 获取方式.
@@ -45,8 +45,8 @@ public open class CaptchaVo(
 /**
  * 验证码服务默认实现
  *
- * @author tangli
- * @since 2023/5/25 15:37
+ * @author Tang Li
+ * @date 2023/5/25 15:37
  */
 public class DefaultCaptchaServiceImpl : CaptchaService {
     override fun verify(vo: CaptchaVo): Boolean =
@@ -56,8 +56,8 @@ public class DefaultCaptchaServiceImpl : CaptchaService {
 /**
  * 验证码服务空实现.
  *
- * @author tangli
- * @since 2023/5/25 15:37
+ * @author Tang Li
+ * @date 2023/5/25 15:37
  */
 public class NoopCaptchaServiceImpl : CaptchaService {
     override fun verify(vo: CaptchaVo): Boolean = true

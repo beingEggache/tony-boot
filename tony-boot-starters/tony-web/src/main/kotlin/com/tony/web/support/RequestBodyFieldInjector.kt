@@ -14,8 +14,8 @@ import org.slf4j.Logger
 
 /**
  * RequestBodyFieldInjector is
- * @author tangli
- * @since 2023/06/08 10:56
+ * @author Tang Li
+ * @date 2023/06/08 10:56
  */
 public abstract class RequestBodyFieldInjector(
     public val name: String,

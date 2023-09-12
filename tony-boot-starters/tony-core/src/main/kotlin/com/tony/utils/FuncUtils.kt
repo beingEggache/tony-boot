@@ -5,8 +5,8 @@ package com.tony.utils
 /**
  * 核心工具类
  *
- * @author tangli
- * @since 2022/9/29 10:20
+ * @author Tang Li
+ * @date 2022/9/29 10:20
  */
 import com.tony.ApiProperty
 import com.tony.exception.BaseException

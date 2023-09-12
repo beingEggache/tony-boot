@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit
 /**
  * redis hash操作单例.
  *
- * @author tangli
- * @since 2023/5/25 9:57
+ * @author Tang Li
+ * @date 2023/5/25 9:57
  */
 public object RedisMaps {
 

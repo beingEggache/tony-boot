@@ -38,8 +38,8 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
  * 默认RedisCache实现.
  * 给常规的 @Cacheable 加了过期时间
  *
- * @author tangli
- * @since 2023/5/24 18:09
+ * @author Tang Li
+ * @date 2023/5/24 18:09
  */
 @Aspect
 public class DefaultRedisCacheAspect {

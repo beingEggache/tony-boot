@@ -5,8 +5,8 @@ package com.tony.utils
 /**
  * 日期工具类
  *
- * @author tangli
- * @since 2022/9/29 10:20
+ * @author Tang Li
+ * @date 2022/9/29 10:20
  */
 import com.tony.exception.ApiException
 import java.time.Instant
@@ -169,7 +169,7 @@ public fun LocalDate.isBetween(
  */
 public fun LocalDate.atEndOfDay(): LocalDateTime = LocalDateTime.of(this, LocalTime.MAX)
 
-//TODO needTest
+// TODO needTest
 public class TimePeriod {
 
     private val start: Any

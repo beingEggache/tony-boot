@@ -10,9 +10,9 @@ import java.util.Collections;
  * 将 query 放到根节点.
  *
  * @param <T>
- * @author tangli
+ * @author Tang Li
  * @see JPageQueryLike
- * @since 2023/07/11 09:21
+ * @date 2023/07/11 09:21
  */
 @SuppressWarnings("unused")
 public class JFlattenPageQuery<T> implements JPageQueryLike<T> {

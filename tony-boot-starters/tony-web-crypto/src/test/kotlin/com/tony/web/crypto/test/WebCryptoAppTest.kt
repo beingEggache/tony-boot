@@ -1,7 +1,7 @@
 package com.tony.web.crypto.test
 
+import com.tony.codec.enums.Encoding
 import com.tony.crypto.symmetric.decryptToString
-import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.getLogger
 import org.junit.jupiter.api.Test
@@ -25,8 +25,8 @@ class WebCryptoAppTest {
     /**
      * 二进制编码
      */
-    @Value("\${web.crypto.encoding:base64}")
-    lateinit var encoding: CryptoEncoding
+    @Value("\${web.crypto.codec:base64}")
+    lateinit var encoding: Encoding
 
     private final val logger: Logger = getLogger()
 
@@ -40,6 +40,6 @@ class WebCryptoAppTest {
                     secret,
                     encoding
                 )
-        logger.info(decryptToString)
+        logger.info(decryptToString.toString())
     }
 }

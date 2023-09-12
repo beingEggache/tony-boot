@@ -14,16 +14,16 @@ import org.springframework.core.convert.converter.ConverterFactory
 /**
  *
  *
- * @author tangli
- * @since 2023/5/25 10:58
+ * @author Tang Li
+ * @date 2023/5/25 10:58
  */
 private val converters = WeakHashMap<Class<*>, Converter<String, *>>()
 
 /**
  * EnumIntValueConverterFactory
  *
- * @author tangli
- * @since 2023/5/25 10:58
+ * @author Tang Li
+ * @date 2023/5/25 10:58
  */
 @Suppress("UNCHECKED_CAST")
 internal class EnumIntValueConverterFactory :
@@ -35,8 +35,8 @@ internal class EnumIntValueConverterFactory :
 /**
  * EnumStringValueConverterFactory
  *
- * @author tangli
- * @since 2023/5/25 10:59
+ * @author Tang Li
+ * @date 2023/5/25 10:59
  */
 @Suppress("UNCHECKED_CAST")
 internal class EnumStringValueConverterFactory :
@@ -48,8 +48,8 @@ internal class EnumStringValueConverterFactory :
 /**
  * EnumValueConverter
  *
- * @author tangli
- * @since 2023/5/25 10:59
+ * @author Tang Li
+ * @date 2023/5/25 10:59
  */
 internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
     Converter<String, EnumValue<K>>
@@ -66,8 +66,8 @@ internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
 /**
  * EnumIntValueConverter
  *
- * @author tangli
- * @since 2023/5/25 10:59
+ * @author Tang Li
+ * @date 2023/5/25 10:59
  */
 internal class EnumIntValueConverter(enumType: Class<out IntEnumValue>) :
     EnumValueConverter<IntEnumValue, Int>(enumType),
@@ -87,8 +87,8 @@ internal class EnumIntValueConverter(enumType: Class<out IntEnumValue>) :
 /**
  * EnumStringValueConverter
  *
- * @author tangli
- * @since 2023/5/25 10:59
+ * @author Tang Li
+ * @date 2023/5/25 10:59
  */
 internal class EnumStringValueConverter(enumType: Class<out StringEnumValue>) :
     EnumValueConverter<StringEnumValue, String>(enumType),

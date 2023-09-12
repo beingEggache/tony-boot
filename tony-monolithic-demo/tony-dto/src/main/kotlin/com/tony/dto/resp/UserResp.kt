@@ -6,8 +6,8 @@ import java.time.LocalDateTime
 
 /**
  *
- * @author tangli
- * @since 2020-11-14 15:18
+ * @author Tang Li
+ * @date 2020-11-14 15:18
  */
 @Schema(description = "用户响应")
 data class UserResp(

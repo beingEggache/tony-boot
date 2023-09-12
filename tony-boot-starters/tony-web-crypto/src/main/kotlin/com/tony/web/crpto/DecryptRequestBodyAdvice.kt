@@ -1,8 +1,8 @@
 package com.tony.web.crpto
 
 import com.tony.annotation.web.crypto.DecryptRequestBody
+import com.tony.codec.enums.Encoding
 import com.tony.crypto.symmetric.decryptToBytes
-import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import java.io.ByteArrayInputStream
 import java.io.InputStream
@@ -19,14 +19,14 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice
 
 /**
  * 将请求体解密, 目前只支持 RequestBody
- * @author tangli
- * @since 2023/05/26 16:53
+ * @author Tang Li
+ * @date 2023/05/26 16:53
  */
 public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
 
     public val algorithm: SymmetricCryptoAlgorithm
     public val secret: String
-    public val encoding: CryptoEncoding
+    public val encoding: Encoding
 
     override fun supports(
         methodParameter: MethodParameter,
@@ -98,5 +98,5 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
 internal class DefaultDecryptRequestBodyAdvice(
     override val algorithm: SymmetricCryptoAlgorithm,
     override val secret: String,
-    override val encoding: CryptoEncoding,
+    override val encoding: Encoding,
 ) : DecryptRequestBodyAdvice

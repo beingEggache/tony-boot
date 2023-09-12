@@ -5,8 +5,8 @@ import java.io.File
 
 /**
  *
- * @author tangli
- * @since 2021-01-28 9:46
+ * @author Tang Li
+ * @date 2021-01-28 9:46
  */
 fun Project.copyProjectHookToGitHook(projectRootDir: File, vararg hookNames: String) {
 

@@ -5,10 +5,12 @@ package com.tony.utils
 /**
  * 字符串工具类
  *
- * @author tangli
- * @since 2022/9/29 10:20
+ * @author Tang Li
+ * @date 2022/9/29 10:20
  */
 import com.fasterxml.jackson.core.JsonProcessingException
+import com.tony.codec.encodeToString
+import com.tony.codec.enums.Encoding
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.net.URLDecoder
@@ -81,128 +83,11 @@ public inline fun <reified T> CharSequence.queryStringToObj(): T =
 /**
  * 字符串转为MD5并大写
  */
-public fun CharSequence.md5Uppercase(): String =
-    BigInteger(1, md5Digest().digest(toString().toByteArray()))
-        .toString(16)
-        .padStart(32, '0')
+public fun CharSequence.md5Uppercase(): CharSequence =
+    md5Digest()
+        .digest(toString().toByteArray())
+        .encodeToString(Encoding.HEX)
         .uppercase()
-
-/**
- * 字符串base64表示
- */
-public fun CharSequence.toBase64String(): String =
-    toString()
-        .toByteArray()
-        .encodeToBase64()
-        .toString(Charsets.UTF_8)
-
-/**
- * 字符串base64表示
- */
-public fun CharSequence.toBase64StringUrlSafe(): String =
-    toString()
-        .toByteArray()
-        .encodeToBase64UrlSafe()
-        .toString(Charsets.UTF_8)
-
-/**
- * base64表示
- */
-public fun CharSequence.toBase64ByteArray(): ByteArray =
-    toString()
-        .toByteArray()
-        .encodeToBase64()
-
-/**
- * base64表示
- */
-public fun CharSequence.toBase64ByteArrayUrlSafe(): ByteArray =
-    toString()
-        .toByteArray()
-        .encodeToBase64UrlSafe()
-
-/**
- * base64表示转为实际字符串
- */
-public fun CharSequence.base64ToString(): String =
-    toString()
-        .toByteArray()
-        .decodeBase64()
-        .toString(Charsets.UTF_8)
-
-/**
- * base64表示转为实际字符串
- */
-public fun CharSequence.base64ToStringUrlSafe(): String =
-    toString()
-        .toByteArray()
-        .decodeBase64UrlSafe()
-        .toString(Charsets.UTF_8)
-
-/**
- * base64表示转为原二进制
- */
-public fun CharSequence.base64ToByteArray(): ByteArray =
-    toString()
-        .toByteArray()
-        .decodeBase64()
-
-/**
- * base64表示转为原二进制
- */
-public fun CharSequence.base64ToByteArrayUrlSafe(): ByteArray =
-    toString()
-        .toByteArray()
-        .decodeBase64UrlSafe()
-
-/**
- * encode Hex
- *
- * @receiver data        Data to Hex
- * @param lowerCase 是否小写,默认 true
- * @return bytes
- */
-@JvmOverloads
-public fun CharSequence.toHexByteArray(lowerCase: Boolean = true): ByteArray =
-    toString()
-        .toByteArray()
-        .encodeToHex(lowerCase)
-
-/**
- * encode Hex
- *
- * @receiver data        Data to Hex
- * @param lowerCase 是否小写,默认 true
- * @return bytes as a hex string
- */
-@JvmOverloads
-public fun CharSequence.toHexString(lowerCase: Boolean = true): String =
-    toString()
-        .toHexByteArray(lowerCase)
-        .contentToString()
-
-/**
- * decode Hex
- *
- * @receiver data Hex data
- * @return decode hex to bytes
- */
-public fun CharSequence.hexToByteArray(): ByteArray =
-    toString()
-        .toByteArray()
-        .decodeHex()
-
-/**
- * decode Hex
- *
- * @receiver data Hex data
- * @return bytes as a hex string
- */
-public fun CharSequence.hexToString(): String =
-    toString()
-        .toByteArray()
-        .decodeHex()
-        .contentToString()
 
 /**
  * 当字符串为Null 或者空字符串时 提供默认值.
@@ -244,7 +129,7 @@ public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
     }.asToNotNull()
 
 /**
- * Translates a string into application/x-www-form-urlencoded format using a specific encoding scheme.
+ * Translates a string into application/x-www-form-urlencoded format using a specific codec scheme.
  */
 @JvmOverloads
 public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =

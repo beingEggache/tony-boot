@@ -11,8 +11,8 @@ public sealed interface RedisMapOp : RedisMapGetOp, RedisMapSetOp
 
 /**
  * redis map 值获取操作
- * @author tangli
- * @since 2023/06/09 18:20
+ * @author Tang Li
+ * @date 2023/06/09 18:20
  */
 public sealed interface RedisMapGetOp : RedisValueTransformer {
 
@@ -58,8 +58,8 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
 
 /**
  * redis map 值保存操作
- * @author tangli
- * @since 2023/06/09 18:20
+ * @author Tang Li
+ * @date 2023/06/09 18:20
  */
 public sealed interface RedisMapSetOp : RedisValueTransformer {
 

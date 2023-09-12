@@ -1,8 +1,8 @@
 /**
  * XxlJobConfig
  *
- * @author tangli
- * @since 2022/6/13 14:15
+ * @author Tang Li
+ * @date 2022/6/13 14:15
  */
 package com.tony.xxljob.config
 

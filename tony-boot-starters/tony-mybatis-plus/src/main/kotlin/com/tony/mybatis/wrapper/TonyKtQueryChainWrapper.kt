@@ -12,8 +12,8 @@ import kotlin.reflect.KMutableProperty1
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
  * 比如 [oneNotNull], [throwIfExists], [pageResult]
  *
- * @author tangli
- * @since 2023/5/25 15:26
+ * @author Tang Li
+ * @date 2023/5/25 15:26
  */
 @Suppress("MemberVisibilityCanBePrivate")
 public open class TonyKtQueryChainWrapper<T : Any>

@@ -6,8 +6,8 @@ import java.net.URL
 
 /**
  * TypeTest is
- * @author tangli
- * @since 2023/07/05 17:01
+ * @author Tang Li
+ * @date 2023/07/05 17:01
  */
 fun main() {
 

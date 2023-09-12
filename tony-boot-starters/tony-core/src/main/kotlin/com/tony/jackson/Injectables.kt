@@ -29,8 +29,8 @@ import com.tony.utils.getLogger
  * )
  * ```
  *
- * @author tangli
- * @since 2023/07/21 14:23
+ * @author Tang Li
+ * @date 2023/07/21 14:23
  */
 public class InjectableValuesBySupplier(
     private val values: Map<String, InjectableValueSupplier>,

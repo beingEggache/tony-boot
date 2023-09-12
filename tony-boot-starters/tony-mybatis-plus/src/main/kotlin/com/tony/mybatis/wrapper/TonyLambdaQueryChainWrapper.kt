@@ -2,8 +2,8 @@
  * tony-dependencies
  * Wrappers
  *
- * @author tangli
- * @since 2022/7/21 13:41
+ * @author Tang Li
+ * @date 2022/7/21 13:41
  */
 package com.tony.mybatis.wrapper
 
@@ -18,8 +18,8 @@ import java.util.function.Predicate
 /**
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
  *
- * @author tangli
- * @since 2023/5/25 15:33
+ * @author Tang Li
+ * @date 2023/5/25 15:33
  */
 public open class TonyLambdaQueryChainWrapper<T : Any>
     internal constructor(private val baseMapper: BaseDao<T>) :

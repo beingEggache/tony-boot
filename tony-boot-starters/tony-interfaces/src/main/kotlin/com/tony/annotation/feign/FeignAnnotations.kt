@@ -11,8 +11,8 @@ import kotlin.reflect.KClass
  *
  * Avoiding to auto register.
  *
- * @author tangli
- * @since 2023/08/02 21:00
+ * @author Tang Li
+ * @date 2023/08/02 21:00
  */
 @Target(AnnotationTarget.CLASS, AnnotationTarget.ANNOTATION_CLASS)
 @Retention(AnnotationRetention.RUNTIME)
@@ -26,8 +26,8 @@ public annotation class FeignUseGlobalRequestInterceptor
  *
  * Avoiding to auto register.
  *
- * @author tangli
- * @since 2023/08/02 21:00
+ * @author Tang Li
+ * @date 2023/08/02 21:00
  */
 @Target(AnnotationTarget.CLASS, AnnotationTarget.ANNOTATION_CLASS)
 @Retention(AnnotationRetention.RUNTIME)
@@ -41,8 +41,8 @@ public annotation class FeignUseGlobalResponseInterceptor
  *
  * Avoiding to auto register.
  *
- * @author tangli
- * @since 2023/08/02 21:00
+ * @author Tang Li
+ * @date 2023/08/02 21:00
  */
 @Target(AnnotationTarget.CLASS, AnnotationTarget.ANNOTATION_CLASS)
 @Retention(AnnotationRetention.RUNTIME)
@@ -53,8 +53,8 @@ public annotation class FeignUnwrapResponse
  * Feign global interceptors.
  *
  * with [FeignUseGlobalRequestInterceptor] and [FeignUseGlobalResponseInterceptor]
- * @author tangli
- * @since 2023/08/02 21:00
+ * @author Tang Li
+ * @date 2023/08/02 21:00
  */
 @FeignUseGlobalResponseInterceptor
 @FeignUseGlobalRequestInterceptor
@@ -68,8 +68,8 @@ public annotation class FeignUseGlobalInterceptor
  *
  * Avoiding to auto register.
  *
- * @author tangli
- * @since 2023/8/15 9:59
+ * @author Tang Li
+ * @date 2023/8/15 9:59
  */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)

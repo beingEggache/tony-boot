@@ -10,8 +10,8 @@ import com.tony.utils.toNumber
 
 /**
  * RedisService is
- * @author tangli
- * @since 2023/06/09 13:30
+ * @author Tang Li
+ * @date 2023/06/09 13:30
  */
 public interface RedisService :
     RedisValueOp,

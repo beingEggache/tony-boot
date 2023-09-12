@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 /**
  * 全局异常处理
  *
- * @author tangli
- * @since 2023/5/25 10:53
+ * @author Tang Li
+ * @date 2023/5/25 10:53
  */
 @RestControllerAdvice
 internal class ExceptionHandler : ErrorController {

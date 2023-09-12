@@ -7,8 +7,8 @@ import feign.codec.ErrorDecoder
 /**
  * Feign 错误默认解析器.
  * 抛出全局统一框架层异常 [ApiException]
- * @author tangli
- * @since 2023/5/25 15:44
+ * @author Tang Li
+ * @date 2023/5/25 15:44
  */
 public class DefaultErrorDecoder : ErrorDecoder {
 

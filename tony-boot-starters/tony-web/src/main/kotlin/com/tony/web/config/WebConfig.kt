@@ -48,8 +48,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 /**
  * WebConfig
  *
- * @author tangli
- * @since 2023/5/25 10:35
+ * @author Tang Li
+ * @date 2023/5/25 10:35
  */
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
@@ -184,8 +184,8 @@ internal class WebConfig(
 /**
  * WebProperties
  *
- * @author tangli
- * @since 2023/5/25 10:35
+ * @author Tang Li
+ * @date 2023/5/25 10:35
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web")
@@ -225,8 +225,8 @@ internal data class WebProperties
 /**
  * WebCorsProperties
  *
- * @author tangli
- * @since 2023/5/25 10:35
+ * @author Tang Li
+ * @date 2023/5/25 10:35
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.cors")
@@ -247,8 +247,8 @@ public data class WebCorsProperties
 /**
  * ApiCorsProcessor
  *
- * @author tangli
- * @since 2023/5/25 10:35
+ * @author Tang Li
+ * @date 2023/5/25 10:35
  */
 internal class ApiCorsProcessor : DefaultCorsProcessor() {
 

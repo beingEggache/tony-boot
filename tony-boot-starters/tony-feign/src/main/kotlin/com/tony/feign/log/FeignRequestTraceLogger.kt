@@ -23,8 +23,8 @@ import org.springframework.http.HttpStatus
 /**
  * feign okhttp 请求日志拦截器
  *
- * @author tangli
- * @since 2023/5/25 15:48
+ * @author Tang Li
+ * @date 2023/5/25 15:48
  */
 @Priority(Int.MAX_VALUE)
 internal class FeignLogInterceptor(
@@ -56,14 +56,24 @@ internal class FeignLogInterceptor(
 /**
  * 默认ok http 请求日志记录器
  *
- * @author tangli
- * @since 2023/5/25 15:48
+ * @author Tang Li
+ * @date 2023/5/25 15:48
  */
 public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected val logger: Logger = getLogger("request-logger")
 
+    /**
+     * 记录请求日志
+     * @param [connection] 链接
+     * @param [request] 请求
+     * @param [response] 响应
+     * @param [elapsedTime] 执行时间
+     * @author Tony
+     * @date 2023/09/12 10:10
+     * @since 1.0.0
+     */
     override fun log(
         connection: Connection?,
         request: Request,
@@ -139,8 +149,8 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 /**
  * feign okhttp 请求日志记录接口.
  *
- * @author tangli
- * @since 2023/5/25 15:49
+ * @author Tang Li
+ * @date 2023/5/25 15:49
  */
 public fun interface FeignRequestTraceLogger {
     public fun log(

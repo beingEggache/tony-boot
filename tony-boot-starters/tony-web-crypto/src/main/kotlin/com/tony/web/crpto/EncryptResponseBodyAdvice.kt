@@ -3,8 +3,8 @@ package com.tony.web.crpto
 import com.tony.ApiResultLike
 import com.tony.EncryptApiResult
 import com.tony.annotation.web.crypto.EncryptResponseBody
+import com.tony.codec.enums.Encoding
 import com.tony.crypto.symmetric.encryptToString
-import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.toJsonString
 import com.tony.utils.trimQuotes
@@ -22,8 +22,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 
 /**
  * 将请求体解密, 目前只支持 RequestBody
- * @author tangli
- * @since 2023/05/26 16:53
+ * @author Tang Li
+ * @date 2023/05/26 16:53
  */
 public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice<Any?> {
 
@@ -31,7 +31,7 @@ public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice
 
     public val secret: String
 
-    public val encoding: CryptoEncoding
+    public val encoding: Encoding
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
@@ -78,7 +78,7 @@ public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice
 internal class DefaultEncryptResponseBodyAdvice(
     override val algorithm: SymmetricCryptoAlgorithm,
     override val secret: String,
-    override val encoding: CryptoEncoding,
+    override val encoding: Encoding,
 ) : EncryptResponseBodyAdvice {
 
     override fun supports(

@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit
 /**
  * redis 列表操作单例.
  *
- * @author tangli
- * @since 2021-03-24 10:12
+ * @author Tang Li
+ * @date 2021-03-24 10:12
  */
 public object RedisLists {
 

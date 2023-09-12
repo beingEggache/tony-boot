@@ -20,8 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest
 
 /**
  *
- * @author tangli
- * @since 2021-05-19 15:22
+ * @author Tang Li
+ * @date 2021-05-19 15:22
  */
 
 @SpringBootTest(classes = [TestRedisApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)

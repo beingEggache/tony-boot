@@ -35,7 +35,7 @@ internal val lockScript: RedisScript<Long> =
 
 /**
  * 批量删除脚本
- * @since redis 3.2+
+ * @date redis 3.2+
  */
 internal val deleteKeyByPatternScript: RedisScript<Long?> =
     RedisScript.of(ClassPathResource("META-INF/scripts/deleteByKeyPatterns.lua"), Long::class.java)

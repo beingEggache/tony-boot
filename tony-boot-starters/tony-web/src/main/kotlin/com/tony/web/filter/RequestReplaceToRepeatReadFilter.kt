@@ -27,8 +27,8 @@ import org.springframework.web.filter.OncePerRequestFilter
 /**
  * RequestReplaceToRepeatReadFilter
  *
- * @author tangli
- * @since 2023/5/25 10:35
+ * @author Tang Li
+ * @date 2023/5/25 10:35
  */
 internal class RequestReplaceToRepeatReadFilter(
     traceLogExcludePatterns: List<String>,
@@ -57,8 +57,8 @@ internal class RequestReplaceToRepeatReadFilter(
 /**
  * 可重复读取请求.
  *
- * @author tangli
- * @since 2023/5/25 10:35
+ * @author Tang Li
+ * @date 2023/5/25 10:35
  */
 public class RepeatReadRequestWrapper
     @Throws(IOException::class)

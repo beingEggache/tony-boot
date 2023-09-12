@@ -36,9 +36,9 @@ import org.springframework.context.annotation.PropertySource
 
 /**
  * FeignConfig
- *
- * @author tangli
- * @since 2023/5/25 15:43
+ * @author Tony
+ * @date 2023/5/25 15:43
+ * @since 1.0.0
  */
 @EnableConfigurationProperties(FeignConfigProperties::class)
 @Configuration

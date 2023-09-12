@@ -6,8 +6,8 @@ package com.tony.jackson
  * jackson 相关类
  *
  *
- * @author tangli
- * @since 2022/4/24 16:44
+ * @author Tang Li
+ * @date 2022/4/24 16:44
  */
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.BeanDescription
@@ -26,8 +26,8 @@ import com.tony.utils.isStringLikeType
 /**
  * 数组或列表类型为 null 时输出 "[]"
  *
- * @author tangli
- * @since 2023/5/25 10:37
+ * @author Tang Li
+ * @date 2023/5/25 10:37
  */
 internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
 
@@ -45,8 +45,8 @@ internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
 /**
  * 对象或 map 类型 为null 时, 输出 "{}"
  *
- * @author tangli
- * @since 2023/5/25 10:39
+ * @author Tang Li
+ * @date 2023/5/25 10:39
  */
 internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
     override fun serialize(
@@ -63,8 +63,8 @@ internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
 /**
  * 字符串为null时输出空字符串
  *
- * @author tangli
- * @since 2023/5/25 10:40
+ * @author Tang Li
+ * @date 2023/5/25 10:40
  */
 internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
     override fun serialize(
@@ -85,8 +85,8 @@ internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
  *
  * 数组或列表类型为 null 时输出 "[]".
  *
- * @author tangli
- * @since 2023/5/25 10:40
+ * @author Tang Li
+ * @date 2023/5/25 10:40
  */
 public class NullValueBeanSerializerModifier : BeanSerializerModifier() {
 

@@ -9,9 +9,9 @@ import java.util.Collections;
 
 /**
  * @param <T>
- * @author tangli
+ * @author Tang Li
  * @see JPageQueryLike
- * @since 2023/07/11 09:21
+ * @date 2023/07/11 09:21
  */
 @SuppressWarnings("unused")
 public class JPageQuery<T> implements JPageQueryLike<T> {

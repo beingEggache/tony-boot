@@ -5,8 +5,8 @@ import com.tony.utils.defaultIfBlank
 
 /**
  *
- * @author tangli
- * @since 2020-11-23 11:10
+ * @author Tang Li
+ * @date 2020-11-23 11:10
  */
 
 private const val codePatternStr = "[a-zA-Z0-9一二三四五六七八九零ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+"

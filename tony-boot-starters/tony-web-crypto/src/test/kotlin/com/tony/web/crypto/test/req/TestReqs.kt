@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull
 
 /**
  * TestReqs is
- * @author tangli
- * @since 2023/05/26 17:14
+ * @author Tang Li
+ * @date 2023/05/26 17:14
  */
 data class TestReq(
     @get:NotBlank(message = "请输入姓名")

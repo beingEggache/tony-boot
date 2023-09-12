@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.OptBoolean
 
 /**
  * TestInjectReq is
- * @author tangli
- * @since 2023/07/06 15:26
+ * @author Tang Li
+ * @date 2023/07/06 15:26
  */
 data class TestDefaultInjectReq(
 

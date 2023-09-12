@@ -7,8 +7,8 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 /**
  *
- * @author tangli
- * @since 2020-11-04 16:54
+ * @author Tang Li
+ * @date 2020-11-04 16:54
  */
 @SpringBootTest(classes = [TestMonoApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class ApiModuleInit {

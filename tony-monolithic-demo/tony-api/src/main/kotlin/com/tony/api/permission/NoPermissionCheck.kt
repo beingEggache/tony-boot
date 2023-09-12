@@ -14,8 +14,8 @@ import org.springframework.web.servlet.HandlerInterceptor
 
 /**
  *
- * @author tangli
- * @since 2020-11-05 10:06
+ * @author Tang Li
+ * @date 2020-11-05 10:06
  */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)

@@ -2,8 +2,8 @@ package com.tony.web.interceptor
 
 /**
  *
- * @author tangli
- * @since 2020-11-04 13:33
+ * @author Tang Li
+ * @date 2020-11-04 13:33
  */
 import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.utils.hasAnnotation
@@ -17,8 +17,8 @@ import org.springframework.web.servlet.HandlerInterceptor
 /**
  * 登录校验拦截器.
  *
- * @author tangli
- * @since 2023/5/25 15:14
+ * @author Tang Li
+ * @date 2023/5/25 15:14
  */
 public interface LoginCheckInterceptor : HandlerInterceptor {
     override fun preHandle(
@@ -36,7 +36,7 @@ public interface LoginCheckInterceptor : HandlerInterceptor {
 /**
  * 登录校验拦截器. 默认实现.
  *
- * @author tangli
- * @since 2023/5/25 15:15
+ * @author Tang Li
+ * @date 2023/5/25 15:15
  */
 internal class DefaultLoginCheckInterceptor : LoginCheckInterceptor

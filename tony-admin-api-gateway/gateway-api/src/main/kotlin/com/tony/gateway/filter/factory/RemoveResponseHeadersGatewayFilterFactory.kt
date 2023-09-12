@@ -11,8 +11,8 @@ import reactor.core.publisher.Mono
 
 /**
  * RemoveResponseHeadersGatewayFilterFactories is
- * @author tangli
- * @since 2023/07/20 15:20
+ * @author Tang Li
+ * @date 2023/07/20 15:20
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class RemoveResponseHeadersGatewayFilterFactory :

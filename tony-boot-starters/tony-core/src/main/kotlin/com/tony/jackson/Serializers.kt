@@ -20,8 +20,8 @@ internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> = mutableMapO
 /**
  * jackson 序列化字段遮蔽转换.
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD)
@@ -39,8 +39,8 @@ public annotation class MaskConverter(
 /**
  * jackson 字段转换
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 public fun interface MaskConvertFunc {
     public fun convert(input: String?): String?
@@ -49,8 +49,8 @@ public fun interface MaskConvertFunc {
 /**
  * 将字符串除开头及结尾部分保留, 其余都用 * 表示
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 public class NameMaskFun : MaskConvertFunc {
     override fun convert(input: String?): String? =
@@ -64,8 +64,8 @@ public class NameMaskFun : MaskConvertFunc {
 /**
  * 将手机号除开头 2 位及后 4 位保留,中间用 * 表示
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 public class MobileMaskFun : MaskConvertFunc {
     override fun convert(input: String?): String? =
@@ -79,8 +79,8 @@ public class MobileMaskFun : MaskConvertFunc {
 /**
  * jackson 字段遮蔽转换 JsonSerializer
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 public class MaskSerializer : JsonSerializer<Any>() {
 

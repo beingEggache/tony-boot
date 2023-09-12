@@ -10,8 +10,8 @@ import java.util.Date
 
 /**
  * TestDateTimesReq is
- * @author tangli
- * @since 2023/07/07 11:46
+ * @author Tang Li
+ * @date 2023/07/07 11:46
  */
 data class TestNullValues(
     val boolean: Boolean? = null,

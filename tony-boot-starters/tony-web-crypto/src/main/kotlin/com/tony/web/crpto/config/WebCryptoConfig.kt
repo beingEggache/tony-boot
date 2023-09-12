@@ -1,6 +1,6 @@
 package com.tony.web.crpto.config
 
-import com.tony.crypto.symmetric.enums.CryptoEncoding
+import com.tony.codec.enums.Encoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.getLogger
 import com.tony.web.crpto.DecryptRequestBodyAdvice
@@ -22,8 +22,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 
 /**
  * WebCryptoConfig is
- * @author tangli
- * @since 2023/05/26 17:00
+ * @author Tang Li
+ * @date 2023/05/26 17:00
  */
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
@@ -75,8 +75,8 @@ internal class WebCryptoConfig(
 /**
  * WebCryptoProperties
  *
- * @author tangli
- * @since 2023/5/26 17:06
+ * @author Tang Li
+ * @date 2023/5/26 17:06
  */
 @ConfigurationProperties(prefix = "web.crypto")
 internal data class WebCryptoProperties
@@ -101,5 +101,5 @@ internal data class WebCryptoProperties
          * 二进制编码
          */
         @DefaultValue("base64")
-        val encoding: CryptoEncoding,
+        val encoding: Encoding,
     )

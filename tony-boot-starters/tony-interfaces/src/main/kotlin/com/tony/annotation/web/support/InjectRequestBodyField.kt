@@ -6,8 +6,8 @@ import com.tony.annotation.web.support.InjectEmptyIfNull.Companion.DEFAULT_EMPTY
 
 /**
  * RequestBody 字段值注入.
- * @author tangli
- * @since 2023/06/08 09:26
+ * @author Tang Li
+ * @date 2023/06/08 09:26
  */
 @Target(
     AnnotationTarget.FIELD,
@@ -33,8 +33,8 @@ public annotation class InjectRequestBodyField(
  *
  * ### 请自行控制反射安全, 做好空构造函数. ###
  *
- * @author tangli
- * @since 2023/7/6 15:07
+ * @author Tang Li
+ * @date 2023/7/6 15:07
  */
 @Target(
     AnnotationTarget.FIELD,

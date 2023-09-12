@@ -1,8 +1,8 @@
 /**
  * BaseDao
  *
- * @author tangli
- * @since 2022/7/12 15:28
+ * @author Tang Li
+ * @date 2022/7/12 15:28
  */
 package com.tony.mybatis.dao
 

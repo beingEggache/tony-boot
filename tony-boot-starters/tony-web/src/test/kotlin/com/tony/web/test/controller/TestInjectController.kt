@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController
 
 /**
  * TestInjectController is
- * @author tangli
- * @since 2023/07/06 15:31
+ * @author Tang Li
+ * @date 2023/07/06 15:31
  */
 @Tag(name = "测试注入")
 @Validated

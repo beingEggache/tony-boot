@@ -1,8 +1,8 @@
 package com.tony.web
 /**
  *
- * @author tangli
- * @since 2021-04-20 11:12
+ * @author Tang Li
+ * @date 2021-04-20 11:12
  */
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
@@ -16,8 +16,8 @@ import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
 /**
  * noop session. 获取用户标识永远抛出异常.
  *
- * @author tangli
- * @since 2023/5/25 15:15
+ * @author Tang Li
+ * @date 2023/5/25 15:15
  */
 internal class NoopApiSession : ApiSession {
     override val userId: String
@@ -29,8 +29,8 @@ internal class NoopApiSession : ApiSession {
 /**
  * jwt 实现的session.
  *
- * @author tangli
- * @since 2023/5/25 15:17
+ * @author Tang Li
+ * @date 2023/5/25 15:17
  */
 internal class JwtApiSession : ApiSession {
 

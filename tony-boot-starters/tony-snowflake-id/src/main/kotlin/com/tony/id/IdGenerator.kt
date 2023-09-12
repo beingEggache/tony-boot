@@ -1,8 +1,8 @@
 /**
  * IdGenerator
  *
- * @author tangli
- * @since 2022/7/12 14:58
+ * @author Tang Li
+ * @date 2022/7/12 14:58
  */
 package com.tony.id
 

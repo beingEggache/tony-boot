@@ -14,8 +14,8 @@ import java.util.Date
 
 /**
  * TypeUtils is
- * @author tangli
- * @since 2023/06/07 10:53
+ * @author Tang Li
+ * @date 2023/06/07 10:53
  */
 
 /**

@@ -5,8 +5,8 @@ import com.tony.SpringContexts.Env
 /**
  * redis key 操作静态单例.
  *
- * @author tangli
- * @since 2023/5/24 18:12
+ * @author Tang Li
+ * @date 2023/5/24 18:12
  */
 public object RedisKeys {
 

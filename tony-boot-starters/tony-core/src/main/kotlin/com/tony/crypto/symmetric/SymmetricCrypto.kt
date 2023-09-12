@@ -1,16 +1,12 @@
 package com.tony.crypto.symmetric
 
-import com.tony.crypto.symmetric.enums.CryptoEncoding
-import com.tony.utils.decodeBase64
-import com.tony.utils.decodeHex
-import com.tony.utils.encodeToBase64
-import com.tony.utils.encodeToHex
+import com.tony.codec.enums.Encoding
 import javax.crypto.Cipher
 
 /**
  * 对称 加密/解密
- * @author tangli
- * @since 2023/05/29 09:25
+ * @author Tang Li
+ * @date 2023/05/29 09:25
  */
 public sealed interface SymmetricCrypto {
 
@@ -21,13 +17,8 @@ public sealed interface SymmetricCrypto {
      * @param secret 秘钥
      * @return 解密后的返回
      */
-    public fun decrypt(src: ByteArray, secret: ByteArray, mode: CryptoEncoding): ByteArray {
-        val digestedSrc = src.run {
-            when (mode) {
-                CryptoEncoding.BASE64 -> decodeBase64()
-                CryptoEncoding.HEX -> decodeHex()
-            }
-        }
+    public fun decrypt(src: ByteArray, secret: ByteArray, encoding: Encoding): ByteArray {
+        val digestedSrc = encoding.codec.encodeToByteArray(src)
         return decrypt(digestedSrc, secret)
     }
 
@@ -48,13 +39,10 @@ public sealed interface SymmetricCrypto {
      * @param secret 秘钥
      * @return 加密后的返回
      */
-    public fun encrypt(src: ByteArray, secret: ByteArray, mode: CryptoEncoding): ByteArray =
+    public fun encrypt(src: ByteArray, secret: ByteArray, encoding: Encoding): ByteArray =
         encrypt(src, secret)
             .run {
-                when (mode) {
-                    CryptoEncoding.BASE64 -> encodeToBase64()
-                    CryptoEncoding.HEX -> encodeToHex()
-                }
+                encoding.codec.encodeToByteArray(this)
             }
 
     /**

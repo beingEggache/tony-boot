@@ -1,11 +1,12 @@
 package com.tony.core.test
 
+import com.tony.codec.enums.Encoding
 import com.tony.crypto.symmetric.decryptToBytes
 import com.tony.crypto.symmetric.decryptToString
 import com.tony.crypto.symmetric.encryptToBytes
 import com.tony.crypto.symmetric.encryptToString
-import com.tony.crypto.symmetric.enums.CryptoEncoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
+import com.tony.utils.string
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.TestMethodOrder
@@ -27,7 +28,7 @@ object CryptoTest {
     @MethodSource(value = ["encryptStringTestArgumentSource"])
     fun testStringSymmetricCryptoEncrypt(
         algorithm: SymmetricCryptoAlgorithm,
-        encoding: CryptoEncoding,
+        encoding: Encoding,
         originString: String,
         secret: String,
     ) {
@@ -40,10 +41,10 @@ object CryptoTest {
         val aesSecret = "1234567890abcdefFEDCBA0987654321"
         val desSecret = "xvwe23dvxs"
         return Stream.of(
-            Arguments.of(SymmetricCryptoAlgorithm.AES, CryptoEncoding.BASE64, originString, aesSecret),
-            Arguments.of(SymmetricCryptoAlgorithm.AES, CryptoEncoding.HEX, originString, aesSecret),
-            Arguments.of(SymmetricCryptoAlgorithm.DES, CryptoEncoding.BASE64, originString, desSecret),
-            Arguments.of(SymmetricCryptoAlgorithm.DES, CryptoEncoding.HEX, originString, desSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.AES, Encoding.BASE64, originString, aesSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.AES, Encoding.HEX, originString, aesSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.DES, Encoding.BASE64, originString, desSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.DES, Encoding.HEX, originString, desSecret),
         )
     }
 
@@ -52,7 +53,7 @@ object CryptoTest {
     @MethodSource(value = ["encryptBytesTestArgumentSource"])
     fun testBytesSymmetricCryptoEncrypt(
         algorithm: SymmetricCryptoAlgorithm,
-        encoding: CryptoEncoding,
+        encoding: Encoding,
         originBytes: ByteArray,
         secret: String,
     ) {
@@ -65,10 +66,10 @@ object CryptoTest {
         val aesSecret = "1234567890abcdefFEDCBA0987654321"
         val desSecret = "xvwe23dvxs"
         return Stream.of(
-            Arguments.of(SymmetricCryptoAlgorithm.AES, CryptoEncoding.BASE64, originBytes, aesSecret),
-            Arguments.of(SymmetricCryptoAlgorithm.AES, CryptoEncoding.HEX, originBytes, aesSecret),
-            Arguments.of(SymmetricCryptoAlgorithm.DES, CryptoEncoding.BASE64, originBytes, desSecret),
-            Arguments.of(SymmetricCryptoAlgorithm.DES, CryptoEncoding.HEX, originBytes, desSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.AES, Encoding.BASE64, originBytes, aesSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.AES, Encoding.HEX, originBytes, aesSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.DES, Encoding.BASE64, originBytes, desSecret),
+            Arguments.of(SymmetricCryptoAlgorithm.DES, Encoding.HEX, originBytes, desSecret),
         )
     }
 
@@ -77,7 +78,7 @@ object CryptoTest {
     @MethodSource(value = ["decryptStringTestArgumentSource"])
     fun testStringSymmetricCryptoDecrypt(
         algorithm: SymmetricCryptoAlgorithm,
-        encoding: CryptoEncoding,
+        encoding: Encoding,
         encryptedString: String,
         secret: String,
     ) {
@@ -93,7 +94,7 @@ object CryptoTest {
         fun argument(
             algorithm: SymmetricCryptoAlgorithm,
             secret: String,
-            encoding: CryptoEncoding,
+            encoding: Encoding,
         ): Arguments {
             return Arguments.of(
                 algorithm,
@@ -104,10 +105,10 @@ object CryptoTest {
         }
 
         return Stream.of(
-            argument(SymmetricCryptoAlgorithm.AES, aesSecret, CryptoEncoding.BASE64),
-            argument(SymmetricCryptoAlgorithm.AES, aesSecret, CryptoEncoding.HEX),
-            argument(SymmetricCryptoAlgorithm.DES, desSecret, CryptoEncoding.BASE64),
-            argument(SymmetricCryptoAlgorithm.DES, desSecret, CryptoEncoding.HEX),
+            argument(SymmetricCryptoAlgorithm.AES, aesSecret, Encoding.BASE64),
+            argument(SymmetricCryptoAlgorithm.AES, aesSecret, Encoding.HEX),
+            argument(SymmetricCryptoAlgorithm.DES, desSecret, Encoding.BASE64),
+            argument(SymmetricCryptoAlgorithm.DES, desSecret, Encoding.HEX),
         )
     }
 
@@ -116,13 +117,13 @@ object CryptoTest {
     @MethodSource(value = ["decryptBytesTestArgumentSource"])
     fun testBytesSymmetricCryptoDecrypt(
         algorithm: SymmetricCryptoAlgorithm,
-        encoding: CryptoEncoding,
+        encoding: Encoding,
         encryptedBytes: ByteArray,
         secret: String,
     ) {
         val originBytes = encryptedBytes.decryptToBytes(algorithm, secret, encoding)
         logger.info(
-            "origin string: ${originBytes.toString(Charsets.UTF_8)}, " +
+            "origin string: ${originBytes.string()}, " +
                 "origin bytes: ${originBytes.toList()}"
         )
     }
@@ -136,7 +137,7 @@ object CryptoTest {
         fun argument(
             algorithm: SymmetricCryptoAlgorithm,
             secret: String,
-            encoding: CryptoEncoding,
+            encoding: Encoding,
         ): Arguments {
             return Arguments.of(
                 algorithm,
@@ -147,10 +148,10 @@ object CryptoTest {
         }
 
         return Stream.of(
-            argument(SymmetricCryptoAlgorithm.AES, aesSecret, CryptoEncoding.BASE64),
-            argument(SymmetricCryptoAlgorithm.AES, aesSecret, CryptoEncoding.HEX),
-            argument(SymmetricCryptoAlgorithm.DES, desSecret, CryptoEncoding.BASE64),
-            argument(SymmetricCryptoAlgorithm.DES, desSecret, CryptoEncoding.HEX),
+            argument(SymmetricCryptoAlgorithm.AES, aesSecret, Encoding.BASE64),
+            argument(SymmetricCryptoAlgorithm.AES, aesSecret, Encoding.HEX),
+            argument(SymmetricCryptoAlgorithm.DES, desSecret, Encoding.BASE64),
+            argument(SymmetricCryptoAlgorithm.DES, desSecret, Encoding.HEX),
         )
     }
 }

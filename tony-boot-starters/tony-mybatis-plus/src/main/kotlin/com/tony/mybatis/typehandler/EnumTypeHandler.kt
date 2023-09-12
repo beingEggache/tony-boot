@@ -1,8 +1,8 @@
 /**
  * EnumTypeHandler
  *
- * @author tangli
- * @since 2022/7/12 15:47
+ * @author Tang Li
+ * @date 2022/7/12 15:47
  */
 package com.tony.mybatis.typehandler
 
@@ -17,8 +17,8 @@ import org.apache.ibatis.type.JdbcType
 /**
  * EnumTypeHandler
  *
- * @author tangli
- * @since 2022/1/13 18:11
+ * @author Tang Li
+ * @date 2022/1/13 18:11
  */
 public open class EnumTypeHandler<E, KEY>(enumClass: Class<E>) :
     BaseTypeHandler<E>()

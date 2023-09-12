@@ -17,8 +17,8 @@ import org.springframework.data.redis.serializer.SerializationException
  *
  * 生成的码流比jdk序列化小，速度更快.
  *
- * @author tangli
- * @since 2023/6/5 13:52
+ * @author Tang Li
+ * @date 2023/6/5 13:52
  */
 internal class ProtostuffSerializer : RedisSerializer<Any?> {
 

@@ -10,8 +10,8 @@ import org.springframework.core.env.Environment
  *
  * 新增了一些 kotlin 的 lazy方法. 其余的委托到 [ApplicationContext] 实现.
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 public object SpringContexts : ApplicationContext by ApplicationContextHolder.springContext {
 

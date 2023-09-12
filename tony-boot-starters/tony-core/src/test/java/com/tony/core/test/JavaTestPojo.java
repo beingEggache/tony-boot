@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.Nulls;
 /**
  * javaTestPojo is
  *
- * @author tangli
- * @since 2023/07/14 11:02
+ * @author Tang Li
+ * @date 2023/07/14 11:02
  */
 public class JavaTestPojo {
 

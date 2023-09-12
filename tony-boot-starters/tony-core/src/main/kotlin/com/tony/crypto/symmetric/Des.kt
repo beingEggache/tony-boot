@@ -8,8 +8,8 @@ import javax.crypto.spec.DESKeySpec
 /**
  * Des对称加密单例类
  *
- * @author tangli
- * @since 2023/5/29 11:20
+ * @author Tang Li
+ * @date 2023/5/29 11:20
  */
 public data object Des : SymmetricCrypto {
 

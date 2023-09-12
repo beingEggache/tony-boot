@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  *
- * @author tangli
- * @since 2020-11-14 16:24
+ * @author Tang Li
+ * @date 2020-11-14 16:24
  */
 @Schema(description = "模块/权限")
 data class ModuleResp(

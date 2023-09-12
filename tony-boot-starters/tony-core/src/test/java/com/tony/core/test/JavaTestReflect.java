@@ -3,8 +3,8 @@ package com.tony.core.test;
 /**
  * JavaReflect is
  *
- * @author tangli
- * @since 2023/07/12 10:12
+ * @author Tang Li
+ * @date 2023/07/12 10:12
  */
 public class JavaTestReflect implements ReflectLike {
 

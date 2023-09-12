@@ -13,8 +13,8 @@ import org.springframework.util.ConcurrentReferenceHashMap
 
 /**
  * ReflectionUtils is
- * @author tangli
- * @since 2023/07/12 11:19
+ * @author Tang Li
+ * @date 2023/07/12 11:19
  */
 
 internal val getterCache: MutableMap<AnnotatedElement, Method?> = ConcurrentReferenceHashMap()

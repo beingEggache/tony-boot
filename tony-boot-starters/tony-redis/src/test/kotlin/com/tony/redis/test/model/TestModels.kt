@@ -5,8 +5,8 @@ import java.math.BigInteger
 
 /**
  * TestModels is
- * @author tangli
- * @since 2023/06/05 11:14
+ * @author Tang Li
+ * @date 2023/06/05 11:14
  */
 class SimpleObj(val name: String, val age: Int)
 

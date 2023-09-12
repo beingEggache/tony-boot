@@ -7,8 +7,8 @@ package com.tony.redis.serializer.wrapper
  * 因为 [com.tony.redis.RedisValues.increment]不会走 [org.springframework.data.redis.serializer.RedisSerializer.serialize].
  *
  * 但经过特殊处理, 所有 [Number] 类型都直接原生处理, 没走 [com.tony.redis.serializer.ProtostuffSerializer.serialize].
- * @author tangli
- * @since 2023/5/24 18:12
+ * @author Tang Li
+ * @date 2023/5/24 18:12
  */
 internal class ProtoWrapper
     @JvmOverloads

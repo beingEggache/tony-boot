@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory
 /**
  * RequestBody 注入
  *
- * @author tangli
- * @since 2023/7/6 14:59
+ * @author Tang Li
+ * @date 2023/7/6 14:59
  */
 internal class RequestBodyFieldInjectorComposite(
     private val requestBodyFieldInjectors: List<RequestBodyFieldInjector>,

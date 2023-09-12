@@ -12,6 +12,12 @@ private const val TRADE_SUCCESS = "TRADE_SUCCESS"
 
 private const val TRADE_CLOSED = "TRADE_CLOSED"
 
+/**
+ * 支付宝通知请求
+ * @author Tang Li
+ * @date 2023/09/12 10:07
+ * @since 1.0.0
+ */
 @Suppress("MemberVisibilityCanBePrivate")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 public class AlipayNotifyRequest(

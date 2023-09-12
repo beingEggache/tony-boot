@@ -7,13 +7,12 @@ import java.util.Collections;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * Global page response structure.
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 @SuppressWarnings("unused")
 public interface PageResultLike<T> {
@@ -74,7 +73,7 @@ public interface PageResultLike<T> {
             items = Collections.emptyList();
         }
         return ObjUtils.asToNotNull(new PageResult<>(
-            items.stream().map(transform).collect(Collectors.toList()),
+            items.stream().map(transform).toList(),
             getPage(),
             getSize(),
             getPages(),
@@ -97,7 +96,7 @@ public interface PageResultLike<T> {
         }
 
         return ObjUtils.asToNotNull(new PageResult<>(
-            items.stream().peek(action).collect(Collectors.toList()),
+            items.stream().peek(action).toList(),
             getPage(),
             getSize(),
             getPages(),

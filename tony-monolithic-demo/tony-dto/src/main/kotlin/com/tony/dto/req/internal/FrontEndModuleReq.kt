@@ -8,8 +8,8 @@ import jakarta.validation.constraints.NotNull
 
 /**
  *
- * @author tangli
- * @since 2020-11-06 9:50
+ * @author Tang Li
+ * @date 2020-11-06 9:50
  */
 @Schema(description = "前端 模块/权限 请求")
 data class FrontEndModuleReq(

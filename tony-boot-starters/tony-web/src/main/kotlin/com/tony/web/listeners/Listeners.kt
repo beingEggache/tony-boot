@@ -8,16 +8,16 @@ import org.springframework.context.event.ContextClosedEvent
 /**
  * 系统关闭监听器
  *
- * @author tangli
- * @since 2023/5/25 11:00
+ * @author Tang Li
+ * @date 2023/5/25 11:00
  */
 public interface ContextClosedListener : ApplicationListener<ContextClosedEvent>
 
 /**
  * 系统关闭监听器 默认实现
  *
- * @author tangli
- * @since 2023/5/25 11:00
+ * @author Tang Li
+ * @date 2023/5/25 11:00
  */
 internal class DefaultContextClosedListener : ContextClosedListener {
 

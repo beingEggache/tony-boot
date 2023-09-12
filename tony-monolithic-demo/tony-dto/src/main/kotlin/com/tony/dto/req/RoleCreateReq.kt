@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotBlank
 
 /**
  *
- * @author tangli
- * @since 2020-11-14 11:30
+ * @author Tang Li
+ * @date 2020-11-14 11:30
  */
 @Schema(description = "创建角色请求")
 data class RoleCreateReq(

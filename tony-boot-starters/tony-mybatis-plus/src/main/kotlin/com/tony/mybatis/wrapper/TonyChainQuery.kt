@@ -13,8 +13,8 @@ import org.apache.ibatis.exceptions.TooManyResultsException
 
 /**
  * TonyChainQuery is
- * @author tangli
- * @since 2023/08/11 09:18
+ * @author Tang Li
+ * @date 2023/08/11 09:18
  */
 public interface TonyChainQuery<T : Any> : ChainQuery<T> {
 

@@ -8,8 +8,8 @@ import kotlin.reflect.KClass
 /**
  * 指定范围内校验.
  *
- * @author tangli
- * @since 2018/7/11
+ * @author Tang Li
+ * @date 2018/7/11
  */
 @MustBeDocumented
 @Constraint(validatedBy = [MobileValidator::class])

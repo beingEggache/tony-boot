@@ -3,8 +3,8 @@ package com.tony;
 /**
  * EncryptApiResult is
  *
- * @author tangli
- * @since 2023/08/08 11:30
+ * @author Tang Li
+ * @date 2023/08/08 11:30
  */
 public class EncryptApiResult implements ApiResultLike<String>{
 

@@ -11,8 +11,8 @@ import java.util.Collection;
 /**
  * Global page request structure.
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 public interface JPageQueryLike<T> {
 

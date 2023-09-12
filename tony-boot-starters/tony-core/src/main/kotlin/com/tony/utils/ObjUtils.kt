@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory
 
 /**
  * ObjUtils is
- * @author tangli
- * @since 2023/06/13 17:10
+ * @author Tang Li
+ * @date 2023/06/13 17:10
  */
 /**
  * println

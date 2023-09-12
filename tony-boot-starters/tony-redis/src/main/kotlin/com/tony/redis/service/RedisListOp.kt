@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit
 
 /**
  * RedisListOp is
- * @author tangli
- * @since 2023/06/14 13:38
+ * @author Tang Li
+ * @date 2023/06/14 13:38
  */
 public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
 

@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit
 /**
  * 验证码服务 单例类.
  *
- * @author tangli
- * @since 2023/5/25 15:38
+ * @author Tang Li
+ * @date 2023/5/25 15:38
  */
 public object CaptchaManager {
 

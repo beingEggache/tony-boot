@@ -7,8 +7,8 @@ import java.util.Objects;
 /**
  * 全局响应统一结构.
  *
- * @author tangli
- * @since 2021/12/6 10:51
+ * @author Tang Li
+ * @date 2021/12/6 10:51
  */
 @JsonPropertyOrder(value = {"code", "message", "data"})
 public interface ApiResultLike<T> {

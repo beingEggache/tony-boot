@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotBlank
 
 /**
  *
- * @author tangli
- * @since 2020-11-03 14:40
+ * @author Tang Li
+ * @date 2020-11-03 14:40
  */
 @Schema(description = "登录请求")
 data class UserLoginReq(

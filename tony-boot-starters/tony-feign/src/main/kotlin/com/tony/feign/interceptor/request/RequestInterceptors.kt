@@ -15,8 +15,8 @@ import org.springframework.beans.factory.ObjectProvider
  *
  * @param T
  * @property obj
- * @author tangli
- * @since 2023/08/02 21:00
+ * @author Tang Li
+ * @date 2023/08/02 21:00
  */
 public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
     private val obj: T,

@@ -8,8 +8,8 @@ import com.tony.SpringContexts.Env
  * 比如成功返回码, 失败返回码等.
  *
  * 可读取配置.
- * @author tangli
- * @since 2022/9/29 10:20
+ * @author Tang Li
+ * @date 2022/9/29 10:20
  */
 public data object ApiProperty {
 

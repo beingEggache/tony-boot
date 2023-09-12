@@ -2,8 +2,8 @@ package com.tony.enums.validate
 
 /**
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 import jakarta.validation.Constraint
 import jakarta.validation.Payload
@@ -13,8 +13,8 @@ import kotlin.reflect.KClass
  * 简单枚举校验
  * @param enums 枚举值
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 @MustBeDocumented
 @Constraint(validatedBy = [SimpleEnumValidator::class])
@@ -38,8 +38,8 @@ public annotation class SimpleEnum(
  * @param enums 枚举值
  * @param required 是否必须
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 @MustBeDocumented
 @Constraint(validatedBy = [SimpleIntEnumValidator::class])
@@ -64,8 +64,8 @@ public annotation class SimpleIntEnum(
  * @param enumClass 枚举类
  * @param required 是否必须
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 @MustBeDocumented
 @Constraint(validatedBy = [IntEnumValidator::class])
@@ -90,8 +90,8 @@ public annotation class IntEnum(
  * @param enums 枚举值
  * @param required 是否必须
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 @MustBeDocumented
 @Constraint(validatedBy = [SimpleStringEnumValidator::class])
@@ -116,8 +116,8 @@ public annotation class SimpleStringEnum(
  * @param enumClass 枚举类
  * @param required 是否必须
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 @MustBeDocumented
 @Constraint(validatedBy = [StringEnumValidator::class])

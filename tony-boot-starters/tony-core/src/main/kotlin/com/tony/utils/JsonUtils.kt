@@ -5,8 +5,8 @@ package com.tony.utils
 /**
  * Json工具类
  *
- * @author tangli
- * @since 2022/9/29 10:20
+ * @author Tang Li
+ * @date 2022/9/29 10:20
  */
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonParseException

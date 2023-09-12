@@ -1,6 +1,7 @@
 package com.tony.wechat
 
 import com.tony.SpringContexts
+import com.tony.utils.string
 import com.tony.utils.urlEncode
 import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu
@@ -164,7 +165,7 @@ public object WechatManager {
         .body()
         .asInputStream()
         .use {
-            Base64.getEncoder().encode(it.readAllBytes()).toString(Charsets.UTF_8)
+            Base64.getEncoder().encode(it.readAllBytes()).string()
         }
 
     @JvmOverloads

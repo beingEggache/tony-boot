@@ -24,8 +24,8 @@ import org.springframework.web.util.ContentCachingResponseWrapper
 /**
  * TraceLoggingFilter
  *
- * @author tangli
- * @since 2023/5/25 10:36
+ * @author Tang Li
+ * @date 2023/5/25 10:36
  */
 internal class TraceLoggingFilter(
     private val requestTraceLogger: RequestTraceLogger,
@@ -90,8 +90,8 @@ internal class TraceLoggingFilter(
 /**
  * TraceIdFilter
  *
- * @author tangli
- * @since 2023/5/25 10:37
+ * @author Tang Li
+ * @date 2023/5/25 10:37
  */
 internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
 

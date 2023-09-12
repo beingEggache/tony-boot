@@ -6,8 +6,8 @@ import jakarta.validation.ConstraintValidatorContext
 
 /**
  *
- * @author tangli
- * @since 2020-11-03 16:25
+ * @author Tang Li
+ * @date 2020-11-03 16:25
  */
 class MobileValidator : ConstraintValidator<Mobile, CharSequence?> {
 

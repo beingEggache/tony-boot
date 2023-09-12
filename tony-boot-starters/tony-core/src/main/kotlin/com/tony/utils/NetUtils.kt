@@ -10,8 +10,8 @@ import java.net.UnknownHostException
 
 /**
  * NetUtils is
- * @author tangli
- * @since 2023/06/13 17:13
+ * @author Tang Li
+ * @date 2023/06/13 17:13
  */
 /**
  * 获取本地ip.

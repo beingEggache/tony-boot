@@ -2,8 +2,8 @@
  * tony-boot-starters
  * WechatClient
  *
- * @author tangli
- * @since 2021/9/26 13:21
+ * @author Tang Li
+ * @date 2021/9/26 13:21
  */
 package com.tony.wechat.client
 
@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam
 /**
  * 微信 http client
  *
- * @author tangli
- * @since 2023/5/25 15:21
+ * @author Tang Li
+ * @date 2023/5/25 15:21
  */
 @FeignClient("wechatClient", url = "https://api.weixin.qq.com")
 public interface WechatClient {

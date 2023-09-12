@@ -7,8 +7,8 @@ import com.tony.dto.resp.UserResp
 
 /**
  *
- * @author tangli
- * @since 2020-12-10 13:39
+ * @author Tang Li
+ * @date 2020-12-10 13:39
  */
 fun User.toDto() = UserResp(
     userId,

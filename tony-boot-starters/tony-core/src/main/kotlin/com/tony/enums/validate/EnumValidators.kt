@@ -2,8 +2,8 @@ package com.tony.enums.validate
 
 /**
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 import com.tony.enums.DEFAULT_INT_VALUE
 import com.tony.enums.DEFAULT_STRING_VALUE
@@ -16,8 +16,8 @@ import jakarta.validation.ConstraintValidatorContext
 
 /**
  * 简单整形枚举校验
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, IntEnumValue?> {
     private var enums: IntArray = intArrayOf()
@@ -42,8 +42,8 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, IntEnum
 
 /**
  * 整形枚举强类型校验
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
     private var enums: List<Int> = listOf()
@@ -72,8 +72,8 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
 
 /**
  * 字符串枚举简单校验
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, StringEnumValue?> {
 
@@ -98,8 +98,8 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, S
 
 /**
  * 字符串枚举强类型校验
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumValue?> {
     private var enums: List<String> = listOf()
@@ -128,8 +128,8 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumVal
 
 /**
  * 简单字符串枚举校验
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 public class SimpleEnumValidator : ConstraintValidator<SimpleEnum, Any?> {
 

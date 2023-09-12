@@ -5,8 +5,8 @@ package com.tony.annotation.redis
  *
  * 给常规的 @Cacheable 加了过期时间
  *
- * @author tangli
- * @since 2023/5/24 18:10
+ * @author Tang Li
+ * @date 2023/5/24 18:10
  */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
@@ -38,8 +38,8 @@ public annotation class RedisCacheable(
  *
  * 可重复注解.
  *
- * @author tangli
- * @since 2023/5/24 18:11
+ * @author Tang Li
+ * @date 2023/5/24 18:11
  */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)

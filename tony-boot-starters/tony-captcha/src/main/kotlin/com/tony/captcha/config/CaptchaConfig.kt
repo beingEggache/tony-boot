@@ -4,8 +4,8 @@ package com.tony.captcha.config
  * tony-boot-dependencies
  * CaptchaConfig
  *
- * @author tangli
- * @since 2022/3/10 15:14
+ * @author Tang Li
+ * @date 2022/3/10 15:14
  */
 import com.tony.captcha.CaptchaService
 import com.tony.captcha.DefaultCaptchaServiceImpl
@@ -19,8 +19,8 @@ import org.springframework.context.annotation.Configuration
 /**
  * 验证码配置
  *
- * @author tangli
- * @since 2023/5/25 15:41
+ * @author Tang Li
+ * @date 2023/5/25 15:41
  */
 @Configuration
 @EnableConfigurationProperties(CaptchaProperties::class)
@@ -41,8 +41,8 @@ internal class CaptchaConfig(
 /**
  * CaptchaProperties
  *
- * @author tangli
- * @since 2023/5/25 15:42
+ * @author Tang Li
+ * @date 2023/5/25 15:42
  */
 @ConfigurationProperties(prefix = "captcha")
 internal data class CaptchaProperties(

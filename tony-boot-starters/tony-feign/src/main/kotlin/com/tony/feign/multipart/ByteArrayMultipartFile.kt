@@ -1,8 +1,8 @@
 /**
  * ByteArrayMultipartFile
  *
- * @author tangli
- * @since 2021/12/8 9:06
+ * @author Tang Li
+ * @date 2021/12/8 9:06
  */
 package com.tony.feign.multipart
 
@@ -17,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile
  *
  * 可用来 feign 上传二进制.
  *
- * @author tangli
- * @since 2023/5/25 15:49
+ * @author Tang Li
+ * @date 2023/5/25 15:49
  */
 public class ByteArrayMultipartFile(
     private val originalFilename: String,

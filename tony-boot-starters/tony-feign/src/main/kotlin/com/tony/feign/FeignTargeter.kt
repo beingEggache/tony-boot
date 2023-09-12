@@ -23,8 +23,8 @@ import org.springframework.cloud.openfeign.Targeter
  *
  * @property globalRequestInterceptors
  * @property globalResponseInterceptors
- * @author tangli
- * @since 2023/08/02 21:00
+ * @author Tang Li
+ * @date 2023/08/02 21:00
  */
 public class FeignTargeter(
     private val globalRequestInterceptors: List<RequestInterceptor>,

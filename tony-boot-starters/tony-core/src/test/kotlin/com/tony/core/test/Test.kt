@@ -1,11 +1,12 @@
 package com.tony.core.test
 
+import com.tony.codec.encodeToString
+import com.tony.codec.enums.Encoding
 import com.tony.utils.println
-import com.tony.utils.toJsonString
-import kotlin.reflect.KClass
 
 fun main() {
-    "adasdasd".toJsonString().println()
+    val src = "Hello World"
+    src.encodeToString(Encoding.BASE64).println()
 }
 
 fun quickSort(list: List<Int>): List<Int> =

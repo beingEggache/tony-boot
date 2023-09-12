@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotEmpty
 
 /**
  *
- * @author tangli
- * @since 2020-11-14 13:50
+ * @author Tang Li
+ * @date 2020-11-14 13:50
  */
 @Schema(description = "分配权限请求")
 data class ModuleAssignReq(

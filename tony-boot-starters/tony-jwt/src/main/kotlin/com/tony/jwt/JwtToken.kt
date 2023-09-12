@@ -11,8 +11,8 @@ import java.util.Date
 
 /**
  * jwt 单例类.
- * @author tangli
- * @since 2023/5/25 15:56
+ * @author Tang Li
+ * @date 2023/5/25 15:56
  */
 public object JwtToken {
 

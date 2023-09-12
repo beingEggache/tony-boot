@@ -8,6 +8,12 @@ import com.alipay.api.request.AlipayTradeAppPayRequest
 import com.tony.alipay.exception.AlipayException
 import com.tony.utils.urlEncode
 
+/**
+ * 支付宝 Manager
+ * @author Tang Li
+ * @date 2023/09/12 10:05
+ * @since 1.0.0
+ */
 @Suppress("unused")
 public class AlipayManager(
     private val appId: String,
@@ -22,6 +28,14 @@ public class AlipayManager(
         DefaultAlipayClient(alipayGateway, appId, privateKey, "JSON", "utf-8", aliPayPublicKey, "RSA2")
     }
 
+    /**
+     * 通知 签名 检查
+     * @param [params] params
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/09/12 10:05
+     * @since 1.0.0
+     */
     public fun notifySignCheck(params: Map<String, String?>): Boolean {
         val requestAppId = params["app_id"]
         val requestCharset = params["charset"]
@@ -35,6 +49,19 @@ public class AlipayManager(
         }
     }
 
+    /**
+     * app下单 并生成支付参数
+     * @param [totalAmount] 总额
+     * @param [subject] 主题
+     * @param [outTradeNo] 订单号
+     * @param [notifyURL] 通知url
+     * @param [passBackParams] 传回参数
+     * @param [body] 请求体
+     * @return [String]
+     * @author Tang Li
+     * @date 2023/09/12 10:05
+     * @since 1.0.0
+     */
     public fun appOrderAndPayGenParams(
         totalAmount: String,
         subject: String?,
