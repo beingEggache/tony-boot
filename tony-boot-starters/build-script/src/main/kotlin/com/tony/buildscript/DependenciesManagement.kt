@@ -174,7 +174,7 @@ internal object DepsManagement {
         const val commonFileUpload = "commons-fileupload:commons-fileupload:1.5"
         const val commonsCodec = "commons-codec:commons-codec:1.16.0"
         const val commonsIo = "commons-io:commons-io:2.13.0"
-        const val commonsCompress = "org.apache.commons:commons-compress:1.23.0"
+        const val commonsCompress = "org.apache.commons:commons-compress:1.24.0"
         const val commonsPool2 = "org.apache.commons:commons-pool2:2.11.1"
         const val commonsLang3 = "org.apache.commons:commons-lang3:3.13.0"
 
@@ -219,7 +219,7 @@ internal object DepsManagement {
         const val springdocStarterCommon = "org.springdoc:springdoc-openapi-starter-common:${VersionManagement.SPRINGDOC_STARTER_VERSION}"
         const val springdocKotlin = "org.springdoc:springdoc-openapi-kotlin:${VersionManagement.SPRINGDOC_VERSION}"
 
-        const val snakeYaml = "org.yaml:snakeyaml:2.1"
+        const val snakeYaml = "org.yaml:snakeyaml:2.2"
 
         const val yitterIdgenerator = "com.github.yitter:yitter-idgenerator:1.0.6"
         const val easyCaptcha = "com.github.whvcse:easy-captcha:1.6.2"

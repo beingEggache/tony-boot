@@ -169,6 +169,7 @@ public fun LocalDate.isBetween(
  */
 public fun LocalDate.atEndOfDay(): LocalDateTime = LocalDateTime.of(this, LocalTime.MAX)
 
+//TODO needTest
 public class TimePeriod {
 
     private val start: Any
