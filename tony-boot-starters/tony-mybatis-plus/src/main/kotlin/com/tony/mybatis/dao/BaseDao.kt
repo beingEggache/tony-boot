@@ -34,10 +34,21 @@ import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.binding.MapperMethod.ParamMap
 import org.springframework.transaction.annotation.Transactional
 
+/**
+ * mybatis plus [BaseMapper] 包装, 增加了一些方法.
+ * @author Tang Li
+ * @date 2023/09/13 10:37
+ * @since 1.0.0
+ */
 public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 根据id查询，为null 将会抛错
+     * @param [id] id
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/09/13 10:38
+     * @since 1.0.0
      */
     public fun selectByIdNotNull(
         id: Serializable,
@@ -45,6 +56,12 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 根据id查询，为null 将会抛错
+     * @param [id] id
+     * @param [message] 消息
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/09/13 10:38
+     * @since 1.0.0
      */
     public fun selectByIdNotNull(
         id: Serializable,
@@ -53,6 +70,13 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 根据id查询，为null 将会抛错
+     * @param [id] id
+     * @param [message] 消息
+     * @param [code] 密码
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/09/13 10:38
+     * @since 1.0.0
      */
     public fun selectByIdNotNull(
         id: Serializable,
@@ -62,9 +86,11 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * TableId 注解存在更新记录，否插入一条记录
-     *
-     * @param entity 实体对象
-     * @return boolean
+     * @param [entity] 实体对象
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/09/13 10:38
+     * @since 1.0.0
      */
     public fun upsert(entity: T?): Boolean {
         if (null != entity) {
@@ -84,9 +110,11 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 批量插入
-     *
-     * @param batchList 实体列表
-     * @return 执行结果
+     * @param [batchList] 实体列表
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/09/13 10:38
+     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     public fun insertBatch(batchList: Collection<T>): Boolean = executeBatch(batchList) { sqlSession, entity ->
@@ -95,9 +123,11 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 批量保存更新
-     *
-     * @param batchList 实体列表
-     * @return 执行结果
+     * @param [batchList] 实体列表
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/09/13 10:38
+     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     public fun upsertBatch(batchList: Collection<T>): Boolean {
@@ -125,9 +155,11 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 批量更新
-     *
-     * @param batchList 实体列表
-     * @return 执行结果
+     * @param [batchList] 实体列表
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/09/13 10:38
+     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     public fun updateByIdBatch(batchList: Collection<T>): Boolean = executeBatch(batchList) { sqlSession, entity ->
@@ -138,9 +170,11 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 批量删除,如果使用了逻辑删除，就是批量逻辑删除.
-     *
-     * @param batchList 实体列表
-     * @return 执行结果
+     * @param [batchList] 实体列表
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/09/13 10:38
+     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     public fun deleteByIdBatch(batchList: Collection<T>): Boolean {
@@ -164,9 +198,12 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 分页查询出全局统一结构.
-     * @param page
-     * @param queryWrapper
-     * @return
+     * @param [page] 页
+     * @param [queryWrapper] 查询包装器
+     * @return [E]
+     * @author Tang Li
+     * @date 2023/09/13 10:39
+     * @since 1.0.0
      */
     public fun <E : PageResultLike<T>> selectPageResult(
         page: JPageQueryLike<*>,
@@ -192,24 +229,30 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 链式查询 普通
-     *
-     * @return QueryWrapper 的包装类
+     * @return [TonyQueryChainWrapper]
+     * @author Tang Li
+     * @date 2023/09/13 10:39
+     * @since 1.0.0
      */
     public fun query(): TonyQueryChainWrapper<T> = TonyQueryChainWrapper(this)
 
     /**
      * 链式查询 lambda 式
-     *
      * <p>注意：不支持 Kotlin </p>
-     *
-     * @return LambdaQueryWrapper 的包装类
+     * @return [TonyLambdaQueryChainWrapper]
+     * @author Tang Li
+     * @date 2023/09/13 10:39
+     * @since 1.0.0
      */
     public fun lambdaQuery(): TonyLambdaQueryChainWrapper<T> = TonyLambdaQueryChainWrapper(this)
 
     /**
      * 链式查询 普通
      * kotlin 使用
-     * @return QueryWrapper 的包装类
+     * @return [TonyKtQueryChainWrapper]
+     * @author Tang Li
+     * @date 2023/09/13 10:39
+     * @since 1.0.0
      */
     @JvmSynthetic
     public fun ktQuery(): TonyKtQueryChainWrapper<T> = TonyKtQueryChainWrapper(this)
@@ -217,23 +260,30 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     /**
      * 链式查询 lambda 式
      * kotlin 使用
-     * @return KtQueryWrapper 的包装类
+     * @return [KtUpdateChainWrapper]
+     * @author Tang Li
+     * @date 2023/09/13 10:39
+     * @since 1.0.0
      */
     @JvmSynthetic
     public fun ktUpdate(): KtUpdateChainWrapper<T> = ChainWrappers.ktUpdateChain(this, getEntityClass())
 
     /**
      * 链式更改 普通
-     *
-     * @return UpdateWrapper 的包装类
+     * @return [UpdateChainWrapper]
+     * @author Tang Li
+     * @date 2023/09/13 10:40
+     * @since 1.0.0
      */
     public fun update(): UpdateChainWrapper<T> = ChainWrappers.updateChain(this)
 
     /**
      * 链式更改 lambda 式
      * <p>注意：不支持 Kotlin </p>
-     *
-     * @return LambdaUpdateWrapper 的包装类
+     * @return [LambdaUpdateChainWrapper]
+     * @author Tang Li
+     * @date 2023/09/13 10:40
+     * @since 1.0.0
      */
     public fun lambdaUpdate(): LambdaUpdateChainWrapper<T> = ChainWrappers.lambdaUpdateChain(this)
 }

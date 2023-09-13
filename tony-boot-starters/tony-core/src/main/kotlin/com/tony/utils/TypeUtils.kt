@@ -20,8 +20,10 @@ import java.util.Date
 
 /**
  * Returns the Type object representing the class or interface that declared this type.
- *
- * @return the Type object representing the class or interface that declared this type
+ * @return [Class]
+ * @author Tang Li
+ * @date 2023/09/13 10:27
+ * @since 1.0.0
  */
 public fun Type.rawClass(): Class<*> =
     when (this) {
@@ -30,13 +32,22 @@ public fun Type.rawClass(): Class<*> =
         else -> error("Ain't gonna happen.")
     }
 
+/**
+ * JavaType
+ * @return [JavaType]
+ * @author Tang Li
+ * @date 2023/09/13 10:27
+ * @since 1.0.0
+ */
 public fun Type.toJavaType(): JavaType = TypeFactory.defaultInstance().constructType(this)
 
 /**
- * 返回范型参数的 [Type]
- *
- * @param index 范型参数索引, 默认为第一个,也就是 0.
- * @return Type object representing the actual type arguments to this type
+ * 返回范型参数的  [Type]
+ * @param [index] 范型参数索引, 默认为第一个,也就是 0.
+ * @return [Type]
+ * @author Tang Li
+ * @date 2023/09/13 10:28
+ * @since 1.0.0
  */
 @JvmOverloads
 public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
@@ -45,6 +56,15 @@ public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
     return (superClass as ParameterizedType).actualTypeArguments[index]
 }
 
+/**
+ * 获取接口的泛型参数
+ * @param [type] 类型
+ * @param [index] 类型位置, 默认第一个
+ * @return [Type]
+ * @author Tang Li
+ * @date 2023/09/13 10:28
+ * @since 1.0.0
+ */
 @JvmOverloads
 public fun Class<*>.typeParamOfSuperInterface(type: Class<*>, index: Int = 0): Type {
     val genericInterfaces = this.genericInterfaces
@@ -69,9 +89,11 @@ internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
 
 /**
  * 检查 是否 是某些类型 或某些类型的子类
- *
- * @param types
- * @return
+ * @param [types] 类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:29
+ * @since 1.0.0
  */
 public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
     types.any { this.isTypeOrSubTypeOf(it) }
@@ -89,12 +111,20 @@ private val NUMBER_TYPES: Array<Class<*>?> =
     )
 
 /**
- * 检查 是否数值类型
+ * 是否数字类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:29
+ * @since 1.0.0
  */
 public fun Class<*>.isNumberTypes(): Boolean = isTypesOrSubTypesOf(*NUMBER_TYPES)
 
 /**
- * 检查 是否字符串类型
+ * 是否字符串类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:29
+ * @since 1.0.0
  */
 public fun Class<*>.isStringLikeType(): Boolean =
     this.isTypesOrSubTypesOf(
@@ -102,13 +132,24 @@ public fun Class<*>.isStringLikeType(): Boolean =
     )
 
 /**
- * 检查 是否列表或数组类型
+ * 是否列表或数组类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
  */
 public fun Class<*>.isArrayLikeType(): Boolean =
     this.isTypeOrSubTypeOf(Collection::class.java) ||
         this::class.java.isArray ||
         this.isArray
 
+/**
+ * 原始类
+ * @return [Class<T>]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 @Suppress("UNCHECKED_CAST")
 public fun <T> TypeReference<T>.rawClass(): Class<T> =
     when (type) {
@@ -116,6 +157,13 @@ public fun <T> TypeReference<T>.rawClass(): Class<T> =
         else -> type
     } as Class<T>
 
+/**
+ * 是类似字符串类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun <T> TypeReference<T>.isStringLikeType(): Boolean =
     rawClass().isTypesOrSubTypesOf(
         CharSequence::class.java,
@@ -123,46 +171,144 @@ public fun <T> TypeReference<T>.isStringLikeType(): Boolean =
         Char::class.javaPrimitiveType
     )
 
+/**
+ * 是数字类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun <T> TypeReference<T>.isNumberTypes(): Boolean = rawClass().isNumberTypes()
 
+/**
+ * rawClass
+ * @return [Class<T>]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 @Suppress("UNCHECKED_CAST")
 public fun <T> JavaType.rawClass(): Class<T> = rawClass as Class<T>
 
+/**
+ * 是类似日期时间类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun JavaType.isDateTimeLikeType(): Boolean =
     isTypeOrSubTypeOf(Date::class.java) || isTypeOrSubTypeOf(TemporalAccessor::class.java)
 
+/**
+ * 是类似数组类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun JavaType.isArrayLikeType(): Boolean =
     isArrayType || isCollectionLikeType
 
+/**
+ * 是布尔类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun JavaType.isBooleanType(): Boolean =
     isTypeOrSubTypeOf(Boolean::class.javaObjectType) || isTypeOrSubTypeOf(Boolean::class.javaPrimitiveType)
 
+/**
+ * 是数字类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun JavaType.isNumberType(): Boolean =
     isTypeOrSubTypeOf(Number::class.java)
 
+/**
+ * 是字节类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun JavaType.isByteType(): Boolean =
     isTypeOrSubTypeOf(Byte::class.javaObjectType) || isTypeOrSubTypeOf(Byte::class.javaPrimitiveType)
 
+/**
+ * 是短型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun JavaType.isShortType(): Boolean =
     isTypeOrSubTypeOf(Short::class.javaObjectType) || isTypeOrSubTypeOf(Short::class.javaPrimitiveType)
 
+/**
+ * 是int类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun JavaType.isIntType(): Boolean =
     isTypeOrSubTypeOf(Int::class.javaObjectType) || isTypeOrSubTypeOf(Int::class.javaPrimitiveType)
 
+/**
+ * 是长型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun JavaType.isLongType(): Boolean =
     isTypeOrSubTypeOf(Long::class.javaObjectType) || isTypeOrSubTypeOf(Long::class.javaPrimitiveType)
 
+/**
+ * 是浮点型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun JavaType.isFloatType(): Boolean =
     isTypeOrSubTypeOf(Float::class.javaObjectType) || isTypeOrSubTypeOf(Float::class.javaPrimitiveType)
 
+/**
+ * 是双浮点类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:30
+ * @since 1.0.0
+ */
 public fun JavaType.isDoubleType(): Boolean =
     isTypeOrSubTypeOf(Double::class.javaObjectType) || isTypeOrSubTypeOf(Double::class.javaPrimitiveType)
 
+/**
+ * 是类似obj类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:31
+ * @since 1.0.0
+ */
 public fun JavaType.isObjLikeType(): Boolean =
     isMapLikeType ||
         (!isDateTimeLikeType() && !isBooleanType() && !isEnumType) &&
         (!isArrayType && !isNumberType() && !isStringLikeType())
 
+/**
+ * 是类似字符串类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:31
+ * @since 1.0.0
+ */
 public fun JavaType.isStringLikeType(): Boolean =
     isTypeOrSubTypeOf(CharSequence::class.java) ||
         isTypeOrSubTypeOf(Char::class.javaObjectType) ||

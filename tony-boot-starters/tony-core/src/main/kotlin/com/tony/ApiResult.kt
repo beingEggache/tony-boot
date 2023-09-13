@@ -12,6 +12,13 @@ import java.util.Collections
 
 public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
 
+/**
+ * 压平结果
+ * @return [ApiResultLike<T>]
+ * @author Tang Li
+ * @date 2023/09/13 10:31
+ * @since 1.0.0
+ */
 public fun <T> T.flattenResult(): ApiResultLike<T> =
     FlattenApiResult(this, ApiProperty.okCode, ApiProperty.defaultOkMessage)
 

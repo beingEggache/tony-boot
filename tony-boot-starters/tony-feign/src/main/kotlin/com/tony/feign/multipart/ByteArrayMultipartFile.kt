@@ -14,11 +14,10 @@ import org.springframework.web.multipart.MultipartFile
 
 /**
  * 二进制 MultipartFile.
- *
  * 可用来 feign 上传二进制.
- *
  * @author Tang Li
- * @date 2023/5/25 15:49
+ * @date 2023/09/13 10:36
+ * @since 1.0.0
  */
 public class ByteArrayMultipartFile(
     private val originalFilename: String,

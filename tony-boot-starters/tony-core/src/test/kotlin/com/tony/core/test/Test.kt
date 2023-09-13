@@ -1,12 +1,13 @@
 package com.tony.core.test
 
-import com.tony.codec.encodeToString
-import com.tony.codec.enums.Encoding
+import com.tony.digest.enums.DigestAlgorithm
 import com.tony.utils.println
 
 fun main() {
     val src = "Hello World"
-    src.encodeToString(Encoding.BASE64).println()
+    DigestAlgorithm.MD5.digest(src).println()
+    DigestAlgorithm.SHA1.digest(src).println()
+    DigestAlgorithm.SHA256.digest(src).println()
 }
 
 fun quickSort(list: List<Int>): List<Int> =

@@ -8,7 +8,6 @@ import com.tony.codec.HexCodec
 import com.tony.enums.StringEnumCreator
 import com.tony.enums.StringEnumValue
 
-
 /**
  * 编码
  * @author Tang Li

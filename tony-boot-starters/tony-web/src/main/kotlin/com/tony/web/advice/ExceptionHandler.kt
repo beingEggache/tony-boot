@@ -34,10 +34,24 @@ internal class ExceptionHandler : ErrorController {
 
     private val logger = getLogger()
 
+    /**
+     * 业务异常
+     * @param [e] e
+     * @author Tang Li
+     * @date 2023/09/13 10:45
+     * @since 1.0.0
+     */
     @ExceptionHandler(BizException::class)
     @ResponseBody
     fun bizException(e: BizException) = e.toResponse()
 
+    /**
+     * 框架异常
+     * @param [e] e
+     * @author Tang Li
+     * @date 2023/09/13 10:45
+     * @since 1.0.0
+     */
     @ExceptionHandler(ApiException::class)
     @ResponseBody
     fun apiException(e: ApiException) =
@@ -48,6 +62,14 @@ internal class ExceptionHandler : ErrorController {
             e.toResponse()
         }
 
+    /**
+     * 异常
+     * @param [e] e
+     * @param [response] 响应
+     * @author Tang Li
+     * @date 2023/09/13 10:46
+     * @since 1.0.0
+     */
     @ExceptionHandler(Exception::class)
     @ResponseBody
     fun exception(

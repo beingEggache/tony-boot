@@ -22,6 +22,14 @@ internal val getterCache: MutableMap<AnnotatedElement, Method?> = ConcurrentRefe
 internal val setterCache: MutableMap<AnnotatedElement, Method?> = ConcurrentReferenceHashMap()
 
 internal val logger: Logger = LoggerFactory.getLogger("com.tony.utils.ReflectionUtils")
+
+/**
+ * PropertyDescriptor
+ * @return [PropertyDescriptor]?
+ * @author Tang Li
+ * @date 2023/09/13 10:25
+ * @since 1.0.0
+ */
 public fun AnnotatedElement.descriptor(): PropertyDescriptor? =
     when (this) {
         is Field -> BeanUtils.getPropertyDescriptor(this.declaringClass, this.name)
@@ -29,12 +37,33 @@ public fun AnnotatedElement.descriptor(): PropertyDescriptor? =
         else -> null
     }
 
+/**
+ * 获取 getter
+ * @return [Method]?
+ * @author Tang Li
+ * @date 2023/09/13 10:26
+ * @since 1.0.0
+ */
 public fun AnnotatedElement.getter(): Method? =
     getterCache.getOrPut(this) { this.descriptor()?.readMethod }
 
+/**
+ * 获取 setter
+ * @return [Method]?
+ * @author Tang Li
+ * @date 2023/09/13 10:26
+ * @since 1.0.0
+ */
 public fun AnnotatedElement.setter(): Method? =
     setterCache.getOrPut(this) { this.descriptor()?.writeMethod }
 
+/**
+ * 获取字段
+ * @return [Field]?
+ * @author Tang Li
+ * @date 2023/09/13 10:26
+ * @since 1.0.0
+ */
 public fun AnnotatedElement.field(): Field? =
     when (this) {
         is Field -> this
@@ -42,6 +71,14 @@ public fun AnnotatedElement.field(): Field? =
         else -> null
     }
 
+/**
+ * 设值 优先使用setter
+ * @param [instance] 例子
+ * @param [value] 价值
+ * @author Tang Li
+ * @date 2023/09/13 10:26
+ * @since 1.0.0
+ */
 public fun AnnotatedElement.setValueFirstUseSetter(instance: Any?, value: Any?) {
     val setter = setter()
     if (setter != null) {
@@ -62,6 +99,14 @@ public fun AnnotatedElement.setValueFirstUseSetter(instance: Any?, value: Any?) 
     }
 }
 
+/**
+ * 取值首先使用getter
+ * @param [instance]
+ * @return [Any]?
+ * @author Tang Li
+ * @date 2023/09/13 10:27
+ * @since 1.0.0
+ */
 public fun AnnotatedElement.getValueFirstUseGetter(instance: Any?): Any? {
     if (instance == null) {
         return null

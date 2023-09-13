@@ -55,9 +55,9 @@ internal class FeignLogInterceptor(
 
 /**
  * 默认ok http 请求日志记录器
- *
  * @author Tang Li
- * @date 2023/5/25 15:48
+ * @date 2023/09/13 10:35
+ * @since 1.0.0
  */
 public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 
@@ -148,9 +148,9 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 
 /**
  * feign okhttp 请求日志记录接口.
- *
  * @author Tang Li
- * @date 2023/5/25 15:49
+ * @date 2023/09/13 10:35
+ * @since 1.0.0
  */
 public fun interface FeignRequestTraceLogger {
     public fun log(

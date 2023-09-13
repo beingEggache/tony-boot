@@ -7,17 +7,11 @@ import java.util.Base64
  */
 public data object Base64Codec : Codec {
 
-    override fun encodeToByteArray(src: ByteArray?): ByteArray {
-        if (src?.isNotEmpty() != true) {
-            return ByteArray(0)
-        }
+    override fun encodeToByteArray(src: ByteArray): ByteArray {
         return Base64.getUrlEncoder().encode(src)
     }
 
-    override fun decodeToByteArray(src: ByteArray?): ByteArray {
-        if (src?.isNotEmpty() != true) {
-            return ByteArray(0)
-        }
+    override fun decodeToByteArray(src: ByteArray): ByteArray {
         return Base64.getUrlDecoder().decode(src)
     }
 }

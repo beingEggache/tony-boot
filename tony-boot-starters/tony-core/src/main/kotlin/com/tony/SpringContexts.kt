@@ -15,10 +15,25 @@ import org.springframework.core.env.Environment
  */
 public object SpringContexts : ApplicationContext by ApplicationContextHolder.springContext {
 
+    /**
+     * 惰性获取 bean
+     * @return [Lazy<T>]
+     * @author Tang Li
+     * @date 2023/09/13 10:32
+     * @since 1.0.0
+     */
     @JvmSynthetic
     @JvmStatic
     public inline fun <reified T : Any> getBeanByLazy(): Lazy<T> = lazy(LazyThreadSafetyMode.PUBLICATION) { getBean() }
 
+    /**
+     * 惰性获取 bean
+     * @param [name] 名称
+     * @return [Lazy<T>]
+     * @author Tang Li
+     * @date 2023/09/13 10:32
+     * @since 1.0.0
+     */
     @JvmSynthetic
     @JvmStatic
     public inline fun <reified T : Any> getBeanByLazy(
@@ -42,6 +57,15 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
      */
     public object Env : Environment by SpringContexts.environment {
 
+        /**
+         * 惰性获取配置参数
+         * @param [key] 钥匙
+         * @param [defaultValue] 默认值
+         * @return [Lazy<T>]
+         * @author Tang Li
+         * @date 2023/09/13 10:32
+         * @since 1.0.0
+         */
         @JvmSynthetic
         @JvmStatic
         public inline fun <reified T : Any> getPropertyByLazy(

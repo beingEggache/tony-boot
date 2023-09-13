@@ -9,8 +9,6 @@ package com.tony.utils
  * @date 2022/9/29 10:20
  */
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.tony.codec.encodeToString
-import com.tony.codec.enums.Encoding
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.net.URLDecoder
@@ -79,15 +77,6 @@ public inline fun <reified T> CharSequence.queryStringToObj(): T =
         .queryStringToMap()
         .toJsonString()
         .jsonToObj()
-
-/**
- * 字符串转为MD5并大写
- */
-public fun CharSequence.md5Uppercase(): CharSequence =
-    md5Digest()
-        .digest(toString().toByteArray())
-        .encodeToString(Encoding.HEX)
-        .uppercase()
 
 /**
  * 当字符串为Null 或者空字符串时 提供默认值.

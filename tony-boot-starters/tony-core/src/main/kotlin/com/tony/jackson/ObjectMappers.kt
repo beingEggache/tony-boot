@@ -22,6 +22,13 @@ import java.time.LocalDateTime
 import java.util.Date
 import java.util.TimeZone
 
+/**
+ * ObjectMapper 初始化
+ * @return [ObjectMapper]
+ * @author Tang Li
+ * @date 2023/09/13 10:18
+ * @since 1.0.0
+ */
 public fun ObjectMapper.initialize(): ObjectMapper = apply {
     val kotlinModule = KotlinModule.Builder()
         .apply {

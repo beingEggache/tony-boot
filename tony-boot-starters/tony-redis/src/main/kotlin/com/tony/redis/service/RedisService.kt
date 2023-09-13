@@ -26,6 +26,14 @@ public interface RedisService :
 
 public sealed interface RedisValueTransformer {
 
+    /**
+     * 输出转换为
+     * @param [type] 类型
+     * @return [T]?
+     * @author Tang Li
+     * @date 2023/09/13 10:44
+     * @since 1.0.0
+     */
     public fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? {
         if (type.isNumberTypes()) {
             return this?.toNumber(type)
@@ -33,9 +41,32 @@ public sealed interface RedisValueTransformer {
         return this?.asTo()
     }
 
+    /**
+     * 输出转换为
+     * @param [type] 类型
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/09/13 10:44
+     * @since 1.0.0
+     */
     public fun <T : Any> Any?.outputTransformTo(type: JavaType): T? = outputTransformTo(type.rawClass())
 
+    /**
+     * 输出转换为
+     * @param [type] 类型
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/09/13 10:44
+     * @since 1.0.0
+     */
     public fun <T : Any> Any?.outputTransformTo(type: TypeReference<T>): T? = outputTransformTo(type.rawClass())
 
+    /**
+     * 输入转换为
+     * @return [Any]
+     * @author Tang Li
+     * @date 2023/09/13 10:44
+     * @since 1.0.0
+     */
     public fun Any.inputTransformTo(): Any = this
 }

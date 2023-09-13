@@ -128,9 +128,24 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
         }
     }
 
+    /**
+     * one map 不为空
+     * @param [message] 消息
+     * @return [Map<String, Any>]
+     * @author Tang Li
+     * @date 2023/09/13 10:40
+     * @since 1.0.0
+     */
     public fun oneMapNotNull(message: String): Map<String, Any?> =
         oneMap().throwIfNull(message, ApiProperty.notFoundCode)
 
+    /**
+     * one map 不为空
+     * @return [Map<String, Any?>]
+     * @author Tang Li
+     * @date 2023/09/13 10:41
+     * @since 1.0.0
+     */
     public fun oneMapNotNull(): Map<String, Any?> =
         oneMap().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
 

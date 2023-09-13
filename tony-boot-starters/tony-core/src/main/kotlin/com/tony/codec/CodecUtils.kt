@@ -4,7 +4,6 @@ package com.tony.codec
 
 import com.tony.codec.enums.Encoding
 
-
 /**
  * 编码为字符串
  * @param [encoding] 编码

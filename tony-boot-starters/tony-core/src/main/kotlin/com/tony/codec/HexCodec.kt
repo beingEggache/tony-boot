@@ -11,39 +11,27 @@ public data object HexCodec : Codec {
     @JvmStatic
     private val DIGITS_LOWER = "0123456789abcdef".toCharArray().map { it.code.toByte() }.toByteArray()
 
-    override fun encodeToString(src: ByteArray?): String {
-        if (src?.isNotEmpty() != true) {
-            return ""
-        }
+    override fun encodeToString(src: ByteArray): String {
         return HexFormat.of().formatHex(src)
     }
 
-    override fun encodeToString(src: String?): String {
-        if (src?.isNotEmpty() != true) {
-            return ""
-        }
+    override fun encodeToString(src: String): String {
         return HexFormat.of().formatHex(src.toByteArray())
     }
 
-    override fun decodeToByteArray(src: String?): ByteArray {
-        if (src?.isNotEmpty() != true) {
-            return ByteArray(0)
-        }
+    override fun decodeToByteArray(src: String): ByteArray {
         return HexFormat.of().parseHex(src)
     }
 
-    override fun decodeToString(src: String?): String {
+    override fun decodeToString(src: String): String {
         return decodeToByteArray(src).string()
     }
 
-    override fun decodeToString(src: ByteArray?): String {
-        return HexFormat.of().parseHex(src?.string()).string()
+    override fun decodeToString(src: ByteArray): String {
+        return HexFormat.of().parseHex(src.string()).string()
     }
 
-    override fun encodeToByteArray(src: ByteArray?): ByteArray {
-        if (src?.isNotEmpty() != true) {
-            return ByteArray(0)
-        }
+    override fun encodeToByteArray(src: ByteArray): ByteArray {
         val out = ByteArray(src.size shl 1)
         var i = 0
         var j = 0
@@ -55,10 +43,7 @@ public data object HexCodec : Codec {
         return out
     }
 
-    override fun decodeToByteArray(src: ByteArray?): ByteArray {
-        if (src?.isNotEmpty() != true) {
-            return ByteArray(0)
-        }
+    override fun decodeToByteArray(src: ByteArray): ByteArray {
         val len = src.size
         require(len and 0x01 == 0) { "hexBinary needs to be even-length: $len" }
         val out = ByteArray(len shr 1)

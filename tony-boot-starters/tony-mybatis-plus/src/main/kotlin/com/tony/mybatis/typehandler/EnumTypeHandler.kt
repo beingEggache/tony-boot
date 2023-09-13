@@ -16,9 +16,9 @@ import org.apache.ibatis.type.JdbcType
 
 /**
  * EnumTypeHandler
- *
  * @author Tang Li
- * @date 2022/1/13 18:11
+ * @date 2023/09/13 10:40
+ * @since 1.0.0
  */
 public open class EnumTypeHandler<E, KEY>(enumClass: Class<E>) :
     BaseTypeHandler<E>()

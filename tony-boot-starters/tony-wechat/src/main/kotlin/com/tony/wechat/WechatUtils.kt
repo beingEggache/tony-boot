@@ -2,8 +2,8 @@
 
 package com.tony.wechat
 
+import com.tony.digest.md5
 import com.tony.utils.jsonToObj
-import com.tony.utils.md5Uppercase
 import com.tony.utils.toJsonString
 import com.tony.wechat.client.resp.WechatResp
 import com.tony.wechat.exception.WechatException
@@ -34,7 +34,7 @@ internal fun <T> genMd5UpperCaseSign(obj: T, vararg params: Pair<String, Any?>):
     val deepLink = obj.toQueryString(*params) {
         it.value !is String && it.value.toString().isNotBlank()
     }
-    return deepLink.md5Uppercase()
+    return deepLink.md5().uppercase()
 }
 
 public fun <T : WechatResp> T.check(): T {

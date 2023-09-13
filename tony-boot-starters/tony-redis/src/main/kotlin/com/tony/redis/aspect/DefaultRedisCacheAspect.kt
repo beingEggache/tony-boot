@@ -79,6 +79,13 @@ public class DefaultRedisCacheAspect {
         return RedisKeys.genKey(cacheKey, *paramsValues)
     }
 
+    /**
+     * 执行删除缓存
+     * @param [joinPoint] 连接点
+     * @author Tang Li
+     * @date 2023/09/13 10:43
+     * @since 1.0.0
+     */
     @After("@annotation($PROJECT_GROUP.annotation.redis.RedisCacheEvict.Container)")
     public fun doCacheEvict(joinPoint: JoinPoint) {
         val arguments = joinPoint.args
@@ -91,6 +98,15 @@ public class DefaultRedisCacheAspect {
         }
     }
 
+    /**
+     * 缓存
+     * @param [joinPoint] 连接点
+     * @param [annotation] 注解
+     * @return [Any?]
+     * @author Tang Li
+     * @date 2023/09/13 10:43
+     * @since 1.0.0
+     */
     @Around("@annotation(annotation)")
     public fun doCacheable(joinPoint: ProceedingJoinPoint, annotation: RedisCacheable): Any? {
         val arguments = joinPoint.args

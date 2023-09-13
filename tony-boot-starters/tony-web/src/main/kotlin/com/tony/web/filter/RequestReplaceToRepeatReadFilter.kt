@@ -25,10 +25,10 @@ import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 
 /**
- * RequestReplaceToRepeatReadFilter
- *
+ * 将 请求 替换为 可重复读 请求.
  * @author Tang Li
- * @date 2023/5/25 10:35
+ * @date 2023/09/13 10:47
+ * @since 1.0.0
  */
 internal class RequestReplaceToRepeatReadFilter(
     traceLogExcludePatterns: List<String>,

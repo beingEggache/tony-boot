@@ -43,5 +43,13 @@ public fun <E> Any.asToNotNull(): E where E : Any = this as E
 public fun <T> T.getLogger(): Logger where T : Any =
     LoggerFactory.getLogger(this::class.java)
 
+/**
+ * 是类型或子类型
+ * @param [types] 类型
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:25
+ * @since 1.0.0
+ */
 public fun Any.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
     types.any { this::class.java.isTypeOrSubTypeOf(it) }

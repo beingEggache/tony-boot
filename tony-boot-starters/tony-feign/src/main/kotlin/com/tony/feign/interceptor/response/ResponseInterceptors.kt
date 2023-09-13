@@ -54,10 +54,10 @@ internal class UnwrapResponseInterceptorProvider(
 }
 
 /**
- * Unwrap response
- *
+ * 将全局统一响应的具体返回数据抽取出来 响应拦截器.
  * @author Tang Li
- * @date 2023/08/02 21:00
+ * @date 2023/09/13 10:34
+ * @since 1.0.0
  */
 public class UnwrapResponseInterceptor : ResponseInterceptor {
     override fun aroundDecode(invocationContext: InvocationContext): Any {

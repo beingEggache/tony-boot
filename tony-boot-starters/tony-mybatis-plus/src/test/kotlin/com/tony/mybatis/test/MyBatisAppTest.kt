@@ -3,10 +3,10 @@ package com.tony.mybatis.test
 import com.tony.JPageQuery
 import com.tony.PageResult
 import com.tony.annotation.EnableTonyBoot
+import com.tony.digest.md5
 import com.tony.mybatis.test.db.dao.UserDao
 import com.tony.mybatis.test.db.po.User
 import com.tony.utils.getLogger
-import com.tony.utils.md5Uppercase
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
@@ -49,7 +49,7 @@ class MyBatisAppTest {
                 userName = s
                 realName = "孙笑川$it"
                 mobile = "1398184268$it"
-                pwd = "123456$s".md5Uppercase()
+                pwd = "123456$s".md5().uppercase()
             }
         }
         userDao.insertBatch(users)

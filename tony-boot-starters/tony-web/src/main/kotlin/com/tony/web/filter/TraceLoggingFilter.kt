@@ -22,10 +22,10 @@ import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingResponseWrapper
 
 /**
- * TraceLoggingFilter
- *
+ * 跟踪日志过滤器
  * @author Tang Li
- * @date 2023/5/25 10:36
+ * @date 2023/09/13 10:48
+ * @since 1.0.0
  */
 internal class TraceLoggingFilter(
     private val requestTraceLogger: RequestTraceLogger,

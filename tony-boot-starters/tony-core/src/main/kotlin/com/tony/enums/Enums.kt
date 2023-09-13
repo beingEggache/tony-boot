@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory
 
 /**
  * 全局枚举接口.
- *
  * 已和 jackson 和 mybatis-plus 结合.
- *
- * @param T 枚举值类型, 只有 [String] 和 [Int] 两种.
+ * @author Tang Li
+ * @date 2023/09/13 10:16
+ * @since 1.0.0
  */
 public sealed interface EnumValue<T : Serializable> {
     @get:JsonValue
@@ -23,11 +23,17 @@ public sealed interface EnumValue<T : Serializable> {
 
 /**
  * 全局整形枚举接口.
+ * @author Tang Li
+ * @date 2023/09/13 10:16
+ * @since 1.0.0
  */
 public interface IntEnumValue : EnumValue<Int>
 
 /**
  * 全局字符串枚举接口.
+ * @author Tang Li
+ * @date 2023/09/13 10:16
+ * @since 1.0.0
  */
 public interface StringEnumValue : EnumValue<String>
 
@@ -68,7 +74,10 @@ internal sealed interface EnumCreatorFactory {
 }
 
 /**
- * jackson枚举构建器.
+ * 枚举 构建器.
+ * @author Tang Li
+ * @date 2023/09/13 10:16
+ * @since 1.0.0
  */
 public abstract class EnumCreator<out E, KEY>(
     private val clazz: Class<out E>,
@@ -87,6 +96,12 @@ public abstract class EnumCreator<out E, KEY>(
     }
 }
 
+/**
+ * 字符串枚举 构建器.
+ * @author Tang Li
+ * @date 2023/09/13 10:15
+ * @since 1.0.0
+ */
 public abstract class StringEnumCreator(clazz: Class<out StringEnumValue>) :
     EnumCreator<StringEnumValue, String>(clazz) {
         /**
@@ -100,6 +115,12 @@ public abstract class StringEnumCreator(clazz: Class<out StringEnumValue>) :
         }
     }
 
+/**
+ * int枚举 构建器.
+ * @author Tang Li
+ * @date 2023/09/13 10:16
+ * @since 1.0.0
+ */
 public abstract class IntEnumCreator(clazz: Class<out IntEnumValue>) :
     EnumCreator<IntEnumValue, Int>(clazz) {
         /**

@@ -53,11 +53,23 @@ public class InjectableValuesBySupplier(
     }
 }
 
+/**
+ * Jackson 注入 Supplier.
+ * @author Tang Li
+ * @date 2023/09/13 10:17
+ * @since 1.0.0
+ */
 public interface InjectableValueSupplier {
     public val name: String
     public fun value(property: BeanProperty?, instance: Any?): Any
 }
 
+/**
+ * 抽象Jackson 注入 Supplier.
+ * @author Tang Li
+ * @date 2023/09/13 10:18
+ * @since 1.0.0
+ */
 public abstract class AbstractInjectableValueSupplier(override val name: String) : InjectableValueSupplier {
     public constructor(type: Class<*>) : this(type.name)
 }

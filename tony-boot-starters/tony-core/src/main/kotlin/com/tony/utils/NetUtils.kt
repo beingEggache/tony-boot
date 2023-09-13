@@ -15,9 +15,7 @@ import java.net.UnknownHostException
  */
 /**
  * 获取本地ip.
- *
  * 参考SpringCloud获取IP的代码.
- * @return ip
  */
 public val localIp: String = NetworkInterface
     .getNetworkInterfaces()
@@ -38,6 +36,11 @@ public val localIp: String = NetworkInterface
 
 /**
  * 判断地址是否是期望的域.
+ * @param [address] 住址
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/13 10:23
+ * @since 1.0.0
  */
 @Suppress("UNCHECKED_CAST")
 public fun isPreferredAddress(address: InetAddress): Boolean {

@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter
 
 /**
- * RequestBodyFieldInjectAdvice is
+ * RequestBody 注入
  * @author Tang Li
- * @date 2023/06/07 18:07
+ * @date 2023/09/13 10:46
+ * @since 1.0.0
  */
 @RestControllerAdvice
 internal class InjectRequestBodyAdvice(

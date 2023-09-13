@@ -2,8 +2,6 @@ package com.tony.core.test;
 
 import com.tony.codec.CodecUtils;
 import com.tony.codec.enums.Encoding;
-import com.tony.utils.DigestUtils;
-import com.tony.utils.StringUtils;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -25,8 +23,5 @@ public class JavaTestWhatever {
         System.out.println(hex1);
         System.out.println(CodecUtils.encodeToString(src,Encoding.HEX));
 
-        byte[] md5s = DigestUtils.getDigest("MD5").digest(bytes);
-        System.out.println(CodecUtils.encodeToString(md5s, Encoding.HEX));
-        System.out.println(StringUtils.md5Uppercase(src));
     }
 }

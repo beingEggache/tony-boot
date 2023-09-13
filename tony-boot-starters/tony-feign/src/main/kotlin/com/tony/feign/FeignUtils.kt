@@ -3,9 +3,9 @@
 package com.tony.feign
 
 import com.fasterxml.jackson.databind.JsonNode
+import com.tony.digest.md5
 import com.tony.utils.globalObjectMapper
 import com.tony.utils.jsonNode
-import com.tony.utils.md5Uppercase
 import com.tony.utils.toJsonString
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -93,7 +93,7 @@ public fun String.sortRequestBody(
  * @return
  */
 public fun String.genSign(appId: String, secret: String): String =
-    ("$appId|$secret|$this".md5Uppercase()).md5Uppercase()
+    ("$appId|$secret|$this".md5().uppercase()).md5().uppercase()
 
 /**
  * 请求字段排序. 并将字符串加进请求.

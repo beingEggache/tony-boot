@@ -27,6 +27,12 @@ public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
     override fun getIfUnique(): T = obj
 }
 
+/**
+ * 使用请求处理器请求拦截器
+ * @author Tang Li
+ * @date 2023/09/13 10:33
+ * @since 1.0.0
+ */
 public class UseRequestProcessorsRequestInterceptor :
     RequestInterceptor {
 

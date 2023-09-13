@@ -17,7 +17,11 @@ import kotlin.math.pow
 
 /**
  * 数字类型转为 [BigDecimal]
- * @param decimal 小数点后保留几位
+ * @param [decimal] 小数点后保留几位
+ * @return [BigDecimal]
+ * @author Tang Li
+ * @date 2023/09/13 10:23
+ * @since 1.0.0
  */
 @JvmOverloads
 public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
@@ -34,13 +38,13 @@ public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
 
 /**
  * 数值类型互转, 只支持常规数字类型.
- *
  * 线程安全数值类型不支持.
  *
- * @param T 自身类型
- * @param R 目标类型
- * @param numberType 目标类型
- * @return
+ * @param [numberType] 目标类型
+ * @return [R]
+ * @author Tang Li
+ * @date 2023/09/13 10:24
+ * @since 1.0.0
  */
 public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
     when (numberType) {
@@ -57,9 +61,11 @@ public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
 
 /**
  * 将字符串类型或数值类型转换成数值.
- *
- * @param E 数值类型
- * @param numberType 数值类型
+ * @param [numberType] 数值类型
+ * @return [E]
+ * @author Tang Li
+ * @date 2023/09/13 10:24
+ * @since 1.0.0
  */
 public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E =
     when (this) {
@@ -69,9 +75,13 @@ public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E =
     }
 
 /**
- * 数字截断并转为 [BigDecimal]
- * @param digit 截断位数
- * @param decimal 保留几位小数
+ * 数字截断并转为  [BigDecimal]
+ * @param [digit] 截断位数
+ * @param [decimal] 保留几位小数
+ * @return [BigDecimal]
+ * @author Tang Li
+ * @date 2023/09/13 10:24
+ * @since 1.0.0
  */
 @JvmOverloads
 public fun Number?.truncToBigDecimal(digit: Int = 2, decimal: Int = digit): BigDecimal =
@@ -79,35 +89,51 @@ public fun Number?.truncToBigDecimal(digit: Int = 2, decimal: Int = digit): BigD
 
 /**
  * 数字截断并转为 [String]
- * @param digit 截断位数
- * @param decimal 保留几位小数
+ * @param [digit] 截断位数
+ * @param [decimal] 保留几位小数
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/09/13 10:24
+ * @since 1.0.0
  */
 @JvmOverloads
 public fun Number?.truncToString(digit: Int = 2, decimal: Int = digit): String =
     truncToBigDecimal(digit, decimal).toString()
 
 /**
- * 百分比表示
- * @param decimal 保留几位小数
- * @param roundingMode see [RoundingMode]
+ * 格式化为百分比
+ * @param [decimal] 保留几位小数
+ * @param [roundingMode] see [RoundingMode]
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/09/13 10:24
+ * @since 1.0.0
  */
 @JvmOverloads
 public fun Float?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
     formatToPercent(this, decimal, roundingMode)
 
 /**
- * 百分比表示
- * @param decimal 保留几位小数
- * @param roundingMode see [RoundingMode]
+ * 格式化为百分比
+ * @param [decimal] 保留几位小数
+ * @param [roundingMode] see [RoundingMode]
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/09/13 10:25
+ * @since 1.0.0
  */
 @JvmOverloads
 public fun Double?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
     formatToPercent(this, decimal, roundingMode)
 
 /**
- * 百分比表示
- * @param decimal 保留几位小数
- * @param roundingMode see [RoundingMode]
+ * 格式化为百分比
+ * @param [decimal] 保留几位小数
+ * @param [roundingMode] see [RoundingMode]
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/09/13 10:25
+ * @since 1.0.0
  */
 @JvmOverloads
 public fun BigDecimal?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
@@ -117,7 +143,11 @@ public val secureRandom: SecureRandom = SecureRandom()
 
 /**
  * 生成指定位数随机数
- * @param digit 位数
+ * @param [digit] 位数
+ * @return [Int]
+ * @author Tang Li
+ * @date 2023/09/13 10:25
+ * @since 1.0.0
  */
 public fun genRandomNumber(digit: Int): Int {
     if (digit < 1) throw ApiException("随机数至少是一位数")

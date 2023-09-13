@@ -6,6 +6,9 @@ import java.math.BigInteger
 import java.time.temporal.TemporalAccessor
 import java.util.Date
 
+/**
+ * 不支持响应包装类
+ */
 public val notSupportResponseWrapClasses: Array<Class<*>?> =
     arrayOf(
         ApiResultLike::class.java,
