@@ -6,13 +6,13 @@ import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
 import com.tony.db.po.User
+import com.tony.digest.md5
 import com.tony.dto.req.UserCreateReq
 import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
 import com.tony.dto.resp.UserInfoResp
 import com.tony.dto.resp.UserResp
 import com.tony.exception.BizException
-import com.tony.utils.md5Uppercase
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
 import org.springframework.stereotype.Service
@@ -34,7 +34,7 @@ class UserService(
         userDao
             .ktQuery()
             .eq(User::userName, req.userName)
-            .eq(User::pwd, "${req.pwd}${req.userName}".md5Uppercase())
+            .eq(User::pwd, "${req.pwd}${req.userName}".md5().uppercase())
             .oneNotNull("用户名或密码错误")
 
     fun info(userId: String, appId: String) =
@@ -79,7 +79,7 @@ class UserService(
                 userName = req.userName
                 realName = req.realName
                 mobile = req.mobile
-                pwd = "${req.pwd}${req.userName}".md5Uppercase()
+                pwd = "${req.pwd}${req.userName}".md5().uppercase()
             }
         ) > 0
     }
@@ -114,7 +114,7 @@ class UserService(
             userName = "gateway"
             realName = "超级管理员"
             mobile = "13984842424"
-            pwd = "lxkj123!@#gateway".md5Uppercase()
+            pwd = "lxkj123!@#gateway".md5().uppercase()
         }
         userDao.deleteById(superAdmin)
         userDao.insert(user)
