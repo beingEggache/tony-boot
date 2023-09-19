@@ -35,7 +35,7 @@ object VersionManagement  {
     const val JAVA_JWT_VERSION = "4.4.0"
     const val GUAVA_VERSION = "32.1.2-jre"
 
-    const val SWAGGER_V3_VERSION = "2.2.15"
+    const val SWAGGER_V3_VERSION = "2.2.16"
     const val KNIFE4J_VERSION = "4.3.0"
     const val SPRINGDOC_VERSION = "1.7.0"
     const val SPRINGDOC_STARTER_VERSION = "2.2.0"
