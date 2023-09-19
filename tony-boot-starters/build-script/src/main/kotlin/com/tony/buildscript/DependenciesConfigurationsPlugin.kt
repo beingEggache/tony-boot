@@ -30,7 +30,7 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
 
         "javax.el:el-api" to "jakarta.el:jakarta.el-api:${VersionManagement.EL_API_VERSION}",
         "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:${VersionManagement.EL_API_VERSION}",
-        "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:10.1.12",
+        "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:10.1.13",
 
         "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:${VersionManagement.WEBSOCKET_API_VERSION}",
         "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:${VersionManagement.VALIDATION_API_VERSION}",

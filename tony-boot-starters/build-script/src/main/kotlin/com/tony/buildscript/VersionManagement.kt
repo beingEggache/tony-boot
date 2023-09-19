@@ -5,7 +5,7 @@ object VersionManagement  {
 
     const val KOTLIN_VERSION = "1.9.10"
 
-    const val SPRING_VERSION = "6.0.11"
+    const val SPRING_VERSION = "6.0.12"
     const val SPRING_BOOT_VERSION = "3.1.3"
 
     const val OPEN_FEIGN_VERSION = "12.5"
@@ -25,12 +25,12 @@ object VersionManagement  {
     const val FASTJSON_VERSION = "2.0.40"
     const val NETTY_VERSION = "4.1.97.Final"
 
-    const val REACTOR_VERSION = "3.5.9"
+    const val REACTOR_VERSION = "3.5.10"
     const val REACTOR_KOTLIN_EXTENSIONS_VERSION = "1.2.2"
-    const val REACTOR_NETTY_VERSION = "1.1.10"
+    const val REACTOR_NETTY_VERSION = "1.1.11"
     const val SLF4J_VERSION = "2.0.9"
 
-    const val BYTE_BUDDY_VERSION = "1.14.7"
+    const val BYTE_BUDDY_VERSION = "1.14.8"
     const val BOUNCYCASTLE_VERSION = "1.76"
     const val JAVA_JWT_VERSION = "4.4.0"
     const val GUAVA_VERSION = "32.1.2-jre"
@@ -45,7 +45,7 @@ object VersionManagement  {
     const val ACTIVATION_API_VERSION = "2.1.2"
     const val EL_API_VERSION = "5.0.1"
     const val WEBSOCKET_API_VERSION = "2.1.1"
-    const val BIND_API_VERSION = "4.0.0"
+    const val BIND_API_VERSION = "4.0.1"
 
     const val SPRING_CLOUD_ALIBABA_VERSION = "2022.0.0.0"
     const val SPRING_CLOUD_VERSION = "2022.0.4"
