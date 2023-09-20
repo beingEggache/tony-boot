@@ -1,4 +1,4 @@
-@file:Suppress("PropertyName", "unused")
+@file:Suppress("unused")
 
 package com.tony.alipay
 

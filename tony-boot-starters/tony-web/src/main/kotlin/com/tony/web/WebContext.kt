@@ -76,7 +76,6 @@ public object WebContext {
     public val url: URL
         get() = request.url
 
-    @Suppress("MemberVisibilityCanBePrivate")
     @JvmSynthetic
     public fun BaseException.toResponse(): ApiResult<*> =
         ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())

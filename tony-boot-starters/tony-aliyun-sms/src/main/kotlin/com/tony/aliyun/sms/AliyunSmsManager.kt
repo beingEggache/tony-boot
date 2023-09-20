@@ -18,12 +18,12 @@ public class AliyunSmsManager(
 
     private val acsClient: DefaultAcsClient by lazy {
         val profile = DefaultProfile.getProfile(
-            regionId,
+            REGION_ID,
             accessKeyId,
             accessKeySecret
         )
 
-        DefaultProfile.addEndpoint(regionId, product, endpoint)
+        DefaultProfile.addEndpoint(REGION_ID, PRODUCT, ENDPOINT)
         DefaultAcsClient(profile)
     }
 
@@ -59,8 +59,8 @@ public class AliyunSmsManager(
     }
 
     internal companion object {
-        private const val regionId: String = "cn-hangzhou"
-        private const val product: String = "Dysmsapi"
-        private const val endpoint = "dysmsapi.aliyuncs.com"
+        private const val REGION_ID: String = "cn-hangzhou"
+        private const val PRODUCT: String = "Dysmsapi"
+        private const val ENDPOINT = "dysmsapi.aliyuncs.com"
     }
 }

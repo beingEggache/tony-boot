@@ -1,5 +1,3 @@
-@file:Suppress("RedundantVisibilityModifier")
-
 package com.tony.web.support
 
 import com.tony.annotation.web.support.InjectRequestBodyField

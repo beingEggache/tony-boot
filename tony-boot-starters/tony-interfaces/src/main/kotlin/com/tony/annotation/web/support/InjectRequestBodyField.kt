@@ -1,5 +1,3 @@
-@file:Suppress("RedundantVisibilityModifier")
-
 package com.tony.annotation.web.support
 
 import com.tony.annotation.web.support.InjectEmptyIfNull.Companion.DEFAULT_EMPTY
