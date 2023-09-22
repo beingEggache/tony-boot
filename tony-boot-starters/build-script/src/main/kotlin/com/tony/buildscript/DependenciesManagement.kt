@@ -147,6 +147,7 @@ internal object DepsManagement {
         const val lettuce = "io.lettuce:lettuce-core:${VersionManagement.LETTUCE_CORE_VERSION}"
 
         const val mybatis = "org.mybatis:mybatis:${VersionManagement.MYBATIS_VERSION}"
+        const val mybatisSpring = "org.mybatis:mybatis-spring:${VersionManagement.MYBATIS_SPRING_VERSION}"
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation:${VersionManagement.MYBATIS_PLUS_VERSION}"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${VersionManagement.MYBATIS_PLUS_VERSION}"
         const val mybatisPlusBootStarter =

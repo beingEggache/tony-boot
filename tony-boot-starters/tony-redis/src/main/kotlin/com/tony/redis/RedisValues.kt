@@ -51,7 +51,7 @@ public object RedisValues {
             if (initial != null) {
                 redisTemplate.opsForValue().increment(key, initial)
             }
-            redisTemplate.boundValueOps(key).increment(delta)
+            redisTemplate.opsForValue().increment(key, delta)
         }.last().asTo()
 
     @JvmStatic

@@ -6,7 +6,7 @@ object VersionManagement  {
     const val KOTLIN_VERSION = "1.9.10"
 
     const val SPRING_VERSION = "6.0.12"
-    const val SPRING_BOOT_VERSION = "3.1.3"
+    const val SPRING_BOOT_VERSION = "3.1.4"
 
     const val OPEN_FEIGN_VERSION = "12.5"
 
@@ -15,6 +15,7 @@ object VersionManagement  {
     const val HIKARI_CP_VERSION = "5.0.1"
     const val MYBATIS_PLUS_VERSION = "3.5.3.2"
     const val MYBATIS_VERSION = "3.5.13"
+    const val MYBATIS_SPRING_VERSION = "3.0.2"
     const val LETTUCE_CORE_VERSION = "6.2.6.RELEASE"
 
     const val XXL_JOB_VERSION = "2.4.0"
