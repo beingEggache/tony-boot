@@ -148,7 +148,7 @@ public object WechatManager {
     @Suppress("unused")
     private fun wechatRedirect(url: String, app: String = ""): String =
         "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-            "appid= ${wechatPropProvider.getAppId(app)}" +
+            "appid=${wechatPropProvider.getAppId(app)}" +
             "&redirect_uri=${url.urlEncode()}" +
             "&response_type=code" +
             "&scope=snsapi_base" +
