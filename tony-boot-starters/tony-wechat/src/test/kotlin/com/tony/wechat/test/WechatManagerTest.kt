@@ -96,8 +96,8 @@ class TestWechatApiAccessTokenProvider(
 ) : WechatApiAccessTokenProvider {
 
     @RedisCacheable(cacheKey = wechatTestCacheKey, expressions = ["appId"], expire = 7100)
-    override fun accessTokenStr(appId: String?, appSecret: String?) =
-        super.accessTokenStr(appId, appSecret)
+    override fun accessTokenStr(appId: String?, appSecret: String?, forceRefresh: Boolean) =
+        super.accessTokenStr(appId, appSecret, false)
 
 }
 

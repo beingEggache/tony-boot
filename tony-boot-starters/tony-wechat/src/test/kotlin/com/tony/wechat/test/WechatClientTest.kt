@@ -9,6 +9,7 @@ import com.tony.wechat.client.req.WechatQrCodeActionInfo
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
 import com.tony.wechat.client.req.WechatQrCodeType
 import com.tony.wechat.client.req.WechatScanCodeButton
+import com.tony.wechat.client.req.WechatStableAccessTokenReq
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -26,11 +27,11 @@ class WechatClientTest {
             "ewq",
             "client_credential"
         )
-        val accessTokenSuccess = wechatClient.accessToken(
+        val req = WechatStableAccessTokenReq(
             "wx35db161a25e35a89",
-            "9715603578fb8ad6cd510b1566642b68",
-            "client_credential"
+            "9715603578fb8ad6cd510b1566642b68"
         )
+        val accessTokenSuccess = wechatClient.stableAccessToken(req)
         accessTokenError.errCode.println()
         accessTokenError.errMsg.println()
         accessTokenError.toJsonString().println()
@@ -41,11 +42,11 @@ class WechatClientTest {
 
     @Test
     fun test0() {
-        val accessToken = wechatClient.accessToken(
+        val req = WechatStableAccessTokenReq(
             "wx35db161a25e35a89",
-            "9715603578fb8ad6cd510b1566642b68",
-            "client_credential"
+            "9715603578fb8ad6cd510b1566642b68"
         )
+        val accessToken = wechatClient.stableAccessToken(req)
         val resp = wechatClient.createQrCode(
             WechatQrCodeCreateReq(
                 60,
@@ -58,11 +59,11 @@ class WechatClientTest {
 
     @Test
     fun test1() {
-        val accessToken = wechatClient.accessToken(
+        val req = WechatStableAccessTokenReq(
             "wx35db161a25e35a89",
-            "9715603578fb8ad6cd510b1566642b68",
-            "client_credential"
+            "9715603578fb8ad6cd510b1566642b68"
         )
+        val accessToken = wechatClient.stableAccessToken(req)
         val resp = wechatClient.userInfo(
             accessToken.accessToken,
             "o68xis3f2Slo6uhnKdu-VA__iInA"
@@ -75,8 +76,7 @@ class WechatClientTest {
         val accessToken = wechatClient.userAccessToken(
             "wx35db161a25e35a89",
             "9715603578fb8ad6cd510b1566642b68",
-            "0114vMFa1Y3BOB0EeAFa1KKY1Q24vMFD",
-            "authorization_code"
+            "0114vMFa1Y3BOB0EeAFa1KKY1Q24vMFD"
         )
         accessToken.toJsonString().println()
         val resp = wechatClient.userInfo(
@@ -88,12 +88,11 @@ class WechatClientTest {
 
     @Test
     fun test3() {
-        val accessToken = wechatClient.accessToken(
+        val req = WechatStableAccessTokenReq(
             "wx35db161a25e35a89",
-            "9715603578fb8ad6cd510b1566642b68",
-            "client_credential"
+            "9715603578fb8ad6cd510b1566642b68"
         )
-        accessToken.toJsonString().println()
+        val accessToken = wechatClient.stableAccessToken(req)
         val resp = wechatClient.getTicket(
             accessToken.accessToken,
             "jsapi"
@@ -103,12 +102,11 @@ class WechatClientTest {
 
     @Test
     fun test4() {
-        val accessToken = wechatClient.accessToken(
+        val req = WechatStableAccessTokenReq(
             "wx35db161a25e35a89",
-            "9715603578fb8ad6cd510b1566642b68",
-            "client_credential"
+            "9715603578fb8ad6cd510b1566642b68"
         )
-        accessToken.toJsonString().println()
+        val accessToken = wechatClient.stableAccessToken(req)
         val resp = wechatClient.createMenu(
             accessToken.accessToken,
             WechatMenu(
@@ -126,12 +124,11 @@ class WechatClientTest {
 
     @Test
     fun test5() {
-        val accessToken = wechatClient.accessToken(
+        val req = WechatStableAccessTokenReq(
             "wx35db161a25e35a89",
-            "9715603578fb8ad6cd510b1566642b68",
-            "client_credential"
+            "9715603578fb8ad6cd510b1566642b68"
         )
-        accessToken.toJsonString().println()
+        val accessToken = wechatClient.stableAccessToken(req)
         val resp = wechatClient.deleteMenu(
             accessToken.accessToken
         )

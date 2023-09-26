@@ -28,7 +28,11 @@ public open class WechatResp {
 public data class WechatApiTokenResp(
     @JsonProperty("access_token") val accessToken: String?,
     @JsonProperty("expires_in") val expiresIn: Int?,
-) : WechatResp()
+) : WechatResp() {
+
+    val expiresAt: LocalDateTime?
+        get() = expiresIn?.let { LocalDateTime.now().plusSeconds(expiresIn.toLong()) }
+}
 
 public data class WechatUserTokenResp(
     @JsonProperty("access_token") val accessToken: String?,
@@ -36,12 +40,20 @@ public data class WechatUserTokenResp(
     @JsonProperty("refresh_token") val refreshToken: String?,
     @JsonProperty("openid") val openId: String?,
     @JsonProperty("scope") val scope: String?,
-) : WechatResp()
+) : WechatResp() {
+
+    val expiresAt: LocalDateTime?
+        get() = expiresIn?.let { LocalDateTime.now().plusSeconds(expiresIn.toLong()) }
+}
 
 public data class WechatJsApiTicketResp(
     @JsonProperty("ticket") val ticket: String?,
     @JsonProperty("expires_in") val expiresIn: Int?,
-) : WechatResp()
+) : WechatResp() {
+
+    val expiresAt: LocalDateTime?
+        get() = expiresIn?.let { LocalDateTime.now().plusSeconds(expiresIn.toLong()) }
+}
 
 public data class WechatQrCodeResp(
     val ticket: String?,
@@ -50,23 +62,23 @@ public data class WechatQrCodeResp(
 ) : WechatResp()
 
 public data class WechatUserInfoResp(
-    @JsonProperty("subscribe") var subscribe: Int?,
-    @JsonProperty("openid") var openId: String?,
-    @JsonProperty("nickname") var nickname: String?,
-    @JsonProperty("sex") var sex: Int?,
-    @JsonProperty("language") var language: String?,
-    @JsonProperty("city") var city: String?,
-    @JsonProperty("province") var province: String?,
-    @JsonProperty("country") var country: String?,
-    @JsonProperty("headimgurl") var headImgUrl: String?,
-    @JsonProperty("subscribe_time") private var subscribeTimeValue: Long?,
-    @JsonProperty("unionid") var unionId: String?,
-    @JsonProperty("remark") var remark: String?,
-    @JsonProperty("groupid") var groupId: Int?,
-    @JsonProperty("tagid_list") var tagIdList: List<Int>?,
-    @JsonProperty("subscribe_scene") var subscribeScene: String?,
-    @JsonProperty("qr_scene") var qrScene: Int?,
-    @JsonProperty("qr_scene_str") var qrSceneStr: String?,
+    @JsonProperty("subscribe") val subscribe: Int?,
+    @JsonProperty("openid") val openId: String?,
+    @JsonProperty("nickname") val nickname: String?,
+    @JsonProperty("sex") val sex: Int?,
+    @JsonProperty("language") val language: String?,
+    @JsonProperty("city") val city: String?,
+    @JsonProperty("province") val province: String?,
+    @JsonProperty("country") val country: String?,
+    @JsonProperty("headimgurl") val headImgUrl: String?,
+    @JsonProperty("subscribe_time") private val subscribeTimeValue: Long?,
+    @JsonProperty("unionid") val unionId: String?,
+    @JsonProperty("remark") val remark: String?,
+    @JsonProperty("groupid") val groupId: Int?,
+    @JsonProperty("tagid_list") val tagIdList: List<Int>?,
+    @JsonProperty("subscribe_scene") val subscribeScene: String?,
+    @JsonProperty("qr_scene") val qrScene: Int?,
+    @JsonProperty("qr_scene_str") val qrSceneStr: String?,
 ) : WechatResp() {
 
     @get:JsonProperty("subscribe_time")

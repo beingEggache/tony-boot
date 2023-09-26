@@ -139,9 +139,10 @@ public object WechatManager {
             code
         )
 
-    private fun accessTokenStr(app: String = "") = apiAccessTokenProvider.accessTokenStr(
+    private fun accessTokenStr(app: String = "", forceRefresh: Boolean = false) = apiAccessTokenProvider.accessTokenStr(
         wechatPropProvider.getAppId(app),
-        wechatPropProvider.getAppSecret(app)
+        wechatPropProvider.getAppSecret(app),
+        forceRefresh
     )
 
     @Suppress("unused")

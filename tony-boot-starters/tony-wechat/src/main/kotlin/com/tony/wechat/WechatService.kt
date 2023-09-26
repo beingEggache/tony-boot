@@ -3,6 +3,7 @@ package com.tony.wechat
 import com.tony.SpringContexts
 import com.tony.exception.ApiException
 import com.tony.wechat.client.WechatClient
+import com.tony.wechat.client.req.WechatStableAccessTokenReq
 import com.tony.wechat.client.resp.WechatUserTokenResp
 import com.tony.wechat.config.WechatProperties
 
@@ -56,10 +57,14 @@ internal class DefaultWechatPropProvider(
 
 public interface WechatApiAccessTokenProvider {
 
-    public fun accessTokenStr(appId: String?, appSecret: String?): String? = wechatClient.accessToken(
-        appId,
-        appSecret
-    ).check().accessToken
+    public fun accessTokenStr(appId: String?, appSecret: String?, forceRefresh: Boolean): String? =
+        wechatClient.stableAccessToken(
+            WechatStableAccessTokenReq(
+                appId,
+                appSecret,
+                forceRefresh
+            )
+        ).check().accessToken
 
     public fun userAccessToken(appId: String?, secret: String?, code: String?): WechatUserTokenResp =
         wechatClient.userAccessToken(
