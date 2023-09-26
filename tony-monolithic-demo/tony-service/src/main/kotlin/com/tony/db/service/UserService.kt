@@ -10,9 +10,11 @@ import com.tony.digest.md5
 import com.tony.dto.req.UserCreateReq
 import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
+import com.tony.dto.resp.RoleResp
 import com.tony.dto.resp.UserInfoResp
 import com.tony.dto.resp.UserResp
 import com.tony.exception.BizException
+import com.tony.utils.copyTo
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
 import org.springframework.stereotype.Service
@@ -59,10 +61,12 @@ class UserService(
             it.like(User::realName, req.query)
         }
         .pageResult<PageResult<User>>(req)
-        .map { it.toDto() }
+        .map { it.copyTo<UserResp>() }
 
     fun listRolesByUserId(userId: String?, appId: String) =
-        roleDao.selectByUserId(userId, appId).map { it.toDto() }
+        roleDao
+            .selectByUserId(userId, appId)
+            .map { it.copyTo<RoleResp>() }
 
     @Transactional
     fun add(req: UserCreateReq): Boolean {

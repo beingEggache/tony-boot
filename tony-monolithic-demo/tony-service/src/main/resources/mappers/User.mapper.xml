@@ -2,18 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tony.db.dao.UserDao">
 
-    <resultMap id="BaseResultMap" type="com.tony.db.po.User">
-        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
-        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
-        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
-        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
-        <result column="pwd" jdbcType="VARCHAR" property="pwd"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="states" jdbcType="SMALLINT" property="states"/>
-        <result column="remark" jdbcType="VARCHAR" property="remark"/>
-    </resultMap>
-
-    <select id="getByNameOrPhone" resultMap="BaseResultMap">
+    <select id="getByNameOrPhone" resultType="com.tony.db.po.User">
         select user_id,
         user_name,
         real_name,
@@ -34,7 +23,7 @@
         limit 1
     </select>
 
-    <select id="getByUserNameAndPwd" parameterType="hashmap" resultMap="BaseResultMap">
+    <select id="getByUserNameAndPwd" parameterType="hashmap" resultType="com.tony.db.po.User">
         select user_id,
                user_name,
                real_name,

@@ -4,6 +4,7 @@ package com.tony.utils
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.BeanUtils
 
 /**
  * ObjUtils is
@@ -53,3 +54,57 @@ public fun <T> T.getLogger(): Logger where T : Any =
  */
 public fun Any.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
     types.any { this::class.java.isTypeOrSubTypeOf(it) }
+
+/**
+ * 复制属性
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/09/25 15:11
+ * @since 1.0.0
+ * @see BeanUtils.copyProperties
+ */
+@JvmSynthetic
+public inline fun <reified T> Any?.copyTo(): T = let {
+    val instance = BeanUtils.instantiateClass(T::class.java)
+    if (it == null) {
+        instance
+    } else {
+        BeanUtils.copyProperties(it, instance)
+        instance
+    }
+}
+
+/**
+ * 复制属性
+ * @param [source] 来源
+ * @param [targetType] 目标类型
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/09/25 15:13
+ * @since 1.0.0
+ */
+public fun <T> copyTo(source: Any?, targetType: Class<T>): T {
+    val instance = BeanUtils.instantiateClass(targetType)
+    if (source == null) {
+        return instance
+    }
+    BeanUtils.copyProperties(source, instance)
+    return instance
+}
+
+/**
+ * 复制属性
+ * @param [source] 来源
+ * @param [target] 目标
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/09/25 15:13
+ * @since 1.0.0
+ */
+public fun <T> copyTo(source: Any?, target: T?): T? {
+    if (source == null || target == null) {
+        return target
+    }
+    BeanUtils.copyProperties(source, target)
+    return target
+}
