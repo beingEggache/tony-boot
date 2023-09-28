@@ -1,7 +1,36 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 @file:JvmName("Redis")
 
 package com.tony.redis
-
+/**
+ * Redis 相关.
+ * @author Tang Li
+ * @date 2023/09/28 10:56
+ * @since 1.0.0
+ */
 import com.tony.SpringContexts
 import com.tony.redis.service.RedisService
 import org.springframework.core.io.ClassPathResource
@@ -13,16 +42,28 @@ import org.springframework.data.redis.core.script.RedisScript
 
 internal val redisTemplate: RedisTemplate<String, Any> by SpringContexts.getBeanByLazy("redisTemplate")
 
+/**
+ * redis服务
+ */
 public val redisService: RedisService by SpringContexts.getBeanByLazy()
 
+/**
+ * 值运算
+ */
 public val valueOp: ValueOperations<String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForValue()
 }
 
+/**
+ * 列表操作
+ */
 public val listOp: ListOperations<String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForList()
 }
 
+/**
+ * 散列运算
+ */
 public val hashOp: HashOperations<String, String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForHash()
 }

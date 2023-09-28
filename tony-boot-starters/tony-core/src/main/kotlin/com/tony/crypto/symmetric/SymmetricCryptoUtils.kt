@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 @file:JvmName("SymmetricCryptoUtils")
 
 package com.tony.crypto.symmetric
@@ -12,12 +36,14 @@ import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.string
 
 /**
- * 解密
- * @receiver [CharSequence]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 解密为字符串
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [CharSequence]
+ * @author Tang Li
+ * @date 2023/09/27 18:19
+ * @since 1.0.0
  */
 public fun CharSequence.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -26,12 +52,14 @@ public fun CharSequence.decryptToString(
 ): CharSequence = decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
 
 /**
- * 解密
- * @receiver [CharSequence]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 解密为字符串
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [CharSequence]
+ * @author Tang Li
+ * @date 2023/09/27 18:19
+ * @since 1.0.0
  */
 public fun CharSequence.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -40,12 +68,14 @@ public fun CharSequence.decryptToString(
 ): CharSequence = decryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
 
 /**
- * 解密
- * @receiver [CharSequence]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 解密到字节
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [ByteArray]
+ * @author Tang Li
+ * @date 2023/09/27 18:19
+ * @since 1.0.0
  */
 public fun CharSequence.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -58,12 +88,14 @@ public fun CharSequence.decryptToBytes(
 }
 
 /**
- * 解密
- * @receiver [CharSequence]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 解密到字节
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [ByteArray]
+ * @author Tang Li
+ * @date 2023/09/27 18:18
+ * @since 1.0.0
  */
 public fun CharSequence.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -76,12 +108,14 @@ public fun CharSequence.decryptToBytes(
 }
 
 /**
- * 解密
- * @receiver [ByteArray]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 解密为字符串
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [CharSequence]
+ * @author Tang Li
+ * @date 2023/09/27 18:17
+ * @since 1.0.0
  */
 public fun ByteArray.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -90,12 +124,14 @@ public fun ByteArray.decryptToString(
 ): CharSequence = decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
 
 /**
- * 解密
- * @receiver [ByteArray]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 解密为字符串
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [CharSequence]
+ * @author Tang Li
+ * @date 2023/09/27 18:17
+ * @since 1.0.0
  */
 public fun ByteArray.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -104,12 +140,14 @@ public fun ByteArray.decryptToString(
 ): CharSequence = decryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
 
 /**
- * 解密
- * @receiver [ByteArray]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 解密到字节
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [ByteArray]
+ * @author Tang Li
+ * @date 2023/09/27 18:17
+ * @since 1.0.0
  */
 public fun ByteArray.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -118,12 +156,14 @@ public fun ByteArray.decryptToBytes(
 ): ByteArray = decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding)
 
 /**
- * 解密
- * @receiver [ByteArray]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 解密到字节
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [ByteArray]
+ * @author Tang Li
+ * @date 2023/09/27 18:17
+ * @since 1.0.0
  */
 public fun ByteArray.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -136,12 +176,14 @@ public fun ByteArray.decryptToBytes(
 }
 
 /**
- * 加密
- * @receiver [CharSequence]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 加密为字符串
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/09/27 18:16
+ * @since 1.0.0
  */
 public fun CharSequence.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -150,12 +192,14 @@ public fun CharSequence.encryptToString(
 ): String = encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
 
 /**
- * 加密
- * @receiver [CharSequence]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 加密为字符串
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [CharSequence]
+ * @author Tang Li
+ * @date 2023/09/27 18:16
+ * @since 1.0.0
  */
 public fun CharSequence.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -164,12 +208,14 @@ public fun CharSequence.encryptToString(
 ): CharSequence = encryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
 
 /**
- * 加密
- * @receiver [CharSequence]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 加密到字节
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [ByteArray]
+ * @author Tang Li
+ * @date 2023/09/27 18:16
+ * @since 1.0.0
  */
 public fun CharSequence.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -182,12 +228,14 @@ public fun CharSequence.encryptToBytes(
 }
 
 /**
- * 加密
- * @receiver [CharSequence]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 加密到字节
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [ByteArray]
+ * @author Tang Li
+ * @date 2023/09/27 18:17
+ * @since 1.0.0
  */
 public fun CharSequence.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -200,12 +248,14 @@ public fun CharSequence.encryptToBytes(
 }
 
 /**
- * 加密
- * @receiver [ByteArray]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 加密为字符串
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [CharSequence]
+ * @author Tang Li
+ * @date 2023/09/27 18:17
+ * @since 1.0.0
  */
 public fun ByteArray.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -214,12 +264,14 @@ public fun ByteArray.encryptToString(
 ): CharSequence = encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
 
 /**
- * 加密
- * @receiver [ByteArray]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 加密为字符串
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [CharSequence]
+ * @author Tang Li
+ * @date 2023/09/27 18:17
+ * @since 1.0.0
  */
 public fun ByteArray.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -228,12 +280,14 @@ public fun ByteArray.encryptToString(
 ): CharSequence = encryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
 
 /**
- * 加密
- * @receiver [ByteArray]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 加密到字节
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [ByteArray]
+ * @author Tang Li
+ * @date 2023/09/27 18:17
+ * @since 1.0.0
  */
 public fun ByteArray.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -242,12 +296,14 @@ public fun ByteArray.encryptToBytes(
 ): ByteArray = encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding)
 
 /**
- * 加密
- * @receiver [ByteArray]
- * @param symmetricCryptoAlgorithm  对称加密算法
- * @param secret 秘钥
- * @param encoding 二进制编码
- * @return
+ * 加密到字节
+ * @param [symmetricCryptoAlgorithm] 对称加密算法
+ * @param [secret] 秘钥
+ * @param [encoding] 二进制编码
+ * @return [ByteArray]
+ * @author Tang Li
+ * @date 2023/09/27 18:17
+ * @since 1.0.0
  */
 public fun ByteArray.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,

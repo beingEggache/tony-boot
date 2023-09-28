@@ -1,9 +1,42 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.feign.interceptor.request
+/**
+ * Feign 请求处理 相关.
+ *
+ * @author Tang Li
+ * @date 2023/8/15 9:53
+ */
 
 import feign.RequestTemplate
 
 /**
- * feign 请求处理.
+ * Feign 请求处理器.
+ * 配合 [com.tony.annotation.feign.FeignUseGlobalInterceptor],
+ * [com.tony.annotation.feign.FeignUseGlobalRequestInterceptor]
+ *  [com.tony.annotation.feign.FeignUseGlobalResponseInterceptor] 使用.
  *
  * 不用 [feign.RequestInterceptor] 是为了避免自动注册.
  *
@@ -11,6 +44,16 @@ import feign.RequestTemplate
  * @date 2023/8/15 9:53
  */
 public fun interface RequestProcessor {
+    /**
+     * Feign 请求处理.
+     * 配合 [com.tony.annotation.feign.FeignUseGlobalInterceptor],
+     * [com.tony.annotation.feign.FeignUseGlobalRequestInterceptor]
+     *  [com.tony.annotation.feign.FeignUseGlobalResponseInterceptor] 使用.
+     * @param [template] RequestTemplate
+     * @author Tang Li
+     * @date 2023/09/28 10:46
+     * @since 1.0.0
+     */
     public operator fun invoke(template: RequestTemplate)
 }
 

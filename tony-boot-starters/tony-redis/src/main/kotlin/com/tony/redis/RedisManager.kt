@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.redis
 
 import com.tony.exception.ApiException
@@ -33,11 +57,14 @@ public object RedisManager {
     public val keys: RedisKeys = RedisKeys
 
     /**
-     * redis 事务操作.
-     *
+     * Redis 事务操作.
      * ## 注: 在事务中的redis 操作是获取不到值的. 只能在方法最终返回值中按顺序获取.
      *
-     * @param callback
+     * @param [callback] 回调
+     * @return [List<Any>]
+     * @author Tang Li
+     * @date 2023/09/28 10:58
+     * @since 1.0.0
      */
     @JvmSynthetic
     @JvmStatic
@@ -59,10 +86,14 @@ public object RedisManager {
     }
 
     /**
-     * redis 事务操作.
+     * Redis 事务操作.
      *
      * @see `RedisTemplate.execute(SessionCallback<T> session)`
-     * @param callback
+     * @param [callback] 回调
+     * @return [List<Any?>]
+     * @author Tang Li
+     * @date 2023/09/28 10:58
+     * @since 1.0.0
      */
     @JvmStatic
     public fun doInTransaction(callback: Runnable): List<Any?> {
@@ -91,11 +122,13 @@ public object RedisManager {
     public fun hasKey(key: String): Boolean = redisTemplate.hasKey(key)
 
     /**
-     * redis 分布式锁简单实现.
-     *
-     * @param key
-     * @param timeout
-     * @return
+     * Redis 分布式锁简单实现.
+     * @param [key] 钥匙
+     * @param [timeout] 超时
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/09/28 10:59
+     * @since 1.0.0
      */
     @JvmStatic
     public fun lockKey(key: String, timeout: Long): Boolean {

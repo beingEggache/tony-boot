@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 @file:JvmName("Daos")
 
 /**
@@ -30,6 +54,12 @@ internal val MAPPER_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
 
 internal val LOG_MAP = ConcurrentHashMap<Class<*>, Log>()
 
+/**
+ * 实际类别
+ * @author Tang Li
+ * @date 2023/09/28 10:54
+ * @since 1.0.0
+ */
 internal fun <T : Any> BaseDao<T>.actualClass() =
     if (!Proxy.isProxyClass(this::class.java)) {
         this::class.java
@@ -45,17 +75,21 @@ internal fun <T : Any> BaseDao<T>.actualClass() =
 
 /**
  * 获取mybatis-plus 语句
- *
- * @param sqlMethod 语句枚举
- * @return 语句
+ * @param [sqlMethod] 语句枚举
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/09/28 10:52
+ * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.getSqlStatement(sqlMethod: SqlMethod?): String =
     SqlHelper.getSqlStatement(getMapperClass(), sqlMethod)
 
 /**
  * 获取logger
- *
- * @return logger
+ * @return [Log]
+ * @author Tang Li
+ * @date 2023/09/28 10:52
+ * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.getLog(): Log =
     LOG_MAP.getOrPut(this::class.java) {
@@ -64,8 +98,10 @@ internal fun <T : Any> BaseDao<T>.getLog(): Log =
 
 /**
  * 获取entityClass
- *
- * @return entityClass
+ * @return [Class<T>]
+ * @author Tang Li
+ * @date 2023/09/28 10:53
+ * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
     ENTITY_CLASS_MAP.getOrPut(this::class.java) {
@@ -74,8 +110,10 @@ internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
 
 /**
  * 获取mapper类型
- *
- * @return mapper类型
+ * @return [Class<out BaseDao<T>>]
+ * @author Tang Li
+ * @date 2023/09/28 10:53
+ * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
     MAPPER_CLASS_MAP.getOrPut(this::class.java) {
@@ -84,11 +122,12 @@ internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
 
 /**
  * 批量执行
- *
- * @param batchList 对象列表
- * @param consumer  回调
- * @param <E>       对象类型
- * @return 执行结果
+ * @param [batchList] 对象列表
+ * @param [consumer] 回调
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/09/28 10:53
+ * @since 1.0.0
  */
 internal fun <T : Any, E> BaseDao<T>.executeBatch(
     batchList: Collection<E>,
