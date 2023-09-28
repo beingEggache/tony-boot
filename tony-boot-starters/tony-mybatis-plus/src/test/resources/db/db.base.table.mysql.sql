@@ -12,10 +12,10 @@ create table t_sys_user
 ) comment '角色';
 
 create unique index t_sys_user_phone_uindex
-    on t_sys_user (mobile);
+    on sys_user (mobile);
 
 create unique index t_sys_user_user_name_uindex
-    on t_sys_user (user_name);
+    on sys_user (user_name);
 
 --
 -- 角色表
