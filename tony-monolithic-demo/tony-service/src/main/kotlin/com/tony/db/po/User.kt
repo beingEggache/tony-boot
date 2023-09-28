@@ -13,14 +13,13 @@ import java.time.LocalDateTime
  * @author Tang Li
  * @date 2020-11-15
  */
-@TableName("t_sys_user")
-class User {
-
+@TableName("sys_user")
+class User : Auditable {
     /**
      * 用户id
      */
     @TableId("user_id")
-    var userId: String? = null
+    var userId: Long? = null
 
     /**
      * 用户登录名
@@ -50,17 +49,59 @@ class User {
      * 创建时间
      */
     @TableField("create_time")
-    var createTime: LocalDateTime? = null
+    override var createTime: LocalDateTime? = null
 
     /**
-     * 用户状态：1:启用，0:禁用。 可根据需求扩展
+     * 创建人
      */
-    @TableField("states")
-    var states: Int? = null
+    @TableField("creator_id")
+    override var creatorId: Long? = null
+
+    /**
+     * 创建人名称
+     */
+    @TableField("creator_name")
+    override var creatorName: String? = null
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    override var updateTime: LocalDateTime? = null
+
+    /**
+     * 更新人
+     */
+    @TableField("updator_id")
+    override var updatorId: Long? = null
+
+    /**
+     * 更新人名称
+     */
+    @TableField("updator_name")
+    override var updatorName: String? = null
+
+    /**
+     * 状态：1-启用，0-禁用
+     */
+    @TableField("enabled")
+    var enabled: Boolean? = null
 
     /**
      * 备注
      */
     @TableField("remark")
     var remark: String? = null
+
+    /**
+     * 删除标记：1-已删除，0-未删除
+     */
+    @TableField("deleted")
+    var deleted: Boolean? = null
+
+    /**
+     * 租户id
+     */
+    @TableField("tenant_id")
+    var tenantId: Long? = null
 }

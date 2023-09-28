@@ -3,6 +3,7 @@ package com.tony.dto.req
 import com.tony.validator.annotation.Mobile
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 
 /**
  *
@@ -13,8 +14,8 @@ import jakarta.validation.constraints.NotBlank
 data class UserUpdateReq(
 
     @Schema(description = "用户ID", required = true)
-    @get:NotBlank(message = "请选择用户")
-    val userId: String?,
+    @get:NotNull(message = "请选择用户")
+    val userId: Long?,
 
     @Schema(description = "用户名", required = true)
     @get:NotBlank(message = "请输入用户名")

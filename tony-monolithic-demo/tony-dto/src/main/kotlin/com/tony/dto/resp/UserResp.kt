@@ -10,27 +10,26 @@ import java.time.LocalDateTime
  * @date 2020-11-14 15:18
  */
 @Schema(description = "用户响应")
-data class UserResp(
-
+class UserResp {
     @Schema(description = "用户Id")
-    val userId: String?,
+    var userId: Long? = null
 
     @Schema(description = "用户登录名")
-    val userName: String?,
+    var userName: String? = null
 
     @Schema(description = "用户真实姓名")
-    val realName: String?,
+    var realName: String? = null
 
     @Schema(description = "手机号")
-    val mobile: String?,
+    var mobile: String? = null
 
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    val createTime: LocalDateTime?,
+    var createTime: LocalDateTime? = null
 
     @Schema(description = "备注")
-    val remark: String?,
+    var remark: String? = null
 
-    @Schema(description = "用户状态：1:启用，0:禁用。 可根据需求扩展")
-    val states: Int?,
-)
+    @Schema(description = "状态：1-启用，0-禁用")
+    var enabled: Boolean? = null
+}

@@ -112,7 +112,7 @@ class UserService(
 
     @Transactional
     fun initSuperAdmin(appId: String) {
-        val superAdmin = "SUPER_ADMIN"
+        val superAdmin = 1L
         val user = User().apply {
             this.userId = superAdmin
             userName = "gateway"

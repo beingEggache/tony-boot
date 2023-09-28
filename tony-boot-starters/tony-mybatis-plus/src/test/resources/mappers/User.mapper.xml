@@ -22,7 +22,7 @@
         create_time,
         states,
         remark
-        from t_sys_user
+        from sys_user
         <trim prefix="where" suffixOverrides="or">
             <if test="!@kotlin.text.StringsKt@isBlank(userName)">
                 user_name = #{userName,jdbcType=VARCHAR} or
@@ -43,7 +43,7 @@
                create_time,
                states,
                remark
-        from t_sys_user
+        from sys_user
         where user_name = #{userName,jdbcType=VARCHAR}
         and pwd = #{pwd,jdbcType=VARCHAR}
         and states = 1

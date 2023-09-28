@@ -33,7 +33,7 @@ class ApiModuleInit {
 //                ?: throw ApiException("${handlerMethod.shortLogMessage} apiOperation value null")
 //            val moduleId = requestMappingInfo.name ?: handlerMethod.shortLogMessage
 //            val moduleGroup = apiOperation.tags.sortedArray().joinToString(",")
-//            val moduleDescription = apiOperation.notes.defaultIfBlank()
+//            val remark = apiOperation.notes.defaultIfBlank()
 //            val moduleValue = "${requestMappingInfo.methodsCondition.methods.first()} " +
 //                requestMappingInfo.patternValues.first()
 //            Module().apply {
@@ -43,7 +43,7 @@ class ApiModuleInit {
 //                this.moduleValue = moduleValue
 //                this.moduleType = ModuleType.API
 //                this.moduleGroup = moduleGroup
-//                this.moduleDescription = moduleDescription
+//                this.remark = remark
 //            }
 //        }.forEach {
 //            println(it.toJsonString())

@@ -29,7 +29,7 @@ data class FrontEndModuleReq(
     val moduleGroup: String = "",
 
     @Schema(description = "模块/权限说明")
-    val moduleDescription: String = "",
+    val remark: String = "",
 
     @Schema(description = "模块/权限类型", allowableValues = ["2", "3"], required = true)
     @get:SimpleIntEnum(enums = [2, 3], "只能提交前端类型模块")

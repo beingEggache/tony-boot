@@ -57,7 +57,7 @@ class ModuleService(
     )
     fun listApiModules(userId: String, appId: String) =
         moduleDao.selectModulesByUserIdAndAppId(userId, appId, listOf(ModuleType.API))
-            .map { it.copyTo<ModuleResp>() }
+            .map { it.toDto() }
 
     @Transactional
     fun saveModules(modules: List<Module>, moduleType: List<ModuleType>, appId: String) {
@@ -75,7 +75,7 @@ class ModuleService(
             .lambdaQuery()
             .`in`(Module::moduleType, moduleTypes)
             .list()
-            .map { it.copyTo<ModuleResp>() }
+            .map { it.toDto() }
             .listAndSetChildren()
 
     fun listModuleGroups(appId: String) =
@@ -91,4 +91,13 @@ class ModuleService(
             .filter { it.moduleType in frontEndModuleTypes }
             .map { it.moduleId }
     }
+
+    private fun Module.toDto() =
+        ModuleResp(
+            moduleId.defaultIfBlank(),
+            moduleName.defaultIfBlank(),
+            moduleValue.defaultIfBlank(),
+            moduleType,
+            moduleGroup.defaultIfBlank()
+        )
 }
