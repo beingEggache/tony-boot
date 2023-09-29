@@ -7,7 +7,9 @@ import java.time.LocalDateTime
 
 /**
  * 流程定义表
- * @TableName flow_process
+ * @author Tang Li
+ * @date 2023/09/29 16:13
+ * @since 1.0.0
  */
 @TableName(value = "flow_process")
 public class FlowProcess {

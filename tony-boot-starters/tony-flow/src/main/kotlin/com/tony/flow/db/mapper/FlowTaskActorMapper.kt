@@ -4,7 +4,7 @@ import com.tony.flow.db.po.FlowTaskActor
 import com.tony.mybatis.dao.BaseDao
 
 /**
- * 任务参与者表 Mapper
+ * 任务参与者 Mapper
  * @author Tang Li
  * @date 2023/09/28 17:32
  * @since 1.0.0

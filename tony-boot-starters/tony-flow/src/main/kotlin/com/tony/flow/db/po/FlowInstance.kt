@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableName
 import java.time.LocalDateTime
 
 /**
- * 流程实例表
- * @TableName flow_instance
+ * 流程实例
+ * @author Tang Li
+ * @date 2023/09/29 16:13
+ * @since 1.0.0
  */
 @TableName(value = "flow_instance")
-public class FlowInstance {
+public open class FlowInstance {
     /**
      * 主键ID
      */

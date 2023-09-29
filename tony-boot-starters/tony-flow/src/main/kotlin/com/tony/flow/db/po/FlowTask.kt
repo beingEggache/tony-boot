@@ -3,6 +3,8 @@ package com.tony.flow.db.po
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
+import com.tony.flow.enums.PerformType
+import com.tony.flow.enums.TaskType
 import java.time.LocalDateTime
 
 /**
@@ -10,7 +12,7 @@ import java.time.LocalDateTime
  * @TableName flow_task
  */
 @TableName(value = "flow_task")
-public class FlowTask {
+public open class FlowTask {
     /**
      * 主键ID
      */
@@ -66,16 +68,16 @@ public class FlowTask {
     public var displayName: String? = null
 
     /**
-     * 任务类型
+     * 任务类型: 0-主办, 1-转办, 2-委派, 3-会签
      */
     @TableField(value = "task_type")
-    public var taskType: Int? = null
+    public var taskType: TaskType? = null
 
     /**
-     * 参与类型
+     * 参与类型: 0-发起、其它, 1-按顺序依次审批, 2-会签, 3-或签, 4-抄送
      */
     @TableField(value = "perform_type")
-    public var performType: Int? = null
+    public var performType: PerformType? = null
 
     /**
      * 任务处理的url
@@ -123,7 +125,7 @@ public class FlowTask {
      * 已阅 0，否 1，是
      */
     @TableField(value = "viewed")
-    public var viewed: Int? = null
+    public var viewed: Boolean? = null
 
     /**
      * 完成时间

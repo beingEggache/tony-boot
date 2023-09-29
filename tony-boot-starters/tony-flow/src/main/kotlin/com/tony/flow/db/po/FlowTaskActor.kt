@@ -3,10 +3,13 @@ package com.tony.flow.db.po
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
+import com.tony.flow.enums.ActorType
 
 /**
  * 任务参与者表
- * @TableName flow_task_actor
+ * @author Tang Li
+ * @date 2023/09/29 16:14
+ * @since 1.0.0
  */
 @TableName(value = "flow_task_actor")
 public open class FlowTaskActor {
@@ -50,5 +53,5 @@ public open class FlowTaskActor {
      * 参与者类型 0，用户 1，角色 2，部门
      */
     @TableField(value = "actor_type")
-    public var actorType: Int? = null
+    public var actorType: ActorType? = null
 }
