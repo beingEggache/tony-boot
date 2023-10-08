@@ -62,7 +62,6 @@ import org.springframework.web.filter.OncePerRequestFilter
 internal class RequestReplaceToRepeatReadFilter(
     traceLogExcludePatterns: List<String>,
 ) : OncePerRequestFilter(), PriorityOrdered {
-
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
         traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") }
             .plus(WebApp.whiteUrlPatternsWithContextPath)
@@ -90,65 +89,66 @@ internal class RequestReplaceToRepeatReadFilter(
  * @since 1.0.0
  */
 public class RepeatReadRequestWrapper
-    @Throws(IOException::class)
-    internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
+@Throws(IOException::class)
+internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
+    /**
+     * Don't know why must do this can get parts in controller.
+     * 先把parts在初始化时就保存下来，否则会获取不到。暂时的成本低的做法。
+     */
+    private val initializedParts: MutableCollection<Part> =
+        if (request.contentType?.contains(MediaType.MULTIPART_FORM_DATA_VALUE) == true) {
+            request.parts
+        } else {
+            Collections.emptyList()
+        }
 
-        /**
-         * Don't know why must do this can get parts in controller.
-         * 先把parts在初始化时就保存下来，否则会获取不到。暂时的成本低的做法。
-         */
-        private val initializedParts: MutableCollection<Part> =
-            if (request.contentType?.contains(MediaType.MULTIPART_FORM_DATA_VALUE) == true) {
-                request.parts
-            } else {
-                Collections.emptyList()
-            }
+    override fun getParts(): MutableCollection<Part> = initializedParts
 
-        override fun getParts(): MutableCollection<Part> = initializedParts
+    private val cachedContent =
+        ByteArrayOutputStream(request.contentLength.coerceAtLeast(0)).doIf(!isFormPost()) {
+            writeBytes(request.inputStream.readBytes())
+        }.run {
+            ByteArrayInputStream(toByteArray())
+        }
 
-        private val cachedContent =
-            ByteArrayOutputStream(request.contentLength.coerceAtLeast(0)).doIf(!isFormPost()) {
-                writeBytes(request.inputStream.readBytes())
-            }.run {
-                ByteArrayInputStream(toByteArray())
-            }
+    public val contentAsByteArray: ByteArray
+        get() {
+            cachedContent.reset()
+            val bytes = cachedContent.readBytes()
+            cachedContent.reset()
+            return bytes
+        }
 
-        public val contentAsByteArray: ByteArray
-            get() {
-                cachedContent.reset()
-                val bytes = cachedContent.readBytes()
-                cachedContent.reset()
-                return bytes
-            }
+    override fun getInputStream(): ServletInputStream = object : ServletInputStream() {
+        override fun isReady() = true
 
-        override fun getInputStream(): ServletInputStream =
-            object : ServletInputStream() {
-                override fun isReady() = true
-                override fun setReadListener(listener: ReadListener?) = Unit
-                override fun isFinished() = cachedContent.available() == 0
-                override fun read() = cachedContent.read()
-                override fun reset() = cachedContent.reset()
-                override fun markSupported() = cachedContent.markSupported()
-            }
+        override fun setReadListener(listener: ReadListener?) = Unit
 
-        override fun getReader(): BufferedReader = cachedContent.bufferedReader(StandardCharsets.UTF_8)
+        override fun isFinished() = cachedContent.available() == 0
 
-        private fun isFormPost() =
-            contentType in formPostContentTypes && HttpMethod.POST.matches(method)
+        override fun read() = cachedContent.read()
 
-        public companion object {
+        override fun reset() = cachedContent.reset()
 
-            @JvmStatic
-            public fun HttpServletRequest.toRepeatRead(): RepeatReadRequestWrapper =
-                if (this is RepeatReadRequestWrapper) {
-                    this
-                } else {
-                    RepeatReadRequestWrapper(this)
-                }
+        override fun markSupported() = cachedContent.markSupported()
+    }
 
-            private val formPostContentTypes = arrayOf(
+    override fun getReader(): BufferedReader = cachedContent.bufferedReader(StandardCharsets.UTF_8)
+
+    private fun isFormPost() = contentType in formPostContentTypes && HttpMethod.POST.matches(method)
+
+    public companion object {
+        @JvmStatic
+        public fun HttpServletRequest.toRepeatRead(): RepeatReadRequestWrapper = if (this is RepeatReadRequestWrapper) {
+            this
+        } else {
+            RepeatReadRequestWrapper(this)
+        }
+
+        private val formPostContentTypes =
+            arrayOf(
                 "application/x-www-form-urlencoded",
                 "multipart/form-data"
             )
-        }
     }
+}

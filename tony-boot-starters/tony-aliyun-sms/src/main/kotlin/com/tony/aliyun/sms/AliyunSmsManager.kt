@@ -45,13 +45,13 @@ public class AliyunSmsManager(
     private val smsSignName: String,
     private val timeout: String,
 ) {
-
     private val acsClient: DefaultAcsClient by lazy {
-        val profile = DefaultProfile.getProfile(
-            REGION_ID,
-            accessKeyId,
-            accessKeySecret
-        )
+        val profile =
+            DefaultProfile.getProfile(
+                REGION_ID,
+                accessKeyId,
+                accessKeySecret
+            )
 
         DefaultProfile.addEndpoint(REGION_ID, PRODUCT, ENDPOINT)
         DefaultAcsClient(profile)

@@ -53,7 +53,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
  */
 @RestControllerAdvice
 internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
-
     override fun beforeBodyWrite(
         body: Any?,
         returnType: MethodParameter,
@@ -61,26 +60,23 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         selectedConverterType: Class<out HttpMessageConverter<*>>,
         request: ServerHttpRequest,
         response: ServerHttpResponse,
-    ): ApiResult<*> =
-        when {
-            body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
-            !body::class.java.isArrayLikeType() -> ApiResult(body, ApiProperty.okCode)
-            else -> if (body::class.java.isArray) {
+    ): ApiResult<*> = when {
+        body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
+        !body::class.java.isArrayLikeType() -> ApiResult(body, ApiProperty.okCode)
+        else ->
+            if (body::class.java.isArray) {
                 ApiResult(toListResult(body), ApiProperty.okCode)
             } else {
                 ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.okCode)
             }
-        }
+    }
 
-    override fun supports(
-        returnType: MethodParameter,
-        converterType: Class<out HttpMessageConverter<*>>,
-    ) = !WebContext.url.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
-        converterType.isTypesOrSubTypesOf(MappingJackson2HttpMessageConverter::class.java) &&
-        !returnType.parameterType.isTypesOrSubTypesOf(*notSupportResponseWrapClasses)
+    override fun supports(returnType: MethodParameter, converterType: Class<out HttpMessageConverter<*>>) =
+        !WebContext.url.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
+            converterType.isTypesOrSubTypesOf(MappingJackson2HttpMessageConverter::class.java) &&
+            !returnType.parameterType.isTypesOrSubTypesOf(*notSupportResponseWrapClasses)
 
     private companion object Utils {
-
         @JvmStatic
         private fun toListResult(body: Any?) = when (body) {
             is ByteArray -> ListResult<Byte>(body)

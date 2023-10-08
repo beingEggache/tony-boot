@@ -38,7 +38,6 @@ import com.tony.wechat.xml.XStreamCDataConverter
 @XStreamAlias("xml")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 public data class WechatPayOrderReq(
-
     /**
      * ### 公众账号ID
      *     H5支付与公众号支付
@@ -57,20 +56,17 @@ public data class WechatPayOrderReq(
     @XStreamAlias("appid")
     @JsonProperty("appid")
     var appId: String?,
-
     /**
      * 微信支付分配的商户号
      */
     @XStreamAlias("mch_id")
     var mchId: String?,
-
     /**
      * ## 终端设备号(门店号或收银设备ID)
      * > 默认请传"WEB"
      */
     @XStreamAlias("device_info")
     var deviceInfo: String? = null,
-
     /**
      * ## 随机字符串
      * > 随机字符串，不长于32位。
@@ -79,7 +75,6 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("nonce_str")
     var nonceStr: String,
-
     /**
      * ## 签名
      * > 通过签名算法计算得出的签名值
@@ -88,14 +83,12 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("sign")
     var sign: String? = null,
-
     /**
      * ## 签名类型
      * > 目前支持HMAC-SHA256和MD5，默认为MD5
      */
     @XStreamAlias("sign_type")
     var signType: String = "MD5",
-
     /**
      *
      * ## 商品简单描述
@@ -109,7 +102,6 @@ public data class WechatPayOrderReq(
      * @see <a href='https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_2'>参数规定</a>
      */
     var body: String?,
-
     /**
      * ## 商品详细描述
      *
@@ -118,13 +110,11 @@ public data class WechatPayOrderReq(
      */
     @XStreamConverter(value = XStreamCDataConverter::class)
     var detail: String? = null,
-
     /**
      * > 附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
      * > String(127)
      */
     var attach: String? = null,
-
     /**
      * ## 商户系统内部订单号
      *
@@ -133,7 +123,6 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("out_trade_no")
     var outTradeNo: String?,
-
     /**
      * ## 货币类型
      * > 符合ISO 4217标准的三位字母代码，默认人民币：CNY
@@ -142,7 +131,6 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("fee_type")
     var feeType: String = "CNY",
-
     /**
      * ## 总金额
      * > 订单总金额，单位为分
@@ -150,14 +138,12 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("total_fee")
     var totalFee: Long?,
-
     /**
      * ## 终端IP
      * > 用户端实际ip
      */
     @XStreamAlias("spbill_create_ip")
     var spbillCreateIP: String,
-
     /**
      * ## 交易起始时间
      *    订单生成时间,
@@ -169,7 +155,6 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("time_start")
     var timeStart: String? = null,
-
     /**
      * ## 交易结束时间
      *    订单失效时间,
@@ -188,7 +173,6 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("time_expire")
     var timeExpire: String? = null,
-
     /**
      * ## 订单优惠标记
      *    订单优惠标记，代金券或立减优惠功能的参数
@@ -197,7 +181,6 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("goods_tag")
     var goodsTag: String? = null,
-
     /**
      * ## 通知地址
      *    接收微信支付异步通知回调地址，
@@ -205,7 +188,6 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("notify_url")
     var notifyUrl: String,
-
     /**
      * ## 交易类型
      *    JSAPI 公众号支付
@@ -214,7 +196,6 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("trade_type")
     var tradeType: String,
-
     /**
      * ## 商品ID
      *    trade_type=NATIVE时（即扫码支付）,
@@ -223,14 +204,12 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("product_id")
     var productId: String? = null,
-
     /**
      * ## 指定支付方式
      *    no_credit--指定不能使用信用卡支付
      */
     @XStreamAlias("limit_pay")
     var limitPay: String? = null,
-
     /**
      * ## 场景信息
      *    该字段用于统一下单时上报场景信息，
@@ -242,7 +221,6 @@ public data class WechatPayOrderReq(
      */
     @XStreamAlias("scene_info")
     var sceneInfo: String? = null,
-
     /**
      * ## 用户标识
      *    trade_type=JSAPI，

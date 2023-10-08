@@ -46,6 +46,7 @@ import jakarta.validation.ConstraintValidatorContext
 public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, IntEnumValue?> {
     private var enums: IntArray = intArrayOf()
     private var required = false
+
     override fun initialize(constraintAnnotation: SimpleIntEnum) {
         enums = constraintAnnotation.enums
         required = constraintAnnotation.required
@@ -72,6 +73,7 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, IntEnum
 public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
     private var enums: List<Int> = listOf()
     private var required = false
+
     override fun initialize(constraintAnnotation: IntEnum) {
         val clazz = constraintAnnotation.enumClass.java
         if (clazz.isEnum && clazz.isTypesOrSubTypesOf(IntEnumValue::class.java)) {
@@ -100,9 +102,9 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
  * @date 2021-05-19 10:58
  */
 public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, StringEnumValue?> {
-
     private lateinit var enums: Array<out String>
     private var required = false
+
     override fun initialize(constraintAnnotation: SimpleStringEnum) {
         enums = constraintAnnotation.enums
         required = constraintAnnotation.required
@@ -128,6 +130,7 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, S
 public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumValue?> {
     private var enums: List<String> = listOf()
     private var required = false
+
     override fun initialize(constraintAnnotation: StringEnum) {
         val clazz = constraintAnnotation.enumClass.java
         if (clazz.isEnum && clazz.isTypesOrSubTypesOf(StringEnumValue::class.java)) {
@@ -156,15 +159,13 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumVal
  * @date 2021-05-19 10:58
  */
 public class SimpleEnumValidator : ConstraintValidator<SimpleEnum, Any?> {
-
     private lateinit var enums: Array<out String>
 
     override fun initialize(constraintAnnotation: SimpleEnum) {
         enums = constraintAnnotation.enums
     }
 
-    override fun isValid(str: Any?, constraintValidatorContext: ConstraintValidatorContext): Boolean =
-        null == str ||
-            str.toString().isBlank() ||
-            str.toString() in enums
+    override fun isValid(str: Any?, constraintValidatorContext: ConstraintValidatorContext): Boolean = null == str ||
+        str.toString().isBlank() ||
+        str.toString() in enums
 }

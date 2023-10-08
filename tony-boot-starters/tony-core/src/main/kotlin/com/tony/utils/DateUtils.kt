@@ -65,55 +65,50 @@ public val defaultZoneOffset: ZoneOffset =
 internal val dateTimeFormatterMap: WeakHashMap<String, DateTimeFormatter> = WeakHashMap()
 
 @JvmSynthetic
-internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =
-    DateTimeFormatter
-        .ofPattern(pattern)
-        .withLocale(Locale.getDefault())
-        .withZone(defaultZoneOffset)
+internal fun dateTimeFormatterWithDefaultOptions(pattern: String) = DateTimeFormatter
+    .ofPattern(pattern)
+    .withLocale(Locale.getDefault())
+    .withZone(defaultZoneOffset)
 
 /**
  * 日期转为字符串表示
  * @param pattern 字符串格式
  * @see DateTimeFormatter
  */
-public fun TemporalAccessor.toString(pattern: String): String =
-    dateTimeFormatterMap.getOrPut(pattern) {
-        dateTimeFormatterWithDefaultOptions(pattern)
-    }.format(this)
+public fun TemporalAccessor.toString(pattern: String): String = dateTimeFormatterMap.getOrPut(pattern) {
+    dateTimeFormatterWithDefaultOptions(pattern)
+}.format(this)
 
 /**
  * 字符串转 Date
  * @param pattern 字符串格式
  * @see DateTimeFormatter
  */
-public fun String.toDate(pattern: String): Date =
-    dateTimeFormatterMap.getOrPut(pattern) {
-        dateTimeFormatterWithDefaultOptions(pattern)
-    }.parse(this).toDate()
+public fun String.toDate(pattern: String): Date = dateTimeFormatterMap.getOrPut(pattern) {
+    dateTimeFormatterWithDefaultOptions(pattern)
+}.parse(this).toDate()
 
 /**
  * 字符串转 LocalDate
  * @param pattern 字符串格式
  * @see DateTimeFormatter
  */
-public fun String.toLocalDate(pattern: String): LocalDate =
-    dateTimeFormatterMap.getOrPut(pattern) {
-        dateTimeFormatterWithDefaultOptions(pattern)
-    }.parse(this).run {
-        LocalDate.from(this)
-    }
+public fun String.toLocalDate(pattern: String): LocalDate = dateTimeFormatterMap.getOrPut(pattern) {
+    dateTimeFormatterWithDefaultOptions(pattern)
+}.parse(this).run {
+    LocalDate.from(this)
+}
 
 /**
  * 字符串转 LocalDateTime
  * @param pattern 字符串格式
  * @see DateTimeFormatter
  */
-public fun String.toLocalDateTime(pattern: String): LocalDateTime =
-    dateTimeFormatterMap.getOrPut(pattern) {
-        dateTimeFormatterWithDefaultOptions(pattern)
-    }.parse(this).run {
-        LocalDateTime.from(this)
-    }
+public fun String.toLocalDateTime(pattern: String): LocalDateTime = dateTimeFormatterMap.getOrPut(pattern) {
+    dateTimeFormatterWithDefaultOptions(pattern)
+}.parse(this).run {
+    LocalDateTime.from(this)
+}
 
 /**
  * LocalDate 或 LocalDatetime 转 Date
@@ -123,18 +118,16 @@ internal fun TemporalAccessor.toDate(): Date = LocalDateTime.from(this).toDate()
 /**
  * Date 转 LocalDate
  */
-public fun Date.toLocalDate(): LocalDate =
-    toInstant()
-        .atOffset(defaultZoneOffset)
-        .toLocalDate()
+public fun Date.toLocalDate(): LocalDate = toInstant()
+    .atOffset(defaultZoneOffset)
+    .toLocalDate()
 
 /**
  * Date 转 LocalDateTime
  */
-public fun Date.toLocalDateTime(): LocalDateTime =
-    toInstant()
-        .atOffset(defaultZoneOffset)
-        .toLocalDateTime()
+public fun Date.toLocalDateTime(): LocalDateTime = toInstant()
+    .atOffset(defaultZoneOffset)
+    .toLocalDateTime()
 
 /**
  * LocalDate 转 Date
@@ -154,35 +147,29 @@ public fun LocalDateTime.toInstant(): Instant = toInstant(defaultZoneOffset)
 /**
  * 获取今天所剩秒数
  */
-public fun secondOfTodayRest(): Long =
-    ChronoUnit.SECONDS.between(
-        LocalDateTime.now(),
-        LocalDateTime.now().with(LocalTime.MAX)
-    )
+public fun secondOfTodayRest(): Long = ChronoUnit.SECONDS.between(
+    LocalDateTime.now(),
+    LocalDateTime.now().with(LocalTime.MAX)
+)
 
 /**
  * 判断 一个 LocalDateTime 是否在 start 和 end 之间
  * @param start
  * @param end
  */
-public fun LocalDateTime.isBetween(
-    start: LocalDateTime?,
-    end: LocalDateTime?,
-): Boolean = if (start == null || end == null) {
-    throw ApiException("start or end is null,start:$start end:$end")
-} else {
-    isAfter(start) && isBefore(end)
-}
+public fun LocalDateTime.isBetween(start: LocalDateTime?, end: LocalDateTime?): Boolean =
+    if (start == null || end == null) {
+        throw ApiException("start or end is null,start:$start end:$end")
+    } else {
+        isAfter(start) && isBefore(end)
+    }
 
 /**
  * 判断 一个 LocalDate 是否在 start 和 end 之间
  * @param start
  * @param end
  */
-public fun LocalDate.isBetween(
-    start: LocalDate?,
-    end: LocalDate?,
-): Boolean = if (start == null || end == null) {
+public fun LocalDate.isBetween(start: LocalDate?, end: LocalDate?): Boolean = if (start == null || end == null) {
     throw ApiException("start or end is null,start:$start end:$end")
 } else {
     isAfter(start) && isBefore(end)
@@ -195,7 +182,6 @@ public fun LocalDate.atEndOfDay(): LocalDateTime = LocalDateTime.of(this, LocalT
 
 // TODO needTest
 public class TimePeriod {
-
     private val start: Any
     private val end: Any
 
@@ -235,6 +221,7 @@ public class TimePeriod {
     }
 
     private fun startSeconds(time: LocalTime = LocalTime.MIN) = seconds(start, time)
+
     private fun endSeconds(time: LocalTime = LocalTime.MIN) = seconds(start, time)
 
     public fun overlapWith(another: TimePeriod): Boolean {

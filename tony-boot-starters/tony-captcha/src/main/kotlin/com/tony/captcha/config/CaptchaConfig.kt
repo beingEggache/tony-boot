@@ -51,15 +51,13 @@ import org.springframework.context.annotation.Configuration
 internal class CaptchaConfig(
     private val captchaProperties: CaptchaProperties,
 ) {
-
     @ConditionalOnMissingBean(CaptchaService::class)
     @Bean
-    fun captchaService(): CaptchaService =
-        if (captchaProperties.mode == CaptchaMode.DEFAULT) {
-            DefaultCaptchaServiceImpl()
-        } else {
-            NoopCaptchaServiceImpl()
-        }
+    fun captchaService(): CaptchaService = if (captchaProperties.mode == CaptchaMode.DEFAULT) {
+        DefaultCaptchaServiceImpl()
+    } else {
+        NoopCaptchaServiceImpl()
+    }
 }
 
 /**

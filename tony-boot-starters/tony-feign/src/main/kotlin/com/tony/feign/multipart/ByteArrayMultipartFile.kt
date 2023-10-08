@@ -49,7 +49,6 @@ public class ByteArrayMultipartFile(
     private val name: String = "",
     private val contentType: String? = null,
 ) : MultipartFile {
-
     override fun isEmpty(): Boolean = bytes.isEmpty()
 
     override fun getSize(): Long = bytes.size.toLong()

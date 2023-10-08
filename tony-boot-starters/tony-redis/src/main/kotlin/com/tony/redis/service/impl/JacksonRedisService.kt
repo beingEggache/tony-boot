@@ -44,25 +44,21 @@ import com.tony.utils.toNumber
 import com.tony.utils.trimQuotes
 
 internal class JacksonRedisService : RedisService {
-
     override val serializerMode: SerializerMode = SerializerMode.JACKSON
 
-    override fun Any.inputTransformTo(): Any =
-        if (this::class.java.isNumberTypes()) {
-            this
-        } else {
-            this.toJsonString().trimQuotes()
-        }
+    override fun Any.inputTransformTo(): Any = if (this::class.java.isNumberTypes()) {
+        this
+    } else {
+        this.toJsonString().trimQuotes()
+    }
 
-    override fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? =
-        jsonToObjWithTypeClass(type) {
-            it.trimQuotes().jsonToObj(type)
-        }
+    override fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? = jsonToObjWithTypeClass(type) {
+        it.trimQuotes().jsonToObj(type)
+    }
 
-    override fun <T : Any> Any?.outputTransformTo(type: JavaType): T? =
-        jsonToObjWithTypeClass(type.rawClass()) {
-            it.trimQuotes().jsonToObj(type)
-        }
+    override fun <T : Any> Any?.outputTransformTo(type: JavaType): T? = jsonToObjWithTypeClass(type.rawClass()) {
+        it.trimQuotes().jsonToObj(type)
+    }
 
     override fun <T : Any> Any?.outputTransformTo(type: TypeReference<T>): T? =
         jsonToObjWithTypeClass(type.rawClass()) {

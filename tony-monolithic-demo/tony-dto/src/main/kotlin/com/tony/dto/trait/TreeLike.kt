@@ -9,8 +9,8 @@ import com.tony.utils.defaultIfBlank
  * @date 2020-11-23 11:10
  */
 
-private const val codePatternStr = "[a-zA-Z0-9一二三四五六七八九零ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+"
-private val ancestorPattern: Regex = Regex(codePatternStr)
+private const val CODE_PATTERN_STR = "[a-zA-Z0-9一二三四五六七八九零ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+"
+private val ancestorPattern: Regex = Regex(CODE_PATTERN_STR)
 
 fun <T : TreeLike<T>> List<T>.listAndSetChildren(): List<T> {
     val rootFundsItem = this
@@ -22,8 +22,7 @@ fun <T : TreeLike<T>> List<T>.listAndSetChildren(): List<T> {
 
 interface TreeLike<T : TreeLike<T>> {
 
-    fun isMyChild(otherCode: String?) =
-        Regex("^$code-$codePatternStr$").matches(otherCode.defaultIfBlank())
+    fun isMyChild(otherCode: String?) = Regex("^$code-$CODE_PATTERN_STR$").matches(otherCode.defaultIfBlank())
 
     @JsonIgnore
     fun isAncestor() = ancestorPattern.matches(code.defaultIfBlank())

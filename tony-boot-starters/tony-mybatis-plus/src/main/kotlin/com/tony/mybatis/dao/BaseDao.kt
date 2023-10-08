@@ -59,7 +59,6 @@ import org.springframework.transaction.annotation.Transactional
  * @since 1.0.0
  */
 public interface BaseDao<T : Any> : BaseMapper<T> {
-
     /**
      * 根据id查询，为null 将会抛错
      * @param [id] id
@@ -68,9 +67,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 10:38
      * @since 1.0.0
      */
-    public fun selectByIdNotNull(
-        id: Serializable,
-    ): T = selectById(id).throwIfNull()
+    public fun selectByIdNotNull(id: Serializable): T = selectById(id).throwIfNull()
 
     /**
      * 根据id查询，为null 将会抛错
@@ -81,10 +78,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 10:38
      * @since 1.0.0
      */
-    public fun selectByIdNotNull(
-        id: Serializable,
-        message: String = ApiProperty.notFoundMessage,
-    ): T = selectById(id).throwIfNull(message)
+    public fun selectByIdNotNull(id: Serializable, message: String = ApiProperty.notFoundMessage): T =
+        selectById(id).throwIfNull(message)
 
     /**
      * 根据id查询，为null 将会抛错
@@ -157,10 +152,11 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         val sqlStatement = getSqlStatement(SqlMethod.INSERT_ONE)
         return executeBatch(batchList) { sqlSession, entity ->
             val isInsert =
-                StringUtils.checkValNull(tableInfo.getPropertyValue(entity, keyProperty)) || sqlSession.selectList<T>(
-                    getSqlStatement(SqlMethod.SELECT_BY_ID),
-                    entity
-                ).isNullOrEmpty()
+                StringUtils.checkValNull(tableInfo.getPropertyValue(entity, keyProperty)) ||
+                    sqlSession.selectList<T>(
+                        getSqlStatement(SqlMethod.SELECT_BY_ID),
+                        entity
+                    ).isNullOrEmpty()
             if (isInsert) {
                 sqlSession.insert(sqlStatement, entity)
             } else {

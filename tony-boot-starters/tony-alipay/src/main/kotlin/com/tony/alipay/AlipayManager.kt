@@ -45,7 +45,6 @@ public class AlipayManager(
     private val privateKey: String,
     private val aliPayPublicKey: String,
 ) {
-
     private val alipayGateway = "https://openapi.alipay.com/gateway.do"
 
     private val alipayClient by lazy {
@@ -93,12 +92,12 @@ public class AlipayManager(
         notifyURL: String,
         passBackParams: String? = null,
         body: String? = null,
-    ): String =
-        try {
-            alipayClient.sdkExecute(
-                AlipayTradeAppPayRequest().apply {
-                    this.notifyUrl = notifyURL
-                    bizModel = AlipayTradeAppPayModel().apply {
+    ): String = try {
+        alipayClient.sdkExecute(
+            AlipayTradeAppPayRequest().apply {
+                this.notifyUrl = notifyURL
+                bizModel =
+                    AlipayTradeAppPayModel().apply {
                         this.totalAmount = totalAmount
                         this.body = body
                         this.subject = subject
@@ -107,9 +106,9 @@ public class AlipayManager(
                         this.passbackParams = passBackParams?.urlEncode()
                         this.productCode = "QUICK_MSECURITY_PAY"
                     }
-                }
-            )
-        } catch (e: AlipayApiException) {
-            throw AlipayException(e.message, e)
-        }.body
+            }
+        )
+    } catch (e: AlipayApiException) {
+        throw AlipayException(e.message, e)
+    }.body
 }

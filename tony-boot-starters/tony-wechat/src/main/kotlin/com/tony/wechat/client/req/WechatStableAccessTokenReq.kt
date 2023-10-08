@@ -39,13 +39,11 @@ public data class WechatStableAccessTokenReq(
      */
     @JsonProperty("appid")
     public val appId: String?,
-
     /**
      * 账号唯一凭证密钥，即 AppSecret，获取方式同 appid
      */
     @JsonProperty("secret")
     public val secret: String?,
-
     /**
      * 默认使用 false.
      *
@@ -54,11 +52,9 @@ public data class WechatStableAccessTokenReq(
      */
     @JsonProperty("force_refresh")
     public val forceRefresh: Boolean = false,
-
     /**
      * 填写 client_credential
      */
     @JsonProperty("grant_type")
     public val grantType: String = "client_credential",
-
 )

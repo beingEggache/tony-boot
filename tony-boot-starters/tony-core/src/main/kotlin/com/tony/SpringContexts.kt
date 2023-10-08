@@ -38,7 +38,6 @@ import org.springframework.core.env.Environment
  * @date 2021/12/6 10:51
  */
 public object SpringContexts : ApplicationContext by ApplicationContextHolder.springContext {
-
     /**
      * 惰性获取 bean
      * @return [Lazy<T>]
@@ -60,12 +59,10 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
      */
     @JvmSynthetic
     @JvmStatic
-    public inline fun <reified T : Any> getBeanByLazy(
-        name: String,
-    ): Lazy<T> = lazy(LazyThreadSafetyMode.PUBLICATION) { getBean(name) as T }
+    public inline fun <reified T : Any> getBeanByLazy(name: String): Lazy<T> =
+        lazy(LazyThreadSafetyMode.PUBLICATION) { getBean(name) as T }
 
     internal object ApplicationContextHolder : ApplicationContextAware {
-
         @JvmStatic
         internal lateinit var springContext: ApplicationContext
 
@@ -80,7 +77,6 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
      * 委托给 [ApplicationContext.getEnvironment].
      */
     public object Env : Environment by SpringContexts.environment {
-
         /**
          * 惰性获取配置参数
          * @param [key] 钥匙
@@ -92,11 +88,9 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
          */
         @JvmSynthetic
         @JvmStatic
-        public inline fun <reified T : Any> getPropertyByLazy(
-            key: String,
-            defaultValue: T,
-        ): Lazy<T> = lazy(LazyThreadSafetyMode.PUBLICATION) {
-            getProperty(key, T::class.java, defaultValue)
-        }
+        public inline fun <reified T : Any> getPropertyByLazy(key: String, defaultValue: T): Lazy<T> =
+            lazy(LazyThreadSafetyMode.PUBLICATION) {
+                getProperty(key, T::class.java, defaultValue)
+            }
     }
 }

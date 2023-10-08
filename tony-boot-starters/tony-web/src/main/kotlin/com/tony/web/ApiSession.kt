@@ -38,7 +38,6 @@ import com.tony.web.exception.UnauthorizedException
  * @date 2023/5/25 10:52
  */
 public interface ApiSession {
-
     /**
      * 用户标识
      */

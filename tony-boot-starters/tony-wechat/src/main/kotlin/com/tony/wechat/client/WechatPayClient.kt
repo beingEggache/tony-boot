@@ -37,11 +37,8 @@ import org.springframework.web.bind.annotation.RequestBody
 
 @FeignClient("wechatPayClient", url = "https://api.mch.weixin.qq.com")
 public interface WechatPayClient {
-
     @PostMapping("/pay/unifiedorder")
-    public fun unifiedOrder(
-        @RequestBody req: String,
-    ): String
+    public fun unifiedOrder(@RequestBody req: String): String
 
     @PostMapping("/mmpaymkttransfers/promotion/transfers")
     public fun transfers(): String

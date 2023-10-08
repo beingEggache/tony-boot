@@ -75,8 +75,7 @@ public open class CaptchaVo(
  * @since 1.0.0
  */
 public class DefaultCaptchaServiceImpl : CaptchaService {
-    override fun verify(vo: CaptchaVo): Boolean =
-        RedisManager.hasKey(vo.captchaKeyRule(vo))
+    override fun verify(vo: CaptchaVo): Boolean = RedisManager.hasKey(vo.captchaKeyRule(vo))
 }
 
 /**

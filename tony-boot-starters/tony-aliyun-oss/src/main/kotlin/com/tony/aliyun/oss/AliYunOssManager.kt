@@ -39,7 +39,6 @@ import java.io.InputStream
  * @since 1.0.0
  */
 public object AliYunOssManager {
-
     private val aliyunOssProperties: AliyunOssProperties by SpringContexts.getBeanByLazy()
 
     private val ossClient: OSS by lazy {
@@ -68,10 +67,9 @@ public object AliYunOssManager {
         name: String,
         inputStream: InputStream,
         metadata: ObjectMetadata? = null,
-    ): String =
-        ossClient.run {
-            val sanitizedPath = sanitizedPath("$path/$name").removePrefix("/")
-            putObject(aliyunOssProperties.bucketName, sanitizedPath, inputStream, metadata)
-            "https://${aliyunOssProperties.bucketName}.${aliyunOssProperties.endpoint}/$sanitizedPath"
-        }
+    ): String = ossClient.run {
+        val sanitizedPath = sanitizedPath("$path/$name").removePrefix("/")
+        putObject(aliyunOssProperties.bucketName, sanitizedPath, inputStream, metadata)
+        "https://${aliyunOssProperties.bucketName}.${aliyunOssProperties.endpoint}/$sanitizedPath"
+    }
 }

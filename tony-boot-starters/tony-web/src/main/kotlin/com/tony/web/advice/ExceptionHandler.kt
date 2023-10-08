@@ -55,7 +55,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
  */
 @RestControllerAdvice
 internal class ExceptionHandler : ErrorController {
-
     private val logger = getLogger()
 
     /**
@@ -78,13 +77,12 @@ internal class ExceptionHandler : ErrorController {
      */
     @ExceptionHandler(ApiException::class)
     @ResponseBody
-    fun apiException(e: ApiException) =
-        run {
-            e.cause?.apply {
-                logger.warn(message, cause)
-            }
-            e.toResponse()
+    fun apiException(e: ApiException) = run {
+        e.cause?.apply {
+            logger.warn(message, cause)
         }
+        e.toResponse()
+    }
 
     /**
      * 异常
@@ -96,29 +94,24 @@ internal class ExceptionHandler : ErrorController {
      */
     @ExceptionHandler(Exception::class)
     @ResponseBody
-    fun exception(
-        e: Exception,
-        response: HttpServletResponse,
-    ) = run {
+    fun exception(e: Exception, response: HttpServletResponse) = run {
         logger.error(e.message, e)
         // handle the json generate exception
         response.resetBuffer()
         errorResponse(ApiProperty.errorMsg)
     }
 
-    private fun bindingResultMessages(bindingResult: BindingResult) =
-        bindingResult.fieldErrors.first().let {
-            if (it.isBindingFailure) {
-                ApiProperty.badRequestMsg
-            } else {
-                it.defaultMessage ?: ""
-            }
+    private fun bindingResultMessages(bindingResult: BindingResult) = bindingResult.fieldErrors.first().let {
+        if (it.isBindingFailure) {
+            ApiProperty.badRequestMsg
+        } else {
+            it.defaultMessage ?: ""
         }
+    }
 
     @ExceptionHandler(BindException::class)
     @ResponseBody
-    fun bindingResultException(e: BindException) =
-        badRequest(bindingResultMessages(e.bindingResult))
+    fun bindingResultException(e: BindException) = badRequest(bindingResultMessages(e.bindingResult))
 
     @ExceptionHandler(ConstraintViolationException::class)
     @ResponseBody
@@ -133,11 +126,10 @@ internal class ExceptionHandler : ErrorController {
         ]
     )
     @ResponseBody
-    fun badRequestException(e: Exception) =
-        run {
-            logger.warn(e.localizedMessage, e)
-            badRequest(ApiProperty.badRequestMsg)
-        }
+    fun badRequestException(e: Exception) = run {
+        logger.warn(e.localizedMessage, e)
+        badRequest(ApiProperty.badRequestMsg)
+    }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
     @ResponseStatus(HttpStatus.OK)

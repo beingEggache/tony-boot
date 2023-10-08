@@ -36,7 +36,6 @@ import javax.crypto.spec.DESKeySpec
  * @date 2023/5/29 11:20
  */
 public data object Des : SymmetricCrypto {
-
     private const val DES = "DES"
 
     @JvmStatic

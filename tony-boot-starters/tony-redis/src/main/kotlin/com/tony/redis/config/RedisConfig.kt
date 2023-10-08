@@ -68,7 +68,6 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 internal class RedisConfig(
     private val redisProperties: RedisProperties,
 ) {
-
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON", matchIfMissing = true)
     @Bean
     internal fun redisCacheAspect(): DefaultRedisCacheAspect {
@@ -79,12 +78,11 @@ internal class RedisConfig(
     @ConditionalOnClass(value = [LinkedBuffer::class, RuntimeSchema::class])
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "PROTOSTUFF")
     @Bean
-    internal fun protostuffSerializer(): RedisSerializer<Any?> =
-        ProtostuffSerializer()
-            .also {
-                getLogger(ProtostuffSerializer::class.java.name)
-                    .info("Redis serializer mode is ${redisProperties.serializerMode}")
-            }
+    internal fun protostuffSerializer(): RedisSerializer<Any?> = ProtostuffSerializer()
+        .also {
+            getLogger(ProtostuffSerializer::class.java.name)
+                .info("Redis serializer mode is ${redisProperties.serializerMode}")
+        }
 
     @ConditionalOnClass(value = [LinkedBuffer::class, RuntimeSchema::class])
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "PROTOSTUFF")
@@ -106,17 +104,14 @@ internal class RedisConfig(
     internal fun objectMapper(
         jackson2ObjectMapperBuilder: Jackson2ObjectMapperBuilder,
         injectableValueSuppliers: List<InjectableValueSupplier>,
-    ): ObjectMapper =
-        createObjectMapper().apply {
-            jackson2ObjectMapperBuilder.configure(this)
-            injectableValues = InjectableValuesBySupplier(injectableValueSuppliers.associateBy { it.name })
-        }
+    ): ObjectMapper = createObjectMapper().apply {
+        jackson2ObjectMapperBuilder.configure(this)
+        injectableValues = InjectableValuesBySupplier(injectableValueSuppliers.associateBy { it.name })
+    }
 
     @ConditionalOnMissingBean(RedisSerializer::class)
     @Bean
-    internal fun genericJackson2JsonRedisSerializer(
-        objectMapper: ObjectMapper,
-    ): RedisSerializer<Any?> =
+    internal fun genericJackson2JsonRedisSerializer(objectMapper: ObjectMapper): RedisSerializer<Any?> =
         GenericJackson2JsonRedisSerializer(objectMapper).also {
             val logger = getLogger(GenericJackson2JsonRedisSerializer::class.java.name)
             if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
@@ -137,16 +132,15 @@ internal class RedisConfig(
     internal fun redisTemplate(
         redisConnectionFactory: RedisConnectionFactory,
         redisSerializer: RedisSerializer<Any?>,
-    ): RedisTemplate<String, Any> =
-        RedisTemplate<String, Any>().apply {
-            connectionFactory = redisConnectionFactory
-            setDefaultSerializer(redisSerializer)
-            keySerializer = StringRedisSerializer.UTF_8
-            hashKeySerializer = StringRedisSerializer.UTF_8
-            valueSerializer = redisSerializer
-            hashValueSerializer = redisSerializer
-            afterPropertiesSet()
-        }
+    ): RedisTemplate<String, Any> = RedisTemplate<String, Any>().apply {
+        connectionFactory = redisConnectionFactory
+        setDefaultSerializer(redisSerializer)
+        keySerializer = StringRedisSerializer.UTF_8
+        hashKeySerializer = StringRedisSerializer.UTF_8
+        valueSerializer = redisSerializer
+        hashValueSerializer = redisSerializer
+        afterPropertiesSet()
+    }
 }
 
 /**
@@ -157,13 +151,13 @@ internal class RedisConfig(
  */
 @ConfigurationProperties(prefix = "redis")
 internal data class RedisProperties
-    @ConstructorBinding
-    constructor(
-        @DefaultValue("")
-        val keyPrefix: String,
-        /**
-         * redis 序列化/反序列化 方式
-         */
-        @DefaultValue("JACKSON")
-        val serializerMode: SerializerMode,
-    )
+@ConstructorBinding
+constructor(
+    @DefaultValue("")
+    val keyPrefix: String,
+    /**
+     * redis 序列化/反序列化 方式
+     */
+    @DefaultValue("JACKSON")
+    val serializerMode: SerializerMode,
+)

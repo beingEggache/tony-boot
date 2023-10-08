@@ -34,7 +34,6 @@ import com.tony.SpringContexts.Env
  * @since 1.0.0
  */
 public object RedisKeys {
-
     private val keyPrefix: String by Env.getPropertyByLazy("cache.key-prefix", "")
 
     /**

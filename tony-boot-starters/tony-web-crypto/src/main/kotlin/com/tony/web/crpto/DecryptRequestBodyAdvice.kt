@@ -51,7 +51,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice
  * @date 2023/05/26 16:53
  */
 public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
-
     public val algorithm: SymmetricCryptoAlgorithm
     public val secret: String
     public val encoding: Encoding
@@ -60,9 +59,8 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
         methodParameter: MethodParameter,
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean =
-        methodParameter.hasMethodAnnotation(DecryptRequestBody::class.java) &&
-            methodParameter.hasParameterAnnotation(RequestBody::class.java)
+    ): Boolean = methodParameter.hasMethodAnnotation(DecryptRequestBody::class.java) &&
+        methodParameter.hasParameterAnnotation(RequestBody::class.java)
 
     override fun beforeBodyRead(
         inputMessage: HttpInputMessage,
@@ -70,17 +68,18 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
     ): HttpInputMessage {
-        val bytes = inputMessage
-            .body
-            .readAllBytes()
-            .run {
-                // application/json 类型给加密字符串多加了双引号.
-                if (inputMessage.headers.contentType?.includes(MediaType.APPLICATION_JSON) == true) {
-                    copyOfRange(1, this.size - 1)
-                } else {
-                    this
+        val bytes =
+            inputMessage
+                .body
+                .readAllBytes()
+                .run {
+                    // application/json 类型给加密字符串多加了双引号.
+                    if (inputMessage.headers.contentType?.includes(MediaType.APPLICATION_JSON) == true) {
+                        copyOfRange(1, this.size - 1)
+                    } else {
+                        this
+                    }
                 }
-            }
         return DecryptHttpInputMessage(
             inputMessage.headers.apply { contentType = MediaType.TEXT_PLAIN },
             ByteArrayInputStream(

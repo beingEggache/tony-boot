@@ -85,7 +85,6 @@ public class WechatScanCodeButton(
 public enum class WechatButtonType(
     override val value: String,
 ) : StringEnumValue {
-
     CLICK("click"),
     VIEW("view"),
     SCANCODE_PUSH("scancode_push"),

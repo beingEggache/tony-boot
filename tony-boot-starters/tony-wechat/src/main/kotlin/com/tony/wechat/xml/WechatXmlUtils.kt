@@ -48,8 +48,8 @@ internal class WechatDriver : XppDriver() {
 }
 
 internal class WechatPrintWriter(writer: Writer, nameCoder: NameCoder) : PrettyPrintWriter(writer, nameCoder) {
-
     override fun encodeNode(name: String) = name
+
     override fun writeText(writer: QuickWriter, text: String) =
         if ((text.startsWith(PREFIX_CDATA) && text.endsWith(SUFFIX_CDATA)) ||
             text.startsWith(PREFIX_MEDIA_ID) && text.endsWith(SUFFIX_MEDIA_ID)
@@ -70,29 +70,26 @@ internal class WechatPrintWriter(writer: Writer, nameCoder: NameCoder) : PrettyP
 /**
  * 一个类对应一个XStream,就没有 Class Alias 冲突问题了
  */
-public fun <T> xStream(clz: Class<T>): XStream =
-    xStreamMap.getOrPut(clz) {
-        XStream(WechatDriver()).apply {
-            ignoreUnknownElements()
-            if (clz !in processedClz) {
-                processAnnotations(clz)
-            }
-            processedClz.add(clz)
+public fun <T> xStream(clz: Class<T>): XStream = xStreamMap.getOrPut(clz) {
+    XStream(WechatDriver()).apply {
+        ignoreUnknownElements()
+        if (clz !in processedClz) {
+            processAnnotations(clz)
         }
+        processedClz.add(clz)
     }
+}
 
 /**
  * 针对微信的xml转换
  */
-public inline fun <reified T> T?.toXmlString(): String =
-    if (this == null) {
-        ""
-    } else {
-        xStream(T::class.java).toXML(this)
-    }
+public inline fun <reified T> T?.toXmlString(): String = if (this == null) {
+    ""
+} else {
+    xStream(T::class.java).toXML(this)
+}
 
 /**
  * 针对微信的xml转换
  */
-public inline fun <reified T> String.xmlToObj(): T =
-    xStream(T::class.java).fromXML(this) as T
+public inline fun <reified T> String.xmlToObj(): T = xStream(T::class.java).fromXML(this) as T

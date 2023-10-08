@@ -38,28 +38,23 @@ import java.util.function.Predicate
  * @date 2023/09/13 10:42
  * @since 1.0.0
  */
-public open class TonyLambdaQueryChainWrapper<T : Any>
-    internal constructor(private val baseMapper: BaseDao<T>) :
+public open class TonyLambdaQueryChainWrapper<T : Any> internal constructor(private val baseMapper: BaseDao<T>) :
     AbstractChainWrapper<T, SFunction<T, *>, TonyLambdaQueryChainWrapper<T>, TonyLambdaQueryWrapper<T>>(),
     TonyChainQuery<T>,
     Query<TonyLambdaQueryChainWrapper<T>, T, SFunction<T, *>> {
-
-        init {
-            wrapperChildren = TonyLambdaQueryWrapper(baseMapper.getEntityClass())
-        }
-
-        override fun select(condition: Boolean, columns: List<SFunction<T, *>?>): TonyLambdaQueryChainWrapper<T> {
-            wrapperChildren.select(condition, columns)
-            return typedThis
-        }
-
-        override fun select(
-            entityClass: Class<T>,
-            predicate: Predicate<TableFieldInfo>,
-        ): TonyLambdaQueryChainWrapper<T> {
-            wrapperChildren.select(entityClass, predicate)
-            return typedThis
-        }
-
-        override fun getBaseMapper(): BaseDao<T> = baseMapper
+    init {
+        wrapperChildren = TonyLambdaQueryWrapper(baseMapper.getEntityClass())
     }
+
+    override fun select(condition: Boolean, columns: List<SFunction<T, *>?>): TonyLambdaQueryChainWrapper<T> {
+        wrapperChildren.select(condition, columns)
+        return typedThis
+    }
+
+    override fun select(entityClass: Class<T>, predicate: Predicate<TableFieldInfo>): TonyLambdaQueryChainWrapper<T> {
+        wrapperChildren.select(entityClass, predicate)
+        return typedThis
+    }
+
+    override fun getBaseMapper(): BaseDao<T> = baseMapper
+}

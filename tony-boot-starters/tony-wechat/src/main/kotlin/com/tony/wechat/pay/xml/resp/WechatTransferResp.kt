@@ -31,7 +31,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias
  */
 @XStreamAlias("xml")
 public data class WechatTransferResp(
-
     @XStreamAlias("return_code")
     var returnCode: String,
     @XStreamAlias("return_msg")
@@ -54,5 +53,4 @@ public data class WechatTransferResp(
     var paymentNo: String,
     @XStreamAlias("payment_time")
     var paymentTime: String,
-
 )

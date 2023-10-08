@@ -45,11 +45,7 @@ import org.springframework.web.servlet.HandlerInterceptor
  * @date 2023/5/25 15:14
  */
 public interface LoginCheckInterceptor : HandlerInterceptor {
-    override fun preHandle(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        handler: Any,
-    ): Boolean {
+    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         if (handler !is HandlerMethod) return true
         if (handler.beanType.hasAnnotation(NoLoginCheck::class.java)) return true
         if (handler.method.hasAnnotation(NoLoginCheck::class.java)) return true

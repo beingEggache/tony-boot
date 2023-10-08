@@ -68,7 +68,6 @@ import org.springframework.context.annotation.PropertySource
 @Configuration
 @PropertySource("classpath:feign.config.yml", factory = YamlPropertySourceFactory::class)
 public class FeignConfig {
-
     @Bean
     internal fun encoder(messageConverters: ObjectFactory<HttpMessageConverters>): Encoder =
         SpringFormEncoder(SpringEncoder(messageConverters))
@@ -90,13 +89,11 @@ public class FeignConfig {
 
     @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
     @Bean
-    internal fun feignLogInterceptor(
-        feignRequestTraceLogger: FeignRequestTraceLogger,
-    ) = FeignLogInterceptor(feignRequestTraceLogger)
+    internal fun feignLogInterceptor(feignRequestTraceLogger: FeignRequestTraceLogger) =
+        FeignLogInterceptor(feignRequestTraceLogger)
 
     @Bean
-    internal fun unwrapResponseInterceptorProvider() =
-        UnwrapResponseInterceptorProvider(UnwrapResponseInterceptor())
+    internal fun unwrapResponseInterceptorProvider() = UnwrapResponseInterceptorProvider(UnwrapResponseInterceptor())
 
     @Bean
     internal fun feignTargeter(
@@ -133,20 +130,20 @@ public class FeignConfig {
 
 @ConfigurationProperties(prefix = "spring.cloud.openfeign.okhttp")
 internal data class FeignConfigProperties
-    @ConstructorBinding
-    constructor(
-        @DefaultValue("0")
-        val callTimeout: Long,
-        @DefaultValue("10000")
-        val connectTimeout: Long,
-        @DefaultValue("10000")
-        val readTimeout: Long,
-        @DefaultValue("10000")
-        val writeTimeout: Long,
-        @DefaultValue("10000")
-        val pingInterval: Long,
-        @DefaultValue("true")
-        val retryOnConnectionFailure: Boolean,
-        @DefaultValue("true")
-        val followRedirects: Boolean,
-    )
+@ConstructorBinding
+constructor(
+    @DefaultValue("0")
+    val callTimeout: Long,
+    @DefaultValue("10000")
+    val connectTimeout: Long,
+    @DefaultValue("10000")
+    val readTimeout: Long,
+    @DefaultValue("10000")
+    val writeTimeout: Long,
+    @DefaultValue("10000")
+    val pingInterval: Long,
+    @DefaultValue("true")
+    val retryOnConnectionFailure: Boolean,
+    @DefaultValue("true")
+    val followRedirects: Boolean,
+)

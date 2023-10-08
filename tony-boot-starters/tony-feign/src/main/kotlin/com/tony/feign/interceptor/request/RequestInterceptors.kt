@@ -53,8 +53,11 @@ public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
     private val obj: T,
 ) : ObjectProvider<T> {
     override fun getObject(vararg args: Any?): T = obj
+
     override fun getObject(): T = obj
+
     override fun getIfAvailable(): T = obj
+
     override fun getIfUnique(): T = obj
 }
 
@@ -66,20 +69,21 @@ public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
  */
 public class UseRequestProcessorsRequestInterceptor :
     RequestInterceptor {
-
     override fun apply(template: RequestTemplate) {
-        val annotation = template.methodMetadata()
-            .method()
-            .annotation(RequestProcessors::class.java) ?: return
-        val processorList = feignRequestProcessorMap.getOrPut(template.feignTarget().type()) {
-            annotation.values.map {
-                if (it.type == BeanType.CLASS) {
-                    SpringContexts.getBean(it.value.java)
-                } else {
-                    SpringContexts.getBean(it.name, it.value.java)
+        val annotation =
+            template.methodMetadata()
+                .method()
+                .annotation(RequestProcessors::class.java) ?: return
+        val processorList =
+            feignRequestProcessorMap.getOrPut(template.feignTarget().type()) {
+                annotation.values.map {
+                    if (it.type == BeanType.CLASS) {
+                        SpringContexts.getBean(it.value.java)
+                    } else {
+                        SpringContexts.getBean(it.name, it.value.java)
+                    }
                 }
             }
-        }
 
         processorList.forEach {
             it(template)

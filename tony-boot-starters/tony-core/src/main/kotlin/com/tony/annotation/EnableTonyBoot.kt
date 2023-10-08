@@ -52,13 +52,11 @@ public annotation class EnableTonyBoot
 
 @Configuration
 internal class TonyBootConfiguration {
-
     @Bean
     internal fun applicationContextHolder() = SpringContexts.ApplicationContextHolder
 }
 
 internal class TonyBootImportSelector : ImportSelector {
-
     private val logger = getLogger()
 
     override fun selectImports(importingClassMetadata: AnnotationMetadata) = listOf(

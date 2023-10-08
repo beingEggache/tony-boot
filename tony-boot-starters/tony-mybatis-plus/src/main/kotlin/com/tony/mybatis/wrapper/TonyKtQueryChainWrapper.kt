@@ -40,33 +40,31 @@ import kotlin.reflect.KMutableProperty1
  * @since 1.0.0
  */
 @Suppress("MemberVisibilityCanBePrivate")
-public open class TonyKtQueryChainWrapper<T : Any>
-    internal constructor(private val baseMapper: BaseDao<T>) :
+public open class TonyKtQueryChainWrapper<T : Any> internal constructor(private val baseMapper: BaseDao<T>) :
     AbstractChainWrapper<T, KMutableProperty1<T, *>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
     TonyChainQuery<T>,
     Query<TonyKtQueryChainWrapper<T>, T, KMutableProperty1<T, *>> {
-
-        init {
-            wrapperChildren = TonyKtQueryWrapper(baseMapper.getEntityClass())
-        }
-
-        override fun select(
-            condition: Boolean,
-            columns: MutableList<KMutableProperty1<T, *>>,
-        ): TonyKtQueryChainWrapper<T> {
-            wrapperChildren.select(condition, columns)
-            return typedThis
-        }
-
-        override fun select(entityClass: Class<T>, predicate: Predicate<TableFieldInfo>): TonyKtQueryChainWrapper<T> {
-            wrapperChildren.select(entityClass, predicate)
-            return typedThis
-        }
-
-        public fun select(vararg columns: String): TonyKtQueryChainWrapper<T> {
-            wrapperChildren.select(*columns)
-            return typedThis
-        }
-
-        override fun getBaseMapper(): BaseDao<T> = baseMapper
+    init {
+        wrapperChildren = TonyKtQueryWrapper(baseMapper.getEntityClass())
     }
+
+    override fun select(
+        condition: Boolean,
+        columns: MutableList<KMutableProperty1<T, *>>,
+    ): TonyKtQueryChainWrapper<T> {
+        wrapperChildren.select(condition, columns)
+        return typedThis
+    }
+
+    override fun select(entityClass: Class<T>, predicate: Predicate<TableFieldInfo>): TonyKtQueryChainWrapper<T> {
+        wrapperChildren.select(entityClass, predicate)
+        return typedThis
+    }
+
+    public fun select(vararg columns: String): TonyKtQueryChainWrapper<T> {
+        wrapperChildren.select(*columns)
+        return typedThis
+    }
+
+    override fun getBaseMapper(): BaseDao<T> = baseMapper
+}

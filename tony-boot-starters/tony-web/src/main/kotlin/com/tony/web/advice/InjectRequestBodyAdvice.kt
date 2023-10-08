@@ -43,7 +43,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAd
 internal class InjectRequestBodyAdvice(
     private val requestBodyFieldInjectorComposite: RequestBodyFieldInjectorComposite,
 ) : RequestBodyAdviceAdapter() {
-
     override fun supports(
         methodParameter: MethodParameter,
         targetType: Type,

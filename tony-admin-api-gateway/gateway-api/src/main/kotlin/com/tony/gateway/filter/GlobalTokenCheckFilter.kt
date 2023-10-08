@@ -8,8 +8,8 @@ package com.tony.gateway.filter
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.tony.ApiProperty
 import com.tony.ApiResult
-import com.tony.gateway.TokenHeaderName
-import com.tony.gateway.UserIdHeaderName
+import com.tony.gateway.TOKEN_HEADER_NAME
+import com.tony.gateway.USER_ID_HEADER_NAME
 import com.tony.gateway.config.GatewayRouteConfigProperties
 import com.tony.gateway.utils.jsonBody
 import com.tony.jwt.JwtToken
@@ -33,11 +33,11 @@ class GlobalTokenCheckFilter(
 
         val request = exchange.request
         val token = try {
-            JwtToken.parse(request.headers.getFirst(TokenHeaderName).defaultIfBlank())
+            JwtToken.parse(request.headers.getFirst(TOKEN_HEADER_NAME).defaultIfBlank())
         } catch (e: JWTVerificationException) {
             null
         } ?: return exchange.response.jsonBody(ApiResult("请登录", ApiProperty.unauthorizedCode))
-        val mutReq = request.mutate().header(UserIdHeaderName, token.getClaim("userId").asString()).build()
+        val mutReq = request.mutate().header(USER_ID_HEADER_NAME, token.getClaim("userId").asString()).build()
         return chain.filter(exchange.mutate().request(mutReq).build())
     }
 

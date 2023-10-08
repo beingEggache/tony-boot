@@ -41,8 +41,7 @@ import com.tony.digest.enums.DigestAlgorithm
  * @date 2023/09/27 18:21
  * @since 1.0.0
  */
-public fun String.md5(): String =
-    DigestAlgorithm.MD5.digest(this)
+public fun String.md5(): String = DigestAlgorithm.MD5.digest(this)
 
 /**
  * 字符串转为 sha1
@@ -51,8 +50,7 @@ public fun String.md5(): String =
  * @date 2023/09/27 18:21
  * @since 1.0.0
  */
-public fun String.sha1(): String =
-    DigestAlgorithm.SHA1.digest(this)
+public fun String.sha1(): String = DigestAlgorithm.SHA1.digest(this)
 
 /**
  * 字符串转为 sha256
@@ -61,5 +59,4 @@ public fun String.sha1(): String =
  * @date 2023/09/27 18:21
  * @since 1.0.0
  */
-public fun String.sha256(): String =
-    DigestAlgorithm.SHA256.digest(this)
+public fun String.sha256(): String = DigestAlgorithm.SHA256.digest(this)

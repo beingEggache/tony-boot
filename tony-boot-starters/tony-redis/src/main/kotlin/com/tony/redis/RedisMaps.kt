@@ -37,7 +37,6 @@ import java.util.concurrent.TimeUnit
  * @date 2023/5/25 9:57
  */
 public object RedisMaps {
-
     /**
      * Determine if given hash hashKey exists.
      *
@@ -47,8 +46,7 @@ public object RedisMaps {
      */
     @Suppress("SimplifyBooleanWithConstants")
     @JvmStatic
-    public fun hasKey(key: String, hashKey: String): Boolean =
-        true == hashOp.hasKey(key, hashKey)
+    public fun hasKey(key: String, hashKey: String): Boolean = true == hashOp.hasKey(key, hashKey)
 
     /**
      * Delete given hash hashKeys.
@@ -59,8 +57,7 @@ public object RedisMaps {
      */
     @Suppress("RedundantNullableReturnType")
     @JvmStatic
-    public fun delete(key: String, vararg hashKeys: String): Long? =
-        hashOp.delete(key, *hashKeys)
+    public fun delete(key: String, vararg hashKeys: String): Long? = hashOp.delete(key, *hashKeys)
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.
@@ -112,11 +109,7 @@ public object RedisMaps {
      * @param value
      */
     @JvmStatic
-    public fun <T : Any> put(
-        key: String,
-        hashKey: String,
-        value: T,
-    ): Unit = redisService.put(key, hashKey, value)
+    public fun <T : Any> put(key: String, hashKey: String, value: T): Unit = redisService.put(key, hashKey, value)
 
     /**
      * 同 redisTemplate.boundHashOps(key).putIfAbsent(hashKey, value).
@@ -127,11 +120,8 @@ public object RedisMaps {
      * @param value
      */
     @JvmStatic
-    public fun <T : Any> putIfAbsent(
-        key: String,
-        hashKey: String,
-        value: T,
-    ): Unit = redisService.putIfAbsent(key, hashKey, value)
+    public fun <T : Any> putIfAbsent(key: String, hashKey: String, value: T): Unit =
+        redisService.putIfAbsent(key, hashKey, value)
 
     /**
      * 同 redisTemplate.boundHashOps(key).putAll(map).
@@ -162,11 +152,7 @@ public object RedisMaps {
      * @param date 过期时间
      */
     @JvmStatic
-    public fun putAll(
-        key: String,
-        map: Map<String, Any?>?,
-        date: Date,
-    ): Unit = redisService.putAll(key, map, date)
+    public fun putAll(key: String, map: Map<String, Any?>?, date: Date): Unit = redisService.putAll(key, map, date)
 
     /**
      * 同 redisTemplate.boundHashOp(key).get(hashKey)
@@ -177,8 +163,7 @@ public object RedisMaps {
      * @return
      */
     @JvmStatic
-    public inline fun <reified T : Any> get(key: String, hashKey: String): T? =
-        get(key, hashKey, T::class.java)
+    public inline fun <reified T : Any> get(key: String, hashKey: String): T? = get(key, hashKey, T::class.java)
 
     /**
      * 同 redisTemplate.boundHashOp(key).get(hashKey)
@@ -191,8 +176,7 @@ public object RedisMaps {
      * @return
      */
     @JvmStatic
-    public fun <T : Any> get(key: String, hashKey: String, clazz: Class<T>): T? =
-        redisService.get(key, hashKey, clazz)
+    public fun <T : Any> get(key: String, hashKey: String, clazz: Class<T>): T? = redisService.get(key, hashKey, clazz)
 
     /**
      * 同 redisTemplate.boundHashOp(key).get(hashKey)
@@ -229,6 +213,5 @@ public object RedisMaps {
      * @return
      */
     @JvmStatic
-    public fun entries(key: String): Map<String, Any?> =
-        redisService.entries(key)
+    public fun entries(key: String): Map<String, Any?> = redisService.entries(key)
 }

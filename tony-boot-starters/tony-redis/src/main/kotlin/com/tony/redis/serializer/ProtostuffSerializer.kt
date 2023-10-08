@@ -45,7 +45,6 @@ import org.springframework.data.redis.serializer.SerializationException
  * @date 2023/6/5 13:52
  */
 internal class ProtostuffSerializer : RedisSerializer<Any?> {
-
     @Throws(SerializationException::class)
     override fun serialize(t: Any?): ByteArray {
         val buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE)
@@ -85,8 +84,7 @@ internal class ProtostuffSerializer : RedisSerializer<Any?> {
         return newMessage.data
     }
 
-    override fun canSerialize(type: Class<*>): Boolean =
-        !type.isNumberTypes()
+    override fun canSerialize(type: Class<*>): Boolean = !type.isNumberTypes()
 }
 
 private val emptyByteArray = ByteArray(0)

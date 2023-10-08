@@ -41,7 +41,6 @@ import org.springframework.data.redis.core.script.RedisScript
  * @constructor Create empty Redis manager
  */
 public object RedisManager {
-
     private val logger = LoggerFactory.getLogger(RedisManager::class.java)
 
     @JvmField
@@ -188,11 +187,8 @@ public object RedisManager {
      */
     @JvmStatic
     @JvmOverloads
-    public fun expire(
-        key: String,
-        timeout: Long,
-        timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Boolean = redisTemplate.expire(key, timeout, timeUnit)
+    public fun expire(key: String, timeout: Long, timeUnit: TimeUnit = TimeUnit.SECONDS): Boolean =
+        redisTemplate.expire(key, timeout, timeUnit)
 
     /**
      * Set the expiration for given key as a date timestamp.
@@ -203,10 +199,7 @@ public object RedisManager {
      * @see org.springframework.data.redis.core.RedisOperations.expireAt
      */
     @JvmStatic
-    public fun expireAt(
-        key: String,
-        date: Date,
-    ): Boolean = redisTemplate.expireAt(key, date)
+    public fun expireAt(key: String, date: Date): Boolean = redisTemplate.expireAt(key, date)
 
     /**
      * Get the time to live for key in and convert it to the given TimeUnit.
@@ -218,10 +211,8 @@ public object RedisManager {
      */
     @JvmStatic
     @JvmOverloads
-    public fun getExpire(
-        key: String,
-        timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Long = redisTemplate.getExpire(key, timeUnit)
+    public fun getExpire(key: String, timeUnit: TimeUnit = TimeUnit.SECONDS): Long =
+        redisTemplate.getExpire(key, timeUnit)
 
     /**
      * redis 根据 [keyPatterns] 批量删除.
@@ -230,8 +221,7 @@ public object RedisManager {
      * @return The number of keys that were removed. null when used in pipeline / transaction.
      */
     @JvmStatic
-    public fun deleteByKeyPatterns(vararg keyPatterns: String): Long =
-        deleteByKeyPatterns(keyPatterns.asList())
+    public fun deleteByKeyPatterns(vararg keyPatterns: String): Long = deleteByKeyPatterns(keyPatterns.asList())
 
     /**
      * redis 根据 [keyPatterns] 批量删除.
@@ -255,8 +245,7 @@ public object RedisManager {
      * @return The number of keys that were removed. null when used in pipeline / transaction.
      */
     @JvmStatic
-    public fun delete(vararg keys: String): Long =
-        delete(keys.asList())
+    public fun delete(vararg keys: String): Long = delete(keys.asList())
 
     /**
      * Delete given keys.

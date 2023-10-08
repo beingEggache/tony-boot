@@ -57,31 +57,33 @@ internal class NoopApiSession : ApiSession {
  * @date 2023/5/25 15:17
  */
 internal class JwtApiSession : ApiSession {
-
     private val logger = getLogger()
 
     private val token: DecodedJWT
-        get() = WebContext.current.getOrPut("token", SCOPE_REQUEST) {
-            logger.debug("init token")
-            try {
-                JwtToken.parse(WebContext.request.getHeader("x-token").defaultIfBlank())
-            } catch (e: JWTVerificationException) {
-                logger.warn(e.message, e)
-                throw UnauthorizedException("请登录")
+        get() =
+            WebContext.current.getOrPut("token", SCOPE_REQUEST) {
+                logger.debug("init token")
+                try {
+                    JwtToken.parse(WebContext.request.getHeader("x-token").defaultIfBlank())
+                } catch (e: JWTVerificationException) {
+                    logger.warn(e.message, e)
+                    throw UnauthorizedException("请登录")
+                }
             }
-        }
 
     override val userId: String
-        get() = WebContext.current.getOrPut("userId", SCOPE_REQUEST) {
-            logger.debug("init userId")
-            token.getClaim("userId")?.asString() ?: throw UnauthorizedException("请登录")
-        }
+        get() =
+            WebContext.current.getOrPut("userId", SCOPE_REQUEST) {
+                logger.debug("init userId")
+                token.getClaim("userId")?.asString() ?: throw UnauthorizedException("请登录")
+            }
 
     override val unauthorizedException: UnauthorizedException?
-        get() = try {
-            token
-            null
-        } catch (e: UnauthorizedException) {
-            e
-        }
+        get() =
+            try {
+                token
+                null
+            } catch (e: UnauthorizedException) {
+                e
+            }
 }

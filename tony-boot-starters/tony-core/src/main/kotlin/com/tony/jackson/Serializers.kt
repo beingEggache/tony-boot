@@ -46,10 +46,11 @@ import org.slf4j.LoggerFactory
  * 掩模转换器
  */
 @JvmSynthetic
-internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> = mutableMapOf(
-    MobileMaskFun::class.java to MobileMaskFun(),
-    NameMaskFun::class.java to NameMaskFun()
-)
+internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> =
+    mutableMapOf(
+        MobileMaskFun::class.java to MobileMaskFun(),
+        NameMaskFun::class.java to NameMaskFun()
+    )
 
 /**
  * jackson 序列化字段遮蔽转换.
@@ -87,12 +88,11 @@ public fun interface MaskConvertFunc {
  * @date 2021/12/6 10:51
  */
 public class NameMaskFun : MaskConvertFunc {
-    override fun convert(input: String?): String? =
-        if (input?.length != null && input.length > 1) {
-            input.replaceRange(1 until input.length, "**")
-        } else {
-            input
-        }
+    override fun convert(input: String?): String? = if (input?.length != null && input.length > 1) {
+        input.replaceRange(1 until input.length, "**")
+    } else {
+        input
+    }
 }
 
 /**
@@ -102,12 +102,11 @@ public class NameMaskFun : MaskConvertFunc {
  * @date 2021/12/6 10:51
  */
 public class MobileMaskFun : MaskConvertFunc {
-    override fun convert(input: String?): String? =
-        if (input?.length != null && input.length >= 4) {
-            "${input.substring(0, 2)}****${input.substring(input.length - 4, input.length)}"
-        } else {
-            input
-        }
+    override fun convert(input: String?): String? = if (input?.length != null && input.length >= 4) {
+        "${input.substring(0, 2)}****${input.substring(input.length - 4, input.length)}"
+    } else {
+        input
+    }
 }
 
 /**
@@ -117,11 +116,11 @@ public class MobileMaskFun : MaskConvertFunc {
  * @date 2021/12/6 10:51
  */
 public class MaskSerializer : JsonSerializer<Any>() {
-
     override fun serialize(value: Any, gen: JsonGenerator, serializers: SerializerProvider) {
-        val annotation = gen.currentValue::class.java
-            .getDeclaredField(gen.outputContext.currentName)
-            .getAnnotation(MaskConverter::class.java)
+        val annotation =
+            gen.currentValue::class.java
+                .getDeclaredField(gen.outputContext.currentName)
+                .getAnnotation(MaskConverter::class.java)
 
         val maskType = annotation.value
         val function = maskConverters[maskType.java] ?: throw ApiException("$maskType converter not found")
@@ -129,7 +128,6 @@ public class MaskSerializer : JsonSerializer<Any>() {
     }
 
     public companion object {
-
         @JvmStatic
         private val logger = LoggerFactory.getLogger(MaskSerializer::class.java)
 

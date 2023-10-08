@@ -46,16 +46,12 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
      * @param timeout
      * @param timeUnit
      */
-    public fun <T : Any> set(
-        key: String,
-        value: T,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Unit = if (timeout == 0L) {
-        valueOp.set(key, value.inputTransformTo())
-    } else {
-        valueOp.set(key, value.inputTransformTo(), timeout, timeUnit)
-    }
+    public fun <T : Any> set(key: String, value: T, timeout: Long = 0, timeUnit: TimeUnit = TimeUnit.SECONDS): Unit =
+        if (timeout == 0L) {
+            valueOp.set(key, value.inputTransformTo())
+        } else {
+            valueOp.set(key, value.inputTransformTo(), timeout, timeUnit)
+        }
 
     /**
      * 当键 **不存在** 时保存。
@@ -177,22 +173,19 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
      * @param type the type will transform to.
      * @return null when key does not exist or used in pipeline / transaction.
      */
-    public fun <T : Any> get(key: String, type: Class<T>): T? =
-        valueOp.get(key).outputTransformTo(type)
+    public fun <T : Any> get(key: String, type: Class<T>): T? = valueOp.get(key).outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
      * @see [RedisValueGetOp.get]
      */
-    public fun <T : Any> get(key: String, type: JavaType): T? =
-        valueOp.get(key).outputTransformTo(type)
+    public fun <T : Any> get(key: String, type: JavaType): T? = valueOp.get(key).outputTransformTo(type)
 
     /**
      * @param type 兼容jackson
      * @see [RedisValueGetOp.get]
      */
-    public fun <T : Any> get(key: String, type: TypeReference<T>): T? =
-        valueOp.get(key).outputTransformTo(type)
+    public fun <T : Any> get(key: String, type: TypeReference<T>): T? = valueOp.get(key).outputTransformTo(type)
 
     /**
      * Return the value at key and delete the key.

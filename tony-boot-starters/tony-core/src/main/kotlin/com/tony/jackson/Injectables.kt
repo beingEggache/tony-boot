@@ -54,7 +54,6 @@ import com.tony.utils.getLogger
 public class InjectableValuesBySupplier(
     private val values: Map<String, InjectableValueSupplier>,
 ) : InjectableValues() {
-
     private val logger = getLogger()
 
     override fun findInjectableValue(
@@ -80,6 +79,7 @@ public class InjectableValuesBySupplier(
  */
 public interface InjectableValueSupplier {
     public val name: String
+
     public fun value(property: BeanProperty?, instance: Any?): Any
 }
 

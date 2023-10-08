@@ -58,12 +58,11 @@ internal val logger: Logger = LoggerFactory.getLogger("com.tony.utils.Reflection
  * @date 2023/09/13 10:25
  * @since 1.0.0
  */
-public fun AnnotatedElement.descriptor(): PropertyDescriptor? =
-    when (this) {
-        is Field -> BeanUtils.getPropertyDescriptor(this.declaringClass, this.name)
-        is Method -> BeanUtils.findPropertyForMethod(this)
-        else -> null
-    }
+public fun AnnotatedElement.descriptor(): PropertyDescriptor? = when (this) {
+    is Field -> BeanUtils.getPropertyDescriptor(this.declaringClass, this.name)
+    is Method -> BeanUtils.findPropertyForMethod(this)
+    else -> null
+}
 
 /**
  * 获取 getter
@@ -72,8 +71,7 @@ public fun AnnotatedElement.descriptor(): PropertyDescriptor? =
  * @date 2023/09/13 10:26
  * @since 1.0.0
  */
-public fun AnnotatedElement.getter(): Method? =
-    getterCache.getOrPut(this) { this.descriptor()?.readMethod }
+public fun AnnotatedElement.getter(): Method? = getterCache.getOrPut(this) { this.descriptor()?.readMethod }
 
 /**
  * 获取 setter
@@ -82,8 +80,7 @@ public fun AnnotatedElement.getter(): Method? =
  * @date 2023/09/13 10:26
  * @since 1.0.0
  */
-public fun AnnotatedElement.setter(): Method? =
-    setterCache.getOrPut(this) { this.descriptor()?.writeMethod }
+public fun AnnotatedElement.setter(): Method? = setterCache.getOrPut(this) { this.descriptor()?.writeMethod }
 
 /**
  * 获取字段
@@ -92,12 +89,11 @@ public fun AnnotatedElement.setter(): Method? =
  * @date 2023/09/13 10:26
  * @since 1.0.0
  */
-public fun AnnotatedElement.field(): Field? =
-    when (this) {
-        is Field -> this
-        is Method -> descriptor()?.name?.let { declaringClass.getDeclaredField(it) }
-        else -> null
-    }
+public fun AnnotatedElement.field(): Field? = when (this) {
+    is Field -> this
+    is Method -> descriptor()?.name?.let { declaringClass.getDeclaredField(it) }
+    else -> null
+}
 
 /**
  * 设值 优先使用setter

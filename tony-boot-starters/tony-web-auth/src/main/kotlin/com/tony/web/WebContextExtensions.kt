@@ -35,7 +35,6 @@ import com.tony.SpringContexts.getBeanByLazy
  * @date 2023/5/25 15:18
  */
 public object WebContextExtensions {
-
     @JvmStatic
     private val apiSession: ApiSession by getBeanByLazy()
 

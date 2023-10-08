@@ -31,10 +31,7 @@ class RoleService(
 ) {
 
     @Transactional
-    fun add(
-        @Valid req: RoleCreateReq,
-        appId: String,
-    ) =
+    fun add(@Valid req: RoleCreateReq, appId: String) =
         throwIfAndReturn(roleDao.selectById(req.roleId) != null, "角色ID已重复") {
             roleDao.insert(
                 Role().apply {
@@ -47,9 +44,7 @@ class RoleService(
         }
 
     @Transactional
-    fun update(
-        @Valid req: RoleUpdateReq,
-    ) = roleDao.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
+    fun update(@Valid req: RoleUpdateReq) = roleDao.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
         roleDao.updateById(
             Role().apply {
                 this.roleId = req.roleId
@@ -59,11 +54,10 @@ class RoleService(
         )
     }
 
-    fun page(query: String?, page: Long = 1, size: Long = 10) =
-        roleDao
-            .ktQuery()
-            .like(!query.isNullOrBlank(), Role::roleName, query)
-            .page(Page(page, size))
+    fun page(query: String?, page: Long = 1, size: Long = 10) = roleDao
+        .ktQuery()
+        .like(!query.isNullOrBlank(), Role::roleName, query)
+        .page(Page(page, size))
 
     fun selectByUserId(userId: String?, appId: String): List<Role> = roleDao.selectByUserId(userId, appId)
 

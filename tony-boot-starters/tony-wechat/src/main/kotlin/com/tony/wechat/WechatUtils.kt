@@ -42,22 +42,22 @@ internal fun genTimeStamp() = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
 public fun <T> T.toQueryString(
     vararg params: Pair<String, Any?>,
     filter: ((Map.Entry<String, Any>) -> Boolean),
-): String =
-    toJsonString()
-        .jsonToObj<Map<String, Any>>()
-        .asSequence()
-        .filter(filter)
-        .sortedBy { it.key }
-        .map { Pair(it.key, it.value) }
-        .plus(params)
-        .joinToString("&") {
-            "${it.first}=${it.second}"
-        }
+): String = toJsonString()
+    .jsonToObj<Map<String, Any>>()
+    .asSequence()
+    .filter(filter)
+    .sortedBy { it.key }
+    .map { Pair(it.key, it.value) }
+    .plus(params)
+    .joinToString("&") {
+        "${it.first}=${it.second}"
+    }
 
 internal fun <T> genMd5UpperCaseSign(obj: T, vararg params: Pair<String, Any?>): String {
-    val deepLink = obj.toQueryString(*params) {
-        it.value !is String && it.value.toString().isNotBlank()
-    }
+    val deepLink =
+        obj.toQueryString(*params) {
+            it.value !is String && it.value.toString().isNotBlank()
+        }
     return deepLink.md5().uppercase()
 }
 

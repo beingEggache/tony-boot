@@ -53,7 +53,6 @@ import org.springframework.web.bind.annotation.RequestParam
  */
 @FeignClient("wechatClient", url = "https://api.weixin.qq.com")
 public interface WechatClient {
-
     /**
      * ## 获取Access token
      * @param appId 第三方用户唯一凭证
@@ -140,15 +139,10 @@ public interface WechatClient {
     ): WechatUserInfoResp
 
     @PostMapping("/cgi-bin/menu/create?access_token={accessToken}")
-    public fun createMenu(
-        @PathVariable("accessToken") accessToken: String?,
-        @RequestBody menu: WechatMenu,
-    ): WechatResp
+    public fun createMenu(@PathVariable("accessToken") accessToken: String?, @RequestBody menu: WechatMenu): WechatResp
 
     @GetMapping("/cgi-bin/menu/delete")
-    public fun deleteMenu(
-        @RequestParam("access_token") accessToken: String?,
-    ): WechatResp
+    public fun deleteMenu(@RequestParam("access_token") accessToken: String?): WechatResp
 
     @PostMapping("/cgi-bin/qrcode/create?access_token={accessToken}")
     public fun createQrCode(

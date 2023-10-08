@@ -32,25 +32,21 @@ class UserService(
     private val moduleService: ModuleService,
 ) {
 
-    fun login(req: UserLoginReq) =
-        userDao
-            .ktQuery()
-            .eq(User::userName, req.userName)
-            .eq(User::pwd, "${req.pwd}${req.userName}".md5().uppercase())
-            .oneNotNull("用户名或密码错误")
+    fun login(req: UserLoginReq) = userDao
+        .ktQuery()
+        .eq(User::userName, req.userName)
+        .eq(User::pwd, "${req.pwd}${req.userName}".md5().uppercase())
+        .oneNotNull("用户名或密码错误")
 
-    fun info(userId: String, appId: String) =
-        userDao.selectById(userId)?.run {
-            UserInfoResp(
-                realName,
-                mobile,
-                moduleService.listRouteAndComponentModules(userId, appId)
-            )
-        } ?: throw BizException("没有此用户")
+    fun info(userId: String, appId: String) = userDao.selectById(userId)?.run {
+        UserInfoResp(
+            realName,
+            mobile,
+            moduleService.listRouteAndComponentModules(userId, appId)
+        )
+    } ?: throw BizException("没有此用户")
 
-    fun list(
-        req: JPageQuery<String>,
-    ): PageResult<UserResp> = userDao
+    fun list(req: JPageQuery<String>): PageResult<UserResp> = userDao
         .ktQuery()
         .like(
             !req.query.isNullOrBlank(),
@@ -63,10 +59,9 @@ class UserService(
         .pageResult<PageResult<User>>(req)
         .map { it.copyTo<UserResp>() }
 
-    fun listRolesByUserId(userId: String?, appId: String) =
-        roleDao
-            .selectByUserId(userId, appId)
-            .map { it.copyTo<RoleResp>() }
+    fun listRolesByUserId(userId: String?, appId: String) = roleDao
+        .selectByUserId(userId, appId)
+        .map { it.copyTo<RoleResp>() }
 
     @Transactional
     fun add(req: UserCreateReq): Boolean {

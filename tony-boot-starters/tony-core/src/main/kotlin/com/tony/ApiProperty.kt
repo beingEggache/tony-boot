@@ -36,7 +36,6 @@ import com.tony.SpringContexts.Env
  * @date 2022/9/29 10:20
  */
 public data object ApiProperty {
-
     /**
      * 全局成功返回码.
      *

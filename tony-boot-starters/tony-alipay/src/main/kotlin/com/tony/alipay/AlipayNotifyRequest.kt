@@ -73,7 +73,6 @@ public class AlipayNotifyRequest(
     public val version: String? = null,
     public val voucherDetailList: String? = null,
 ) {
-
     private val logger = getLogger()
 
     @JvmSynthetic

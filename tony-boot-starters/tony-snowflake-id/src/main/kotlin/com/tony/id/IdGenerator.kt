@@ -35,7 +35,6 @@ import com.tony.id.config.IdProperties
  * @since 1.0.0
  */
 public object IdGenerator {
-
     internal fun init(idProperties: IdProperties) {
         val options = IdGeneratorOptions()
         options.WorkerId = idProperties.workerId

@@ -37,7 +37,6 @@ import java.util.concurrent.TimeUnit
  * @date 2023/5/25 9:24
  */
 public object RedisValues {
-
     /**
      * 同 RedisTemplate.boundValueOps.increment.
      *
@@ -50,13 +49,12 @@ public object RedisValues {
      */
     @JvmStatic
     @JvmOverloads
-    public fun increment(key: String, delta: Long = 1L, initial: Long? = null): Long? =
-        RedisManager.doInTransaction {
-            if (initial != null) {
-                redisTemplate.opsForValue().increment(key, initial)
-            }
-            redisTemplate.opsForValue().increment(key, delta)
-        }.last().asTo()
+    public fun increment(key: String, delta: Long = 1L, initial: Long? = null): Long? = RedisManager.doInTransaction {
+        if (initial != null) {
+            redisTemplate.opsForValue().increment(key, initial)
+        }
+        redisTemplate.opsForValue().increment(key, delta)
+    }.last().asTo()
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.
@@ -80,12 +78,8 @@ public object RedisValues {
 
     @JvmStatic
     @JvmOverloads
-    public fun <T : Any> set(
-        key: String,
-        value: T,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Unit = redisService.set(key, value, timeout, timeUnit)
+    public fun <T : Any> set(key: String, value: T, timeout: Long = 0, timeUnit: TimeUnit = TimeUnit.SECONDS): Unit =
+        redisService.set(key, value, timeout, timeUnit)
 
     /**
      * @see [RedisService.setIfAbsent]
@@ -113,14 +107,11 @@ public object RedisValues {
     }
 
     @JvmStatic
-    public fun <T : Any> get(key: String, type: Class<T>): T? =
-        redisService.get(key, type)
+    public fun <T : Any> get(key: String, type: Class<T>): T? = redisService.get(key, type)
 
     @JvmStatic
-    public fun <T : Any> get(key: String, javaType: JavaType): T? =
-        redisService.get(key, javaType)
+    public fun <T : Any> get(key: String, javaType: JavaType): T? = redisService.get(key, javaType)
 
     @JvmStatic
-    public fun <T : Any> get(key: String, typeReference: TypeReference<T>): T? =
-        redisService.get(key, typeReference)
+    public fun <T : Any> get(key: String, typeReference: TypeReference<T>): T? = redisService.get(key, typeReference)
 }

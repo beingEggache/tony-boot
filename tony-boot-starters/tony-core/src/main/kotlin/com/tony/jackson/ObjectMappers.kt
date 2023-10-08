@@ -60,12 +60,13 @@ import java.util.TimeZone
  * @since 1.0.0
  */
 public fun ObjectMapper.initialize(): ObjectMapper = apply {
-    val kotlinModule = KotlinModule.Builder()
-        .apply {
-            enable(KotlinFeature.NullIsSameAsDefault)
-            enable(KotlinFeature.NullToEmptyCollection)
-            enable(KotlinFeature.NullToEmptyMap)
-        }.build()
+    val kotlinModule =
+        KotlinModule.Builder()
+            .apply {
+                enable(KotlinFeature.NullIsSameAsDefault)
+                enable(KotlinFeature.NullToEmptyCollection)
+                enable(KotlinFeature.NullToEmptyMap)
+            }.build()
     registerModules(kotlinModule, JavaTimeModule(), ParameterNamesModule())
     setTimeZone(TimeZone.getDefault())
     setSerializationInclusion(JsonInclude.Include.ALWAYS)

@@ -61,7 +61,6 @@ import org.springframework.web.util.ContentCachingResponseWrapper
  * @date 2023/5/25 10:29
  */
 public fun interface RequestTraceLogger {
-
     /**
      * 记录请求日志
      *
@@ -76,7 +75,6 @@ public fun interface RequestTraceLogger {
     )
 
     public companion object Const {
-
         public const val OK: String = "OK"
 
         public const val INTERNAL_SERVER_ERROR: String = "INTERNAL_SERVER_ERROR"
@@ -100,7 +98,6 @@ public fun interface RequestTraceLogger {
  * @date 2023/5/25 10:30
  */
 internal class DefaultRequestTraceLogger : RequestTraceLogger {
-
     override fun requestTraceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
@@ -137,33 +134,31 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         logger.trace(logStr.removeLineBreak())
     }
 
-    private fun requestBody(request: RepeatReadRequestWrapper) =
-        if (!isTextMediaTypes(request.parsedMedia)) {
-            "[${request.contentType}]"
-        } else if (request.method.equals(HttpMethod.POST.name(), true)) {
-            val bytes = request.contentAsByteArray
-            when {
-                bytes.isEmpty() -> NULL
-                bytes.size <= 65535 -> String(bytes)
-                else -> "[too long content, length = ${bytes.size}]"
-            }
-        } else {
-            NULL
+    private fun requestBody(request: RepeatReadRequestWrapper) = if (!isTextMediaTypes(request.parsedMedia)) {
+        "[${request.contentType}]"
+    } else if (request.method.equals(HttpMethod.POST.name(), true)) {
+        val bytes = request.contentAsByteArray
+        when {
+            bytes.isEmpty() -> NULL
+            bytes.size <= 65535 -> String(bytes)
+            else -> "[too long content, length = ${bytes.size}]"
         }
+    } else {
+        NULL
+    }
 
-    private fun responseBody(response: ContentCachingResponseWrapper) =
-        if (!isTextMediaTypes(response.parsedMedia)) {
-            "[${response.contentType}]"
-        } else {
-            response.contentAsByteArray.let { bytes ->
-                val size = bytes.size
-                when {
-                    size in 1..65535 -> String(bytes)
-                    size >= 65536 -> "[too long content, length = $size]"
-                    else -> NULL
-                }
+    private fun responseBody(response: ContentCachingResponseWrapper) = if (!isTextMediaTypes(response.parsedMedia)) {
+        "[${response.contentType}]"
+    } else {
+        response.contentAsByteArray.let { bytes ->
+            val size = bytes.size
+            when {
+                size in 1..65535 -> String(bytes)
+                size >= 65536 -> "[too long content, length = $size]"
+                else -> NULL
             }
         }
+    }
 
     private fun resultCode(responseBody: String, response: HttpServletResponse): Int {
         val codeFromResponseDirectly = responseBody.getFromRootAsString("code")?.toInt()

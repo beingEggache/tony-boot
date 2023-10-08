@@ -34,7 +34,6 @@ import java.util.HexFormat
  * @since 1.0.0
  */
 public data object HexCodec : Codec {
-
     @JvmStatic
     private val DIGITS_LOWER = "0123456789abcdef".toCharArray().map { it.code.toByte() }.toByteArray()
 

@@ -76,7 +76,6 @@ internal val creators = HashMap<Class<*>, EnumCreator<*, *>>()
 private val logger: Logger = LoggerFactory.getLogger(EnumCreator::class.java)
 
 internal sealed interface EnumCreatorFactory {
-
     @JvmSynthetic
     fun getCreator(clazz: Class<*>): EnumCreator<*, *> = creators.getOrPut(clazz) {
         logger.debug("${clazz.name} EnumCreator initialized.")
@@ -89,18 +88,19 @@ internal sealed interface EnumCreatorFactory {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T, R> creatorOf(clazz: Class<T>): EnumCreator<T, R>
+    fun <T, R> creatorOf(
+        clazz: Class<T>,
+    ): EnumCreator<T, R>
         where T : EnumValue<R>,
-              R : Serializable =
-        creators.getOrPut(clazz) {
-            logger.debug("${clazz.name} EnumCreator initialized.")
-            clazz
-                .classes
-                .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
-                ?.constructors
-                ?.firstOrNull()
-                ?.newInstance(null) as EnumCreator<T, R>
-        }.asToNotNull()
+              R : Serializable = creators.getOrPut(clazz) {
+        logger.debug("${clazz.name} EnumCreator initialized.")
+        clazz
+            .classes
+            .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
+            ?.constructors
+            ?.firstOrNull()
+            ?.newInstance(null) as EnumCreator<T, R>
+    }.asToNotNull()
 }
 
 /**
@@ -119,7 +119,6 @@ public abstract class EnumCreator<out E, KEY>(
     }
 
     public companion object : EnumCreatorFactory {
-
         @JvmStatic
         override fun <T, R> creatorOf(clazz: Class<T>): EnumCreator<T, R> where T : EnumValue<R>, R : Serializable =
             super.creatorOf(clazz)
@@ -134,16 +133,14 @@ public abstract class EnumCreator<out E, KEY>(
  */
 public abstract class StringEnumCreator(clazz: Class<out StringEnumValue>) :
     EnumCreator<StringEnumValue, String>(clazz) {
-        /**
-         * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
-         */
-        public companion object : EnumCreatorFactory {
-
-            @JvmStatic
-            override fun getCreator(clazz: Class<*>): StringEnumCreator =
-                super.getCreator(clazz) as StringEnumCreator
-        }
+    /**
+     * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
+     */
+    public companion object : EnumCreatorFactory {
+        @JvmStatic
+        override fun getCreator(clazz: Class<*>): StringEnumCreator = super.getCreator(clazz) as StringEnumCreator
     }
+}
 
 /**
  * int枚举 构建器.
@@ -153,13 +150,11 @@ public abstract class StringEnumCreator(clazz: Class<out StringEnumValue>) :
  */
 public abstract class IntEnumCreator(clazz: Class<out IntEnumValue>) :
     EnumCreator<IntEnumValue, Int>(clazz) {
-        /**
-         * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
-         */
-        public companion object : EnumCreatorFactory {
-
-            @JvmStatic
-            override fun getCreator(clazz: Class<*>): IntEnumCreator =
-                super.getCreator(clazz) as IntEnumCreator
-        }
+    /**
+     * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
+     */
+    public companion object : EnumCreatorFactory {
+        @JvmStatic
+        override fun getCreator(clazz: Class<*>): IntEnumCreator = super.getCreator(clazz) as IntEnumCreator
     }
+}

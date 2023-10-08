@@ -34,7 +34,6 @@ import javax.crypto.Cipher
  * @since 1.0.0
  */
 public sealed interface SymmetricCrypto {
-
     /**
      * 解密
      * @param [src] 待解密
@@ -59,8 +58,7 @@ public sealed interface SymmetricCrypto {
      * @date 2023/09/27 18:20
      * @since 1.0.0
      */
-    public fun decrypt(src: ByteArray, secret: ByteArray): ByteArray =
-        crypto(src, secret, Cipher.DECRYPT_MODE)
+    public fun decrypt(src: ByteArray, secret: ByteArray): ByteArray = crypto(src, secret, Cipher.DECRYPT_MODE)
 
     /**
      * 加密
@@ -72,11 +70,10 @@ public sealed interface SymmetricCrypto {
      * @date 2023/09/27 18:20
      * @since 1.0.0
      */
-    public fun encrypt(src: ByteArray, secret: ByteArray, encoding: Encoding): ByteArray =
-        encrypt(src, secret)
-            .run {
-                encoding.codec.encodeToByteArray(this)
-            }
+    public fun encrypt(src: ByteArray, secret: ByteArray, encoding: Encoding): ByteArray = encrypt(src, secret)
+        .run {
+            encoding.codec.encodeToByteArray(this)
+        }
 
     /**
      * 加密
@@ -87,8 +84,7 @@ public sealed interface SymmetricCrypto {
      * @date 2023/09/27 18:20
      * @since 1.0.0
      */
-    public fun encrypt(src: ByteArray, secret: ByteArray): ByteArray =
-        crypto(src, secret, Cipher.ENCRYPT_MODE)
+    public fun encrypt(src: ByteArray, secret: ByteArray): ByteArray = crypto(src, secret, Cipher.ENCRYPT_MODE)
 
     /**
      * 对称加密解密

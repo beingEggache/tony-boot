@@ -45,7 +45,6 @@ import kotlin.reflect.KMutableProperty1
 public open class TonyKtQueryWrapper<T : Any> :
     AbstractKtWrapper<T, TonyKtQueryWrapper<T>>,
     Query<TonyKtQueryWrapper<T>, T, KMutableProperty1<T, *>> {
-
     /**
      * 查询字段
      */

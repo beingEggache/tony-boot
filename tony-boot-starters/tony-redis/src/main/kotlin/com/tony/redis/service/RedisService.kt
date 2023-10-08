@@ -41,7 +41,6 @@ public interface RedisService :
     RedisValueOp,
     RedisMapOp,
     RedisListOp {
-
     /**
      * 序列化反序列化方式
      */
@@ -49,7 +48,6 @@ public interface RedisService :
 }
 
 public sealed interface RedisValueTransformer {
-
     /**
      * 输出转换为
      * @param [type] 类型

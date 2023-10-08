@@ -68,7 +68,6 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
  */
 @Aspect
 public class DefaultRedisCacheAspect {
-
     private val logger = LoggerFactory.getLogger(DefaultRedisCacheAspect::class.java)
 
     /**
@@ -94,13 +93,14 @@ public class DefaultRedisCacheAspect {
                 paramMap[paramName] = arguments[index]
                 paramMap
             }
-        val paramsValues = expressions.foldIndexed<String, Array<Any?>>(
-            Array(expressions.size) {}
-        ) { index, paramsValues, expression ->
-            paramsValues.apply {
-                this[index] = getValueFromParam(expression, paramMap)
+        val paramsValues =
+            expressions.foldIndexed<String, Array<Any?>>(
+                Array(expressions.size) {}
+            ) { index, paramsValues, expression ->
+                paramsValues.apply {
+                    this[index] = getValueFromParam(expression, paramMap)
+                }
             }
-        }
         return RedisKeys.genKey(cacheKey, *paramsValues)
     }
 
@@ -217,10 +217,11 @@ public class DefaultRedisCacheAspect {
         javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> cachedValue?.toBigDecimalOrNull()
         javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> cachedValue?.toBigIntegerOrNull()
         javaType.isBooleanType() -> cachedValue?.toBooleanStrictOrNull()
-        else -> cachedValue?.jsonToObj(
-            TypeFactory
-                .defaultInstance()
-                .constructType(javaType)
-        )
+        else ->
+            cachedValue?.jsonToObj(
+                TypeFactory
+                    .defaultInstance()
+                    .constructType(javaType)
+            )
     }
 }

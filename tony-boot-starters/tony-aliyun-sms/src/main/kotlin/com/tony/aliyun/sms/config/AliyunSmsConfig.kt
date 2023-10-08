@@ -36,7 +36,6 @@ import org.springframework.context.annotation.Configuration
 public class AliyunSmsConfig(
     private val aliyunSMSProperties: AliyunSmsProperties,
 ) {
-
     @Bean
     internal fun smsService() = AliyunSmsManager(
         aliyunSMSProperties.accessKeyId,
@@ -48,10 +47,10 @@ public class AliyunSmsConfig(
 
 @ConfigurationProperties(prefix = "aliyun.sms")
 public class AliyunSmsProperties
-    @ConstructorBinding
-    constructor(
-        public val accessKeyId: String,
-        public val accessKeySecret: String,
-        public val signName: String,
-        public val timeout: String,
-    )
+@ConstructorBinding
+constructor(
+    public val accessKeyId: String,
+    public val accessKeySecret: String,
+    public val signName: String,
+    public val timeout: String,
+)

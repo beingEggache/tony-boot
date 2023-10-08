@@ -62,7 +62,6 @@ public enum class DigestAlgorithm(
     public companion object : StringEnumCreator(DigestAlgorithm::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String): StringEnumValue? =
-            super.create(value.lowercase())
+        override fun create(value: String): StringEnumValue? = super.create(value.lowercase())
     }
 }

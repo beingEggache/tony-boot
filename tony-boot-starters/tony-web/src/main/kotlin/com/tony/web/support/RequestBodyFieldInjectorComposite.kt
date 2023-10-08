@@ -78,16 +78,18 @@ internal class RequestBodyFieldInjectorComposite(
         val fieldListMap = supportedClassFieldsCache[bodyClass]
         val injectorMap = classSupportedInjectorMap[bodyClass]
 
-        val removedInjectorNames = injectorMap
-            ?.values
-            ?.filter { injector ->
-                val fieldList = fieldListMap?.getValue(injector.name) ?: return@filter false
-                val injectResultList = fieldList.map { field ->
-                    field to injector.internalInject(field, body)
+        val removedInjectorNames =
+            injectorMap
+                ?.values
+                ?.filter { injector ->
+                    val fieldList = fieldListMap?.getValue(injector.name) ?: return@filter false
+                    val injectResultList =
+                        fieldList.map { field ->
+                            field to injector.internalInject(field, body)
+                        }
+                    injectorHasNoSupportedFields(fieldListMap, injectResultList, fieldList, bodyClass, injector.name)
                 }
-                injectorHasNoSupportedFields(fieldListMap, injectResultList, fieldList, bodyClass, injector.name)
-            }
-            ?.map { it.name }
+                ?.map { it.name }
         removeInjectorSupports(bodyClass, removedInjectorNames)
         removeClassSupports(bodyClass)
         return body
@@ -115,9 +117,7 @@ internal class RequestBodyFieldInjectorComposite(
         return fieldList.isEmpty()
     }
 
-    private fun removeClassSupports(
-        targetType: Class<*>,
-    ) {
+    private fun removeClassSupports(targetType: Class<*>) {
         val fieldMap = supportedClassFieldsCache[targetType]
         val injectorMap = classSupportedInjectorMap[targetType]
 
@@ -131,10 +131,7 @@ internal class RequestBodyFieldInjectorComposite(
         }
     }
 
-    private fun removeInjectorSupports(
-        targetType: Class<*>,
-        injectorNameList: List<String>?,
-    ) {
+    private fun removeInjectorSupports(targetType: Class<*>, injectorNameList: List<String>?) {
         if (injectorNameList.isNullOrEmpty()) {
             return
         }
@@ -184,20 +181,19 @@ internal class RequestBodyFieldInjectorComposite(
     private fun processSupportedInjectors(
         targetType: Class<*>,
         annotatedFields: List<Field>,
-    ): ConcurrentMap<String, RequestBodyFieldInjector> =
-        classSupportedInjectorMap.getOrPut(targetType) {
-            requestBodyFieldInjectors
-                .associateBy {
-                    it.name
+    ): ConcurrentMap<String, RequestBodyFieldInjector> = classSupportedInjectorMap.getOrPut(targetType) {
+        requestBodyFieldInjectors
+            .associateBy {
+                it.name
+            }
+            .filterValues { injector ->
+                hasSupportInjectorFields(annotatedFields, injector, targetType)
+            }.let {
+                ConcurrentHashMap<String, RequestBodyFieldInjector>().apply {
+                    putAll(it)
                 }
-                .filterValues { injector ->
-                    hasSupportInjectorFields(annotatedFields, injector, targetType)
-                }.let {
-                    ConcurrentHashMap<String, RequestBodyFieldInjector>().apply {
-                        putAll(it)
-                    }
-                }
-        }
+            }
+    }
 
     private fun hasSupportInjectorFields(
         annotatedFields: List<Field>,
@@ -229,10 +225,9 @@ internal class RequestBodyFieldInjectorComposite(
         fieldName: String,
         annotationValue: String,
         injectorName: String,
-    ): Boolean =
-        if (annotationValue.isNotBlank()) {
-            annotationValue == injectorName
-        } else {
-            fieldName == injectorName
-        }
+    ): Boolean = if (annotationValue.isNotBlank()) {
+        annotationValue == injectorName
+    } else {
+        fieldName == injectorName
+    }
 }

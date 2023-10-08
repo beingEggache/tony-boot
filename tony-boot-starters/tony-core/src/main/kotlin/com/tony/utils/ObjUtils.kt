@@ -35,6 +35,7 @@ import org.springframework.beans.BeanUtils
  * @author Tang Li
  * @date 2023/06/13 17:10
  */
+
 /**
  * println
  */
@@ -65,8 +66,7 @@ public fun <E> Any?.asTo(): E? where E : Any = this as E?
 public fun <E> Any.asToNotNull(): E where E : Any = this as E
 
 @JvmSynthetic
-public fun <T> T.getLogger(): Logger where T : Any =
-    LoggerFactory.getLogger(this::class.java)
+public fun <T> T.getLogger(): Logger where T : Any = LoggerFactory.getLogger(this::class.java)
 
 /**
  * 是类型或子类型

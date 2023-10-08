@@ -52,15 +52,14 @@ internal class Knife4jExtensionConfig(
     private val logger = LoggerFactory.getLogger(Knife4jExtensionConfig::class.java)
 
     @Bean
-    internal fun openAPI(): OpenAPI =
-        OpenAPI()
-            .info(
-                Info()
-                    .title(knife4jExtensionProperties.title)
-                    .version(knife4jExtensionProperties.version)
-                    .description(knife4jExtensionProperties.description)
-                    .contact(knife4jExtensionProperties.contact)
-            )
+    internal fun openAPI(): OpenAPI = OpenAPI()
+        .info(
+            Info()
+                .title(knife4jExtensionProperties.title)
+                .version(knife4jExtensionProperties.version)
+                .description(knife4jExtensionProperties.description)
+                .contact(knife4jExtensionProperties.contact)
+        )
 
     @Bean
     internal fun api(): GroupedOpenApi {
@@ -79,13 +78,13 @@ internal class Knife4jExtensionConfig(
 
 @ConfigurationProperties(prefix = "knife4j.extension")
 public data class Knife4jExtensionProperties
-    @ConstructorBinding
-    constructor(
-        @DefaultValue("Tony-Api")
-        val title: String,
-        @DefaultValue("1.0")
-        val version: String,
-        @DefaultValue("")
-        val description: String,
-        val contact: Contact = Contact(),
-    )
+@ConstructorBinding
+constructor(
+    @DefaultValue("Tony-Api")
+    val title: String,
+    @DefaultValue("1.0")
+    val version: String,
+    @DefaultValue("")
+    val description: String,
+    val contact: Contact = Contact(),
+)

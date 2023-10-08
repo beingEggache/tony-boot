@@ -79,7 +79,6 @@ internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
     Converter<String, EnumValue<K>>
     where E : EnumValue<K>,
           K : Serializable {
-
     private val creator: EnumCreator<E, K> = EnumCreator.creatorOf(enumType)
 
     protected abstract fun convertSource(source: String): K
@@ -96,17 +95,16 @@ internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
 internal class EnumIntValueConverter(enumType: Class<out IntEnumValue>) :
     EnumValueConverter<IntEnumValue, Int>(enumType),
     Converter<String, EnumValue<Int>> {
+    override fun convertSource(source: String) = source.toInt()
 
-        override fun convertSource(source: String) = source.toInt()
-
-        override fun convert(source: String): IntEnumValue? {
-            return if (source.toInt() == DEFAULT_INT_VALUE) {
-                null
-            } else {
-                super.convert(source)
-            }
+    override fun convert(source: String): IntEnumValue? {
+        return if (source.toInt() == DEFAULT_INT_VALUE) {
+            null
+        } else {
+            super.convert(source)
         }
     }
+}
 
 /**
  * EnumStringValueConverter
@@ -117,13 +115,11 @@ internal class EnumIntValueConverter(enumType: Class<out IntEnumValue>) :
 internal class EnumStringValueConverter(enumType: Class<out StringEnumValue>) :
     EnumValueConverter<StringEnumValue, String>(enumType),
     Converter<String, EnumValue<String>> {
+    override fun convertSource(source: String) = source
 
-        override fun convertSource(source: String) = source
-
-        override fun convert(source: String): StringEnumValue? =
-            if (source == DEFAULT_STRING_VALUE) {
-                null
-            } else {
-                super.convert(source)
-            }
+    override fun convert(source: String): StringEnumValue? = if (source == DEFAULT_STRING_VALUE) {
+        null
+    } else {
+        super.convert(source)
     }
+}

@@ -35,7 +35,6 @@ import java.util.concurrent.TimeUnit
  * @date 2023/06/14 13:38
  */
 public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
-
     /**
      * Remove the last element from list at sourceKey,
      * append it to destinationKey and return its value.
@@ -57,10 +56,9 @@ public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
         type: Class<T>,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? =
-        listOp
-            .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
-            .outputTransformTo(type)
+    ): T? = listOp
+        .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
+        .outputTransformTo(type)
 
     /**
      * @see [rightPopAndLeftPush]
@@ -71,10 +69,9 @@ public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
         type: JavaType,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? =
-        listOp
-            .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
-            .outputTransformTo(type)
+    ): T? = listOp
+        .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
+        .outputTransformTo(type)
 
     /**
      * @see [rightPopAndLeftPush]
@@ -85,10 +82,9 @@ public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
         type: TypeReference<T>,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? =
-        listOp
-            .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
-            .outputTransformTo(type)
+    ): T? = listOp
+        .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
+        .outputTransformTo(type)
 
     /**
      * Trim list at key to elements between start and end.
@@ -104,7 +100,6 @@ public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
 }
 
 public sealed interface RedisListGetOp : RedisValueTransformer {
-
     /**
      * Removes and returns first element in list stored at key.
      * @param T
@@ -113,20 +108,17 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return can be null.
      * @see org.springframework.data.redis.core.ListOperations.leftPop
      */
-    public fun <T : Any> leftPop(key: String, type: Class<T>): T? =
-        listOp.leftPop(key).outputTransformTo(type)
+    public fun <T : Any> leftPop(key: String, type: Class<T>): T? = listOp.leftPop(key).outputTransformTo(type)
 
     /**
      * @see [leftPop]
      */
-    public fun <T : Any> leftPop(key: String, type: JavaType): T? =
-        listOp.leftPop(key).outputTransformTo(type)
+    public fun <T : Any> leftPop(key: String, type: JavaType): T? = listOp.leftPop(key).outputTransformTo(type)
 
     /**
      * @see [leftPop]
      */
-    public fun <T : Any> leftPop(key: String, type: TypeReference<T>): T? =
-        listOp.leftPop(key).outputTransformTo(type)
+    public fun <T : Any> leftPop(key: String, type: TypeReference<T>): T? = listOp.leftPop(key).outputTransformTo(type)
 
     /**
      * Removes and returns first elements in list stored at key.
@@ -137,8 +129,7 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return can be null.
      * @see org.springframework.data.redis.core.ListOperations.leftPop
      */
-    public fun <T : Any> leftPop(key: String, count: Long): List<Any>? =
-        listOp.leftPop(key, count)
+    public fun <T : Any> leftPop(key: String, count: Long): List<Any>? = listOp.leftPop(key, count)
 
     /**
      * Removes and returns last element in list stored at key.
@@ -148,14 +139,12 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return can be null.
      * @see org.springframework.data.redis.core.ListOperations.rightPop
      */
-    public fun <T : Any> rightPop(key: String, type: Class<T>): T? =
-        listOp.rightPop(key).outputTransformTo(type)
+    public fun <T : Any> rightPop(key: String, type: Class<T>): T? = listOp.rightPop(key).outputTransformTo(type)
 
     /**
      * @see [rightPop]
      */
-    public fun <T : Any> rightPop(key: String, type: JavaType): T? =
-        listOp.rightPop(key).outputTransformTo(type)
+    public fun <T : Any> rightPop(key: String, type: JavaType): T? = listOp.rightPop(key).outputTransformTo(type)
 
     /**
      * @see [rightPop]
@@ -172,8 +161,7 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return can be null.
      * @see org.springframework.data.redis.core.ListOperations.rightPop
      */
-    public fun <T : Any> rightPop(key: String, count: Long): List<Any>? =
-        listOp.rightPop(key, count)
+    public fun <T : Any> rightPop(key: String, count: Long): List<Any>? = listOp.rightPop(key, count)
 
     /**
      * Get element at index form list at key.
@@ -221,8 +209,7 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.size
      */
-    public fun size(key: String): Long? =
-        listOp.size(key)
+    public fun size(key: String): Long? = listOp.size(key)
 }
 
 public sealed interface RedisListSetOp : RedisValueTransformer {
@@ -234,8 +221,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.leftPush
      */
-    public fun <T : Any> leftPush(key: String, value: T): Long? =
-        listOp.leftPush(key, value.inputTransformTo())
+    public fun <T : Any> leftPush(key: String, value: T): Long? = listOp.leftPush(key, value.inputTransformTo())
 
     /**
      * Insert value to key before pivot.
@@ -290,8 +276,7 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.rightPush
      */
-    public fun <T : Any> rightPush(key: String, value: T): Long? =
-        listOp.rightPush(key, value.inputTransformTo())
+    public fun <T : Any> rightPush(key: String, value: T): Long? = listOp.rightPush(key, value.inputTransformTo())
 
     /**
      * Insert value to key after pivot.

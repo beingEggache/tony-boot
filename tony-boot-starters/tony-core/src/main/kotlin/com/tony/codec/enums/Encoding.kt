@@ -50,7 +50,6 @@ public enum class Encoding(
     public companion object : StringEnumCreator(Encoding::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String): StringEnumValue? =
-            super.create(value.lowercase())
+        override fun create(value: String): StringEnumValue? = super.create(value.lowercase())
     }
 }

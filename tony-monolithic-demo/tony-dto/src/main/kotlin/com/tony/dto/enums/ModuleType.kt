@@ -26,7 +26,6 @@ enum class ModuleType(
 
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) =
-            super.create(value)
+        override fun create(value: Int) = super.create(value)
     }
 }

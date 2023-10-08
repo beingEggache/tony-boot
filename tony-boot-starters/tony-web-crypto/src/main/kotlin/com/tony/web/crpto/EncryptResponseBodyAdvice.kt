@@ -54,17 +54,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
  * @date 2023/05/26 16:53
  */
 public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice<Any?> {
-
     public val algorithm: SymmetricCryptoAlgorithm
 
     public val secret: String
 
     public val encoding: Encoding
-    override fun supports(
-        returnType: MethodParameter,
-        converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean = returnType.hasMethodAnnotation(EncryptResponseBody::class.java) &&
-        isTextMediaTypes(WebContext.request.parsedMedia)
+
+    override fun supports(returnType: MethodParameter, converterType: Class<out HttpMessageConverter<*>>): Boolean =
+        returnType.hasMethodAnnotation(EncryptResponseBody::class.java) &&
+            isTextMediaTypes(WebContext.request.parsedMedia)
 
     override fun beforeBodyWrite(
         body: Any?,
@@ -79,12 +77,13 @@ public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice
                 EncryptApiResult().apply {
                     code = body.code
                     message = body.message
-                    data = body.data.toJsonString()
-                        .encryptToString(
-                            algorithm,
-                            secret,
-                            encoding
-                        )
+                    data =
+                        body.data.toJsonString()
+                            .encryptToString(
+                                algorithm,
+                                secret,
+                                encoding
+                            )
                 }
             } else {
                 body
@@ -99,6 +98,7 @@ public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice
                 encoding
             )
     }
+
     override fun getOrder(): Int = PriorityOrdered.LOWEST_PRECEDENCE
 }
 

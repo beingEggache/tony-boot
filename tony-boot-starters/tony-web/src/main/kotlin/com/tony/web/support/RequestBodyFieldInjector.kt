@@ -42,7 +42,6 @@ import org.slf4j.Logger
 public abstract class RequestBodyFieldInjector(
     public val name: String,
 ) {
-
     public abstract fun value(fieldType: Class<*>): Any?
 
     private val logger: Logger = getLogger()

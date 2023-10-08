@@ -49,7 +49,6 @@ import org.springframework.validation.annotation.Validated
  * @since 1.0.0
  */
 public object WechatManager {
-
     private val wechatClient: WechatClient by SpringContexts.getBeanByLazy()
     private val wechatPropProvider: WechatPropProvider by SpringContexts.getBeanByLazy()
     private val apiAccessTokenProvider: WechatApiAccessTokenProvider by SpringContexts.getBeanByLazy()
@@ -67,12 +66,7 @@ public object WechatManager {
      */
     @JvmOverloads
     @JvmStatic
-    public fun checkSignature(
-        signature: String,
-        nonce: String,
-        timestamp: String,
-        app: String = "",
-    ): Boolean =
+    public fun checkSignature(signature: String, nonce: String, timestamp: String, app: String = ""): Boolean =
         DigestUtils.sha1Hex(
             listOf(wechatPropProvider.getToken(app), timestamp, nonce)
                 .sorted()
@@ -80,12 +74,7 @@ public object WechatManager {
         ) == signature
 
     @JvmStatic
-    public fun checkSignatureDirect(
-        signature: String,
-        nonce: String,
-        timestamp: String,
-        token: String,
-    ): Boolean =
+    public fun checkSignatureDirect(signature: String, nonce: String, timestamp: String, token: String): Boolean =
         DigestUtils.sha1Hex(
             listOf(token, timestamp, nonce)
                 .sorted()
@@ -94,13 +83,12 @@ public object WechatManager {
 
     @JvmOverloads
     @JvmStatic
-    public fun jsCode2Session(jsCode: String, app: String = ""): WechatJsCode2SessionResp =
-        wechatClient.jsCode2Session(
-            wechatPropProvider.getAppId(app),
-            wechatPropProvider.getAppSecret(app),
-            "authorization_code",
-            jsCode
-        ).check()
+    public fun jsCode2Session(jsCode: String, app: String = ""): WechatJsCode2SessionResp = wechatClient.jsCode2Session(
+        wechatPropProvider.getAppId(app),
+        wechatPropProvider.getAppSecret(app),
+        "authorization_code",
+        jsCode
+    ).check()
 
     @JvmOverloads
     @JvmStatic
@@ -113,19 +101,12 @@ public object WechatManager {
 
     @JvmOverloads
     @JvmStatic
-    public fun createMenu(
-        menu: WechatMenu,
-        app: String = "",
-        accessToken: String? = accessTokenStr(app),
-    ): WechatResp =
+    public fun createMenu(menu: WechatMenu, app: String = "", accessToken: String? = accessTokenStr(app)): WechatResp =
         wechatClient.createMenu(accessToken, menu).check()
 
     @JvmOverloads
     @JvmStatic
-    public fun deleteMenu(
-        app: String = "",
-        accessToken: String? = accessTokenStr(app),
-    ): WechatResp =
+    public fun deleteMenu(app: String = "", accessToken: String? = accessTokenStr(app)): WechatResp =
         wechatClient.deleteMenu(accessToken).check()
 
     @JvmOverloads
@@ -134,8 +115,7 @@ public object WechatManager {
         openId: String?,
         app: String = "",
         accessToken: String? = accessTokenStr(app),
-    ): WechatUserInfoResp =
-        wechatClient.userInfo(accessToken, openId).check()
+    ): WechatUserInfoResp = wechatClient.userInfo(accessToken, openId).check()
 
     @JvmOverloads
     @JvmStatic

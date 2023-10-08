@@ -43,7 +43,6 @@ public open class EnumTypeHandler<E, KEY>(enumClass: Class<E>) :
     where E : Enum<E>,
           KEY : Serializable,
           E : EnumValue<KEY> {
-
     private val enumValueMap = enumClass.enumConstants.associateBy { it.value }
 
     override fun setNonNullParameter(ps: PreparedStatement, i: Int, parameter: E, jdbcType: JdbcType?) {

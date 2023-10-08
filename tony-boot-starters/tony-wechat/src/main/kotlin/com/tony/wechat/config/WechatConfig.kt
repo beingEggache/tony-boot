@@ -46,16 +46,16 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 @Configuration
 @EnableConfigurationProperties(WechatProperties::class)
 internal class WechatConfig {
-
     @Resource
     private fun initMappingJackson2HttpMessageConverter(
         mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
     ) {
-        val supportedMediaTypes = mappingJackson2HttpMessageConverter
-            .supportedMediaTypes
-            .toMutableSet()
-            .apply { add(MediaType.TEXT_PLAIN) }
-            .toTypedArray()
+        val supportedMediaTypes =
+            mappingJackson2HttpMessageConverter
+                .supportedMediaTypes
+                .toMutableSet()
+                .apply { add(MediaType.TEXT_PLAIN) }
+                .toTypedArray()
         mappingJackson2HttpMessageConverter.supportedMediaTypes = listOf(*supportedMediaTypes)
     }
 
@@ -85,17 +85,17 @@ internal class WechatConfig {
  */
 @ConfigurationProperties(prefix = "wechat")
 public data class WechatProperties
-    @ConstructorBinding
-    constructor(
-        val token: String?,
-        val appId: String?,
-        val appSecret: String?,
-        val mchId: String?,
-        val mchSecretKey: String?,
-        val app: LinkedHashMap<String, WechatAppProperties>?,
-    ) {
-        public fun getAppByAppId(appId: String): String? = app?.entries?.firstOrNull { it.value.appId == appId }?.key
-    }
+@ConstructorBinding
+constructor(
+    val token: String?,
+    val appId: String?,
+    val appSecret: String?,
+    val mchId: String?,
+    val mchSecretKey: String?,
+    val app: LinkedHashMap<String, WechatAppProperties>?,
+) {
+    public fun getAppByAppId(appId: String): String? = app?.entries?.firstOrNull { it.value.appId == appId }?.key
+}
 
 /**
  * 微信配置

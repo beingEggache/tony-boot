@@ -89,28 +89,25 @@ internal val RequestBody.parsedMedia: MediaType?
  * 是否字符串mime类型
  * @param mediaType
  */
-internal fun isTextMediaTypes(mediaType: MediaType?) =
-    TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
+internal fun isTextMediaTypes(mediaType: MediaType?) = TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 
-private val TEXT_MEDIA_TYPES = listOf(
-    MediaType.TEXT_XML,
-    MediaType.TEXT_HTML,
-    MediaType.TEXT_PLAIN,
-    MediaType.APPLICATION_JSON,
-    MediaType.APPLICATION_FORM_URLENCODED
-)
+private val TEXT_MEDIA_TYPES =
+    listOf(
+        MediaType.TEXT_XML,
+        MediaType.TEXT_HTML,
+        MediaType.TEXT_PLAIN,
+        MediaType.APPLICATION_JSON,
+        MediaType.APPLICATION_FORM_URLENCODED
+    )
 
 /**
  * @see [JsonNode.sortRequestBody]
  * @param timestampStr
  * @return
  */
-public fun String.sortRequestBody(
-    timestampStr: String,
-): String =
-    globalObjectMapper
-        .readTree(this)
-        .sortRequestBody(timestampStr)
+public fun String.sortRequestBody(timestampStr: String): String = globalObjectMapper
+    .readTree(this)
+    .sortRequestBody(timestampStr)
 
 /**
  * 生成简单签名.
@@ -126,18 +123,15 @@ public fun String.genSign(appId: String, secret: String): String =
  * @param timestampStr
  * @return
  */
-public fun JsonNode.sortRequestBody(
-    timestampStr: String,
-): String =
-    fieldNames()
-        .asSequence()
-        .sorted()
-        .fold<String, LinkedHashMap<String, Any?>>(
-            linkedMapOf("timestamp" to timestampStr)
-        ) { map, key ->
-            if (key == "timestamp") {
-                return@fold map
-            }
-            map[key] = this[key]
-            map
-        }.toJsonString()
+public fun JsonNode.sortRequestBody(timestampStr: String): String = fieldNames()
+    .asSequence()
+    .sorted()
+    .fold<String, LinkedHashMap<String, Any?>>(
+        linkedMapOf("timestamp" to timestampStr)
+    ) { map, key ->
+        if (key == "timestamp") {
+            return@fold map
+        }
+        map[key] = this[key]
+        map
+    }.toJsonString()

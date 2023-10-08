@@ -41,7 +41,6 @@ import org.apache.ibatis.exceptions.TooManyResultsException
  * @date 2023/08/11 09:18
  */
 public interface TonyChainQuery<T : Any> : ChainQuery<T> {
-
     override fun getBaseMapper(): BaseDao<T>
 
     /**
@@ -49,19 +48,17 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param message 默认为 [ApiProperty.notFoundMessage]
      * @return
      */
-    public fun oneNotNull(message: String): T =
-        baseMapper
-            .selectOne(wrapper)
-            .throwIfNull(message, ApiProperty.notFoundCode)
+    public fun oneNotNull(message: String): T = baseMapper
+        .selectOne(wrapper)
+        .throwIfNull(message, ApiProperty.notFoundCode)
 
     /**
      * 查出不可空的单个实体, 为空时抛错.
      * @return
      */
-    public fun oneNotNull(): T =
-        baseMapper
-            .selectOne(wrapper)
-            .throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
+    public fun oneNotNull(): T = baseMapper
+        .selectOne(wrapper)
+        .throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
 
     /**
      * 查询某个条件是否存在, 存在就抛错
@@ -123,11 +120,9 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
         }
     }
 
-    public fun <E> oneObjNotNull(message: String): E =
-        oneObj<E>().throwIfNull(message, ApiProperty.notFoundCode)
+    public fun <E> oneObjNotNull(message: String): E = oneObj<E>().throwIfNull(message, ApiProperty.notFoundCode)
 
-    public fun <E> oneObjNotNull(): E =
-        oneObj<E>().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
+    public fun <E> oneObjNotNull(): E = oneObj<E>().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
 
     /**
      * 根据 Wrapper 条件，查询全部记录

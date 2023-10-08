@@ -42,12 +42,12 @@ import com.tony.ApiProperty
  * @date 2021/12/6 10:51
  */
 public open class BaseException
-    @JvmOverloads
-    constructor(
-        override val message: String? = "",
-        public open val code: Int,
-        override val cause: Throwable? = null,
-    ) : RuntimeException(message, cause)
+@JvmOverloads
+constructor(
+    override val message: String? = "",
+    public open val code: Int,
+    override val cause: Throwable? = null,
+) : RuntimeException(message, cause)
 
 /**
  * 自定义框架层异常.
@@ -60,15 +60,14 @@ public open class BaseException
  * @date 2021/12/6 10:51
  */
 public open class ApiException
-    @JvmOverloads
-    constructor(
-        override val message: String? = "",
-        override val code: Int = ApiProperty.errorCode,
-        cause: Throwable? = null,
-    ) : BaseException(message.toString(), code, cause) {
-
-        public constructor(message: String?, cause: Throwable) : this(message, ApiProperty.errorCode, cause)
-    }
+@JvmOverloads
+constructor(
+    override val message: String? = "",
+    override val code: Int = ApiProperty.errorCode,
+    cause: Throwable? = null,
+) : BaseException(message.toString(), code, cause) {
+    public constructor(message: String?, cause: Throwable) : this(message, ApiProperty.errorCode, cause)
+}
 
 /**
  * 全局业务用异常
@@ -79,8 +78,8 @@ public open class ApiException
  * @date 2021/12/6 10:51
  */
 public open class BizException
-    @JvmOverloads
-    constructor(
-        override val message: String,
-        override val code: Int = ApiProperty.preconditionFailedCode,
-    ) : BaseException(message, code)
+@JvmOverloads
+constructor(
+    override val message: String,
+    override val code: Int = ApiProperty.preconditionFailedCode,
+) : BaseException(message, code)

@@ -35,10 +35,10 @@ internal class AliyunOssConfig
 
 @ConfigurationProperties(prefix = "aliyun.oss")
 internal data class AliyunOssProperties
-    @ConstructorBinding
-    constructor(
-        val accessKeyId: String,
-        val accessKeySecret: String,
-        val bucketName: String,
-        val endpoint: String,
-    )
+@ConstructorBinding
+constructor(
+    val accessKeyId: String,
+    val accessKeySecret: String,
+    val bucketName: String,
+    val endpoint: String,
+)

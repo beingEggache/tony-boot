@@ -33,7 +33,6 @@ import com.tony.utils.string
  * @since 1.0.0
  */
 public sealed interface Codec {
-
     /**
      * 编码为字符串
      * @param [src] src

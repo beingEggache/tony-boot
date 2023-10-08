@@ -54,12 +54,7 @@ import com.tony.utils.isStringLikeType
  * @date 2023/5/25 10:37
  */
 internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
-
-    override fun serialize(
-        value: Any?,
-        gen: JsonGenerator,
-        serializers: SerializerProvider,
-    ) {
+    override fun serialize(value: Any?, gen: JsonGenerator, serializers: SerializerProvider) {
         if (value == null) {
             gen.writeArray(emptyArray(), 0, 0)
         }
@@ -73,11 +68,7 @@ internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
  * @date 2023/5/25 10:39
  */
 internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
-    override fun serialize(
-        value: Any?,
-        gen: JsonGenerator,
-        serializers: SerializerProvider?,
-    ) {
+    override fun serialize(value: Any?, gen: JsonGenerator, serializers: SerializerProvider?) {
         if (value == null) {
             gen.writeObject(ApiResult.EMPTY_RESULT)
         }
@@ -91,11 +82,7 @@ internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
  * @date 2023/5/25 10:40
  */
 internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
-    override fun serialize(
-        value: Any?,
-        gen: JsonGenerator,
-        serializers: SerializerProvider,
-    ) {
+    override fun serialize(value: Any?, gen: JsonGenerator, serializers: SerializerProvider) {
         gen.writeString("")
     }
 }
@@ -113,7 +100,6 @@ internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
  * @date 2023/5/25 10:40
  */
 public class NullValueBeanSerializerModifier : BeanSerializerModifier() {
-
     private val nullArrayJsonSerializer = NullArrayJsonSerializer()
     private val nullObjJsonSerializer = NullObjJsonSerializer()
     private val nullStrJsonSerializer = NullStrJsonSerializer()

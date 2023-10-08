@@ -47,12 +47,11 @@ import java.util.Date
  * @date 2023/09/13 10:27
  * @since 1.0.0
  */
-public fun Type.rawClass(): Class<*> =
-    when (this) {
-        is Class<*> -> this
-        is ParameterizedType -> this.rawType as Class<*>
-        else -> error("Ain't gonna happen.")
-    }
+public fun Type.rawClass(): Class<*> = when (this) {
+    is Class<*> -> this
+    is ParameterizedType -> this.rawType as Class<*>
+    else -> error("Ain't gonna happen.")
+}
 
 /**
  * JavaType
@@ -90,9 +89,10 @@ public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
 @JvmOverloads
 public fun Class<*>.typeParamOfSuperInterface(type: Class<*>, index: Int = 0): Type {
     val genericInterfaces = this.genericInterfaces
-    val matchedInterface = genericInterfaces.firstOrNull {
-        it.rawClass().name == type.typeName
-    } ?: throw IllegalStateException("$this does not implement the $type")
+    val matchedInterface =
+        genericInterfaces.firstOrNull {
+            it.rawClass().name == type.typeName
+        } ?: throw IllegalStateException("$this does not implement the $type")
     check(matchedInterface !is Class<*>) { "${matchedInterface.typeName} constructed without actual type information" }
     return (matchedInterface as ParameterizedType).actualTypeArguments[index]
 }
@@ -102,9 +102,10 @@ public fun Class<*>.typeParamOfSuperInterface(type: Class<*>, index: Int = 0): T
  * @see sun.reflect.generics.reflectiveObjects.WildcardTypeImpl.toString
  */
 public val Type.typeNameClearBounds: String
-    get() = typeName
-        .replace("? super ", "")
-        .replace("? extends ", "")
+    get() =
+        typeName
+            .replace("? super ", "")
+            .replace("? extends ", "")
 
 internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
     (this == type) || type?.isAssignableFrom(this) == true
@@ -117,8 +118,7 @@ internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
  * @date 2023/09/13 10:29
  * @since 1.0.0
  */
-public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
-    types.any { this.isTypeOrSubTypeOf(it) }
+public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean = types.any { this.isTypeOrSubTypeOf(it) }
 
 private val NUMBER_TYPES: Array<Class<*>?> =
     arrayOf(
@@ -148,10 +148,9 @@ public fun Class<*>.isNumberTypes(): Boolean = isTypesOrSubTypesOf(*NUMBER_TYPES
  * @date 2023/09/13 10:29
  * @since 1.0.0
  */
-public fun Class<*>.isStringLikeType(): Boolean =
-    this.isTypesOrSubTypesOf(
-        CharSequence::class.java
-    )
+public fun Class<*>.isStringLikeType(): Boolean = this.isTypesOrSubTypesOf(
+    CharSequence::class.java
+)
 
 /**
  * 是否列表或数组类型
@@ -160,10 +159,9 @@ public fun Class<*>.isStringLikeType(): Boolean =
  * @date 2023/09/13 10:30
  * @since 1.0.0
  */
-public fun Class<*>.isArrayLikeType(): Boolean =
-    this.isTypeOrSubTypeOf(Collection::class.java) ||
-        this::class.java.isArray ||
-        this.isArray
+public fun Class<*>.isArrayLikeType(): Boolean = this.isTypeOrSubTypeOf(Collection::class.java) ||
+    this::class.java.isArray ||
+    this.isArray
 
 /**
  * 原始类
@@ -173,11 +171,10 @@ public fun Class<*>.isArrayLikeType(): Boolean =
  * @since 1.0.0
  */
 @Suppress("UNCHECKED_CAST")
-public fun <T> TypeReference<T>.rawClass(): Class<T> =
-    when (type) {
-        is ParameterizedType -> (type as ParameterizedType).rawType
-        else -> type
-    } as Class<T>
+public fun <T> TypeReference<T>.rawClass(): Class<T> = when (type) {
+    is ParameterizedType -> (type as ParameterizedType).rawType
+    else -> type
+} as Class<T>
 
 /**
  * 是类似字符串类型
@@ -186,12 +183,11 @@ public fun <T> TypeReference<T>.rawClass(): Class<T> =
  * @date 2023/09/13 10:30
  * @since 1.0.0
  */
-public fun <T> TypeReference<T>.isStringLikeType(): Boolean =
-    rawClass().isTypesOrSubTypesOf(
-        CharSequence::class.java,
-        Char::class.javaObjectType,
-        Char::class.javaPrimitiveType
-    )
+public fun <T> TypeReference<T>.isStringLikeType(): Boolean = rawClass().isTypesOrSubTypesOf(
+    CharSequence::class.java,
+    Char::class.javaObjectType,
+    Char::class.javaPrimitiveType
+)
 
 /**
  * 是数字类型
@@ -229,8 +225,7 @@ public fun JavaType.isDateTimeLikeType(): Boolean =
  * @date 2023/09/13 10:30
  * @since 1.0.0
  */
-public fun JavaType.isArrayLikeType(): Boolean =
-    isArrayType || isCollectionLikeType
+public fun JavaType.isArrayLikeType(): Boolean = isArrayType || isCollectionLikeType
 
 /**
  * 是布尔类型
@@ -249,8 +244,7 @@ public fun JavaType.isBooleanType(): Boolean =
  * @date 2023/09/13 10:30
  * @since 1.0.0
  */
-public fun JavaType.isNumberType(): Boolean =
-    isTypeOrSubTypeOf(Number::class.java)
+public fun JavaType.isNumberType(): Boolean = isTypeOrSubTypeOf(Number::class.java)
 
 /**
  * 是字节类型
@@ -319,10 +313,9 @@ public fun JavaType.isDoubleType(): Boolean =
  * @date 2023/09/13 10:31
  * @since 1.0.0
  */
-public fun JavaType.isObjLikeType(): Boolean =
-    isMapLikeType ||
-        (!isDateTimeLikeType() && !isBooleanType() && !isEnumType) &&
-        (!isArrayType && !isNumberType() && !isStringLikeType())
+public fun JavaType.isObjLikeType(): Boolean = isMapLikeType ||
+    (!isDateTimeLikeType() && !isBooleanType() && !isEnumType) &&
+    (!isArrayType && !isNumberType() && !isStringLikeType())
 
 /**
  * 是类似字符串类型
@@ -331,7 +324,6 @@ public fun JavaType.isObjLikeType(): Boolean =
  * @date 2023/09/13 10:31
  * @since 1.0.0
  */
-public fun JavaType.isStringLikeType(): Boolean =
-    isTypeOrSubTypeOf(CharSequence::class.java) ||
-        isTypeOrSubTypeOf(Char::class.javaObjectType) ||
-        isTypeOrSubTypeOf(Char::class.javaPrimitiveType)
+public fun JavaType.isStringLikeType(): Boolean = isTypeOrSubTypeOf(CharSequence::class.java) ||
+    isTypeOrSubTypeOf(Char::class.javaObjectType) ||
+    isTypeOrSubTypeOf(Char::class.javaPrimitiveType)

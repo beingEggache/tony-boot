@@ -115,19 +115,18 @@ public class TonyLambdaQueryWrapper<T : Any> :
      *
      * 故 sqlSelect 不向下传递
      */
-    override fun instance(): TonyLambdaQueryWrapper<T> =
-        TonyLambdaQueryWrapper(
-            entity,
-            entityClass,
-            null,
-            paramNameSeq,
-            paramNameValuePairs,
-            MergeSegments(),
-            paramAlias,
-            SharedString.emptyString(),
-            SharedString.emptyString(),
-            SharedString.emptyString()
-        )
+    override fun instance(): TonyLambdaQueryWrapper<T> = TonyLambdaQueryWrapper(
+        entity,
+        entityClass,
+        null,
+        paramNameSeq,
+        paramNameValuePairs,
+        MergeSegments(),
+        paramAlias,
+        SharedString.emptyString(),
+        SharedString.emptyString(),
+        SharedString.emptyString()
+    )
 
     override fun clear() {
         super.clear()

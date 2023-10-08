@@ -39,7 +39,6 @@ import java.util.Date
  * @date 2023/5/25 15:56
  */
 public object JwtToken {
-
     @JvmStatic
     private val algorithm by lazy(LazyThreadSafetyMode.PUBLICATION) {
         Algorithm.HMAC256(jwtProperties.secret)
@@ -61,17 +60,14 @@ public object JwtToken {
      * @since 1.0.0
      */
     @JvmStatic
-    public fun gen(
-        vararg params: Pair<String, String?>,
-    ): String =
-        JWT.create()
-            .withIssuedAt(Date())
-            .withExpiresAt(getExpireAt())
-            .apply {
-                params.forEach { (key, value) ->
-                    withClaim(key, value)
-                }
-            }.sign(algorithm)
+    public fun gen(vararg params: Pair<String, String?>): String = JWT.create()
+        .withIssuedAt(Date())
+        .withExpiresAt(getExpireAt())
+        .apply {
+            params.forEach { (key, value) ->
+                withClaim(key, value)
+            }
+        }.sign(algorithm)
 
     /**
      * 解析jwt.
@@ -85,8 +81,7 @@ public object JwtToken {
     public fun parse(jwt: String): DecodedJWT = JWT.require(algorithm).build().verify(jwt)
 
     @JvmStatic
-    private fun getExpireAt() =
-        LocalDateTime.now()
-            .plusMinutes(expiredMinutes)
-            .toDate()
+    private fun getExpireAt() = LocalDateTime.now()
+        .plusMinutes(expiredMinutes)
+        .toDate()
 }

@@ -51,7 +51,6 @@ import org.springframework.web.context.request.ServletWebRequest
  * @date 2023/5/25 10:58
  */
 public object WebContext {
-
     /**
      * 是否web 环境, 单元测试时有用.
      */
@@ -81,8 +80,7 @@ public object WebContext {
         get() = request.headers
 
     @JvmStatic
-    public fun getHeader(name: String?): String =
-        headers[name].defaultIfBlank()
+    public fun getHeader(name: String?): String = headers[name].defaultIfBlank()
 
     @JvmStatic
     public val origin: String
@@ -101,8 +99,7 @@ public object WebContext {
         get() = request.url
 
     @JvmSynthetic
-    public fun BaseException.toResponse(): ApiResult<*> =
-        ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
+    public fun BaseException.toResponse(): ApiResult<*> = ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
 
     internal val response: HttpServletResponse?
         @JvmSynthetic
@@ -126,13 +123,15 @@ public object WebContext {
     @Suppress("MemberVisibilityCanBePrivate")
     internal val errorAttributes
         @JvmStatic
-        get() = current
-            .getAttribute("errorAttribute", SCOPE_REQUEST)
-            .asTo<Map<String, Any?>>()
-            .returnIfNull {
-                val errorAttributes = WebApp.errorAttributes
-                    .getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
-                current.setAttribute("errorAttribute", errorAttributes, SCOPE_REQUEST)
-                errorAttributes
-            }
+        get() =
+            current
+                .getAttribute("errorAttribute", SCOPE_REQUEST)
+                .asTo<Map<String, Any?>>()
+                .returnIfNull {
+                    val errorAttributes =
+                        WebApp.errorAttributes
+                            .getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
+                    current.setAttribute("errorAttribute", errorAttributes, SCOPE_REQUEST)
+                    errorAttributes
+                }
 }

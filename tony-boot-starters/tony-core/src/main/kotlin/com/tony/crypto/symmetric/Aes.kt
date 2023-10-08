@@ -37,7 +37,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
  * @date 2023/5/25 16:16
  */
 public data object Aes : SymmetricCrypto {
-
     /**
      * 块长度
      */

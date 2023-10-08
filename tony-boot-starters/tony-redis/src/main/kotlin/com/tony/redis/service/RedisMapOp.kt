@@ -39,7 +39,6 @@ public sealed interface RedisMapOp : RedisMapGetOp, RedisMapSetOp
  * @date 2023/06/09 18:20
  */
 public sealed interface RedisMapGetOp : RedisValueTransformer {
-
     /**
      * 获取 map 值
      *
@@ -76,8 +75,7 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @param key
      * @return
      */
-    public fun entries(key: String): Map<String, Any?> =
-        hashOp.entries(key)
+    public fun entries(key: String): Map<String, Any?> = hashOp.entries(key)
 }
 
 /**
@@ -86,7 +84,6 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
  * @date 2023/06/09 18:20
  */
 public sealed interface RedisMapSetOp : RedisValueTransformer {
-
     /**
      * Set multiple hash fields to multiple values using data provided in m at the [key] and expired at [date]
      *
@@ -94,11 +91,7 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
      * @param map
      * @param date
      */
-    public fun putAll(
-        key: String,
-        map: Map<String, Any?>?,
-        date: Date,
-    ) {
+    public fun putAll(key: String, map: Map<String, Any?>?, date: Date) {
         if (map == null) {
             return
         }
@@ -117,12 +110,7 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
      * @param timeout
      * @param timeUnit
      */
-    public fun putAll(
-        key: String,
-        map: Map<String, Any?>?,
-        timeout: Long = 0,
-        timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ) {
+    public fun putAll(key: String, map: Map<String, Any?>?, timeout: Long = 0, timeUnit: TimeUnit = TimeUnit.SECONDS) {
         if (map == null) {
             return
         }
@@ -143,11 +131,7 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
      * @param hashKey
      * @param value
      */
-    public fun <T : Any> put(
-        key: String,
-        hashKey: String,
-        value: T,
-    ) {
+    public fun <T : Any> put(key: String, hashKey: String, value: T) {
         hashOp.put(key, hashKey, value.inputTransformTo())
     }
 
@@ -158,11 +142,7 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
      * @param hashKey
      * @param value
      */
-    public fun <T : Any> putIfAbsent(
-        key: String,
-        hashKey: String,
-        value: T,
-    ) {
+    public fun <T : Any> putIfAbsent(key: String, hashKey: String, value: T) {
         hashOp.putIfAbsent(key, hashKey, value.inputTransformTo())
     }
 }

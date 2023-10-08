@@ -32,4 +32,4 @@ package com.tony
 
 public const val PROJECT_GROUP: String = "com.tony"
 
-public const val traceIdHeaderName: String = "X-B3-Trace-Id"
+public const val TRACE_ID_HEADER_NAME: String = "X-B3-Trace-Id"

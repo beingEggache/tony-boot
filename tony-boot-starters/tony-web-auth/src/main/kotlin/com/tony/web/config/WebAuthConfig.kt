@@ -56,7 +56,6 @@ internal class WebAuthConfig(
     private val jwtProperties: JwtProperties,
     private val webAuthProperties: WebAuthProperties,
 ) : WebMvcConfigurer {
-
     private val logger = LoggerFactory.getLogger(WebAuthConfig::class.java)
 
     @ConditionalOnMissingBean(LoginCheckInterceptor::class)
@@ -65,14 +64,13 @@ internal class WebAuthConfig(
 
     @ConditionalOnMissingBean(ApiSession::class)
     @Bean
-    internal fun apiSession(): ApiSession =
-        if (jwtProperties.secret.isNotBlank()) {
-            JwtApiSession().apply {
-                getLogger().info("Jwt auth is enabled")
-            }
-        } else {
-            NoopApiSession()
+    internal fun apiSession(): ApiSession = if (jwtProperties.secret.isNotBlank()) {
+        JwtApiSession().apply {
+            getLogger().info("Jwt auth is enabled")
         }
+    } else {
+        NoopApiSession()
+    }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         logger.info("noLoginCheckUrl:${webAuthProperties.noLoginCheckUrl}")

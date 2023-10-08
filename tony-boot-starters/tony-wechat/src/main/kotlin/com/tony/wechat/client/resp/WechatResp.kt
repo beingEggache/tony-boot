@@ -53,7 +53,6 @@ public data class WechatApiTokenResp(
     @JsonProperty("access_token") val accessToken: String?,
     @JsonProperty("expires_in") val expiresIn: Int?,
 ) : WechatResp() {
-
     val expiresAt: LocalDateTime?
         get() = expiresIn?.let { LocalDateTime.now().plusSeconds(expiresIn.toLong()) }
 }
@@ -65,7 +64,6 @@ public data class WechatUserTokenResp(
     @JsonProperty("openid") val openId: String?,
     @JsonProperty("scope") val scope: String?,
 ) : WechatResp() {
-
     val expiresAt: LocalDateTime?
         get() = expiresIn?.let { LocalDateTime.now().plusSeconds(expiresIn.toLong()) }
 }
@@ -74,7 +72,6 @@ public data class WechatJsApiTicketResp(
     @JsonProperty("ticket") val ticket: String?,
     @JsonProperty("expires_in") val expiresIn: Int?,
 ) : WechatResp() {
-
     val expiresAt: LocalDateTime?
         get() = expiresIn?.let { LocalDateTime.now().plusSeconds(expiresIn.toLong()) }
 }
@@ -104,7 +101,6 @@ public data class WechatUserInfoResp(
     @JsonProperty("qr_scene") val qrScene: Int?,
     @JsonProperty("qr_scene_str") val qrSceneStr: String?,
 ) : WechatResp() {
-
     @get:JsonProperty("subscribe_time")
     val subscribeTime: LocalDateTime = Date((subscribeTimeValue ?: 0) * 1000).toLocalDateTime()
 }

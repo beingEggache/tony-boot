@@ -39,7 +39,6 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes
  *
  */
 public object WebApp {
-
     private const val SWAGGER_UI_PATH: String = "springdoc.swagger-ui.path"
     private const val SWAGGER_UI_PATH_VALUE: String = "/swagger-ui.html"
 
@@ -77,10 +76,11 @@ public object WebApp {
     public val contextPath: String by Env.getPropertyByLazy("server.servlet.context-path", "")
 
     internal val responseWrapExcludePatterns by lazy(LazyThreadSafetyMode.PUBLICATION) {
-        val set = setOf(
-            *whiteUrlPatternsWithContextPath.toTypedArray(),
-            *webProperties.wrapResponseExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray()
-        )
+        val set =
+            setOf(
+                *whiteUrlPatternsWithContextPath.toTypedArray(),
+                *webProperties.wrapResponseExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray()
+            )
         logger.info("Response Wrap Exclude Pattern are: $set")
         set
     }
