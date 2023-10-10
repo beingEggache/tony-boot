@@ -20,10 +20,9 @@ internal interface FlowHistoryTaskActorMapper : BaseDao<FlowHistoryTaskActor> {
      * @date 2023/09/28 17:40
      * @since 1.0.0
      */
-    fun selectListByTaskId(taskId: Long): List<FlowTaskActor> =
-        ktQuery()
-            .eq(FlowHistoryTaskActor::taskActorId, taskId)
-            .list()
+    fun selectListByTaskId(taskId: Long): List<FlowTaskActor> = ktQuery()
+        .eq(FlowHistoryTaskActor::taskActorId, taskId)
+        .list()
 
     /**
      * 通过任务ID删除参与者
@@ -36,7 +35,3 @@ internal interface FlowHistoryTaskActorMapper : BaseDao<FlowHistoryTaskActor> {
     fun deleteByTaskIds(taskIds: Collection<Long>): Boolean =
         delete(ktQuery().`in`(FlowHistoryTaskActor::taskId, taskIds)) > 0
 }
-
-
-
-

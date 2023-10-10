@@ -11,7 +11,7 @@ import com.tony.enums.IntEnumValue
  * @since 1.0.0
  */
 public enum class PerformType(
-    override val value: Int
+    override val value: Int,
 ) : IntEnumValue {
     /**
      * 发起、其它
@@ -42,7 +42,6 @@ public enum class PerformType(
     internal companion object : EnumCreator<PerformType, Int>(PerformType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) =
-            super.create(value)
+        override fun create(value: Int) = super.create(value)
     }
 }

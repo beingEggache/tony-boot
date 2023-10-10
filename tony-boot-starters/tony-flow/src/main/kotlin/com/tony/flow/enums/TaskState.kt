@@ -9,26 +9,30 @@ import com.tony.enums.IntEnumValue
  * @author tangli
  * @since 2023/09/29 16:00
  */
-public enum class TaskState (
-    override val value: Int
+public enum class TaskState(
+    override val value: Int,
 ) : IntEnumValue {
 
     /**
      * 活动
      */
     ACTIVE(0),
+
     /**
      * 完成
      */
     COMPLETE(1),
+
     /**
      * 拒绝
      */
     REJECT(2),
+
     /**
      * 超时
      */
     TIMEOUT(3),
+
     /**
      * 终止
      */
@@ -38,7 +42,6 @@ public enum class TaskState (
     internal companion object : EnumCreator<TaskState, Int>(TaskState::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) =
-            super.create(value)
+        override fun create(value: Int) = super.create(value)
     }
 }

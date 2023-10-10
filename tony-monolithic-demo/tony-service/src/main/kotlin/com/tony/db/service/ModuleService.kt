@@ -70,21 +70,20 @@ class ModuleService(
         ModuleDao.clearModuleCache()
     }
 
-    fun tree(moduleTypes: List<ModuleType>) =
-        moduleDao
-            .lambdaQuery()
-            .`in`(Module::moduleType, moduleTypes)
-            .list()
-            .map { it.toDto() }
-            .listAndSetChildren()
+    fun tree(moduleTypes: List<ModuleType>) = moduleDao
+        .lambdaQuery()
+        .`in`(Module::moduleType, moduleTypes)
+        .list()
+        .map { it.toDto() }
+        .listAndSetChildren()
 
-    fun listModuleGroups(appId: String) =
-        moduleDao.lambdaQuery()
-            .eq(Module::appId, appId)
-            .list()
-            .filter { !it.moduleGroup.isNullOrEmpty() }
-            .flatMap { it.moduleGroup.defaultIfBlank().split(",") }
-            .distinct()
+    fun listModuleGroups(appId: String) = moduleDao
+        .lambdaQuery()
+        .eq(Module::appId, appId)
+        .list()
+        .filter { !it.moduleGroup.isNullOrEmpty() }
+        .flatMap { it.moduleGroup.defaultIfBlank().split(",") }
+        .distinct()
 
     fun listByRoleId(roleId: String) = throwIfAndReturn(roleId.isBlank(), "请选择角色") {
         moduleDao.selectModuleByRoleId(roleId)
@@ -92,12 +91,11 @@ class ModuleService(
             .map { it.moduleId }
     }
 
-    private fun Module.toDto() =
-        ModuleResp(
-            moduleId.defaultIfBlank(),
-            moduleName.defaultIfBlank(),
-            moduleValue.defaultIfBlank(),
-            moduleType,
-            moduleGroup.defaultIfBlank()
-        )
+    private fun Module.toDto() = ModuleResp(
+        moduleId.defaultIfBlank(),
+        moduleName.defaultIfBlank(),
+        moduleValue.defaultIfBlank(),
+        moduleType,
+        moduleGroup.defaultIfBlank()
+    )
 }

@@ -14,11 +14,9 @@ import com.tony.flow.enums.TaskState
 @TableName(value = "flow_history_task")
 public class FlowHistoryTask : FlowTask() {
 
-
     /**
      * 任务状态: 0-活动, 1-完成, 2-拒绝, 3-超时, 4-终止
      */
     @TableField(value = "task_state")
     public var taskState: TaskState? = null
-
 }

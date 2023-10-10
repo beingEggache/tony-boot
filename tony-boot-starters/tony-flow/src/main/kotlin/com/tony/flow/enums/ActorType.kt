@@ -9,8 +9,8 @@ import com.tony.enums.IntEnumValue
  * @author tangli
  * @since 2023/09/29 16:00
  */
-public enum class ActorType (
-    override val value: Int
+public enum class ActorType(
+    override val value: Int,
 ) : IntEnumValue {
 
     /**
@@ -32,7 +32,6 @@ public enum class ActorType (
     internal companion object : EnumCreator<ActorType, Int>(ActorType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) =
-            super.create(value)
+        override fun create(value: Int) = super.create(value)
     }
 }

@@ -11,20 +11,23 @@ import com.tony.enums.IntEnumValue
  * @since 1.0.0
  */
 public enum class InstanceState(
-    override val value: Int
+    override val value: Int,
 ) : IntEnumValue {
     /**
      * 活动
      */
     ACTIVE(0),
+
     /**
      * 完成
      */
     COMPLETE(1),
+
     /**
      * 超时
      */
     TIMEOUT(2),
+
     /**
      * 终止
      */
@@ -34,7 +37,6 @@ public enum class InstanceState(
     internal companion object : EnumCreator<InstanceState, Int>(InstanceState::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) =
-            super.create(value)
+        override fun create(value: Int) = super.create(value)
     }
 }

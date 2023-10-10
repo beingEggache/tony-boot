@@ -19,13 +19,7 @@ internal interface FlowTaskMapper : BaseDao<FlowTask> {
      * @date 2023/09/28 17:50
      * @since 1.0.0
      */
-    fun selectListByInstanceId(instanceId:Long):List<FlowTask> =
-        ktQuery()
-            .eq(FlowTask::instanceId,instanceId)
-            .list()
-
+    fun selectListByInstanceId(instanceId: Long): List<FlowTask> = ktQuery()
+        .eq(FlowTask::instanceId, instanceId)
+        .list()
 }
-
-
-
-

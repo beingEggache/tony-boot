@@ -50,7 +50,6 @@ public enum class SymmetricCryptoAlgorithm(
     public companion object : StringEnumCreator(SymmetricCryptoAlgorithm::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String): StringEnumValue? =
-            super.create(value.lowercase())
+        override fun create(value: String): StringEnumValue? = super.create(value.lowercase())
     }
 }

@@ -9,10 +9,4 @@ import com.tony.mybatis.dao.BaseDao
  * @date 2023/09/28 17:30
  * @since 1.0.0
  */
-internal interface FlowHistoryInstanceMapper : BaseDao<FlowHistoryInstance> {
-
-}
-
-
-
-
+internal interface FlowHistoryInstanceMapper : BaseDao<FlowHistoryInstance>

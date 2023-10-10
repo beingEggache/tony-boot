@@ -29,7 +29,7 @@ package com.tony.web.filter
  * @date 2023/09/13 10:48
  * @since 1.0.0
  */
-import com.tony.traceIdHeaderName
+import com.tony.TRACE_ID_HEADER_NAME
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.mdcPutOrGetDefault
 import com.tony.utils.sanitizedPath
@@ -96,19 +96,16 @@ internal class TraceLoggingFilter(
         response.copyBodyToResponse()
     }
 
-    private fun log(
-        request: RepeatReadRequestWrapper,
-        response: ContentCachingResponseWrapper,
-        elapsedTime: Long,
-    ) = try {
-        requestTraceLogger.requestTraceLog(
-            request,
-            response,
-            elapsedTime
-        )
-    } catch (e: Exception) {
-        logger.error(e.message, e)
-    }
+    private fun log(request: RepeatReadRequestWrapper, response: ContentCachingResponseWrapper, elapsedTime: Long) =
+        try {
+            requestTraceLogger.requestTraceLog(
+                request,
+                response,
+                elapsedTime
+            )
+        } catch (e: Exception) {
+            logger.error(e.message, e)
+        }
 
     override fun shouldNotFilter(request: HttpServletRequest) =
         request.requestURI.antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
@@ -124,20 +121,16 @@ internal class TraceLoggingFilter(
  */
 internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
 
-    override fun doFilterInternal(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        chain: FilterChain,
-    ) {
+    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         try {
             val traceId =
-                mdcPutOrGetDefault(traceIdHeaderName, uuid()) {
-                    request.getHeader(traceIdHeaderName)
+                mdcPutOrGetDefault(TRACE_ID_HEADER_NAME, uuid()) {
+                    request.getHeader(TRACE_ID_HEADER_NAME)
                 }
-            response.setHeader(traceIdHeaderName, traceId)
+            response.setHeader(TRACE_ID_HEADER_NAME, traceId)
             chain.doFilter(request, response)
         } finally {
-            MDC.remove(traceIdHeaderName)
+            MDC.remove(TRACE_ID_HEADER_NAME)
         }
     }
 

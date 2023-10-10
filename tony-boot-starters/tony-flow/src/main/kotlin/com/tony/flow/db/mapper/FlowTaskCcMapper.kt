@@ -9,10 +9,4 @@ import com.tony.mybatis.dao.BaseDao
  * @date 2023/09/28 17:32
  * @since 1.0.0
  */
-internal interface FlowTaskCcMapper : BaseDao<FlowTaskCc> {
-
-}
-
-
-
-
+internal interface FlowTaskCcMapper : BaseDao<FlowTaskCc>

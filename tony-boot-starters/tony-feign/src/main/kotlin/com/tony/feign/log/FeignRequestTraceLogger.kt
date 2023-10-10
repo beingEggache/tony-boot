@@ -29,11 +29,11 @@ package com.tony.feign.log
  * @author Tang Li
  * @date 2023/5/25 15:48
  */
+import com.tony.TRACE_ID_HEADER_NAME
 import com.tony.feign.isTextMediaTypes
 import com.tony.feign.okhttp.interceptor.NetworkInterceptor
 import com.tony.feign.parsedMedia
 import com.tony.feign.string
-import com.tony.traceIdHeaderName
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
 import com.tony.utils.mdcPutOrGetDefault
@@ -69,7 +69,7 @@ internal class FeignLogInterceptor(
         val headers = request
             .headers
             .newBuilder()
-            .add(traceIdHeaderName, mdcPutOrGetDefault(traceIdHeaderName))
+            .add(TRACE_ID_HEADER_NAME, mdcPutOrGetDefault(TRACE_ID_HEADER_NAME))
             .build()
 
         val newRequest = request
@@ -103,12 +103,7 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
      * @date 2023/09/12 10:10
      * @since 1.0.0
      */
-    override fun log(
-        connection: Connection?,
-        request: Request,
-        response: Response,
-        elapsedTime: Long,
-    ) {
+    override fun log(connection: Connection?, request: Request, response: Response, elapsedTime: Long) {
         val url = request.url.toUri().toURL()
         val resultCode = response.code
         val protocol = url.protocol
@@ -182,10 +177,5 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
  * @since 1.0.0
  */
 public fun interface FeignRequestTraceLogger {
-    public fun log(
-        connection: Connection?,
-        request: Request,
-        response: Response,
-        elapsedTime: Long,
-    )
+    public fun log(connection: Connection?, request: Request, response: Response, elapsedTime: Long)
 }
