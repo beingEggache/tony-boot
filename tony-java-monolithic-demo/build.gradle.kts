@@ -7,7 +7,7 @@ import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 
 plugins {
     idea
-    id("io.freefair.lombok") version "8.3"
+    id("io.freefair.lombok") version "8.4"
 }
 
 val javaVersion: String by project

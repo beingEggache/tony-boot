@@ -23,18 +23,18 @@ object VersionManagement  {
     const val JACKSON_VERSION = "2.15.2"
 
     const val GSON_VERSION = "2.10.1"
-    const val FASTJSON_VERSION = "2.0.40"
-    const val NETTY_VERSION = "4.1.97.Final"
+    const val FASTJSON_VERSION = "2.0.41"
+    const val NETTY_VERSION = "4.1.99.Final"
 
     const val REACTOR_VERSION = "3.5.10"
     const val REACTOR_KOTLIN_EXTENSIONS_VERSION = "1.2.2"
     const val REACTOR_NETTY_VERSION = "1.1.11"
     const val SLF4J_VERSION = "2.0.9"
 
-    const val BYTE_BUDDY_VERSION = "1.14.8"
+    const val BYTE_BUDDY_VERSION = "1.14.9"
     const val BOUNCYCASTLE_VERSION = "1.76"
     const val JAVA_JWT_VERSION = "4.4.0"
-    const val GUAVA_VERSION = "32.1.2-jre"
+    const val GUAVA_VERSION = "32.1.3-jre"
 
     const val SWAGGER_V3_VERSION = "2.2.16"
     const val KNIFE4J_VERSION = "4.3.0"
