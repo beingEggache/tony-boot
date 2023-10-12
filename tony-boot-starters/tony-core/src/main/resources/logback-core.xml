@@ -2,7 +2,6 @@
 <included>
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-
     <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
 
     <!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,%i索引【从数字0开始递增】,,, -->
@@ -21,12 +20,4 @@
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
     </root>
-
-    <!-- hide some startup info -->
-    <logger name="org.apache.catalina.core.StandardService" level="ERROR" additivity="false"/>
-    <logger name="org.apache.catalina.core.ContainerBase" level="ERROR" additivity="false"/>
-    <logger name="org.apache.catalina.core.StandardEngine" level="ERROR" additivity="false"/>
-    <logger name="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext" level="ERROR" additivity="false"/>
-    <logger name="org.springframework.cloud.context.scope.GenericScope" level="ERROR" additivity="false"/>
-    <!-- hide info end-->
 </included>

@@ -1,14 +1,14 @@
-FROM eclipse-temurin:17.0.8.1_1-jre-alpine AS builder
+FROM eclipse-temurin:21_35-jre-alpine AS builder
 WORKDIR app
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-FROM eclipse-temurin:17.0.8.1_1-jre-alpine
+FROM eclipse-temurin:21_35-jre-alpine
 RUN echo "Asia/Shanghai" > /etc/timezone
 WORKDIR app
 
-ENV JAVA_OPTS="-Xmx2g -XX:+UseZGC"
+ENV JAVA_OPTS="-Xmx2g -XX:+UseZGC -XX:+ZGenerational"
 ENV PROPS=""
 ENV ENABLE_GC_LOGS="false"
 ENV ENABLE_JVM_LOGS="false"

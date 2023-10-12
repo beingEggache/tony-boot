@@ -5,11 +5,20 @@
     <springProfile name="dev">
         <logger name="trace-logger" level="TRACE" />
         <logger name="request-logger" level="TRACE" />
+        <logger name="org.springframework.web" level="DEBUG"/>
     </springProfile>
 
     <springProfile name="qa,prod">
         <include resource="logback-web.xml"/>
     </springProfile>
+
+    <!-- hide some startup info -->
+    <logger name="io.undertow" level="ERROR" additivity="false"/>
+    <logger name="org.xnio" level="ERROR" additivity="false"/>
+    <logger name="org.jboss.threads" level="ERROR" additivity="false"/>
+    <logger name="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext" level="ERROR" additivity="false"/>
+    <logger name="org.springframework.cloud.context.scope.GenericScope" level="ERROR" additivity="false"/>
+    <!-- hide info end-->
 
     <logger name="com.tony.db.dao" level="DEBUG" />
 
