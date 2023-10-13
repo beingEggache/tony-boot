@@ -20,9 +20,11 @@ kotlin {
     }
 }
 
+val kotlinVersion: String by project
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = javaVersion
+        languageVersion = kotlinVersion.split(".").subList(0,2).joinToString(".")
         javaParameters = true
         verbose = true
         freeCompilerArgs = listOf(

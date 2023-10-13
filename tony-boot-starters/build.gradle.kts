@@ -60,6 +60,7 @@ configure(listOf(rootProject)) {
     }
 }
 
+val kotlinVersion: String by project
 configure(subprojects) {
 
     apply {
@@ -86,6 +87,7 @@ configure(subprojects) {
         val isTest = this.name.contains("test", ignoreCase = true)
         kotlinOptions {
             jvmTarget = javaVersion
+            languageVersion = kotlinVersion.split(".").subList(0,2).joinToString(".")
             javaParameters = true
             verbose = true
             allWarningsAsErrors = !isTest

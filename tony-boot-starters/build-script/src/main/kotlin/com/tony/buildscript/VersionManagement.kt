@@ -5,7 +5,7 @@ object VersionManagement  {
 
     const val KOTLIN_VERSION = "1.9.10"
 
-    const val SPRING_VERSION = "6.0.12"
+    const val SPRING_VERSION = "6.0.13"
     const val SPRING_BOOT_VERSION = "3.1.4"
 
     const val OPEN_FEIGN_VERSION = "12.5"
@@ -36,7 +36,7 @@ object VersionManagement  {
     const val JAVA_JWT_VERSION = "4.4.0"
     const val GUAVA_VERSION = "32.1.3-jre"
 
-    const val SWAGGER_V3_VERSION = "2.2.16"
+    const val SWAGGER_V3_VERSION = "2.2.17"
     const val KNIFE4J_VERSION = "4.3.0"
     const val SPRINGDOC_VERSION = "1.7.0"
     const val SPRINGDOC_STARTER_VERSION = "2.2.0"
