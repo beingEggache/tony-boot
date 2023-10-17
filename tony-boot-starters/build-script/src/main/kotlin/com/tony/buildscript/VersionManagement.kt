@@ -24,7 +24,7 @@ object VersionManagement  {
 
     const val GSON_VERSION = "2.10.1"
     const val FASTJSON_VERSION = "2.0.41"
-    const val NETTY_VERSION = "4.1.99.Final"
+    const val NETTY_VERSION = "4.1.100.Final"
 
     const val REACTOR_VERSION = "3.5.10"
     const val REACTOR_KOTLIN_EXTENSIONS_VERSION = "1.2.2"
