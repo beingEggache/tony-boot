@@ -6,7 +6,7 @@ object VersionManagement  {
     const val KOTLIN_VERSION = "1.9.10"
 
     const val SPRING_VERSION = "6.0.13"
-    const val SPRING_BOOT_VERSION = "3.1.4"
+    const val SPRING_BOOT_VERSION = "3.1.5"
 
     const val OPEN_FEIGN_VERSION = "12.5"
 

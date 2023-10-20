@@ -1,5 +1,6 @@
-package com.tony.flow
+package com.tony.flow.service
 
+import com.tony.flow.FlowOperator
 import com.tony.flow.db.po.FlowHistoryTaskActor
 import com.tony.flow.db.po.FlowTask
 import com.tony.flow.db.po.FlowTaskActor
@@ -186,7 +187,7 @@ public interface TaskService {
      * @date 2023/10/10 13:59
      * @since 1.0.0
      */
-    public fun canExecuteTask(flowTask: FlowTask, userId: Long): Boolean
+    public fun hasPermission(flowTask: FlowTask, userId: Long): Boolean
 
     // TODO
     // List<FlwTask> createTask(NodeModel taskModel, Execution execution);
