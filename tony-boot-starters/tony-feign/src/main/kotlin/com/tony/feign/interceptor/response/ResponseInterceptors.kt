@@ -23,6 +23,7 @@
  */
 
 package com.tony.feign.interceptor.response
+
 /**
  * Feign 响应拦截器 provider.
  *
@@ -91,7 +92,7 @@ internal class UnwrapResponseInterceptorProvider(
  * @since 1.0.0
  */
 public class UnwrapResponseInterceptor : ResponseInterceptor {
-    override fun aroundDecode(invocationContext: InvocationContext): Any {
+    override fun intercept(invocationContext: InvocationContext, chain: ResponseInterceptor.Chain): Any {
         val returnType = invocationContext.returnType()
         val returnJavaType = returnType.toJavaType()
         val returnRawClass = returnType.rawClass()
