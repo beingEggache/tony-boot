@@ -18,5 +18,5 @@ public interface FlowExpression {
      * @date 2023/10/19 10:13
      * @since 1.0.0
      */
-    public fun <T : Any> eval(type: Class<T>, expr: String, args: Any): T?
+    public fun <T : Any> eval(type: Class<T>, expr: String, args: Map<String, Any?>): T?
 }

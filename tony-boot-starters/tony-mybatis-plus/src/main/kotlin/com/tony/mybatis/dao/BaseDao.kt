@@ -225,6 +225,20 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     ): E = selectPage(page.toPage(), queryWrapper).toPageResult()
 
     /**
+     * 分页查询出全局统一结构.
+     * @param [page] 页
+     * @param [queryWrapper] 查询包装器
+     * @return [E]
+     * @author Tang Li
+     * @date 2023/10/23 14:42
+     * @since 1.0.0
+     */
+    public fun <E : PageResultLike<Map<String, Any?>>> selectMapPageResult(
+        page: JPageQueryLike<*>,
+        @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
+    ): E = selectMapsPage(page.toPage(), queryWrapper).toPageResult()
+
+    /**
      * 以下的方法使用介绍:
      *
      * 一. 名称介绍

@@ -22,7 +22,11 @@ public interface RuntimeService {
      * @date 2023/10/10 09:51
      * @since 1.0.0
      */
-    public fun createInstance(flowProcess: FlowProcess, flowCreator: FlowOperator, variable: Any?): FlowInstance
+    public fun createInstance(
+        flowProcess: FlowProcess,
+        flowCreator: FlowOperator,
+        variable: Map<String, Any?>?
+    ): FlowInstance
 
     /**
      * 创建实例

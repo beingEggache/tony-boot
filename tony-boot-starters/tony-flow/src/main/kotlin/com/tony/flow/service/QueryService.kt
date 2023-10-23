@@ -9,8 +9,10 @@ import com.tony.flow.db.po.FlowTaskActor
 
 /**
  * 流程相关的查询服务
- * @author tangli
- * @since 2023/10/10 09:21
+ * 查询服务
+ * @author Tang Li
+ * @date 2023/10/20 16:29
+ * @since 1.0.0
  */
 public interface QueryService {
 

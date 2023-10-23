@@ -152,6 +152,8 @@ internal object DepsManagement {
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension:${VersionManagement.MYBATIS_PLUS_VERSION}"
         const val mybatisPlusBootStarter =
             "com.baomidou:mybatis-plus-boot-starter:${VersionManagement.MYBATIS_PLUS_VERSION}"
+        const val mybatisPlusBootStarter3 =
+            "com.baomidou:mybatis-plus-spring-boot3-starter:${VersionManagement.MYBATIS_PLUS_VERSION}"
         const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator:${VersionManagement.MYBATIS_PLUS_VERSION}"
 
         const val mybatisTypehandlersJsr310 = "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"

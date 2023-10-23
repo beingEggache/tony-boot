@@ -157,6 +157,7 @@ object Deps {
         const val mybatisPlusAnnotation = "com.baomidou:mybatis-plus-annotation"
         const val mybatisPlusExtension = "com.baomidou:mybatis-plus-extension"
         const val mybatisPlusBootStarter = "com.baomidou:mybatis-plus-boot-starter"
+        const val mybatisPlusBootStarter3 = "com.baomidou:mybatis-plus-spring-boot3-starter"
         const val mybatisPlusGenerator = "com.baomidou:mybatis-plus-generator"
 
         const val mybatisTypehandlersJsr310 = "org.mybatis:mybatis-typehandlers-jsr310"

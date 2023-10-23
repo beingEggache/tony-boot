@@ -24,7 +24,7 @@ public interface TaskService {
      * @date 2023/10/10 10:48
      * @since 1.0.0
      */
-    public fun complete(taskId: Long, flowOperator: FlowOperator, variable: Any?): FlowTask
+    public fun complete(taskId: Long, flowOperator: FlowOperator, variable: Map<String, Any?>?): FlowTask
 
     /**
      * 完成任务
@@ -160,7 +160,7 @@ public interface TaskService {
      * @date 2023/10/10 11:31
      * @since 1.0.0
      */
-    public fun rejectTask(flowTask: FlowTask, flowOperator: FlowOperator, variable: Any?): FlowTask?
+    public fun rejectTask(flowTask: FlowTask, flowOperator: FlowOperator, variable: Map<String, Any?>?): FlowTask?
 
     /**
      * 驳回任务.

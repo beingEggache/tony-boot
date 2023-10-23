@@ -2,7 +2,7 @@ import com.tony.buildscript.Deps
 
 dependencies {
     api(projects.tonyCore)
-    api(Deps.Other.mybatisPlusBootStarter)
+    api(Deps.Other.mybatisPlusBootStarter3)
 
     implementation(Deps.Other.HikariCP)
     implementation(Deps.Other.mybatisTypehandlersJsr310)

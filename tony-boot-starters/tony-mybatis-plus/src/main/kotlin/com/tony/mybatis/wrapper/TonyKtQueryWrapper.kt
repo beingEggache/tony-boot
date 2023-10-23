@@ -91,7 +91,6 @@ public open class TonyKtQueryWrapper<T : Any> :
         return typedThis
     }
 
-    @SafeVarargs
     public fun select(vararg columns: String): TonyKtQueryWrapper<T> {
         if (ArrayUtils.isNotEmpty(columns)) {
             sqlSelect.stringValue = columns.joinToString()
