@@ -44,7 +44,7 @@ public class FlowExecution {
         flowEngine: FlowEngine,
         flowProcess: FlowProcess,
         flowInstance: FlowInstance,
-        args: Map<String, Any?>
+        args: Map<String, Any?>,
     ) {
         this.flowEngine = flowEngine
         this.flowProcess = flowProcess
@@ -55,7 +55,7 @@ public class FlowExecution {
     internal constructor(
         execution: FlowExecution,
         flowProcess: FlowProcess,
-        parentNodeName: String
+        parentNodeName: String,
     ) {
         this.flowEngine = execution.flowEngine
         this.flowProcess = flowProcess

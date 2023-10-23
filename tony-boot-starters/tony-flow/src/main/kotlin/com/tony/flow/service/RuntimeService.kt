@@ -25,7 +25,7 @@ public interface RuntimeService {
     public fun createInstance(
         flowProcess: FlowProcess,
         flowCreator: FlowOperator,
-        variable: Map<String, Any?>?
+        variable: Map<String, Any?>?,
     ): FlowInstance
 
     /**
