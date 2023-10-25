@@ -2,7 +2,7 @@ package com.tony.flow.db.po
 
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableName
-import com.tony.flow.enums.TaskState
+import com.tony.flow.db.enums.TaskState
 
 /**
  * 历史任务

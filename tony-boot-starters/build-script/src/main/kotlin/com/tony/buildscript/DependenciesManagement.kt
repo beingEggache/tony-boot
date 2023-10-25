@@ -206,7 +206,7 @@ internal object DepsManagement {
         const val bcmailJdk18On = "org.bouncycastle:bcmail-jdk18on:${VersionManagement.BOUNCYCASTLE_VERSION}"
         const val bctspJdk15On = "org.bouncycastle:bctsp-jdk15on:1.46"
 
-        const val classmate = "com.fasterxml:classmate:1.5.1"
+        const val classmate = "com.fasterxml:classmate:1.6.0"
         const val reactor = "io.projectreactor:reactor-core:${VersionManagement.REACTOR_VERSION}"
         const val reactorKotlinExtensions =
             "io.projectreactor.kotlin:reactor-kotlin-extensions:${VersionManagement.REACTOR_KOTLIN_EXTENSIONS_VERSION}"
@@ -214,9 +214,12 @@ internal object DepsManagement {
 
         const val caffeine = "com.github.ben-manes.caffeine:caffeine:3.1.8"
 
-        const val swaggerV3Core = "io.swagger.core.v3:swagger-core:${VersionManagement.SWAGGER_V3_VERSION}"
         const val swaggerV3Annotaion = "io.swagger.core.v3:swagger-annotations:${VersionManagement.SWAGGER_V3_VERSION}"
+        const val swaggerV3Core = "io.swagger.core.v3:swagger-core:${VersionManagement.SWAGGER_V3_VERSION}"
         const val swaggerV3Models = "io.swagger.core.v3:swagger-models:${VersionManagement.SWAGGER_V3_VERSION}"
+        const val swaggerV3AnnotaionJarkarta = "io.swagger.core.v3:swagger-annotations-jarkarta:${VersionManagement.SWAGGER_V3_VERSION}"
+        const val swaggerV3CoreJarkarta = "io.swagger.core.v3:swagger-core-jarkarta:${VersionManagement.SWAGGER_V3_VERSION}"
+        const val swaggerV3ModelsJarkarta = "io.swagger.core.v3:swagger-models-jarkarta:${VersionManagement.SWAGGER_V3_VERSION}"
         const val springdocUi = "org.springdoc:springdoc-openapi-ui:${VersionManagement.SPRINGDOC_VERSION}"
         const val springdocCommon = "org.springdoc:springdoc-openapi-common:${VersionManagement.SPRINGDOC_VERSION}"
         const val springdocStarterCommon = "org.springdoc:springdoc-openapi-starter-common:${VersionManagement.SPRINGDOC_STARTER_VERSION}"

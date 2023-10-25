@@ -52,7 +52,7 @@ constructor(
 /**
  * 自定义框架层异常.
  *
- * @param message 异常消息.
+ * @param message 异常信息.
  * @param code 错误码. 默认 [ApiProperty.errorCode]
  * @param cause 引用异常.
  *

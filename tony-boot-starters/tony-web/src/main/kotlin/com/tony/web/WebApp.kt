@@ -35,8 +35,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 
 /**
- * Web 全局变量
- *
+ * Web 全局变量.
  */
 public object WebApp {
     private const val SWAGGER_UI_PATH: String = "springdoc.swagger-ui.path"
@@ -108,11 +107,13 @@ public object WebApp {
     }
 
     /**
-     * 返回错误响应
-     *
-     * @param msg
-     * @param code 默认为 [ApiProperty.errorCode]
-     * @return
+     * 错误响应
+     * @param [msg] 消息
+     * @param [code] 默认为 [ApiProperty.errorCode]
+     * @return [ApiResult<*>]
+     * @author Tang Li
+     * @date 2023/10/24 14:27
+     * @since 1.0.0
      */
     @JvmOverloads
     @JvmStatic
@@ -121,10 +122,12 @@ public object WebApp {
 
     /**
      * 返回请求错误响应
-     *
-     * @param msg
-     * @param code 默认为 [ApiProperty.badRequestCode]
-     * @return
+     * @param [msg] 消息
+     * @param [code] 默认为 [ApiProperty.badRequestCode]
+     * @return [ApiResult<*>]
+     * @author Tang Li
+     * @date 2023/10/24 14:27
+     * @since 1.0.0
      */
     @JvmOverloads
     @JvmStatic

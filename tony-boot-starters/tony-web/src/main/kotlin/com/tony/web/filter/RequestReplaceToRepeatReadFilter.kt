@@ -54,12 +54,15 @@ import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 
 /**
- * 将 请求 替换为 可重复读 请求.
+ * 可重复读请求过滤器.
  * @author Tang Li
  * @date 2023/09/13 10:47
  * @since 1.0.0
  */
 internal class RequestReplaceToRepeatReadFilter(
+    /**
+     * 请求日志排除url
+     */
     traceLogExcludePatterns: List<String>,
 ) : OncePerRequestFilter(), PriorityOrdered {
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
@@ -83,7 +86,7 @@ internal class RequestReplaceToRepeatReadFilter(
 }
 
 /**
- * 重复读取请求包装器
+ * 可重复读请求包装器.
  * @author Tang Li
  * @date 2023/09/28 11:03
  * @since 1.0.0

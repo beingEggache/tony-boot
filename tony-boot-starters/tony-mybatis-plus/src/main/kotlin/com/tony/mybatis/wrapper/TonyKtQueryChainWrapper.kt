@@ -39,7 +39,6 @@ import kotlin.reflect.KMutableProperty1
  * @date 2023/09/13 10:41
  * @since 1.0.0
  */
-@Suppress("MemberVisibilityCanBePrivate")
 public open class TonyKtQueryChainWrapper<T : Any> internal constructor(private val baseMapper: BaseDao<T>) :
     AbstractChainWrapper<T, KMutableProperty1<T, *>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
     TonyChainQuery<T>,

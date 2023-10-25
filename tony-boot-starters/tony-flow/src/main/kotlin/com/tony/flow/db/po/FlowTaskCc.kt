@@ -3,7 +3,7 @@ package com.tony.flow.db.po
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
-import com.tony.flow.enums.ActorType
+import com.tony.flow.db.enums.ActorType
 import java.time.LocalDateTime
 
 /**

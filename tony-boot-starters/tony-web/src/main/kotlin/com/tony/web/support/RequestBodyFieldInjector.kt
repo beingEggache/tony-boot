@@ -35,11 +35,14 @@ import java.lang.reflect.Field
 import org.slf4j.Logger
 
 /**
- * RequestBodyFieldInjector is
+ * RequestBody 字段 反射 注入器.
  * @author Tang Li
  * @date 2023/06/08 10:56
  */
 public abstract class RequestBodyFieldInjector(
+    /**
+     * 字段名
+     */
     public val name: String,
 ) {
     public abstract fun value(fieldType: Class<*>): Any?

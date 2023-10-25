@@ -28,10 +28,10 @@ import com.tony.ApiProperty
 import com.tony.exception.ApiException
 
 /**
- * 用户未认证异常.
- *
- * @property message
- * @property code 默认为 [ApiProperty.unauthorizedCode]
+ * 未经授权异常
+ * @author Tang Li
+ * @date 2023/10/24 10:08
+ * @since 1.0.0
  */
 public class UnauthorizedException
 @JvmOverloads

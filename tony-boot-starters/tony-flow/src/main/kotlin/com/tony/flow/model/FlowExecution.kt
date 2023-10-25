@@ -1,6 +1,7 @@
 package com.tony.flow.model
 
 import com.tony.flow.FlowEngine
+import com.tony.flow.FlowTaskActorProvider
 import com.tony.flow.db.po.FlowInstance
 import com.tony.flow.db.po.FlowProcess
 import com.tony.flow.db.po.FlowTask
@@ -36,9 +37,12 @@ public class FlowExecution {
 
     public var currentFlowTask: FlowTask? = null
 
-    public val flowTaskList: List<FlowTask> = mutableListOf()
+    public val flowTaskList: MutableList<FlowTask> = mutableListOf()
 
     public val merged: Boolean = false
+
+    public val taskActorProvider:FlowTaskActorProvider
+        get() = flowEngine.context.taskActorProvider
 
     public constructor(
         flowEngine: FlowEngine,
@@ -53,16 +57,30 @@ public class FlowExecution {
     }
 
     internal constructor(
-        execution: FlowExecution,
+        flowExecution: FlowExecution,
         flowProcess: FlowProcess,
         parentNodeName: String,
     ) {
-        this.flowEngine = execution.flowEngine
+        this.flowEngine = flowExecution.flowEngine
         this.flowProcess = flowProcess
-        this.args.putAll(execution.args)
-        this.parentFlowInstance = execution.flowInstance
+        this.args.putAll(flowExecution.args)
+        this.parentFlowInstance = flowExecution.flowInstance
         this.parentNodeName = parentNodeName
-        this.creatorId = execution.creatorId
-        this.creatorName = execution.creatorName
+        this.creatorId = flowExecution.creatorId
+        this.creatorName = flowExecution.creatorName
+    }
+
+    public fun createSubExecution(
+        flowExecution: FlowExecution,
+        flowProcess: FlowProcess,
+        parentNodeName: String
+    ): FlowExecution = FlowExecution(flowExecution, flowProcess, parentNodeName)
+
+    public fun addTasks(flowTaskList: Collection<FlowTask>) {
+        this.flowTaskList.addAll(flowTaskList)
+    }
+
+    public fun addTask(flowTask: FlowTask) {
+        this.flowTaskList.add(flowTask)
     }
 }

@@ -26,9 +26,9 @@ object VersionManagement  {
     const val FASTJSON_VERSION = "2.0.41"
     const val NETTY_VERSION = "4.1.100.Final"
 
-    const val REACTOR_VERSION = "3.5.10"
+    const val REACTOR_VERSION = "3.5.11"
     const val REACTOR_KOTLIN_EXTENSIONS_VERSION = "1.2.2"
-    const val REACTOR_NETTY_VERSION = "1.1.11"
+    const val REACTOR_NETTY_VERSION = "1.1.12"
     const val SLF4J_VERSION = "2.0.9"
 
     const val BYTE_BUDDY_VERSION = "1.14.9"

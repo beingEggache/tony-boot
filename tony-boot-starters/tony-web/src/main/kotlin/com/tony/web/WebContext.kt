@@ -65,6 +65,16 @@ public object WebContext {
     public val current: ServletRequestAttributes
         get() = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
 
+    /**
+     * ServletRequestAttributes 存取变量.
+     * @param [key] 钥匙
+     * @param [scope] 范围
+     * @param [callback] 回调
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/10/24 14:28
+     * @since 1.0.0
+     */
     @JvmStatic
     @JvmSynthetic
     public fun <T : Any> ServletRequestAttributes.getOrPut(

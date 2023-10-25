@@ -29,7 +29,6 @@ import com.baomidou.mybatisplus.core.enums.SqlMethod
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
 import com.baomidou.mybatisplus.core.metadata.TableInfo
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
-import com.baomidou.mybatisplus.core.toolkit.Assert
 import com.baomidou.mybatisplus.core.toolkit.Constants
 import com.baomidou.mybatisplus.core.toolkit.StringUtils
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper
@@ -108,10 +107,10 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     public fun upsert(entity: T?): Boolean {
         if (null != entity) {
             val tableInfo: TableInfo = TableInfoHelper.getTableInfo(getEntityClass())
-            Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!")
+                .throwIfNull("error: can not execute. because can not find cache of TableInfo for entity!")
             val keyProperty = tableInfo.keyProperty
-            Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!")
-            val idVal = tableInfo.getPropertyValue(entity, tableInfo.keyProperty)
+                .throwIfNull("error: can not execute. because can not find column for id from entity!")
+            val idVal = tableInfo.getPropertyValue(entity, keyProperty)
             return if (StringUtils.checkValNull(idVal) || Objects.isNull(selectById(idVal as Serializable))) {
                 insert(entity) > 0
             } else {
@@ -146,9 +145,9 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     public fun upsertBatch(batchList: Collection<T>): Boolean {
         val entityClass = getEntityClass()
         val tableInfo = TableInfoHelper.getTableInfo(entityClass)
-        Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!")
+            .throwIfNull("error: can not execute. because can not find cache of TableInfo for entity!")
         val keyProperty = tableInfo.keyProperty
-        Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!")
+            .throwIfNull("error: can not execute. because can not find column for id from entity!")
         val sqlStatement = getSqlStatement(SqlMethod.INSERT_ONE)
         return executeBatch(batchList) { sqlSession, entity ->
             val isInsert =

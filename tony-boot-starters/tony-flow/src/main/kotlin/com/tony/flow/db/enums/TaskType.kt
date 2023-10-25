@@ -1,4 +1,4 @@
-package com.tony.flow.enums
+package com.tony.flow.db.enums
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.tony.enums.EnumCreator

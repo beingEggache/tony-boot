@@ -47,9 +47,7 @@ internal class InjectRequestBodyAdvice(
         methodParameter: MethodParameter,
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean {
-        return requestBodyFieldInjectorComposite.supports(targetType.rawClass())
-    }
+    ): Boolean = requestBodyFieldInjectorComposite.supports(targetType.rawClass())
 
     override fun afterBodyRead(
         body: Any,
@@ -57,7 +55,5 @@ internal class InjectRequestBodyAdvice(
         parameter: MethodParameter,
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Any {
-        return requestBodyFieldInjectorComposite.injectValues(body)
-    }
+    ): Any = requestBodyFieldInjectorComposite.injectValues(body)
 }

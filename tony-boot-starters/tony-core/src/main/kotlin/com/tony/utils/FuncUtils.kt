@@ -77,13 +77,18 @@ public fun throwIf(
  * @param [T]
  * @param message 异常信息
  * @param code 异常代码
+ * @param ex 异常类型
  * @return [T] this
  *
  * @see throwIf
  */
 @JvmOverloads
-public fun <T> T?.throwIfNull(message: String = ApiProperty.notFoundMessage, code: Int = ApiProperty.notFoundCode): T {
-    throwIf(this == null, message, code)
+public fun <T> T?.throwIfNull(
+    message: String = ApiProperty.notFoundMessage,
+    code: Int = ApiProperty.notFoundCode,
+    ex: (message: String, code: Int) -> BaseException = ::BizException,
+): T {
+    throwIf(this == null, message, code, ex)
     return this!!
 }
 

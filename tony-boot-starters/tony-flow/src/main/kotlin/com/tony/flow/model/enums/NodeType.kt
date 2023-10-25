@@ -1,45 +1,45 @@
-package com.tony.flow.enums
+package com.tony.flow.model.enums
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.tony.enums.EnumCreator
 import com.tony.enums.IntEnumValue
 
 /**
- * 任务状态: 0-活动, 1-完成, 2-拒绝, 3-超时, 4-终止
+ * 节点类型
  * @author tangli
- * @since 2023/09/29 16:00
+ * @date 2023/10/24 16:54
+ * @since 1.0.0
  */
-public enum class TaskState(
+public enum class NodeType(
     override val value: Int,
 ) : IntEnumValue {
+    /**
+     * 发起人
+     */
+    INITIATOR(1),
 
     /**
-     * 活动
+     * 审批人
      */
-    ACTIVE(0),
+    APPROVER(2),
 
     /**
-     * 完成
+     * 抄送人
      */
-    COMPLETE(1),
+    CC(3),
 
     /**
-     * 拒绝
+     * 条件审批
      */
-    REJECT(2),
+    CONDITIONAL_APPROVE(4),
 
     /**
-     * 超时
+     * 条件分支
      */
-    TIMEOUT(3),
-
-    /**
-     * 终止
-     */
-    TERMINATION(4),
+    CONDITIONAL_BRANCH(5),
     ;
 
-    internal companion object : EnumCreator<TaskState, Int>(TaskState::class.java) {
+    internal companion object : EnumCreator<NodeType, Int>(NodeType::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: Int) = super.create(value)

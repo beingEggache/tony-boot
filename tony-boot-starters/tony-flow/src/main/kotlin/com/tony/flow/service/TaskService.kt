@@ -1,10 +1,13 @@
 package com.tony.flow.service
 
-import com.tony.flow.FlowOperator
+import com.tony.flow.db.enums.PerformType
+import com.tony.flow.db.enums.TaskType
 import com.tony.flow.db.po.FlowHistoryTaskActor
 import com.tony.flow.db.po.FlowTask
 import com.tony.flow.db.po.FlowTaskActor
-import com.tony.flow.enums.TaskType
+import com.tony.flow.model.FlowExecution
+import com.tony.flow.model.FlowNode
+import com.tony.flow.model.FlowOperator
 
 /**
  * 任务业务类接口
@@ -189,6 +192,135 @@ public interface TaskService {
      */
     public fun hasPermission(flowTask: FlowTask, userId: Long): Boolean
 
-    // TODO
-    // List<FlwTask> createTask(NodeModel taskModel, Execution execution);
+    /**
+     * 创建任务
+     * @param [flowNode] 节点
+     * @param [flowExecution] 流程执行
+     * @return [List<FlowTask>]
+     * @author Tang Li
+     * @date 2023/10/25 10:05
+     * @since 1.0.0
+     */
+    public fun createTask(flowNode: FlowNode?, flowExecution: FlowExecution): List<FlowTask>
+
+    /**
+     * 创建新任务.
+     *
+     * 根据已有任务ID、任务类型、参与者创建新的任务.
+     * @param [taskId] 任务id
+     * @param [taskType] 任务类型
+     * @param [taskActors] 任务参与者
+     * @return [List<FlowTask>]
+     * @author Tang Li
+     * @date 2023/10/25 10:08
+     * @since 1.0.0
+     */
+    public fun createNewTask(taskId: Long, taskType: TaskType, taskActors: Collection<FlowTaskActor>): List<FlowTask>
+
+    /**
+     * 创建新任务
+     * @param [taskId] 任务id
+     * @param [taskType] 任务类型
+     * @param [taskActor] 任务参与者
+     * @return [List<FlowTask>]
+     * @author Tang Li
+     * @date 2023/10/25 10:11
+     * @since 1.0.0
+     */
+    public fun createNewTask(taskId: Long, taskType: TaskType, taskActor: FlowTaskActor): List<FlowTask> =
+        createNewTask(taskId, taskType, listOf(taskActor))
+
+    /**
+     * 列出过期或提醒任务
+     * @return [List<FlowTask>]
+     * @author Tang Li
+     * @date 2023/10/25 10:23
+     * @since 1.0.0
+     */
+    public fun listExpiredOrRemindTasks(): List<FlowTask>
+
+    /**
+     * 获取任务节点
+     * @param [taskId] 任务id
+     * @return [FlowNode]
+     * @author Tang Li
+     * @date 2023/10/25 10:23
+     * @since 1.0.0
+     */
+    public fun getTaskNode(taskId: Long): FlowNode
+
+    /**
+     * 添加任务参与者【加签】
+     * @param [taskId] 任务id
+     * @param [performType] 执行类型
+     * @param [taskActors] 流历史任务参与者
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/25 10:25
+     * @since 1.0.0
+     */
+    public fun addTaskActor(
+        taskId: Long,
+        performType: PerformType,
+        taskActors: List<FlowHistoryTaskActor>
+    ): Boolean
+
+    /**
+     * 添加任务参与者【加签】
+     * @param [taskId] 任务id
+     * @param [performType] 执行类型
+     * @param [taskActor] 流历史任务参与者
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/25 10:25
+     * @since 1.0.0
+     */
+    public fun addTaskActor(
+        taskId: Long,
+        performType: PerformType,
+        taskActor: FlowHistoryTaskActor
+    ): Boolean =
+        addTaskActor(taskId, performType, listOf(taskActor))
+
+    /**
+     * 删除任务参与者【减签】
+     * @param [taskId] 任务id
+     * @param [taskActorIds] 任务参与者ID
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/25 10:27
+     * @since 1.0.0
+     */
+    public fun removeTaskActor(
+        taskId: Long,
+        taskActorIds: Collection<Long>
+    ): Boolean
+
+    /**
+     * 删除任务参与者【减签】
+     * @param [taskId] 任务id
+     * @param [taskActorId] 流历史任务参与者
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/25 10:25
+     * @since 1.0.0
+     */
+    public fun removeTaskActor(
+        taskId: Long,
+        taskActorId: Long
+    ): Boolean =
+        removeTaskActor(taskId, setOf(taskActorId))
+
+
+    /**
+     * 按实例id级联删除.
+     *
+     * 级联删除 flow_history_task, flow_history_task_actor, flow_task, flow_task_actor.
+     * @param [instanceId] 实例id
+     * @author Tang Li
+     * @date 2023/10/25 10:28
+     * @since 1.0.0
+     */
+    public fun cascadeRemoveByInstanceId(instanceId: Long)
+
 }

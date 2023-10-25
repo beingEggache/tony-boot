@@ -58,6 +58,9 @@ import org.springframework.web.util.ContentCachingResponseWrapper
  */
 internal class TraceLoggingFilter(
     private val requestTraceLogger: RequestTraceLogger,
+    /**
+     * 请求日志排除url
+     */
     traceLogExcludePatterns: List<String>,
 ) : OncePerRequestFilter(), PriorityOrdered {
 

@@ -2,7 +2,7 @@ package com.tony.flow.db.po
 
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableName
-import com.tony.flow.enums.InstanceState
+import com.tony.flow.db.enums.InstanceState
 import java.time.LocalDateTime
 
 /**

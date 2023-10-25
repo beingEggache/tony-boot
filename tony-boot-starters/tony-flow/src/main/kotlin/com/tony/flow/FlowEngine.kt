@@ -1,6 +1,7 @@
 package com.tony.flow
 
 import com.tony.flow.db.po.FlowInstance
+import com.tony.flow.model.FlowOperator
 import com.tony.flow.service.ProcessService
 import com.tony.flow.service.QueryService
 import com.tony.flow.service.RuntimeService

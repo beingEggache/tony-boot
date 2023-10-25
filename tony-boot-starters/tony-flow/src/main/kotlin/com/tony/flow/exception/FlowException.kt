@@ -1,7 +1,7 @@
 package com.tony.flow.exception
 
 import com.tony.ApiProperty
-import com.tony.exception.BaseException
+import com.tony.exception.ApiException
 
 /**
  * FlowException is
@@ -15,4 +15,4 @@ constructor(
     override val message: String? = "",
     override val code: Int = ApiProperty.errorCode,
     cause: Throwable? = null,
-) : BaseException(message.toString(), code, cause)
+) : ApiException(message.toString(), code, cause)

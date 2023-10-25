@@ -1,4 +1,4 @@
-package com.tony.flow.enums
+package com.tony.flow.model.enums
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.tony.enums.EnumCreator
@@ -10,14 +10,9 @@ import com.tony.enums.IntEnumValue
  * @date 2023/09/29 16:19
  * @since 1.0.0
  */
-public enum class PerformType(
+public enum class MultiApproveMode(
     override val value: Int,
 ) : IntEnumValue {
-    /**
-     * 发起、其它
-     */
-    UNKNOWN(0),
-
     /**
      * 按顺序依次审批
      */
@@ -32,14 +27,9 @@ public enum class PerformType(
      * 或签 (有一人审批通过即可)
      */
     OR_SIGN(3),
-
-    /**
-     * 抄送
-     */
-    COPY(4),
     ;
 
-    internal companion object : EnumCreator<PerformType, Int>(PerformType::class.java) {
+    internal companion object : EnumCreator<MultiApproveMode, Int>(MultiApproveMode::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: Int) = super.create(value)
