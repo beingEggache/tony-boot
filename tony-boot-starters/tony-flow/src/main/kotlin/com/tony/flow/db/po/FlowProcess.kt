@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.flow.FlowContext
-import com.tony.flow.exception.FlowException
+import com.tony.flow.db.enums.ProcessState
+import com.tony.flow.extension.flowThrowIfNull
 import com.tony.flow.handler.impl.EndProcessHandler
 import com.tony.flow.model.FlowExecution
 import com.tony.flow.model.FlowNode
 import com.tony.flow.model.FlowProcessModel
 import com.tony.flow.model.enums.NodeType
-import com.tony.utils.throwIfNull
 import java.time.LocalDateTime
 
 /**
@@ -97,7 +97,7 @@ public class FlowProcess {
      * 流程状态 0，不可用 1，可用
      */
     @TableField(value = "process_state")
-    public var processState: Int? = null
+    public var processState: ProcessState? = null
 
     /**
      * 流程模型定义JSON内容
@@ -131,7 +131,7 @@ public class FlowProcess {
     public fun execute(flowContext: FlowContext, flowExecution: FlowExecution, nodeName: String) {
         model?.also {
             val flowNode =
-                it.getNode(nodeName).throwIfNull("流程模型中未发现，流程节点:$nodeName", ex = ::FlowException)
+                it.getNode(nodeName).flowThrowIfNull("流程模型中未发现，流程节点:$nodeName")
 
             val executeNode = flowNode.childNode
                 ?: nextNode(flowNode)
@@ -153,10 +153,7 @@ public class FlowProcess {
     public fun executeStart(flowContext: FlowContext, flowExecution: FlowExecution) {
         model?.also {
             it.flowNode
-                .throwIfNull(
-                    "流程定义[processName=$processName, processVersion=$processVersion]没有开始节点",
-                    ex = ::FlowException
-                )
+                .flowThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
                 .createTask(flowContext, flowExecution)
         }
     }

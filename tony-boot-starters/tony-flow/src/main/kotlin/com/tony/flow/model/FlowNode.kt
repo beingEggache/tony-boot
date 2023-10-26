@@ -1,7 +1,8 @@
 package com.tony.flow.model
 
 import com.tony.flow.FlowContext
-import com.tony.flow.exception.FlowException
+import com.tony.flow.extension.flowThrowIf
+import com.tony.flow.extension.flowThrowIfNull
 import com.tony.flow.handler.impl.CreateTaskHandler
 import com.tony.flow.model.enums.ApproverType
 import com.tony.flow.model.enums.InitiatorAssignMode
@@ -9,8 +10,6 @@ import com.tony.flow.model.enums.MultiApproveMode
 import com.tony.flow.model.enums.MultiStageManagerMode
 import com.tony.flow.model.enums.NodeType
 import com.tony.utils.getLogger
-import com.tony.utils.throwIf
-import com.tony.utils.throwIfNull
 
 /**
  * 节点.
@@ -114,7 +113,7 @@ public class FlowNode : FlowModel {
     override fun execute(flowContext: FlowContext, flowExecution: FlowExecution) {
         if (conditionNodes.isNotEmpty()) {
             val args = flowExecution.args
-            throwIf(args.isEmpty(), "Execution parameter cannot be empty", ex = ::FlowException)
+            flowThrowIf(args.isEmpty(), "Execution parameter cannot be empty")
             val conditionNode = conditionNodes
                 .sortedBy { it.priority }
                 .firstOrNull {
@@ -130,7 +129,7 @@ public class FlowNode : FlowModel {
                         }
                     }
                 }
-                .throwIfNull("Not found executable ConditionNode", ex = ::FlowException)
+                .flowThrowIfNull("Not found executable ConditionNode")
             createTask(conditionNode.childNode, flowContext, flowExecution)
         }
         if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER) {
