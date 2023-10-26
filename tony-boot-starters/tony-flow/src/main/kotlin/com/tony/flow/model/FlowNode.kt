@@ -117,7 +117,7 @@ public class FlowNode : FlowModel {
             throwIf(args.isEmpty(), "Execution parameter cannot be empty", ex = ::FlowException)
             val conditionNode = conditionNodes
                 .sortedBy { it.priority }
-                .firstOrNull() {
+                .firstOrNull {
                     val expr = it.expression
                     if (expr.isNullOrEmpty()) {
                         true
@@ -186,8 +186,7 @@ public class FlowNode : FlowModel {
      * @date 2023/10/25 11:36
      * @since 1.0.0
      */
-    public fun getNodeFromConditionNode(nodeName: String): FlowNode? =
-        conditionNodes.firstNotNullOfOrNull {
-            it.childNode?.getNode(nodeName)
-        }
+    public fun getNodeFromConditionNode(nodeName: String): FlowNode? = conditionNodes.firstNotNullOfOrNull {
+        it.childNode?.getNode(nodeName)
+    }
 }

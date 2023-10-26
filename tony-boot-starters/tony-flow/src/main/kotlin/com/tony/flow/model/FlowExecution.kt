@@ -41,7 +41,7 @@ public class FlowExecution {
 
     public val merged: Boolean = false
 
-    public val taskActorProvider:FlowTaskActorProvider
+    public val taskActorProvider: FlowTaskActorProvider
         get() = flowEngine.context.taskActorProvider
 
     public constructor(
@@ -73,7 +73,7 @@ public class FlowExecution {
     public fun createSubExecution(
         flowExecution: FlowExecution,
         flowProcess: FlowProcess,
-        parentNodeName: String
+        parentNodeName: String,
     ): FlowExecution = FlowExecution(flowExecution, flowProcess, parentNodeName)
 
     public fun addTasks(flowTaskList: Collection<FlowTask>) {

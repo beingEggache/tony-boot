@@ -27,7 +27,7 @@ public interface TaskService {
      * @date 2023/10/10 10:48
      * @since 1.0.0
      */
-    public fun complete(taskId: Long, flowOperator: FlowOperator, variable: Map<String, Any?>?): FlowTask
+    public fun complete(taskId: Long?, flowOperator: FlowOperator, variable: Map<String, Any?>?): FlowTask
 
     /**
      * 完成任务
@@ -38,7 +38,7 @@ public interface TaskService {
      * @date 2023/10/10 10:49
      * @since 1.0.0
      */
-    public fun complete(taskId: Long, flowOperator: FlowOperator): FlowTask = complete(taskId, flowOperator, null)
+    public fun complete(taskId: Long?, flowOperator: FlowOperator): FlowTask = complete(taskId, flowOperator, null)
 
     /**
      * 按id更新任务
@@ -259,11 +259,7 @@ public interface TaskService {
      * @date 2023/10/25 10:25
      * @since 1.0.0
      */
-    public fun addTaskActor(
-        taskId: Long,
-        performType: PerformType,
-        taskActors: List<FlowHistoryTaskActor>
-    ): Boolean
+    public fun addTaskActor(taskId: Long, performType: PerformType, taskActors: List<FlowHistoryTaskActor>): Boolean
 
     /**
      * 添加任务参与者【加签】
@@ -275,11 +271,7 @@ public interface TaskService {
      * @date 2023/10/25 10:25
      * @since 1.0.0
      */
-    public fun addTaskActor(
-        taskId: Long,
-        performType: PerformType,
-        taskActor: FlowHistoryTaskActor
-    ): Boolean =
+    public fun addTaskActor(taskId: Long, performType: PerformType, taskActor: FlowHistoryTaskActor): Boolean =
         addTaskActor(taskId, performType, listOf(taskActor))
 
     /**
@@ -291,10 +283,7 @@ public interface TaskService {
      * @date 2023/10/25 10:27
      * @since 1.0.0
      */
-    public fun removeTaskActor(
-        taskId: Long,
-        taskActorIds: Collection<Long>
-    ): Boolean
+    public fun removeTaskActor(taskId: Long, taskActorIds: Collection<Long>): Boolean
 
     /**
      * 删除任务参与者【减签】
@@ -305,12 +294,7 @@ public interface TaskService {
      * @date 2023/10/25 10:25
      * @since 1.0.0
      */
-    public fun removeTaskActor(
-        taskId: Long,
-        taskActorId: Long
-    ): Boolean =
-        removeTaskActor(taskId, setOf(taskActorId))
-
+    public fun removeTaskActor(taskId: Long, taskActorId: Long): Boolean = removeTaskActor(taskId, setOf(taskActorId))
 
     /**
      * 按实例id级联删除.
@@ -322,5 +306,4 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun cascadeRemoveByInstanceId(instanceId: Long)
-
 }

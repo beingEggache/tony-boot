@@ -26,5 +26,4 @@ public class FlowConditionNode {
             ?.joinToString(if (0 == conditionMode) " && " else " || ") {
                 "#${it.field}${it.operator}${it.value}"
             }
-
 }

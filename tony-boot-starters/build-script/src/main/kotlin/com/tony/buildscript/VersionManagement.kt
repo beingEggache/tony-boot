@@ -11,7 +11,7 @@ object VersionManagement  {
     const val OPEN_FEIGN_VERSION = "13.0"
 
     const val POSTGRESQL_VERSION = "42.6.0"
-    const val MYSQL_VERSION = "8.1.0"
+    const val MYSQL_VERSION = "8.2.0"
     const val HIKARI_CP_VERSION = "5.0.1"
     const val MYBATIS_PLUS_VERSION = "3.5.4"
     const val MYBATIS_VERSION = "3.5.13"
@@ -36,7 +36,7 @@ object VersionManagement  {
     const val JAVA_JWT_VERSION = "4.4.0"
     const val GUAVA_VERSION = "32.1.3-jre"
 
-    const val SWAGGER_V3_VERSION = "2.2.17"
+    const val SWAGGER_V3_VERSION = "2.2.18"
     const val KNIFE4J_VERSION = "4.3.0"
     const val SPRINGDOC_VERSION = "1.7.0"
     const val SPRINGDOC_STARTER_VERSION = "2.2.0"

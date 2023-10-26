@@ -1,9 +1,9 @@
 package com.tony.flow.service
 
 import com.tony.flow.ADMIN
-import com.tony.flow.model.FlowOperator
 import com.tony.flow.db.po.FlowInstance
 import com.tony.flow.db.po.FlowProcess
+import com.tony.flow.model.FlowOperator
 
 /**
  * 流程实例运行业务类
@@ -46,7 +46,7 @@ public interface RuntimeService {
      * @date 2023/10/10 10:02
      * @since 1.0.0
      */
-    public fun complete(instanceId: Long)
+    public fun complete(instanceId: Long?)
 
     /**
      * 保存流程实例

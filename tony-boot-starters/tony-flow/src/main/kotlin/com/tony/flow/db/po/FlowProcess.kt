@@ -3,6 +3,14 @@ package com.tony.flow.db.po
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
+import com.tony.flow.FlowContext
+import com.tony.flow.exception.FlowException
+import com.tony.flow.handler.impl.EndProcessHandler
+import com.tony.flow.model.FlowExecution
+import com.tony.flow.model.FlowNode
+import com.tony.flow.model.FlowProcessModel
+import com.tony.flow.model.enums.NodeType
+import com.tony.utils.throwIfNull
 import java.time.LocalDateTime
 
 /**
@@ -102,4 +110,54 @@ public class FlowProcess {
      */
     @TableField(value = "sort")
     public var sort: Int? = null
+
+    public val model: FlowProcessModel?
+        get() {
+            val content = modelContent ?: return null
+            return FlowProcessModel.parse(content, processId)
+        }
+
+    public tailrec fun nextNode(flowNode: FlowNode): FlowNode? {
+        val parentNode = flowNode.parentNode
+        if (parentNode == null || parentNode.nodeType == NodeType.INITIATOR) {
+            return null
+        }
+        if (parentNode.isConditionNode && parentNode.childNode?.nodeName != flowNode.nodeName) {
+            return parentNode.childNode
+        }
+        return nextNode(parentNode)
+    }
+
+    public fun execute(flowContext: FlowContext, flowExecution: FlowExecution, nodeName: String) {
+        model?.also {
+            val flowNode =
+                it.getNode(nodeName).throwIfNull("流程模型中未发现，流程节点:$nodeName", ex = ::FlowException)
+
+            val executeNode = flowNode.childNode
+                ?: nextNode(flowNode)
+            if (executeNode == null) {
+                EndProcessHandler.handle(flowContext, flowExecution)
+                return
+            }
+
+            executeNode.execute(flowContext, flowExecution)
+            if (executeNode.childNode == null && executeNode.conditionNodes.isEmpty()) {
+                val nextNode = nextNode(executeNode)
+                if (nextNode == null && executeNode.nodeType != NodeType.APPROVER) {
+                    EndProcessHandler.handle(flowContext, flowExecution)
+                }
+            }
+        }
+    }
+
+    public fun executeStart(flowContext: FlowContext, flowExecution: FlowExecution) {
+        model?.also {
+            it.flowNode
+                .throwIfNull(
+                    "流程定义[processName=$processName, processVersion=$processVersion]没有开始节点",
+                    ex = ::FlowException
+                )
+                .createTask(flowContext, flowExecution)
+        }
+    }
 }

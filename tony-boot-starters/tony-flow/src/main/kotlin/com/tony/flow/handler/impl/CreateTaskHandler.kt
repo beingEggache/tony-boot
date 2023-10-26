@@ -14,7 +14,7 @@ import com.tony.utils.getLogger
  * @since 1.0.0
  */
 public class CreateTaskHandler(
-    public val flowNode: FlowNode?
+    public val flowNode: FlowNode?,
 ) : FlowHandler {
     private val logger = getLogger()
 
