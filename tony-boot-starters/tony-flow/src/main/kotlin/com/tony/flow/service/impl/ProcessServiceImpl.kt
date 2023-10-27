@@ -17,10 +17,9 @@ import java.time.LocalDateTime
  * @since 1.0.0
  */
 internal class ProcessServiceImpl(
-    private val flowProcessMapper: FlowProcessMapper
+    private val flowProcessMapper: FlowProcessMapper,
 ) : ProcessService {
-    override fun getById(processId: Long): FlowProcess =
-        flowProcessMapper.selectById(processId)
+    override fun getById(processId: Long): FlowProcess = flowProcessMapper.selectById(processId)
 
     override fun getByVersion(processName: String, processVersion: Int?): FlowProcess {
         flowThrowIf(processName.isEmpty(), "processName can not be empty")
@@ -29,12 +28,13 @@ internal class ProcessServiceImpl(
             .eq(FlowProcess::processName, processName)
             .eq(processVersion != null, FlowProcess::processVersion, processVersion)
             .orderByDesc(FlowProcess::processVersion)
+            .last("limit 1")
             .list()
             .firstOrNull()
             .flowThrowIfNull()
     }
 
-    override fun deploy(modelContent: String, flowCreator: FlowOperator, repeat: Boolean):Long {
+    override fun deploy(modelContent: String, flowCreator: FlowOperator, repeat: Boolean): Long {
         flowThrowIf(modelContent.isEmpty(), "modelContent can not be empty")
 
         val processModel = FlowProcessModel
@@ -46,6 +46,7 @@ internal class ProcessServiceImpl(
             .select(FlowProcess::processId, FlowProcess::processVersion)
             .eq(FlowProcess::processName, processModel.name)
             .orderByDesc(FlowProcess::processVersion)
+            .last("limit 1")
             .list()
             .firstOrNull()
             .flowThrowIfNull()
@@ -79,8 +80,11 @@ internal class ProcessServiceImpl(
 
         val flowProcessModel = FlowProcessModel.parse(modelContent, processId)
         flowProcess.processName = flowProcessModel?.name
+        flowProcess.displayName = flowProcessModel?.name
+        flowProcess.instanceUrl = flowProcessModel?.instanceUrl
+        flowProcess.modelContent = modelContent
 
-        TODO("Not yet implemented")
+        return flowProcessMapper.updateById(flowProcess) > 0
     }
 
     override fun cascadeRemove(processId: Long) {

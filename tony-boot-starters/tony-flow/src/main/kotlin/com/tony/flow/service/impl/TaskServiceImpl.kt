@@ -16,7 +16,7 @@ import com.tony.flow.service.TaskService
  * @date 2023/10/26 15:44
  * @since 1.0.0
  */
-internal class TaskServiceImpl:TaskService {
+internal class TaskServiceImpl : TaskService {
     override fun complete(taskId: Long?, flowOperator: FlowOperator, variable: Map<String, Any?>?): FlowTask {
         TODO("Not yet implemented")
     }
@@ -41,7 +41,7 @@ internal class TaskServiceImpl:TaskService {
         taskId: Long,
         taskType: TaskType,
         flowTaskActor: FlowTaskActor,
-        assignee: FlowTaskActor
+        assignee: FlowTaskActor,
     ): Boolean {
         TODO("Not yet implemented")
     }
@@ -69,7 +69,7 @@ internal class TaskServiceImpl:TaskService {
     override fun createNewTask(
         taskId: Long,
         taskType: TaskType,
-        taskActors: Collection<FlowTaskActor>
+        taskActors: Collection<FlowTaskActor>,
     ): List<FlowTask> {
         TODO("Not yet implemented")
     }

@@ -24,7 +24,7 @@ public interface QueryService {
      * @date 2023/10/10 09:22
      * @since 1.0.0
      */
-    public fun getInstance(instanceId: Long): FlowInstance
+    public fun instance(instanceId: Long): FlowInstance
 
     /**
      * 获取历史流程实例
@@ -34,7 +34,7 @@ public interface QueryService {
      * @date 2023/10/10 09:23
      * @since 1.0.0
      */
-    public fun getHistoryInstance(instanceId: Long): FlowHistoryInstance
+    public fun historyInstance(instanceId: Long): FlowHistoryInstance
 
     /**
      * 获取任务
@@ -44,7 +44,7 @@ public interface QueryService {
      * @date 2023/10/10 09:24
      * @since 1.0.0
      */
-    public fun getTask(taskId: Long): FlowTask
+    public fun task(taskId: Long): FlowTask
 
     /**
      * 列出任务
@@ -65,7 +65,7 @@ public interface QueryService {
      * @date 2023/10/10 09:31
      * @since 1.0.0
      */
-    public fun listTaskByInstanceId(instanceId: Long?): List<FlowTask>
+    public fun listTaskByInstanceId(instanceId: Long): List<FlowTask>
 
     /**
      * 获取历史任务
@@ -75,7 +75,7 @@ public interface QueryService {
      * @date 2023/10/10 09:24
      * @since 1.0.0
      */
-    public fun getHistoryTask(taskId: Long): FlowHistoryTask
+    public fun historyTask(taskId: Long): FlowHistoryTask
 
     /**
      * 列出历史任务

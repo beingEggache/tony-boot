@@ -11,11 +11,11 @@ import com.tony.flow.service.RuntimeService
  * @date 2023/10/26 15:44
  * @since 1.0.0
  */
-internal class RuntimeServiceImpl:RuntimeService {
+internal class RuntimeServiceImpl : RuntimeService {
     override fun createInstance(
         flowProcess: FlowProcess,
         flowCreator: FlowOperator,
-        variable: Map<String, Any?>?
+        variable: Map<String, Any?>?,
     ): FlowInstance {
         TODO("Not yet implemented")
     }

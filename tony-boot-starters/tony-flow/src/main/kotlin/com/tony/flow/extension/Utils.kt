@@ -10,11 +10,7 @@ import com.tony.utils.throwIf
  * @date 2023/10/26 15:50
  * @since 1.0.0
  */
-internal fun flowThrowIf(
-    condition: Boolean,
-    message: String,
-    code: Int = ApiProperty.preconditionFailedCode,
-) {
+internal fun flowThrowIf(condition: Boolean, message: String, code: Int = ApiProperty.preconditionFailedCode) {
     throwIf(condition, message, code, ::FlowException)
 }
 

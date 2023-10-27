@@ -51,7 +51,7 @@ public interface ProcessService {
      * @date 2023/10/09 14:52
      * @since 1.0.0
      */
-    public fun deploy(modelContent: String, flowCreator: FlowOperator, repeat: Boolean):Long
+    public fun deploy(modelContent: String, flowCreator: FlowOperator, repeat: Boolean): Long
 
     /**
      * 重新部署流程
