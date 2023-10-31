@@ -53,5 +53,5 @@ object VersionManagement  {
 
     const val ALIPAY_SDK_JAVA_VERSION = "4.38.111.ALL"
     const val ALIYUN_JAVA_SDK_CORE_VERSION = "4.6.4"
-    const val ALIYUN_SDK_OSS_VERSION = "3.17.1"
+    const val ALIYUN_SDK_OSS_VERSION = "3.17.2"
 }

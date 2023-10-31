@@ -25,23 +25,21 @@
 package com.tony;
 
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
 
 /**
  * Java Query请求包装
+ *
  * @param <T>
  * @author Tang Li
- * @see JPageQueryLike
  * @date 2023/07/11 09:21
+ * @see JPageQueryLike
  */
 @SuppressWarnings("unused")
 public class JPageQuery<T> implements JPageQueryLike<T> {
 
-    private static final Logger logger = LoggerFactory.getLogger(JPageQuery.class);
     private Object query;
 
     private long page = 1L;

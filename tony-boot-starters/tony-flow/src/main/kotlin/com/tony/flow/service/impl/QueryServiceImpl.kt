@@ -28,37 +28,31 @@ internal class QueryServiceImpl(
     private val flowHistoryTaskMapper: FlowHistoryTaskMapper,
     private val flowHistoryTaskActorMapper: FlowHistoryTaskActorMapper,
 ) : QueryService {
-    override fun instance(instanceId: Long): FlowInstance =
-        flowInstanceMapper.selectById(instanceId)
+    override fun instance(instanceId: Long): FlowInstance = flowInstanceMapper.selectById(instanceId)
 
     override fun historyInstance(instanceId: Long): FlowHistoryInstance =
         flowHistoryInstanceMapper.selectById(instanceId)
 
-    override fun task(taskId: Long): FlowTask =
-        flowTaskMapper.selectById(taskId)
+    override fun task(taskId: Long): FlowTask = flowTaskMapper.selectById(taskId)
 
-    override fun listTask(instanceId: Long, taskNames: Collection<String>): List<FlowTask> =
-        flowTaskMapper
-            .ktQuery()
-            .eq(FlowTask::instanceId, instanceId)
-            .`in`(FlowTask::taskName, taskNames)
-            .list()
+    override fun listTask(instanceId: Long, taskNames: Collection<String>): List<FlowTask> = flowTaskMapper
+        .ktQuery()
+        .eq(FlowTask::instanceId, instanceId)
+        .`in`(FlowTask::taskName, taskNames)
+        .list()
 
-    override fun listTaskByInstanceId(instanceId: Long): List<FlowTask> =
-        flowTaskMapper
-            .ktQuery()
-            .eq(FlowTask::instanceId, instanceId)
-            .list()
+    override fun listTaskByInstanceId(instanceId: Long?): List<FlowTask> = flowTaskMapper
+        .ktQuery()
+        .eq(FlowTask::instanceId, instanceId)
+        .list()
 
-    override fun historyTask(taskId: Long): FlowHistoryTask =
-        flowHistoryTaskMapper.selectById(taskId)
+    override fun historyTask(taskId: Long): FlowHistoryTask = flowHistoryTaskMapper.selectById(taskId)
 
-    override fun listHistoryTask(instanceId: Long): List<FlowHistoryTask> =
-        flowHistoryTaskMapper
-            .ktQuery()
-            .eq(FlowHistoryTask::instanceId, instanceId)
-            .orderByDesc(FlowHistoryTask::finishTime)
-            .list()
+    override fun listHistoryTask(instanceId: Long): List<FlowHistoryTask> = flowHistoryTaskMapper
+        .ktQuery()
+        .eq(FlowHistoryTask::instanceId, instanceId)
+        .orderByDesc(FlowHistoryTask::finishTime)
+        .list()
 
     override fun listHistoryTaskByName(instanceId: Long, taskName: String): List<FlowHistoryTask> =
         flowHistoryTaskMapper
@@ -68,15 +62,13 @@ internal class QueryServiceImpl(
             .orderByDesc(FlowHistoryTask::createTime)
             .list()
 
-    override fun listTaskActorByTaskId(taskId: Long): List<FlowTaskActor> =
-        flowTaskActorMapper
-            .ktQuery()
-            .eq(FlowTaskActor::taskId,taskId)
-            .list()
+    override fun listTaskActorByTaskId(taskId: Long): List<FlowTaskActor> = flowTaskActorMapper
+        .ktQuery()
+        .eq(FlowTaskActor::taskId, taskId)
+        .list()
 
-    override fun listHistoryTaskActorByTaskId(taskId: Long): List<FlowHistoryTaskActor> =
-        flowHistoryTaskActorMapper
-            .ktQuery()
-            .eq(FlowHistoryTaskActor::taskId,taskId)
-            .list()
+    override fun listHistoryTaskActorByTaskId(taskId: Long): List<FlowHistoryTaskActor> = flowHistoryTaskActorMapper
+        .ktQuery()
+        .eq(FlowHistoryTaskActor::taskId, taskId)
+        .list()
 }

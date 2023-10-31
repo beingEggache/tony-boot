@@ -65,7 +65,7 @@ public interface QueryService {
      * @date 2023/10/10 09:31
      * @since 1.0.0
      */
-    public fun listTaskByInstanceId(instanceId: Long): List<FlowTask>
+    public fun listTaskByInstanceId(instanceId: Long?): List<FlowTask>
 
     /**
      * 获取历史任务
