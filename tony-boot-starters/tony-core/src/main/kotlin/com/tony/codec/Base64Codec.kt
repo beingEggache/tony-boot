@@ -33,11 +33,13 @@ import java.util.Base64
  * @since 1.0.0
  */
 public data object Base64Codec : Codec {
-    override fun encodeToByteArray(src: ByteArray): ByteArray {
-        return Base64.getUrlEncoder().encode(src)
-    }
+    override fun encodeToByteArray(src: ByteArray): ByteArray =
+        Base64
+            .getUrlEncoder()
+            .encode(src)
 
-    override fun decodeToByteArray(src: ByteArray): ByteArray {
-        return Base64.getUrlDecoder().decode(src)
-    }
+    override fun decodeToByteArray(src: ByteArray): ByteArray =
+        Base64
+            .getUrlDecoder()
+            .decode(src)
 }

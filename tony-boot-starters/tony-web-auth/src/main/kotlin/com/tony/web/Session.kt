@@ -64,7 +64,12 @@ internal class JwtApiSession : ApiSession {
             WebContext.current.getOrPut("token", SCOPE_REQUEST) {
                 logger.debug("init token")
                 try {
-                    JwtToken.parse(WebContext.request.getHeader("x-token").defaultIfBlank())
+                    JwtToken.parse(
+                        WebContext
+                            .request
+                            .getHeader("x-token")
+                            .defaultIfBlank()
+                    )
                 } catch (e: JWTVerificationException) {
                     logger.warn(e.message, e)
                     throw UnauthorizedException("请登录")

@@ -60,7 +60,8 @@ public data object Aes : SymmetricCrypto {
     ): ByteArray {
         require(secret.size == BLOCK_SIZE) { "IllegalAesKey, aesKey's length must be $BLOCK_SIZE" }
         val secretKeySpec = SecretKeySpec(secret, AES)
-        return Cipher.getInstance(CIPHER_ALGORITHM, "BC")
+        return Cipher
+            .getInstance(CIPHER_ALGORITHM, "BC")
             .apply {
                 init(mode, secretKeySpec, IV)
             }.doFinal(src)

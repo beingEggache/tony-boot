@@ -37,25 +37,27 @@ public data object HexCodec : Codec {
     @JvmStatic
     private val DIGITS_LOWER = "0123456789abcdef".toCharArray().map { it.code.toByte() }.toByteArray()
 
-    override fun encodeToString(src: ByteArray): String {
-        return HexFormat.of().formatHex(src)
-    }
+    override fun encodeToString(src: ByteArray): String =
+        HexFormat
+            .of()
+            .formatHex(src)
 
-    override fun encodeToString(src: String): String {
-        return HexFormat.of().formatHex(src.toByteArray())
-    }
+    override fun encodeToString(src: String): String =
+        HexFormat
+            .of()
+            .formatHex(src.toByteArray())
 
-    override fun decodeToByteArray(src: String): ByteArray {
-        return HexFormat.of().parseHex(src)
-    }
+    override fun decodeToByteArray(src: String): ByteArray =
+        HexFormat.of().parseHex(src)
 
-    override fun decodeToString(src: String): String {
-        return decodeToByteArray(src).string()
-    }
+    override fun decodeToString(src: String): String =
+        decodeToByteArray(src).string()
 
-    override fun decodeToString(src: ByteArray): String {
-        return HexFormat.of().parseHex(src.string()).string()
-    }
+    override fun decodeToString(src: ByteArray): String =
+        HexFormat
+            .of()
+            .parseHex(src.string())
+            .string()
 
     override fun encodeToByteArray(src: ByteArray): ByteArray {
         val out = ByteArray(src.size shl 1)

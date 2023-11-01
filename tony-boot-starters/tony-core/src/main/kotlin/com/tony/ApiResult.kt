@@ -175,7 +175,9 @@ public data class ApiResult<T>
  * @author Tang Li
  * @date 2021/12/6 10:51
  */
-public data class MonoResult<T>(val value: T? = null) {
+public data class MonoResult<T>(
+    val value: T? = null,
+) {
     public companion object {
         @JvmStatic
         public fun Boolean.ofMonoResult(): MonoResult<Boolean> =
@@ -206,8 +208,9 @@ public data class MonoResult<T>(val value: T? = null) {
  */
 public data class ListResult<T>
     @JvmOverloads
-    constructor(private val items: Collection<T>? = mutableListOf()) :
-    ItemsWrapper<T> {
+    constructor(
+        private val items: Collection<T>? = mutableListOf(),
+    ) : ItemsWrapper<T> {
         public constructor(array: Array<*>) : this(array.asList().asTo())
         public constructor(byteArray: ByteArray) : this(byteArray.asList().asTo())
         public constructor(shortArray: ShortArray) : this(shortArray.asList().asTo())

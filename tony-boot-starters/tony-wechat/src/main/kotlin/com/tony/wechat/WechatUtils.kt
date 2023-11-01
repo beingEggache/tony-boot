@@ -36,7 +36,11 @@ import java.time.ZoneOffset
 import java.util.UUID
 
 internal fun genNonceStr() =
-    UUID.randomUUID().toString().replace("-", "").uppercase()
+    UUID
+        .randomUUID()
+        .toString()
+        .replace("-", "")
+        .uppercase()
 
 internal fun genTimeStamp() =
     LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
@@ -62,7 +66,11 @@ internal fun <T> genMd5UpperCaseSign(
 ): String {
     val deepLink =
         obj.toQueryString(*params) {
-            it.value !is String && it.value.toString().isNotBlank()
+            it.value !is String &&
+                it
+                    .value
+                    .toString()
+                    .isNotBlank()
         }
     return deepLink.md5().uppercase()
 }

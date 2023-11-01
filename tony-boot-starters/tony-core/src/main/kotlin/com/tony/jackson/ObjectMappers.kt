@@ -62,7 +62,8 @@ import java.util.TimeZone
 public fun ObjectMapper.initialize(): ObjectMapper =
     apply {
         val kotlinModule =
-            KotlinModule.Builder()
+            KotlinModule
+                .Builder()
                 .apply {
                     enable(KotlinFeature.NullIsSameAsDefault)
                     enable(KotlinFeature.NullToEmptyCollection)

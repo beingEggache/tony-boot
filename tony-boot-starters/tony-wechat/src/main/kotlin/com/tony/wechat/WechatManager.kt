@@ -97,12 +97,13 @@ public object WechatManager {
         jsCode: String,
         app: String = "",
     ): WechatJsCode2SessionResp =
-        wechatClient.jsCode2Session(
-            wechatPropProvider.getAppId(app),
-            wechatPropProvider.getAppSecret(app),
-            "authorization_code",
-            jsCode
-        ).check()
+        wechatClient
+            .jsCode2Session(
+                wechatPropProvider.getAppId(app),
+                wechatPropProvider.getAppSecret(app),
+                "authorization_code",
+                jsCode
+            ).check()
 
     @JvmOverloads
     @JvmStatic
@@ -146,7 +147,10 @@ public object WechatManager {
         app: String,
         accessToken: String? = accessTokenStr(app),
     ): String? =
-        wechatClient.getTicket(accessToken, "jsapi").check().ticket
+        wechatClient
+            .getTicket(accessToken, "jsapi")
+            .check()
+            .ticket
 
     @JvmStatic
     public fun getJsApiSignature(
@@ -234,7 +238,10 @@ public object WechatManager {
             .body()
             .asInputStream()
             .use {
-                Base64.getEncoder().encode(it.readAllBytes()).string()
+                Base64
+                    .getEncoder()
+                    .encode(it.readAllBytes())
+                    .string()
             }
 
     @JvmOverloads

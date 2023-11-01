@@ -77,9 +77,10 @@ internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =
  * @see DateTimeFormatter
  */
 public fun TemporalAccessor.toString(pattern: String): String =
-    dateTimeFormatterMap.getOrPut(pattern) {
-        dateTimeFormatterWithDefaultOptions(pattern)
-    }.format(this)
+    dateTimeFormatterMap
+        .getOrPut(pattern) {
+            dateTimeFormatterWithDefaultOptions(pattern)
+        }.format(this)
 
 /**
  * 字符串转 Date
@@ -87,9 +88,11 @@ public fun TemporalAccessor.toString(pattern: String): String =
  * @see DateTimeFormatter
  */
 public fun String.toDate(pattern: String): Date =
-    dateTimeFormatterMap.getOrPut(pattern) {
-        dateTimeFormatterWithDefaultOptions(pattern)
-    }.parse(this).toDate()
+    dateTimeFormatterMap
+        .getOrPut(pattern) {
+            dateTimeFormatterWithDefaultOptions(pattern)
+        }.parse(this)
+        .toDate()
 
 /**
  * 字符串转 LocalDate
@@ -97,11 +100,13 @@ public fun String.toDate(pattern: String): Date =
  * @see DateTimeFormatter
  */
 public fun String.toLocalDate(pattern: String): LocalDate =
-    dateTimeFormatterMap.getOrPut(pattern) {
-        dateTimeFormatterWithDefaultOptions(pattern)
-    }.parse(this).run {
-        LocalDate.from(this)
-    }
+    dateTimeFormatterMap
+        .getOrPut(pattern) {
+            dateTimeFormatterWithDefaultOptions(pattern)
+        }.parse(this)
+        .run {
+            LocalDate.from(this)
+        }
 
 /**
  * 字符串转 LocalDateTime
@@ -109,11 +114,13 @@ public fun String.toLocalDate(pattern: String): LocalDate =
  * @see DateTimeFormatter
  */
 public fun String.toLocalDateTime(pattern: String): LocalDateTime =
-    dateTimeFormatterMap.getOrPut(pattern) {
-        dateTimeFormatterWithDefaultOptions(pattern)
-    }.parse(this).run {
-        LocalDateTime.from(this)
-    }
+    dateTimeFormatterMap
+        .getOrPut(pattern) {
+            dateTimeFormatterWithDefaultOptions(pattern)
+        }.parse(this)
+        .run {
+            LocalDateTime.from(this)
+        }
 
 /**
  * LocalDate 或 LocalDatetime 转 Date

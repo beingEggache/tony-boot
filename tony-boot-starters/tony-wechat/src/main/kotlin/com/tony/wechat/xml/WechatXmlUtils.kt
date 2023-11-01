@@ -49,7 +49,10 @@ internal class WechatDriver : XppDriver() {
         WechatPrintWriter(out, nameCoder)
 }
 
-internal class WechatPrintWriter(writer: Writer, nameCoder: NameCoder) : PrettyPrintWriter(writer, nameCoder) {
+internal class WechatPrintWriter(
+    writer: Writer,
+    nameCoder: NameCoder,
+) : PrettyPrintWriter(writer, nameCoder) {
     override fun encodeNode(name: String) =
         name
 

@@ -69,11 +69,12 @@ internal class Knife4jExtensionConfig(
             .builder()
             .group("default")
             .addOpenApiMethodFilter {
-                it.annotations.map { annotation ->
-                    annotation.annotationClass
-                }.contains(Operation::class)
-            }
-            .build()
+                it
+                    .annotations
+                    .map { annotation ->
+                        annotation.annotationClass
+                    }.contains(Operation::class)
+            }.build()
     }
 }
 

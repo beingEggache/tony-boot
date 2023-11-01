@@ -66,9 +66,8 @@ public enum class Event {
     VIEW,
     ;
 
-    override fun toString(): String {
-        return super.toString().lowercase()
-    }
+    override fun toString(): String =
+        super.toString().lowercase()
 }
 
 public enum class MsgType {
@@ -84,7 +83,6 @@ public enum class MsgType {
     VOICE,
     ;
 
-    override fun toString(): String {
-        return super.toString().lowercase()
-    }
+    override fun toString(): String =
+        super.toString().lowercase()
 }

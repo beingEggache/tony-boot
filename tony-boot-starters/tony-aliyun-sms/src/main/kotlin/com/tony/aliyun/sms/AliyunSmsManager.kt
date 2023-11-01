@@ -79,22 +79,23 @@ public class AliyunSmsManager(
         mobile: String,
         templateCode: String,
         templateParam: String = "",
-    ): SendSmsResponse? {
-        return try {
-            acsClient.getAcsResponse(
-                SendSmsRequest().apply {
-                    sysMethod = MethodType.POST
-                    phoneNumbers = mobile
-                    signName = smsSignName
-                    this.templateCode = templateCode
-                    this.templateParam = templateParam
-                }
-            )
+    ): SendSmsResponse? =
+        try {
+            acsClient
+                .getAcsResponse(
+                    SendSmsRequest()
+                        .apply {
+                            sysMethod = MethodType.POST
+                            phoneNumbers = mobile
+                            signName = smsSignName
+                            this.templateCode = templateCode
+                            this.templateParam = templateParam
+                        }
+                )
         } catch (e: ClientException) {
             logger.error("${e.errCode}:${e.errMsg}")
             null
         }
-    }
 
     internal companion object {
         private const val REGION_ID: String = "cn-hangzhou"

@@ -97,7 +97,10 @@ public data class WechatProperties
         val app: LinkedHashMap<String, WechatAppProperties>?,
     ) {
         public fun getAppByAppId(appId: String): String? =
-            app?.entries?.firstOrNull { it.value.appId == appId }?.key
+            app
+                ?.entries
+                ?.firstOrNull { it.value.appId == appId }
+                ?.key
     }
 
 /**

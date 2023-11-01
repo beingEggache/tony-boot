@@ -43,10 +43,11 @@ public class YamlPropertySourceFactory : PropertySourceFactory {
         resource: EncodedResource,
     ): PropertySource<*> {
         val ymlProperties =
-            YamlPropertiesFactoryBean().apply {
-                setResources(resource.resource)
-                afterPropertiesSet()
-            }.getObject() ?: throw ApiException("yml properties null")
+            YamlPropertiesFactoryBean()
+                .apply {
+                    setResources(resource.resource)
+                    afterPropertiesSet()
+                }.getObject() ?: throw ApiException("yml properties null")
         val propertyName =
             (name ?: resource.resource.filename)
                 ?: throw ApiException("Property source name must contain at least one character")

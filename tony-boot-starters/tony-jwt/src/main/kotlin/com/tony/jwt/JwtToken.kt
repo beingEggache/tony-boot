@@ -61,7 +61,8 @@ public object JwtToken {
      */
     @JvmStatic
     public fun gen(vararg params: Pair<String, String?>): String =
-        JWT.create()
+        JWT
+            .create()
             .withIssuedAt(Date())
             .withExpiresAt(getExpireAt())
             .apply {
@@ -80,11 +81,15 @@ public object JwtToken {
      */
     @JvmStatic
     public fun parse(jwt: String): DecodedJWT =
-        JWT.require(algorithm).build().verify(jwt)
+        JWT
+            .require(algorithm)
+            .build()
+            .verify(jwt)
 
     @JvmStatic
     private fun getExpireAt() =
-        LocalDateTime.now()
+        LocalDateTime
+            .now()
             .plusMinutes(expiredMinutes)
             .toDate()
 }

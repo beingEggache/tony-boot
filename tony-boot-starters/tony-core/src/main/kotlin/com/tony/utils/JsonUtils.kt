@@ -196,7 +196,10 @@ public fun String.getFromRootAsString(field: String): String? {
         ) {
             if (it.currentToken == JsonToken.FIELD_NAME &&
                 it.currentName == field &&
-                it.parsingContext.parent.inRoot()
+                it
+                    .parsingContext
+                    .parent
+                    .inRoot()
             ) {
                 val token = it.nextToken()
                 return if (token in valueJsonToken) {

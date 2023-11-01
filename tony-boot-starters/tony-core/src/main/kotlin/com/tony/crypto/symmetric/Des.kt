@@ -47,7 +47,8 @@ public data object Des : SymmetricCrypto {
         mode: Int,
     ): ByteArray {
         val secretKeySpec = DESKeySpec(secret)
-        return Cipher.getInstance(DES)
+        return Cipher
+            .getInstance(DES)
             .apply {
                 init(mode, desKeyFactory.generateSecret(secretKeySpec), secureRandom)
             }.doFinal(src)

@@ -94,15 +94,16 @@ internal sealed interface EnumCreatorFactory {
     ): EnumCreator<T, R>
         where T : EnumValue<R>,
               R : Serializable =
-        creators.getOrPut(clazz) {
-            logger.debug("${clazz.name} EnumCreator initialized.")
-            clazz
-                .classes
-                .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
-                ?.constructors
-                ?.firstOrNull()
-                ?.newInstance(null) as EnumCreator<T, R>
-        }.asToNotNull()
+        creators
+            .getOrPut(clazz) {
+                logger.debug("${clazz.name} EnumCreator initialized.")
+                clazz
+                    .classes
+                    .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
+                    ?.constructors
+                    ?.firstOrNull()
+                    ?.newInstance(null) as EnumCreator<T, R>
+            }.asToNotNull()
 }
 
 /**
@@ -134,8 +135,9 @@ public abstract class EnumCreator<out E, KEY>(
  * @date 2023/09/13 10:15
  * @since 1.0.0
  */
-public abstract class StringEnumCreator(clazz: Class<out StringEnumValue>) :
-    EnumCreator<StringEnumValue, String>(clazz) {
+public abstract class StringEnumCreator(
+    clazz: Class<out StringEnumValue>,
+) : EnumCreator<StringEnumValue, String>(clazz) {
     /**
      * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
      */
@@ -152,8 +154,9 @@ public abstract class StringEnumCreator(clazz: Class<out StringEnumValue>) :
  * @date 2023/09/13 10:16
  * @since 1.0.0
  */
-public abstract class IntEnumCreator(clazz: Class<out IntEnumValue>) :
-    EnumCreator<IntEnumValue, Int>(clazz) {
+public abstract class IntEnumCreator(
+    clazz: Class<out IntEnumValue>,
+) : EnumCreator<IntEnumValue, Int>(clazz) {
     /**
      * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
      */

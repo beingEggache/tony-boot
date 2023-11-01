@@ -63,9 +63,8 @@ public sealed interface Codec {
      * @date 2023/09/12 17:45
      * @since 1.0.0
      */
-    public fun encodeToByteArray(src: String): ByteArray {
-        return encodeToByteArray(src.toByteArray())
-    }
+    public fun encodeToByteArray(src: String): ByteArray =
+        encodeToByteArray(src.toByteArray())
 
     /**
      * 编码到字节数组
@@ -107,9 +106,8 @@ public sealed interface Codec {
      * @date 2023/09/12 17:45
      * @since 1.0.0
      */
-    public fun decodeToByteArray(src: String): ByteArray {
-        return decodeToByteArray(src.toByteArray())
-    }
+    public fun decodeToByteArray(src: String): ByteArray =
+        decodeToByteArray(src.toByteArray())
 
     /**
      * 解码为字节数组

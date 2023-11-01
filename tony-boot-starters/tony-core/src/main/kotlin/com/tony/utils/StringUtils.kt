@@ -192,8 +192,7 @@ public fun CharSequence.camelToSnakeCase(): String =
     camelRegex
         .replace(this) {
             "_${it.value}"
-        }
-        .lowercase(Locale.getDefault())
+        }.lowercase(Locale.getDefault())
 
 /**
  * snake 字符串 转驼峰
@@ -201,7 +200,8 @@ public fun CharSequence.camelToSnakeCase(): String =
 public fun CharSequence.snakeToLowerCamelCase(): String =
     snakeRegex
         .replace(this) {
-            it.value
+            it
+                .value
                 .replace("_", "")
                 .uppercase(Locale.getDefault())
         }

@@ -3,7 +3,7 @@ package com.tony.buildscript
 object VersionManagement  {
     const val TEMPLATE_VERSION = "0.1-SNAPSHOT"
 
-    const val KOTLIN_VERSION = "1.9.10"
+    const val KOTLIN_VERSION = "1.9.20"
 
     const val SPRING_VERSION = "6.0.13"
     const val SPRING_BOOT_VERSION = "3.1.5"

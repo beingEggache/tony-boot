@@ -54,9 +54,8 @@ public object IdGenerator {
      * @since 1.0.0
      */
     @JvmStatic
-    public fun nextIdStr(): String {
-        return YitIdHelper.nextId().toString()
-    }
+    public fun nextIdStr(): String =
+        YitIdHelper.nextId().toString()
 
     /**
      * 获取 雪花 id
@@ -66,7 +65,6 @@ public object IdGenerator {
      * @since 1.0.0
      */
     @JvmStatic
-    public fun nextId(): Number {
-        return YitIdHelper.nextId()
-    }
+    public fun nextId(): Number =
+        YitIdHelper.nextId()
 }

@@ -92,6 +92,8 @@ public interface InjectableValueSupplier {
  * @date 2023/09/13 10:18
  * @since 1.0.0
  */
-public abstract class AbstractInjectableValueSupplier(override val name: String) : InjectableValueSupplier {
+public abstract class AbstractInjectableValueSupplier(
+    override val name: String,
+) : InjectableValueSupplier {
     public constructor(type: Class<*>) : this(type.name)
 }

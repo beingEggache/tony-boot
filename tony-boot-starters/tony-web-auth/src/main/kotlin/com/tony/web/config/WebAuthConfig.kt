@@ -76,9 +76,14 @@ internal class WebAuthConfig(
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         logger.info("noLoginCheckUrl:${webAuthProperties.noLoginCheckUrl}")
-        registry.addInterceptor(loginCheckInterceptor())
-            .excludePathPatterns(*WebApp.whiteUrlPatterns.plus(webAuthProperties.noLoginCheckUrl).toTypedArray())
-            .order(PriorityOrdered.HIGHEST_PRECEDENCE)
+        registry
+            .addInterceptor(loginCheckInterceptor())
+            .excludePathPatterns(
+                *WebApp
+                    .whiteUrlPatterns
+                    .plus(webAuthProperties.noLoginCheckUrl)
+                    .toTypedArray()
+            ).order(PriorityOrdered.HIGHEST_PRECEDENCE)
     }
 }
 

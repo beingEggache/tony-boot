@@ -193,8 +193,18 @@ public fun genRandomNumber(digit: Int): Int {
     if (digit == 1) {
         return secureRandom.nextInt(10)
     }
-    val base = 9 * ((10).toDouble().pow((digit - 1).toDouble()).toInt())
-    val fix = 10.toDouble().pow((digit - 1).toDouble()).toInt()
+    val base =
+        9 * (
+            (10)
+                .toDouble()
+                .pow((digit - 1).toDouble())
+                .toInt()
+        )
+    val fix =
+        10
+            .toDouble()
+            .pow((digit - 1).toDouble())
+            .toInt()
     return secureRandom.nextInt(base) + fix
 }
 
@@ -212,5 +222,4 @@ private fun formatToPercent(
         .apply {
             maximumFractionDigits = digit
             this.roundingMode = roundingMode
-        }
-        .format(number ?: 0)
+        }.format(number ?: 0)

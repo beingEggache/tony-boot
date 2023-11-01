@@ -36,7 +36,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.tony.enums.StringEnumCreator
 import com.tony.enums.StringEnumValue
 
-public data class WechatMenu(val button: List<WechatButton>)
+public data class WechatMenu(
+    val button: List<WechatButton>,
+)
 
 public sealed class WechatButton(
     public open val name: String,
