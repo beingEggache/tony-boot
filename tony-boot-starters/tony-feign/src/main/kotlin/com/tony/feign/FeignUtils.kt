@@ -59,7 +59,9 @@ public fun RequestBody.jsonNode(): JsonNode =
     run {
         val buffer = Buffer()
         writeTo(buffer)
-        buffer.readByteArray().jsonNode()
+        buffer
+            .readByteArray()
+            .jsonNode()
     }
 
 /**
@@ -124,7 +126,9 @@ public fun String.genSign(
     appId: String,
     secret: String,
 ): String =
-    ("$appId|$secret|$this".md5().uppercase()).md5().uppercase()
+    ("$appId|$secret|$this".md5().uppercase())
+        .md5()
+        .uppercase()
 
 /**
  * 请求字段排序. 并将字符串加进请求.

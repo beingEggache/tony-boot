@@ -42,5 +42,9 @@ public class LogIpConversion : ClassicConverter() {
         propertyMap[ipFromNacosKey].defaultIfBlank(localIp)
 
     override fun convert(event: ILoggingEvent): String =
-        getIp(event.loggerContextVO.propertyMap)
+        getIp(
+            event
+                .loggerContextVO
+                .propertyMap
+        )
 }

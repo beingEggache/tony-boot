@@ -26,9 +26,13 @@ public object EndProcessHandler : FlowHandler {
             .listTaskByInstanceId(flowInstance?.instanceId)
             .forEach {
                 flowThrowIf(it.taskType == TaskType.MAJOR, "存在未完成的主办任务")
-                flowEngine.taskService.complete(it.taskId, ADMIN)
+                flowEngine
+                    .taskService
+                    .complete(it.taskId, ADMIN)
             }
 
-        flowEngine.runtimeService.complete(flowInstance?.instanceId)
+        flowEngine
+            .runtimeService
+            .complete(flowInstance?.instanceId)
     }
 }

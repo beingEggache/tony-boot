@@ -75,11 +75,15 @@ public abstract class RequestBodyFieldInjector(
         val override =
             fieldOverrideMap.getOrPut(annotatedField) {
                 annotatedField
-                    .annotationFromSelfOrGetterOrSetter(InjectRequestBodyField::class.java)!!.override
+                    .annotationFromSelfOrGetterOrSetter(InjectRequestBodyField::class.java)!!
+                    .override
             }
 
         return try {
-            if (override && annotatedField.getter()?.invoke(body) != null) {
+            if (override && annotatedField
+                    .getter()
+                    ?.invoke(body) != null
+            ) {
                 true
             } else {
                 inject(annotatedField, body)
@@ -91,7 +95,8 @@ public abstract class RequestBodyFieldInjector(
         }
     }
 
-    override fun toString(): String {
-        return this::class.java.simpleName.defaultIfBlank("RequestBodyFieldInjector") + "($name)"
-    }
+    override fun toString(): String =
+        this::class.java
+            .simpleName
+            .defaultIfBlank("RequestBodyFieldInjector") + "($name)"
 }

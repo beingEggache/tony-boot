@@ -50,7 +50,12 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
  * @date 2023/05/26 17:00
  */
 @Configuration
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConditionalOnWebApplication(
+    type =
+        ConditionalOnWebApplication
+            .Type
+            .SERVLET
+)
 @EnableConfigurationProperties(value = [WebCryptoProperties::class])
 internal class WebCryptoConfig(
     private val webCryptoProperties: WebCryptoProperties,
@@ -80,7 +85,10 @@ internal class WebCryptoConfig(
             webCryptoProperties.secret,
             webCryptoProperties.encoding
         ).apply {
-            getLogger(this::class.java.name).info("Request body decrypt is enabled.")
+            getLogger(
+                this::class.java
+                    .name
+            ).info("Request body decrypt is enabled.")
         }
 
     @ConditionalOnExpression("\${web.crypto.enabled:false}")
@@ -92,7 +100,10 @@ internal class WebCryptoConfig(
             webCryptoProperties.secret,
             webCryptoProperties.encoding
         ).apply {
-            getLogger(this::class.java.name).info("Response body encrypt is enabled.")
+            getLogger(
+                this::class.java
+                    .name
+            ).info("Response body encrypt is enabled.")
         }
 }
 

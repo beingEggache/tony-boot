@@ -41,7 +41,10 @@ public class FlowExecution {
     public val merged: Boolean = false
 
     public val taskActorProvider: FlowTaskActorProvider
-        get() = flowEngine.context.taskActorProvider
+        get() =
+            flowEngine
+                .context
+                .taskActorProvider
 
     public constructor(
         flowEngine: FlowEngine,
@@ -52,7 +55,9 @@ public class FlowExecution {
         this.flowEngine = flowEngine
         this.flowProcess = flowProcess
         this.flowInstance = flowInstance
-        this.args.putAll(args)
+        this
+            .args
+            .putAll(args)
     }
 
     internal constructor(
@@ -62,7 +67,9 @@ public class FlowExecution {
     ) {
         this.flowEngine = flowExecution.flowEngine
         this.flowProcess = flowProcess
-        this.args.putAll(flowExecution.args)
+        this
+            .args
+            .putAll(flowExecution.args)
         this.parentFlowInstance = flowExecution.flowInstance
         this.parentNodeName = parentNodeName
         this.creatorId = flowExecution.creatorId
@@ -77,10 +84,14 @@ public class FlowExecution {
         FlowExecution(flowExecution, flowProcess, parentNodeName)
 
     public fun addTasks(flowTaskList: Collection<FlowTask>) {
-        this.flowTaskList.addAll(flowTaskList)
+        this
+            .flowTaskList
+            .addAll(flowTaskList)
     }
 
     public fun addTask(flowTask: FlowTask) {
-        this.flowTaskList.add(flowTask)
+        this
+            .flowTaskList
+            .add(flowTask)
     }
 }

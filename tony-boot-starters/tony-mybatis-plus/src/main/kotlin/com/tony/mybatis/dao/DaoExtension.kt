@@ -67,10 +67,10 @@ internal fun <T : Any> BaseDao<T>.actualClass() =
         this::class.java
             .genericInterfaces
             .first {
-                it.rawClass()
+                it
+                    .rawClass()
                     .isTypesOrSubTypesOf(BaseDao::class.java)
-            }
-            .rawClass()
+            }.rawClass()
     }
 
 /**
@@ -104,9 +104,10 @@ internal fun <T : Any> BaseDao<T>.getLog(): Log =
  * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
-    ENTITY_CLASS_MAP.getOrPut(this::class.java) {
-        actualClass().typeParamOfSuperInterface(BaseDao::class.java).rawClass()
-    }.asToNotNull()
+    ENTITY_CLASS_MAP
+        .getOrPut(this::class.java) {
+            actualClass().typeParamOfSuperInterface(BaseDao::class.java).rawClass()
+        }.asToNotNull()
 
 /**
  * 获取mapper类型
@@ -116,9 +117,10 @@ internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
  * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
-    MAPPER_CLASS_MAP.getOrPut(this::class.java) {
-        actualClass()
-    }.asToNotNull()
+    MAPPER_CLASS_MAP
+        .getOrPut(this::class.java) {
+            actualClass()
+        }.asToNotNull()
 
 /**
  * 批量执行

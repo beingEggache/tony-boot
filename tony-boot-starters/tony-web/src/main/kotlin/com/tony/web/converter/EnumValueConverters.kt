@@ -51,8 +51,7 @@ private val converters =
  * @since 1.0.0
  */
 @Suppress("UNCHECKED_CAST")
-internal class EnumIntValueConverterFactory :
-    ConverterFactory<String, IntEnumValue> {
+internal class EnumIntValueConverterFactory : ConverterFactory<String, IntEnumValue> {
     override fun <E : IntEnumValue> getConverter(targetType: Class<E>) =
         converters
             .getOrPut(targetType) {
@@ -67,8 +66,7 @@ internal class EnumIntValueConverterFactory :
  * @since 1.0.0
  */
 @Suppress("UNCHECKED_CAST")
-internal class EnumStringValueConverterFactory :
-    ConverterFactory<String, StringEnumValue> {
+internal class EnumStringValueConverterFactory : ConverterFactory<String, StringEnumValue> {
     override fun <E : StringEnumValue> getConverter(targetType: Class<E>) =
         converters
             .getOrPut(targetType) {
@@ -82,8 +80,9 @@ internal class EnumStringValueConverterFactory :
  * @author Tang Li
  * @date 2023/5/25 10:59
  */
-internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
-    Converter<String, EnumValue<K>>
+internal sealed class EnumValueConverter<out E, K>(
+    enumType: Class<out E>,
+) : Converter<String, EnumValue<K>>
     where E : EnumValue<K>,
           K : Serializable {
     private val creator: EnumCreator<E, K> =
@@ -101,8 +100,9 @@ internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
  * @author Tang Li
  * @date 2023/5/25 10:59
  */
-internal class EnumIntValueConverter(enumType: Class<out IntEnumValue>) :
-    EnumValueConverter<IntEnumValue, Int>(enumType),
+internal class EnumIntValueConverter(
+    enumType: Class<out IntEnumValue>,
+) : EnumValueConverter<IntEnumValue, Int>(enumType),
     Converter<String, EnumValue<Int>> {
     override fun convertSource(source: String) =
         source.toInt()
@@ -121,8 +121,9 @@ internal class EnumIntValueConverter(enumType: Class<out IntEnumValue>) :
  * @author Tang Li
  * @date 2023/5/25 10:59
  */
-internal class EnumStringValueConverter(enumType: Class<out StringEnumValue>) :
-    EnumValueConverter<StringEnumValue, String>(enumType),
+internal class EnumStringValueConverter(
+    enumType: Class<out StringEnumValue>,
+) : EnumValueConverter<StringEnumValue, String>(enumType),
     Converter<String, EnumValue<String>> {
     override fun convertSource(source: String) =
         source

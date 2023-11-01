@@ -63,7 +63,8 @@ internal class TraceLoggingFilter(
      * 请求日志排除url
      */
     traceLogExcludePatterns: List<String>,
-) : OncePerRequestFilter(), PriorityOrdered {
+) : OncePerRequestFilter(),
+    PriorityOrdered {
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
         WebApp
             .responseWrapExcludePatterns
@@ -92,7 +93,11 @@ internal class TraceLoggingFilter(
     ) = try {
         chain.doFilter(request, response)
     } finally {
-        val elapsedTime = System.currentTimeMillis() - startTime.toInstant().toEpochMilli()
+        val elapsedTime =
+            System.currentTimeMillis() -
+                startTime
+                    .toInstant()
+                    .toEpochMilli()
 
         log(request, response, elapsedTime)
 
@@ -114,7 +119,9 @@ internal class TraceLoggingFilter(
     }
 
     override fun shouldNotFilter(request: HttpServletRequest) =
-        request.requestURI.antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
+        request
+            .requestURI
+            .antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
 
     override fun getOrder() =
         PriorityOrdered.HIGHEST_PRECEDENCE + 2
@@ -126,7 +133,9 @@ internal class TraceLoggingFilter(
  * @author Tang Li
  * @date 2023/5/25 10:37
  */
-internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
+internal class TraceIdFilter :
+    OncePerRequestFilter(),
+    PriorityOrdered {
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,

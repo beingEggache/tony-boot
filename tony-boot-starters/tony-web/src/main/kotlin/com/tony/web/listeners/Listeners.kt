@@ -47,7 +47,11 @@ internal class DefaultContextClosedListener : ContextClosedListener {
     private val logger: Logger = getLogger("on-context-closing")
 
     override fun onApplicationEvent(event: ContextClosedEvent) {
-        val applicationName = event.applicationContext.environment.getProperty("spring.application.name")
+        val applicationName =
+            event
+                .applicationContext
+                .environment
+                .getProperty("spring.application.name")
         logger.info("------ $applicationName close gracefully ------")
     }
 }

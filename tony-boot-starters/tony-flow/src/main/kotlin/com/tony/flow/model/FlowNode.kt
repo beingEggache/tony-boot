@@ -125,14 +125,15 @@ public class FlowNode : FlowModel {
                             true
                         } else {
                             try {
-                                flowContext.expression.eval(Boolean::class.java, expr, args) == true
+                                flowContext
+                                    .expression
+                                    .eval(Boolean::class.java, expr, args) == true
                             } catch (e: Exception) {
                                 logger.error(e.message, e)
                                 false
                             }
                         }
-                    }
-                    .flowThrowIfNull("Not found executable ConditionNode")
+                    }.flowThrowIfNull("Not found executable ConditionNode")
             createTask(conditionNode.childNode, flowContext, flowExecution)
         }
         if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER) {
@@ -197,6 +198,8 @@ public class FlowNode : FlowModel {
      */
     public fun getNodeFromConditionNode(nodeName: String): FlowNode? =
         conditionNodes.firstNotNullOfOrNull {
-            it.childNode?.getNode(nodeName)
+            it
+                .childNode
+                ?.getNode(nodeName)
         }
 }

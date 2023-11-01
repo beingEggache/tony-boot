@@ -64,7 +64,11 @@ internal class FeignLogInterceptor(
         val startTime = LocalDateTime.now()
         val request = chain.request()
         val response = chain.proceed(request)
-        val elapsedTime = System.currentTimeMillis() - startTime.toInstant().toEpochMilli()
+        val elapsedTime =
+            System.currentTimeMillis() -
+                startTime
+                    .toInstant()
+                    .toEpochMilli()
 
         val headers =
             request
@@ -111,28 +115,35 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         response: Response,
         elapsedTime: Long,
     ) {
-        val url = request.url.toUri().toURL()
+        val url =
+            request
+                .url
+                .toUri()
+                .toURL()
         val resultCode = response.code
         val protocol = url.protocol
         val httpMethod = request.method
         val origin = url.origin
         val path = url.path
-        val query = url.query.defaultIfBlank("[null]")
+        val query =
+            url
+                .query
+                .defaultIfBlank("[null]")
         val requestHeaders =
-            request.headers
+            request
+                .headers
                 .names()
                 .associateWith {
                     request.header(it)
-                }
-                .entries
+                }.entries
                 .joinToString(";;") { "${it.key}:${it.value}" }
         val responseHeaders =
-            response.headers
+            response
+                .headers
                 .names()
                 .associateWith {
                     response.header(it)
-                }
-                .entries
+                }.entries
                 .joinToString(";;") { "${it.key}:${it.value}" }
         val requestBody =
             request.body?.run {
@@ -143,15 +154,26 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
                 }
             }
         val responseBody =
-            response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).run {
-                if (isTextMediaTypes(parsedMedia)) {
-                    string()
-                } else {
-                    "[${contentType()}]"
+            response
+                .peekBody(
+                    (
+                        response
+                            .body
+                            ?.contentLength() ?: 0
+                    ).coerceAtLeast(0)
+                ).run {
+                    if (isTextMediaTypes(parsedMedia)) {
+                        string()
+                    } else {
+                        "[${contentType()}]"
+                    }
                 }
-            }
 
-        val remoteIp = connection?.socket()?.inetAddress?.hostAddress
+        val remoteIp =
+            connection
+                ?.socket()
+                ?.inetAddress
+                ?.hostAddress
         val logStr =
             """
             |$elapsedTime|
@@ -166,8 +188,8 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             |$responseHeaders|
             |$requestBody|
             |$responseBody|
-            |$remoteIp"""
-                .trimMargin()
+            |$remoteIp
+            """.trimMargin()
         logger.trace(logStr.removeLineBreak())
     }
 

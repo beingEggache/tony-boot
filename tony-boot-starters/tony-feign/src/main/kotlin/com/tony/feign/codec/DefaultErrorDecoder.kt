@@ -44,7 +44,10 @@ public class DefaultErrorDecoder : ErrorDecoder {
     ): Exception {
         val status = response.status()
         return if (status in 400..<500) {
-            val url = response.request().url()
+            val url =
+                response
+                    .request()
+                    .url()
             ApiException(
                 "$methodKey error,status:$status,reason:${response.reason()},url: $url",
                 status * 100

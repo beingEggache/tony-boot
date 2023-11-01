@@ -118,7 +118,8 @@ public class FeignConfig {
         networkInterceptors: List<NetworkInterceptor>,
         feignConfigProperties: FeignConfigProperties,
     ): OkHttpClient =
-        OkHttpClient.Builder()
+        OkHttpClient
+            .Builder()
             .callTimeout(feignConfigProperties.callTimeout, TimeUnit.SECONDS)
             .connectTimeout(feignConfigProperties.connectTimeout, TimeUnit.SECONDS)
             .readTimeout(feignConfigProperties.readTimeout, TimeUnit.SECONDS)
@@ -129,8 +130,7 @@ public class FeignConfig {
             .apply {
                 appInterceptors.forEach(::addInterceptor)
                 networkInterceptors.forEach(::addNetworkInterceptor)
-            }
-            .build()
+            }.build()
 }
 
 @ConfigurationProperties(prefix = "spring.cloud.openfeign.okhttp")

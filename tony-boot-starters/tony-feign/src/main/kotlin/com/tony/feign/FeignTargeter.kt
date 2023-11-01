@@ -67,13 +67,10 @@ public class FeignTargeter(
         return feign
             .doIf(type.hasAnnotation(FeignUnwrapResponse::class.java)) {
                 responseInterceptor(unwrapResponseInterceptor)
-            }
-            .doIf(type.hasAnnotation(FeignUseGlobalRequestInterceptor::class.java)) {
+            }.doIf(type.hasAnnotation(FeignUseGlobalRequestInterceptor::class.java)) {
                 globalRequestInterceptors.forEach { requestInterceptor(it) }
-            }
-            .doIf(type.hasAnnotation(FeignUseGlobalResponseInterceptor::class.java)) {
+            }.doIf(type.hasAnnotation(FeignUseGlobalResponseInterceptor::class.java)) {
                 globalResponseInterceptors.forEach { responseInterceptor(it) }
-            }
-            .target(target)
+            }.target(target)
     }
 }

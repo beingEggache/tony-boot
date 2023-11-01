@@ -71,20 +71,33 @@ public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
  * @date 2023/09/13 10:33
  * @since 1.0.0
  */
-public class UseRequestProcessorsRequestInterceptor :
-    RequestInterceptor {
+public class UseRequestProcessorsRequestInterceptor : RequestInterceptor {
     override fun apply(template: RequestTemplate) {
         val annotation =
-            template.methodMetadata()
+            template
+                .methodMetadata()
                 .method()
                 .annotation(RequestProcessors::class.java) ?: return
         val processorList =
-            feignRequestProcessorMap.getOrPut(template.feignTarget().type()) {
+            feignRequestProcessorMap.getOrPut(
+                template
+                    .feignTarget()
+                    .type()
+            ) {
                 annotation.values.map {
                     if (it.type == BeanType.CLASS) {
-                        SpringContexts.getBean(it.value.java)
+                        SpringContexts.getBean(
+                            it
+                                .value
+                                .java
+                        )
                     } else {
-                        SpringContexts.getBean(it.name, it.value.java)
+                        SpringContexts.getBean(
+                            it.name,
+                            it
+                                .value
+                                .java
+                        )
                     }
                 }
             }

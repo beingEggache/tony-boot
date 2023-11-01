@@ -85,12 +85,14 @@ public object RedisMaps {
         delta: Long = 1L,
         initial: Long? = null,
     ): Long? =
-        RedisManager.doInTransaction {
-            if (initial != null) {
-                hashOp.putIfAbsent(key, hashKey, initial)
-            }
-            hashOp.increment(key, hashKey, delta)
-        }.last().asTo()
+        RedisManager
+            .doInTransaction {
+                if (initial != null) {
+                    hashOp.putIfAbsent(key, hashKey, initial)
+                }
+                hashOp.increment(key, hashKey, delta)
+            }.last()
+            .asTo()
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.
@@ -111,12 +113,14 @@ public object RedisMaps {
         delta: Double = 1.0,
         initial: Double? = null,
     ): Double? =
-        RedisManager.doInTransaction {
-            if (initial != null) {
-                hashOp.putIfAbsent(key, hashKey, initial)
-            }
-            hashOp.increment(key, hashKey, delta)
-        }.last().asTo()
+        RedisManager
+            .doInTransaction {
+                if (initial != null) {
+                    hashOp.putIfAbsent(key, hashKey, initial)
+                }
+                hashOp.increment(key, hashKey, delta)
+            }.last()
+            .asTo()
 
     /**
      * 同 redisTemplate.boundHashOps(key).put(hashKey, value).

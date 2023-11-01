@@ -34,7 +34,9 @@ import java.util.concurrent.TimeUnit
  * @author Tang Li
  * @date 2023/06/14 13:38
  */
-public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
+public sealed interface RedisListOp :
+    RedisListGetOp,
+    RedisListSetOp {
     /**
      * Remove the last element from list at sourceKey,
      * append it to destinationKey and return its value.
@@ -119,7 +121,9 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
         key: String,
         type: Class<T>,
     ): T? =
-        listOp.leftPop(key).outputTransformTo(type)
+        listOp
+            .leftPop(key)
+            .outputTransformTo(type)
 
     /**
      * @see [leftPop]
@@ -128,7 +132,9 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
         key: String,
         type: JavaType,
     ): T? =
-        listOp.leftPop(key).outputTransformTo(type)
+        listOp
+            .leftPop(key)
+            .outputTransformTo(type)
 
     /**
      * @see [leftPop]
@@ -137,7 +143,9 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
         key: String,
         type: TypeReference<T>,
     ): T? =
-        listOp.leftPop(key).outputTransformTo(type)
+        listOp
+            .leftPop(key)
+            .outputTransformTo(type)
 
     /**
      * Removes and returns first elements in list stored at key.
@@ -166,7 +174,9 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
         key: String,
         type: Class<T>,
     ): T? =
-        listOp.rightPop(key).outputTransformTo(type)
+        listOp
+            .rightPop(key)
+            .outputTransformTo(type)
 
     /**
      * @see [rightPop]
@@ -175,7 +185,9 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
         key: String,
         type: JavaType,
     ): T? =
-        listOp.rightPop(key).outputTransformTo(type)
+        listOp
+            .rightPop(key)
+            .outputTransformTo(type)
 
     /**
      * @see [rightPop]
@@ -184,7 +196,9 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
         key: String,
         type: TypeReference<T>,
     ): T? =
-        listOp.rightPop(key).outputTransformTo(type)
+        listOp
+            .rightPop(key)
+            .outputTransformTo(type)
 
     /**
      * Removes and returns last elements in list stored at key.
@@ -216,7 +230,9 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
         index: Long,
         type: Class<T>,
     ): T? =
-        listOp.index(key, index).outputTransformTo(type)
+        listOp
+            .index(key, index)
+            .outputTransformTo(type)
 
     /**
      * @see [RedisListGetOp.index]
@@ -226,7 +242,9 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
         index: Long,
         type: JavaType,
     ): T? =
-        listOp.index(key, index).outputTransformTo(type)
+        listOp
+            .index(key, index)
+            .outputTransformTo(type)
 
     /**
      * @see [RedisListGetOp.index]
@@ -236,7 +254,9 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
         index: Long,
         type: TypeReference<T>,
     ): T? =
-        listOp.index(key, index).outputTransformTo(type)
+        listOp
+            .index(key, index)
+            .outputTransformTo(type)
 
     /**
      * Get elements between begin and end from list at key.

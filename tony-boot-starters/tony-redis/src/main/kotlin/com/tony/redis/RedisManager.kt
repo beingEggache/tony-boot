@@ -76,7 +76,9 @@ public object RedisManager {
                 return redisConnection.exec()
             } catch (e: Throwable) {
                 logger.error(e.message, e)
-                redisConnection.isQueueing.doIf { redisConnection.discard() }
+                redisConnection
+                    .isQueueing
+                    .doIf { redisConnection.discard() }
                 throw e
             } finally {
                 RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
@@ -103,7 +105,9 @@ public object RedisManager {
                 callback.run()
                 return redisConnection.exec()
             } catch (e: Throwable) {
-                redisConnection.isQueueing.doIf { redisConnection.discard() }
+                redisConnection
+                    .isQueueing
+                    .doIf { redisConnection.discard() }
                 throw e
             } finally {
                 RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
@@ -181,7 +185,13 @@ public object RedisManager {
                 return true
             }
             try {
-                TimeUnit.MILLISECONDS.sleep(secureRandom.nextInt(100).toLong())
+                TimeUnit
+                    .MILLISECONDS
+                    .sleep(
+                        secureRandom
+                            .nextInt(100)
+                            .toLong()
+                    )
             } catch (e: InterruptedException) {
                 logger.error(e.message, e)
             }

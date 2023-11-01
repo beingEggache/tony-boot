@@ -71,7 +71,10 @@ internal class RedisConfig(
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON", matchIfMissing = true)
     @Bean
     internal fun redisCacheAspect(): DefaultRedisCacheAspect {
-        getLogger(DefaultRedisCacheAspect::class.java.name).info("Annotation based redis cache enabled")
+        getLogger(
+            DefaultRedisCacheAspect::class.java
+                .name
+        ).info("Annotation based redis cache enabled")
         return DefaultRedisCacheAspect()
     }
 
@@ -81,8 +84,10 @@ internal class RedisConfig(
     internal fun protostuffSerializer(): RedisSerializer<Any?> =
         ProtostuffSerializer()
             .also {
-                getLogger(ProtostuffSerializer::class.java.name)
-                    .info("Redis serializer mode is ${redisProperties.serializerMode}")
+                getLogger(
+                    ProtostuffSerializer::class.java
+                        .name
+                ).info("Redis serializer mode is ${redisProperties.serializerMode}")
             }
 
     @ConditionalOnClass(value = [LinkedBuffer::class, RuntimeSchema::class])
@@ -117,7 +122,11 @@ internal class RedisConfig(
     @Bean
     internal fun genericJackson2JsonRedisSerializer(objectMapper: ObjectMapper): RedisSerializer<Any?> =
         GenericJackson2JsonRedisSerializer(objectMapper).also {
-            val logger = getLogger(GenericJackson2JsonRedisSerializer::class.java.name)
+            val logger =
+                getLogger(
+                    GenericJackson2JsonRedisSerializer::class.java
+                        .name
+                )
             if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
                 logger.warn(
                     "Your serializer mode is ${SerializerMode.PROTOSTUFF}, but got ${SerializerMode.JACKSON}," +

@@ -54,12 +54,18 @@ public object RedisValues {
         delta: Long = 1L,
         initial: Long? = null,
     ): Long? =
-        RedisManager.doInTransaction {
-            if (initial != null) {
-                redisTemplate.opsForValue().increment(key, initial)
-            }
-            redisTemplate.opsForValue().increment(key, delta)
-        }.last().asTo()
+        RedisManager
+            .doInTransaction {
+                if (initial != null) {
+                    redisTemplate
+                        .opsForValue()
+                        .increment(key, initial)
+                }
+                redisTemplate
+                    .opsForValue()
+                    .increment(key, delta)
+            }.last()
+            .asTo()
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.
@@ -78,12 +84,18 @@ public object RedisValues {
         delta: Double = 1.0,
         initial: Double? = null,
     ): Double? =
-        RedisManager.doInTransaction {
-            if (initial != null) {
-                redisTemplate.opsForValue().increment(key, initial)
-            }
-            redisTemplate.opsForValue().increment(key, delta)
-        }.last().asTo()
+        RedisManager
+            .doInTransaction {
+                if (initial != null) {
+                    redisTemplate
+                        .opsForValue()
+                        .increment(key, initial)
+                }
+                redisTemplate
+                    .opsForValue()
+                    .increment(key, delta)
+            }.last()
+            .asTo()
 
     @JvmStatic
     @JvmOverloads

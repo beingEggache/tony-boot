@@ -36,4 +36,6 @@ package com.tony.redis.serializer.wrapper
  */
 internal class ProtoWrapper
     @JvmOverloads
-    constructor(var data: Any? = null)
+    constructor(
+        var data: Any? = null,
+    )

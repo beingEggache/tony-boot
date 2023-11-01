@@ -112,12 +112,11 @@ public open class TonyKtQueryWrapper<T : Any> :
      *
      * 故 sqlSelect 不向下传递
      */
-    override fun instance(): TonyKtQueryWrapper<T> {
-        return TonyKtQueryWrapper(
+    override fun instance(): TonyKtQueryWrapper<T> =
+        TonyKtQueryWrapper(
             entity, entityClass, sqlSelect, paramNameSeq, paramNameValuePairs, columnMap,
             SharedString.emptyString(), SharedString.emptyString(), SharedString.emptyString()
         )
-    }
 
     override fun clear() {
         super.clear()

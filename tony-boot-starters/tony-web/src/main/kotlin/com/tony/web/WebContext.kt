@@ -153,7 +153,8 @@ public object WebContext {
                 .asTo<Map<String, Any?>>()
                 .returnIfNull {
                     val errorAttributes =
-                        WebApp.errorAttributes
+                        WebApp
+                            .errorAttributes
                             .getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
                     current.setAttribute("errorAttribute", errorAttributes, SCOPE_REQUEST)
                     errorAttributes

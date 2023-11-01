@@ -65,9 +65,11 @@ internal class RequestReplaceToRepeatReadFilter(
      * 请求日志排除url
      */
     traceLogExcludePatterns: List<String>,
-) : OncePerRequestFilter(), PriorityOrdered {
+) : OncePerRequestFilter(),
+    PriorityOrdered {
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
-        traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") }
+        traceLogExcludePatterns
+            .map { sanitizedPath("${WebApp.contextPath}/$it") }
             .plus(WebApp.whiteUrlPatternsWithContextPath)
     }
 
@@ -81,7 +83,9 @@ internal class RequestReplaceToRepeatReadFilter(
     )
 
     override fun shouldNotFilter(request: HttpServletRequest) =
-        request.requestURI.antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
+        request
+            .requestURI
+            .antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
 
     override fun getOrder() =
         PriorityOrdered.HIGHEST_PRECEDENCE + 1
@@ -95,13 +99,18 @@ internal class RequestReplaceToRepeatReadFilter(
  */
 public class RepeatReadRequestWrapper
     @Throws(IOException::class)
-    internal constructor(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
+    internal constructor(
+        request: HttpServletRequest,
+    ) : HttpServletRequestWrapper(request) {
         /**
          * Don't know why must do this can get parts in controller.
          * 先把parts在初始化时就保存下来，否则会获取不到。暂时的成本低的做法。
          */
         private val initializedParts: MutableCollection<Part> =
-            if (request.contentType?.contains(MediaType.MULTIPART_FORM_DATA_VALUE) == true) {
+            if (request
+                    .contentType
+                    ?.contains(MediaType.MULTIPART_FORM_DATA_VALUE) == true
+            ) {
                 request.parts
             } else {
                 Collections.emptyList()
@@ -111,12 +120,19 @@ public class RepeatReadRequestWrapper
             initializedParts
 
         private val cachedContent =
-            ByteArrayOutputStream(request.contentLength.coerceAtLeast(0))
-                .doIf(!isFormPost()) {
-                    writeBytes(request.inputStream.readBytes())
-                }.run {
-                    ByteArrayInputStream(toByteArray())
-                }
+            ByteArrayOutputStream(
+                request
+                    .contentLength
+                    .coerceAtLeast(0)
+            ).doIf(!isFormPost()) {
+                writeBytes(
+                    request
+                        .inputStream
+                        .readBytes()
+                )
+            }.run {
+                ByteArrayInputStream(toByteArray())
+            }
 
         public val contentAsByteArray: ByteArray
             get() {
@@ -151,7 +167,10 @@ public class RepeatReadRequestWrapper
             cachedContent.bufferedReader(StandardCharsets.UTF_8)
 
         private fun isFormPost() =
-            contentType in formPostContentTypes && HttpMethod.POST.matches(method)
+            contentType in formPostContentTypes &&
+                HttpMethod
+                    .POST
+                    .matches(method)
 
         public companion object {
             @JvmStatic

@@ -53,7 +53,9 @@ internal class ProtostuffSerializer : RedisSerializer<Any?> {
         }
         // 数字类型直接字符串. 否则incre等命令会出问题.
         if (!canSerialize(t::class.java)) {
-            return t.toString().toByteArray()
+            return t
+                .toString()
+                .toByteArray()
         }
         return try {
             ProtostuffIOUtil.toByteArray(ProtoWrapper(t), schema, buffer)
@@ -76,7 +78,9 @@ internal class ProtostuffSerializer : RedisSerializer<Any?> {
                 logger.warn(e.message)
                 val string = String(bytes)
                 string.toIntOrNull() ?: return string
-                return NumberFormat.getInstance().parse(string)
+                return NumberFormat
+                    .getInstance()
+                    .parse(string)
             } else {
                 throw e
             }

@@ -53,7 +53,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
  * @author Tang Li
  * @date 2023/05/26 16:53
  */
-public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice<Any?> {
+public interface EncryptResponseBodyAdvice :
+    PriorityOrdered,
+    ResponseBodyAdvice<Any?> {
     public val algorithm: SymmetricCryptoAlgorithm
 
     public val secret: String
@@ -65,7 +67,11 @@ public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice
         converterType: Class<out HttpMessageConverter<*>>,
     ): Boolean =
         returnType.hasMethodAnnotation(EncryptResponseBody::class.java) &&
-            isTextMediaTypes(WebContext.request.parsedMedia)
+            isTextMediaTypes(
+                WebContext
+                    .request
+                    .parsedMedia
+            )
 
     override fun beforeBodyWrite(
         body: Any?,
@@ -81,7 +87,9 @@ public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice
                     code = body.code
                     message = body.message
                     data =
-                        body.data.toJsonString()
+                        body
+                            .data
+                            .toJsonString()
                             .encryptToString(
                                 algorithm,
                                 secret,

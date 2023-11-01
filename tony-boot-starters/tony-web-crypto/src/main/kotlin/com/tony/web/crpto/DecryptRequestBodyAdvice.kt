@@ -51,7 +51,9 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice
  * @author Tang Li
  * @date 2023/05/26 16:53
  */
-public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
+public interface DecryptRequestBodyAdvice :
+    PriorityOrdered,
+    RequestBodyAdvice {
     public val algorithm: SymmetricCryptoAlgorithm
     public val secret: String
     public val encoding: Encoding
@@ -76,14 +78,20 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
                 .readAllBytes()
                 .run {
                     // application/json 类型给加密字符串多加了双引号.
-                    if (inputMessage.headers.contentType?.includes(MediaType.APPLICATION_JSON) == true) {
+                    if (inputMessage
+                            .headers
+                            .contentType
+                            ?.includes(MediaType.APPLICATION_JSON) == true
+                    ) {
                         copyOfRange(1, this.size - 1)
                     } else {
                         this
                     }
                 }
         return DecryptHttpInputMessage(
-            inputMessage.headers.apply { contentType = MediaType.TEXT_PLAIN },
+            inputMessage
+                .headers
+                .apply { contentType = MediaType.TEXT_PLAIN },
             ByteArrayInputStream(
                 bytes
                     .decryptToBytes(

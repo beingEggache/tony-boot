@@ -47,25 +47,35 @@ internal class JacksonRedisService : RedisService {
     override val serializerMode: SerializerMode = SerializerMode.JACKSON
 
     override fun Any.inputTransformTo(): Any =
-        if (this::class.java.isNumberTypes()) {
+        if (this::class.java
+                .isNumberTypes()
+        ) {
             this
         } else {
-            this.toJsonString().trimQuotes()
+            this
+                .toJsonString()
+                .trimQuotes()
         }
 
     override fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? =
         jsonToObjWithTypeClass(type) {
-            it.trimQuotes().jsonToObj(type)
+            it
+                .trimQuotes()
+                .jsonToObj(type)
         }
 
     override fun <T : Any> Any?.outputTransformTo(type: JavaType): T? =
         jsonToObjWithTypeClass(type.rawClass()) {
-            it.trimQuotes().jsonToObj(type)
+            it
+                .trimQuotes()
+                .jsonToObj(type)
         }
 
     override fun <T : Any> Any?.outputTransformTo(type: TypeReference<T>): T? =
         jsonToObjWithTypeClass(type.rawClass()) {
-            it.trimQuotes().jsonToObj(type)
+            it
+                .trimQuotes()
+                .jsonToObj(type)
         }
 
     private fun <T : Any> Any?.jsonToObjWithTypeClass(
@@ -80,11 +90,15 @@ internal class JacksonRedisService : RedisService {
             type.isStringLikeType() -> toString().trimQuotes()
             type == EnumValue::class.java && this is EnumValue<*> -> this
             type.isTypesOrSubTypesOf(StringEnumValue::class.java) -> {
-                StringEnumCreator.getCreator(type).create(toString().trimQuotes())
+                StringEnumCreator
+                    .getCreator(type)
+                    .create(toString().trimQuotes())
             }
 
             type.isTypesOrSubTypesOf(IntEnumValue::class.java) -> {
-                IntEnumCreator.getCreator(type).create(toString().toInt())
+                IntEnumCreator
+                    .getCreator(type)
+                    .create(toString().toInt())
             }
 
             this.isTypesOrSubTypesOf(type) -> this

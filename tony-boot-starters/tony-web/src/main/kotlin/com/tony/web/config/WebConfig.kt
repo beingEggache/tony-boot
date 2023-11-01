@@ -82,7 +82,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
  * @date 2023/5/25 10:35
  */
 @Configuration
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConditionalOnWebApplication(
+    type =
+        ConditionalOnWebApplication
+            .Type
+            .SERVLET
+)
 @EnableConfigurationProperties(value = [WebProperties::class, WebCorsProperties::class])
 internal class WebConfig(
     private val webProperties: WebProperties,
@@ -111,9 +116,17 @@ internal class WebConfig(
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
     internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter {
-        val logger = getLogger(TraceLoggingFilter::class.java.name)
+        val logger =
+            getLogger(
+                TraceLoggingFilter::class.java
+                    .name
+            )
         logger.info("Request trace log is enabled")
-        if (webProperties.traceLoggerEnabled && webProperties.traceLogExcludePatterns.isNotEmpty()) {
+        if (webProperties.traceLoggerEnabled &&
+            webProperties
+                .traceLogExcludePatterns
+                .isNotEmpty()
+        ) {
             logger.info("Request trace log exclude patterns: ${webProperties.traceLogExcludePatterns}")
         }
         return TraceLoggingFilter(requestTraceLogger, webProperties.traceLogExcludePatterns)
@@ -124,8 +137,10 @@ internal class WebConfig(
     internal fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice =
         WrapResponseBodyAdvice()
             .apply {
-                getLogger(WrapResponseBodyAdvice::class.java.name)
-                    .info("Response wrap is enabled")
+                getLogger(
+                    WrapResponseBodyAdvice::class.java
+                        .name
+                ).info("Response wrap is enabled")
             }
 
     @Bean
@@ -144,24 +159,42 @@ internal class WebConfig(
         val corsConfiguration =
             CorsConfiguration().apply {
                 allowCredentials = webCorsProperties.allowCredentials
-                allowedOriginPatterns = webCorsProperties.allowedOrigins.ifEmpty { setOf("*") }.toList()
-                allowedHeaders = webCorsProperties.allowedHeaders.ifEmpty { setOf("*") }.toList()
-                allowedMethods = webCorsProperties.allowedMethods.ifEmpty { setOf("*") }.toList()
-                exposedHeaders = webCorsProperties.exposedHeaders.plus(HttpHeaders.CONTENT_DISPOSITION).toList()
+                allowedOriginPatterns =
+                    webCorsProperties
+                        .allowedOrigins
+                        .ifEmpty { setOf("*") }
+                        .toList()
+                allowedHeaders =
+                    webCorsProperties
+                        .allowedHeaders
+                        .ifEmpty { setOf("*") }
+                        .toList()
+                allowedMethods =
+                    webCorsProperties
+                        .allowedMethods
+                        .ifEmpty { setOf("*") }
+                        .toList()
+                exposedHeaders =
+                    webCorsProperties
+                        .exposedHeaders
+                        .plus(HttpHeaders.CONTENT_DISPOSITION)
+                        .toList()
                 maxAge = webCorsProperties.maxAge
 
-                getLogger(CorsFilter::class.java.name)
-                    .info(
-                        listOf(
-                            "Cors is enabled",
-                            "allowCredentials is $allowCredentials",
-                            "allowedOrigins is $allowedOriginPatterns",
-                            "allowedHeaders is $allowedHeaders",
-                            "allowedMethods is $allowedMethods",
-                            "exposedHeaders is $exposedHeaders",
-                            "maxAge is $maxAge"
-                        ).joinToString()
-                    )
+                getLogger(
+                    CorsFilter::class.java
+                        .name
+                ).info(
+                    listOf(
+                        "Cors is enabled",
+                        "allowCredentials is $allowCredentials",
+                        "allowedOrigins is $allowedOriginPatterns",
+                        "allowedHeaders is $allowedHeaders",
+                        "allowedMethods is $allowedMethods",
+                        "exposedHeaders is $exposedHeaders",
+                        "maxAge is $maxAge"
+                    ).joinToString()
+                )
             }
         source.registerCorsConfiguration("/**", corsConfiguration)
         return CorsFilter(source)
@@ -200,7 +233,10 @@ internal class WebConfig(
         objectMapper: ObjectMapper,
     ): String {
         if (webProperties.fillResponseNullValueEnabled) {
-            getLogger(NullValueBeanSerializerModifier::class.java.name).info("Fill response null value enabled")
+            getLogger(
+                NullValueBeanSerializerModifier::class.java
+                    .name
+            ).info("Fill response null value enabled")
             mappingJackson2HttpMessageConverter.objectMapper =
                 objectMapper.apply {
                     serializerFactory =
@@ -225,8 +261,10 @@ internal class WebConfig(
     ): InjectRequestBodyAdvice =
         InjectRequestBodyAdvice(requestBodyFieldInjectorComposite)
             .apply {
-                getLogger(RequestBodyFieldInjectorComposite::class.java.name)
-                    .info("Request body inject is enabled")
+                getLogger(
+                    RequestBodyFieldInjectorComposite::class.java
+                        .name
+                ).info("Request body inject is enabled")
             }
 }
 
@@ -236,7 +274,12 @@ internal class WebConfig(
  * @author Tang Li
  * @date 2023/5/25 10:35
  */
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConditionalOnWebApplication(
+    type =
+        ConditionalOnWebApplication
+            .Type
+            .SERVLET
+)
 @ConfigurationProperties(prefix = "web")
 internal data class WebProperties
     @ConstructorBinding
@@ -277,7 +320,12 @@ internal data class WebProperties
  * @author Tang Li
  * @date 2023/5/25 10:35
  */
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConditionalOnWebApplication(
+    type =
+        ConditionalOnWebApplication
+            .Type
+            .SERVLET
+)
 @ConfigurationProperties(prefix = "web.cors")
 public data class WebCorsProperties
     @ConstructorBinding
@@ -312,7 +360,9 @@ internal class ApiCorsProcessor : DefaultCorsProcessor() {
     }
 
     override fun rejectRequest(response: ServerHttpResponse) {
-        response.body.write(invalidCorsRequestResponseByteArray)
+        response
+            .body
+            .write(invalidCorsRequestResponseByteArray)
         response.flush()
     }
 }

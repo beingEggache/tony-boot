@@ -53,7 +53,9 @@ public class ByteArrayMultipartFile(
         bytes.isEmpty()
 
     override fun getSize(): Long =
-        bytes.size.toLong()
+        bytes
+            .size
+            .toLong()
 
     override fun getBytes(): ByteArray =
         bytes

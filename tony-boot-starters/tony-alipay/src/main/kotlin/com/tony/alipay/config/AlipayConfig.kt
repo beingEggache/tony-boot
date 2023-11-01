@@ -49,7 +49,10 @@ internal class AlipayConfig(
         )
 
     private fun getFrom(path: String): String =
-        resourceResolver.getResource(path).file.readText()
+        resourceResolver
+            .getResource(path)
+            .file
+            .readText()
 }
 
 @ConfigurationProperties(prefix = "alipay")

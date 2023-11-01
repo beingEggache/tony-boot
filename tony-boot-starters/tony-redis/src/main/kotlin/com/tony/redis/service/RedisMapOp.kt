@@ -31,7 +31,9 @@ import com.tony.redis.redisTemplate
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
-public sealed interface RedisMapOp : RedisMapGetOp, RedisMapSetOp
+public sealed interface RedisMapOp :
+    RedisMapGetOp,
+    RedisMapSetOp
 
 /**
  * redis map 值获取操作
@@ -53,7 +55,9 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
         hashKey: String,
         type: Class<T>,
     ): T? =
-        hashOp.get(key, hashKey).outputTransformTo(type)
+        hashOp
+            .get(key, hashKey)
+            .outputTransformTo(type)
 
     /**
      * 获取 map 值
@@ -66,7 +70,9 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
         hashKey: String,
         type: JavaType,
     ): T? =
-        hashOp.get(key, hashKey).outputTransformTo(type)
+        hashOp
+            .get(key, hashKey)
+            .outputTransformTo(type)
 
     /**
      * 获取 map 值
@@ -79,7 +85,9 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
         hashKey: String,
         type: TypeReference<T>,
     ): T? =
-        hashOp.get(key, hashKey).outputTransformTo(type)
+        hashOp
+            .get(key, hashKey)
+            .outputTransformTo(type)
 
     /**
      * 根据key值获取整个map

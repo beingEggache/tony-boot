@@ -38,8 +38,9 @@ import org.apache.ibatis.type.JdbcType
  * @date 2023/09/13 10:40
  * @since 1.0.0
  */
-public open class EnumTypeHandler<E, KEY>(enumClass: Class<E>) :
-    BaseTypeHandler<E>()
+public open class EnumTypeHandler<E, KEY>(
+    enumClass: Class<E>,
+) : BaseTypeHandler<E>()
     where E : Enum<E>,
           KEY : Serializable,
           E : EnumValue<KEY> {

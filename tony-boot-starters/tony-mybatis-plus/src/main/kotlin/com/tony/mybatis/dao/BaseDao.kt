@@ -112,10 +112,12 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     public fun upsert(entity: T?): Boolean {
         if (null != entity) {
             val tableInfo: TableInfo =
-                TableInfoHelper.getTableInfo(getEntityClass())
+                TableInfoHelper
+                    .getTableInfo(getEntityClass())
                     .throwIfNull("error: can not execute. because can not find cache of TableInfo for entity!")
             val keyProperty =
-                tableInfo.keyProperty
+                tableInfo
+                    .keyProperty
                     .throwIfNull("error: can not execute. because can not find column for id from entity!")
             val idVal = tableInfo.getPropertyValue(entity, keyProperty)
             return if (StringUtils.checkValNull(idVal) || Objects.isNull(selectById(idVal as Serializable))) {
@@ -153,19 +155,22 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     public fun upsertBatch(batchList: Collection<T>): Boolean {
         val entityClass = getEntityClass()
         val tableInfo =
-            TableInfoHelper.getTableInfo(entityClass)
+            TableInfoHelper
+                .getTableInfo(entityClass)
                 .throwIfNull("error: can not execute. because can not find cache of TableInfo for entity!")
         val keyProperty =
-            tableInfo.keyProperty
+            tableInfo
+                .keyProperty
                 .throwIfNull("error: can not execute. because can not find column for id from entity!")
         val sqlStatement = getSqlStatement(SqlMethod.INSERT_ONE)
         return executeBatch(batchList) { sqlSession, entity ->
             val isInsert =
                 StringUtils.checkValNull(tableInfo.getPropertyValue(entity, keyProperty)) ||
-                    sqlSession.selectList<T>(
-                        getSqlStatement(SqlMethod.SELECT_BY_ID),
-                        entity
-                    ).isNullOrEmpty()
+                    sqlSession
+                        .selectList<T>(
+                            getSqlStatement(SqlMethod.SELECT_BY_ID),
+                            entity
+                        ).isNullOrEmpty()
             if (isInsert) {
                 sqlSession.insert(sqlStatement, entity)
             } else {

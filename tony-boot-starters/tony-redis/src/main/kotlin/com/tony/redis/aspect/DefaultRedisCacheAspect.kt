@@ -116,7 +116,10 @@ public class DefaultRedisCacheAspect {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
-        val annotations = methodSignature.method.getAnnotationsByType(RedisCacheEvict::class.java)
+        val annotations =
+            methodSignature
+                .method
+                .getAnnotationsByType(RedisCacheEvict::class.java)
         annotations.forEach { annotation ->
             val cacheKey = cacheKey(arguments, paramsNames, annotation.expressions, annotation.cacheKey)
             RedisManager.delete(cacheKey)
@@ -142,12 +145,19 @@ public class DefaultRedisCacheAspect {
         val paramsNames = methodSignature.parameterNames
         val cacheKey = cacheKey(arguments, paramsNames, annotation.expressions, annotation.cacheKey)
         val timeout = if (annotation.expire == RedisCacheable.TODAY_END) secondOfTodayRest() else annotation.expire
-        val cachedValue = RedisManager.values.get<String>(cacheKey)
+        val cachedValue =
+            RedisManager
+                .values
+                .get<String>(cacheKey)
 
         val javaType =
             TypeFactory
                 .defaultInstance()
-                .constructType(methodSignature.method.genericReturnType)
+                .constructType(
+                    methodSignature
+                        .method
+                        .genericReturnType
+                )
 
         if (javaType.isDateTimeLikeType()) {
             throw ApiException("Not support dateTimeLike type.")
@@ -164,7 +174,9 @@ public class DefaultRedisCacheAspect {
                     )
                 }
             } else {
-                RedisManager.values.set(cacheKey, result, timeout)
+                RedisManager
+                    .values
+                    .set(cacheKey, result, timeout)
             }
             return result
         }
@@ -193,7 +205,10 @@ public class DefaultRedisCacheAspect {
             return paramMap[expression]
         }
         val paramName = stringList.first()
-        val realExpression = stringList.drop(1).joinToString(".")
+        val realExpression =
+            stringList
+                .drop(1)
+                .joinToString(".")
         return try {
             expressionParser
                 .parseExpression(realExpression)

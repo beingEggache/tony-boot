@@ -109,29 +109,62 @@ public class UnwrapResponseInterceptor : ResponseInterceptor {
         val returnRawClass = returnType.rawClass()
 
         val response = invocationContext.response()
-        val isJson = response.headers()[CONTENT_TYPE]?.firstOrNull() == MediaType.APPLICATION_JSON_VALUE
+        val isJson =
+            response
+                .headers()[CONTENT_TYPE]
+                ?.firstOrNull() == MediaType.APPLICATION_JSON_VALUE
         if (returnRawClass.isTypesOrSubTypesOf(*notSupportResponseWrapClasses) && !isJson) {
             return invocationContext.proceed()
         }
 
-        val jsonNode = response.body().asInputStream().jsonNode()
-        val message = jsonNode.get(ApiResultLike<*>::getMessage.name.lTrimAndDecapitalize()).asText()
-        val code = jsonNode.get(ApiResultLike<*>::getCode.name.lTrimAndDecapitalize()).asInt()
+        val jsonNode =
+            response
+                .body()
+                .asInputStream()
+                .jsonNode()
+        val message =
+            jsonNode
+                .get(
+                    ApiResultLike<*>::getMessage
+                        .name
+                        .lTrimAndDecapitalize()
+                ).asText()
+        val code =
+            jsonNode
+                .get(
+                    ApiResultLike<*>::getCode
+                        .name
+                        .lTrimAndDecapitalize()
+                ).asInt()
 
         if (code != ApiProperty.okCode) {
             throw ApiException(message, code)
         }
 
-        val dataJsonNode = jsonNode.get(ApiResult<*>::getData.name.lTrimAndDecapitalize())
+        val dataJsonNode =
+            jsonNode.get(
+                ApiResult<*>::getData
+                    .name
+                    .lTrimAndDecapitalize()
+            )
         if (returnRawClass.isArrayLikeType()) {
-            val itemFieldName = ListResult<*>::getItems.name.lTrimAndDecapitalize()
-            return dataJsonNode.get(itemFieldName).toString().jsonToObj(returnJavaType)
+            val itemFieldName =
+                ListResult<*>::getItems
+                    .name
+                    .lTrimAndDecapitalize()
+            return dataJsonNode
+                .get(itemFieldName)
+                .toString()
+                .jsonToObj(returnJavaType)
         }
 
-        return dataJsonNode.toString().jsonToObj(returnJavaType)
+        return dataJsonNode
+            .toString()
+            .jsonToObj(returnJavaType)
     }
 
     private fun String.lTrimAndDecapitalize(): String =
-        this.substring(3)
+        this
+            .substring(3)
             .replaceFirstChar { it.lowercase(Locale.getDefault()) }
 }

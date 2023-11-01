@@ -122,7 +122,10 @@ public class FlowProcess {
         if (parentNode == null || parentNode.nodeType == NodeType.INITIATOR) {
             return null
         }
-        if (parentNode.isConditionNode && parentNode.childNode?.nodeName != flowNode.nodeName) {
+        if (parentNode.isConditionNode && parentNode
+                .childNode
+                ?.nodeName != flowNode.nodeName
+        ) {
             return parentNode.childNode
         }
         return nextNode(parentNode)
@@ -135,7 +138,9 @@ public class FlowProcess {
     ) {
         model?.also {
             val flowNode =
-                it.getNode(nodeName).flowThrowIfNull("流程模型中未发现，流程节点:$nodeName")
+                it
+                    .getNode(nodeName)
+                    .flowThrowIfNull("流程模型中未发现，流程节点:$nodeName")
 
             val executeNode =
                 flowNode.childNode
@@ -146,7 +151,11 @@ public class FlowProcess {
             }
 
             executeNode.execute(flowContext, flowExecution)
-            if (executeNode.childNode == null && executeNode.conditionNodes.isEmpty()) {
+            if (executeNode.childNode == null &&
+                executeNode
+                    .conditionNodes
+                    .isEmpty()
+            ) {
                 val nextNode = nextNode(executeNode)
                 if (nextNode == null && executeNode.nodeType != NodeType.APPROVER) {
                     EndProcessHandler.handle(flowContext, flowExecution)
@@ -160,7 +169,8 @@ public class FlowProcess {
         flowExecution: FlowExecution,
     ) {
         model?.also {
-            it.flowNode
+            it
+                .flowNode
                 .flowThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
                 .createTask(flowContext, flowExecution)
         }

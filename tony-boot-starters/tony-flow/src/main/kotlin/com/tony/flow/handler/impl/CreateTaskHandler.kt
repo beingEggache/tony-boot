@@ -31,11 +31,17 @@ public class CreateTaskHandler(
         flowContext: FlowContext,
         flowExecution: FlowExecution,
     ) {
-        val taskList = flowExecution.flowEngine.taskService.createTask(flowNode, flowExecution)
+        val taskList =
+            flowExecution
+                .flowEngine
+                .taskService
+                .createTask(flowNode, flowExecution)
         flowExecution.addTasks(taskList)
 
         try {
-            flowContext.interceptors.forEach { it.handle(flowContext, flowExecution) }
+            flowContext
+                .interceptors
+                .forEach { it.handle(flowContext, flowExecution) }
         } catch (e: Exception) {
             logger.error("interceptor error", e)
             throw FlowException(e.message, cause = e)

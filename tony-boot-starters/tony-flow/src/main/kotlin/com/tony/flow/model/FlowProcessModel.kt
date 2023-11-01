@@ -46,7 +46,8 @@ public class FlowProcessModel {
                     .let {
                         it ?: parse(content).apply {
                             FlowContext
-                                .flowCache.set(cacheKey, this)
+                                .flowCache
+                                .set(cacheKey, this)
                         }
                     }
             }

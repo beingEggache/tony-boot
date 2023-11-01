@@ -88,8 +88,7 @@ internal class RequestBodyFieldInjectorComposite(
                             field to injector.internalInject(field, body)
                         }
                     injectorHasNoSupportedFields(fieldListMap, injectResultList, fieldList, bodyClass, injector.name)
-                }
-                ?.map { it.name }
+                }?.map { it.name }
         removeInjectorSupports(bodyClass, removedInjectorNames)
         removeClassSupports(bodyClass)
         return body
@@ -189,8 +188,7 @@ internal class RequestBodyFieldInjectorComposite(
             requestBodyFieldInjectors
                 .associateBy {
                     it.name
-                }
-                .filterValues { injector ->
+                }.filterValues { injector ->
                     hasSupportInjectorFields(annotatedFields, injector, targetType)
                 }.let {
                     ConcurrentHashMap<String, RequestBodyFieldInjector>().apply {
@@ -207,17 +205,17 @@ internal class RequestBodyFieldInjectorComposite(
         .filter { field ->
             isFieldSupportByAnnoValueOrFieldName(
                 field.name,
-                field.annotationFromSelfOrGetterOrSetter(InjectRequestBodyField::class.java)!!.value,
+                field
+                    .annotationFromSelfOrGetterOrSetter(InjectRequestBodyField::class.java)!!
+                    .value,
                 injector.name
             )
-        }
-        .onEach {
+        }.onEach {
             supportedClassFieldsCache
                 .getOrPut(targetType) { ConcurrentHashMap() }
                 .getOrPut(injector.name) { mutableSetOf() }
                 .add(it)
-        }
-        .isNotEmpty()
+        }.isNotEmpty()
 
     /**
      * 根据注解值或字段名 判断字段是否支持注入

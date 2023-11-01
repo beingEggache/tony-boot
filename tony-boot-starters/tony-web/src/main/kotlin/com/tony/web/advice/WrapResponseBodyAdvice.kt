@@ -63,9 +63,12 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
     ): ApiResult<*> =
         when {
             body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
-            !body::class.java.isArrayLikeType() -> ApiResult(body, ApiProperty.okCode)
+            !body::class.java
+                .isArrayLikeType() -> ApiResult(body, ApiProperty.okCode)
             else ->
-                if (body::class.java.isArray) {
+                if (body::class.java
+                        .isArray
+                ) {
                     ApiResult(toListResult(body), ApiProperty.okCode)
                 } else {
                     ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.okCode)
@@ -75,9 +78,14 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
-    ) = !WebContext.url.path.antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
+    ) = !WebContext
+        .url
+        .path
+        .antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
         converterType.isTypesOrSubTypesOf(MappingJackson2HttpMessageConverter::class.java) &&
-        !returnType.parameterType.isTypesOrSubTypesOf(*notSupportResponseWrapClasses)
+        !returnType
+            .parameterType
+            .isTypesOrSubTypesOf(*notSupportResponseWrapClasses)
 
     private companion object Utils {
         @JvmStatic

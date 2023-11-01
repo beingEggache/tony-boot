@@ -78,7 +78,10 @@ public object WebApp {
         val set =
             setOf(
                 *whiteUrlPatternsWithContextPath.toTypedArray(),
-                *webProperties.wrapResponseExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray()
+                *webProperties
+                    .wrapResponseExcludePatterns
+                    .map { sanitizedPath("$contextPath/$it") }
+                    .toTypedArray()
             )
         logger.info("Response Wrap Exclude Pattern are: $set")
         set

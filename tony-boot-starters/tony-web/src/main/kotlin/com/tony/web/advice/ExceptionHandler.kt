@@ -123,7 +123,12 @@ internal class ExceptionHandler : ErrorController {
     @ExceptionHandler(ConstraintViolationException::class)
     @ResponseBody
     fun constraintViolationException(e: ConstraintViolationException) =
-        badRequest(e.constraintViolations.first().message)
+        badRequest(
+            e
+                .constraintViolations
+                .first()
+                .message
+        )
 
     @ExceptionHandler(
         value = [

@@ -60,7 +60,10 @@ public val HttpServletRequest.origin: String
             val protocol = url.protocol
             val host = url.host
             val port = url.port
-            val contextPath = WebContext.request.contextPath
+            val contextPath =
+                WebContext
+                    .request
+                    .contextPath
             "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}$contextPath"
         }
 
@@ -73,7 +76,9 @@ public val HttpServletRequest.headers: Map<String, String>
         headerNames
             .asSequence()
             .associateWith {
-                getHeaders(it).toList().joinToString(",")
+                getHeaders(it)
+                    .toList()
+                    .joinToString(",")
             }
 
 /**
@@ -85,7 +90,9 @@ public val HttpServletResponse.headers: Map<String, String>
         headerNames
             .asSequence()
             .associateWith {
-                getHeaders(it).toList().joinToString(",")
+                getHeaders(it)
+                    .toList()
+                    .joinToString(",")
             }
 
 /**
@@ -113,7 +120,8 @@ public val HttpServletRequest.remoteIp: String
             }
         }
 
-        remoteAddr.takeIf { it.isNotBlank() && it.contains(",") }
+        remoteAddr
+            .takeIf { it.isNotBlank() && it.contains(",") }
             ?.run {
                 return substring(0, indexOf(",")).trim { it <= ' ' }
             }
@@ -184,7 +192,9 @@ public val HttpServletResponse.parsedMedia: MediaType?
  */
 public val HttpServletResponse.status1xxInformational: Boolean
     get() =
-        HttpStatus.valueOf(status).is1xxInformational
+        HttpStatus
+            .valueOf(status)
+            .is1xxInformational
 
 /**
  * Status is 2xx successful
@@ -192,7 +202,9 @@ public val HttpServletResponse.status1xxInformational: Boolean
  */
 public val HttpServletResponse.status2xxSuccessful: Boolean
     get() =
-        HttpStatus.valueOf(status).is2xxSuccessful
+        HttpStatus
+            .valueOf(status)
+            .is2xxSuccessful
 
 /**
  * Status is 3xx redirection
@@ -200,7 +212,9 @@ public val HttpServletResponse.status2xxSuccessful: Boolean
  */
 public val HttpServletResponse.status3xxRedirection: Boolean
     get() =
-        HttpStatus.valueOf(status).is3xxRedirection
+        HttpStatus
+            .valueOf(status)
+            .is3xxRedirection
 
 /**
  * 将二进制转为web响应
@@ -227,5 +241,4 @@ public fun ByteArray.responseEntity(
                             .build()
                 }
             headers(httpHeaders)
-        }
-        .body(this)
+        }.body(this)

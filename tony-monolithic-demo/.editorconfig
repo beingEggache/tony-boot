@@ -13,12 +13,13 @@ indent_size = 2
 
 # noinspection EditorConfigKeyCorrectness
 [/*/src/main/**.{kt,kts}]
+ktlint_code_style = ktlint_official
 # ktlint_standard_final-newline = disabled # Disables the `final-newline` rule provided by KtLint
 # ktlint_standard_some-experimental-rule = enabled # Enables the (experimental) `some-experimental-rule` in the `standard` rule set provided by KtLint
 # ktlint_custom-rule-set_custom-rule = disabled # Disables the `custom-rule` rule in the `custom-rule-set` rule set (not provided by KtLint)
+ktlint_experimental=enabled
 ktlint_standard_no-consecutive-comments = disabled
 
-ktlint_code_style = ktlint_official
 annotation = true
 argument-list-wrapping = true
 block-comment-initial-star-alignment = true

@@ -29,7 +29,9 @@ import com.fasterxml.jackson.databind.JavaType
 import com.tony.redis.valueOp
 import java.util.concurrent.TimeUnit
 
-public sealed interface RedisValueOp : RedisValueGetOp, RedisValueSetOp
+public sealed interface RedisValueOp :
+    RedisValueGetOp,
+    RedisValueSetOp
 
 /**
  * redis value 保存操作
@@ -114,7 +116,9 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         value: T,
         type: Class<T>,
     ): T? =
-        valueOp.getAndSet(key, value.inputTransformTo()).outputTransformTo(type)
+        valueOp
+            .getAndSet(key, value.inputTransformTo())
+            .outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
@@ -125,7 +129,9 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         value: T,
         type: JavaType,
     ): T? =
-        valueOp.getAndSet(key, value.inputTransformTo()).outputTransformTo(type)
+        valueOp
+            .getAndSet(key, value.inputTransformTo())
+            .outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
@@ -136,7 +142,9 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         value: T,
         type: TypeReference<T>,
     ): T? =
-        valueOp.getAndSet(key, value.inputTransformTo()).outputTransformTo(type)
+        valueOp
+            .getAndSet(key, value.inputTransformTo())
+            .outputTransformTo(type)
 
     /**
      * Return the value at key and expire the key by applying timeout.
@@ -153,7 +161,9 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): T? =
-        valueOp.getAndExpire(key, timeout, timeUnit).outputTransformTo(type)
+        valueOp
+            .getAndExpire(key, timeout, timeUnit)
+            .outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
@@ -165,7 +175,9 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): T? =
-        valueOp.getAndExpire(key, timeout, timeUnit).outputTransformTo(type)
+        valueOp
+            .getAndExpire(key, timeout, timeUnit)
+            .outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
@@ -177,7 +189,9 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
     ): T? =
-        valueOp.getAndExpire(key, timeout, timeUnit).outputTransformTo(type)
+        valueOp
+            .getAndExpire(key, timeout, timeUnit)
+            .outputTransformTo(type)
 }
 
 /**
@@ -199,7 +213,9 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
         key: String,
         type: Class<T>,
     ): T? =
-        valueOp.get(key).outputTransformTo(type)
+        valueOp
+            .get(key)
+            .outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
@@ -209,7 +225,9 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
         key: String,
         type: JavaType,
     ): T? =
-        valueOp.get(key).outputTransformTo(type)
+        valueOp
+            .get(key)
+            .outputTransformTo(type)
 
     /**
      * @param type 兼容jackson
@@ -219,7 +237,9 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
         key: String,
         type: TypeReference<T>,
     ): T? =
-        valueOp.get(key).outputTransformTo(type)
+        valueOp
+            .get(key)
+            .outputTransformTo(type)
 
     /**
      * Return the value at key and delete the key.
@@ -233,7 +253,9 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
         key: String,
         type: Class<T>,
     ): T? =
-        valueOp.getAndDelete(key).outputTransformTo(type)
+        valueOp
+            .getAndDelete(key)
+            .outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
@@ -243,7 +265,9 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
         key: String,
         type: JavaType,
     ): T? =
-        valueOp.getAndDelete(key).outputTransformTo(type)
+        valueOp
+            .getAndDelete(key)
+            .outputTransformTo(type)
 
     /**
      * @param type 兼容jackson.
@@ -253,5 +277,7 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
         key: String,
         type: TypeReference<T>,
     ): T? =
-        valueOp.getAndDelete(key).outputTransformTo(type)
+        valueOp
+            .getAndDelete(key)
+            .outputTransformTo(type)
 }

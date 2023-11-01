@@ -110,11 +110,25 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         val resultStatus = resultStatus(resultCode)
         val protocol = request.scheme
         val httpMethod = request.method
-        val origin = request.requestURL?.toString() ?: ""
-        val path = request.requestURI.removePrefix(WebApp.contextPath)
+        val origin =
+            request
+                .requestURL
+                ?.toString() ?: ""
+        val path =
+            request
+                .requestURI
+                .removePrefix(WebApp.contextPath)
         val query = request.queryString ?: NULL
-        val requestHeaders = request.headers.entries.joinToString(";;") { "${it.key}:${it.value}" }
-        val responseHeaders = response.headers.entries.joinToString(";;") { "${it.key}:${it.value}" }
+        val requestHeaders =
+            request
+                .headers
+                .entries
+                .joinToString(";;") { "${it.key}:${it.value}" }
+        val responseHeaders =
+            response
+                .headers
+                .entries
+                .joinToString(";;") { "${it.key}:${it.value}" }
         val remoteIp = request.remoteIp
         val logStr =
             """
@@ -138,7 +152,15 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
     private fun requestBody(request: RepeatReadRequestWrapper) =
         if (!isTextMediaTypes(request.parsedMedia)) {
             "[${request.contentType}]"
-        } else if (request.method.equals(HttpMethod.POST.name(), true)) {
+        } else if (request
+                .method
+                .equals(
+                    HttpMethod
+                        .POST
+                        .name(),
+                    true
+                )
+        ) {
             val bytes = request.contentAsByteArray
             when {
                 bytes.isEmpty() -> NULL
@@ -167,7 +189,10 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         responseBody: String,
         response: HttpServletResponse,
     ): Int {
-        val codeFromResponseDirectly = responseBody.getFromRootAsString("code")?.toInt()
+        val codeFromResponseDirectly =
+            responseBody
+                .getFromRootAsString("code")
+                ?.toInt()
         return when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
             response.status2xxSuccessful ||
