@@ -32,6 +32,7 @@ package com.tony.utils
  * @since 1.0.0
  */
 import org.slf4j.MDC
+
 /**
  * mdc放入或获取默认值
  * @param [key] 钥匙
@@ -42,7 +43,11 @@ import org.slf4j.MDC
  * @date 2023/09/27 18:02
  * @since 1.0.0
  */
-public fun mdcPutOrGetDefault(key: String, default: String = uuid(), source: (() -> String?)? = null): String {
+public fun mdcPutOrGetDefault(
+    key: String,
+    default: String = uuid(),
+    source: (() -> String?)? = null,
+): String {
     val sourceTraceId = source?.invoke().defaultIfBlank(MDC.get(key).defaultIfBlank(default))
     MDC.put(key, sourceTraceId)
     return sourceTraceId

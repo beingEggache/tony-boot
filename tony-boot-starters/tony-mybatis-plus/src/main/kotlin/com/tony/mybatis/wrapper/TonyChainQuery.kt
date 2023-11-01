@@ -50,9 +50,10 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/10/23 14:50
      * @since 1.0.0
      */
-    public fun oneNotNull(message: String): T = baseMapper
-        .selectOne(wrapper)
-        .throwIfNull(message, ApiProperty.notFoundCode)
+    public fun oneNotNull(message: String): T =
+        baseMapper
+            .selectOne(wrapper)
+            .throwIfNull(message, ApiProperty.notFoundCode)
 
     /**
      * 查询单条记录.为 null 时抛错.
@@ -61,9 +62,10 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/10/23 14:50
      * @since 1.0.0
      */
-    public fun oneNotNull(): T = baseMapper
-        .selectOne(wrapper)
-        .throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
+    public fun oneNotNull(): T =
+        baseMapper
+            .selectOne(wrapper)
+            .throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
 
     /**
      * 查询某个条件是否存在, 存在就抛错.
@@ -118,7 +120,8 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/10/23 14:48
      * @since 1.0.0
      */
-    public fun <E> listObj(): List<E?> = baseMapper.selectObjs<E>(wrapper)
+    public fun <E> listObj(): List<E?> =
+        baseMapper.selectObjs<E>(wrapper)
 
     /**
      * 查询单条记录.
@@ -153,7 +156,8 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/10/23 14:46
      * @since 1.0.0
      */
-    public fun <E> oneObjNotNull(message: String): E = oneObj<E>().throwIfNull(message, ApiProperty.notFoundCode)
+    public fun <E> oneObjNotNull(message: String): E =
+        oneObj<E>().throwIfNull(message, ApiProperty.notFoundCode)
 
     /**
      * 查询单条记录.为 null 时抛错.
@@ -162,7 +166,8 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/10/23 14:47
      * @since 1.0.0
      */
-    public fun <E> oneObjNotNull(): E = oneObj<E>().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
+    public fun <E> oneObjNotNull(): E =
+        oneObj<E>().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
 
     /**
      * 查询全部记录.
@@ -171,7 +176,8 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/10/23 14:50
      * @since 1.0.0
      */
-    public fun listMap(): List<Map<String, Any?>> = baseMapper.selectMaps(wrapper)
+    public fun listMap(): List<Map<String, Any?>> =
+        baseMapper.selectMaps(wrapper)
 
     /**
      * 查询单条记录.
@@ -216,5 +222,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     public fun oneMapNotNull(): Map<String, Any?> =
         oneMap().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
 
-    override fun getEntityClass(): Class<T> = baseMapper.getEntityClass()
+    override fun getEntityClass(): Class<T> =
+        baseMapper.getEntityClass()
 }

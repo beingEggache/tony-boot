@@ -128,13 +128,18 @@ public class FlowProcess {
         return nextNode(parentNode)
     }
 
-    public fun execute(flowContext: FlowContext, flowExecution: FlowExecution, nodeName: String) {
+    public fun execute(
+        flowContext: FlowContext,
+        flowExecution: FlowExecution,
+        nodeName: String,
+    ) {
         model?.also {
             val flowNode =
                 it.getNode(nodeName).flowThrowIfNull("流程模型中未发现，流程节点:$nodeName")
 
-            val executeNode = flowNode.childNode
-                ?: nextNode(flowNode)
+            val executeNode =
+                flowNode.childNode
+                    ?: nextNode(flowNode)
             if (executeNode == null) {
                 EndProcessHandler.handle(flowContext, flowExecution)
                 return
@@ -150,7 +155,10 @@ public class FlowProcess {
         }
     }
 
-    public fun executeStart(flowContext: FlowContext, flowExecution: FlowExecution) {
+    public fun executeStart(
+        flowContext: FlowContext,
+        flowExecution: FlowExecution,
+    ) {
         model?.also {
             it.flowNode
                 .flowThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")

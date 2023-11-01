@@ -52,13 +52,17 @@ import org.springframework.beans.factory.ObjectProvider
 public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
     private val obj: T,
 ) : ObjectProvider<T> {
-    override fun getObject(vararg args: Any?): T = obj
+    override fun getObject(vararg args: Any?): T =
+        obj
 
-    override fun getObject(): T = obj
+    override fun getObject(): T =
+        obj
 
-    override fun getIfAvailable(): T = obj
+    override fun getIfAvailable(): T =
+        obj
 
-    override fun getIfUnique(): T = obj
+    override fun getIfUnique(): T =
+        obj
 }
 
 /**
@@ -91,6 +95,7 @@ public class UseRequestProcessorsRequestInterceptor :
     }
 
     internal companion object {
-        internal val feignRequestProcessorMap: MutableMap<Class<*>, List<RequestProcessor>> = ConcurrentHashMap()
+        internal val feignRequestProcessorMap: MutableMap<Class<*>, List<RequestProcessor>> =
+            ConcurrentHashMap()
     }
 }

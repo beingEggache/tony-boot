@@ -7,7 +7,6 @@ package com.tony.flow.model
  * @since 1.0.0
  */
 public class FlowConditionNode {
-
     public var nodeName: String? = null
 
     public var nodeType: Int? = null
@@ -21,9 +20,10 @@ public class FlowConditionNode {
     public var childNode: FlowNode? = null
 
     public val expression: String?
-        get() = expressionList
-            .takeIf { it.any() }
-            ?.joinToString(if (0 == conditionMode) " && " else " || ") {
-                "#${it.field}${it.operator}${it.value}"
-            }
+        get() =
+            expressionList
+                .takeIf { it.any() }
+                ?.joinToString(if (0 == conditionMode) " && " else " || ") {
+                    "#${it.field}${it.operator}${it.value}"
+                }
 }

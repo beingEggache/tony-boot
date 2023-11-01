@@ -49,19 +49,26 @@ public class ByteArrayMultipartFile(
     private val name: String = "",
     private val contentType: String? = null,
 ) : MultipartFile {
-    override fun isEmpty(): Boolean = bytes.isEmpty()
+    override fun isEmpty(): Boolean =
+        bytes.isEmpty()
 
-    override fun getSize(): Long = bytes.size.toLong()
+    override fun getSize(): Long =
+        bytes.size.toLong()
 
-    override fun getBytes(): ByteArray = bytes
+    override fun getBytes(): ByteArray =
+        bytes
 
-    override fun getInputStream(): InputStream = ByteArrayInputStream(bytes)
+    override fun getInputStream(): InputStream =
+        ByteArrayInputStream(bytes)
 
-    override fun getName(): String = name
+    override fun getName(): String =
+        name
 
-    override fun getOriginalFilename(): String = originalFilename
+    override fun getOriginalFilename(): String =
+        originalFilename
 
-    override fun getContentType(): String? = contentType
+    override fun getContentType(): String? =
+        contentType
 
     override fun transferTo(destination: File) {
         FileOutputStream(destination).use {

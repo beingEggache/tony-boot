@@ -11,7 +11,6 @@ import com.tony.mybatis.dao.BaseDao
  * @since 1.0.0
  */
 internal interface FlowHistoryTaskActorMapper : BaseDao<FlowHistoryTaskActor> {
-
     /**
      * 通过任务ID获取参与者列表
      * @param [taskId] 任务id
@@ -20,9 +19,10 @@ internal interface FlowHistoryTaskActorMapper : BaseDao<FlowHistoryTaskActor> {
      * @date 2023/09/28 17:40
      * @since 1.0.0
      */
-    fun selectListByTaskId(taskId: Long): List<FlowTaskActor> = ktQuery()
-        .eq(FlowHistoryTaskActor::taskActorId, taskId)
-        .list()
+    fun selectListByTaskId(taskId: Long): List<FlowTaskActor> =
+        ktQuery()
+            .eq(FlowHistoryTaskActor::taskActorId, taskId)
+            .list()
 
     /**
      * 通过任务ID删除参与者

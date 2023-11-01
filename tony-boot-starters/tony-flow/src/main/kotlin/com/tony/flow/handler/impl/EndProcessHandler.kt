@@ -14,7 +14,10 @@ import com.tony.flow.model.FlowExecution
  * @since 1.0.0
  */
 public object EndProcessHandler : FlowHandler {
-    override fun handle(flowContext: FlowContext, flowExecution: FlowExecution) {
+    override fun handle(
+        flowContext: FlowContext,
+        flowExecution: FlowExecution,
+    ) {
         val flowEngine = flowExecution.flowEngine
         val flowInstance = flowExecution.flowInstance
 

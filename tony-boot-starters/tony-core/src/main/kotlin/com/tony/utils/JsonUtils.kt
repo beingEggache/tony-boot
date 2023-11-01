@@ -67,7 +67,8 @@ public val globalObjectMapper: ObjectMapper by lazy(LazyThreadSafetyMode.PUBLICA
  * @date 2023/09/13 10:19
  * @since 1.0.0
  */
-public fun createObjectMapper(): ObjectMapper = ObjectMapper().initialize()
+public fun createObjectMapper(): ObjectMapper =
+    ObjectMapper().initialize()
 
 /**
  * json字符串转对象
@@ -77,7 +78,8 @@ public fun createObjectMapper(): ObjectMapper = ObjectMapper().initialize()
  * @since 1.0.0
  */
 @Throws(IOException::class)
-public inline fun <reified T> String.jsonToObj(): T = globalObjectMapper.readValue(this)
+public inline fun <reified T> String.jsonToObj(): T =
+    globalObjectMapper.readValue(this)
 
 /**
  * Method to deserialize JSON content from given JSON content String.
@@ -88,7 +90,8 @@ public inline fun <reified T> String.jsonToObj(): T = globalObjectMapper.readVal
  * @since 1.0.0
  */
 @Throws(IOException::class)
-public fun <T> String.jsonToObj(clazz: Class<T>): T = globalObjectMapper.readValue(this, clazz)
+public fun <T> String.jsonToObj(clazz: Class<T>): T =
+    globalObjectMapper.readValue(this, clazz)
 
 /**
  * Method to deserialize JSON content from given JSON content String.
@@ -99,7 +102,8 @@ public fun <T> String.jsonToObj(clazz: Class<T>): T = globalObjectMapper.readVal
  * @since 1.0.0
  */
 @Throws(IOException::class)
-public fun <T> String.jsonToObj(typeReference: TypeReference<T>): T = globalObjectMapper.readValue(this, typeReference)
+public fun <T> String.jsonToObj(typeReference: TypeReference<T>): T =
+    globalObjectMapper.readValue(this, typeReference)
 
 /**
  * Method to deserialize JSON content from given JSON content String.
@@ -110,7 +114,8 @@ public fun <T> String.jsonToObj(typeReference: TypeReference<T>): T = globalObje
  * @since 1.0.0
  */
 @Throws(IOException::class)
-public fun <T> String.jsonToObj(javaType: JavaType): T = globalObjectMapper.readValue(this, javaType)
+public fun <T> String.jsonToObj(javaType: JavaType): T =
+    globalObjectMapper.readValue(this, javaType)
 
 /**
  * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
@@ -120,7 +125,8 @@ public fun <T> String.jsonToObj(javaType: JavaType): T = globalObjectMapper.read
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
-public fun String.jsonNode(): JsonNode = globalObjectMapper.readTree(this)
+public fun String.jsonNode(): JsonNode =
+    globalObjectMapper.readTree(this)
 
 /**
  * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
@@ -130,7 +136,8 @@ public fun String.jsonNode(): JsonNode = globalObjectMapper.readTree(this)
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
-public fun ByteArray.jsonNode(): JsonNode = globalObjectMapper.readTree(this)
+public fun ByteArray.jsonNode(): JsonNode =
+    globalObjectMapper.readTree(this)
 
 /**
  * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
@@ -140,7 +147,8 @@ public fun ByteArray.jsonNode(): JsonNode = globalObjectMapper.readTree(this)
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
-public fun InputStream.jsonNode(): JsonNode = globalObjectMapper.readTree(this)
+public fun InputStream.jsonNode(): JsonNode =
+    globalObjectMapper.readTree(this)
 
 /**
  * Method that can be used to serialize any Java value as a String.
@@ -149,11 +157,12 @@ public fun InputStream.jsonNode(): JsonNode = globalObjectMapper.readTree(this)
  * @date 2023/09/13 10:22
  * @since 1.0.0
  */
-public fun <T> T?.toJsonString(): String = if (this != null) {
-    globalObjectMapper.writeValueAsString(this)
-} else {
-    ""
-}
+public fun <T> T?.toJsonString(): String =
+    if (this != null) {
+        globalObjectMapper.writeValueAsString(this)
+    } else {
+        ""
+    }
 
 private val valueJsonToken =
     setOf(
@@ -209,7 +218,8 @@ public fun String.getFromRootAsString(field: String): String? {
  * @since 1.0.0
  */
 @Throws(IOException::class)
-public inline fun <reified T> ByteArray.jsonToObj(): T = globalObjectMapper.readValue(this)
+public inline fun <reified T> ByteArray.jsonToObj(): T =
+    globalObjectMapper.readValue(this)
 
 /**
  * json到obj
@@ -219,4 +229,5 @@ public inline fun <reified T> ByteArray.jsonToObj(): T = globalObjectMapper.read
  * @since 1.0.0
  */
 @Throws(IOException::class)
-public inline fun <reified T> InputStream.jsonToObj(): T = globalObjectMapper.readValue(this)
+public inline fun <reified T> InputStream.jsonToObj(): T =
+    globalObjectMapper.readValue(this)

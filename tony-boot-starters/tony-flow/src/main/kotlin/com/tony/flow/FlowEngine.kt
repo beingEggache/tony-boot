@@ -14,7 +14,6 @@ import com.tony.flow.service.TaskService
  * @since 1.0.0
  */
 public interface FlowEngine {
-
     public var context: FlowContext
 
     /**
@@ -66,7 +65,10 @@ public interface FlowEngine {
      * @date 2023/10/20 16:31
      * @since 1.0.0
      */
-    public fun startInstanceById(flowProcessId: Long, flowOperator: FlowOperator): FlowInstance? =
+    public fun startInstanceById(
+        flowProcessId: Long,
+        flowOperator: FlowOperator,
+    ): FlowInstance? =
         startInstanceById(flowProcessId, flowOperator, null)
 
     /**
@@ -101,7 +103,8 @@ public interface FlowEngine {
         flowProcessName: String,
         processVersion: Int,
         flowOperator: FlowOperator,
-    ): FlowInstance? = startInstanceByName(flowProcessName, processVersion, flowOperator, null)
+    ): FlowInstance? =
+        startInstanceByName(flowProcessName, processVersion, flowOperator, null)
 
     /**
      * 执行任务
@@ -112,7 +115,11 @@ public interface FlowEngine {
      * @date 2023/10/20 16:32
      * @since 1.0.0
      */
-    public fun executeTask(taskId: Long, flowOperator: FlowOperator, args: Map<String, Any?>?)
+    public fun executeTask(
+        taskId: Long,
+        flowOperator: FlowOperator,
+        args: Map<String, Any?>?,
+    )
 
     /**
      * 执行任务
@@ -122,7 +129,10 @@ public interface FlowEngine {
      * @date 2023/10/20 16:32
      * @since 1.0.0
      */
-    public fun executeTask(taskId: Long, flowOperator: FlowOperator) {
+    public fun executeTask(
+        taskId: Long,
+        flowOperator: FlowOperator,
+    ) {
         executeTask(taskId, flowOperator, null)
     }
 
@@ -136,7 +146,12 @@ public interface FlowEngine {
      * @date 2023/10/20 16:33
      * @since 1.0.0
      */
-    public fun executeAndJumpTask(taskId: Long, nodeName: String, flowOperator: FlowOperator, args: Map<String, Any?>?)
+    public fun executeAndJumpTask(
+        taskId: Long,
+        nodeName: String,
+        flowOperator: FlowOperator,
+        args: Map<String, Any?>?,
+    )
 
     /**
      * 执行并跳转到节点
@@ -147,7 +162,11 @@ public interface FlowEngine {
      * @date 2023/10/20 16:33
      * @since 1.0.0
      */
-    public fun executeAndJumpTask(taskId: Long, nodeName: String, flowOperator: FlowOperator) {
+    public fun executeAndJumpTask(
+        taskId: Long,
+        nodeName: String,
+        flowOperator: FlowOperator,
+    ) {
         executeAndJumpTask(taskId, nodeName, flowOperator, null)
     }
 }

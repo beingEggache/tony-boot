@@ -27,6 +27,7 @@ public enum class MultiStageManagerMode(
     internal companion object : EnumCreator<MultiStageManagerMode, Int>(MultiStageManagerMode::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) = super.create(value)
+        override fun create(value: Int) =
+            super.create(value)
     }
 }

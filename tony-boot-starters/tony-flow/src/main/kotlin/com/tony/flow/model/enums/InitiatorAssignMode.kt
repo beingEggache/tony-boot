@@ -27,6 +27,7 @@ public enum class InitiatorAssignMode(
     internal companion object : EnumCreator<InitiatorAssignMode, Int>(InitiatorAssignMode::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) = super.create(value)
+        override fun create(value: Int) =
+            super.create(value)
     }
 }

@@ -52,11 +52,14 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, IntEnum
         required = constraintAnnotation.required
     }
 
-    override fun isValid(str: IntEnumValue?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
+    override fun isValid(
+        str: IntEnumValue?,
+        constraintValidatorContext: ConstraintValidatorContext,
+    ): Boolean {
         if (required && (
                 str?.value == null ||
                     str.value == DEFAULT_INT_VALUE
-                )
+            )
         ) {
             return false
         }
@@ -84,11 +87,14 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
         throw IllegalStateException("class is not valid")
     }
 
-    override fun isValid(str: IntEnumValue?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
+    override fun isValid(
+        str: IntEnumValue?,
+        constraintValidatorContext: ConstraintValidatorContext,
+    ): Boolean {
         if (required && (
                 str?.value == null ||
                     str.value == DEFAULT_INT_VALUE
-                )
+            )
         ) {
             return false
         }
@@ -110,11 +116,14 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, S
         required = constraintAnnotation.required
     }
 
-    override fun isValid(str: StringEnumValue?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
+    override fun isValid(
+        str: StringEnumValue?,
+        constraintValidatorContext: ConstraintValidatorContext,
+    ): Boolean {
         if (required && (
                 str?.value == null ||
                     str.value == DEFAULT_STRING_VALUE
-                )
+            )
         ) {
             return false
         }
@@ -141,11 +150,14 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumVal
         throw IllegalStateException("class is not valid")
     }
 
-    override fun isValid(str: StringEnumValue?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
+    override fun isValid(
+        str: StringEnumValue?,
+        constraintValidatorContext: ConstraintValidatorContext,
+    ): Boolean {
         if (required && (
                 str?.value == null ||
                     str.value == DEFAULT_STRING_VALUE
-                )
+            )
         ) {
             return false
         }
@@ -165,7 +177,11 @@ public class SimpleEnumValidator : ConstraintValidator<SimpleEnum, Any?> {
         enums = constraintAnnotation.enums
     }
 
-    override fun isValid(str: Any?, constraintValidatorContext: ConstraintValidatorContext): Boolean = null == str ||
-        str.toString().isBlank() ||
-        str.toString() in enums
+    override fun isValid(
+        str: Any?,
+        constraintValidatorContext: ConstraintValidatorContext,
+    ): Boolean =
+        null == str ||
+            str.toString().isBlank() ||
+            str.toString() in enums
 }

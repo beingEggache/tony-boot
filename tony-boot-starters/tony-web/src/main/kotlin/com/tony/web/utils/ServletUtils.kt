@@ -126,7 +126,8 @@ public val HttpServletRequest.remoteIp: String
  * @receiver [HttpServletRequest]
  */
 public val HttpServletRequest.url: URL
-    get() = URL(requestURL.toString())
+    get() =
+        URL(requestURL.toString())
 
 private val TEXT_MEDIA_TYPES =
     listOf(
@@ -142,14 +143,16 @@ private val TEXT_MEDIA_TYPES =
  * @param mediaType
  * @return
  */
-public fun isTextMediaTypes(mediaType: MediaType?): Boolean = TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
+public fun isTextMediaTypes(mediaType: MediaType?): Boolean =
+    TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 
 /**
  * Is cors request a preflight request.
  * @receiver [HttpServletRequest]
  */
 public val HttpServletRequest.isCorsPreflightRequest: Boolean
-    get() = CorsUtils.isPreFlightRequest(this)
+    get() =
+        CorsUtils.isPreFlightRequest(this)
 
 /**
  * Parsed media
@@ -180,21 +183,24 @@ public val HttpServletResponse.parsedMedia: MediaType?
  * @receiver [HttpServletResponse]
  */
 public val HttpServletResponse.status1xxInformational: Boolean
-    get() = HttpStatus.valueOf(status).is1xxInformational
+    get() =
+        HttpStatus.valueOf(status).is1xxInformational
 
 /**
  * Status is 2xx successful
  * @receiver [HttpServletResponse]
  */
 public val HttpServletResponse.status2xxSuccessful: Boolean
-    get() = HttpStatus.valueOf(status).is2xxSuccessful
+    get() =
+        HttpStatus.valueOf(status).is2xxSuccessful
 
 /**
  * Status is 3xx redirection
  * @receiver [HttpServletResponse]
  */
 public val HttpServletResponse.status3xxRedirection: Boolean
-    get() = HttpStatus.valueOf(status).is3xxRedirection
+    get() =
+        HttpStatus.valueOf(status).is3xxRedirection
 
 /**
  * 将二进制转为web响应
@@ -207,18 +213,19 @@ public val HttpServletResponse.status3xxRedirection: Boolean
 public fun ByteArray.responseEntity(
     fileName: String = "",
     contentType: MediaType = MediaType.APPLICATION_OCTET_STREAM,
-): ResponseEntity<ByteArray> = ResponseEntity
-    .ok()
-    .contentType(contentType)
-    .doIf(MediaType.APPLICATION_OCTET_STREAM == contentType) {
-        val httpHeaders =
-            HttpHeaders().apply {
-                contentDisposition =
-                    ContentDisposition
-                        .builder("attachment")
-                        .filename(URLEncoder.encode(fileName, "utf-8"))
-                        .build()
-            }
-        headers(httpHeaders)
-    }
-    .body(this)
+): ResponseEntity<ByteArray> =
+    ResponseEntity
+        .ok()
+        .contentType(contentType)
+        .doIf(MediaType.APPLICATION_OCTET_STREAM == contentType) {
+            val httpHeaders =
+                HttpHeaders().apply {
+                    contentDisposition =
+                        ContentDisposition
+                            .builder("attachment")
+                            .filename(URLEncoder.encode(fileName, "utf-8"))
+                            .build()
+                }
+            headers(httpHeaders)
+        }
+        .body(this)

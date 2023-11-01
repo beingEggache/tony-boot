@@ -23,6 +23,7 @@
  */
 
 package com.tony.web.log
+
 /**
  * 请求日志记录接口.
  *
@@ -134,33 +135,38 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         logger.trace(logStr.removeLineBreak())
     }
 
-    private fun requestBody(request: RepeatReadRequestWrapper) = if (!isTextMediaTypes(request.parsedMedia)) {
-        "[${request.contentType}]"
-    } else if (request.method.equals(HttpMethod.POST.name(), true)) {
-        val bytes = request.contentAsByteArray
-        when {
-            bytes.isEmpty() -> NULL
-            bytes.size <= 65535 -> String(bytes)
-            else -> "[too long content, length = ${bytes.size}]"
-        }
-    } else {
-        NULL
-    }
-
-    private fun responseBody(response: ContentCachingResponseWrapper) = if (!isTextMediaTypes(response.parsedMedia)) {
-        "[${response.contentType}]"
-    } else {
-        response.contentAsByteArray.let { bytes ->
-            val size = bytes.size
+    private fun requestBody(request: RepeatReadRequestWrapper) =
+        if (!isTextMediaTypes(request.parsedMedia)) {
+            "[${request.contentType}]"
+        } else if (request.method.equals(HttpMethod.POST.name(), true)) {
+            val bytes = request.contentAsByteArray
             when {
-                size in 1..65535 -> String(bytes)
-                size >= 65536 -> "[too long content, length = $size]"
-                else -> NULL
+                bytes.isEmpty() -> NULL
+                bytes.size <= 65535 -> String(bytes)
+                else -> "[too long content, length = ${bytes.size}]"
+            }
+        } else {
+            NULL
+        }
+
+    private fun responseBody(response: ContentCachingResponseWrapper) =
+        if (!isTextMediaTypes(response.parsedMedia)) {
+            "[${response.contentType}]"
+        } else {
+            response.contentAsByteArray.let { bytes ->
+                val size = bytes.size
+                when {
+                    size in 1..65535 -> String(bytes)
+                    size >= 65536 -> "[too long content, length = $size]"
+                    else -> NULL
+                }
             }
         }
-    }
 
-    private fun resultCode(responseBody: String, response: HttpServletResponse): Int {
+    private fun resultCode(
+        responseBody: String,
+        response: HttpServletResponse,
+    ): Int {
         val codeFromResponseDirectly = responseBody.getFromRootAsString("code")?.toInt()
         return when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
@@ -172,13 +178,14 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         }
     }
 
-    private fun resultStatus(resultCode: Int): String = when (resultCode) {
-        ApiProperty.okCode -> OK
-        ApiProperty.badRequestCode -> BAD_REQUEST
-        ApiProperty.preconditionFailedCode -> PRECONDITION_FAILED
-        ApiProperty.unauthorizedCode -> UNAUTHORIZED
-        in 400 * 100..499 * 100 -> BAD_REQUEST
-        in 100 * 100..199 * 100 -> OK
-        else -> INTERNAL_SERVER_ERROR
-    }
+    private fun resultStatus(resultCode: Int): String =
+        when (resultCode) {
+            ApiProperty.okCode -> OK
+            ApiProperty.badRequestCode -> BAD_REQUEST
+            ApiProperty.preconditionFailedCode -> PRECONDITION_FAILED
+            ApiProperty.unauthorizedCode -> UNAUTHORIZED
+            in 400 * 100..499 * 100 -> BAD_REQUEST
+            in 100 * 100..199 * 100 -> OK
+            else -> INTERNAL_SERVER_ERROR
+        }
 }

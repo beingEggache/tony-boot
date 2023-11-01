@@ -41,7 +41,8 @@ import java.util.WeakHashMap
 import org.springframework.core.convert.converter.Converter
 import org.springframework.core.convert.converter.ConverterFactory
 
-private val converters = WeakHashMap<Class<*>, Converter<String, *>>()
+private val converters =
+    WeakHashMap<Class<*>, Converter<String, *>>()
 
 /**
  * enum-int值转换器工厂
@@ -53,7 +54,10 @@ private val converters = WeakHashMap<Class<*>, Converter<String, *>>()
 internal class EnumIntValueConverterFactory :
     ConverterFactory<String, IntEnumValue> {
     override fun <E : IntEnumValue> getConverter(targetType: Class<E>) =
-        converters.getOrPut(targetType) { EnumIntValueConverter(targetType) } as Converter<String, E>
+        converters
+            .getOrPut(targetType) {
+                EnumIntValueConverter(targetType)
+            } as Converter<String, E>
 }
 
 /**
@@ -66,7 +70,10 @@ internal class EnumIntValueConverterFactory :
 internal class EnumStringValueConverterFactory :
     ConverterFactory<String, StringEnumValue> {
     override fun <E : StringEnumValue> getConverter(targetType: Class<E>) =
-        converters.getOrPut(targetType) { EnumStringValueConverter(targetType) } as Converter<String, E>
+        converters
+            .getOrPut(targetType) {
+                EnumStringValueConverter(targetType)
+            } as Converter<String, E>
 }
 
 /**
@@ -79,11 +86,13 @@ internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
     Converter<String, EnumValue<K>>
     where E : EnumValue<K>,
           K : Serializable {
-    private val creator: EnumCreator<E, K> = EnumCreator.creatorOf(enumType)
+    private val creator: EnumCreator<E, K> =
+        EnumCreator.creatorOf(enumType)
 
     protected abstract fun convertSource(source: String): K
 
-    override fun convert(source: String) = creator.create(convertSource(source))
+    override fun convert(source: String) =
+        creator.create(convertSource(source))
 }
 
 /**
@@ -95,15 +104,15 @@ internal sealed class EnumValueConverter<out E, K>(enumType: Class<out E>) :
 internal class EnumIntValueConverter(enumType: Class<out IntEnumValue>) :
     EnumValueConverter<IntEnumValue, Int>(enumType),
     Converter<String, EnumValue<Int>> {
-    override fun convertSource(source: String) = source.toInt()
+    override fun convertSource(source: String) =
+        source.toInt()
 
-    override fun convert(source: String): IntEnumValue? {
-        return if (source.toInt() == DEFAULT_INT_VALUE) {
+    override fun convert(source: String): IntEnumValue? =
+        if (source.toInt() == DEFAULT_INT_VALUE) {
             null
         } else {
             super.convert(source)
         }
-    }
 }
 
 /**
@@ -115,11 +124,13 @@ internal class EnumIntValueConverter(enumType: Class<out IntEnumValue>) :
 internal class EnumStringValueConverter(enumType: Class<out StringEnumValue>) :
     EnumValueConverter<StringEnumValue, String>(enumType),
     Converter<String, EnumValue<String>> {
-    override fun convertSource(source: String) = source
+    override fun convertSource(source: String) =
+        source
 
-    override fun convert(source: String): StringEnumValue? = if (source == DEFAULT_STRING_VALUE) {
-        null
-    } else {
-        super.convert(source)
-    }
+    override fun convert(source: String): StringEnumValue? =
+        if (source == DEFAULT_STRING_VALUE) {
+            null
+        } else {
+            super.convert(source)
+        }
 }

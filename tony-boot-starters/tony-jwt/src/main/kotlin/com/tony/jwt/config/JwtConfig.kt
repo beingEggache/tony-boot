@@ -48,13 +48,13 @@ internal class JwtConfig
  */
 @ConfigurationProperties(prefix = "jwt")
 public data class JwtProperties
-@ConstructorBinding
-constructor(
-    @DefaultValue("")
-    val secret: String,
-    /**
-     * jwt token expired minutes, default value is one year.
-     */
-    @DefaultValue("525600")
-    val expiredMinutes: Long,
-)
+    @ConstructorBinding
+    constructor(
+        @DefaultValue("")
+        val secret: String,
+        /**
+         * jwt token expired minutes, default value is one year.
+         */
+        @DefaultValue("525600")
+        val expiredMinutes: Long,
+    )

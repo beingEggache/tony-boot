@@ -66,7 +66,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 10:38
      * @since 1.0.0
      */
-    public fun selectByIdNotNull(id: Serializable): T = selectById(id).throwIfNull()
+    public fun selectByIdNotNull(id: Serializable): T =
+        selectById(id).throwIfNull()
 
     /**
      * 根据id查询，为null 将会抛错
@@ -77,7 +78,10 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 10:38
      * @since 1.0.0
      */
-    public fun selectByIdNotNull(id: Serializable, message: String = ApiProperty.notFoundMessage): T =
+    public fun selectByIdNotNull(
+        id: Serializable,
+        message: String = ApiProperty.notFoundMessage,
+    ): T =
         selectById(id).throwIfNull(message)
 
     /**
@@ -94,7 +98,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         id: Serializable,
         message: String = ApiProperty.notFoundMessage,
         code: Int = ApiProperty.notFoundCode,
-    ): T = selectById(id).throwIfNull(message, code)
+    ): T =
+        selectById(id).throwIfNull(message, code)
 
     /**
      * TableId 注解存在更新记录，否插入一条记录
@@ -106,10 +111,12 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      */
     public fun upsert(entity: T?): Boolean {
         if (null != entity) {
-            val tableInfo: TableInfo = TableInfoHelper.getTableInfo(getEntityClass())
-                .throwIfNull("error: can not execute. because can not find cache of TableInfo for entity!")
-            val keyProperty = tableInfo.keyProperty
-                .throwIfNull("error: can not execute. because can not find column for id from entity!")
+            val tableInfo: TableInfo =
+                TableInfoHelper.getTableInfo(getEntityClass())
+                    .throwIfNull("error: can not execute. because can not find cache of TableInfo for entity!")
+            val keyProperty =
+                tableInfo.keyProperty
+                    .throwIfNull("error: can not execute. because can not find column for id from entity!")
             val idVal = tableInfo.getPropertyValue(entity, keyProperty)
             return if (StringUtils.checkValNull(idVal) || Objects.isNull(selectById(idVal as Serializable))) {
                 insert(entity) > 0
@@ -129,9 +136,10 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
-    public fun insertBatch(batchList: Collection<T>): Boolean = executeBatch(batchList) { sqlSession, entity ->
-        sqlSession.insert(getSqlStatement(SqlMethod.INSERT_ONE), entity)
-    }
+    public fun insertBatch(batchList: Collection<T>): Boolean =
+        executeBatch(batchList) { sqlSession, entity ->
+            sqlSession.insert(getSqlStatement(SqlMethod.INSERT_ONE), entity)
+        }
 
     /**
      * 批量保存更新
@@ -144,10 +152,12 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     @Transactional(rollbackFor = [Throwable::class])
     public fun upsertBatch(batchList: Collection<T>): Boolean {
         val entityClass = getEntityClass()
-        val tableInfo = TableInfoHelper.getTableInfo(entityClass)
-            .throwIfNull("error: can not execute. because can not find cache of TableInfo for entity!")
-        val keyProperty = tableInfo.keyProperty
-            .throwIfNull("error: can not execute. because can not find column for id from entity!")
+        val tableInfo =
+            TableInfoHelper.getTableInfo(entityClass)
+                .throwIfNull("error: can not execute. because can not find cache of TableInfo for entity!")
+        val keyProperty =
+            tableInfo.keyProperty
+                .throwIfNull("error: can not execute. because can not find column for id from entity!")
         val sqlStatement = getSqlStatement(SqlMethod.INSERT_ONE)
         return executeBatch(batchList) { sqlSession, entity ->
             val isInsert =
@@ -175,11 +185,12 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
-    public fun updateByIdBatch(batchList: Collection<T>): Boolean = executeBatch(batchList) { sqlSession, entity ->
-        val param = ParamMap<T>()
-        param[Constants.ENTITY] = entity
-        sqlSession.update(getSqlStatement(SqlMethod.UPDATE_BY_ID), param)
-    }
+    public fun updateByIdBatch(batchList: Collection<T>): Boolean =
+        executeBatch(batchList) { sqlSession, entity ->
+            val param = ParamMap<T>()
+            param[Constants.ENTITY] = entity
+            sqlSession.update(getSqlStatement(SqlMethod.UPDATE_BY_ID), param)
+        }
 
     /**
      * 批量删除,如果使用了逻辑删除，就是批量逻辑删除.
@@ -221,7 +232,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     public fun <E : PageResultLike<T>> selectPageResult(
         page: JPageQueryLike<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
-    ): E = selectPage(page.toPage(), queryWrapper).toPageResult()
+    ): E =
+        selectPage(page.toPage(), queryWrapper).toPageResult()
 
     /**
      * 分页查询出全局统一结构.
@@ -235,7 +247,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     public fun <E : PageResultLike<Map<String, Any?>>> selectMapPageResult(
         page: JPageQueryLike<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
-    ): E = selectMapsPage(page.toPage(), queryWrapper).toPageResult()
+    ): E =
+        selectMapsPage(page.toPage(), queryWrapper).toPageResult()
 
     /**
      * 以下的方法使用介绍:
@@ -261,7 +274,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 10:39
      * @since 1.0.0
      */
-    public fun query(): TonyQueryChainWrapper<T> = TonyQueryChainWrapper(this)
+    public fun query(): TonyQueryChainWrapper<T> =
+        TonyQueryChainWrapper(this)
 
     /**
      * 链式查询 lambda 式
@@ -271,7 +285,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 10:39
      * @since 1.0.0
      */
-    public fun lambdaQuery(): TonyLambdaQueryChainWrapper<T> = TonyLambdaQueryChainWrapper(this)
+    public fun lambdaQuery(): TonyLambdaQueryChainWrapper<T> =
+        TonyLambdaQueryChainWrapper(this)
 
     /**
      * 链式查询 普通
@@ -282,7 +297,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @since 1.0.0
      */
     @JvmSynthetic
-    public fun ktQuery(): TonyKtQueryChainWrapper<T> = TonyKtQueryChainWrapper(this)
+    public fun ktQuery(): TonyKtQueryChainWrapper<T> =
+        TonyKtQueryChainWrapper(this)
 
     /**
      * 链式查询 lambda 式
@@ -293,7 +309,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @since 1.0.0
      */
     @JvmSynthetic
-    public fun ktUpdate(): KtUpdateChainWrapper<T> = ChainWrappers.ktUpdateChain(this, getEntityClass())
+    public fun ktUpdate(): KtUpdateChainWrapper<T> =
+        ChainWrappers.ktUpdateChain(this, getEntityClass())
 
     /**
      * 链式更改 普通
@@ -302,7 +319,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 10:40
      * @since 1.0.0
      */
-    public fun update(): UpdateChainWrapper<T> = ChainWrappers.updateChain(this)
+    public fun update(): UpdateChainWrapper<T> =
+        ChainWrappers.updateChain(this)
 
     /**
      * 链式更改 lambda 式
@@ -312,5 +330,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 10:40
      * @since 1.0.0
      */
-    public fun lambdaUpdate(): LambdaUpdateChainWrapper<T> = ChainWrappers.lambdaUpdateChain(this)
+    public fun lambdaUpdate(): LambdaUpdateChainWrapper<T> =
+        ChainWrappers.lambdaUpdateChain(this)
 }

@@ -66,7 +66,8 @@ internal class ExceptionHandler : ErrorController {
      */
     @ExceptionHandler(BizException::class)
     @ResponseBody
-    fun bizException(e: BizException) = e.toResponse()
+    fun bizException(e: BizException) =
+        e.toResponse()
 
     /**
      * 框架异常
@@ -77,12 +78,13 @@ internal class ExceptionHandler : ErrorController {
      */
     @ExceptionHandler(ApiException::class)
     @ResponseBody
-    fun apiException(e: ApiException) = run {
-        e.cause?.apply {
-            logger.warn(message, cause)
+    fun apiException(e: ApiException) =
+        run {
+            e.cause?.apply {
+                logger.warn(message, cause)
+            }
+            e.toResponse()
         }
-        e.toResponse()
-    }
 
     /**
      * 异常
@@ -94,24 +96,29 @@ internal class ExceptionHandler : ErrorController {
      */
     @ExceptionHandler(Exception::class)
     @ResponseBody
-    fun exception(e: Exception, response: HttpServletResponse) = run {
+    fun exception(
+        e: Exception,
+        response: HttpServletResponse,
+    ) = run {
         logger.error(e.message, e)
         // handle the json generate exception
         response.resetBuffer()
         errorResponse(ApiProperty.errorMsg)
     }
 
-    private fun bindingResultMessages(bindingResult: BindingResult) = bindingResult.fieldErrors.first().let {
-        if (it.isBindingFailure) {
-            ApiProperty.badRequestMsg
-        } else {
-            it.defaultMessage ?: ""
+    private fun bindingResultMessages(bindingResult: BindingResult) =
+        bindingResult.fieldErrors.first().let {
+            if (it.isBindingFailure) {
+                ApiProperty.badRequestMsg
+            } else {
+                it.defaultMessage ?: ""
+            }
         }
-    }
 
     @ExceptionHandler(BindException::class)
     @ResponseBody
-    fun bindingResultException(e: BindException) = badRequest(bindingResultMessages(e.bindingResult))
+    fun bindingResultException(e: BindException) =
+        badRequest(bindingResultMessages(e.bindingResult))
 
     @ExceptionHandler(ConstraintViolationException::class)
     @ResponseBody
@@ -126,21 +133,23 @@ internal class ExceptionHandler : ErrorController {
         ]
     )
     @ResponseBody
-    fun badRequestException(e: Exception) = run {
-        logger.warn(e.localizedMessage, e)
-        badRequest(ApiProperty.badRequestMsg)
-    }
+    fun badRequestException(e: Exception) =
+        run {
+            logger.warn(e.localizedMessage, e)
+            badRequest(ApiProperty.badRequestMsg)
+        }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun error() = when {
-        WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
-        WebContext.httpStatus >= 500 -> {
-            logger.error(WebContext.errorMessage)
-            errorResponse(ApiProperty.errorMsg, ApiProperty.errorCode)
-        }
+    fun error() =
+        when {
+            WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
+            WebContext.httpStatus >= 500 -> {
+                logger.error(WebContext.errorMessage)
+                errorResponse(ApiProperty.errorMsg, ApiProperty.errorCode)
+            }
 
-        else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
-    }
+            else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
+        }
 }

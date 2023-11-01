@@ -42,6 +42,7 @@ public enum class NodeType(
     internal companion object : EnumCreator<NodeType, Int>(NodeType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) = super.create(value)
+        override fun create(value: Int) =
+            super.create(value)
     }
 }

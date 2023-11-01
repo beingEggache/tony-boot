@@ -131,7 +131,10 @@ internal class RequestBodyFieldInjectorComposite(
         }
     }
 
-    private fun removeInjectorSupports(targetType: Class<*>, injectorNameList: List<String>?) {
+    private fun removeInjectorSupports(
+        targetType: Class<*>,
+        injectorNameList: List<String>?,
+    ) {
         if (injectorNameList.isNullOrEmpty()) {
             return
         }
@@ -181,19 +184,20 @@ internal class RequestBodyFieldInjectorComposite(
     private fun processSupportedInjectors(
         targetType: Class<*>,
         annotatedFields: List<Field>,
-    ): ConcurrentMap<String, RequestBodyFieldInjector> = classSupportedInjectorMap.getOrPut(targetType) {
-        requestBodyFieldInjectors
-            .associateBy {
-                it.name
-            }
-            .filterValues { injector ->
-                hasSupportInjectorFields(annotatedFields, injector, targetType)
-            }.let {
-                ConcurrentHashMap<String, RequestBodyFieldInjector>().apply {
-                    putAll(it)
+    ): ConcurrentMap<String, RequestBodyFieldInjector> =
+        classSupportedInjectorMap.getOrPut(targetType) {
+            requestBodyFieldInjectors
+                .associateBy {
+                    it.name
                 }
-            }
-    }
+                .filterValues { injector ->
+                    hasSupportInjectorFields(annotatedFields, injector, targetType)
+                }.let {
+                    ConcurrentHashMap<String, RequestBodyFieldInjector>().apply {
+                        putAll(it)
+                    }
+                }
+        }
 
     private fun hasSupportInjectorFields(
         annotatedFields: List<Field>,
@@ -225,9 +229,10 @@ internal class RequestBodyFieldInjectorComposite(
         fieldName: String,
         annotationValue: String,
         injectorName: String,
-    ): Boolean = if (annotationValue.isNotBlank()) {
-        annotationValue == injectorName
-    } else {
-        fieldName == injectorName
-    }
+    ): Boolean =
+        if (annotationValue.isNotBlank()) {
+            annotationValue == injectorName
+        } else {
+            fieldName == injectorName
+        }
 }

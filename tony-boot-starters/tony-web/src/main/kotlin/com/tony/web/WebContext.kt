@@ -56,14 +56,16 @@ public object WebContext {
      */
     @JvmStatic
     public val isWeb: Boolean
-        get() = RequestContextHolder.getRequestAttributes() != null
+        get() =
+            RequestContextHolder.getRequestAttributes() != null
 
     /**
      * ServletRequestAttributes
      */
     @JvmStatic
     public val current: ServletRequestAttributes
-        get() = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        get() =
+            RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
 
     /**
      * ServletRequestAttributes 存取变量.
@@ -81,54 +83,66 @@ public object WebContext {
         key: String,
         scope: Int = SCOPE_REQUEST,
         callback: () -> T,
-    ): T = getAttribute(key, scope).asTo() ?: callback().apply {
-        setAttribute(key, this, scope)
-    }
+    ): T =
+        getAttribute(key, scope).asTo() ?: callback().apply {
+            setAttribute(key, this, scope)
+        }
 
     @JvmStatic
     public val headers: Map<String, String>
-        get() = request.headers
+        get() =
+            request.headers
 
     @JvmStatic
-    public fun getHeader(name: String?): String = headers[name].defaultIfBlank()
+    public fun getHeader(name: String?): String =
+        headers[name].defaultIfBlank()
 
     @JvmStatic
     public val origin: String
-        get() = request.origin
+        get() =
+            request.origin
 
     @JvmStatic
     public val remoteIP: String
-        get() = request.remoteIp
+        get() =
+            request.remoteIp
 
     @JvmStatic
     public val request: HttpServletRequest
-        get() = current.request
+        get() =
+            current.request
 
     @JvmStatic
     public val url: URL
-        get() = request.url
+        get() =
+            request.url
 
     @JvmSynthetic
-    public fun BaseException.toResponse(): ApiResult<*> = ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
+    public fun BaseException.toResponse(): ApiResult<*> =
+        ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
 
     internal val response: HttpServletResponse?
         @JvmSynthetic
         get() = current.response
 
     @JvmStatic
-    private val errorAttributeOptions = ErrorAttributeOptions.of(Include.MESSAGE)
+    private val errorAttributeOptions =
+        ErrorAttributeOptions.of(Include.MESSAGE)
 
     internal val error: String
         @JvmSynthetic
-        get() = errorAttributes["error"].asTo() ?: ""
+        get() =
+            errorAttributes["error"].asTo() ?: ""
 
     internal val errorMessage: String
         @JvmSynthetic
-        get() = errorAttributes["message"].asTo() ?: ""
+        get() =
+            errorAttributes["message"].asTo() ?: ""
 
     internal val httpStatus: Int
         @JvmSynthetic
-        get() = errorAttributes["status"] as? Int ?: 0
+        get() =
+            errorAttributes["status"] as? Int ?: 0
 
     @Suppress("MemberVisibilityCanBePrivate")
     internal val errorAttributes

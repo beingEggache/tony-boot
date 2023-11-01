@@ -39,13 +39,15 @@ import org.springframework.beans.BeanUtils
 /**
  * println
  */
-public fun <T> T?.println(): Unit = println(this)
+public fun <T> T?.println(): Unit =
+    println(this)
 
 /**
  * 获取 logger.
  * @param name logger 名
  */
-public fun getLogger(name: String?): Logger = LoggerFactory.getLogger(name)
+public fun getLogger(name: String?): Logger =
+    LoggerFactory.getLogger(name)
 
 /**
  * 将 [this] 自身 转为 [E] 类型
@@ -54,7 +56,8 @@ public fun getLogger(name: String?): Logger = LoggerFactory.getLogger(name)
  * @param E 转换后的类型
  */
 @Suppress("UNCHECKED_CAST")
-public fun <E> Any?.asTo(): E? where E : Any = this as E?
+public fun <E> Any?.asTo(): E? where E : Any =
+    this as E?
 
 /**
  * 将 [this] 自身 转为 [E] 类型
@@ -63,10 +66,12 @@ public fun <E> Any?.asTo(): E? where E : Any = this as E?
  * @param E 转换后的类型
  */
 @Suppress("UNCHECKED_CAST")
-public fun <E> Any.asToNotNull(): E where E : Any = this as E
+public fun <E> Any.asToNotNull(): E where E : Any =
+    this as E
 
 @JvmSynthetic
-public fun <T> T.getLogger(): Logger where T : Any = LoggerFactory.getLogger(this::class.java)
+public fun <T> T.getLogger(): Logger where T : Any =
+    LoggerFactory.getLogger(this::class.java)
 
 /**
  * 是类型或子类型
@@ -88,15 +93,16 @@ public fun Any.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
  * @see BeanUtils.copyProperties
  */
 @JvmSynthetic
-public inline fun <reified T> Any?.copyTo(): T = let {
-    val instance = BeanUtils.instantiateClass(T::class.java)
-    if (it == null) {
-        instance
-    } else {
-        BeanUtils.copyProperties(it, instance)
-        instance
+public inline fun <reified T> Any?.copyTo(): T =
+    let {
+        val instance = BeanUtils.instantiateClass(T::class.java)
+        if (it == null) {
+            instance
+        } else {
+            BeanUtils.copyProperties(it, instance)
+            instance
+        }
     }
-}
 
 /**
  * 复制属性
@@ -107,7 +113,10 @@ public inline fun <reified T> Any?.copyTo(): T = let {
  * @date 2023/09/25 15:13
  * @since 1.0.0
  */
-public fun <T> copyTo(source: Any?, targetType: Class<T>): T {
+public fun <T> copyTo(
+    source: Any?,
+    targetType: Class<T>,
+): T {
     val instance = BeanUtils.instantiateClass(targetType)
     if (source == null) {
         return instance
@@ -125,7 +134,10 @@ public fun <T> copyTo(source: Any?, targetType: Class<T>): T {
  * @date 2023/09/25 15:13
  * @since 1.0.0
  */
-public fun <T> copyTo(source: Any?, target: T?): T? {
+public fun <T> copyTo(
+    source: Any?,
+    target: T?,
+): T? {
     if (source == null || target == null) {
         return target
     }

@@ -18,7 +18,6 @@ import com.tony.utils.getLogger
  * @since 1.0.0
  */
 public class FlowNode : FlowModel {
-
     private val logger = getLogger()
 
     /**
@@ -110,26 +109,30 @@ public class FlowNode : FlowModel {
     public val isConditionNode: Boolean
         get() = NodeType.CONDITIONAL_APPROVE == nodeType || NodeType.CONDITIONAL_BRANCH == nodeType
 
-    override fun execute(flowContext: FlowContext, flowExecution: FlowExecution) {
+    override fun execute(
+        flowContext: FlowContext,
+        flowExecution: FlowExecution,
+    ) {
         if (conditionNodes.isNotEmpty()) {
             val args = flowExecution.args
             flowThrowIf(args.isEmpty(), "Execution parameter cannot be empty")
-            val conditionNode = conditionNodes
-                .sortedBy { it.priority }
-                .firstOrNull {
-                    val expr = it.expression
-                    if (expr.isNullOrEmpty()) {
-                        true
-                    } else {
-                        try {
-                            flowContext.expression.eval(Boolean::class.java, expr, args) == true
-                        } catch (e: Exception) {
-                            logger.error(e.message, e)
-                            false
+            val conditionNode =
+                conditionNodes
+                    .sortedBy { it.priority }
+                    .firstOrNull {
+                        val expr = it.expression
+                        if (expr.isNullOrEmpty()) {
+                            true
+                        } else {
+                            try {
+                                flowContext.expression.eval(Boolean::class.java, expr, args) == true
+                            } catch (e: Exception) {
+                                logger.error(e.message, e)
+                                false
+                            }
                         }
                     }
-                }
-                .flowThrowIfNull("Not found executable ConditionNode")
+                    .flowThrowIfNull("Not found executable ConditionNode")
             createTask(conditionNode.childNode, flowContext, flowExecution)
         }
         if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER) {
@@ -145,7 +148,10 @@ public class FlowNode : FlowModel {
      * @date 2023/10/25 11:37
      * @since 1.0.0
      */
-    public fun createTask(flowContext: FlowContext, flowExecution: FlowExecution) {
+    public fun createTask(
+        flowContext: FlowContext,
+        flowExecution: FlowExecution,
+    ) {
         createTask(this, flowContext, flowExecution)
     }
 
@@ -158,7 +164,11 @@ public class FlowNode : FlowModel {
      * @date 2023/10/25 11:37
      * @since 1.0.0
      */
-    public fun createTask(flowNode: FlowNode?, flowContext: FlowContext, flowExecution: FlowExecution) {
+    public fun createTask(
+        flowNode: FlowNode?,
+        flowContext: FlowContext,
+        flowExecution: FlowExecution,
+    ) {
         CreateTaskHandler(flowNode).handle(flowContext, flowExecution)
     }
 
@@ -185,7 +195,8 @@ public class FlowNode : FlowModel {
      * @date 2023/10/25 11:36
      * @since 1.0.0
      */
-    public fun getNodeFromConditionNode(nodeName: String): FlowNode? = conditionNodes.firstNotNullOfOrNull {
-        it.childNode?.getNode(nodeName)
-    }
+    public fun getNodeFromConditionNode(nodeName: String): FlowNode? =
+        conditionNodes.firstNotNullOfOrNull {
+            it.childNode?.getNode(nodeName)
+        }
 }

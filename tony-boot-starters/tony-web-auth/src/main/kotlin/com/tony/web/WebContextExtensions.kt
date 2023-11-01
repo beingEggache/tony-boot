@@ -44,7 +44,8 @@ public object WebContextExtensions {
     @get:JvmSynthetic
     @JvmStatic
     public val WebContext.userId: String
-        get() = apiSession.userId
+        get() =
+            apiSession.userId
 
     /**
      * Api session
@@ -53,19 +54,22 @@ public object WebContextExtensions {
     @get:JvmSynthetic
     @JvmStatic
     public val WebContext.apiSession: ApiSession
-        get() = WebContextExtensions.apiSession
+        get() =
+            WebContextExtensions.apiSession
 
     /**
      * apiSession
      * @return apiSession
      */
     @JvmStatic
-    public fun apiSession(): ApiSession = apiSession
+    public fun apiSession(): ApiSession =
+        apiSession
 
     /**
      * 用户标识
      * @return 用户标识
      */
     @JvmStatic
-    public fun userId(): String = apiSession.userId
+    public fun userId(): String =
+        apiSession.userId
 }

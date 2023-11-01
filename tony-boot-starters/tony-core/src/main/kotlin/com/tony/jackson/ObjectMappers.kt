@@ -59,42 +59,43 @@ import java.util.TimeZone
  * @date 2023/09/13 10:18
  * @since 1.0.0
  */
-public fun ObjectMapper.initialize(): ObjectMapper = apply {
-    val kotlinModule =
-        KotlinModule.Builder()
-            .apply {
-                enable(KotlinFeature.NullIsSameAsDefault)
-                enable(KotlinFeature.NullToEmptyCollection)
-                enable(KotlinFeature.NullToEmptyMap)
-            }.build()
-    registerModules(kotlinModule, JavaTimeModule(), ParameterNamesModule())
-    setTimeZone(TimeZone.getDefault())
-    setSerializationInclusion(JsonInclude.Include.ALWAYS)
-    setDefaultSetterInfo(JsonSetter.Value.forValueNulls(Nulls.SKIP, Nulls.SKIP))
+public fun ObjectMapper.initialize(): ObjectMapper =
+    apply {
+        val kotlinModule =
+            KotlinModule.Builder()
+                .apply {
+                    enable(KotlinFeature.NullIsSameAsDefault)
+                    enable(KotlinFeature.NullToEmptyCollection)
+                    enable(KotlinFeature.NullToEmptyMap)
+                }.build()
+        registerModules(kotlinModule, JavaTimeModule(), ParameterNamesModule())
+        setTimeZone(TimeZone.getDefault())
+        setSerializationInclusion(JsonInclude.Include.ALWAYS)
+        setDefaultSetterInfo(JsonSetter.Value.forValueNulls(Nulls.SKIP, Nulls.SKIP))
 
-    configOverride(Date::class.java).format = JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss")
-    configOverride(LocalDateTime::class.java).format = JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss")
-    configOverride(Long::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
-    configOverride(Float::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
-    configOverride(Double::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
-    configOverride(BigDecimal::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
-    configOverride(BigInteger::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
+        configOverride(Date::class.java).format = JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss")
+        configOverride(LocalDateTime::class.java).format = JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss")
+        configOverride(Long::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
+        configOverride(Float::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
+        configOverride(Double::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
+        configOverride(BigDecimal::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
+        configOverride(BigInteger::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
 
-    disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-    disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-    enable(
-        DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE,
-        DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS,
-        DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT
-    )
-    disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-    enable(
-        JsonGenerator.Feature.IGNORE_UNKNOWN,
-        JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN,
-        StreamWriteFeature.USE_FAST_DOUBLE_WRITER.mappedFeature()
-    )
-    enable(
-        JsonParser.Feature.USE_FAST_BIG_NUMBER_PARSER,
-        JsonParser.Feature.USE_FAST_DOUBLE_PARSER
-    )
-}
+        disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+        disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        enable(
+            DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE,
+            DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS,
+            DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT
+        )
+        disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        enable(
+            JsonGenerator.Feature.IGNORE_UNKNOWN,
+            JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN,
+            StreamWriteFeature.USE_FAST_DOUBLE_WRITER.mappedFeature()
+        )
+        enable(
+            JsonParser.Feature.USE_FAST_BIG_NUMBER_PARSER,
+            JsonParser.Feature.USE_FAST_DOUBLE_PARSER
+        )
+    }

@@ -41,7 +41,8 @@ import com.tony.codec.enums.Encoding
  * @date 2023/09/12 17:43
  * @since 1.0.0
  */
-public fun String.encodeToString(encoding: Encoding): String = encoding.codec.encodeToString(this)
+public fun String.encodeToString(encoding: Encoding): String =
+    encoding.codec.encodeToString(this)
 
 /**
  * 编码到字节数组
@@ -51,7 +52,8 @@ public fun String.encodeToString(encoding: Encoding): String = encoding.codec.en
  * @date 2023/09/12 17:43
  * @since 1.0.0
  */
-public fun String.encodeToByteArray(encoding: Encoding): ByteArray = encoding.codec.encodeToByteArray(this)
+public fun String.encodeToByteArray(encoding: Encoding): ByteArray =
+    encoding.codec.encodeToByteArray(this)
 
 /**
  * 编码为字符串
@@ -61,7 +63,8 @@ public fun String.encodeToByteArray(encoding: Encoding): ByteArray = encoding.co
  * @date 2023/09/12 17:44
  * @since 1.0.0
  */
-public fun ByteArray.encodeToString(encoding: Encoding): String = encoding.codec.encodeToString(this)
+public fun ByteArray.encodeToString(encoding: Encoding): String =
+    encoding.codec.encodeToString(this)
 
 /**
  * 编码到字节数组
@@ -71,7 +74,8 @@ public fun ByteArray.encodeToString(encoding: Encoding): String = encoding.codec
  * @date 2023/09/12 17:44
  * @since 1.0.0
  */
-public fun ByteArray.encodeToByteArray(encoding: Encoding): ByteArray = encoding.codec.decodeToByteArray(this)
+public fun ByteArray.encodeToByteArray(encoding: Encoding): ByteArray =
+    encoding.codec.decodeToByteArray(this)
 
 /**
  * 解码为字符串
@@ -81,7 +85,8 @@ public fun ByteArray.encodeToByteArray(encoding: Encoding): ByteArray = encoding
  * @date 2023/09/12 17:44
  * @since 1.0.0
  */
-public fun String.decodeToString(encoding: Encoding): String = encoding.codec.decodeToString(this)
+public fun String.decodeToString(encoding: Encoding): String =
+    encoding.codec.decodeToString(this)
 
 /**
  * 解码为字节数组
@@ -91,7 +96,8 @@ public fun String.decodeToString(encoding: Encoding): String = encoding.codec.de
  * @date 2023/09/12 17:44
  * @since 1.0.0
  */
-public fun String.decodeToByteArray(encoding: Encoding): ByteArray = encoding.codec.decodeToByteArray(this)
+public fun String.decodeToByteArray(encoding: Encoding): ByteArray =
+    encoding.codec.decodeToByteArray(this)
 
 /**
  * 解码为字符串
@@ -101,7 +107,8 @@ public fun String.decodeToByteArray(encoding: Encoding): ByteArray = encoding.co
  * @date 2023/09/12 17:44
  * @since 1.0.0
  */
-public fun ByteArray.decodeToString(encoding: Encoding): String = encoding.codec.decodeToString(this)
+public fun ByteArray.decodeToString(encoding: Encoding): String =
+    encoding.codec.decodeToString(this)
 
 /**
  * 解码为字节数组
@@ -111,4 +118,5 @@ public fun ByteArray.decodeToString(encoding: Encoding): String = encoding.codec
  * @date 2023/09/12 17:44
  * @since 1.0.0
  */
-public fun ByteArray.decodeToByteArray(encoding: Encoding): ByteArray = encoding.codec.decodeToByteArray(this)
+public fun ByteArray.decodeToByteArray(encoding: Encoding): ByteArray =
+    encoding.codec.decodeToByteArray(this)

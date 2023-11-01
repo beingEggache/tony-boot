@@ -61,11 +61,17 @@ public abstract class RequestBodyFieldInjector(
         )
     }
 
-    protected open fun inject(annotatedField: Field, body: Any) {
+    protected open fun inject(
+        annotatedField: Field,
+        body: Any,
+    ) {
         annotatedField.setValueFirstUseSetter(body, value(annotatedField.type))
     }
 
-    internal fun internalInject(annotatedField: Field, body: Any): Boolean {
+    internal fun internalInject(
+        annotatedField: Field,
+        body: Any,
+    ): Boolean {
         val override =
             fieldOverrideMap.getOrPut(annotatedField) {
                 annotatedField

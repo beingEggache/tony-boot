@@ -77,30 +77,32 @@ private val logger: Logger = LoggerFactory.getLogger(EnumCreator::class.java)
 
 internal sealed interface EnumCreatorFactory {
     @JvmSynthetic
-    fun getCreator(clazz: Class<*>): EnumCreator<*, *> = creators.getOrPut(clazz) {
-        logger.debug("${clazz.name} EnumCreator initialized.")
-        clazz
-            .classes
-            .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
-            ?.constructors
-            ?.firstOrNull()
-            ?.newInstance(null) as EnumCreator<*, *>
-    }
+    fun getCreator(clazz: Class<*>): EnumCreator<*, *> =
+        creators.getOrPut(clazz) {
+            logger.debug("${clazz.name} EnumCreator initialized.")
+            clazz
+                .classes
+                .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
+                ?.constructors
+                ?.firstOrNull()
+                ?.newInstance(null) as EnumCreator<*, *>
+        }
 
     @Suppress("UNCHECKED_CAST")
     fun <T, R> creatorOf(
         clazz: Class<T>,
     ): EnumCreator<T, R>
         where T : EnumValue<R>,
-              R : Serializable = creators.getOrPut(clazz) {
-        logger.debug("${clazz.name} EnumCreator initialized.")
-        clazz
-            .classes
-            .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
-            ?.constructors
-            ?.firstOrNull()
-            ?.newInstance(null) as EnumCreator<T, R>
-    }.asToNotNull()
+              R : Serializable =
+        creators.getOrPut(clazz) {
+            logger.debug("${clazz.name} EnumCreator initialized.")
+            clazz
+                .classes
+                .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
+                ?.constructors
+                ?.firstOrNull()
+                ?.newInstance(null) as EnumCreator<T, R>
+        }.asToNotNull()
 }
 
 /**
@@ -112,7 +114,8 @@ internal sealed interface EnumCreatorFactory {
 public abstract class EnumCreator<out E, KEY>(
     private val clazz: Class<out E>,
 ) where E : EnumValue<KEY>, KEY : Serializable {
-    public open fun create(value: KEY): E? = enumValues.firstOrNull { value == it.value }
+    public open fun create(value: KEY): E? =
+        enumValues.firstOrNull { value == it.value }
 
     private val enumValues: Array<out E> by lazy(LazyThreadSafetyMode.NONE) {
         clazz.enumConstants
@@ -138,7 +141,8 @@ public abstract class StringEnumCreator(clazz: Class<out StringEnumValue>) :
      */
     public companion object : EnumCreatorFactory {
         @JvmStatic
-        override fun getCreator(clazz: Class<*>): StringEnumCreator = super.getCreator(clazz) as StringEnumCreator
+        override fun getCreator(clazz: Class<*>): StringEnumCreator =
+            super.getCreator(clazz) as StringEnumCreator
     }
 }
 
@@ -155,6 +159,7 @@ public abstract class IntEnumCreator(clazz: Class<out IntEnumValue>) :
      */
     public companion object : EnumCreatorFactory {
         @JvmStatic
-        override fun getCreator(clazz: Class<*>): IntEnumCreator = super.getCreator(clazz) as IntEnumCreator
+        override fun getCreator(clazz: Class<*>): IntEnumCreator =
+            super.getCreator(clazz) as IntEnumCreator
     }
 }

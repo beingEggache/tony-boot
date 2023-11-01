@@ -13,7 +13,6 @@ import java.time.LocalDateTime
  */
 @TableName("flow_history_instance")
 public class FlowHistoryInstance : FlowInstance() {
-
     /**
      * 流程实例状态: 0-活动, 1-完成, 2-超时, 3-终止
      */

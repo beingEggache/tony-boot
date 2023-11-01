@@ -49,12 +49,17 @@ public object RedisValues {
      */
     @JvmStatic
     @JvmOverloads
-    public fun increment(key: String, delta: Long = 1L, initial: Long? = null): Long? = RedisManager.doInTransaction {
-        if (initial != null) {
-            redisTemplate.opsForValue().increment(key, initial)
-        }
-        redisTemplate.opsForValue().increment(key, delta)
-    }.last().asTo()
+    public fun increment(
+        key: String,
+        delta: Long = 1L,
+        initial: Long? = null,
+    ): Long? =
+        RedisManager.doInTransaction {
+            if (initial != null) {
+                redisTemplate.opsForValue().increment(key, initial)
+            }
+            redisTemplate.opsForValue().increment(key, delta)
+        }.last().asTo()
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.
@@ -68,7 +73,11 @@ public object RedisValues {
      */
     @JvmStatic
     @JvmOverloads
-    public fun increment(key: String, delta: Double = 1.0, initial: Double? = null): Double? =
+    public fun increment(
+        key: String,
+        delta: Double = 1.0,
+        initial: Double? = null,
+    ): Double? =
         RedisManager.doInTransaction {
             if (initial != null) {
                 redisTemplate.opsForValue().increment(key, initial)
@@ -78,7 +87,12 @@ public object RedisValues {
 
     @JvmStatic
     @JvmOverloads
-    public fun <T : Any> set(key: String, value: T, timeout: Long = 0, timeUnit: TimeUnit = TimeUnit.SECONDS): Unit =
+    public fun <T : Any> set(
+        key: String,
+        value: T,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
+    ): Unit =
         redisService.set(key, value, timeout, timeUnit)
 
     /**
@@ -91,7 +105,8 @@ public object RedisValues {
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Boolean? = redisService.setIfAbsent(key, value, timeout, timeUnit)
+    ): Boolean? =
+        redisService.setIfAbsent(key, value, timeout, timeUnit)
 
     @JvmStatic
     @JvmOverloads
@@ -100,18 +115,30 @@ public object RedisValues {
         value: T,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Boolean? = redisService.setIfPresent(key, value, timeout, timeUnit)
+    ): Boolean? =
+        redisService.setIfPresent(key, value, timeout, timeUnit)
 
-    public inline fun <reified T : Any> get(key: String): T? {
-        return redisService.get(key, (object : TypeReference<T>() {}))
-    }
-
-    @JvmStatic
-    public fun <T : Any> get(key: String, type: Class<T>): T? = redisService.get(key, type)
+    public inline fun <reified T : Any> get(key: String): T? =
+        redisService.get(key, (object : TypeReference<T>() {}))
 
     @JvmStatic
-    public fun <T : Any> get(key: String, javaType: JavaType): T? = redisService.get(key, javaType)
+    public fun <T : Any> get(
+        key: String,
+        type: Class<T>,
+    ): T? =
+        redisService.get(key, type)
 
     @JvmStatic
-    public fun <T : Any> get(key: String, typeReference: TypeReference<T>): T? = redisService.get(key, typeReference)
+    public fun <T : Any> get(
+        key: String,
+        javaType: JavaType,
+    ): T? =
+        redisService.get(key, javaType)
+
+    @JvmStatic
+    public fun <T : Any> get(
+        key: String,
+        typeReference: TypeReference<T>,
+    ): T? =
+        redisService.get(key, typeReference)
 }

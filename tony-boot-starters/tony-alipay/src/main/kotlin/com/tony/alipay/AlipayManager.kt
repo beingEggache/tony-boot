@@ -92,23 +92,24 @@ public class AlipayManager(
         notifyURL: String,
         passBackParams: String? = null,
         body: String? = null,
-    ): String = try {
-        alipayClient.sdkExecute(
-            AlipayTradeAppPayRequest().apply {
-                this.notifyUrl = notifyURL
-                bizModel =
-                    AlipayTradeAppPayModel().apply {
-                        this.totalAmount = totalAmount
-                        this.body = body
-                        this.subject = subject
-                        this.outTradeNo = outTradeNo
-                        this.timeoutExpress = "3m"
-                        this.passbackParams = passBackParams?.urlEncode()
-                        this.productCode = "QUICK_MSECURITY_PAY"
-                    }
-            }
-        )
-    } catch (e: AlipayApiException) {
-        throw AlipayException(e.message, e)
-    }.body
+    ): String =
+        try {
+            alipayClient.sdkExecute(
+                AlipayTradeAppPayRequest().apply {
+                    this.notifyUrl = notifyURL
+                    bizModel =
+                        AlipayTradeAppPayModel().apply {
+                            this.totalAmount = totalAmount
+                            this.body = body
+                            this.subject = subject
+                            this.outTradeNo = outTradeNo
+                            this.timeoutExpress = "3m"
+                            this.passbackParams = passBackParams?.urlEncode()
+                            this.productCode = "QUICK_MSECURITY_PAY"
+                        }
+                }
+            )
+        } catch (e: AlipayApiException) {
+            throw AlipayException(e.message, e)
+        }.body
 }

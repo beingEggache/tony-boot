@@ -10,7 +10,6 @@ import com.tony.flow.model.FlowExecution
  * @since 1.0.0
  */
 public fun interface FlowInterceptor {
-
     /**
      * 拦截处理方法.
      *
@@ -20,5 +19,8 @@ public fun interface FlowInterceptor {
      * @date 2023/10/19 13:58
      * @since 1.0.0
      */
-    public fun handle(flowContext: FlowContext, flowExecution: FlowExecution)
+    public fun handle(
+        flowContext: FlowContext,
+        flowExecution: FlowExecution,
+    )
 }

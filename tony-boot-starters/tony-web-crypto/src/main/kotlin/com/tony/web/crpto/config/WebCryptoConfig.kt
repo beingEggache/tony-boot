@@ -74,24 +74,26 @@ internal class WebCryptoConfig(
     @ConditionalOnExpression("\${web.crypto.enabled:false}")
     @ConditionalOnMissingBean(DecryptRequestBodyAdvice::class)
     @Bean
-    internal fun decryptRequestBodyAdvice(): DecryptRequestBodyAdvice = DefaultDecryptRequestBodyAdvice(
-        webCryptoProperties.algorithm,
-        webCryptoProperties.secret,
-        webCryptoProperties.encoding
-    ).apply {
-        getLogger(this::class.java.name).info("Request body decrypt is enabled.")
-    }
+    internal fun decryptRequestBodyAdvice(): DecryptRequestBodyAdvice =
+        DefaultDecryptRequestBodyAdvice(
+            webCryptoProperties.algorithm,
+            webCryptoProperties.secret,
+            webCryptoProperties.encoding
+        ).apply {
+            getLogger(this::class.java.name).info("Request body decrypt is enabled.")
+        }
 
     @ConditionalOnExpression("\${web.crypto.enabled:false}")
     @ConditionalOnMissingBean(EncryptResponseBodyAdvice::class)
     @Bean
-    internal fun encryptResponseBodyAdvice(): EncryptResponseBodyAdvice = DefaultEncryptResponseBodyAdvice(
-        webCryptoProperties.algorithm,
-        webCryptoProperties.secret,
-        webCryptoProperties.encoding
-    ).apply {
-        getLogger(this::class.java.name).info("Response body encrypt is enabled.")
-    }
+    internal fun encryptResponseBodyAdvice(): EncryptResponseBodyAdvice =
+        DefaultEncryptResponseBodyAdvice(
+            webCryptoProperties.algorithm,
+            webCryptoProperties.secret,
+            webCryptoProperties.encoding
+        ).apply {
+            getLogger(this::class.java.name).info("Response body encrypt is enabled.")
+        }
 }
 
 /**
@@ -102,23 +104,23 @@ internal class WebCryptoConfig(
  */
 @ConfigurationProperties(prefix = "web.crypto")
 internal data class WebCryptoProperties
-@ConstructorBinding
-constructor(
-    @DefaultValue("false")
-    val enabled: Boolean,
-    /**
-     * 加解密算法, 目前只支持 aes/des, 默认des
-     */
-    @DefaultValue("des")
-    val algorithm: SymmetricCryptoAlgorithm,
-    /**
-     * 秘钥
-     */
-    @DefaultValue("")
-    val secret: String,
-    /**
-     * 二进制编码
-     */
-    @DefaultValue("base64")
-    val encoding: Encoding,
-)
+    @ConstructorBinding
+    constructor(
+        @DefaultValue("false")
+        val enabled: Boolean,
+        /**
+         * 加解密算法, 目前只支持 aes/des, 默认des
+         */
+        @DefaultValue("des")
+        val algorithm: SymmetricCryptoAlgorithm,
+        /**
+         * 秘钥
+         */
+        @DefaultValue("")
+        val secret: String,
+        /**
+         * 二进制编码
+         */
+        @DefaultValue("base64")
+        val encoding: Encoding,
+    )

@@ -15,7 +15,6 @@ import com.tony.flow.db.po.FlowTaskActor
  * @since 1.0.0
  */
 public interface QueryService {
-
     /**
      * 获取流程实例
      * @param [instanceId] 流程实例id
@@ -55,7 +54,10 @@ public interface QueryService {
      * @date 2023/10/10 09:38
      * @since 1.0.0
      */
-    public fun listTask(instanceId: Long, taskNames: Collection<String>): List<FlowTask>
+    public fun listTask(
+        instanceId: Long,
+        taskNames: Collection<String>,
+    ): List<FlowTask>
 
     /**
      * 按实例id列出任务
@@ -96,7 +98,10 @@ public interface QueryService {
      * @date 2023/10/10 09:30
      * @since 1.0.0
      */
-    public fun listHistoryTaskByName(instanceId: Long, taskName: String): List<FlowHistoryTask>
+    public fun listHistoryTaskByName(
+        instanceId: Long,
+        taskName: String,
+    ): List<FlowHistoryTask>
 
     /**
      * 按任务id列出任务参与者

@@ -42,19 +42,26 @@ public open class TonyLambdaQueryChainWrapper<T : Any> internal constructor(priv
     AbstractChainWrapper<T, SFunction<T, *>, TonyLambdaQueryChainWrapper<T>, TonyLambdaQueryWrapper<T>>(),
     TonyChainQuery<T>,
     Query<TonyLambdaQueryChainWrapper<T>, T, SFunction<T, *>> {
-    init {
-        wrapperChildren = TonyLambdaQueryWrapper(baseMapper.getEntityClass())
-    }
+        init {
+            wrapperChildren = TonyLambdaQueryWrapper(baseMapper.getEntityClass())
+        }
 
-    override fun select(condition: Boolean, columns: List<SFunction<T, *>?>): TonyLambdaQueryChainWrapper<T> {
-        wrapperChildren.select(condition, columns)
-        return typedThis
-    }
+        override fun select(
+            condition: Boolean,
+            columns: List<SFunction<T, *>?>,
+        ): TonyLambdaQueryChainWrapper<T> {
+            wrapperChildren.select(condition, columns)
+            return typedThis
+        }
 
-    override fun select(entityClass: Class<T>, predicate: Predicate<TableFieldInfo>): TonyLambdaQueryChainWrapper<T> {
-        wrapperChildren.select(entityClass, predicate)
-        return typedThis
-    }
+        override fun select(
+            entityClass: Class<T>,
+            predicate: Predicate<TableFieldInfo>,
+        ): TonyLambdaQueryChainWrapper<T> {
+            wrapperChildren.select(entityClass, predicate)
+            return typedThis
+        }
 
-    override fun getBaseMapper(): BaseDao<T> = baseMapper
-}
+        override fun getBaseMapper(): BaseDao<T> =
+            baseMapper
+    }

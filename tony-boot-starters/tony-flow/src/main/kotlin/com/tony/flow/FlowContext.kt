@@ -26,7 +26,6 @@ public class FlowContext(
     public val interceptors: List<FlowInterceptor>,
     public val taskActorProvider: FlowTaskActorProvider,
 ) {
-
     private val logger = getLogger()
 
     public companion object {

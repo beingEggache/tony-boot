@@ -17,7 +17,6 @@ import com.tony.flow.model.FlowOperator
  * @since 1.0.0
  */
 public interface TaskService {
-
     /**
      * 完成任务
      * @param [taskId] 任务id
@@ -27,7 +26,11 @@ public interface TaskService {
      * @date 2023/10/10 10:48
      * @since 1.0.0
      */
-    public fun complete(taskId: Long?, flowOperator: FlowOperator, variable: Map<String, Any?>?): FlowTask
+    public fun complete(
+        taskId: Long?,
+        flowOperator: FlowOperator,
+        variable: Map<String, Any?>?,
+    ): FlowTask
 
     /**
      * 完成任务
@@ -38,7 +41,11 @@ public interface TaskService {
      * @date 2023/10/10 10:49
      * @since 1.0.0
      */
-    public fun complete(taskId: Long?, flowOperator: FlowOperator): FlowTask = complete(taskId, flowOperator, null)
+    public fun complete(
+        taskId: Long?,
+        flowOperator: FlowOperator,
+    ): FlowTask =
+        complete(taskId, flowOperator, null)
 
     /**
      * 按id更新任务
@@ -57,7 +64,10 @@ public interface TaskService {
      * @date 2023/10/10 11:04
      * @since 1.0.0
      */
-    public fun viewTask(taskId: Long, taskActor: FlowTaskActor)
+    public fun viewTask(
+        taskId: Long,
+        taskActor: FlowTaskActor,
+    )
 
     /**
      * 任务超时
@@ -80,7 +90,10 @@ public interface TaskService {
      * @date 2023/10/10 11:12
      * @since 1.0.0
      */
-    public fun claimTask(taskId: Long, flowHistoryTaskActor: FlowHistoryTaskActor): FlowTask
+    public fun claimTask(
+        taskId: Long,
+        flowHistoryTaskActor: FlowHistoryTaskActor,
+    ): FlowTask
 
     /**
      * 分配任务
@@ -110,7 +123,11 @@ public interface TaskService {
      * @date 2023/10/10 11:17
      * @since 1.0.0
      */
-    public fun transferTask(taskId: Long, taskActor: FlowTaskActor, assignee: FlowTaskActor): Boolean =
+    public fun transferTask(
+        taskId: Long,
+        taskActor: FlowTaskActor,
+        assignee: FlowTaskActor,
+    ): Boolean =
         assignTask(taskId, TaskType.TRANSFER, taskActor, assignee)
 
     /**
@@ -125,7 +142,11 @@ public interface TaskService {
      * @date 2023/10/10 11:19
      * @since 1.0.0
      */
-    public fun delegateTask(taskId: Long, taskActor: FlowHistoryTaskActor, assignee: FlowHistoryTaskActor): Boolean =
+    public fun delegateTask(
+        taskId: Long,
+        taskActor: FlowHistoryTaskActor,
+        assignee: FlowHistoryTaskActor,
+    ): Boolean =
         assignTask(taskId, TaskType.DELEGATE, taskActor, assignee)
 
     /**
@@ -138,7 +159,10 @@ public interface TaskService {
      * @date 2023/10/10 11:20
      * @since 1.0.0
      */
-    public fun reclaimTask(taskId: Long, flowOperator: FlowOperator): FlowTask?
+    public fun reclaimTask(
+        taskId: Long,
+        flowOperator: FlowOperator,
+    ): FlowTask?
 
     /**
      * 撤回任务
@@ -149,7 +173,10 @@ public interface TaskService {
      * @date 2023/10/10 11:24
      * @since 1.0.0
      */
-    public fun withdrawTask(taskId: Long, flowOperator: FlowOperator): FlowTask?
+    public fun withdrawTask(
+        taskId: Long,
+        flowOperator: FlowOperator,
+    ): FlowTask?
 
     /**
      * 驳回任务.
@@ -163,7 +190,11 @@ public interface TaskService {
      * @date 2023/10/10 11:31
      * @since 1.0.0
      */
-    public fun rejectTask(flowTask: FlowTask, flowOperator: FlowOperator, variable: Map<String, Any?>?): FlowTask?
+    public fun rejectTask(
+        flowTask: FlowTask,
+        flowOperator: FlowOperator,
+        variable: Map<String, Any?>?,
+    ): FlowTask?
 
     /**
      * 驳回任务.
@@ -176,7 +207,10 @@ public interface TaskService {
      * @date 2023/10/10 11:31
      * @since 1.0.0
      */
-    public fun rejectTask(flowTask: FlowTask, flowOperator: FlowOperator): FlowTask? =
+    public fun rejectTask(
+        flowTask: FlowTask,
+        flowOperator: FlowOperator,
+    ): FlowTask? =
         rejectTask(flowTask, flowOperator, null)
 
     /**
@@ -190,7 +224,10 @@ public interface TaskService {
      * @date 2023/10/10 13:59
      * @since 1.0.0
      */
-    public fun hasPermission(flowTask: FlowTask, userId: Long): Boolean
+    public fun hasPermission(
+        flowTask: FlowTask,
+        userId: Long,
+    ): Boolean
 
     /**
      * 创建任务
@@ -201,7 +238,10 @@ public interface TaskService {
      * @date 2023/10/25 10:05
      * @since 1.0.0
      */
-    public fun createTask(flowNode: FlowNode?, flowExecution: FlowExecution): List<FlowTask>
+    public fun createTask(
+        flowNode: FlowNode?,
+        flowExecution: FlowExecution,
+    ): List<FlowTask>
 
     /**
      * 创建新任务.
@@ -215,7 +255,11 @@ public interface TaskService {
      * @date 2023/10/25 10:08
      * @since 1.0.0
      */
-    public fun createNewTask(taskId: Long, taskType: TaskType, taskActors: Collection<FlowTaskActor>): List<FlowTask>
+    public fun createNewTask(
+        taskId: Long,
+        taskType: TaskType,
+        taskActors: Collection<FlowTaskActor>,
+    ): List<FlowTask>
 
     /**
      * 创建新任务
@@ -227,7 +271,11 @@ public interface TaskService {
      * @date 2023/10/25 10:11
      * @since 1.0.0
      */
-    public fun createNewTask(taskId: Long, taskType: TaskType, taskActor: FlowTaskActor): List<FlowTask> =
+    public fun createNewTask(
+        taskId: Long,
+        taskType: TaskType,
+        taskActor: FlowTaskActor,
+    ): List<FlowTask> =
         createNewTask(taskId, taskType, listOf(taskActor))
 
     /**
@@ -259,7 +307,11 @@ public interface TaskService {
      * @date 2023/10/25 10:25
      * @since 1.0.0
      */
-    public fun addTaskActor(taskId: Long, performType: PerformType, taskActors: List<FlowHistoryTaskActor>): Boolean
+    public fun addTaskActor(
+        taskId: Long,
+        performType: PerformType,
+        taskActors: List<FlowHistoryTaskActor>,
+    ): Boolean
 
     /**
      * 添加任务参与者【加签】
@@ -271,7 +323,11 @@ public interface TaskService {
      * @date 2023/10/25 10:25
      * @since 1.0.0
      */
-    public fun addTaskActor(taskId: Long, performType: PerformType, taskActor: FlowHistoryTaskActor): Boolean =
+    public fun addTaskActor(
+        taskId: Long,
+        performType: PerformType,
+        taskActor: FlowHistoryTaskActor,
+    ): Boolean =
         addTaskActor(taskId, performType, listOf(taskActor))
 
     /**
@@ -283,7 +339,10 @@ public interface TaskService {
      * @date 2023/10/25 10:27
      * @since 1.0.0
      */
-    public fun removeTaskActor(taskId: Long, taskActorIds: Collection<Long>): Boolean
+    public fun removeTaskActor(
+        taskId: Long,
+        taskActorIds: Collection<Long>,
+    ): Boolean
 
     /**
      * 删除任务参与者【减签】
@@ -294,7 +353,11 @@ public interface TaskService {
      * @date 2023/10/25 10:25
      * @since 1.0.0
      */
-    public fun removeTaskActor(taskId: Long, taskActorId: Long): Boolean = removeTaskActor(taskId, setOf(taskActorId))
+    public fun removeTaskActor(
+        taskId: Long,
+        taskActorId: Long,
+    ): Boolean =
+        removeTaskActor(taskId, setOf(taskActorId))
 
     /**
      * 按实例id级联删除.

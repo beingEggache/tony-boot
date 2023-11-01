@@ -49,7 +49,8 @@ public fun CharSequence.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
     encoding: Encoding,
-): CharSequence = decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
+): CharSequence =
+    decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
 
 /**
  * 解密为字符串
@@ -65,7 +66,8 @@ public fun CharSequence.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
     encoding: Encoding,
-): CharSequence = decryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
+): CharSequence =
+    decryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
 
 /**
  * 解密到字节
@@ -81,11 +83,12 @@ public fun CharSequence.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
     encoding: Encoding,
-): ByteArray = if (this.isBlank()) {
-    ByteArray(0)
-} else {
-    symmetricCryptoAlgorithm.algorithm.decrypt(toString().toByteArray(), secret.toByteArray(), encoding)
-}
+): ByteArray =
+    if (this.isBlank()) {
+        ByteArray(0)
+    } else {
+        symmetricCryptoAlgorithm.algorithm.decrypt(toString().toByteArray(), secret.toByteArray(), encoding)
+    }
 
 /**
  * 解密到字节
@@ -101,11 +104,12 @@ public fun CharSequence.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
     encoding: Encoding,
-): ByteArray = if (this.isBlank()) {
-    ByteArray(0)
-} else {
-    symmetricCryptoAlgorithm.algorithm.decrypt(toString().toByteArray(), secret, encoding)
-}
+): ByteArray =
+    if (this.isBlank()) {
+        ByteArray(0)
+    } else {
+        symmetricCryptoAlgorithm.algorithm.decrypt(toString().toByteArray(), secret, encoding)
+    }
 
 /**
  * 解密为字符串
@@ -121,7 +125,8 @@ public fun ByteArray.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
     encoding: Encoding,
-): CharSequence = decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
+): CharSequence =
+    decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
 
 /**
  * 解密为字符串
@@ -137,7 +142,8 @@ public fun ByteArray.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
     encoding: Encoding,
-): CharSequence = decryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
+): CharSequence =
+    decryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
 
 /**
  * 解密到字节
@@ -153,7 +159,8 @@ public fun ByteArray.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
     encoding: Encoding,
-): ByteArray = decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding)
+): ByteArray =
+    decryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding)
 
 /**
  * 解密到字节
@@ -169,11 +176,12 @@ public fun ByteArray.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
     encoding: Encoding,
-): ByteArray = if (this.isEmpty()) {
-    this
-} else {
-    symmetricCryptoAlgorithm.algorithm.decrypt(this, secret, encoding)
-}
+): ByteArray =
+    if (this.isEmpty()) {
+        this
+    } else {
+        symmetricCryptoAlgorithm.algorithm.decrypt(this, secret, encoding)
+    }
 
 /**
  * 加密为字符串
@@ -189,7 +197,8 @@ public fun CharSequence.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
     encoding: Encoding,
-): String = encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
+): String =
+    encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
 
 /**
  * 加密为字符串
@@ -205,7 +214,8 @@ public fun CharSequence.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
     encoding: Encoding,
-): CharSequence = encryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
+): CharSequence =
+    encryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
 
 /**
  * 加密到字节
@@ -221,11 +231,12 @@ public fun CharSequence.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
     encoding: Encoding,
-): ByteArray = if (this.isBlank()) {
-    ByteArray(0)
-} else {
-    symmetricCryptoAlgorithm.algorithm.encrypt(toString().toByteArray(), secret.toByteArray(), encoding)
-}
+): ByteArray =
+    if (this.isBlank()) {
+        ByteArray(0)
+    } else {
+        symmetricCryptoAlgorithm.algorithm.encrypt(toString().toByteArray(), secret.toByteArray(), encoding)
+    }
 
 /**
  * 加密到字节
@@ -241,11 +252,12 @@ public fun CharSequence.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
     encoding: Encoding,
-): ByteArray = if (this.isBlank()) {
-    ByteArray(0)
-} else {
-    symmetricCryptoAlgorithm.algorithm.encrypt(toString().toByteArray(), secret, encoding)
-}
+): ByteArray =
+    if (this.isBlank()) {
+        ByteArray(0)
+    } else {
+        symmetricCryptoAlgorithm.algorithm.encrypt(toString().toByteArray(), secret, encoding)
+    }
 
 /**
  * 加密为字符串
@@ -261,7 +273,8 @@ public fun ByteArray.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
     encoding: Encoding,
-): CharSequence = encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
+): CharSequence =
+    encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding).string()
 
 /**
  * 加密为字符串
@@ -277,7 +290,8 @@ public fun ByteArray.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
     encoding: Encoding,
-): CharSequence = encryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
+): CharSequence =
+    encryptToBytes(symmetricCryptoAlgorithm, secret, encoding).string()
 
 /**
  * 加密到字节
@@ -293,7 +307,8 @@ public fun ByteArray.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: String,
     encoding: Encoding,
-): ByteArray = encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding)
+): ByteArray =
+    encryptToBytes(symmetricCryptoAlgorithm, secret.toByteArray(), encoding)
 
 /**
  * 加密到字节
@@ -309,8 +324,9 @@ public fun ByteArray.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
     secret: ByteArray,
     encoding: Encoding,
-): ByteArray = if (this.isEmpty()) {
-    this
-} else {
-    symmetricCryptoAlgorithm.algorithm.encrypt(this, secret, encoding)
-}
+): ByteArray =
+    if (this.isEmpty()) {
+        this
+    } else {
+        symmetricCryptoAlgorithm.algorithm.encrypt(this, secret, encoding)
+    }

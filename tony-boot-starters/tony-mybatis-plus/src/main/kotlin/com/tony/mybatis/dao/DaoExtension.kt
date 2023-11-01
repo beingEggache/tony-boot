@@ -60,17 +60,18 @@ internal val LOG_MAP = ConcurrentHashMap<Class<*>, Log>()
  * @date 2023/09/28 10:54
  * @since 1.0.0
  */
-internal fun <T : Any> BaseDao<T>.actualClass() = if (!Proxy.isProxyClass(this::class.java)) {
-    this::class.java
-} else {
-    this::class.java
-        .genericInterfaces
-        .first {
-            it.rawClass()
-                .isTypesOrSubTypesOf(BaseDao::class.java)
-        }
-        .rawClass()
-}
+internal fun <T : Any> BaseDao<T>.actualClass() =
+    if (!Proxy.isProxyClass(this::class.java)) {
+        this::class.java
+    } else {
+        this::class.java
+            .genericInterfaces
+            .first {
+                it.rawClass()
+                    .isTypesOrSubTypesOf(BaseDao::class.java)
+            }
+            .rawClass()
+    }
 
 /**
  * 获取mybatis-plus 语句
@@ -90,9 +91,10 @@ internal fun <T : Any> BaseDao<T>.getSqlStatement(sqlMethod: SqlMethod?): String
  * @date 2023/09/28 10:52
  * @since 1.0.0
  */
-internal fun <T : Any> BaseDao<T>.getLog(): Log = LOG_MAP.getOrPut(this::class.java) {
-    LogFactory.getLog(actualClass())
-}
+internal fun <T : Any> BaseDao<T>.getLog(): Log =
+    LOG_MAP.getOrPut(this::class.java) {
+        LogFactory.getLog(actualClass())
+    }
 
 /**
  * 获取entityClass
@@ -101,9 +103,10 @@ internal fun <T : Any> BaseDao<T>.getLog(): Log = LOG_MAP.getOrPut(this::class.j
  * @date 2023/09/28 10:53
  * @since 1.0.0
  */
-internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> = ENTITY_CLASS_MAP.getOrPut(this::class.java) {
-    actualClass().typeParamOfSuperInterface(BaseDao::class.java).rawClass()
-}.asToNotNull()
+internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
+    ENTITY_CLASS_MAP.getOrPut(this::class.java) {
+        actualClass().typeParamOfSuperInterface(BaseDao::class.java).rawClass()
+    }.asToNotNull()
 
 /**
  * 获取mapper类型
@@ -129,10 +132,11 @@ internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
 internal fun <T : Any, E> BaseDao<T>.executeBatch(
     batchList: Collection<E>,
     consumer: BiConsumer<SqlSession, E>,
-): Boolean = SqlHelper.executeBatch(
-    SpringContexts.getBean(SqlSessionFactory::class.java),
-    getLog(),
-    batchList,
-    batchList.size + 1,
-    consumer
-)
+): Boolean =
+    SqlHelper.executeBatch(
+        SpringContexts.getBean(SqlSessionFactory::class.java),
+        getLog(),
+        batchList,
+        batchList.size + 1,
+        consumer
+    )

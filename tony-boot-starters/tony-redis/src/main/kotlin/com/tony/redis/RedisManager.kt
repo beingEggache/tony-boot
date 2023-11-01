@@ -118,7 +118,8 @@ public object RedisManager {
      * @return
      */
     @JvmStatic
-    public fun hasKey(key: String): Boolean = redisTemplate.hasKey(key)
+    public fun hasKey(key: String): Boolean =
+        redisTemplate.hasKey(key)
 
     /**
      * Redis 分布式锁简单实现.
@@ -130,12 +131,16 @@ public object RedisManager {
      * @since 1.0.0
      */
     @JvmStatic
-    public fun lockKey(key: String, timeout: Long): Boolean {
+    public fun lockKey(
+        key: String,
+        timeout: Long,
+    ): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
         return redisTemplate.execute(lockScript, Collections.singletonList(key), 1L, timeout) == 1L
     }
 
-    public inline fun <reified T> String.toRedisScript(): RedisScript<T> = RedisScript.of(this, T::class.java)
+    public inline fun <reified T> String.toRedisScript(): RedisScript<T> =
+        RedisScript.of(this, T::class.java)
 
     /**
      * Executes the given RedisScript.
@@ -148,7 +153,11 @@ public object RedisManager {
      * likely indicating a throw-away status reply (i.e. "OK")
      */
     @JvmStatic
-    public fun <T> executeScript(script: RedisScript<T>, keys: List<String>, args: List<Any?>): T? {
+    public fun <T> executeScript(
+        script: RedisScript<T>,
+        keys: List<String>,
+        args: List<Any?>,
+    ): T? {
         return redisTemplate.execute(script, keys, *args.toTypedArray())
     }
 
@@ -161,7 +170,11 @@ public object RedisManager {
      * @return
      */
     @JvmStatic
-    public fun lockKey(key: String, timeout: Long, waitTimeout: Long): Boolean {
+    public fun lockKey(
+        key: String,
+        timeout: Long,
+        waitTimeout: Long,
+    ): Boolean {
         val start = System.currentTimeMillis()
         while (System.currentTimeMillis() - start < waitTimeout) {
             if (lockKey(key, timeout)) {
@@ -187,7 +200,11 @@ public object RedisManager {
      */
     @JvmStatic
     @JvmOverloads
-    public fun expire(key: String, timeout: Long, timeUnit: TimeUnit = TimeUnit.SECONDS): Boolean =
+    public fun expire(
+        key: String,
+        timeout: Long,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
+    ): Boolean =
         redisTemplate.expire(key, timeout, timeUnit)
 
     /**
@@ -199,7 +216,11 @@ public object RedisManager {
      * @see org.springframework.data.redis.core.RedisOperations.expireAt
      */
     @JvmStatic
-    public fun expireAt(key: String, date: Date): Boolean = redisTemplate.expireAt(key, date)
+    public fun expireAt(
+        key: String,
+        date: Date,
+    ): Boolean =
+        redisTemplate.expireAt(key, date)
 
     /**
      * Get the time to live for key in and convert it to the given TimeUnit.
@@ -211,7 +232,10 @@ public object RedisManager {
      */
     @JvmStatic
     @JvmOverloads
-    public fun getExpire(key: String, timeUnit: TimeUnit = TimeUnit.SECONDS): Long =
+    public fun getExpire(
+        key: String,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
+    ): Long =
         redisTemplate.getExpire(key, timeUnit)
 
     /**
@@ -221,7 +245,8 @@ public object RedisManager {
      * @return The number of keys that were removed. null when used in pipeline / transaction.
      */
     @JvmStatic
-    public fun deleteByKeyPatterns(vararg keyPatterns: String): Long = deleteByKeyPatterns(keyPatterns.asList())
+    public fun deleteByKeyPatterns(vararg keyPatterns: String): Long =
+        deleteByKeyPatterns(keyPatterns.asList())
 
     /**
      * redis 根据 [keyPatterns] 批量删除.
@@ -245,7 +270,8 @@ public object RedisManager {
      * @return The number of keys that were removed. null when used in pipeline / transaction.
      */
     @JvmStatic
-    public fun delete(vararg keys: String): Long = delete(keys.asList())
+    public fun delete(vararg keys: String): Long =
+        delete(keys.asList())
 
     /**
      * Delete given keys.
@@ -278,7 +304,8 @@ public object RedisManager {
      * @return null when used in pipeline / transaction.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    public fun keys(vararg keys: String): Collection<String> = keys(keys.asList())
+    public fun keys(vararg keys: String): Collection<String> =
+        keys(keys.asList())
 
     /**
      * Find all keys matching the given pattern.
@@ -287,8 +314,9 @@ public object RedisManager {
      * @return null when used in pipeline / transaction.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    public fun keys(keys: Collection<String>): Collection<String> = keys.fold(HashSet()) { set, key ->
-        set.addAll(redisTemplate.keys(key))
-        set
-    }
+    public fun keys(keys: Collection<String>): Collection<String> =
+        keys.fold(HashSet()) { set, key ->
+            set.addAll(redisTemplate.keys(key))
+            set
+        }
 }

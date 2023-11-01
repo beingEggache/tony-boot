@@ -7,7 +7,6 @@ package com.tony.flow.model
  * @since 1.0.0
  */
 public interface FlowExpression {
-
     /**
      * eval
      * @param [type] 类型
@@ -18,5 +17,9 @@ public interface FlowExpression {
      * @date 2023/10/19 10:13
      * @since 1.0.0
      */
-    public fun <T : Any> eval(type: Class<T>, expr: String, args: Map<String, Any?>): T?
+    public fun <T : Any> eval(
+        type: Class<T>,
+        expr: String,
+        args: Map<String, Any?>,
+    ): T?
 }

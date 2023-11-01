@@ -27,7 +27,10 @@ public class CreateTaskHandler(
      * @date 2023/10/25 10:03
      * @since 1.0.0
      */
-    override fun handle(flowContext: FlowContext, flowExecution: FlowExecution) {
+    override fun handle(
+        flowContext: FlowContext,
+        flowExecution: FlowExecution,
+    ) {
         val taskList = flowExecution.flowEngine.taskService.createTask(flowNode, flowExecution)
         flowExecution.addTasks(taskList)
 

@@ -23,6 +23,7 @@
  */
 
 package com.tony.web.crpto
+
 /**
  * 请求体解密, 目前只支持 RequestBody
  * @author Tang Li
@@ -59,8 +60,9 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
         methodParameter: MethodParameter,
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Boolean = methodParameter.hasMethodAnnotation(DecryptRequestBody::class.java) &&
-        methodParameter.hasParameterAnnotation(RequestBody::class.java)
+    ): Boolean =
+        methodParameter.hasMethodAnnotation(DecryptRequestBody::class.java) &&
+            methodParameter.hasParameterAnnotation(RequestBody::class.java)
 
     override fun beforeBodyRead(
         inputMessage: HttpInputMessage,
@@ -93,7 +95,8 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
         )
     }
 
-    override fun getOrder(): Int = PriorityOrdered.HIGHEST_PRECEDENCE
+    override fun getOrder(): Int =
+        PriorityOrdered.HIGHEST_PRECEDENCE
 
     override fun afterBodyRead(
         body: Any,
@@ -101,7 +104,8 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
         parameter: MethodParameter,
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Any = body
+    ): Any =
+        body
 
     override fun handleEmptyBody(
         body: Any?,
@@ -109,15 +113,18 @@ public interface DecryptRequestBodyAdvice : PriorityOrdered, RequestBodyAdvice {
         parameter: MethodParameter,
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>,
-    ): Any? = body
+    ): Any? =
+        body
 
     private class DecryptHttpInputMessage(
         private val httpHeaders: HttpHeaders,
         private val inputStream: InputStream,
     ) : HttpInputMessage {
-        override fun getHeaders(): HttpHeaders = httpHeaders
+        override fun getHeaders(): HttpHeaders =
+            httpHeaders
 
-        override fun getBody(): InputStream = inputStream
+        override fun getBody(): InputStream =
+            inputStream
     }
 }
 

@@ -44,21 +44,22 @@ import org.slf4j.LoggerFactory
 internal class IfNullRequestBodyFieldInjector : RequestBodyFieldInjector(DEFAULT_EMPTY) {
     private val logger = LoggerFactory.getLogger(IfNullRequestBodyFieldInjector::class.java)
 
-    override fun value(fieldType: Class<*>): Any? = when {
-        fieldType.isStringLikeType() -> ""
-        fieldType.isArrayLikeType() -> "[]".jsonToObj(fieldType)
-        !fieldType.isTypesOrSubTypesOf(
-            Enum::class.java,
-            Date::class.java,
-            Temporal::class.java,
-            Boolean::class.java,
-            Boolean::class.javaPrimitiveType
-        ) && !fieldType.isNumberTypes() &&
-            fieldType != Any::class.java -> "{}".jsonToObj(fieldType)
+    override fun value(fieldType: Class<*>): Any? =
+        when {
+            fieldType.isStringLikeType() -> ""
+            fieldType.isArrayLikeType() -> "[]".jsonToObj(fieldType)
+            !fieldType.isTypesOrSubTypesOf(
+                Enum::class.java,
+                Date::class.java,
+                Temporal::class.java,
+                Boolean::class.java,
+                Boolean::class.javaPrimitiveType
+            ) && !fieldType.isNumberTypes() &&
+                fieldType != Any::class.java -> "{}".jsonToObj(fieldType)
 
-        else -> {
-            logger.warn("Do not support ${fieldType.typeName}")
-            null
+            else -> {
+                logger.warn("Do not support ${fieldType.typeName}")
+                null
+            }
         }
-    }
 }

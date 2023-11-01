@@ -10,6 +10,8 @@ import com.tony.flow.model.FlowExecution
  * @since 1.0.0
  */
 public fun interface FlowHandler {
-
-    public fun handle(flowContext: FlowContext, flowExecution: FlowExecution)
+    public fun handle(
+        flowContext: FlowContext,
+        flowExecution: FlowExecution,
+    )
 }

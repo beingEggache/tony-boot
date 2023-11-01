@@ -23,6 +23,7 @@
  */
 
 package com.tony.web.filter
+
 /**
  * 跟踪日志过滤器
  * @author Tang Li
@@ -63,7 +64,6 @@ internal class TraceLoggingFilter(
      */
     traceLogExcludePatterns: List<String>,
 ) : OncePerRequestFilter(), PriorityOrdered {
-
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
         WebApp
             .responseWrapExcludePatterns
@@ -99,21 +99,25 @@ internal class TraceLoggingFilter(
         response.copyBodyToResponse()
     }
 
-    private fun log(request: RepeatReadRequestWrapper, response: ContentCachingResponseWrapper, elapsedTime: Long) =
-        try {
-            requestTraceLogger.requestTraceLog(
-                request,
-                response,
-                elapsedTime
-            )
-        } catch (e: Exception) {
-            logger.error(e.message, e)
-        }
+    private fun log(
+        request: RepeatReadRequestWrapper,
+        response: ContentCachingResponseWrapper,
+        elapsedTime: Long,
+    ) = try {
+        requestTraceLogger.requestTraceLog(
+            request,
+            response,
+            elapsedTime
+        )
+    } catch (e: Exception) {
+        logger.error(e.message, e)
+    }
 
     override fun shouldNotFilter(request: HttpServletRequest) =
         request.requestURI.antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
 
-    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE + 2
+    override fun getOrder() =
+        PriorityOrdered.HIGHEST_PRECEDENCE + 2
 }
 
 /**
@@ -123,8 +127,11 @@ internal class TraceLoggingFilter(
  * @date 2023/5/25 10:37
  */
 internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
-
-    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        chain: FilterChain,
+    ) {
         try {
             val traceId =
                 mdcPutOrGetDefault(TRACE_ID_HEADER_NAME, uuid()) {
@@ -137,5 +144,6 @@ internal class TraceIdFilter : OncePerRequestFilter(), PriorityOrdered {
         }
     }
 
-    override fun getOrder() = PriorityOrdered.HIGHEST_PRECEDENCE
+    override fun getOrder() =
+        PriorityOrdered.HIGHEST_PRECEDENCE
 }

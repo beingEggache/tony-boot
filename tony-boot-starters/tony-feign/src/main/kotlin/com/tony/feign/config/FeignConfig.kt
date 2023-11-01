@@ -76,16 +76,19 @@ public class FeignConfig {
     internal fun decoder(
         messageConverters: ObjectFactory<HttpMessageConverters>,
         customizers: ObjectProvider<HttpMessageConverterCustomizer>,
-    ): Decoder = SpringDecoder(messageConverters, customizers)
+    ): Decoder =
+        SpringDecoder(messageConverters, customizers)
 
     @ConditionalOnMissingBean(ErrorDecoder::class)
     @Bean
-    internal fun errorDecoder() = DefaultErrorDecoder()
+    internal fun errorDecoder() =
+        DefaultErrorDecoder()
 
     @ConditionalOnMissingBean(FeignRequestTraceLogger::class)
     @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
     @Bean
-    internal fun feignRequestTraceLogger(): FeignRequestTraceLogger = DefaultFeignRequestTraceLogger()
+    internal fun feignRequestTraceLogger(): FeignRequestTraceLogger =
+        DefaultFeignRequestTraceLogger()
 
     @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
     @Bean
@@ -93,7 +96,8 @@ public class FeignConfig {
         FeignLogInterceptor(feignRequestTraceLogger)
 
     @Bean
-    internal fun unwrapResponseInterceptorProvider() = UnwrapResponseInterceptorProvider(UnwrapResponseInterceptor())
+    internal fun unwrapResponseInterceptorProvider() =
+        UnwrapResponseInterceptorProvider(UnwrapResponseInterceptor())
 
     @Bean
     internal fun feignTargeter(
@@ -113,37 +117,38 @@ public class FeignConfig {
         appInterceptors: List<AppInterceptor>,
         networkInterceptors: List<NetworkInterceptor>,
         feignConfigProperties: FeignConfigProperties,
-    ): OkHttpClient = OkHttpClient.Builder()
-        .callTimeout(feignConfigProperties.callTimeout, TimeUnit.SECONDS)
-        .connectTimeout(feignConfigProperties.connectTimeout, TimeUnit.SECONDS)
-        .readTimeout(feignConfigProperties.readTimeout, TimeUnit.SECONDS)
-        .writeTimeout(feignConfigProperties.writeTimeout, TimeUnit.SECONDS)
-        .pingInterval(feignConfigProperties.pingInterval, TimeUnit.SECONDS)
-        .retryOnConnectionFailure(feignConfigProperties.retryOnConnectionFailure)
-        .followRedirects(feignConfigProperties.followRedirects)
-        .apply {
-            appInterceptors.forEach(::addInterceptor)
-            networkInterceptors.forEach(::addNetworkInterceptor)
-        }
-        .build()
+    ): OkHttpClient =
+        OkHttpClient.Builder()
+            .callTimeout(feignConfigProperties.callTimeout, TimeUnit.SECONDS)
+            .connectTimeout(feignConfigProperties.connectTimeout, TimeUnit.SECONDS)
+            .readTimeout(feignConfigProperties.readTimeout, TimeUnit.SECONDS)
+            .writeTimeout(feignConfigProperties.writeTimeout, TimeUnit.SECONDS)
+            .pingInterval(feignConfigProperties.pingInterval, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(feignConfigProperties.retryOnConnectionFailure)
+            .followRedirects(feignConfigProperties.followRedirects)
+            .apply {
+                appInterceptors.forEach(::addInterceptor)
+                networkInterceptors.forEach(::addNetworkInterceptor)
+            }
+            .build()
 }
 
 @ConfigurationProperties(prefix = "spring.cloud.openfeign.okhttp")
 internal data class FeignConfigProperties
-@ConstructorBinding
-constructor(
-    @DefaultValue("0")
-    val callTimeout: Long,
-    @DefaultValue("10000")
-    val connectTimeout: Long,
-    @DefaultValue("10000")
-    val readTimeout: Long,
-    @DefaultValue("10000")
-    val writeTimeout: Long,
-    @DefaultValue("10000")
-    val pingInterval: Long,
-    @DefaultValue("true")
-    val retryOnConnectionFailure: Boolean,
-    @DefaultValue("true")
-    val followRedirects: Boolean,
-)
+    @ConstructorBinding
+    constructor(
+        @DefaultValue("0")
+        val callTimeout: Long,
+        @DefaultValue("10000")
+        val connectTimeout: Long,
+        @DefaultValue("10000")
+        val readTimeout: Long,
+        @DefaultValue("10000")
+        val writeTimeout: Long,
+        @DefaultValue("10000")
+        val pingInterval: Long,
+        @DefaultValue("true")
+        val retryOnConnectionFailure: Boolean,
+        @DefaultValue("true")
+        val followRedirects: Boolean,
+    )

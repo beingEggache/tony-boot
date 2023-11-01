@@ -11,14 +11,14 @@ import com.tony.utils.jsonToObj
  * @since 1.0.0
  */
 public class FlowProcessModel {
-
     public var name: String? = null
 
     public var instanceUrl: String? = null
 
     public var flowNode: FlowNode? = null
 
-    public fun getNode(nodeName: String): FlowNode? = flowNode?.getNode(nodeName)
+    public fun getNode(nodeName: String): FlowNode? =
+        flowNode?.getNode(nodeName)
 
     protected fun buildParentNode(rootNode: FlowNode?) {
         rootNode?.conditionNodes?.forEach { conditionNode ->
@@ -34,7 +34,10 @@ public class FlowProcessModel {
     }
 
     public companion object {
-        public fun parse(content: String, processId: Long?): FlowProcessModel? {
+        public fun parse(
+            content: String,
+            processId: Long?,
+        ): FlowProcessModel? {
             if (processId != null) {
                 val cacheKey = "flowProcessModel#$processId"
                 return FlowContext
@@ -50,8 +53,9 @@ public class FlowProcessModel {
             return null
         }
 
-        private fun parse(content: String): FlowProcessModel = content.jsonToObj<FlowProcessModel>().apply {
-            buildParentNode(flowNode)
-        }
+        private fun parse(content: String): FlowProcessModel =
+            content.jsonToObj<FlowProcessModel>().apply {
+                buildParentNode(flowNode)
+            }
     }
 }

@@ -70,17 +70,18 @@ public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
  * @date 2023/09/13 10:24
  * @since 1.0.0
  */
-public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R = when (numberType) {
-    Long::class.javaObjectType, Long::class.javaPrimitiveType -> this.toLong()
-    Int::class.javaObjectType, Int::class.javaPrimitiveType -> this.toInt()
-    Double::class.javaObjectType, Double::class.javaPrimitiveType -> this.toDouble()
-    Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> this.toByte()
-    Short::class.javaObjectType, Short::class.javaPrimitiveType -> this.toShort()
-    Float::class.javaObjectType, Float::class.javaPrimitiveType -> this.toFloat()
-    BigInteger::class.java -> BigInteger.valueOf(this.toLong())
-    BigDecimal::class.java -> BigDecimal(this.toString())
-    else -> throw IllegalArgumentException("Not support input type: $numberType")
-}.asToNotNull()
+public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
+    when (numberType) {
+        Long::class.javaObjectType, Long::class.javaPrimitiveType -> this.toLong()
+        Int::class.javaObjectType, Int::class.javaPrimitiveType -> this.toInt()
+        Double::class.javaObjectType, Double::class.javaPrimitiveType -> this.toDouble()
+        Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> this.toByte()
+        Short::class.javaObjectType, Short::class.javaPrimitiveType -> this.toShort()
+        Float::class.javaObjectType, Float::class.javaPrimitiveType -> this.toFloat()
+        BigInteger::class.java -> BigInteger.valueOf(this.toLong())
+        BigDecimal::class.java -> BigDecimal(this.toString())
+        else -> throw IllegalArgumentException("Not support input type: $numberType")
+    }.asToNotNull()
 
 /**
  * 将字符串类型或数值类型转换成数值.
@@ -90,11 +91,12 @@ public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R = whe
  * @date 2023/09/13 10:24
  * @since 1.0.0
  */
-public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E = when (this) {
-    is Number -> this.toNumber(numberType)
-    is CharSequence -> this.toNumber(numberType)
-    else -> error("${this?.javaClass} can't transform to number.")
-}
+public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E =
+    when (this) {
+        is Number -> this.toNumber(numberType)
+        is CharSequence -> this.toNumber(numberType)
+        else -> error("${this?.javaClass} can't transform to number.")
+    }
 
 /**
  * 数字截断并转为  [BigDecimal]
@@ -106,7 +108,10 @@ public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E = when (this) 
  * @since 1.0.0
  */
 @JvmOverloads
-public fun Number?.truncToBigDecimal(digit: Int = 2, decimal: Int = digit): BigDecimal =
+public fun Number?.truncToBigDecimal(
+    digit: Int = 2,
+    decimal: Int = digit,
+): BigDecimal =
     toBigDecimal(decimal).div(10.toBigDecimal(decimal).pow(digit))
 
 /**
@@ -119,7 +124,10 @@ public fun Number?.truncToBigDecimal(digit: Int = 2, decimal: Int = digit): BigD
  * @since 1.0.0
  */
 @JvmOverloads
-public fun Number?.truncToString(digit: Int = 2, decimal: Int = digit): String =
+public fun Number?.truncToString(
+    digit: Int = 2,
+    decimal: Int = digit,
+): String =
     truncToBigDecimal(digit, decimal).toString()
 
 /**
@@ -132,7 +140,10 @@ public fun Number?.truncToString(digit: Int = 2, decimal: Int = digit): String =
  * @since 1.0.0
  */
 @JvmOverloads
-public fun Float?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+public fun Float?.formatToPercent(
+    decimal: Int = 2,
+    roundingMode: RoundingMode = RoundingMode.DOWN,
+): String =
     formatToPercent(this, decimal, roundingMode)
 
 /**
@@ -145,7 +156,10 @@ public fun Float?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode =
  * @since 1.0.0
  */
 @JvmOverloads
-public fun Double?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+public fun Double?.formatToPercent(
+    decimal: Int = 2,
+    roundingMode: RoundingMode = RoundingMode.DOWN,
+): String =
     formatToPercent(this, decimal, roundingMode)
 
 /**
@@ -158,7 +172,10 @@ public fun Double?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode 
  * @since 1.0.0
  */
 @JvmOverloads
-public fun BigDecimal?.formatToPercent(decimal: Int = 2, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+public fun BigDecimal?.formatToPercent(
+    decimal: Int = 2,
+    roundingMode: RoundingMode = RoundingMode.DOWN,
+): String =
     formatToPercent(this, decimal, roundingMode)
 
 public val secureRandom: SecureRandom = SecureRandom()
@@ -181,10 +198,15 @@ public fun genRandomNumber(digit: Int): Int {
     return secureRandom.nextInt(base) + fix
 }
 
-private fun String?.toBigDecimal(decimal: Int = 2) = BigDecimal(this ?: "0")
-    .setScale(decimal, RoundingMode.DOWN)
+private fun String?.toBigDecimal(decimal: Int = 2) =
+    BigDecimal(this ?: "0")
+        .setScale(decimal, RoundingMode.DOWN)
 
-private fun formatToPercent(number: Number?, digit: Int, roundingMode: RoundingMode = RoundingMode.DOWN): String =
+private fun formatToPercent(
+    number: Number?,
+    digit: Int,
+    roundingMode: RoundingMode = RoundingMode.DOWN,
+): String =
     NumberFormat
         .getPercentInstance()
         .apply {

@@ -133,7 +133,10 @@ public class DefaultRedisCacheAspect {
      * @since 1.0.0
      */
     @Around("@annotation(annotation)")
-    public fun doCacheable(joinPoint: ProceedingJoinPoint, annotation: RedisCacheable): Any? {
+    public fun doCacheable(
+        joinPoint: ProceedingJoinPoint,
+        annotation: RedisCacheable,
+    ): Any? {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
@@ -181,7 +184,10 @@ public class DefaultRedisCacheAspect {
      * @param paramMap 参数map
      * @return 执行spel表达式后的结果
      */
-    private fun getValueFromParam(expression: String, paramMap: Map<String, Any?>): Any? {
+    private fun getValueFromParam(
+        expression: String,
+        paramMap: Map<String, Any?>,
+    ): Any? {
         val stringList = expression.split(".")
         if (stringList.size < 2) {
             return paramMap[expression]
@@ -198,30 +204,35 @@ public class DefaultRedisCacheAspect {
         }
     }
 
-    private fun getCachedEmptyValueByType(javaType: JavaType): String = when {
-        javaType.isStringLikeType() -> ""
-        javaType.isNumberType() -> ""
-        javaType.isBooleanType() -> ""
-        javaType.isArrayLikeType() -> "[]"
-        else -> "{}"
-    }
+    private fun getCachedEmptyValueByType(javaType: JavaType): String =
+        when {
+            javaType.isStringLikeType() -> ""
+            javaType.isNumberType() -> ""
+            javaType.isBooleanType() -> ""
+            javaType.isArrayLikeType() -> "[]"
+            else -> "{}"
+        }
 
-    private fun getCachedValueByType(cachedValue: String?, javaType: JavaType): Any? = when {
-        javaType.isStringLikeType() -> cachedValue
-        javaType.isByteType() -> cachedValue?.toByteOrNull()
-        javaType.isShortType() -> cachedValue?.toShortOrNull()
-        javaType.isIntType() -> cachedValue?.toIntOrNull()
-        javaType.isLongType() -> cachedValue?.toLongOrNull()
-        javaType.isFloatType() -> cachedValue?.toFloatOrNull()
-        javaType.isDoubleType() -> cachedValue?.toDoubleOrNull()
-        javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> cachedValue?.toBigDecimalOrNull()
-        javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> cachedValue?.toBigIntegerOrNull()
-        javaType.isBooleanType() -> cachedValue?.toBooleanStrictOrNull()
-        else ->
-            cachedValue?.jsonToObj(
-                TypeFactory
-                    .defaultInstance()
-                    .constructType(javaType)
-            )
-    }
+    private fun getCachedValueByType(
+        cachedValue: String?,
+        javaType: JavaType,
+    ): Any? =
+        when {
+            javaType.isStringLikeType() -> cachedValue
+            javaType.isByteType() -> cachedValue?.toByteOrNull()
+            javaType.isShortType() -> cachedValue?.toShortOrNull()
+            javaType.isIntType() -> cachedValue?.toIntOrNull()
+            javaType.isLongType() -> cachedValue?.toLongOrNull()
+            javaType.isFloatType() -> cachedValue?.toFloatOrNull()
+            javaType.isDoubleType() -> cachedValue?.toDoubleOrNull()
+            javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> cachedValue?.toBigDecimalOrNull()
+            javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> cachedValue?.toBigIntegerOrNull()
+            javaType.isBooleanType() -> cachedValue?.toBooleanStrictOrNull()
+            else ->
+                cachedValue?.jsonToObj(
+                    TypeFactory
+                        .defaultInstance()
+                        .constructType(javaType)
+                )
+        }
 }

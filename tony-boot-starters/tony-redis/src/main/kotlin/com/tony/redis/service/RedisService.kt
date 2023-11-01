@@ -71,7 +71,8 @@ public sealed interface RedisValueTransformer {
      * @date 2023/09/13 10:44
      * @since 1.0.0
      */
-    public fun <T : Any> Any?.outputTransformTo(type: JavaType): T? = outputTransformTo(type.rawClass())
+    public fun <T : Any> Any?.outputTransformTo(type: JavaType): T? =
+        outputTransformTo(type.rawClass())
 
     /**
      * 输出转换为
@@ -81,7 +82,8 @@ public sealed interface RedisValueTransformer {
      * @date 2023/09/13 10:44
      * @since 1.0.0
      */
-    public fun <T : Any> Any?.outputTransformTo(type: TypeReference<T>): T? = outputTransformTo(type.rawClass())
+    public fun <T : Any> Any?.outputTransformTo(type: TypeReference<T>): T? =
+        outputTransformTo(type.rawClass())
 
     /**
      * 输入转换为
@@ -90,5 +92,6 @@ public sealed interface RedisValueTransformer {
      * @date 2023/09/13 10:44
      * @since 1.0.0
      */
-    public fun Any.inputTransformTo(): Any = this
+    public fun Any.inputTransformTo(): Any =
+        this
 }

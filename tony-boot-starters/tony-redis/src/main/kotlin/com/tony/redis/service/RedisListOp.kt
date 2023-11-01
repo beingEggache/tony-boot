@@ -56,9 +56,10 @@ public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
         type: Class<T>,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? = listOp
-        .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
-        .outputTransformTo(type)
+    ): T? =
+        listOp
+            .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
+            .outputTransformTo(type)
 
     /**
      * @see [rightPopAndLeftPush]
@@ -69,9 +70,10 @@ public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
         type: JavaType,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? = listOp
-        .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
-        .outputTransformTo(type)
+    ): T? =
+        listOp
+            .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
+            .outputTransformTo(type)
 
     /**
      * @see [rightPopAndLeftPush]
@@ -82,9 +84,10 @@ public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
         type: TypeReference<T>,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): T? = listOp
-        .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
-        .outputTransformTo(type)
+    ): T? =
+        listOp
+            .rightPopAndLeftPush(sourceKey, destinationKey, timeout, timeUnit)
+            .outputTransformTo(type)
 
     /**
      * Trim list at key to elements between start and end.
@@ -94,7 +97,11 @@ public sealed interface RedisListOp : RedisListGetOp, RedisListSetOp {
      *
      * @see org.springframework.data.redis.core.ListOperations.trim
      */
-    public fun trim(key: String, start: Long, end: Long) {
+    public fun trim(
+        key: String,
+        start: Long,
+        end: Long,
+    ) {
         listOp.trim(key, start, end)
     }
 }
@@ -108,17 +115,29 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return can be null.
      * @see org.springframework.data.redis.core.ListOperations.leftPop
      */
-    public fun <T : Any> leftPop(key: String, type: Class<T>): T? = listOp.leftPop(key).outputTransformTo(type)
+    public fun <T : Any> leftPop(
+        key: String,
+        type: Class<T>,
+    ): T? =
+        listOp.leftPop(key).outputTransformTo(type)
 
     /**
      * @see [leftPop]
      */
-    public fun <T : Any> leftPop(key: String, type: JavaType): T? = listOp.leftPop(key).outputTransformTo(type)
+    public fun <T : Any> leftPop(
+        key: String,
+        type: JavaType,
+    ): T? =
+        listOp.leftPop(key).outputTransformTo(type)
 
     /**
      * @see [leftPop]
      */
-    public fun <T : Any> leftPop(key: String, type: TypeReference<T>): T? = listOp.leftPop(key).outputTransformTo(type)
+    public fun <T : Any> leftPop(
+        key: String,
+        type: TypeReference<T>,
+    ): T? =
+        listOp.leftPop(key).outputTransformTo(type)
 
     /**
      * Removes and returns first elements in list stored at key.
@@ -129,7 +148,11 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return can be null.
      * @see org.springframework.data.redis.core.ListOperations.leftPop
      */
-    public fun <T : Any> leftPop(key: String, count: Long): List<Any>? = listOp.leftPop(key, count)
+    public fun <T : Any> leftPop(
+        key: String,
+        count: Long,
+    ): List<Any>? =
+        listOp.leftPop(key, count)
 
     /**
      * Removes and returns last element in list stored at key.
@@ -139,17 +162,28 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return can be null.
      * @see org.springframework.data.redis.core.ListOperations.rightPop
      */
-    public fun <T : Any> rightPop(key: String, type: Class<T>): T? = listOp.rightPop(key).outputTransformTo(type)
+    public fun <T : Any> rightPop(
+        key: String,
+        type: Class<T>,
+    ): T? =
+        listOp.rightPop(key).outputTransformTo(type)
 
     /**
      * @see [rightPop]
      */
-    public fun <T : Any> rightPop(key: String, type: JavaType): T? = listOp.rightPop(key).outputTransformTo(type)
+    public fun <T : Any> rightPop(
+        key: String,
+        type: JavaType,
+    ): T? =
+        listOp.rightPop(key).outputTransformTo(type)
 
     /**
      * @see [rightPop]
      */
-    public fun <T : Any> rightPop(key: String, type: TypeReference<T>): T? =
+    public fun <T : Any> rightPop(
+        key: String,
+        type: TypeReference<T>,
+    ): T? =
         listOp.rightPop(key).outputTransformTo(type)
 
     /**
@@ -161,7 +195,11 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return can be null.
      * @see org.springframework.data.redis.core.ListOperations.rightPop
      */
-    public fun <T : Any> rightPop(key: String, count: Long): List<Any>? = listOp.rightPop(key, count)
+    public fun <T : Any> rightPop(
+        key: String,
+        count: Long,
+    ): List<Any>? =
+        listOp.rightPop(key, count)
 
     /**
      * Get element at index form list at key.
@@ -173,19 +211,31 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.index
      */
-    public fun <T : Any> index(key: String, index: Long, type: Class<T>): T? =
+    public fun <T : Any> index(
+        key: String,
+        index: Long,
+        type: Class<T>,
+    ): T? =
         listOp.index(key, index).outputTransformTo(type)
 
     /**
      * @see [RedisListGetOp.index]
      */
-    public fun <T : Any> index(key: String, index: Long, type: JavaType): T? =
+    public fun <T : Any> index(
+        key: String,
+        index: Long,
+        type: JavaType,
+    ): T? =
         listOp.index(key, index).outputTransformTo(type)
 
     /**
      * @see [RedisListGetOp.index]
      */
-    public fun <T : Any> index(key: String, index: Long, type: TypeReference<T>): T? =
+    public fun <T : Any> index(
+        key: String,
+        index: Long,
+        type: TypeReference<T>,
+    ): T? =
         listOp.index(key, index).outputTransformTo(type)
 
     /**
@@ -199,7 +249,11 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @see org.springframework.data.redis.core.ListOperations.range
      */
     @Suppress("UNCHECKED_CAST")
-    public fun <T : Any> range(key: String, start: Long, end: Long): List<T>? =
+    public fun <T : Any> range(
+        key: String,
+        start: Long,
+        end: Long,
+    ): List<T>? =
         listOp.range(key, start, end) as List<T>?
 
     /**
@@ -209,7 +263,8 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.size
      */
-    public fun size(key: String): Long? = listOp.size(key)
+    public fun size(key: String): Long? =
+        listOp.size(key)
 }
 
 public sealed interface RedisListSetOp : RedisValueTransformer {
@@ -221,7 +276,11 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.leftPush
      */
-    public fun <T : Any> leftPush(key: String, value: T): Long? = listOp.leftPush(key, value.inputTransformTo())
+    public fun <T : Any> leftPush(
+        key: String,
+        value: T,
+    ): Long? =
+        listOp.leftPush(key, value.inputTransformTo())
 
     /**
      * Insert value to key before pivot.
@@ -232,7 +291,11 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.leftPush
      */
-    public fun <T : Any> leftPush(key: String, pivot: Long, value: T): Long? =
+    public fun <T : Any> leftPush(
+        key: String,
+        pivot: Long,
+        value: T,
+    ): Long? =
         listOp.leftPush(key, pivot, value.inputTransformTo())
 
     /**
@@ -243,7 +306,10 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.leftPushIfPresent
      */
-    public fun <T : Any> leftPushIfPresent(key: String, value: T): Long? =
+    public fun <T : Any> leftPushIfPresent(
+        key: String,
+        value: T,
+    ): Long? =
         listOp.leftPushIfPresent(key, value.inputTransformTo())
 
     /**
@@ -254,7 +320,10 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.leftPushAll
      */
-    public fun <T : Any> leftPushAll(key: String, vararg value: T): Long? =
+    public fun <T : Any> leftPushAll(
+        key: String,
+        vararg value: T,
+    ): Long? =
         listOp.leftPushAll(key, value.onEach { it.inputTransformTo() })
 
     /**
@@ -265,7 +334,10 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.leftPushAll
      */
-    public fun <T : Any> leftPushAll(key: String, value: Collection<T>): Long? =
+    public fun <T : Any> leftPushAll(
+        key: String,
+        value: Collection<T>,
+    ): Long? =
         listOp.leftPushAll(key, value.onEach { it.inputTransformTo() })
 
     /**
@@ -276,7 +348,11 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.rightPush
      */
-    public fun <T : Any> rightPush(key: String, value: T): Long? = listOp.rightPush(key, value.inputTransformTo())
+    public fun <T : Any> rightPush(
+        key: String,
+        value: T,
+    ): Long? =
+        listOp.rightPush(key, value.inputTransformTo())
 
     /**
      * Insert value to key after pivot.
@@ -287,7 +363,11 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.rightPush
      */
-    public fun <T : Any> rightPush(key: String, pivot: Long, value: T): Long? =
+    public fun <T : Any> rightPush(
+        key: String,
+        pivot: Long,
+        value: T,
+    ): Long? =
         listOp.rightPush(key, pivot, value.inputTransformTo())
 
     /**
@@ -298,7 +378,10 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.rightPushIfPresent
      */
-    public fun <T : Any> rightPushIfPresent(key: String, value: T): Long? =
+    public fun <T : Any> rightPushIfPresent(
+        key: String,
+        value: T,
+    ): Long? =
         listOp.rightPushIfPresent(key, value.inputTransformTo())
 
     /**
@@ -309,7 +392,10 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.rightPushAll
      */
-    public fun <T : Any> rightPushAll(key: String, vararg value: T): Long? =
+    public fun <T : Any> rightPushAll(
+        key: String,
+        vararg value: T,
+    ): Long? =
         listOp.rightPushAll(key, value.onEach { it.inputTransformTo() })
 
     /**
@@ -320,6 +406,9 @@ public sealed interface RedisListSetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.rightPushAll
      */
-    public fun <T : Any> rightPushAll(key: String, value: Collection<T>): Long? =
+    public fun <T : Any> rightPushAll(
+        key: String,
+        value: Collection<T>,
+    ): Long? =
         listOp.rightPushAll(key, value.onEach { it.inputTransformTo() })
 }

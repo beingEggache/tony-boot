@@ -90,9 +90,10 @@ public open class TonyQueryWrapper<T : Any> :
     /**
      * 开启检查 SQL 注入
      */
-    public fun checkSqlInjection(): TonyQueryWrapper<T> = apply {
-        checkSqlInjection = true
-    }
+    public fun checkSqlInjection(): TonyQueryWrapper<T> =
+        apply {
+            checkSqlInjection = true
+        }
 
     protected override fun columnToString(column: String): String {
         if (checkSqlInjection && SqlInjectionUtils.check(column)) {
@@ -101,28 +102,36 @@ public open class TonyQueryWrapper<T : Any> :
         return column
     }
 
-    override fun select(condition: Boolean, columns: List<String>): TonyQueryWrapper<T> {
+    override fun select(
+        condition: Boolean,
+        columns: List<String>,
+    ): TonyQueryWrapper<T> {
         if (condition && columns.isNotEmpty()) {
             sqlSelect.setStringValue(columns.joinToString())
         }
         return typedThis
     }
 
-    public override fun select(entityClass: Class<T>, predicate: Predicate<TableFieldInfo>): TonyQueryWrapper<T> {
+    public override fun select(
+        entityClass: Class<T>,
+        predicate: Predicate<TableFieldInfo>,
+    ): TonyQueryWrapper<T> {
         super.setEntityClass(entityClass)
         sqlSelect.setStringValue(TableInfoHelper.getTableInfo(getEntityClass()).chooseSelect(predicate))
         return typedThis
     }
 
-    override fun getSqlSelect(): String = sqlSelect.stringValue
+    override fun getSqlSelect(): String =
+        sqlSelect.stringValue
 
     /**
      * 返回一个支持 lambda 函数写法的 wrapper
      */
-    public fun lambda(): TonyLambdaQueryWrapper<T> = TonyLambdaQueryWrapper(
-        entity, entityClass, sqlSelect, paramNameSeq, paramNameValuePairs,
-        expression, paramAlias, lastSql, sqlComment, sqlFirst
-    )
+    public fun lambda(): TonyLambdaQueryWrapper<T> =
+        TonyLambdaQueryWrapper(
+            entity, entityClass, sqlSelect, paramNameSeq, paramNameValuePairs,
+            expression, paramAlias, lastSql, sqlComment, sqlFirst
+        )
 
     /**
      * 用于生成嵌套 sql
@@ -131,10 +140,11 @@ public open class TonyQueryWrapper<T : Any> :
      * 故 sqlSelect 不向下传递
      *
      */
-    override fun instance(): TonyQueryWrapper<T> = TonyQueryWrapper(
-        entity, entityClass, paramNameSeq, paramNameValuePairs, MergeSegments(),
-        paramAlias, SharedString.emptyString(), SharedString.emptyString(), SharedString.emptyString()
-    )
+    override fun instance(): TonyQueryWrapper<T> =
+        TonyQueryWrapper(
+            entity, entityClass, paramNameSeq, paramNameValuePairs, MergeSegments(),
+            paramAlias, SharedString.emptyString(), SharedString.emptyString(), SharedString.emptyString()
+        )
 
     override fun clear() {
         super.clear()

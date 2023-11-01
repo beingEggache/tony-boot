@@ -47,7 +47,8 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
      */
     @JvmSynthetic
     @JvmStatic
-    public inline fun <reified T : Any> getBeanByLazy(): Lazy<T> = lazy(LazyThreadSafetyMode.PUBLICATION) { getBean() }
+    public inline fun <reified T : Any> getBeanByLazy(): Lazy<T> =
+        lazy(LazyThreadSafetyMode.PUBLICATION) { getBean() }
 
     /**
      * 惰性获取 bean
@@ -88,7 +89,10 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
          */
         @JvmSynthetic
         @JvmStatic
-        public inline fun <reified T : Any> getPropertyByLazy(key: String, defaultValue: T): Lazy<T> =
+        public inline fun <reified T : Any> getPropertyByLazy(
+            key: String,
+            defaultValue: T,
+        ): Lazy<T> =
             lazy(LazyThreadSafetyMode.PUBLICATION) {
                 getProperty(key, T::class.java, defaultValue)
             }

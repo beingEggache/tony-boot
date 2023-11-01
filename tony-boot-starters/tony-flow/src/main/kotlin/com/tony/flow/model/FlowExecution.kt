@@ -14,7 +14,6 @@ import com.tony.flow.db.po.FlowTaskActor
  * @since 1.0.0
  */
 public class FlowExecution {
-
     public val flowEngine: FlowEngine
 
     public val flowProcess: FlowProcess
@@ -74,7 +73,8 @@ public class FlowExecution {
         flowExecution: FlowExecution,
         flowProcess: FlowProcess,
         parentNodeName: String,
-    ): FlowExecution = FlowExecution(flowExecution, flowProcess, parentNodeName)
+    ): FlowExecution =
+        FlowExecution(flowExecution, flowProcess, parentNodeName)
 
     public fun addTasks(flowTaskList: Collection<FlowTask>) {
         this.flowTaskList.addAll(flowTaskList)

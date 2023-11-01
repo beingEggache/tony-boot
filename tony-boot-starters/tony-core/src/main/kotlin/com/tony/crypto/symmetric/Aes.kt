@@ -53,7 +53,11 @@ public data object Aes : SymmetricCrypto {
         Security.addProvider(BouncyCastleProvider())
     }
 
-    override fun crypto(src: ByteArray, secret: ByteArray, mode: Int): ByteArray {
+    override fun crypto(
+        src: ByteArray,
+        secret: ByteArray,
+        mode: Int,
+    ): ByteArray {
         require(secret.size == BLOCK_SIZE) { "IllegalAesKey, aesKey's length must be $BLOCK_SIZE" }
         val secretKeySpec = SecretKeySpec(secret, AES)
         return Cipher.getInstance(CIPHER_ALGORITHM, "BC")

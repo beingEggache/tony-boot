@@ -48,6 +48,7 @@ public enum class ApproverType(
     internal companion object : EnumCreator<ApproverType, Int>(ApproverType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) = super.create(value)
+        override fun create(value: Int) =
+            super.create(value)
     }
 }

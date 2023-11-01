@@ -79,7 +79,10 @@ public class TonyLambdaQueryWrapper<T : Any> :
         this.sqlFirst = sqlFirst
     }
 
-    override fun select(condition: Boolean, columns: List<SFunction<T, *>?>): TonyLambdaQueryWrapper<T> {
+    override fun select(
+        condition: Boolean,
+        columns: List<SFunction<T, *>?>,
+    ): TonyLambdaQueryWrapper<T> {
         if (condition && columns.isNotEmpty()) {
             sqlSelect?.setStringValue(columnsToString(false, columns))
         }
@@ -102,31 +105,36 @@ public class TonyLambdaQueryWrapper<T : Any> :
      * @param predicate 过滤方式
      * @return this
      */
-    override fun select(entityClass: Class<T>?, predicate: Predicate<TableFieldInfo>): TonyLambdaQueryWrapper<T> {
+    override fun select(
+        entityClass: Class<T>?,
+        predicate: Predicate<TableFieldInfo>,
+    ): TonyLambdaQueryWrapper<T> {
         this.entityClass = (entityClass ?: this.entityClass).throwIfNull("entityClass can not be null")
         sqlSelect?.setStringValue(TableInfoHelper.getTableInfo(this.entityClass).chooseSelect(predicate))
         return typedThis
     }
 
-    override fun getSqlSelect(): String? = sqlSelect?.stringValue
+    override fun getSqlSelect(): String? =
+        sqlSelect?.stringValue
 
     /**
      * 用于生成嵌套 sql
      *
      * 故 sqlSelect 不向下传递
      */
-    override fun instance(): TonyLambdaQueryWrapper<T> = TonyLambdaQueryWrapper(
-        entity,
-        entityClass,
-        null,
-        paramNameSeq,
-        paramNameValuePairs,
-        MergeSegments(),
-        paramAlias,
-        SharedString.emptyString(),
-        SharedString.emptyString(),
-        SharedString.emptyString()
-    )
+    override fun instance(): TonyLambdaQueryWrapper<T> =
+        TonyLambdaQueryWrapper(
+            entity,
+            entityClass,
+            null,
+            paramNameSeq,
+            paramNameValuePairs,
+            MergeSegments(),
+            paramAlias,
+            SharedString.emptyString(),
+            SharedString.emptyString(),
+            SharedString.emptyString()
+        )
 
     override fun clear() {
         super.clear()

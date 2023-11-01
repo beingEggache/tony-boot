@@ -78,25 +78,28 @@ internal class RedisConfig(
     @ConditionalOnClass(value = [LinkedBuffer::class, RuntimeSchema::class])
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "PROTOSTUFF")
     @Bean
-    internal fun protostuffSerializer(): RedisSerializer<Any?> = ProtostuffSerializer()
-        .also {
-            getLogger(ProtostuffSerializer::class.java.name)
-                .info("Redis serializer mode is ${redisProperties.serializerMode}")
-        }
+    internal fun protostuffSerializer(): RedisSerializer<Any?> =
+        ProtostuffSerializer()
+            .also {
+                getLogger(ProtostuffSerializer::class.java.name)
+                    .info("Redis serializer mode is ${redisProperties.serializerMode}")
+            }
 
     @ConditionalOnClass(value = [LinkedBuffer::class, RuntimeSchema::class])
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "PROTOSTUFF")
     @Bean
-    internal fun protostuffRedisService(): RedisService = ProtostuffRedisService()
+    internal fun protostuffRedisService(): RedisService =
+        ProtostuffRedisService()
 
     @ConditionalOnMissingBean(Jackson2ObjectMapperBuilder::class)
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON", matchIfMissing = true)
     @Bean
     internal fun jackson2ObjectMapperBuilder(
         jackson2ObjectMapperBuilderCustomizer: Jackson2ObjectMapperBuilderCustomizer,
-    ): Jackson2ObjectMapperBuilder = Jackson2ObjectMapperBuilder().apply {
-        jackson2ObjectMapperBuilderCustomizer.customize(this)
-    }
+    ): Jackson2ObjectMapperBuilder =
+        Jackson2ObjectMapperBuilder().apply {
+            jackson2ObjectMapperBuilderCustomizer.customize(this)
+        }
 
     @ConditionalOnMissingBean(ObjectMapper::class)
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON", matchIfMissing = true)
@@ -104,10 +107,11 @@ internal class RedisConfig(
     internal fun objectMapper(
         jackson2ObjectMapperBuilder: Jackson2ObjectMapperBuilder,
         injectableValueSuppliers: List<InjectableValueSupplier>,
-    ): ObjectMapper = createObjectMapper().apply {
-        jackson2ObjectMapperBuilder.configure(this)
-        injectableValues = InjectableValuesBySupplier(injectableValueSuppliers.associateBy { it.name })
-    }
+    ): ObjectMapper =
+        createObjectMapper().apply {
+            jackson2ObjectMapperBuilder.configure(this)
+            injectableValues = InjectableValuesBySupplier(injectableValueSuppliers.associateBy { it.name })
+        }
 
     @ConditionalOnMissingBean(RedisSerializer::class)
     @Bean
@@ -126,21 +130,23 @@ internal class RedisConfig(
 
     @ConditionalOnMissingBean(RedisService::class)
     @Bean
-    internal fun jacksonRedisService(): RedisService = JacksonRedisService()
+    internal fun jacksonRedisService(): RedisService =
+        JacksonRedisService()
 
     @Bean("redisTemplate")
     internal fun redisTemplate(
         redisConnectionFactory: RedisConnectionFactory,
         redisSerializer: RedisSerializer<Any?>,
-    ): RedisTemplate<String, Any> = RedisTemplate<String, Any>().apply {
-        connectionFactory = redisConnectionFactory
-        setDefaultSerializer(redisSerializer)
-        keySerializer = StringRedisSerializer.UTF_8
-        hashKeySerializer = StringRedisSerializer.UTF_8
-        valueSerializer = redisSerializer
-        hashValueSerializer = redisSerializer
-        afterPropertiesSet()
-    }
+    ): RedisTemplate<String, Any> =
+        RedisTemplate<String, Any>().apply {
+            connectionFactory = redisConnectionFactory
+            setDefaultSerializer(redisSerializer)
+            keySerializer = StringRedisSerializer.UTF_8
+            hashKeySerializer = StringRedisSerializer.UTF_8
+            valueSerializer = redisSerializer
+            hashValueSerializer = redisSerializer
+            afterPropertiesSet()
+        }
 }
 
 /**
@@ -151,13 +157,13 @@ internal class RedisConfig(
  */
 @ConfigurationProperties(prefix = "redis")
 internal data class RedisProperties
-@ConstructorBinding
-constructor(
-    @DefaultValue("")
-    val keyPrefix: String,
-    /**
-     * redis 序列化/反序列化 方式
-     */
-    @DefaultValue("JACKSON")
-    val serializerMode: SerializerMode,
-)
+    @ConstructorBinding
+    constructor(
+        @DefaultValue("")
+        val keyPrefix: String,
+        /**
+         * redis 序列化/反序列化 方式
+         */
+        @DefaultValue("JACKSON")
+        val serializerMode: SerializerMode,
+    )

@@ -25,6 +25,7 @@
 @file:JvmName("FeignUtils")
 
 package com.tony.feign
+
 /**
  * Feign 工具
  */
@@ -43,21 +44,23 @@ import org.springframework.http.MediaType
  * @receiver [RequestBody]
  * @return
  */
-public fun RequestBody.string(): String = run {
-    val buffer = Buffer()
-    writeTo(buffer)
-    String(buffer.readByteArray())
-}
+public fun RequestBody.string(): String =
+    run {
+        val buffer = Buffer()
+        writeTo(buffer)
+        String(buffer.readByteArray())
+    }
 
 /**
  * request body 读取成 jackson的 [JsonNode]
  * @return
  */
-public fun RequestBody.jsonNode(): JsonNode = run {
-    val buffer = Buffer()
-    writeTo(buffer)
-    buffer.readByteArray().jsonNode()
-}
+public fun RequestBody.jsonNode(): JsonNode =
+    run {
+        val buffer = Buffer()
+        writeTo(buffer)
+        buffer.readByteArray().jsonNode()
+    }
 
 /**
  * Parsed media
@@ -89,7 +92,8 @@ internal val RequestBody.parsedMedia: MediaType?
  * 是否字符串mime类型
  * @param mediaType
  */
-internal fun isTextMediaTypes(mediaType: MediaType?) = TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
+internal fun isTextMediaTypes(mediaType: MediaType?) =
+    TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 
 private val TEXT_MEDIA_TYPES =
     listOf(
@@ -105,9 +109,10 @@ private val TEXT_MEDIA_TYPES =
  * @param timestampStr
  * @return
  */
-public fun String.sortRequestBody(timestampStr: String): String = globalObjectMapper
-    .readTree(this)
-    .sortRequestBody(timestampStr)
+public fun String.sortRequestBody(timestampStr: String): String =
+    globalObjectMapper
+        .readTree(this)
+        .sortRequestBody(timestampStr)
 
 /**
  * 生成简单签名.
@@ -115,7 +120,10 @@ public fun String.sortRequestBody(timestampStr: String): String = globalObjectMa
  * @param secret
  * @return
  */
-public fun String.genSign(appId: String, secret: String): String =
+public fun String.genSign(
+    appId: String,
+    secret: String,
+): String =
     ("$appId|$secret|$this".md5().uppercase()).md5().uppercase()
 
 /**
@@ -123,15 +131,16 @@ public fun String.genSign(appId: String, secret: String): String =
  * @param timestampStr
  * @return
  */
-public fun JsonNode.sortRequestBody(timestampStr: String): String = fieldNames()
-    .asSequence()
-    .sorted()
-    .fold<String, LinkedHashMap<String, Any?>>(
-        linkedMapOf("timestamp" to timestampStr)
-    ) { map, key ->
-        if (key == "timestamp") {
-            return@fold map
-        }
-        map[key] = this[key]
-        map
-    }.toJsonString()
+public fun JsonNode.sortRequestBody(timestampStr: String): String =
+    fieldNames()
+        .asSequence()
+        .sorted()
+        .fold<String, LinkedHashMap<String, Any?>>(
+            linkedMapOf("timestamp" to timestampStr)
+        ) { map, key ->
+            if (key == "timestamp") {
+                return@fold map
+            }
+            map[key] = this[key]
+            map
+        }.toJsonString()

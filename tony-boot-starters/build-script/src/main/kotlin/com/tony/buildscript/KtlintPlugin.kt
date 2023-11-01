@@ -15,7 +15,7 @@ class KtlintPlugin : Plugin<Project> {
         val ktlint: Configuration by target.configurations.creating
 
         target.dependencies {
-            ktlint("com.pinterest.ktlint:ktlint-cli:1.0.0")
+            ktlint("com.pinterest.ktlint:ktlint-cli:1.0.1")
             // ktlint(project(":custom-ktlint-ruleset")) // in case of custom ruleset
         }
         val outputDir = "${target.layout.buildDirectory.get()}/reports/ktlint/"

@@ -88,11 +88,12 @@ public fun interface MaskConvertFunc {
  * @date 2021/12/6 10:51
  */
 public class NameMaskFun : MaskConvertFunc {
-    override fun convert(input: String?): String? = if (input?.length != null && input.length > 1) {
-        input.replaceRange(1 until input.length, "**")
-    } else {
-        input
-    }
+    override fun convert(input: String?): String? =
+        if (input?.length != null && input.length > 1) {
+            input.replaceRange(1 until input.length, "**")
+        } else {
+            input
+        }
 }
 
 /**
@@ -102,11 +103,12 @@ public class NameMaskFun : MaskConvertFunc {
  * @date 2021/12/6 10:51
  */
 public class MobileMaskFun : MaskConvertFunc {
-    override fun convert(input: String?): String? = if (input?.length != null && input.length >= 4) {
-        "${input.substring(0, 2)}****${input.substring(input.length - 4, input.length)}"
-    } else {
-        input
-    }
+    override fun convert(input: String?): String? =
+        if (input?.length != null && input.length >= 4) {
+            "${input.substring(0, 2)}****${input.substring(input.length - 4, input.length)}"
+        } else {
+            input
+        }
 }
 
 /**
@@ -116,7 +118,11 @@ public class MobileMaskFun : MaskConvertFunc {
  * @date 2021/12/6 10:51
  */
 public class MaskSerializer : JsonSerializer<Any>() {
-    override fun serialize(value: Any, gen: JsonGenerator, serializers: SerializerProvider) {
+    override fun serialize(
+        value: Any,
+        gen: JsonGenerator,
+        serializers: SerializerProvider,
+    ) {
         val annotation =
             gen.currentValue::class.java
                 .getDeclaredField(gen.outputContext.currentName)
@@ -131,7 +137,10 @@ public class MaskSerializer : JsonSerializer<Any>() {
         @JvmStatic
         private val logger = LoggerFactory.getLogger(MaskSerializer::class.java)
 
-        public fun registerMaskFun(maskType: Class<*>, maskFun: MaskConvertFunc) {
+        public fun registerMaskFun(
+            maskType: Class<*>,
+            maskFun: MaskConvertFunc,
+        ) {
             if (maskConverters.containsKey(maskType)) throw ApiException("$maskType already exists")
             synchronized(maskConverters) {
                 logger.info("Register $maskType convert function.")

@@ -40,22 +40,24 @@ internal class AlipayConfig(
     private val resourceResolver = PathMatchingResourcePatternResolver()
 
     @Bean
-    internal fun alipayService() = AlipayManager(
-        alipayProperties.appId,
-        getFrom(alipayProperties.publicKeyPath),
-        getFrom(alipayProperties.privateKeyPath),
-        getFrom(alipayProperties.aliPublicKeyPath)
-    )
+    internal fun alipayService() =
+        AlipayManager(
+            alipayProperties.appId,
+            getFrom(alipayProperties.publicKeyPath),
+            getFrom(alipayProperties.privateKeyPath),
+            getFrom(alipayProperties.aliPublicKeyPath)
+        )
 
-    private fun getFrom(path: String): String = resourceResolver.getResource(path).file.readText()
+    private fun getFrom(path: String): String =
+        resourceResolver.getResource(path).file.readText()
 }
 
 @ConfigurationProperties(prefix = "alipay")
 internal data class AlipayProperties
-@ConstructorBinding
-constructor(
-    val appId: String,
-    val publicKeyPath: String,
-    val privateKeyPath: String,
-    val aliPublicKeyPath: String,
-)
+    @ConstructorBinding
+    constructor(
+        val appId: String,
+        val publicKeyPath: String,
+        val privateKeyPath: String,
+        val aliPublicKeyPath: String,
+    )

@@ -48,7 +48,11 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @param type 值 class
      * @return
      */
-    public fun <T : Any> get(key: String, hashKey: String, type: Class<T>): T? =
+    public fun <T : Any> get(
+        key: String,
+        hashKey: String,
+        type: Class<T>,
+    ): T? =
         hashOp.get(key, hashKey).outputTransformTo(type)
 
     /**
@@ -57,7 +61,11 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @param type 兼容jackson
      * @return
      */
-    public fun <T : Any> get(key: String, hashKey: String, type: JavaType): T? =
+    public fun <T : Any> get(
+        key: String,
+        hashKey: String,
+        type: JavaType,
+    ): T? =
         hashOp.get(key, hashKey).outputTransformTo(type)
 
     /**
@@ -66,7 +74,11 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @param type 兼容jackson
      * @return
      */
-    public fun <T : Any> get(key: String, hashKey: String, type: TypeReference<T>): T? =
+    public fun <T : Any> get(
+        key: String,
+        hashKey: String,
+        type: TypeReference<T>,
+    ): T? =
         hashOp.get(key, hashKey).outputTransformTo(type)
 
     /**
@@ -75,7 +87,8 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
      * @param key
      * @return
      */
-    public fun entries(key: String): Map<String, Any?> = hashOp.entries(key)
+    public fun entries(key: String): Map<String, Any?> =
+        hashOp.entries(key)
 }
 
 /**
@@ -91,7 +104,11 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
      * @param map
      * @param date
      */
-    public fun putAll(key: String, map: Map<String, Any?>?, date: Date) {
+    public fun putAll(
+        key: String,
+        map: Map<String, Any?>?,
+        date: Date,
+    ) {
         if (map == null) {
             return
         }
@@ -110,7 +127,12 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
      * @param timeout
      * @param timeUnit
      */
-    public fun putAll(key: String, map: Map<String, Any?>?, timeout: Long = 0, timeUnit: TimeUnit = TimeUnit.SECONDS) {
+    public fun putAll(
+        key: String,
+        map: Map<String, Any?>?,
+        timeout: Long = 0,
+        timeUnit: TimeUnit = TimeUnit.SECONDS,
+    ) {
         if (map == null) {
             return
         }
@@ -131,7 +153,11 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
      * @param hashKey
      * @param value
      */
-    public fun <T : Any> put(key: String, hashKey: String, value: T) {
+    public fun <T : Any> put(
+        key: String,
+        hashKey: String,
+        value: T,
+    ) {
         hashOp.put(key, hashKey, value.inputTransformTo())
     }
 
@@ -142,7 +168,11 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
      * @param hashKey
      * @param value
      */
-    public fun <T : Any> putIfAbsent(key: String, hashKey: String, value: T) {
+    public fun <T : Any> putIfAbsent(
+        key: String,
+        hashKey: String,
+        value: T,
+    ) {
         hashOp.putIfAbsent(key, hashKey, value.inputTransformTo())
     }
 }

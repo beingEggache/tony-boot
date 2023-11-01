@@ -80,6 +80,7 @@ public enum class WechatQrCodeType(
     public companion object : EnumCreator<WechatQrCodeType, String>(WechatQrCodeType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String): WechatQrCodeType? = super.create(value)
+        override fun create(value: String): WechatQrCodeType? =
+            super.create(value)
     }
 }

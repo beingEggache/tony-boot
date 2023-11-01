@@ -38,7 +38,10 @@ import feign.codec.ErrorDecoder
 public class DefaultErrorDecoder : ErrorDecoder {
     private val default = ErrorDecoder.Default()
 
-    override fun decode(methodKey: String?, response: Response): Exception {
+    override fun decode(
+        methodKey: String?,
+        response: Response,
+    ): Exception {
         val status = response.status()
         return if (status in 400..<500) {
             val url = response.request().url()

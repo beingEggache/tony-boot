@@ -32,6 +32,7 @@ public enum class MultiApproveMode(
     internal companion object : EnumCreator<MultiApproveMode, Int>(MultiApproveMode::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) = super.create(value)
+        override fun create(value: Int) =
+            super.create(value)
     }
 }

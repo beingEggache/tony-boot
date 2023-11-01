@@ -84,7 +84,11 @@ public object CaptchaManager {
      */
     @JvmStatic
     @JvmOverloads
-    public fun <R> verify(vo: CaptchaVo, message: String = "验证码错误", func: () -> R): R {
+    public fun <R> verify(
+        vo: CaptchaVo,
+        message: String = "验证码错误",
+        func: () -> R,
+    ): R {
         throwIf(!captchaService.verify(vo), message)
         val apply = func()
         RedisManager.delete(vo.captchaKeyRule(vo))

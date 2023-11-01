@@ -12,7 +12,6 @@ import com.tony.enums.IntEnumValue
 public enum class ProcessState(
     override val value: Int,
 ) : IntEnumValue {
-
     /**
      * 未启用
      */
@@ -27,6 +26,7 @@ public enum class ProcessState(
     internal companion object : EnumCreator<ProcessState, Int>(ProcessState::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) = super.create(value)
+        override fun create(value: Int) =
+            super.create(value)
     }
 }

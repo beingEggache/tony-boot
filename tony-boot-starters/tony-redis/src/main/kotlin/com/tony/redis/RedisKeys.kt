@@ -46,6 +46,9 @@ public object RedisKeys {
      * @since 1.0.0
      */
     @JvmStatic
-    public fun genKey(template: String, vararg args: Any?): String =
+    public fun genKey(
+        template: String,
+        vararg args: Any?,
+    ): String =
         "${if (keyPrefix.isBlank()) "" else "$keyPrefix:"}${String.format(template, *args)}"
 }

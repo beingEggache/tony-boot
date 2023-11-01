@@ -70,11 +70,13 @@ internal class WechatConfig {
 
     @ConditionalOnMissingBean(WechatApiAccessTokenProvider::class)
     @Bean
-    internal fun apiAccessTokenProviderWrapper(): WechatApiAccessTokenProvider = DefaultWechatApiAccessTokenProvider()
+    internal fun apiAccessTokenProviderWrapper(): WechatApiAccessTokenProvider =
+        DefaultWechatApiAccessTokenProvider()
 
     @ConditionalOnMissingBean(WechatPropProvider::class)
     @Bean
-    internal fun wechatApiPropProvider(wechatProperties: WechatProperties) = DefaultWechatPropProvider(wechatProperties)
+    internal fun wechatApiPropProvider(wechatProperties: WechatProperties) =
+        DefaultWechatPropProvider(wechatProperties)
 }
 
 /**
@@ -85,17 +87,18 @@ internal class WechatConfig {
  */
 @ConfigurationProperties(prefix = "wechat")
 public data class WechatProperties
-@ConstructorBinding
-constructor(
-    val token: String?,
-    val appId: String?,
-    val appSecret: String?,
-    val mchId: String?,
-    val mchSecretKey: String?,
-    val app: LinkedHashMap<String, WechatAppProperties>?,
-) {
-    public fun getAppByAppId(appId: String): String? = app?.entries?.firstOrNull { it.value.appId == appId }?.key
-}
+    @ConstructorBinding
+    constructor(
+        val token: String?,
+        val appId: String?,
+        val appSecret: String?,
+        val mchId: String?,
+        val mchSecretKey: String?,
+        val app: LinkedHashMap<String, WechatAppProperties>?,
+    ) {
+        public fun getAppByAppId(appId: String): String? =
+            app?.entries?.firstOrNull { it.value.appId == appId }?.key
+    }
 
 /**
  * 微信配置

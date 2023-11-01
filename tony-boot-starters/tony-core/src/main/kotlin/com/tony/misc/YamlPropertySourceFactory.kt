@@ -38,7 +38,10 @@ import org.springframework.core.io.support.PropertySourceFactory
  * @date 2023/5/24 18:06
  */
 public class YamlPropertySourceFactory : PropertySourceFactory {
-    override fun createPropertySource(name: String?, resource: EncodedResource): PropertySource<*> {
+    override fun createPropertySource(
+        name: String?,
+        resource: EncodedResource,
+    ): PropertySource<*> {
         val ymlProperties =
             YamlPropertiesFactoryBean().apply {
                 setResources(resource.resource)

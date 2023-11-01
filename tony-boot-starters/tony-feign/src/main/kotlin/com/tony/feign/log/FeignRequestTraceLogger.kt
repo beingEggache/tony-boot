@@ -23,6 +23,7 @@
  */
 
 package com.tony.feign.log
+
 /**
  * Feign okhttp 请求日志拦截器
  *
@@ -59,23 +60,24 @@ import org.springframework.http.HttpStatus
 internal class FeignLogInterceptor(
     private val feignRequestTraceLogger: FeignRequestTraceLogger,
 ) : NetworkInterceptor {
-
     override fun intercept(chain: Interceptor.Chain): Response {
         val startTime = LocalDateTime.now()
         val request = chain.request()
         val response = chain.proceed(request)
         val elapsedTime = System.currentTimeMillis() - startTime.toInstant().toEpochMilli()
 
-        val headers = request
-            .headers
-            .newBuilder()
-            .add(TRACE_ID_HEADER_NAME, mdcPutOrGetDefault(TRACE_ID_HEADER_NAME))
-            .build()
+        val headers =
+            request
+                .headers
+                .newBuilder()
+                .add(TRACE_ID_HEADER_NAME, mdcPutOrGetDefault(TRACE_ID_HEADER_NAME))
+                .build()
 
-        val newRequest = request
-            .newBuilder()
-            .headers(headers)
-            .build()
+        val newRequest =
+            request
+                .newBuilder()
+                .headers(headers)
+                .build()
 
         feignRequestTraceLogger.log(chain.connection(), newRequest, response, elapsedTime)
         return response
@@ -89,9 +91,9 @@ internal class FeignLogInterceptor(
  * @since 1.0.0
  */
 public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
-
     @Suppress("MemberVisibilityCanBePrivate")
-    protected val logger: Logger = getLogger("request-logger")
+    protected val logger: Logger =
+        getLogger("request-logger")
 
     /**
      * 记录请求日志
@@ -103,7 +105,12 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
      * @date 2023/09/12 10:10
      * @since 1.0.0
      */
-    override fun log(connection: Connection?, request: Request, response: Response, elapsedTime: Long) {
+    override fun log(
+        connection: Connection?,
+        request: Request,
+        response: Response,
+        elapsedTime: Long,
+    ) {
         val url = request.url.toUri().toURL()
         val resultCode = response.code
         val protocol = url.protocol
@@ -111,34 +118,38 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val origin = url.origin
         val path = url.path
         val query = url.query.defaultIfBlank("[null]")
-        val requestHeaders = request.headers
-            .names()
-            .associateWith {
-                request.header(it)
+        val requestHeaders =
+            request.headers
+                .names()
+                .associateWith {
+                    request.header(it)
+                }
+                .entries
+                .joinToString(";;") { "${it.key}:${it.value}" }
+        val responseHeaders =
+            response.headers
+                .names()
+                .associateWith {
+                    response.header(it)
+                }
+                .entries
+                .joinToString(";;") { "${it.key}:${it.value}" }
+        val requestBody =
+            request.body?.run {
+                if (isTextMediaTypes(parsedMedia)) {
+                    string()
+                } else {
+                    "[${contentType()}]"
+                }
             }
-            .entries
-            .joinToString(";;") { "${it.key}:${it.value}" }
-        val responseHeaders = response.headers
-            .names()
-            .associateWith {
-                response.header(it)
+        val responseBody =
+            response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).run {
+                if (isTextMediaTypes(parsedMedia)) {
+                    string()
+                } else {
+                    "[${contentType()}]"
+                }
             }
-            .entries
-            .joinToString(";;") { "${it.key}:${it.value}" }
-        val requestBody = request.body?.run {
-            if (isTextMediaTypes(parsedMedia)) {
-                string()
-            } else {
-                "[${contentType()}]"
-            }
-        }
-        val responseBody = response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).run {
-            if (isTextMediaTypes(parsedMedia)) {
-                string()
-            } else {
-                "[${contentType()}]"
-            }
-        }
 
         val remoteIp = connection?.socket()?.inetAddress?.hostAddress
         val logStr =
@@ -162,12 +173,13 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected val URL.origin: String
-        get() = run {
-            val protocol = protocol
-            val host = host
-            val port = port
-            "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}"
-        }
+        get() =
+            run {
+                val protocol = protocol
+                val host = host
+                val port = port
+                "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}"
+            }
 }
 
 /**
@@ -177,5 +189,10 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
  * @since 1.0.0
  */
 public fun interface FeignRequestTraceLogger {
-    public fun log(connection: Connection?, request: Request, response: Response, elapsedTime: Long)
+    public fun log(
+        connection: Connection?,
+        request: Request,
+        response: Response,
+        elapsedTime: Long,
+    )
 }

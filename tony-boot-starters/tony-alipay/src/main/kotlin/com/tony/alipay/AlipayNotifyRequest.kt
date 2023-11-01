@@ -76,7 +76,10 @@ public class AlipayNotifyRequest(
     private val logger = getLogger()
 
     @JvmSynthetic
-    public fun process(signValid: Boolean, doOnTradeSuccess: () -> Unit): String {
+    public fun process(
+        signValid: Boolean,
+        doOnTradeSuccess: () -> Unit,
+    ): String {
         if (!signValid) {
             logger.error("Alipay order($outTradeNo) sign invalid, notify request:${toQueryString()}")
             return "success"
@@ -93,7 +96,10 @@ public class AlipayNotifyRequest(
         return "success"
     }
 
-    public fun process(signValid: Boolean, doOnTradeSuccess: Runnable): String {
+    public fun process(
+        signValid: Boolean,
+        doOnTradeSuccess: Runnable,
+    ): String {
         if (!signValid) {
             logger.error("Alipay order($outTradeNo) sign invalid, notify request:${toQueryString()}")
             return "success"

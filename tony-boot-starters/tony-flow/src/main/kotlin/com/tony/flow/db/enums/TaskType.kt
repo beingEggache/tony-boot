@@ -12,7 +12,6 @@ import com.tony.enums.IntEnumValue
 public enum class TaskType(
     override val value: Int,
 ) : IntEnumValue {
-
     /**
      * 主办
      */
@@ -37,6 +36,7 @@ public enum class TaskType(
     internal companion object : EnumCreator<TaskType, Int>(TaskType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) = super.create(value)
+        override fun create(value: Int) =
+            super.create(value)
     }
 }

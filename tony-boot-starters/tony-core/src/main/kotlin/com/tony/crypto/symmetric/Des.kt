@@ -41,7 +41,11 @@ public data object Des : SymmetricCrypto {
     @JvmStatic
     private val desKeyFactory = SecretKeyFactory.getInstance(DES)
 
-    override fun crypto(src: ByteArray, secret: ByteArray, mode: Int): ByteArray {
+    override fun crypto(
+        src: ByteArray,
+        secret: ByteArray,
+        mode: Int,
+    ): ByteArray {
         val secretKeySpec = DESKeySpec(secret)
         return Cipher.getInstance(DES)
             .apply {

@@ -80,7 +80,10 @@ public class InjectableValuesBySupplier(
 public interface InjectableValueSupplier {
     public val name: String
 
-    public fun value(property: BeanProperty?, instance: Any?): Any
+    public fun value(
+        property: BeanProperty?,
+        instance: Any?,
+    ): Any
 }
 
 /**

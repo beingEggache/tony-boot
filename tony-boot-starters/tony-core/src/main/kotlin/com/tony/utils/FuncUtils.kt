@@ -42,7 +42,10 @@ public inline fun Boolean.doIf(crossinline block: () -> Unit) {
 }
 
 @JvmSynthetic
-public inline fun <T> T.doIf(condition: Boolean, crossinline block: T.() -> Unit): T {
+public inline fun <T> T.doIf(
+    condition: Boolean,
+    crossinline block: T.() -> Unit,
+): T {
     if (condition) block()
     return this
 }
@@ -93,14 +96,22 @@ public fun <T> T?.throwIfNull(
 }
 
 @JvmSynthetic
-public inline fun <R> throwIfAndReturn(condition: Boolean, message: String, crossinline block: () -> R): R {
+public inline fun <R> throwIfAndReturn(
+    condition: Boolean,
+    message: String,
+    crossinline block: () -> R,
+): R {
     if (condition) throw BizException(message)
     return block()
 }
 
 @JvmSynthetic
-public inline fun <T, R> T?.throwIfNullAndReturn(message: String, crossinline block: () -> R): R =
+public inline fun <T, R> T?.throwIfNullAndReturn(
+    message: String,
+    crossinline block: () -> R,
+): R =
     throwIfAndReturn(this == null, message, block)
 
 @JvmSynthetic
-public inline fun <reified T> T?.returnIfNull(crossinline block: () -> T): T = this ?: block()
+public inline fun <reified T> T?.returnIfNull(crossinline block: () -> T): T =
+    this ?: block()

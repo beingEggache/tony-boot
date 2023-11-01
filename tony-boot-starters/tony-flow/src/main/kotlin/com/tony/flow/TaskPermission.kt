@@ -11,7 +11,6 @@ import com.tony.flow.db.po.FlowTaskActor
  * @since 1.0.0
  */
 public fun interface TaskPermission {
-
     /**
      * 是否拥有权限.
      *
@@ -23,5 +22,8 @@ public fun interface TaskPermission {
      * @date 2023/10/19 10:21
      * @since 1.0.0
      */
-    public fun hasPermission(userId: Long, taskActorList: List<FlowTaskActor>): Boolean
+    public fun hasPermission(
+        userId: Long,
+        taskActorList: List<FlowTaskActor>,
+    ): Boolean
 }

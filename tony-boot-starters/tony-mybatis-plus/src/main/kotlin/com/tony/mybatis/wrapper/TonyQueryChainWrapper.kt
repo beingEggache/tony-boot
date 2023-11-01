@@ -42,24 +42,31 @@ public open class TonyQueryChainWrapper<T : Any> internal constructor(private va
     AbstractChainWrapper<T, String, TonyQueryChainWrapper<T>, TonyQueryWrapper<T>>(),
     TonyChainQuery<T>,
     Query<TonyQueryChainWrapper<T>, T, String> {
-    init {
-        wrapperChildren = TonyQueryWrapper(baseMapper.getEntityClass())
-    }
+        init {
+            wrapperChildren = TonyQueryWrapper(baseMapper.getEntityClass())
+        }
 
-    override fun select(condition: Boolean, columns: MutableList<String>): TonyQueryChainWrapper<T> {
-        wrapperChildren.select(condition, columns)
-        return typedThis
-    }
+        override fun select(
+            condition: Boolean,
+            columns: MutableList<String>,
+        ): TonyQueryChainWrapper<T> {
+            wrapperChildren.select(condition, columns)
+            return typedThis
+        }
 
-    override fun select(entityClass: Class<T>, predicate: Predicate<TableFieldInfo>): TonyQueryChainWrapper<T> {
-        wrapperChildren.select(entityClass, predicate)
-        return typedThis
-    }
+        override fun select(
+            entityClass: Class<T>,
+            predicate: Predicate<TableFieldInfo>,
+        ): TonyQueryChainWrapper<T> {
+            wrapperChildren.select(entityClass, predicate)
+            return typedThis
+        }
 
-    override fun select(vararg columns: String): TonyQueryChainWrapper<T> {
-        wrapperChildren.select(*columns)
-        return typedThis
-    }
+        override fun select(vararg columns: String): TonyQueryChainWrapper<T> {
+            wrapperChildren.select(*columns)
+            return typedThis
+        }
 
-    override fun getBaseMapper(): BaseDao<T> = baseMapper
-}
+        override fun getBaseMapper(): BaseDao<T> =
+            baseMapper
+    }

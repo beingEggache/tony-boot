@@ -75,7 +75,11 @@ public class AliyunSmsManager(
      * @date 2023/09/28 09:55
      * @since 1.0.0
      */
-    public fun send(mobile: String, templateCode: String, templateParam: String = ""): SendSmsResponse? {
+    public fun send(
+        mobile: String,
+        templateCode: String,
+        templateParam: String = "",
+    ): SendSmsResponse? {
         return try {
             acsClient.getAcsResponse(
                 SendSmsRequest().apply {

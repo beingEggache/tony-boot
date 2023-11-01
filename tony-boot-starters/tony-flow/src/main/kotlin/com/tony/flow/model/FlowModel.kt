@@ -9,7 +9,6 @@ import com.tony.flow.FlowContext
  * @since 1.0.0
  */
 public fun interface FlowModel {
-
     /**
      * 执行流程元素.
      * @param [flowContext] 流上下文
@@ -18,5 +17,8 @@ public fun interface FlowModel {
      * @date 2023/10/24 16:48
      * @since 1.0.0
      */
-    public fun execute(flowContext: FlowContext, flowExecution: FlowExecution)
+    public fun execute(
+        flowContext: FlowContext,
+        flowExecution: FlowExecution,
+    )
 }

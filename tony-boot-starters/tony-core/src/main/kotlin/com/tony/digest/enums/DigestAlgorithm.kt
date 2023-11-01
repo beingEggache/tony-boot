@@ -54,14 +54,16 @@ public enum class DigestAlgorithm(
      * @date 2023/09/27 18:21
      * @since 1.0.0
      */
-    public fun digest(src: String): String = MessageDigest
-        .getInstance(this.name)
-        .digest(src.toByteArray())
-        .encodeToString(Encoding.HEX)
+    public fun digest(src: String): String =
+        MessageDigest
+            .getInstance(this.name)
+            .digest(src.toByteArray())
+            .encodeToString(Encoding.HEX)
 
     public companion object : StringEnumCreator(DigestAlgorithm::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: String): StringEnumValue? = super.create(value.lowercase())
+        override fun create(value: String): StringEnumValue? =
+            super.create(value.lowercase())
     }
 }

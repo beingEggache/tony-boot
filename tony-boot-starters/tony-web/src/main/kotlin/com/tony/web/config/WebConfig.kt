@@ -23,6 +23,7 @@
  */
 
 package com.tony.web.config
+
 /**
  * WebConfig
  *
@@ -98,12 +99,14 @@ internal class WebConfig(
         RequestReplaceToRepeatReadFilter(webProperties.traceLogExcludePatterns)
 
     @Bean
-    internal fun traceIdFilter() = TraceIdFilter()
+    internal fun traceIdFilter() =
+        TraceIdFilter()
 
     @ConditionalOnMissingBean(RequestTraceLogger::class)
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
-    internal fun defaultRequestTraceLogger(): RequestTraceLogger = DefaultRequestTraceLogger()
+    internal fun defaultRequestTraceLogger(): RequestTraceLogger =
+        DefaultRequestTraceLogger()
 
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
@@ -118,16 +121,21 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
     @Bean
-    internal fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice = WrapResponseBodyAdvice().apply {
-        getLogger(WrapResponseBodyAdvice::class.java.name).info("Response wrap is enabled")
-    }
+    internal fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice =
+        WrapResponseBodyAdvice()
+            .apply {
+                getLogger(WrapResponseBodyAdvice::class.java.name)
+                    .info("Response wrap is enabled")
+            }
 
     @Bean
-    internal fun exceptionHandler() = ExceptionHandler()
+    internal fun exceptionHandler() =
+        ExceptionHandler()
 
     @ConditionalOnMissingBean(ContextClosedListener::class)
     @Bean
-    internal fun contextClosedListener() = DefaultContextClosedListener()
+    internal fun contextClosedListener() =
+        DefaultContextClosedListener()
 
     @ConditionalOnExpression("\${web.cors.enabled:true}")
     @Bean
@@ -142,39 +150,49 @@ internal class WebConfig(
                 exposedHeaders = webCorsProperties.exposedHeaders.plus(HttpHeaders.CONTENT_DISPOSITION).toList()
                 maxAge = webCorsProperties.maxAge
 
-                getLogger(CorsFilter::class.java.name).info(
-                    listOf(
-                        "Cors is enabled",
-                        "allowCredentials is $allowCredentials",
-                        "allowedOrigins is $allowedOriginPatterns",
-                        "allowedHeaders is $allowedHeaders",
-                        "allowedMethods is $allowedMethods",
-                        "exposedHeaders is $exposedHeaders",
-                        "maxAge is $maxAge"
-                    ).joinToString()
-                )
+                getLogger(CorsFilter::class.java.name)
+                    .info(
+                        listOf(
+                            "Cors is enabled",
+                            "allowCredentials is $allowCredentials",
+                            "allowedOrigins is $allowedOriginPatterns",
+                            "allowedHeaders is $allowedHeaders",
+                            "allowedMethods is $allowedMethods",
+                            "exposedHeaders is $exposedHeaders",
+                            "maxAge is $maxAge"
+                        ).joinToString()
+                    )
             }
         source.registerCorsConfiguration("/**", corsConfiguration)
-        return CorsFilter(source).apply {
-            setCorsProcessor(ApiCorsProcessor())
-        }
+        return CorsFilter(source)
+            .apply {
+                setCorsProcessor(ApiCorsProcessor())
+            }
     }
 
     @Bean
     internal fun jackson2ObjectMapperBuilder(
         jackson2ObjectMapperBuilderCustomizer: Jackson2ObjectMapperBuilderCustomizer,
-    ): Jackson2ObjectMapperBuilder = Jackson2ObjectMapperBuilder().apply {
-        jackson2ObjectMapperBuilderCustomizer.customize(this)
-    }
+    ): Jackson2ObjectMapperBuilder =
+        Jackson2ObjectMapperBuilder()
+            .apply {
+                jackson2ObjectMapperBuilderCustomizer.customize(this)
+            }
 
     @Bean
     internal fun objectMapper(
         jackson2ObjectMapperBuilder: Jackson2ObjectMapperBuilder,
         injectableValueSuppliers: List<InjectableValueSupplier>,
-    ): ObjectMapper = createObjectMapper().apply {
-        jackson2ObjectMapperBuilder.configure(this)
-        injectableValues = InjectableValuesBySupplier(injectableValueSuppliers.associateBy { it.name })
-    }
+    ): ObjectMapper =
+        createObjectMapper()
+            .apply {
+                jackson2ObjectMapperBuilder.configure(this)
+                injectableValues =
+                    InjectableValuesBySupplier(
+                        injectableValueSuppliers
+                            .associateBy { it.name }
+                    )
+            }
 
     @Bean
     internal fun initMappingJackson2HttpMessageConverter(
@@ -197,15 +215,19 @@ internal class WebConfig(
     @Bean
     internal fun requestBodyFieldInjectorComposite(
         requestBodyFieldInjectors: List<RequestBodyFieldInjector>,
-    ): RequestBodyFieldInjectorComposite = RequestBodyFieldInjectorComposite(requestBodyFieldInjectors)
+    ): RequestBodyFieldInjectorComposite =
+        RequestBodyFieldInjectorComposite(requestBodyFieldInjectors)
 
     @ConditionalOnExpression("\${web.inject-request-body-enabled:true}")
     @Bean
     internal fun injectRequestBodyAdvice(
         requestBodyFieldInjectorComposite: RequestBodyFieldInjectorComposite,
-    ): InjectRequestBodyAdvice = InjectRequestBodyAdvice(requestBodyFieldInjectorComposite).apply {
-        getLogger(RequestBodyFieldInjectorComposite::class.java.name).info("Request body inject is enabled")
-    }
+    ): InjectRequestBodyAdvice =
+        InjectRequestBodyAdvice(requestBodyFieldInjectorComposite)
+            .apply {
+                getLogger(RequestBodyFieldInjectorComposite::class.java.name)
+                    .info("Request body inject is enabled")
+            }
 }
 
 /**
@@ -217,37 +239,37 @@ internal class WebConfig(
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web")
 internal data class WebProperties
-@ConstructorBinding
-constructor(
-    /**
-     * 是否包装返回值。
-     */
-    @DefaultValue("true")
-    val wrapResponseBodyEnabled: Boolean,
-    /**
-     * 是否注入请求。
-     */
-    @DefaultValue("true")
-    val injectRequestBodyEnabled: Boolean,
-    /**
-     * 包装返回值白名单url（ant pattern）。
-     */
-    val wrapResponseExcludePatterns: List<String> = listOf(),
-    /**
-     * 是否记录请求日志。
-     */
-    @DefaultValue("true")
-    val traceLoggerEnabled: Boolean,
-    /**
-     * 请求日志排除url
-     */
-    val traceLogExcludePatterns: List<String> = listOf(),
-    /**
-     * 是否处理响应json null值。
-     */
-    @DefaultValue("true")
-    val fillResponseNullValueEnabled: Boolean,
-)
+    @ConstructorBinding
+    constructor(
+        /**
+         * 是否包装返回值。
+         */
+        @DefaultValue("true")
+        val wrapResponseBodyEnabled: Boolean,
+        /**
+         * 是否注入请求。
+         */
+        @DefaultValue("true")
+        val injectRequestBodyEnabled: Boolean,
+        /**
+         * 包装返回值白名单url（ant pattern）。
+         */
+        val wrapResponseExcludePatterns: List<String> = listOf(),
+        /**
+         * 是否记录请求日志。
+         */
+        @DefaultValue("true")
+        val traceLoggerEnabled: Boolean,
+        /**
+         * 请求日志排除url
+         */
+        val traceLogExcludePatterns: List<String> = listOf(),
+        /**
+         * 是否处理响应json null值。
+         */
+        @DefaultValue("true")
+        val fillResponseNullValueEnabled: Boolean,
+    )
 
 /**
  * WebCorsProperties
@@ -258,18 +280,18 @@ constructor(
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.cors")
 public data class WebCorsProperties
-@ConstructorBinding
-constructor(
-    @DefaultValue("false")
-    val enabled: Boolean,
-    val allowedOrigins: Set<String> = setOf(),
-    val allowedHeaders: Set<String> = setOf(),
-    val allowedMethods: Set<String> = setOf(),
-    val exposedHeaders: Set<String> = setOf(),
-    val maxAge: Long = Long.MAX_VALUE,
-    @DefaultValue("true")
-    val allowCredentials: Boolean,
-)
+    @ConstructorBinding
+    constructor(
+        @DefaultValue("false")
+        val enabled: Boolean,
+        val allowedOrigins: Set<String> = setOf(),
+        val allowedHeaders: Set<String> = setOf(),
+        val allowedMethods: Set<String> = setOf(),
+        val exposedHeaders: Set<String> = setOf(),
+        val maxAge: Long = Long.MAX_VALUE,
+        @DefaultValue("true")
+        val allowCredentials: Boolean,
+    )
 
 /**
  * ApiCorsProcessor

@@ -78,14 +78,20 @@ public open class TonyKtQueryWrapper<T : Any> :
         this.sqlFirst = sqlFirst
     }
 
-    override fun select(condition: Boolean, columns: MutableList<KMutableProperty1<T, *>>): TonyKtQueryWrapper<T> {
+    override fun select(
+        condition: Boolean,
+        columns: MutableList<KMutableProperty1<T, *>>,
+    ): TonyKtQueryWrapper<T> {
         if (condition && columns.isNotEmpty()) {
             this.sqlSelect.stringValue = columnsToString(false, columns)
         }
         return typedThis
     }
 
-    override fun select(entityClass: Class<T>, predicate: Predicate<TableFieldInfo>): TonyKtQueryWrapper<T> {
+    override fun select(
+        entityClass: Class<T>,
+        predicate: Predicate<TableFieldInfo>,
+    ): TonyKtQueryWrapper<T> {
         this.entityClass = entityClass
         this.sqlSelect.stringValue = TableInfoHelper.getTableInfo(getEntityClass()).chooseSelect(predicate)
         return typedThis
@@ -98,7 +104,8 @@ public open class TonyKtQueryWrapper<T : Any> :
         return typedThis
     }
 
-    override fun getSqlSelect(): String? = sqlSelect.stringValue
+    override fun getSqlSelect(): String? =
+        sqlSelect.stringValue
 
     /**
      * 用于生成嵌套 sql

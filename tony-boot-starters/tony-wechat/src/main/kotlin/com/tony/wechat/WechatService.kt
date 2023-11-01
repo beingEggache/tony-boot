@@ -46,39 +46,48 @@ public interface WechatPropProvider {
 internal class DefaultWechatPropProvider(
     private val wechatProperties: WechatProperties,
 ) : WechatPropProvider {
-    override fun getToken(app: String?) = if (app.isNullOrBlank()) {
-        wechatProperties.token
-    } else {
-        wechatProperties.app?.get(app)?.token
-    } ?: throw ApiException("$app app-id not found")
+    override fun getToken(app: String?) =
+        if (app.isNullOrBlank()) {
+            wechatProperties.token
+        } else {
+            wechatProperties.app?.get(app)?.token
+        } ?: throw ApiException("$app app-id not found")
 
-    override fun getAppId(app: String?) = if (app.isNullOrBlank()) {
-        wechatProperties.appId
-    } else {
-        wechatProperties.app?.get(app)?.appId
-    } ?: throw ApiException("$app app-id not found")
+    override fun getAppId(app: String?) =
+        if (app.isNullOrBlank()) {
+            wechatProperties.appId
+        } else {
+            wechatProperties.app?.get(app)?.appId
+        } ?: throw ApiException("$app app-id not found")
 
-    override fun getAppSecret(app: String?) = if (app.isNullOrBlank()) {
-        wechatProperties.appSecret
-    } else {
-        wechatProperties.app?.get(app)?.appSecret
-    } ?: throw ApiException("$app app-secret not found")
+    override fun getAppSecret(app: String?) =
+        if (app.isNullOrBlank()) {
+            wechatProperties.appSecret
+        } else {
+            wechatProperties.app?.get(app)?.appSecret
+        } ?: throw ApiException("$app app-secret not found")
 
-    override fun getMchId(app: String?) = if (app.isNullOrBlank()) {
-        wechatProperties.mchId
-    } else {
-        wechatProperties.app?.get(app)?.mchId
-    } ?: throw ApiException("$app mchId not found")
+    override fun getMchId(app: String?) =
+        if (app.isNullOrBlank()) {
+            wechatProperties.mchId
+        } else {
+            wechatProperties.app?.get(app)?.mchId
+        } ?: throw ApiException("$app mchId not found")
 
-    override fun getMchSecretKey(app: String?) = if (app.isNullOrBlank()) {
-        wechatProperties.mchSecretKey
-    } else {
-        wechatProperties.app?.get(app)?.mchSecretKey
-    } ?: throw ApiException("$app mch-secret-key not found")
+    override fun getMchSecretKey(app: String?) =
+        if (app.isNullOrBlank()) {
+            wechatProperties.mchSecretKey
+        } else {
+            wechatProperties.app?.get(app)?.mchSecretKey
+        } ?: throw ApiException("$app mch-secret-key not found")
 }
 
 public interface WechatApiAccessTokenProvider {
-    public fun accessTokenStr(appId: String?, appSecret: String?, forceRefresh: Boolean): String? =
+    public fun accessTokenStr(
+        appId: String?,
+        appSecret: String?,
+        forceRefresh: Boolean,
+    ): String? =
         wechatClient.stableAccessToken(
             WechatStableAccessTokenReq(
                 appId,
@@ -87,7 +96,11 @@ public interface WechatApiAccessTokenProvider {
             )
         ).check().accessToken
 
-    public fun userAccessToken(appId: String?, secret: String?, code: String?): WechatUserTokenResp =
+    public fun userAccessToken(
+        appId: String?,
+        secret: String?,
+        code: String?,
+    ): WechatUserTokenResp =
         wechatClient.userAccessToken(
             appId,
             secret,

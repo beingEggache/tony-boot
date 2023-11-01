@@ -140,15 +140,16 @@ public object WechatPayManager {
         nonceStr: String,
         timestamp: String,
         sign: String,
-    ): WechatAppPayReq = WechatAppPayReq(
-        appId = appId,
-        partnerId = partnerId,
-        prepayId = prepayId,
-        `package` = `package`,
-        nonceStr = nonceStr,
-        timestamp = timestamp,
-        sign = sign
-    )
+    ): WechatAppPayReq =
+        WechatAppPayReq(
+            appId = appId,
+            partnerId = partnerId,
+            prepayId = prepayId,
+            `package` = `package`,
+            nonceStr = nonceStr,
+            timestamp = timestamp,
+            sign = sign
+        )
 
     /**
      * 返回统一下单响应对象
@@ -215,8 +216,8 @@ public object WechatPayManager {
             appId = appId,
             partnerId = mchId,
             prepayId =
-            orderResponse.prePayId
-                ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}"),
+                orderResponse.prePayId
+                    ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}"),
             nonceStr = genNonceStr(),
             timestamp = genTimeStamp().toString()
         ).apply {

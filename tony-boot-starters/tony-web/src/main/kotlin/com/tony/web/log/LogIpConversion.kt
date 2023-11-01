@@ -38,7 +38,9 @@ import com.tony.utils.localIp
 public class LogIpConversion : ClassicConverter() {
     private val ipFromNacosKey = "IP_FROM_NACOS"
 
-    private fun getIp(propertyMap: Map<String, String>): String = propertyMap[ipFromNacosKey].defaultIfBlank(localIp)
+    private fun getIp(propertyMap: Map<String, String>): String =
+        propertyMap[ipFromNacosKey].defaultIfBlank(localIp)
 
-    override fun convert(event: ILoggingEvent): String = getIp(event.loggerContextVO.propertyMap)
+    override fun convert(event: ILoggingEvent): String =
+        getIp(event.loggerContextVO.propertyMap)
 }

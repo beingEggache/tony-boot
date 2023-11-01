@@ -11,7 +11,6 @@ import com.tony.flow.model.FlowOperator
  * @since 2023/10/10 09:49
  */
 public interface RuntimeService {
-
     /**
      * 创建实例
      * @param [flowProcess] 流程定义
@@ -37,7 +36,10 @@ public interface RuntimeService {
      * @date 2023/10/10 09:51
      * @since 1.0.0
      */
-    public fun createInstance(flowProcess: FlowProcess, flowCreator: FlowOperator): FlowInstance
+    public fun createInstance(
+        flowProcess: FlowProcess,
+        flowCreator: FlowOperator,
+    ): FlowInstance
 
     /**
      * 流程实例正常完成
@@ -65,7 +67,10 @@ public interface RuntimeService {
      * @date 2023/10/10 10:06
      * @since 1.0.0
      */
-    public fun terminate(instanceId: Long, flowOperator: FlowOperator)
+    public fun terminate(
+        instanceId: Long,
+        flowOperator: FlowOperator,
+    )
 
     /**
      * 流程实例强制终止

@@ -64,25 +64,33 @@ import org.springframework.http.MediaType
 public class GlobalResponseInterceptorProvider<T : ResponseInterceptor>(
     private val obj: T,
 ) : ObjectProvider<T> {
-    override fun getObject(vararg args: Any?): T = obj
+    override fun getObject(vararg args: Any?): T =
+        obj
 
-    override fun getObject(): T = obj
+    override fun getObject(): T =
+        obj
 
-    override fun getIfAvailable(): T = obj
+    override fun getIfAvailable(): T =
+        obj
 
-    override fun getIfUnique(): T = obj
+    override fun getIfUnique(): T =
+        obj
 }
 
 internal class UnwrapResponseInterceptorProvider(
     private val obj: UnwrapResponseInterceptor,
 ) : ObjectProvider<UnwrapResponseInterceptor> {
-    override fun getObject(vararg args: Any?): UnwrapResponseInterceptor = obj
+    override fun getObject(vararg args: Any?): UnwrapResponseInterceptor =
+        obj
 
-    override fun getObject(): UnwrapResponseInterceptor = obj
+    override fun getObject(): UnwrapResponseInterceptor =
+        obj
 
-    override fun getIfAvailable(): UnwrapResponseInterceptor = obj
+    override fun getIfAvailable(): UnwrapResponseInterceptor =
+        obj
 
-    override fun getIfUnique(): UnwrapResponseInterceptor = obj
+    override fun getIfUnique(): UnwrapResponseInterceptor =
+        obj
 }
 
 /**
@@ -92,7 +100,10 @@ internal class UnwrapResponseInterceptorProvider(
  * @since 1.0.0
  */
 public class UnwrapResponseInterceptor : ResponseInterceptor {
-    override fun intercept(invocationContext: InvocationContext, chain: ResponseInterceptor.Chain): Any {
+    override fun intercept(
+        invocationContext: InvocationContext,
+        chain: ResponseInterceptor.Chain,
+    ): Any {
         val returnType = invocationContext.returnType()
         val returnJavaType = returnType.toJavaType()
         val returnRawClass = returnType.rawClass()
@@ -120,6 +131,7 @@ public class UnwrapResponseInterceptor : ResponseInterceptor {
         return dataJsonNode.toString().jsonToObj(returnJavaType)
     }
 
-    private fun String.lTrimAndDecapitalize(): String = this.substring(3)
-        .replaceFirstChar { it.lowercase(Locale.getDefault()) }
+    private fun String.lTrimAndDecapitalize(): String =
+        this.substring(3)
+            .replaceFirstChar { it.lowercase(Locale.getDefault()) }
 }

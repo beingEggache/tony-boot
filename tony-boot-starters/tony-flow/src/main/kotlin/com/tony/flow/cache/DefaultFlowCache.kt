@@ -11,14 +11,20 @@ import java.util.concurrent.ConcurrentHashMap
  * @since 1.0.0
  */
 public class DefaultFlowCache : FlowCache {
-
     private val cache = ConcurrentHashMap<String, Any?>()
 
-    override fun <T : Any> set(key: String, value: T) {
+    override fun <T : Any> set(
+        key: String,
+        value: T,
+    ) {
         cache[key] = value
     }
 
-    override fun <T : Any> get(key: String, typeReference: TypeReference<T>): T? = cache[key].asTo()
+    override fun <T : Any> get(
+        key: String,
+        typeReference: TypeReference<T>,
+    ): T? =
+        cache[key].asTo()
 
     override fun delete(key: String) {
         cache.remove(key)

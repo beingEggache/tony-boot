@@ -48,22 +48,23 @@ import java.util.Collections
  * @date 2023/09/28 10:55
  * @since 1.0.0
  */
-public fun <T> JPageQueryLike<*>.toPage(): IPage<T> = Page<T>().also { page ->
-    page.current = this.page.takeIf { it > 0 } ?: 1L
-    page.size = this.size.takeIf { it > 0 } ?: 10L
-    descs
-        .filterNotNull()
-        .filter { it.isNotBlank() }
-        .takeIf { it.any() }
-        ?.map { OrderItem.desc(it.camelToSnakeCase()) }
-        ?.let { page.addOrder(it) }
-    ascs
-        .filterNotNull()
-        .filter { it.isNotBlank() }
-        .takeIf { it.any() }
-        ?.map { OrderItem.asc(it.camelToSnakeCase()) }
-        ?.let { page.addOrder(it) }
-}
+public fun <T> JPageQueryLike<*>.toPage(): IPage<T> =
+    Page<T>().also { page ->
+        page.current = this.page.takeIf { it > 0 } ?: 1L
+        page.size = this.size.takeIf { it > 0 } ?: 10L
+        descs
+            .filterNotNull()
+            .filter { it.isNotBlank() }
+            .takeIf { it.any() }
+            ?.map { OrderItem.desc(it.camelToSnakeCase()) }
+            ?.let { page.addOrder(it) }
+        ascs
+            .filterNotNull()
+            .filter { it.isNotBlank() }
+            .takeIf { it.any() }
+            ?.map { OrderItem.asc(it.camelToSnakeCase()) }
+            ?.let { page.addOrder(it) }
+    }
 
 /**
  * 将 mybatis-plus 的分页对象改为全局统一分页结构
@@ -72,11 +73,12 @@ public fun <T> JPageQueryLike<*>.toPage(): IPage<T> = Page<T>().also { page ->
  * @date 2023/09/28 10:55
  * @since 1.0.0
  */
-public fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E = if (this == null) {
-    EMPTY_PAGE_RESULT
-} else {
-    PageResult(records, current, size, pages, total, current < pages)
-}.asToNotNull()
+public fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
+    if (this == null) {
+        EMPTY_PAGE_RESULT
+    } else {
+        PageResult(records, current, size, pages, total, current < pages)
+    }.asToNotNull()
 
 /**
  * 空分页结构.

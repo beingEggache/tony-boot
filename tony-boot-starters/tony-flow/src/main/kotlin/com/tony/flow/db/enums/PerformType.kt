@@ -42,6 +42,7 @@ public enum class PerformType(
     internal companion object : EnumCreator<PerformType, Int>(PerformType::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) = super.create(value)
+        override fun create(value: Int) =
+            super.create(value)
     }
 }

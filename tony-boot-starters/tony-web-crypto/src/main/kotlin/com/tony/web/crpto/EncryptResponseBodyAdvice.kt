@@ -60,7 +60,10 @@ public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice
 
     public val encoding: Encoding
 
-    override fun supports(returnType: MethodParameter, converterType: Class<out HttpMessageConverter<*>>): Boolean =
+    override fun supports(
+        returnType: MethodParameter,
+        converterType: Class<out HttpMessageConverter<*>>,
+    ): Boolean =
         returnType.hasMethodAnnotation(EncryptResponseBody::class.java) &&
             isTextMediaTypes(WebContext.request.parsedMedia)
 
@@ -99,7 +102,8 @@ public interface EncryptResponseBodyAdvice : PriorityOrdered, ResponseBodyAdvice
             )
     }
 
-    override fun getOrder(): Int = PriorityOrdered.LOWEST_PRECEDENCE
+    override fun getOrder(): Int =
+        PriorityOrdered.LOWEST_PRECEDENCE
 }
 
 @RestControllerAdvice

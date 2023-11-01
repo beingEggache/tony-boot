@@ -10,7 +10,6 @@ import com.tony.flow.model.FlowOperator
  * @since 1.0.0
  */
 public interface ProcessService {
-
     /**
      * 根据主键ID获取流程定义对象
      * @param [processId] 流程定义id
@@ -30,7 +29,10 @@ public interface ProcessService {
      * @date 2023/10/09 14:25
      * @since 1.0.0
      */
-    public fun getByVersion(processName: String, processVersion: Int?): FlowProcess
+    public fun getByVersion(
+        processName: String,
+        processVersion: Int?,
+    ): FlowProcess
 
     /**
      * 根据流程名称查找流程定义对象
@@ -40,7 +42,8 @@ public interface ProcessService {
      * @date 2023/10/09 14:26
      * @since 1.0.0
      */
-    public fun getByName(processName: String): FlowProcess = getByVersion(processName, null)
+    public fun getByName(processName: String): FlowProcess =
+        getByVersion(processName, null)
 
     /**
      * 部署流程
@@ -51,7 +54,11 @@ public interface ProcessService {
      * @date 2023/10/09 14:52
      * @since 1.0.0
      */
-    public fun deploy(modelContent: String, flowCreator: FlowOperator, repeat: Boolean): Long
+    public fun deploy(
+        modelContent: String,
+        flowCreator: FlowOperator,
+        repeat: Boolean,
+    ): Long
 
     /**
      * 重新部署流程
@@ -62,7 +69,10 @@ public interface ProcessService {
      * @date 2023/10/09 15:53
      * @since 1.0.0
      */
-    public fun redeploy(processId: Long, modelContent: String): Boolean
+    public fun redeploy(
+        processId: Long,
+        modelContent: String,
+    ): Boolean
 
     /**
      * 级联移除

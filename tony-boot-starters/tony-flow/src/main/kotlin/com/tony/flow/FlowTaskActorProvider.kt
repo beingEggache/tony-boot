@@ -11,7 +11,6 @@ import com.tony.flow.model.FlowNode
  * @since 1.0.0
  */
 public fun interface FlowTaskActorProvider {
-
     /**
      * 获取任务参与者
      * @param [flowNode] 节点模型
@@ -21,5 +20,8 @@ public fun interface FlowTaskActorProvider {
      * @date 2023/10/24 18:01
      * @since 1.0.0
      */
-    public fun getTaskActors(flowNode: FlowNode, flowExecution: FlowExecution): List<FlowTaskActor>
+    public fun getTaskActors(
+        flowNode: FlowNode,
+        flowExecution: FlowExecution,
+    ): List<FlowTaskActor>
 }

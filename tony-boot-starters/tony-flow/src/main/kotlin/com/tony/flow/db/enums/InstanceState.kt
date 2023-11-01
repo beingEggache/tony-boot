@@ -37,6 +37,7 @@ public enum class InstanceState(
     internal companion object : EnumCreator<InstanceState, Int>(InstanceState::class.java) {
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) = super.create(value)
+        override fun create(value: Int) =
+            super.create(value)
     }
 }

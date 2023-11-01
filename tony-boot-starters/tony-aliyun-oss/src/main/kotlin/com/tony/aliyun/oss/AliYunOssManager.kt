@@ -67,9 +67,10 @@ public object AliYunOssManager {
         name: String,
         inputStream: InputStream,
         metadata: ObjectMetadata? = null,
-    ): String = ossClient.run {
-        val sanitizedPath = sanitizedPath("$path/$name").removePrefix("/")
-        putObject(aliyunOssProperties.bucketName, sanitizedPath, inputStream, metadata)
-        "https://${aliyunOssProperties.bucketName}.${aliyunOssProperties.endpoint}/$sanitizedPath"
-    }
+    ): String =
+        ossClient.run {
+            val sanitizedPath = sanitizedPath("$path/$name").removePrefix("/")
+            putObject(aliyunOssProperties.bucketName, sanitizedPath, inputStream, metadata)
+            "https://${aliyunOssProperties.bucketName}.${aliyunOssProperties.endpoint}/$sanitizedPath"
+        }
 }
