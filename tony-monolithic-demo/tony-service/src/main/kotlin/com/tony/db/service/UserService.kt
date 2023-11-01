@@ -31,14 +31,17 @@ class UserService(
     private val roleDao: RoleDao,
     private val moduleService: ModuleService,
 ) {
+    fun login(req: UserLoginReq) =
+        userDao
+            .ktQuery()
+            .eq(User::userName, req.userName)
+            .eq(User::pwd, "${req.pwd}${req.userName}".md5().uppercase())
+            .oneNotNull("用户名或密码错误")
 
-    fun login(req: UserLoginReq) = userDao
-        .ktQuery()
-        .eq(User::userName, req.userName)
-        .eq(User::pwd, "${req.pwd}${req.userName}".md5().uppercase())
-        .oneNotNull("用户名或密码错误")
-
-    fun info(userId: String, appId: String) = userDao.selectById(userId)?.run {
+    fun info(
+        userId: String,
+        appId: String,
+    ) = userDao.selectById(userId)?.run {
         UserInfoResp(
             realName,
             mobile,
@@ -46,20 +49,22 @@ class UserService(
         )
     } ?: throw BizException("没有此用户")
 
-    fun list(req: JPageQuery<String>): PageResult<UserResp> = userDao
-        .ktQuery()
-        .like(
-            !req.query.isNullOrBlank(),
-            User::userName,
-            req.query
-        )
-        .or(!req.query.isNullOrBlank()) {
-            it.like(User::realName, req.query)
-        }
-        .pageResult<PageResult<User>>(req)
-        .map { it.copyTo<UserResp>() }
+    fun list(req: JPageQuery<String>): PageResult<UserResp> =
+        userDao
+            .ktQuery()
+            .like(
+                !req.query.isNullOrBlank(),
+                User::userName,
+                req.query
+            ).or(!req.query.isNullOrBlank()) {
+                it.like(User::realName, req.query)
+            }.pageResult<PageResult<User>>(req)
+            .map { it.copyTo<UserResp>() }
 
-    fun listRolesByUserId(userId: String?, appId: String) = roleDao
+    fun listRolesByUserId(
+        userId: String?,
+        appId: String,
+    ) = roleDao
         .selectByUserId(userId, appId)
         .map { it.copyTo<RoleResp>() }
 
@@ -108,13 +113,14 @@ class UserService(
     @Transactional
     fun initSuperAdmin(appId: String) {
         val superAdmin = 1L
-        val user = User().apply {
-            this.userId = superAdmin
-            userName = "gateway"
-            realName = "超级管理员"
-            mobile = "13984842424"
-            pwd = "lxkj123!@#gateway".md5().uppercase()
-        }
+        val user =
+            User().apply {
+                this.userId = superAdmin
+                userName = "gateway"
+                realName = "超级管理员"
+                mobile = "13984842424"
+                pwd = "lxkj123!@#gateway".md5().uppercase()
+            }
         userDao.deleteById(superAdmin)
         userDao.insert(user)
         roleDao.deleteById(superAdmin)

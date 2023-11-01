@@ -24,22 +24,28 @@ import reactor.core.publisher.Mono
 @Component
 class GlobalTokenCheckFilter(
     private val gatewayRouteConfigProperties: GatewayRouteConfigProperties,
-) : GlobalFilter, Ordered {
-    override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
+) : GlobalFilter,
+    Ordered {
+    override fun filter(
+        exchange: ServerWebExchange,
+        chain: GatewayFilterChain,
+    ): Mono<Void> {
         val originalPath = exchange.request.uri.path
         if (gatewayRouteConfigProperties.noLoginCheck(originalPath)) {
             return chain.filter(exchange)
         }
 
         val request = exchange.request
-        val token = try {
-            JwtToken.parse(request.headers.getFirst(TOKEN_HEADER_NAME).defaultIfBlank())
-        } catch (e: JWTVerificationException) {
-            null
-        } ?: return exchange.response.jsonBody(ApiResult("请登录", ApiProperty.unauthorizedCode))
+        val token =
+            try {
+                JwtToken.parse(request.headers.getFirst(TOKEN_HEADER_NAME).defaultIfBlank())
+            } catch (e: JWTVerificationException) {
+                null
+            } ?: return exchange.response.jsonBody(ApiResult("请登录", ApiProperty.unauthorizedCode))
         val mutReq = request.mutate().header(USER_ID_HEADER_NAME, token.getClaim("userId").asString()).build()
         return chain.filter(exchange.mutate().request(mutReq).build())
     }
 
-    override fun getOrder(): Int = 10151
+    override fun getOrder(): Int =
+        10151
 }

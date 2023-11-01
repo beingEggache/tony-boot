@@ -5,8 +5,9 @@ import com.tony.buildscript.addDepsManagement
 import com.tony.buildscript.addTestDependencies
 import com.tony.buildscript.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     id("com.tony.build.dep-configurations") apply false
@@ -80,24 +81,17 @@ configure(subprojects) {
         jvmToolchain {
             languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         }
-        explicitApi()
-    }
-
-    tasks.withType<KotlinCompile>().configureEach {
-        val isTest = this.name.contains("test", ignoreCase = true)
-        kotlinOptions {
-            jvmTarget = javaVersion
-            languageVersion = kotlinVersion.split(".").subList(0,2).joinToString(".")
-            javaParameters = true
-            verbose = true
-            allWarningsAsErrors = !isTest
-            freeCompilerArgs = listOf(
+        compilerOptions  {
+            jvmTarget.set(JvmTarget.fromTarget(javaVersion))
+            languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
+            verbose.set(true)
+            progressiveMode.set(true)
+            freeCompilerArgs.addAll(
                 "-Xjsr305=strict",
                 "-Xjvm-default=all",
-                "-version",
-                "-progressive",
             )
         }
+        explicitApi()
     }
 
     dependencies {

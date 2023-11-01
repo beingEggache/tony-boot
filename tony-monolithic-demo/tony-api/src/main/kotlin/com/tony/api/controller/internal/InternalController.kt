@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController
 class InternalController(
     private val moduleService: ModuleService,
 ) {
-
     @Operation(summary = "初始化前端权限数据")
     @NoLoginCheck
     @NoPermissionCheck

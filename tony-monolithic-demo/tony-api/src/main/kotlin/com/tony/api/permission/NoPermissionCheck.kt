@@ -27,8 +27,11 @@ annotation class NoPermissionCheck
 class DefaultPermissionInterceptor(
     private val moduleService: ModuleService,
 ) : PermissionInterceptor {
-
-    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+    override fun preHandle(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        handler: Any,
+    ): Boolean {
         if (handler !is HandlerMethod) return true
         if (handler.method.getAnnotation(NoPermissionCheck::class.java) != null) return true
         val apiModules = moduleService.listApiModules(WebContext.userId, WebApp.appId)

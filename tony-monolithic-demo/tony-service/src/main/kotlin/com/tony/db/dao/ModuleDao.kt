@@ -9,7 +9,6 @@ import com.tony.redis.RedisManager
 import org.apache.ibatis.annotations.Param
 
 interface ModuleDao : BaseDao<Module> {
-
     fun selectModulesByUserIdAndAppId(
         @Param("userId") userId: String,
         @Param("appId") appId: String,

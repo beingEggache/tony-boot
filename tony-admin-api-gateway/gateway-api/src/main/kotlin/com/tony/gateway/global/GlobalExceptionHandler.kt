@@ -20,10 +20,12 @@ import reactor.core.publisher.Mono
 @Order(-1)
 @Component
 class GlobalExceptionHandler : ErrorWebExceptionHandler {
-
     private val logger = getLogger()
 
-    override fun handle(exchange: ServerWebExchange, ex: Throwable): Mono<Void> {
+    override fun handle(
+        exchange: ServerWebExchange,
+        ex: Throwable,
+    ): Mono<Void> {
         logger.error(ex.localizedMessage, ex)
         val response = exchange.response
         if (response.isCommitted) {

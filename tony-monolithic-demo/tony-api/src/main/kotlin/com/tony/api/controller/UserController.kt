@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(
     private val userService: UserService,
 ) {
-
     @Operation(summary = "创建用户", description = "测试创建用户")
     @PostMapping("/user/create")
     fun create(
@@ -38,7 +37,8 @@ class UserController(
     @Operation(summary = "登录用户信息", description = "当前用户权限")
     @NoPermissionCheck
     @GetMapping("/user/info")
-    fun info() = userService.info(WebContext.userId, WebApp.appId)
+    fun info() =
+        userService.info(WebContext.userId, WebApp.appId)
 
     @Operation(summary = "用户列表", description = "用户列表")
     @NoPermissionCheck

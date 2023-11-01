@@ -16,7 +16,6 @@ import java.time.LocalDateTime
  */
 @TableName("sys_module")
 class Module : Auditable {
-
     /**
      * 模块/权限ID
      */

@@ -1,4 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     `kotlin-dsl`
@@ -14,24 +15,19 @@ configure<JavaPluginExtension> {
     toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
 }
 
+val kotlinVersion: String by project
 kotlin {
     jvmToolchain {
-        this.languageVersion.set(JavaLanguageVersion.of(javaVersion))
+        languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
     }
-}
-
-val kotlinVersion: String by project
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = javaVersion
-        languageVersion = kotlinVersion.split(".").subList(0,2).joinToString(".")
-        javaParameters = true
-        verbose = true
-        freeCompilerArgs = listOf(
+    compilerOptions  {
+        jvmTarget.set(JvmTarget.fromTarget(javaVersion))
+        languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
+        verbose.set(true)
+        progressiveMode.set(true)
+        freeCompilerArgs.addAll(
             "-Xjsr305=strict",
             "-Xjvm-default=all",
-            "-version",
-            "-progressive",
         )
     }
 }

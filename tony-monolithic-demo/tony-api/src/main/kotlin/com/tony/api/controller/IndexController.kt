@@ -25,30 +25,33 @@ class IndexController(
     private val userService: UserService,
     private val jwtProperties: JwtProperties,
 ) {
-
     @Operation(summary = "首页")
     @GetMapping("/")
     @NoLoginCheck
     @NoPermissionCheck
-    fun index(): String = WebApp.appId
+    fun index(): String =
+        WebApp.appId
 
     @Operation(summary = "区域")
     @GetMapping("/locale")
     @NoLoginCheck
     @NoPermissionCheck
-    fun locale(): String = Locale.getDefault().toLanguageTag()
+    fun locale(): String =
+        Locale.getDefault().toLanguageTag()
 
     @Operation(summary = "zoneOffset")
     @GetMapping("/zone-offset")
     @NoLoginCheck
     @NoPermissionCheck
-    fun zoneId(): String = defaultZoneOffset.toString()
+    fun zoneId(): String =
+        defaultZoneOffset.toString()
 
     @Operation(summary = "时间戳")
     @GetMapping("/now")
     @NoLoginCheck
     @NoPermissionCheck
-    fun now(): String = LocalDateTime.now().toString("yyyy-MM-dd HH:mm:ss")
+    fun now(): String =
+        LocalDateTime.now().toString("yyyy-MM-dd HH:mm:ss")
 
     @Operation(summary = "登录")
     @NoLoginCheck
@@ -74,7 +77,6 @@ class IndexController(
     @NoLoginCheck
     @NoPermissionCheck
     @GetMapping("/exception")
-    fun exception() {
+    fun exception(): Unit =
         throw Exception("exception")
-    }
 }

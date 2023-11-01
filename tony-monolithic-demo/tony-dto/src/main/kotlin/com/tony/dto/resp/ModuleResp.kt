@@ -11,23 +11,17 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 @Schema(description = "模块/权限")
 data class ModuleResp(
-
     @Schema(description = "模块/权限Id")
     val moduleId: String,
-
     @Schema(description = "模块/权限名称")
     val moduleName: String,
-
     @Schema(description = "模块/权限值（URL、路由、控件Id）")
     val moduleValue: String,
-
     @Schema(description = "模块/权限类型")
     val moduleType: ModuleType?,
-
     @Schema(description = "模块/权限分组")
     val moduleGroup: String?,
 ) : TreeLike<ModuleResp> {
-
     override val code: String
         get() = moduleId
 

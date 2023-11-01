@@ -23,9 +23,9 @@ enum class ModuleType(
     ;
 
     companion object : IntEnumCreator(ModuleType::class.java) {
-
         @JsonCreator
         @JvmStatic
-        override fun create(value: Int) = super.create(value)
+        override fun create(value: Int) =
+            super.create(value)
     }
 }

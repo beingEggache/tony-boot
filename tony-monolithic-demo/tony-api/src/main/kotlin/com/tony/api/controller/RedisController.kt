@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @Validated
 class RedisController {
-
     @Operation(summary = "redis - set value")
     @NoLoginCheck
     @NoPermissionCheck
@@ -41,7 +40,6 @@ class RedisController {
         @Validated
         @RequestBody
         req: WrappedReq<String>,
-    ): MonoResult<String>? {
-        return RedisManager.values.get<String>(req.value!!)?.ofMonoResult()
-    }
+    ): MonoResult<String>? =
+        RedisManager.values.get<String>(req.value!!)?.ofMonoResult()
 }

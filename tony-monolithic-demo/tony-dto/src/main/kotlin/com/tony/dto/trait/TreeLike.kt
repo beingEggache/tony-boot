@@ -12,20 +12,20 @@ import com.tony.utils.defaultIfBlank
 private const val CODE_PATTERN_STR = "[a-zA-Z0-9一二三四五六七八九零ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+"
 private val ancestorPattern: Regex = Regex(CODE_PATTERN_STR)
 
-fun <T : TreeLike<T>> List<T>.listAndSetChildren(): List<T> {
-    val rootFundsItem = this
-        .filter { it.isAncestor() }
-    return rootFundsItem.onEach {
+fun <T : TreeLike<T>> List<T>.listAndSetChildren(): List<T> =
+    filter {
+        it.isAncestor()
+    }.onEach {
         it.findAndSetChildren(this)
     }
-}
 
 interface TreeLike<T : TreeLike<T>> {
-
-    fun isMyChild(otherCode: String?) = Regex("^$code-$CODE_PATTERN_STR$").matches(otherCode.defaultIfBlank())
+    fun isMyChild(otherCode: String?) =
+        Regex("^$code-$CODE_PATTERN_STR$").matches(otherCode.defaultIfBlank())
 
     @JsonIgnore
-    fun isAncestor() = ancestorPattern.matches(code.defaultIfBlank())
+    fun isAncestor() =
+        ancestorPattern.matches(code.defaultIfBlank())
 
     @get:JsonIgnore
     val code: String?
@@ -36,15 +36,16 @@ interface TreeLike<T : TreeLike<T>> {
     var children: List<T>?
 
     fun findAndSetChildren(nodes: List<T>) {
-        nodes.filter {
-            isMyChild(it.code)
-        }.sortedBy {
-            it.order
-        }.onEach {
-            it.findAndSetChildren(nodes)
-        }.let { children ->
-            this.children = children
-            this
-        }
+        nodes
+            .filter {
+                isMyChild(it.code)
+            }.sortedBy {
+                it.order
+            }.onEach {
+                it.findAndSetChildren(nodes)
+            }.let { children ->
+                this.children = children
+                this
+            }
     }
 }

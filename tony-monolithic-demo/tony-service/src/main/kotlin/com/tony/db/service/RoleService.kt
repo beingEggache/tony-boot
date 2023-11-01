@@ -29,22 +29,25 @@ class RoleService(
     private val moduleDao: ModuleDao,
     private val roleDao: RoleDao,
 ) {
+    @Transactional
+    fun add(
+        @Valid req: RoleCreateReq,
+        appId: String,
+    ) = throwIfAndReturn(roleDao.selectById(req.roleId) != null, "角色ID已重复") {
+        roleDao.insert(
+            Role().apply {
+                this.roleId = req.roleId
+                this.roleName = req.roleName
+                this.remark = req.remark
+                this.appId = appId
+            }
+        )
+    }
 
     @Transactional
-    fun add(@Valid req: RoleCreateReq, appId: String) =
-        throwIfAndReturn(roleDao.selectById(req.roleId) != null, "角色ID已重复") {
-            roleDao.insert(
-                Role().apply {
-                    this.roleId = req.roleId
-                    this.roleName = req.roleName
-                    this.remark = req.remark
-                    this.appId = appId
-                }
-            )
-        }
-
-    @Transactional
-    fun update(@Valid req: RoleUpdateReq) = roleDao.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
+    fun update(
+        @Valid req: RoleUpdateReq,
+    ) = roleDao.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
         roleDao.updateById(
             Role().apply {
                 this.roleId = req.roleId
@@ -54,12 +57,20 @@ class RoleService(
         )
     }
 
-    fun page(query: String?, page: Long = 1, size: Long = 10) = roleDao
+    fun page(
+        query: String?,
+        page: Long = 1,
+        size: Long = 10,
+    ) = roleDao
         .ktQuery()
         .like(!query.isNullOrBlank(), Role::roleName, query)
         .page(Page(page, size))
 
-    fun selectByUserId(userId: String?, appId: String): List<Role> = roleDao.selectByUserId(userId, appId)
+    fun selectByUserId(
+        userId: String?,
+        appId: String,
+    ): List<Role> =
+        roleDao.selectByUserId(userId, appId)
 
     @Transactional
     fun assignRole(req: RoleAssignReq) {
@@ -76,9 +87,10 @@ class RoleService(
 
     @Transactional
     fun assignModule(req: ModuleAssignReq) {
-        val moduleIdList = moduleDao.selectByModuleGroups(req.moduleGroupList).map {
-            it.moduleId.defaultIfBlank()
-        }
+        val moduleIdList =
+            moduleDao.selectByModuleGroups(req.moduleGroupList).map {
+                it.moduleId.defaultIfBlank()
+            }
         throwIf(!moduleIdList.any(), "没找到对应模块:${req.moduleGroupList.joinToString()}")
 
         req.roleIdList.forEach { roleId ->

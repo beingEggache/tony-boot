@@ -11,10 +11,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class RoleResp(
     @Schema(description = "角色ID", required = true)
     val roleId: String?,
-
     @Schema(description = "角色名", required = true)
     val roleName: String?,
-
     @Schema(description = "备注")
     val remark: String?,
 )

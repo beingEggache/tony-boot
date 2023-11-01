@@ -8,7 +8,9 @@ import java.time.LocalDateTime
  * @date 2023/09/28 15:27
  * @since 1.0.0
  */
-interface Auditable : CreateAuditable, UpdateAuditable
+interface Auditable :
+    CreateAuditable,
+    UpdateAuditable
 
 /**
  * 创建 可审计
@@ -40,7 +42,6 @@ interface CreateAuditable {
  * @since 1.0.0
  */
 interface UpdateAuditable {
-
     /**
      * 更新时间
      */

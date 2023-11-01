@@ -29,5 +29,6 @@ class DbConfig {
     }
 
     @Bean
-    fun identifierGenerator(): IdentifierGenerator = IdentifierGenerator { IdGenerator.nextId() }
+    fun identifierGenerator(): IdentifierGenerator =
+        IdentifierGenerator { IdGenerator.nextId() }
 }
