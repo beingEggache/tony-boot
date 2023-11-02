@@ -1,4 +1,4 @@
-package com.tony.core.test
+package com.tony.test
 
 import com.tony.digest.enums.DigestAlgorithm
 import com.tony.utils.println

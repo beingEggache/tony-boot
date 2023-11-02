@@ -89,7 +89,7 @@ public open class FlowInstance {
      * 更新人id
      */
     @TableField(value = "updator_id")
-    public var updatorId: String? = null
+    public var updatorId: Long? = null
 
     /**
      * 上次更新人

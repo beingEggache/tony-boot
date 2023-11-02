@@ -1,4 +1,4 @@
-package com.tony.core.test
+package com.tony.test
 
 import com.tony.SpringContexts
 import com.tony.annotation.EnableTonyBoot

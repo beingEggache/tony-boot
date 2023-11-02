@@ -1,6 +1,7 @@
-package com.tony.core.test
+package com.tony.test
 
 import com.tony.JPageQuery
+import com.tony.core.test.JavaTestPojo
 import com.tony.utils.jsonToObj
 import com.tony.utils.println
 import com.tony.utils.toJsonString

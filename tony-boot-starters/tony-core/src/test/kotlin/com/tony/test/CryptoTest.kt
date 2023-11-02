@@ -1,4 +1,4 @@
-package com.tony.core.test
+package com.tony.test
 
 import com.tony.codec.enums.Encoding
 import com.tony.crypto.symmetric.decryptToBytes

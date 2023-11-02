@@ -1,4 +1,4 @@
-package com.tony.core.test
+package com.tony.test
 
 import com.tony.utils.typeParamOfSuperInterface
 import java.io.InputStream

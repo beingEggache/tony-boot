@@ -1,4 +1,5 @@
 import com.tony.buildscript.Deps
+import com.tony.buildscript.addTestDependencies
 
 dependencies {
     api(Deps.Kotlin.stdlib)
@@ -13,4 +14,6 @@ dependencies {
 
     implementation(Deps.Other.bcprovJdk18On)
     compileOnly(Deps.Other.findbugsJsr305)
+
+    addTestDependencies()
 }

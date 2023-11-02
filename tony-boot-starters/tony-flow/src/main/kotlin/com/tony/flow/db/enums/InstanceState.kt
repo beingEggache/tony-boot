@@ -31,7 +31,7 @@ public enum class InstanceState(
     /**
      * 终止
      */
-    TERMINATION(3),
+    TERMINATED(3),
     ;
 
     internal companion object : EnumCreator<InstanceState, Int>(InstanceState::class.java) {

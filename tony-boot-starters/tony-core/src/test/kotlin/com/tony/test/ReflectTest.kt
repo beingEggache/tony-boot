@@ -1,5 +1,6 @@
-package com.tony.core.test
+package com.tony.test
 
+import com.tony.core.test.JavaTestReflect
 import com.tony.utils.annotation
 import com.tony.utils.println
 import org.springframework.beans.BeanUtils

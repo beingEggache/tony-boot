@@ -28,20 +28,6 @@ public interface RuntimeService {
     ): FlowInstance
 
     /**
-     * 创建实例
-     * @param [flowProcess] 流程定义
-     * @param [flowCreator] 流程创建者
-     * @return [FlowInstance]
-     * @author Tang Li
-     * @date 2023/10/10 09:51
-     * @since 1.0.0
-     */
-    public fun createInstance(
-        flowProcess: FlowProcess,
-        flowCreator: FlowOperator,
-    ): FlowInstance
-
-    /**
      * 流程实例正常完成
      * @param [instanceId] 实例id
      * @author Tang Li
