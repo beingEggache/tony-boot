@@ -114,7 +114,7 @@ public class FlowProcess {
     public val model: FlowProcessModel?
         get() {
             val content = modelContent ?: return null
-            return FlowProcessModel.parse(content, processId)
+            return FlowContext.parse(content, processId, false)
         }
 
     public tailrec fun nextNode(flowNode: FlowNode): FlowNode? {

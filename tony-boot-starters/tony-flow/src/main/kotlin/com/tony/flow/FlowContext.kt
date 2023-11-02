@@ -1,9 +1,8 @@
 package com.tony.flow
 
 import com.tony.SpringContexts
-import com.tony.flow.cache.DefaultFlowCache
-import com.tony.flow.cache.FlowCache
 import com.tony.flow.model.FlowExpression
+import com.tony.flow.model.FlowProcessModel
 import com.tony.flow.service.ProcessService
 import com.tony.flow.service.QueryService
 import com.tony.flow.service.RuntimeService
@@ -29,7 +28,9 @@ public class FlowContext(
     private val logger = getLogger()
 
     public companion object {
-        public var flowCache: FlowCache = DefaultFlowCache()
+        public var processModelParser:FlowProcessModelParser = DefaultFlowProcessModelParser()
+        public fun parse(content: String, processId: Long?, redeploy: Boolean): FlowProcessModel? =
+            processModelParser.parse(content, processId, redeploy)
     }
 
     public fun build(): FlowEngine {

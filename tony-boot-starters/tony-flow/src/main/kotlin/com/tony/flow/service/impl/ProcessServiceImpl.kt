@@ -1,12 +1,12 @@
 package com.tony.flow.service.impl
 
+import com.tony.flow.FlowContext
 import com.tony.flow.db.enums.ProcessState
 import com.tony.flow.db.mapper.FlowProcessMapper
 import com.tony.flow.db.po.FlowProcess
 import com.tony.flow.extension.flowThrowIf
 import com.tony.flow.extension.flowThrowIfNull
 import com.tony.flow.model.FlowOperator
-import com.tony.flow.model.FlowProcessModel
 import com.tony.flow.service.ProcessService
 import java.time.LocalDateTime
 
@@ -46,8 +46,8 @@ internal class ProcessServiceImpl(
         flowThrowIf(modelContent.isEmpty(), "modelContent can not be empty")
 
         val processModel =
-            FlowProcessModel
-                .parse(modelContent, null)
+            FlowContext
+                .parse(modelContent, null, false)
                 .flowThrowIfNull()
 
         val processVersion =
@@ -93,7 +93,7 @@ internal class ProcessServiceImpl(
                 .selectById(processId)
                 .flowThrowIfNull()
 
-        val flowProcessModel = FlowProcessModel.parse(modelContent, processId)
+        val flowProcessModel = FlowContext.parse(modelContent, processId, true)
         flowProcess.processName = flowProcessModel?.name
         flowProcess.displayName = flowProcessModel?.name
         flowProcess.instanceUrl = flowProcessModel?.instanceUrl

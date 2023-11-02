@@ -1,9 +1,5 @@
 package com.tony.flow.model
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.tony.flow.FlowContext
-import com.tony.utils.jsonToObj
-
 /**
  * FlowProcessModel is
  * @author tangli
@@ -20,7 +16,7 @@ public class FlowProcessModel {
     public fun getNode(nodeName: String): FlowNode? =
         flowNode?.getNode(nodeName)
 
-    protected fun buildParentNode(rootNode: FlowNode?) {
+    public fun buildParentNode(rootNode: FlowNode?) {
         rootNode?.conditionNodes?.forEach { conditionNode ->
             conditionNode.childNode?.also { conditionChildNode ->
                 conditionChildNode.parentNode = rootNode
@@ -31,32 +27,5 @@ public class FlowProcessModel {
             it.parentNode = rootNode
             buildParentNode(it)
         }
-    }
-
-    public companion object {
-        public fun parse(
-            content: String,
-            processId: Long?,
-        ): FlowProcessModel? {
-            if (processId != null) {
-                val cacheKey = "flowProcessModel#$processId"
-                return FlowContext
-                    .flowCache
-                    .get(cacheKey, object : TypeReference<FlowProcessModel>() {})
-                    .let {
-                        it ?: parse(content).apply {
-                            FlowContext
-                                .flowCache
-                                .set(cacheKey, this)
-                        }
-                    }
-            }
-            return null
-        }
-
-        private fun parse(content: String): FlowProcessModel =
-            content.jsonToObj<FlowProcessModel>().apply {
-                buildParentNode(flowNode)
-            }
     }
 }
