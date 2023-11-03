@@ -15,22 +15,22 @@ public enum class TaskType(
     /**
      * 主办
      */
-    MAJOR(0),
+    MAJOR(1),
 
     /**
      * 转办、代理人办理完任务直接进入下一个节点
      */
-    TRANSFER(1),
+    TRANSFER(2),
 
     /**
      * 委派、代理人办理完任务该任务重新归还给原处理人
      */
-    DELEGATE(2),
+    DELEGATE(3),
 
     /**
      * 会签
      */
-    COUNTERSIGN(3),
+    COUNTERSIGN(4),
     ;
 
     internal companion object : EnumCreator<TaskType, Int>(TaskType::class.java) {

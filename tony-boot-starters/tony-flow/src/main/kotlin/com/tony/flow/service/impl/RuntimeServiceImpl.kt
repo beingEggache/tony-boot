@@ -12,6 +12,7 @@ import com.tony.flow.model.FlowOperator
 import com.tony.flow.service.RuntimeService
 import com.tony.flow.service.TaskService
 import com.tony.utils.copyTo
+import com.tony.utils.copyToNotNull
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
 
@@ -43,7 +44,7 @@ internal class RuntimeServiceImpl(
             this.variable = variable?.toJsonString() ?: "{}"
         }
 
-    override fun complete(instanceId: Long?) {
+    override fun complete(instanceId: String?) {
         val flowHistoryInstance = FlowHistoryInstance().apply {
             this.instanceId = instanceId
             this.instanceState = InstanceState.COMPLETE
@@ -56,15 +57,15 @@ internal class RuntimeServiceImpl(
 
     override fun saveInstance(flowInstance: FlowInstance) {
         flowInstanceMapper.insert(flowInstance)
-        val flowHistoryInstance = copyTo(flowInstance, FlowHistoryInstance()).apply {
-            this?.instanceState = InstanceState.ACTIVE
+        val flowHistoryInstance = flowInstance.copyToNotNull(FlowHistoryInstance()).apply {
+            this.instanceState = InstanceState.ACTIVE
         }
         flowHistoryInstanceMapper.insert(flowHistoryInstance)
         // TODO Notify
     }
 
     override fun terminate(
-        instanceId: Long,
+        instanceId: String,
         flowOperator: FlowOperator,
     ) {
         flowInstanceMapper.selectById(instanceId)?.apply {
@@ -76,7 +77,7 @@ internal class RuntimeServiceImpl(
                     taskService.complete(it.taskId, flowOperator)
                 }
 
-            val flowHistoryInstance = copyTo(this, FlowHistoryInstance())?.apply {
+            val flowHistoryInstance = this.copyToNotNull(FlowHistoryInstance()).apply {
                 this.instanceState = InstanceState.TERMINATED
                 this.endTime = LocalDateTime.now()
             }
@@ -91,7 +92,7 @@ internal class RuntimeServiceImpl(
         flowInstanceMapper.updateById(flowInstance)
     }
 
-    override fun cascadeRemoveByProcessId(processId: Long) {
+    override fun cascadeRemoveByProcessId(processId: String) {
         TODO("Not yet implemented")
     }
 }

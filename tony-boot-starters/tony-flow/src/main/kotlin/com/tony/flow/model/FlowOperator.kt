@@ -10,7 +10,7 @@ public data class FlowOperator(
     /**
      * 创建人ID
      */
-    val operatorId: Long,
+    val operatorId: String,
     /**
      * 创建人名称
      */

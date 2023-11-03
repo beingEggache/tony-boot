@@ -15,27 +15,27 @@ public enum class TaskState(
     /**
      * 活动
      */
-    ACTIVE(0),
+    ACTIVE(1),
 
     /**
      * 完成
      */
-    COMPLETE(1),
+    COMPLETE(2),
 
     /**
      * 拒绝
      */
-    REJECT(2),
+    REJECT(3),
 
     /**
      * 超时
      */
-    TIMEOUT(3),
+    TIMEOUT(4),
 
     /**
      * 终止
      */
-    TERMINATION(4),
+    TERMINATE(5),
     ;
 
     internal companion object : EnumCreator<TaskState, Int>(TaskState::class.java) {

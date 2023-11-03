@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 internal class ProcessServiceImpl(
     private val flowProcessMapper: FlowProcessMapper,
 ) : ProcessService {
-    override fun getById(processId: Long): FlowProcess =
+    override fun getById(processId: String): FlowProcess =
         flowProcessMapper.selectById(processId)
 
     override fun getByVersion(
@@ -42,7 +42,7 @@ internal class ProcessServiceImpl(
         modelContent: String,
         flowCreator: FlowOperator,
         repeat: Boolean,
-    ): Long {
+    ): String {
         flowThrowIf(modelContent.isEmpty(), "modelContent can not be empty")
 
         val processModel =
@@ -85,7 +85,7 @@ internal class ProcessServiceImpl(
     }
 
     override fun redeploy(
-        processId: Long,
+        processId: String,
         modelContent: String,
     ): Boolean {
         val flowProcess =
@@ -102,7 +102,7 @@ internal class ProcessServiceImpl(
         return flowProcessMapper.updateById(flowProcess) > 0
     }
 
-    override fun cascadeRemove(processId: Long) {
+    override fun cascadeRemove(processId: String) {
         TODO("Not yet implemented")
     }
 }

@@ -17,19 +17,19 @@ public open class FlowTask {
      * 主键ID
      */
     @TableId(value = "task_id")
-    public var taskId: Long? = null
+    public var taskId: String? = null
 
     /**
      * 租户ID
      */
     @TableField(value = "tenant_id")
-    public var tenantId: Long? = null
+    public var tenantId: String? = null
 
     /**
      * 创建人ID
      */
     @TableField(value = "creator_id")
-    public var creatorId: Long? = null
+    public var creatorId: String? = null
 
     /**
      * 创建人
@@ -47,13 +47,13 @@ public open class FlowTask {
      * 流程实例ID
      */
     @TableField(value = "instance_id")
-    public var instanceId: Long? = null
+    public var instanceId: String? = null
 
     /**
      * 父任务ID
      */
     @TableField(value = "parent_task_id")
-    public var parentTaskId: Long? = null
+    public var parentTaskId: String? = null
 
     /**
      * 任务名称
@@ -68,13 +68,13 @@ public open class FlowTask {
     public var displayName: String? = null
 
     /**
-     * 任务类型: 0-主办, 1-转办, 2-委派, 3-会签
+     * 任务类型: 1-主办, 2-转办, 3-委派, 4-会签
      */
     @TableField(value = "task_type")
     public var taskType: TaskType? = null
 
     /**
-     * 参与类型: 0-发起、其它, 1-按顺序依次审批, 2-会签, 3-或签, 4-抄送
+     * 参与类型: 1-发起、其它, 2-按顺序依次审批, 3-会签, 4-或签, 5-票签, 10-抄送
      */
     @TableField(value = "perform_type")
     public var performType: PerformType? = null

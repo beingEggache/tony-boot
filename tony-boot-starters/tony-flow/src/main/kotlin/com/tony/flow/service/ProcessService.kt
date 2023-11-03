@@ -18,7 +18,7 @@ public interface ProcessService {
      * @date 2023/10/09 14:23
      * @since 1.0.0
      */
-    public fun getById(processId: Long): FlowProcess
+    public fun getById(processId: String): FlowProcess
 
     /**
      * 根据流程名称或版本号查找流程定义对象
@@ -58,7 +58,7 @@ public interface ProcessService {
         modelContent: String,
         flowCreator: FlowOperator,
         repeat: Boolean,
-    ): Long
+    ): String
 
     /**
      * 重新部署流程
@@ -70,7 +70,7 @@ public interface ProcessService {
      * @since 1.0.0
      */
     public fun redeploy(
-        processId: Long,
+        processId: String,
         modelContent: String,
     ): Boolean
 
@@ -84,5 +84,5 @@ public interface ProcessService {
      * @date 2023/10/10 09:19
      * @since 1.0.0
      */
-    public fun cascadeRemove(processId: Long)
+    public fun cascadeRemove(processId: String)
 }

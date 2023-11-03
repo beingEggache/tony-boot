@@ -23,7 +23,7 @@ public interface QueryService {
      * @date 2023/10/10 09:22
      * @since 1.0.0
      */
-    public fun instance(instanceId: Long): FlowInstance
+    public fun instance(instanceId: String): FlowInstance
 
     /**
      * 获取历史流程实例
@@ -33,7 +33,7 @@ public interface QueryService {
      * @date 2023/10/10 09:23
      * @since 1.0.0
      */
-    public fun historyInstance(instanceId: Long): FlowHistoryInstance
+    public fun historyInstance(instanceId: String): FlowHistoryInstance
 
     /**
      * 获取任务
@@ -43,7 +43,7 @@ public interface QueryService {
      * @date 2023/10/10 09:24
      * @since 1.0.0
      */
-    public fun task(taskId: Long): FlowTask
+    public fun task(taskId: String): FlowTask
 
     /**
      * 列出任务
@@ -55,7 +55,7 @@ public interface QueryService {
      * @since 1.0.0
      */
     public fun listTask(
-        instanceId: Long,
+        instanceId: String,
         taskNames: Collection<String>,
     ): List<FlowTask>
 
@@ -67,7 +67,7 @@ public interface QueryService {
      * @date 2023/10/10 09:31
      * @since 1.0.0
      */
-    public fun listTaskByInstanceId(instanceId: Long?): List<FlowTask>
+    public fun listTaskByInstanceId(instanceId: String?): List<FlowTask>
 
     /**
      * 获取历史任务
@@ -77,7 +77,7 @@ public interface QueryService {
      * @date 2023/10/10 09:24
      * @since 1.0.0
      */
-    public fun historyTask(taskId: Long): FlowHistoryTask
+    public fun historyTask(taskId: String): FlowHistoryTask
 
     /**
      * 列出历史任务
@@ -87,7 +87,7 @@ public interface QueryService {
      * @date 2023/10/10 09:39
      * @since 1.0.0
      */
-    public fun listHistoryTask(instanceId: Long): List<FlowHistoryTask>
+    public fun listHistoryTask(instanceId: String): List<FlowHistoryTask>
 
     /**
      * 按名称列出历史任务
@@ -99,7 +99,7 @@ public interface QueryService {
      * @since 1.0.0
      */
     public fun listHistoryTaskByName(
-        instanceId: Long,
+        instanceId: String,
         taskName: String,
     ): List<FlowHistoryTask>
 
@@ -111,7 +111,7 @@ public interface QueryService {
      * @date 2023/10/10 09:32
      * @since 1.0.0
      */
-    public fun listTaskActorByTaskId(taskId: Long): List<FlowTaskActor>
+    public fun listTaskActorByTaskId(taskId: String): List<FlowTaskActor>
 
     /**
      * 按任务id列出任务参与者
@@ -121,5 +121,5 @@ public interface QueryService {
      * @date 2023/10/10 09:32
      * @since 1.0.0
      */
-    public fun listHistoryTaskActorByTaskId(taskId: Long): List<FlowHistoryTaskActor>
+    public fun listHistoryTaskActorByTaskId(taskId: String): List<FlowHistoryTaskActor>
 }

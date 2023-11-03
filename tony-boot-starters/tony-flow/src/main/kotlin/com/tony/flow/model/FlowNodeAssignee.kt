@@ -10,4 +10,6 @@ public class FlowNodeAssignee {
     public var id: Long? = null
 
     public var name: String = ""
+
+    public var weight:Int? = null
 }

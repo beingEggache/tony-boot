@@ -18,19 +18,19 @@ public class FlowTaskCc {
      * 主键ID
      */
     @TableId(value = "task_cc_id")
-    public var taskCcId: Long? = null
+    public var taskCcId: String? = null
 
     /**
      * 租户ID
      */
     @TableField(value = "tenant_id")
-    public var tenantId: Long? = null
+    public var tenantId: String? = null
 
     /**
      * 创建人ID
      */
     @TableField(value = "creator_id")
-    public var creatorId: Long? = null
+    public var creatorId: String? = null
 
     /**
      * 创建人
@@ -48,13 +48,13 @@ public class FlowTaskCc {
      * 流程实例ID
      */
     @TableField(value = "instance_id")
-    public var instanceId: Long? = null
+    public var instanceId: String? = null
 
     /**
      * 父任务ID
      */
     @TableField(value = "parent_task_id")
-    public var parentTaskId: Long? = null
+    public var parentTaskId: String? = null
 
     /**
      * 任务名称

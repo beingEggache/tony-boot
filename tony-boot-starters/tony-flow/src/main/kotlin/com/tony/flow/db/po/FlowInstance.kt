@@ -17,19 +17,19 @@ public open class FlowInstance {
      * 主键ID
      */
     @TableId(value = "instance_id")
-    public var instanceId: Long? = null
+    public var instanceId: String? = null
 
     /**
      * 租户ID
      */
     @TableField(value = "tenant_id")
-    public var tenantId: Long? = null
+    public var tenantId: String? = null
 
     /**
      * 创建人ID
      */
     @TableField(value = "creator_id")
-    public var creatorId: Long? = null
+    public var creatorId: String? = null
 
     /**
      * 创建人
@@ -47,7 +47,7 @@ public open class FlowInstance {
      * 流程定义ID
      */
     @TableField(value = "process_id")
-    public var processId: Long? = null
+    public var processId: String? = null
 
     /**
      * 优先级
@@ -89,7 +89,7 @@ public open class FlowInstance {
      * 更新人id
      */
     @TableField(value = "updator_id")
-    public var updatorId: Long? = null
+    public var updatorId: String? = null
 
     /**
      * 上次更新人

@@ -27,6 +27,11 @@ public enum class MultiApproveMode(
      * 或签 (有一人审批通过即可)
      */
     OR_SIGN(3),
+
+    /**
+     * 票签(总权重大于 50% 表示通过)
+     */
+    VOTE_SIGN(4),
     ;
 
     internal companion object : EnumCreator<MultiApproveMode, Int>(MultiApproveMode::class.java) {

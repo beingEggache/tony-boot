@@ -25,13 +25,13 @@ public fun interface FlowProcessModelParser {
      * @date 2023/11/02 09:16
      * @since 1.0.0
      */
-    public fun parse(content: String, processId: Long?, redeploy: Boolean): FlowProcessModel?
+    public fun parse(content: String, processId: String?, redeploy: Boolean): FlowProcessModel?
 }
 
 internal class DefaultFlowProcessModelParser(
     private val flowCache: FlowCache = DefaultFlowCache()
 ) : FlowProcessModelParser {
-    override fun parse(content: String, processId: Long?, redeploy: Boolean): FlowProcessModel? {
+    override fun parse(content: String, processId: String?, redeploy: Boolean): FlowProcessModel? {
         if (processId == null) {
             return parse(content)
         }

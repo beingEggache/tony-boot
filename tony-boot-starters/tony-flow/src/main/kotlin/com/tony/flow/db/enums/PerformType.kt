@@ -16,27 +16,32 @@ public enum class PerformType(
     /**
      * 发起、其它
      */
-    UNKNOWN(0),
+    UNKNOWN(1),
 
     /**
      * 按顺序依次审批
      */
-    SORT(1),
+    SORT(2),
 
     /**
      * 会签 (可同时审批，每个人必须审批通过)
      */
-    COUNTERSIGN(2),
+    COUNTERSIGN(3),
 
     /**
      * 或签 (有一人审批通过即可)
      */
-    OR_SIGN(3),
+    OR_SIGN(4),
+
+    /**
+     * 票签
+     */
+    VOTE_SIGN(5),
 
     /**
      * 抄送
      */
-    COPY(4),
+    COPY(10),
     ;
 
     internal companion object : EnumCreator<PerformType, Int>(PerformType::class.java) {

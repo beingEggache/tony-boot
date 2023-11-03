@@ -17,25 +17,25 @@ public open class FlowTaskActor {
      * 主键 ID
      */
     @TableId(value = "task_actor_id")
-    public var taskActorId: Long? = null
+    public var taskActorId: String? = null
 
     /**
      * 租户ID
      */
     @TableField(value = "tenant_id")
-    public var tenantId: Long? = null
+    public var tenantId: String? = null
 
     /**
      * 流程实例ID
      */
     @TableField(value = "instance_id")
-    public var instanceId: Long? = null
+    public var instanceId: String? = null
 
     /**
      * 任务ID
      */
     @TableField(value = "task_id")
-    public var taskId: Long? = null
+    public var taskId: String? = null
 
     /**
      * 参与者ID

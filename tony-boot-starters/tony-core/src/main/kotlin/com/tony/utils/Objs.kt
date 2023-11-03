@@ -106,41 +106,59 @@ public inline fun <reified T> Any?.copyTo(): T =
 
 /**
  * 复制属性
- * @param [source] 来源
+ * @receiver 来源
  * @param [targetType] 目标类型
  * @return [T]
  * @author Tang Li
  * @date 2023/09/25 15:13
  * @since 1.0.0
  */
-public fun <T> copyTo(
-    source: Any?,
+public fun <T> Any?.copyTo(
     targetType: Class<T>,
 ): T {
     val instance = BeanUtils.instantiateClass(targetType)
-    if (source == null) {
+    if (this == null) {
         return instance
     }
-    BeanUtils.copyProperties(source, instance)
+    BeanUtils.copyProperties(this, instance)
     return instance
 }
 
 /**
  * 复制属性
- * @param [source] 来源
+ * @receiver 来源
  * @param [target] 目标
  * @return [T]
  * @author Tang Li
  * @date 2023/09/25 15:13
  * @since 1.0.0
  */
-public fun <T> copyTo(
-    source: Any?,
+public fun <T> Any?.copyTo(
     target: T?,
 ): T? {
-    if (source == null || target == null) {
+    if (this == null || target == null) {
         return target
     }
-    BeanUtils.copyProperties(source, target)
+    BeanUtils.copyProperties(this, target)
+    return target
+}
+
+/**
+ * 复制属性
+ * @receiver 来源
+ * @param [target] 目标
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/09/25 15:13
+ * @since 1.0.0
+ */
+@JvmSynthetic
+public fun <T : Any> Any?.copyToNotNull(
+    target: T,
+): T {
+    if (this == null) {
+        return target
+    }
+    BeanUtils.copyProperties(this, target)
     return target
 }

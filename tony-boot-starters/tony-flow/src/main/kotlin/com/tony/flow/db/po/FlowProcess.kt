@@ -25,19 +25,19 @@ public class FlowProcess {
      * 主键ID
      */
     @TableId(value = "process_id")
-    public var processId: Long? = null
+    public var processId: String? = null
 
     /**
      * 租户ID
      */
     @TableField(value = "tenant_id")
-    public var tenantId: Long? = null
+    public var tenantId: String? = null
 
     /**
      * 创建人ID
      */
     @TableField(value = "creator_id")
-    public var creatorId: Long? = null
+    public var creatorId: String? = null
 
     /**
      * 创建人

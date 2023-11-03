@@ -16,22 +16,22 @@ public enum class InstanceState(
     /**
      * 活动
      */
-    ACTIVE(0),
+    ACTIVE(1),
 
     /**
      * 完成
      */
-    COMPLETE(1),
+    COMPLETE(2),
 
     /**
      * 超时
      */
-    TIMEOUT(2),
+    TIMEOUT(3),
 
     /**
      * 终止
      */
-    TERMINATED(3),
+    TERMINATED(4),
     ;
 
     internal companion object : EnumCreator<InstanceState, Int>(InstanceState::class.java) {

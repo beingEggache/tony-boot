@@ -34,7 +34,7 @@ public interface RuntimeService {
      * @date 2023/10/10 10:02
      * @since 1.0.0
      */
-    public fun complete(instanceId: Long?)
+    public fun complete(instanceId: String?)
 
     /**
      * 保存流程实例
@@ -54,7 +54,7 @@ public interface RuntimeService {
      * @since 1.0.0
      */
     public fun terminate(
-        instanceId: Long,
+        instanceId: String,
         flowOperator: FlowOperator,
     )
 
@@ -65,7 +65,7 @@ public interface RuntimeService {
      * @date 2023/10/10 10:10
      * @since 1.0.0
      */
-    public fun terminate(instanceId: Long) {
+    public fun terminate(instanceId: String) {
         terminate(instanceId, ADMIN)
     }
 
@@ -85,5 +85,5 @@ public interface RuntimeService {
      * @date 2023/10/10 10:15
      * @since 1.0.0
      */
-    public fun cascadeRemoveByProcessId(processId: Long)
+    public fun cascadeRemoveByProcessId(processId: String)
 }

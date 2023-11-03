@@ -29,7 +29,7 @@ public class FlowContext(
 
     public companion object {
         public var processModelParser:FlowProcessModelParser = DefaultFlowProcessModelParser()
-        public fun parse(content: String, processId: Long?, redeploy: Boolean): FlowProcessModel? =
+        public fun parse(content: String, processId: String?, redeploy: Boolean): FlowProcessModel? =
             processModelParser.parse(content, processId, redeploy)
     }
 

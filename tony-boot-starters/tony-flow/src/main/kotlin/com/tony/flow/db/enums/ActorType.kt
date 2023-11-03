@@ -13,19 +13,19 @@ public enum class ActorType(
     override val value: Int,
 ) : IntEnumValue {
     /**
-     * 用户 0
+     * 用户 1
      */
-    USER(0),
+    USER(1),
 
     /**
-     * 角色 1
+     * 角色 2
      */
-    ROLE(1),
+    ROLE(2),
 
     /**
-     * 部门 2
+     * 部门 3
      */
-    DEPT(2),
+    DEPT(3),
     ;
 
     internal companion object : EnumCreator<ActorType, Int>(ActorType::class.java) {

@@ -27,7 +27,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun complete(
-        taskId: Long?,
+        taskId: String?,
         flowOperator: FlowOperator,
         variable: Map<String, Any?>?,
     ): FlowTask
@@ -42,7 +42,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun complete(
-        taskId: Long?,
+        taskId: String?,
         flowOperator: FlowOperator,
     ): FlowTask =
         complete(taskId, flowOperator, null)
@@ -60,14 +60,15 @@ public interface TaskService {
      * 查看任务 设置为已阅状态
      * @param [taskId] 任务id
      * @param [taskActor] 任务参与者
+     * @return [Boolean]
      * @author Tang Li
-     * @date 2023/10/10 11:04
+     * @date 2023/11/03 11:55
      * @since 1.0.0
      */
     public fun viewTask(
-        taskId: Long,
+        taskId: String,
         taskActor: FlowTaskActor,
-    )
+    ): Boolean
 
     /**
      * 任务超时
@@ -77,7 +78,7 @@ public interface TaskService {
      * @date 2023/10/10 11:05
      * @since 1.0.0
      */
-    public fun taskTimeout(taskId: Long): Boolean
+    public fun taskTimeout(taskId: String): Boolean
 
     /**
      * 认领任务.
@@ -91,7 +92,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun claimTask(
-        taskId: Long,
+        taskId: String,
         flowHistoryTaskActor: FlowHistoryTaskActor,
     ): FlowTask
 
@@ -107,7 +108,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun assignTask(
-        taskId: Long,
+        taskId: String,
         taskType: TaskType,
         flowTaskActor: FlowTaskActor,
         assignee: FlowTaskActor,
@@ -124,7 +125,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun transferTask(
-        taskId: Long,
+        taskId: String,
         taskActor: FlowTaskActor,
         assignee: FlowTaskActor,
     ): Boolean =
@@ -143,7 +144,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun delegateTask(
-        taskId: Long,
+        taskId: String,
         taskActor: FlowHistoryTaskActor,
         assignee: FlowHistoryTaskActor,
     ): Boolean =
@@ -160,7 +161,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun reclaimTask(
-        taskId: Long,
+        taskId: String,
         flowOperator: FlowOperator,
     ): FlowTask?
 
@@ -174,7 +175,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun withdrawTask(
-        taskId: Long,
+        taskId: String,
         flowOperator: FlowOperator,
     ): FlowTask?
 
@@ -226,7 +227,7 @@ public interface TaskService {
      */
     public fun hasPermission(
         flowTask: FlowTask,
-        userId: Long,
+        userId: String?,
     ): Boolean
 
     /**
@@ -256,7 +257,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun createNewTask(
-        taskId: Long,
+        taskId: String,
         taskType: TaskType,
         taskActors: Collection<FlowTaskActor>,
     ): List<FlowTask>
@@ -272,7 +273,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun createNewTask(
-        taskId: Long,
+        taskId: String,
         taskType: TaskType,
         taskActor: FlowTaskActor,
     ): List<FlowTask> =
@@ -295,7 +296,7 @@ public interface TaskService {
      * @date 2023/10/25 10:23
      * @since 1.0.0
      */
-    public fun getTaskNode(taskId: Long): FlowNode
+    public fun getTaskNode(taskId: String): FlowNode
 
     /**
      * 添加任务参与者【加签】
@@ -308,7 +309,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun addTaskActor(
-        taskId: Long,
+        taskId: String,
         performType: PerformType,
         taskActors: List<FlowHistoryTaskActor>,
     ): Boolean
@@ -324,7 +325,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun addTaskActor(
-        taskId: Long,
+        taskId: String,
         performType: PerformType,
         taskActor: FlowHistoryTaskActor,
     ): Boolean =
@@ -340,8 +341,8 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun removeTaskActor(
-        taskId: Long,
-        taskActorIds: Collection<Long>,
+        taskId: String,
+        taskActorIds: Collection<String>,
     ): Boolean
 
     /**
@@ -354,8 +355,8 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun removeTaskActor(
-        taskId: Long,
-        taskActorId: Long,
+        taskId: String,
+        taskActorId: String,
     ): Boolean =
         removeTaskActor(taskId, setOf(taskActorId))
 
@@ -368,5 +369,5 @@ public interface TaskService {
      * @date 2023/10/25 10:28
      * @since 1.0.0
      */
-    public fun cascadeRemoveByInstanceId(instanceId: Long)
+    public fun cascadeRemoveByInstanceId(instanceId: String)
 }
