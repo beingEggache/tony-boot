@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("TypeUtils")
+@file:JvmName("Types")
 
 package com.tony.utils
 /**

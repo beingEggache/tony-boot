@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("StringUtils")
+@file:JvmName("Strs")
 
 package com.tony.utils
 

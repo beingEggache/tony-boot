@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("NetUtils")
+@file:JvmName("Nets")
 
 package com.tony.utils
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("WechatXmlUtils")
+@file:JvmName("WechatXmls")
 
 package com.tony.wechat.xml
 

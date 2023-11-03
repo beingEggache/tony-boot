@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("JsonUtils")
+@file:JvmName("Jsons")
 
 package com.tony.utils
 

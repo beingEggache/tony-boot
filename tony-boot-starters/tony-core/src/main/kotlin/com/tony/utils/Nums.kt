@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("NumberUtils")
+@file:JvmName("Nums")
 
 package com.tony.utils
 

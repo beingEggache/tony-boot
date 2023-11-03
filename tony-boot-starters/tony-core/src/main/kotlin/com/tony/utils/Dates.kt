@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("DateUtils")
+@file:JvmName("Dates")
 
 package com.tony.utils
 

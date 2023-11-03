@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("FeignUtils")
+@file:JvmName("Feigns")
 
 package com.tony.feign
 

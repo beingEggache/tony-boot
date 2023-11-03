@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("ByteArrayUtils")
+@file:JvmName("ByteArrs")
 
 package com.tony.utils
 /**

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("ReflectionUtils")
+@file:JvmName("Reflects")
 
 package com.tony.utils
 /**

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("ServletUtils")
+@file:JvmName("Servlets")
 
 package com.tony.web.utils
 

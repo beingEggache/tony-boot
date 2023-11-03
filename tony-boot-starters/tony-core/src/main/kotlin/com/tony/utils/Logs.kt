@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("LoggerUtils")
+@file:JvmName("Logs")
 
 package com.tony.utils
 /**

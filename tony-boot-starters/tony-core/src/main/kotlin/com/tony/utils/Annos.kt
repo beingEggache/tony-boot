@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("AnnotationUtils")
+@file:JvmName("Annos")
 
 package com.tony.utils
 
