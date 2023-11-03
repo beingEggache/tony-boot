@@ -14,7 +14,6 @@ import com.tony.utils.jsonToObj
  * @since 1.0.0
  */
 public fun interface FlowProcessModelParser {
-
     /**
      * 流程模型 JSON 解析
      * @param [content] 模型内容
@@ -25,13 +24,21 @@ public fun interface FlowProcessModelParser {
      * @date 2023/11/02 09:16
      * @since 1.0.0
      */
-    public fun parse(content: String, processId: String?, redeploy: Boolean): FlowProcessModel?
+    public fun parse(
+        content: String,
+        processId: String?,
+        redeploy: Boolean,
+    ): FlowProcessModel?
 }
 
 internal class DefaultFlowProcessModelParser(
-    private val flowCache: FlowCache = DefaultFlowCache()
+    private val flowCache: FlowCache = DefaultFlowCache(),
 ) : FlowProcessModelParser {
-    override fun parse(content: String, processId: String?, redeploy: Boolean): FlowProcessModel? {
+    override fun parse(
+        content: String,
+        processId: String?,
+        redeploy: Boolean,
+    ): FlowProcessModel? {
         if (processId == null) {
             return parse(content)
         }
@@ -51,9 +58,10 @@ internal class DefaultFlowProcessModelParser(
     }
 
     private fun parse(content: String): FlowProcessModel {
-        val processModel = content
-            .jsonToObj<FlowProcessModel>()
-            .flowThrowIfNull("flow process model parse error")
+        val processModel =
+            content
+                .jsonToObj<FlowProcessModel>()
+                .flowThrowIfNull("flow process model parse error")
 
         processModel.buildParentNode(processModel.flowNode)
         return processModel

@@ -65,14 +65,17 @@ internal class TaskServiceImpl(
             .exists()
             .takeIf { it }
             ?.run {
-                flowTaskMapper.updateById(FlowTask().apply {
-                    this.taskId = taskId
-                    this.viewed = true
-                }) > 0
+                flowTaskMapper.updateById(
+                    FlowTask().apply {
+                        this.taskId = taskId
+                        this.viewed = true
+                    }
+                ) > 0
             } ?: false
 
     override fun taskTimeout(taskId: String): Boolean {
-        flowTaskMapper.selectById(taskId)
+        flowTaskMapper
+            .selectById(taskId)
             .takeIf { it != null }
             ?.also {
                 it.copyToNotNull(FlowHistoryTask()).apply {
@@ -83,7 +86,6 @@ internal class TaskServiceImpl(
                     flowTaskMapper.deleteById(taskId)
 
                     // TODO notify
-
                 }
             }
         return true
@@ -106,22 +108,24 @@ internal class TaskServiceImpl(
         flowTaskActor: FlowTaskActor,
         assignee: FlowTaskActor,
     ): Boolean {
-        val flowTaskActors = flowTaskActorMapper
-            .ktQuery()
-            .eq(FlowTaskActor::taskId, taskId)
-            .eq(FlowTaskActor::actorId, flowTaskActor.actorId)
-            .list()
+        val flowTaskActors =
+            flowTaskActorMapper
+                .ktQuery()
+                .eq(FlowTaskActor::taskId, taskId)
+                .eq(FlowTaskActor::actorId, flowTaskActor.actorId)
+                .list()
 
         flowTaskActors
             .takeIf { it.isEmpty() }
             ?.also { throw FlowException("无权转办该任务.") }
 
-        val flowTask = FlowTask().apply {
-            this.taskId = taskId
-            this.taskType = taskType
-            this.assignorId = flowTaskActor.actorId
-            this.assignorName = flowTaskActor.actorName
-        }
+        val flowTask =
+            FlowTask().apply {
+                this.taskId = taskId
+                this.taskType = taskType
+                this.assignorId = flowTaskActor.actorId
+                this.assignorName = flowTaskActor.actorName
+            }
         flowTaskMapper.updateById(flowTask)
         flowTaskActorMapper.deleteBatchIds(flowTaskActors.map { it.taskActorId })
         assignTask(flowTaskActors.first().instanceId, taskId, assignee)
@@ -129,7 +133,11 @@ internal class TaskServiceImpl(
         return true
     }
 
-    protected fun assignTask(instanceId: String?, taskId: String, flowTaskActor: FlowTaskActor) {
+    protected fun assignTask(
+        instanceId: String?,
+        taskId: String,
+        flowTaskActor: FlowTaskActor,
+    ) {
         flowTaskActor.taskActorId = null
         flowTaskActor.instanceId = instanceId
         flowTaskActor.taskId = taskId
@@ -212,16 +220,17 @@ internal class TaskServiceImpl(
         flowOperator: FlowOperator,
         taskState: TaskState,
         eventType: EventType,
-        variable: Map<String, Any?>?
+        variable: Map<String, Any?>?,
     ): FlowTask {
         val flowTask = flowTaskMapper.selectByIdNotNull(taskId, "指定的任务不存在")
         flowTask.variable = variable.toJsonString().defaultIfBlank("{}")
-        val flowHistoryTask = flowTask.copyToNotNull(FlowHistoryTask()).apply {
-            finishTime = LocalDateTime.now()
-            this.taskState = taskState
-            this.creatorId = flowOperator.operatorId
-            this.creatorName = flowOperator.operatorName
-        }
+        val flowHistoryTask =
+            flowTask.copyToNotNull(FlowHistoryTask()).apply {
+                finishTime = LocalDateTime.now()
+                this.taskState = taskState
+                this.creatorId = flowOperator.operatorId
+                this.creatorName = flowOperator.operatorName
+            }
         flowHistoryTaskMapper.insert(flowHistoryTask)
         flowTaskActorMapper
             .selectListByTaskId(taskId)

@@ -44,7 +44,8 @@ public data object ApiProperty {
      * 默认 20000.
      */
     @JvmStatic
-    public val okCode: Int by Env.getPropertyByLazy("core.ok-code", 20000)
+    public val okCode: Int
+        get() = Env.getProperty("core.ok-code", Int::class.java, 20000)
 
     /**
      * 全局成功返回消息.
@@ -54,7 +55,8 @@ public data object ApiProperty {
      * 默认 "操作成功".
      */
     @JvmStatic
-    public val defaultOkMessage: String by Env.getPropertyByLazy("core.ok-msg", "操作成功")
+    public val defaultOkMessage: String
+        get() = Env.getProperty("core.ok-msg", "操作成功")
 
     /**
      * 全局未认证返回码.
@@ -64,7 +66,8 @@ public data object ApiProperty {
      * 默认 40100.
      */
     @JvmStatic
-    public val unauthorizedCode: Int by Env.getPropertyByLazy("core.unauthorized-code", 40100)
+    public val unauthorizedCode: Int
+        get() = Env.getProperty("core.unauthorized-code", Int::class.java, 40100)
 
     /**
      * 全局错误返回码.
@@ -74,7 +77,8 @@ public data object ApiProperty {
      * 默认 50000.
      */
     @JvmStatic
-    public val errorCode: Int by Env.getPropertyByLazy("core.internal-server-error-code", 50000)
+    public val errorCode: Int
+        get() = Env.getProperty("core.internal-server-error-code", Int::class.java, 50000)
 
     /**
      * 全局错误返回消息.
@@ -84,7 +88,8 @@ public data object ApiProperty {
      * 默认 "访客太多，请稍后重试".
      */
     @JvmStatic
-    public val errorMsg: String by Env.getPropertyByLazy("core.internal-server-error-msg", "访客太多，请稍后重试")
+    public val errorMsg: String
+        get() = Env.getProperty("core.internal-server-error-msg", "访客太多，请稍后重试")
 
     /**
      * 全局错误请求码. 一般是请求不合法, 比如 http 方法不对应等.
@@ -94,7 +99,8 @@ public data object ApiProperty {
      * 默认 40000.
      */
     @JvmStatic
-    public val badRequestCode: Int by Env.getPropertyByLazy("core.bad-request-code", 40000)
+    public val badRequestCode: Int
+        get() = Env.getProperty("core.bad-request-code", Int::class.java, 40000)
 
     /**
      * 全局错误请求返回消息. 一般是请求不合法, 比如 http 方法不对应等.
@@ -104,7 +110,8 @@ public data object ApiProperty {
      * 默认 "请求有误，请检查后输入".
      */
     @JvmStatic
-    public val badRequestMsg: String by Env.getPropertyByLazy("core.bad-request-msg", "请求有误，请检查后输入")
+    public val badRequestMsg: String
+        get() = Env.getProperty("core.bad-request-msg", "请求有误，请检查后输入")
 
     /**
      * 全局校验不通过返回码.
@@ -114,7 +121,8 @@ public data object ApiProperty {
      * 默认 40010.
      */
     @JvmStatic
-    public val preconditionFailedCode: Int by Env.getPropertyByLazy("core.precondition-failed-code", 40010)
+    public val preconditionFailedCode: Int
+        get() = Env.getProperty("core.precondition-failed-code", Int::class.java, 40010)
 
     /**
      * 全局资源不存在返回码.

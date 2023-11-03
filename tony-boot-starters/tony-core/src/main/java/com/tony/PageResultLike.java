@@ -24,7 +24,7 @@
 
 package com.tony;
 
-import com.tony.utils.ObjUtils;
+import com.tony.utils.Objs;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -96,7 +96,7 @@ public interface PageResultLike<T> {
         if (items == null || items.isEmpty()) {
             items = Collections.emptyList();
         }
-        return ObjUtils.asToNotNull(new PageResult<>(
+        return Objs.asToNotNull(new PageResult<>(
             items.stream().map(transform).toList(),
             getPage(),
             getSize(),
@@ -119,7 +119,7 @@ public interface PageResultLike<T> {
             items = Collections.emptyList();
         }
 
-        return ObjUtils.asToNotNull(new PageResult<>(
+        return Objs.asToNotNull(new PageResult<>(
             items.stream().peek(action).toList(),
             getPage(),
             getSize(),

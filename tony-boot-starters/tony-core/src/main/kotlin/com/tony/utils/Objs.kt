@@ -113,9 +113,7 @@ public inline fun <reified T> Any?.copyTo(): T =
  * @date 2023/09/25 15:13
  * @since 1.0.0
  */
-public fun <T> Any?.copyTo(
-    targetType: Class<T>,
-): T {
+public fun <T> Any?.copyTo(targetType: Class<T>): T {
     val instance = BeanUtils.instantiateClass(targetType)
     if (this == null) {
         return instance
@@ -133,9 +131,7 @@ public fun <T> Any?.copyTo(
  * @date 2023/09/25 15:13
  * @since 1.0.0
  */
-public fun <T> Any?.copyTo(
-    target: T?,
-): T? {
+public fun <T> Any?.copyTo(target: T?): T? {
     if (this == null || target == null) {
         return target
     }
@@ -153,9 +149,7 @@ public fun <T> Any?.copyTo(
  * @since 1.0.0
  */
 @JvmSynthetic
-public fun <T : Any> Any?.copyToNotNull(
-    target: T,
-): T {
+public fun <T : Any> Any?.copyToNotNull(target: T): T {
     if (this == null) {
         return target
     }

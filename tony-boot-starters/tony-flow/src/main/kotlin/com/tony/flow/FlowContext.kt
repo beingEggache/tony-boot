@@ -28,8 +28,13 @@ public class FlowContext(
     private val logger = getLogger()
 
     public companion object {
-        public var processModelParser:FlowProcessModelParser = DefaultFlowProcessModelParser()
-        public fun parse(content: String, processId: String?, redeploy: Boolean): FlowProcessModel? =
+        public var processModelParser: FlowProcessModelParser = DefaultFlowProcessModelParser()
+
+        public fun parse(
+            content: String,
+            processId: String?,
+            redeploy: Boolean,
+        ): FlowProcessModel? =
             processModelParser.parse(content, processId, redeploy)
     }
 

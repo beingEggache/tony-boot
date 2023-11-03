@@ -11,5 +11,5 @@ public class FlowNodeAssignee {
 
     public var name: String = ""
 
-    public var weight:Int? = null
+    public var weight: Int? = null
 }

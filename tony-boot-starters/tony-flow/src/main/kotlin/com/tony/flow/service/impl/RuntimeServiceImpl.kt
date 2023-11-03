@@ -11,7 +11,6 @@ import com.tony.flow.db.po.FlowTask
 import com.tony.flow.model.FlowOperator
 import com.tony.flow.service.RuntimeService
 import com.tony.flow.service.TaskService
-import com.tony.utils.copyTo
 import com.tony.utils.copyToNotNull
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
@@ -45,11 +44,12 @@ internal class RuntimeServiceImpl(
         }
 
     override fun complete(instanceId: String?) {
-        val flowHistoryInstance = FlowHistoryInstance().apply {
-            this.instanceId = instanceId
-            this.instanceState = InstanceState.COMPLETE
-            this.endTime = LocalDateTime.now()
-        }
+        val flowHistoryInstance =
+            FlowHistoryInstance().apply {
+                this.instanceId = instanceId
+                this.instanceState = InstanceState.COMPLETE
+                this.endTime = LocalDateTime.now()
+            }
         flowInstanceMapper.deleteById(instanceId)
         flowHistoryInstanceMapper.updateById(flowHistoryInstance)
         // TODO Notify
@@ -57,9 +57,10 @@ internal class RuntimeServiceImpl(
 
     override fun saveInstance(flowInstance: FlowInstance) {
         flowInstanceMapper.insert(flowInstance)
-        val flowHistoryInstance = flowInstance.copyToNotNull(FlowHistoryInstance()).apply {
-            this.instanceState = InstanceState.ACTIVE
-        }
+        val flowHistoryInstance =
+            flowInstance.copyToNotNull(FlowHistoryInstance()).apply {
+                this.instanceState = InstanceState.ACTIVE
+            }
         flowHistoryInstanceMapper.insert(flowHistoryInstance)
         // TODO Notify
     }
@@ -77,10 +78,11 @@ internal class RuntimeServiceImpl(
                     taskService.complete(it.taskId, flowOperator)
                 }
 
-            val flowHistoryInstance = this.copyToNotNull(FlowHistoryInstance()).apply {
-                this.instanceState = InstanceState.TERMINATED
-                this.endTime = LocalDateTime.now()
-            }
+            val flowHistoryInstance =
+                this.copyToNotNull(FlowHistoryInstance()).apply {
+                    this.instanceState = InstanceState.TERMINATED
+                    this.endTime = LocalDateTime.now()
+                }
             flowHistoryInstanceMapper.updateById(flowHistoryInstance)
             flowInstanceMapper.deleteById(instanceId)
 
