@@ -44,7 +44,7 @@ public interface FlowEngine {
      * 按id启动实例
      * @param [flowProcessId] 流程id
      * @param [flowOperator] 任务创建者
-     * @param [args] args
+     * @param [args] variable
      * @return [FlowInstance?]
      * @author Tang Li
      * @date 2023/10/20 16:31
@@ -76,7 +76,7 @@ public interface FlowEngine {
      * @param [flowProcessName] 流程名称
      * @param [processVersion] 流程版本
      * @param [flowOperator] 任务创建者
-     * @param [args] args
+     * @param [args] variable
      * @return [FlowInstance]?
      * @author Tang Li
      * @date 2023/10/20 16:31
@@ -110,7 +110,7 @@ public interface FlowEngine {
      * 执行任务
      * @param [taskId] 任务id
      * @param [flowOperator] 处理人员
-     * @param [args] args
+     * @param [args] variable
      * @author Tang Li
      * @date 2023/10/20 16:32
      * @since 1.0.0
@@ -141,7 +141,7 @@ public interface FlowEngine {
      * @param [taskId] 任务id
      * @param [nodeName] 节点名称
      * @param [flowOperator] 处理人员
-     * @param [args] args
+     * @param [args] variable
      * @author Tang Li
      * @date 2023/10/20 16:33
      * @since 1.0.0

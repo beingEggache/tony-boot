@@ -15,9 +15,12 @@ import com.tony.flow.db.po.FlowHistoryTask
 import com.tony.flow.db.po.FlowHistoryTaskActor
 import com.tony.flow.db.po.FlowTask
 import com.tony.flow.db.po.FlowTaskActor
-import com.tony.flow.extension.flowListThrowIfEmpty
+import com.tony.flow.exception.FlowException
+import com.tony.flow.extension.flowListThrowIfNullOrEmpty
 import com.tony.flow.extension.flowSelectByIdNotNull
-import com.tony.flow.extension.flowThrowIfEmpty
+import com.tony.flow.extension.flowThrowIf
+import com.tony.flow.extension.flowThrowIfNull
+import com.tony.flow.extension.flowThrowIfNullOrEmpty
 import com.tony.flow.model.FlowExecution
 import com.tony.flow.model.FlowNode
 import com.tony.flow.model.FlowOperator
@@ -26,6 +29,7 @@ import com.tony.flow.service.TaskService
 import com.tony.utils.copyToNotNull
 import com.tony.utils.defaultIfBlank
 import com.tony.utils.throwIfNull
+import com.tony.utils.throwIfNullOrEmpty
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
 import java.util.function.Consumer
@@ -78,14 +82,14 @@ internal open class TaskServiceImpl(
             } ?: false
 
     @Transactional(rollbackFor = [Throwable::class])
-    override fun taskTimeout(taskId: String): Boolean {
+    override fun taskExpired(taskId: String): Boolean {
         flowTaskMapper
             .selectById(taskId)
             .takeIf { it != null }
             ?.also {
                 it.copyToNotNull(FlowHistoryTask()).apply {
                     this.finishTime = LocalDateTime.now()
-                    this.taskState = TaskState.TIMEOUT
+                    this.taskState = TaskState.EXPIRED
                     flowHistoryTaskMapper.insert(this)
                     flowTaskActorMapper.deleteByTaskId(taskId)
                     flowTaskMapper.deleteById(taskId)
@@ -119,7 +123,7 @@ internal open class TaskServiceImpl(
                 .ktQuery()
                 .eq(FlowTaskActor::taskId, taskId)
                 .eq(FlowTaskActor::actorId, flowTaskActor.actorId)
-                .flowListThrowIfEmpty("无权转办该任务.")
+                .flowListThrowIfNullOrEmpty("无权转办该任务.")
 
         val flowTask =
             FlowTask().apply {
@@ -137,7 +141,7 @@ internal open class TaskServiceImpl(
 
     protected fun assignTask(
         instanceId: String?,
-        taskId: String,
+        taskId: String?,
         flowTaskActor: FlowTaskActor,
     ) {
         flowTaskActor.taskActorId = null
@@ -151,7 +155,7 @@ internal open class TaskServiceImpl(
         taskId: String,
         flowOperator: FlowOperator,
     ): FlowTask =
-        undoHisTask(
+        undoHistoryTask(
             taskId,
             flowOperator
         ) { flowHistoryTask ->
@@ -169,7 +173,7 @@ internal open class TaskServiceImpl(
         taskId: String,
         flowOperator: FlowOperator,
     ): FlowTask? =
-        undoHisTask(
+        undoHistoryTask(
             taskId,
             flowOperator
         ) { flowHistoryTask ->
@@ -192,7 +196,7 @@ internal open class TaskServiceImpl(
                                 flowTaskMapper.selectBatchIds(flowHistoryTaskIdList)
                             }
                     flowTasks
-                }.flowThrowIfEmpty("后续活动任务已完成或不存在，无法撤回.")
+                }.flowThrowIfNullOrEmpty("后续活动任务已完成或不存在，无法撤回.")
                     .map { it.taskId }
 
             flowTaskActorMapper
@@ -209,8 +213,11 @@ internal open class TaskServiceImpl(
         flowTask: FlowTask,
         flowOperator: FlowOperator,
         variable: Map<String, Any?>?,
-    ): FlowTask? {
-        TODO("Not yet implemented")
+    ): FlowTask {
+        val parentTaskId =
+            flowTask.parentTaskId.throwIfNullOrEmpty("上一步任务ID为空，无法驳回至上一步处理", ex = ::FlowException)
+        execute(flowTask.taskId.defaultIfBlank(), flowOperator, TaskState.REJECT, EventType.REJECT, variable)
+        return undoHistoryTask(parentTaskId, flowOperator)
     }
 
     override fun hasPermission(
@@ -224,38 +231,100 @@ internal open class TaskServiceImpl(
         flowNode: FlowNode?,
         flowExecution: FlowExecution,
     ): List<FlowTask> {
+
+        FlowTask().apply {
+            this.creatorId = flowExecution.creatorId
+            this.creatorName = flowExecution.creatorName
+            this.createTime = LocalDateTime.now()
+            this.instanceId = flowExecution.flowInstance?.instanceId
+            this.taskName = flowNode?.nodeName
+            this.displayName = flowNode?.nodeName
+            // TODO ?
+            this.taskType = TaskType.create(flowNode?.nodeType?.value!!)
+        }
+
         TODO("Not yet implemented")
     }
 
+    @Transactional(rollbackFor = [Throwable::class])
     override fun createNewTask(
         taskId: String,
         taskType: TaskType,
         taskActors: Collection<FlowTaskActor>,
     ): List<FlowTask> {
-        TODO("Not yet implemented")
+        taskActors.flowThrowIfNullOrEmpty()
+        return flowTaskMapper
+            .flowSelectByIdNotNull(taskId)
+            .copyToNotNull(FlowTask())
+            .apply {
+                this.taskType = taskType
+                this.parentTaskId = taskId
+            }.let {
+                saveTask(it, PerformType.SORT, taskActors)
+            }
     }
 
-    override fun listExpiredOrRemindTasks(): List<FlowTask> {
-        TODO("Not yet implemented")
-    }
+    override fun listExpiredOrRemindTasks(): List<FlowTask> =
+        LocalDateTime.now().let { now ->
+            flowTaskMapper
+                .ktQuery()
+                .le(FlowTask::expireTime, now)
+                .or()
+                .le(FlowTask::remindTime, now)
+                .list()
+        }
 
-    override fun getTaskNode(taskId: String): FlowNode {
-        TODO("Not yet implemented")
-    }
 
+    override fun getTaskNode(taskId: String): FlowNode =
+        flowTaskMapper
+            .flowSelectByIdNotNull(taskId)
+            .let {
+                flowInstanceMapper.flowSelectByIdNotNull(it.instanceId)
+            }.let {
+                flowProcessMapper.flowSelectByIdNotNull(it.processId)
+            }.model
+            ?.flowNode
+            .flowThrowIfNull("任务ID无法找到节点模型.")
+
+    @Transactional(rollbackFor = [Throwable::class])
     override fun addTaskActor(
         taskId: String,
         performType: PerformType,
-        taskActors: List<FlowHistoryTaskActor>,
+        flowHistoryTaskActors: List<FlowHistoryTaskActor>,
     ): Boolean {
-        TODO("Not yet implemented")
+        val flowTask = flowTaskMapper.flowSelectByIdNotNull(taskId)
+        val actorIdSet = flowTaskActorMapper
+            .selectListByTaskId(taskId)
+            .flowThrowIfNullOrEmpty()
+            .associateBy { it.actorId }
+            .keys
+
+        flowHistoryTaskActors
+            .filter {
+                !actorIdSet.contains(it.actorId)
+            }.forEach {
+                assignTask(flowTask.instanceId, taskId, it)
+            }
+        return flowTaskMapper.updateById(FlowTask().apply {
+            this.taskId = taskId
+            this.performType = performType
+        }) > 0
     }
 
     override fun removeTaskActor(
         taskId: String,
         taskActorIds: Collection<String>,
-    ): Boolean {
-        TODO("Not yet implemented")
+    ): Unit {
+
+        val flowTaskActorList = flowTaskActorMapper
+            .selectListByTaskId(taskId)
+            .flowThrowIfNullOrEmpty()
+        flowThrowIf(flowTaskActorList.size == taskActorIds.size, "illegal")
+        flowTaskActorMapper
+            .ktUpdate()
+            .eq(FlowTaskActor::taskId, taskId)
+            .`in`(FlowTaskActor::actorId, taskActorIds)
+            .remove()
     }
 
     override fun cascadeRemoveByInstanceId(instanceId: String) {
@@ -293,7 +362,7 @@ internal open class TaskServiceImpl(
         return flowTask
     }
 
-    protected fun undoHisTask(
+    protected fun undoHistoryTask(
         flowHistoryTaskId: String,
         flowOperator: FlowOperator,
         callback: Consumer<FlowHistoryTask>? = null,
@@ -319,5 +388,57 @@ internal open class TaskServiceImpl(
                 flowTaskActorMapper.insertBatch(it)
             }
         return flowTask
+    }
+
+    protected fun saveTask(
+        flowTask: FlowTask,
+        performType: PerformType,
+        flowTaskActorList: Collection<FlowTaskActor>,
+        flowExecution: FlowExecution? = null,
+    ): List<FlowTask> {
+        flowTask.performType = performType
+        if (performType == PerformType.UNKNOWN) {
+            flowTask.variable =
+                flowExecution
+                    ?.variable
+                    .toJsonString()
+                    .defaultIfBlank("{}")
+            flowTaskMapper.insert(flowTask)
+
+            flowTaskActorList
+                .forEach {
+                    assignTask(flowTask.instanceId, flowTask.taskId, it)
+                }
+            return listOf(flowTask)
+        }
+
+        flowTaskActorList.flowThrowIfNullOrEmpty("任务参与者不能为空")
+        if (performType == PerformType.OR_SIGN) {
+            flowTaskMapper.insert(flowTask)
+            flowTaskActorList.forEach {
+                assignTask(flowTask.instanceId, flowTask.taskId, it)
+            }
+            //TODO notify
+            return listOf(flowTask)
+        }
+
+        if (performType == PerformType.SORT) {
+            flowTaskMapper.insert(flowTask)
+            assignTask(
+                flowTask.instanceId,
+                flowTask.taskId,
+                flowExecution?.nextFlowTaskActor ?: flowTaskActorList.first()
+            )
+            //TODO notify
+            return listOf(flowTask)
+        }
+
+        return flowTaskActorList.map {
+            val newFlowTask = FlowTask()
+            flowTaskMapper.insert(newFlowTask)
+            assignTask(newFlowTask.instanceId, newFlowTask.taskId, it)
+            //TODO notify
+            it.copyToNotNull(newFlowTask)
+        }
     }
 }

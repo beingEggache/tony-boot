@@ -4,7 +4,7 @@ import com.tony.flow.FlowContext
 import com.tony.flow.db.enums.ProcessState
 import com.tony.flow.db.mapper.FlowProcessMapper
 import com.tony.flow.db.po.FlowProcess
-import com.tony.flow.extension.flowListThrowIfEmpty
+import com.tony.flow.extension.flowListThrowIfNullOrEmpty
 import com.tony.flow.extension.flowOneNotNull
 import com.tony.flow.extension.flowThrowIf
 import com.tony.flow.extension.flowThrowIfNull
@@ -57,7 +57,7 @@ internal class ProcessServiceImpl(
                 .eq(FlowProcess::processName, processModel.name)
                 .orderByDesc(FlowProcess::processVersion)
                 .last("limit 1")
-                .flowListThrowIfEmpty()
+                .flowListThrowIfNullOrEmpty()
                 .firstOrNull()
                 .flowThrowIfNull()
                 .let {

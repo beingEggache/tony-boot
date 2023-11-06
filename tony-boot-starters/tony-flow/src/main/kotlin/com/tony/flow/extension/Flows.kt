@@ -7,7 +7,7 @@ import com.tony.flow.exception.FlowException
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.wrapper.TonyChainQuery
 import com.tony.utils.throwIf
-import com.tony.utils.throwIfEmpty
+import com.tony.utils.throwIfNullOrEmpty
 import com.tony.utils.throwIfNull
 import java.io.Serializable
 
@@ -35,11 +35,11 @@ internal fun <T> T?.flowThrowIfNull(
 }
 
 @JvmOverloads
-internal fun <C : Collection<T>, T : Any?> C?.flowThrowIfEmpty(
+internal fun <C : Collection<T>, T : Any?> C?.flowThrowIfNullOrEmpty(
     message: String = ApiProperty.notFoundMessage,
     code: Int = ApiProperty.notFoundCode,
 ): C =
-    throwIfEmpty(message, code, ::FlowException)
+    throwIfNullOrEmpty(message, code, ::FlowException)
 
 /**
  * 根据id查询，为null 将会抛错
@@ -49,7 +49,7 @@ internal fun <C : Collection<T>, T : Any?> C?.flowThrowIfEmpty(
  * @date 2023/09/13 10:38
  * @since 1.0.0
  */
-internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(id: Serializable): T =
+internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(id: Serializable?): T =
     selectById(id).throwIfNull(ex = ::FlowException)
 
 /**
@@ -62,7 +62,7 @@ internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(id: Serializable): T =
  * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
-    id: Serializable,
+    id: Serializable?,
     message: String = ApiProperty.notFoundMessage,
 ): T =
     selectById(id).throwIfNull(message, ex = ::FlowException)
@@ -107,5 +107,5 @@ internal fun <T : Any> TonyChainQuery<T>.flowOneNotNull(message: String = ApiPro
  * @date 2023/11/06 11:19
  * @since 1.0.0
  */
-internal fun <T : Any> TonyChainQuery<T>.flowListThrowIfEmpty(message: String = ApiProperty.notFoundMessage): List<T> =
-    listThrowIfEmpty(message, ::FlowException)
+internal fun <T : Any> TonyChainQuery<T>.flowListThrowIfNullOrEmpty(message: String = ApiProperty.notFoundMessage): List<T> =
+    listThrowIfNullOrEmpty(message, ::FlowException)

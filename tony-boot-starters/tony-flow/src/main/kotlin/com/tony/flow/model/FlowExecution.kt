@@ -28,9 +28,9 @@ public class FlowExecution {
 
     public var childFlowInstanceId: Long? = null
 
-    public val args: MutableMap<String, Any?> = HashMap()
+    public val variable: MutableMap<String, Any?> = HashMap()
 
-    public var creatorId: Long? = null
+    public var creatorId: String? = null
 
     public var creatorName: String? = null
 
@@ -56,7 +56,7 @@ public class FlowExecution {
         this.flowProcess = flowProcess
         this.flowInstance = flowInstance
         this
-            .args
+            .variable
             .putAll(args)
     }
 
@@ -68,8 +68,8 @@ public class FlowExecution {
         this.flowEngine = flowExecution.flowEngine
         this.flowProcess = flowProcess
         this
-            .args
-            .putAll(flowExecution.args)
+            .variable
+            .putAll(flowExecution.variable)
         this.parentFlowInstance = flowExecution.flowInstance
         this.parentNodeName = parentNodeName
         this.creatorId = flowExecution.creatorId

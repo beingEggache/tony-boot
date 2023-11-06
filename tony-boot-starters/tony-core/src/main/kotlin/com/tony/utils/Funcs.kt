@@ -111,7 +111,30 @@ public fun <T> T?.throwIfNull(
  * @since 1.0.0
  */
 @JvmOverloads
-public fun <C : Collection<T>, T : Any?> C?.throwIfEmpty(
+public fun <C : Collection<T>, T : Any?> C?.throwIfNullOrEmpty(
+    message: String = ApiProperty.notFoundMessage,
+    code: Int = ApiProperty.notFoundCode,
+    ex: (message: String, code: Int) -> BaseException = ::BizException,
+): C {
+    throwIf(isNullOrEmpty(), message, code, ex)
+    return this!!
+}
+/**
+ * 当 [this]? 为 null 或者 空时, 抛出异常.
+ *
+ * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
+ *
+ * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
+ * @param [message] 消息
+ * @param [code] 密码
+ * @param [ex] ex
+ * @return [C]
+ * @author Tang Li
+ * @date 2023/11/06 11:19
+ * @since 1.0.0
+ */
+@JvmOverloads
+public fun <C : CharSequence> C?.throwIfNullOrEmpty(
     message: String = ApiProperty.notFoundMessage,
     code: Int = ApiProperty.notFoundCode,
     ex: (message: String, code: Int) -> BaseException = ::BizException,

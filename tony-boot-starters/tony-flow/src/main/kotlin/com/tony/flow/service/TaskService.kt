@@ -78,7 +78,7 @@ public interface TaskService {
      * @date 2023/10/10 11:05
      * @since 1.0.0
      */
-    public fun taskTimeout(taskId: String): Boolean
+    public fun taskExpired(taskId: String): Boolean
 
     /**
      * 认领任务.
@@ -302,7 +302,7 @@ public interface TaskService {
      * 添加任务参与者【加签】
      * @param [taskId] 任务id
      * @param [performType] 执行类型
-     * @param [taskActors] 流历史任务参与者
+     * @param [flowHistoryTaskActors] 流历史任务参与者
      * @return [Boolean]
      * @author Tang Li
      * @date 2023/10/25 10:25
@@ -311,7 +311,7 @@ public interface TaskService {
     public fun addTaskActor(
         taskId: String,
         performType: PerformType,
-        taskActors: List<FlowHistoryTaskActor>,
+        flowHistoryTaskActors: List<FlowHistoryTaskActor>,
     ): Boolean
 
     /**
@@ -335,7 +335,6 @@ public interface TaskService {
      * 删除任务参与者【减签】
      * @param [taskId] 任务id
      * @param [taskActorIds] 任务参与者ID
-     * @return [Boolean]
      * @author Tang Li
      * @date 2023/10/25 10:27
      * @since 1.0.0
@@ -343,13 +342,12 @@ public interface TaskService {
     public fun removeTaskActor(
         taskId: String,
         taskActorIds: Collection<String>,
-    ): Boolean
+    ): Unit
 
     /**
      * 删除任务参与者【减签】
      * @param [taskId] 任务id
      * @param [taskActorId] 流历史任务参与者
-     * @return [Boolean]
      * @author Tang Li
      * @date 2023/10/25 10:25
      * @since 1.0.0
@@ -357,7 +355,7 @@ public interface TaskService {
     public fun removeTaskActor(
         taskId: String,
         taskActorId: String,
-    ): Boolean =
+    ): Unit =
         removeTaskActor(taskId, setOf(taskActorId))
 
     /**

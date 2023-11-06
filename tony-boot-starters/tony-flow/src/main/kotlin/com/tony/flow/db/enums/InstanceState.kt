@@ -26,7 +26,7 @@ public enum class InstanceState(
     /**
      * 超时
      */
-    TIMEOUT(3),
+    EXPIRED(3),
 
     /**
      * 终止

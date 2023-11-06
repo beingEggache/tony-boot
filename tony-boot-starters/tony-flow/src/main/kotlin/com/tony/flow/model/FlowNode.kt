@@ -114,7 +114,7 @@ public class FlowNode : FlowModel {
         flowExecution: FlowExecution,
     ) {
         if (conditionNodes.isNotEmpty()) {
-            val args = flowExecution.args
+            val args = flowExecution.variable
             flowThrowIf(args.isEmpty(), "Execution parameter cannot be empty")
             val conditionNode =
                 conditionNodes

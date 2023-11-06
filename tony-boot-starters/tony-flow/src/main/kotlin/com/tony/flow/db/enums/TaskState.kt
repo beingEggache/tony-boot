@@ -30,7 +30,7 @@ public enum class TaskState(
     /**
      * 超时
      */
-    TIMEOUT(4),
+    EXPIRED(4),
 
     /**
      * 终止

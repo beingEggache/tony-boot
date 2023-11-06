@@ -52,7 +52,7 @@ public enum class EventType(
     /**
      * 超时.
      */
-    TIMEOUT(8),
+    EXPIRED(8),
     ;
 
     internal companion object : EnumCreator<EventType, Int>(EventType::class.java) {

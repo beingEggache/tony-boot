@@ -32,7 +32,7 @@ import com.tony.exception.BaseException
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
 import com.tony.utils.throwIf
-import com.tony.utils.throwIfEmpty
+import com.tony.utils.throwIfNullOrEmpty
 import com.tony.utils.throwIfNull
 import org.apache.ibatis.exceptions.TooManyResultsException
 
@@ -141,8 +141,8 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/11/06 11:19
      * @since 1.0.0
      */
-    public fun listThrowIfEmpty(message: String): List<T> =
-        list().throwIfEmpty(message)
+    public fun listThrowIfNullOrEmpty(message: String): List<T> =
+        list().throwIfNullOrEmpty(message)
 
     /**
      * 当 [list] 为 null 或者 空时, 抛出异常.
@@ -155,11 +155,11 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/11/06 11:19
      * @since 1.0.0
      */
-    public fun listThrowIfEmpty(
+    public fun listThrowIfNullOrEmpty(
         message: String,
         ex: (message: String, code: Int) -> BaseException,
     ): List<T> =
-        list().throwIfEmpty(message, ex = ex)
+        list().throwIfNullOrEmpty(message, ex = ex)
 
     /**
      * 分页查询出全局统一结构.

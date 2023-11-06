@@ -44,7 +44,7 @@ import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyQueryChainWrapper
 import com.tony.utils.isTypesOrSubTypesOf
-import com.tony.utils.throwIfEmpty
+import com.tony.utils.throwIfNullOrEmpty
 import com.tony.utils.throwIfNull
 import com.tony.utils.toPage
 import com.tony.utils.toPageResult
@@ -179,7 +179,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         code: Int = ApiProperty.notFoundCode,
         ex: (message: String, code: Int) -> BaseException = ::BizException,
     ): List<E> =
-        selectObjs<E>(queryWrapper).throwIfEmpty(message, code, ex)
+        selectObjs<E>(queryWrapper).throwIfNullOrEmpty(message, code, ex)
 
     /**
      * 根据 entity 条件，查询所有记录.
@@ -200,7 +200,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         code: Int = ApiProperty.notFoundCode,
         ex: (message: String, code: Int) -> BaseException = ::BizException,
     ): List<Map<String, Any?>> =
-        selectMaps(queryWrapper).throwIfEmpty(message, code, ex)
+        selectMaps(queryWrapper).throwIfNullOrEmpty(message, code, ex)
 
     /**
      * TableId 注解存在更新记录，否插入一条记录

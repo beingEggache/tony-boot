@@ -11,7 +11,7 @@ public interface FlowExpression {
      * eval
      * @param [type] 类型
      * @param [expr] expr 表达式
-     * @param [args] args 参数
+     * @param [args] variable 参数
      * @return [T]?
      * @author Tang Li
      * @date 2023/10/19 10:13
