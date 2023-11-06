@@ -31,7 +31,7 @@ package com.tony.web.filter
  * @since 1.0.0
  */
 import com.tony.utils.antPathMatchAny
-import com.tony.utils.doIf
+import com.tony.utils.applyIf
 import com.tony.utils.sanitizedPath
 import com.tony.web.WebApp
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
@@ -124,7 +124,7 @@ public class RepeatReadRequestWrapper
                 request
                     .contentLength
                     .coerceAtLeast(0)
-            ).doIf(!isFormPost()) {
+            ).applyIf(!isFormPost()) {
                 writeBytes(
                     request
                         .inputStream

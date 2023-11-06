@@ -25,7 +25,7 @@
 package com.tony.redis
 
 import com.tony.exception.ApiException
-import com.tony.utils.doIf
+import com.tony.utils.alsoIf
 import com.tony.utils.secureRandom
 import java.util.Collections
 import java.util.Date
@@ -78,7 +78,7 @@ public object RedisManager {
                 logger.error(e.message, e)
                 redisConnection
                     .isQueueing
-                    .doIf { redisConnection.discard() }
+                    .alsoIf { redisConnection.discard() }
                 throw e
             } finally {
                 RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
@@ -107,7 +107,7 @@ public object RedisManager {
             } catch (e: Throwable) {
                 redisConnection
                     .isQueueing
-                    .doIf { redisConnection.discard() }
+                    .alsoIf { redisConnection.discard() }
                 throw e
             } finally {
                 RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)

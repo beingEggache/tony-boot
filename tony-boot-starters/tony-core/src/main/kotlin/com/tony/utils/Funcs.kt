@@ -36,17 +36,63 @@ import com.tony.ApiProperty
 import com.tony.exception.BaseException
 import com.tony.exception.BizException
 
+public fun <T> T?.ifNull(default: T): T =
+    this ?: default
+
 @JvmSynthetic
-public inline fun Boolean.doIf(crossinline block: () -> Unit) {
+public inline fun <reified T> T?.ifNull(crossinline block: () -> T): T =
+    this ?: block()
+
+@JvmSynthetic
+public inline fun <T> Boolean.runIf(crossinline block: () -> T?): T? =
+    if (this) {
+        block()
+    } else {
+        null
+    }
+
+@JvmSynthetic
+public inline fun Boolean.alsoIf(crossinline block: () -> Unit) {
     if (this) block()
 }
 
 @JvmSynthetic
-public inline fun <T> T.doIf(
+public inline fun <T, R> T.runIf(
+    condition: Boolean,
+    crossinline block: T.() -> R,
+): R? =
+    if (condition) {
+        block()
+    } else {
+        null
+    }
+
+@JvmSynthetic
+public inline fun <T, R> T.letIf(
+    condition: Boolean,
+    crossinline block: (T) -> R,
+): R? =
+    if (condition) {
+        block(this)
+    } else {
+        null
+    }
+
+@JvmSynthetic
+public inline fun <T> T.applyIf(
     condition: Boolean,
     crossinline block: T.() -> Unit,
 ): T {
     if (condition) block()
+    return this
+}
+
+@JvmSynthetic
+public inline fun <T> T.alsoIf(
+    condition: Boolean,
+    crossinline block: (T) -> Unit,
+): T {
+    if (condition) block(this)
     return this
 }
 
@@ -111,7 +157,7 @@ public fun <T> T?.throwIfNull(
  * @since 1.0.0
  */
 @JvmOverloads
-public fun <C : Collection<T>, T : Any?> C?.throwIfNullOrEmpty(
+public fun <C : Collection<T>, T : Any?> C?.throwIfEmpty(
     message: String = ApiProperty.notFoundMessage,
     code: Int = ApiProperty.notFoundCode,
     ex: (message: String, code: Int) -> BaseException = ::BizException,
@@ -119,6 +165,7 @@ public fun <C : Collection<T>, T : Any?> C?.throwIfNullOrEmpty(
     throwIf(isNullOrEmpty(), message, code, ex)
     return this!!
 }
+
 /**
  * 当 [this]? 为 null 或者 空时, 抛出异常.
  *
@@ -142,24 +189,3 @@ public fun <C : CharSequence> C?.throwIfNullOrEmpty(
     throwIf(isNullOrEmpty(), message, code, ex)
     return this!!
 }
-
-@JvmSynthetic
-public inline fun <R> throwIfAndReturn(
-    condition: Boolean,
-    message: String,
-    crossinline block: () -> R,
-): R {
-    if (condition) throw BizException(message)
-    return block()
-}
-
-@JvmSynthetic
-public inline fun <T, R> T?.throwIfNullAndReturn(
-    message: String,
-    crossinline block: () -> R,
-): R =
-    throwIfAndReturn(this == null, message, block)
-
-@JvmSynthetic
-public inline fun <reified T> T?.returnIfNull(crossinline block: () -> T): T =
-    this ?: block()

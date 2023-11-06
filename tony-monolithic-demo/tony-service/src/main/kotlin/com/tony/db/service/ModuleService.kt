@@ -9,10 +9,10 @@ import com.tony.dto.enums.ModuleType
 import com.tony.dto.resp.ModuleResp
 import com.tony.dto.resp.RouteAndComponentModuleResp
 import com.tony.dto.trait.listAndSetChildren
+import com.tony.extension.throwIfAndReturn
 import com.tony.utils.copyTo
-import com.tony.utils.defaultIfBlank
+import com.tony.utils.ifNullOrBlank
 import com.tony.utils.throwIf
-import com.tony.utils.throwIfAndReturn
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -95,7 +95,7 @@ class ModuleService(
             .eq(Module::appId, appId)
             .list()
             .filter { !it.moduleGroup.isNullOrEmpty() }
-            .flatMap { it.moduleGroup.defaultIfBlank().split(",") }
+            .flatMap { it.moduleGroup.ifNullOrBlank().split(",") }
             .distinct()
 
     fun listByRoleId(roleId: String) =
@@ -108,10 +108,10 @@ class ModuleService(
 
     private fun Module.toDto() =
         ModuleResp(
-            moduleId.defaultIfBlank(),
-            moduleName.defaultIfBlank(),
-            moduleValue.defaultIfBlank(),
+            moduleId.ifNullOrBlank(),
+            moduleName.ifNullOrBlank(),
+            moduleValue.ifNullOrBlank(),
             moduleType,
-            moduleGroup.defaultIfBlank()
+            moduleGroup.ifNullOrBlank()
         )
 }

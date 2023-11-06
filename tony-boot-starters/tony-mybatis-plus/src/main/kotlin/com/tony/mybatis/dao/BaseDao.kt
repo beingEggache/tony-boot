@@ -44,7 +44,7 @@ import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyQueryChainWrapper
 import com.tony.utils.isTypesOrSubTypesOf
-import com.tony.utils.throwIfNullOrEmpty
+import com.tony.utils.throwIfEmpty
 import com.tony.utils.throwIfNull
 import com.tony.utils.toPage
 import com.tony.utils.toPageResult
@@ -161,6 +161,19 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         selectOne(queryWrapper).throwIfNull(message, code, ex)
 
     /**
+     * 根据 entity 条件，查询全部记录
+     *
+     * @param queryWrapper 实体对象封装操作类（可以为 null）
+     */
+    public fun selectListThrowIfEmpty(
+        @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
+        message: String = ApiProperty.notFoundMessage,
+        code: Int = ApiProperty.notFoundCode,
+        ex: (message: String, code: Int) -> BaseException = ::BizException,
+    ): List<T> =
+        selectList(queryWrapper).throwIfEmpty(message, code, ex)
+
+    /**
      * 根据 entity 条件，查询一条记录.
      *
      * 注意： 只返回第一个字段的值.
@@ -173,13 +186,13 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/11/06 14:12
      * @since 1.0.0
      */
-    public fun <E> selectObjsIfEmpty(
+    public fun <E> selectObjsThrowIfEmpty(
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
         message: String = ApiProperty.notFoundMessage,
         code: Int = ApiProperty.notFoundCode,
         ex: (message: String, code: Int) -> BaseException = ::BizException,
     ): List<E> =
-        selectObjs<E>(queryWrapper).throwIfNullOrEmpty(message, code, ex)
+        selectObjs<E>(queryWrapper).throwIfEmpty(message, code, ex)
 
     /**
      * 根据 entity 条件，查询所有记录.
@@ -194,13 +207,13 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/11/06 14:12
      * @since 1.0.0
      */
-    public fun selectMapsIfEmpty(
+    public fun selectMapsThrowIfEmpty(
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
         message: String = ApiProperty.notFoundMessage,
         code: Int = ApiProperty.notFoundCode,
         ex: (message: String, code: Int) -> BaseException = ::BizException,
     ): List<Map<String, Any?>> =
-        selectMaps(queryWrapper).throwIfNullOrEmpty(message, code, ex)
+        selectMaps(queryWrapper).throwIfEmpty(message, code, ex)
 
     /**
      * TableId 注解存在更新记录，否插入一条记录
@@ -395,8 +408,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         TonyLambdaQueryChainWrapper(this)
 
     /**
-     * 链式查询 普通
-     * kotlin 使用
+     * 链式查询 普通.
+     * 仅支持 Kotlin.
      * @return [TonyKtQueryChainWrapper]
      * @author Tang Li
      * @date 2023/09/13 10:39
@@ -407,8 +420,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         TonyKtQueryChainWrapper(this)
 
     /**
-     * 链式查询 lambda 式
-     * kotlin 使用
+     * 链式更改 lambda 式.
+     * 仅支持 Kotlin.
      * @return [KtUpdateChainWrapper]
      * @author Tang Li
      * @date 2023/09/13 10:39
@@ -419,7 +432,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         ChainWrappers.ktUpdateChain(this, getEntityClass())
 
     /**
-     * 链式更改 普通
+     * 链式更改 普通.
      * @return [UpdateChainWrapper]
      * @author Tang Li
      * @date 2023/09/13 10:40
@@ -429,7 +442,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         ChainWrappers.updateChain(this)
 
     /**
-     * 链式更改 lambda 式
+     * 链式更改 lambda 式.
      * <p>注意：不支持 Kotlin </p>
      * @return [LambdaUpdateChainWrapper]
      * @author Tang Li

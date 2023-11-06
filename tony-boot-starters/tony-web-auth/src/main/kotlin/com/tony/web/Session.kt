@@ -31,8 +31,8 @@ package com.tony.web
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.tony.jwt.JwtToken
-import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
+import com.tony.utils.ifNullOrBlank
 import com.tony.web.WebContext.getOrPut
 import com.tony.web.exception.UnauthorizedException
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
@@ -68,7 +68,7 @@ internal class JwtApiSession : ApiSession {
                         WebContext
                             .request
                             .getHeader("x-token")
-                            .defaultIfBlank()
+                            .ifNullOrBlank()
                     )
                 } catch (e: JWTVerificationException) {
                     logger.warn(e.message, e)

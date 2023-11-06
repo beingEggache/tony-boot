@@ -1,7 +1,7 @@
 package com.tony.dto.trait
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.tony.utils.defaultIfBlank
+import com.tony.utils.ifNullOrBlank
 
 /**
  *
@@ -21,11 +21,11 @@ fun <T : TreeLike<T>> List<T>.listAndSetChildren(): List<T> =
 
 interface TreeLike<T : TreeLike<T>> {
     fun isMyChild(otherCode: String?) =
-        Regex("^$code-$CODE_PATTERN_STR$").matches(otherCode.defaultIfBlank())
+        Regex("^$code-$CODE_PATTERN_STR$").matches(otherCode.ifNullOrBlank())
 
     @JsonIgnore
     fun isAncestor() =
-        ancestorPattern.matches(code.defaultIfBlank())
+        ancestorPattern.matches(code.ifNullOrBlank())
 
     @get:JsonIgnore
     val code: String?

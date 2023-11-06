@@ -27,8 +27,8 @@ package com.tony.wechat.pay
 import com.tony.SpringContexts
 import com.tony.digest.md5
 import com.tony.exception.ApiException
-import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
+import com.tony.utils.ifNullOrBlank
 import com.tony.utils.toString
 import com.tony.wechat.WechatPropProvider
 import com.tony.wechat.client.WechatPayClient
@@ -126,7 +126,7 @@ public object WechatPayManager {
                 "total_fee=${notifyRequest.totalFee}&" +
                 "trade_type=${notifyRequest.tradeType}&" +
                 "transaction_id=${notifyRequest.transactionId}&" +
-                "key=${wechatPropProvider.getMchSecretKey(app.defaultIfBlank())}"
+                "key=${wechatPropProvider.getMchSecretKey(app.ifNullOrBlank())}"
 
         return deepLink.md5().uppercase() == notifyRequest.sign
     }

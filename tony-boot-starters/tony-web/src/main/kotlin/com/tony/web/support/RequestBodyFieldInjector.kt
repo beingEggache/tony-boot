@@ -26,9 +26,9 @@ package com.tony.web.support
 
 import com.tony.annotation.web.support.InjectRequestBodyField
 import com.tony.utils.annotationFromSelfOrGetterOrSetter
-import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
 import com.tony.utils.getter
+import com.tony.utils.ifNullOrBlank
 import com.tony.utils.setValueFirstUseSetter
 import com.tony.web.support.RequestBodyFieldInjectorComposite.Companion.fieldOverrideMap
 import java.lang.reflect.Field
@@ -98,5 +98,5 @@ public abstract class RequestBodyFieldInjector(
     override fun toString(): String =
         this::class.java
             .simpleName
-            .defaultIfBlank("RequestBodyFieldInjector") + "($name)"
+            .ifNullOrBlank("RequestBodyFieldInjector") + "($name)"
 }

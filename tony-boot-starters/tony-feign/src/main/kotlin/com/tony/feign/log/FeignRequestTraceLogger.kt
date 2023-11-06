@@ -35,8 +35,8 @@ import com.tony.feign.isTextMediaTypes
 import com.tony.feign.okhttp.interceptor.NetworkInterceptor
 import com.tony.feign.parsedMedia
 import com.tony.feign.string
-import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
+import com.tony.utils.ifNullOrBlank
 import com.tony.utils.mdcPutOrGetDefault
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toInstant
@@ -128,7 +128,7 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val query =
             url
                 .query
-                .defaultIfBlank("[null]")
+                .ifNullOrBlank("[null]")
         val requestHeaders =
             request
                 .headers

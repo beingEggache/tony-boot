@@ -115,9 +115,23 @@ public inline fun <reified T> CharSequence.queryStringToObj(): T =
  * @return
  */
 @JvmOverloads
-public fun CharSequence?.defaultIfBlank(default: String = ""): String =
+public fun CharSequence?.ifNullOrBlank(default: String = ""): String =
     if (this.isNullOrBlank()) {
         default
+    } else {
+        this.toString()
+    }
+
+/**
+ * 当字符串为Null 或者空字符串时 提供默认值.
+ *
+ * @param block
+ * @return
+ */
+@JvmSynthetic
+public inline fun CharSequence?.ifNullOrBlank(crossinline block: () -> String): String =
+    if (this.isNullOrBlank()) {
+        block()
     } else {
         this.toString()
     }
@@ -154,7 +168,7 @@ public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
  */
 @JvmOverloads
 public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
-    URLEncoder.encode(defaultIfBlank(), charset)
+    URLEncoder.encode(ifNullOrBlank(), charset)
 
 /**
  * Decodes an application/x-www-form-urlencoded string using a specific Charset.
@@ -163,7 +177,7 @@ public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
  */
 @JvmOverloads
 public fun CharSequence?.urlDecode(charset: Charset = Charsets.UTF_8): String =
-    URLDecoder.decode(defaultIfBlank(), charset)
+    URLDecoder.decode(ifNullOrBlank(), charset)
 
 private val lineBreakRegex = Regex("[\\n\\r]+")
 
@@ -180,7 +194,7 @@ private val antPathMatcher = AntPathMatcher()
  * @see AntPathMatcher.match
  */
 public fun CharSequence?.antPathMatchAny(patterns: Collection<String>?): Boolean =
-    patterns?.any { antPathMatcher.match(it, defaultIfBlank()) } ?: false
+    patterns?.any { antPathMatcher.match(it, ifNullOrBlank()) } ?: false
 
 private val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
 private val snakeRegex = "_[a-zA-Z]".toRegex()

@@ -13,7 +13,7 @@ import com.tony.gateway.USER_ID_HEADER_NAME
 import com.tony.gateway.config.GatewayRouteConfigProperties
 import com.tony.gateway.utils.jsonBody
 import com.tony.jwt.JwtToken
-import com.tony.utils.defaultIfBlank
+import com.tony.utils.ifNullOrBlank
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
@@ -38,7 +38,7 @@ class GlobalTokenCheckFilter(
         val request = exchange.request
         val token =
             try {
-                JwtToken.parse(request.headers.getFirst(TOKEN_HEADER_NAME).defaultIfBlank())
+                JwtToken.parse(request.headers.getFirst(TOKEN_HEADER_NAME).ifNullOrBlank())
             } catch (e: JWTVerificationException) {
                 null
             } ?: return exchange.response.jsonBody(ApiResult("请登录", ApiProperty.unauthorizedCode))

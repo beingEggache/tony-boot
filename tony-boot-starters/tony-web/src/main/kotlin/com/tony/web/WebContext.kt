@@ -28,8 +28,8 @@ import com.tony.ApiResult
 import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.exception.BaseException
 import com.tony.utils.asTo
-import com.tony.utils.defaultIfBlank
-import com.tony.utils.returnIfNull
+import com.tony.utils.ifNull
+import com.tony.utils.ifNullOrBlank
 import com.tony.web.utils.headers
 import com.tony.web.utils.origin
 import com.tony.web.utils.remoteIp
@@ -95,7 +95,7 @@ public object WebContext {
 
     @JvmStatic
     public fun getHeader(name: String?): String =
-        headers[name].defaultIfBlank()
+        headers[name].ifNullOrBlank()
 
     @JvmStatic
     public val origin: String
@@ -119,7 +119,7 @@ public object WebContext {
 
     @JvmSynthetic
     public fun BaseException.toResponse(): ApiResult<*> =
-        ApiResult(EMPTY_RESULT, code, message.defaultIfBlank())
+        ApiResult(EMPTY_RESULT, code, message.ifNullOrBlank())
 
     internal val response: HttpServletResponse?
         @JvmSynthetic
@@ -151,7 +151,7 @@ public object WebContext {
             current
                 .getAttribute("errorAttribute", SCOPE_REQUEST)
                 .asTo<Map<String, Any?>>()
-                .returnIfNull {
+                .ifNull {
                     val errorAttributes =
                         WebApp
                             .errorAttributes

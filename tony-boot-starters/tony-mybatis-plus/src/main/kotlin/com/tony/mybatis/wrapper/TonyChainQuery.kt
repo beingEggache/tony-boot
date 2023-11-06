@@ -32,7 +32,6 @@ import com.tony.exception.BaseException
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
 import com.tony.utils.throwIf
-import com.tony.utils.throwIfNullOrEmpty
 import com.tony.utils.throwIfNull
 import org.apache.ibatis.exceptions.TooManyResultsException
 
@@ -134,6 +133,17 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     /**
      * 当 [list] 为 null 或者 空时, 抛出异常.
      *
+     * @return [list]
+     * @author Tang Li
+     * @date 2023/11/06 11:19
+     * @since 1.0.0
+     */
+    public fun listThrowIfEmpty(): List<T> =
+        baseMapper.selectListThrowIfEmpty(wrapper)
+
+    /**
+     * 当 [list] 为 null 或者 空时, 抛出异常.
+     *
      * 异常信息为 [message]
      * @param [message] 消息
      * @return [list]
@@ -141,8 +151,8 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/11/06 11:19
      * @since 1.0.0
      */
-    public fun listThrowIfNullOrEmpty(message: String): List<T> =
-        list().throwIfNullOrEmpty(message)
+    public fun listThrowIfEmpty(message: String): List<T> =
+        baseMapper.selectListThrowIfEmpty(wrapper, message)
 
     /**
      * 当 [list] 为 null 或者 空时, 抛出异常.
@@ -155,11 +165,11 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/11/06 11:19
      * @since 1.0.0
      */
-    public fun listThrowIfNullOrEmpty(
+    public fun listThrowIfEmpty(
         message: String,
         ex: (message: String, code: Int) -> BaseException,
     ): List<T> =
-        list().throwIfNullOrEmpty(message, ex = ex)
+        baseMapper.selectListThrowIfEmpty(wrapper, message, ex = ex)
 
     /**
      * 分页查询出全局统一结构.
@@ -199,6 +209,18 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 当 [listObj] 为 null 或者 空时, 抛出异常.
      *
      * 注意： 只返回第一个字段的值.
+     * @return [List<E?>]
+     * @author Tang Li
+     * @date 2023/10/23 14:48
+     * @since 1.0.0
+     */
+    public fun <E> listObjThrowIfEmpty(): List<E?> =
+        baseMapper.selectObjsThrowIfEmpty<E>(wrapper)
+
+    /**
+     * 当 [listObj] 为 null 或者 空时, 抛出异常.
+     *
+     * 注意： 只返回第一个字段的值.
      * @param [message] 消息
      * @return [List<E?>]
      * @author Tang Li
@@ -206,7 +228,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @since 1.0.0
      */
     public fun <E> listObjThrowIfEmpty(message: String): List<E?> =
-        baseMapper.selectObjsIfEmpty<E>(wrapper, message)
+        baseMapper.selectObjsThrowIfEmpty<E>(wrapper, message)
 
     /**
      * 当 [listObj] 为 null 或者 空时, 抛出异常.
@@ -223,7 +245,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
         message: String,
         ex: (message: String, code: Int) -> BaseException,
     ): List<E?> =
-        baseMapper.selectObjsIfEmpty<E>(wrapper, message, ex = ex)
+        baseMapper.selectObjsThrowIfEmpty<E>(wrapper, message, ex = ex)
 
     /**
      * 查询单条记录.
@@ -305,7 +327,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @since 1.0.0
      */
     public fun listMapThrowIfEmpty(): List<Map<String, Any?>> =
-        baseMapper.selectMapsIfEmpty(wrapper)
+        baseMapper.selectMapsThrowIfEmpty(wrapper)
 
     /**
      * 当 [listMap] 为 null 或者 空时, 抛出异常.
@@ -316,7 +338,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @since 1.0.0
      */
     public fun listMapThrowIfEmpty(message: String): List<Map<String, Any?>> =
-        baseMapper.selectMapsIfEmpty(wrapper, message)
+        baseMapper.selectMapsThrowIfEmpty(wrapper, message)
 
     /**
      * 当 [listMap] 为 null 或者 空时, 抛出异常.
@@ -331,7 +353,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
         message: String,
         ex: (message: String, code: Int) -> BaseException,
     ): List<Map<String, Any?>> =
-        baseMapper.selectMapsIfEmpty(wrapper, message, ex = ex)
+        baseMapper.selectMapsThrowIfEmpty(wrapper, message, ex = ex)
 
     /**
      * 查询单条记录.

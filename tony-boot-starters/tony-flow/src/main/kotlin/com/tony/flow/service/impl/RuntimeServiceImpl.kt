@@ -14,6 +14,7 @@ import com.tony.flow.service.TaskService
 import com.tony.utils.copyToNotNull
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
+import org.springframework.transaction.annotation.Transactional
 
 /**
  * RuntimServiceImpl is
@@ -21,7 +22,7 @@ import java.time.LocalDateTime
  * @date 2023/10/26 15:44
  * @since 1.0.0
  */
-internal class RuntimeServiceImpl(
+internal open class RuntimeServiceImpl(
     private val flowInstanceMapper: FlowInstanceMapper,
     private val flowHistoryInstanceMapper: FlowHistoryInstanceMapper,
     private val flowTaskMapper: FlowTaskMapper,
@@ -43,6 +44,7 @@ internal class RuntimeServiceImpl(
             this.variable = variable?.toJsonString() ?: "{}"
         }
 
+    @Transactional(rollbackFor = [Throwable::class])
     override fun complete(instanceId: String?) {
         val flowHistoryInstance =
             FlowHistoryInstance().apply {
@@ -55,6 +57,7 @@ internal class RuntimeServiceImpl(
         // TODO Notify
     }
 
+    @Transactional(rollbackFor = [Throwable::class])
     override fun saveInstance(flowInstance: FlowInstance) {
         flowInstanceMapper.insert(flowInstance)
         val flowHistoryInstance =
@@ -65,6 +68,7 @@ internal class RuntimeServiceImpl(
         // TODO Notify
     }
 
+    @Transactional(rollbackFor = [Throwable::class])
     override fun terminate(
         instanceId: String,
         flowOperator: FlowOperator,

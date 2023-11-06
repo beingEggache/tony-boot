@@ -32,7 +32,7 @@ package com.tony.web.utils
  * @author Tang Li
  * @date 2023/5/25 10:42
  */
-import com.tony.utils.doIf
+import com.tony.utils.applyIf
 import com.tony.web.WebContext
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -231,7 +231,7 @@ public fun ByteArray.responseEntity(
     ResponseEntity
         .ok()
         .contentType(contentType)
-        .doIf(MediaType.APPLICATION_OCTET_STREAM == contentType) {
+        .applyIf(MediaType.APPLICATION_OCTET_STREAM == contentType) {
             val httpHeaders =
                 HttpHeaders().apply {
                     contentDisposition =

@@ -10,10 +10,10 @@ import com.tony.dto.req.RoleAssignReq
 import com.tony.dto.req.RoleCreateReq
 import com.tony.dto.req.RoleUpdateReq
 import com.tony.exception.BizException
-import com.tony.utils.defaultIfBlank
+import com.tony.extension.throwIfAndReturn
+import com.tony.extension.throwIfNullAndReturn
+import com.tony.utils.ifNullOrBlank
 import com.tony.utils.throwIf
-import com.tony.utils.throwIfAndReturn
-import com.tony.utils.throwIfNullAndReturn
 import jakarta.validation.Valid
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -89,7 +89,7 @@ class RoleService(
     fun assignModule(req: ModuleAssignReq) {
         val moduleIdList =
             moduleDao.selectByModuleGroups(req.moduleGroupList).map {
-                it.moduleId.defaultIfBlank()
+                it.moduleId.ifNullOrBlank()
             }
         throwIf(!moduleIdList.any(), "没找到对应模块:${req.moduleGroupList.joinToString()}")
 

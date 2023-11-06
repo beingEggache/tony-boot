@@ -48,7 +48,7 @@ public fun mdcPutOrGetDefault(
     default: String = uuid(),
     source: (() -> String?)? = null,
 ): String {
-    val sourceTraceId = source?.invoke().defaultIfBlank(MDC.get(key).defaultIfBlank(default))
+    val sourceTraceId = source?.invoke().ifNullOrBlank(MDC.get(key).ifNullOrBlank(default))
     MDC.put(key, sourceTraceId)
     return sourceTraceId
 }
