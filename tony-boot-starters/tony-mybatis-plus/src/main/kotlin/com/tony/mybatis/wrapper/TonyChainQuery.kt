@@ -28,9 +28,11 @@ import com.baomidou.mybatisplus.extension.conditions.query.ChainQuery
 import com.tony.ApiProperty
 import com.tony.JPageQueryLike
 import com.tony.PageResultLike
+import com.tony.exception.BaseException
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
 import com.tony.utils.throwIf
+import com.tony.utils.throwIfEmpty
 import com.tony.utils.throwIfNull
 import org.apache.ibatis.exceptions.TooManyResultsException
 
@@ -44,6 +46,16 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
 
     /**
      * 查询单条记录.为 null 时抛错.
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/10/23 14:50
+     * @since 1.0.0
+     */
+    public fun oneNotNull(): T =
+        baseMapper.selectOneNotNull(wrapper)
+
+    /**
+     * 查询单条记录.为 null 时抛错.
      * @param [message] 默认为 [ApiProperty.notFoundMessage]
      * @return [T]
      * @author Tang Li
@@ -51,21 +63,21 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @since 1.0.0
      */
     public fun oneNotNull(message: String): T =
-        baseMapper
-            .selectOne(wrapper)
-            .throwIfNull(message, ApiProperty.notFoundCode)
+        baseMapper.selectOneNotNull(wrapper, message)
 
     /**
      * 查询单条记录.为 null 时抛错.
+     * @param [message] 默认为 [ApiProperty.notFoundMessage]
      * @return [T]
      * @author Tang Li
      * @date 2023/10/23 14:50
      * @since 1.0.0
      */
-    public fun oneNotNull(): T =
-        baseMapper
-            .selectOne(wrapper)
-            .throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
+    public fun oneNotNull(
+        message: String,
+        ex: (message: String, code: Int) -> BaseException,
+    ): T =
+        baseMapper.selectOneNotNull(wrapper, message, ex = ex)
 
     /**
      * 查询某个条件是否存在, 存在就抛错.
@@ -79,6 +91,21 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     }
 
     /**
+     * 查询某个条件是否存在, 存在就抛错.
+     * @param [message] 消息
+     * @param [ex] 异常类型
+     * @author Tang Li
+     * @date 2023/10/23 14:49
+     * @since 1.0.0
+     */
+    public fun throwIfExists(
+        message: String,
+        ex: (message: String, code: Int) -> BaseException,
+    ) {
+        throwIf(exists(), message, ApiProperty.notFoundCode)
+    }
+
+    /**
      * 查询某个条件是否不存在, 不存在就抛错.
      * @param [message] 消息
      * @author Tang Li
@@ -88,6 +115,51 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     public fun throwIfNotExists(message: String) {
         throwIf(!exists(), message, ApiProperty.notFoundCode)
     }
+
+    /**
+     * 查询某个条件是否不存在, 不存在就抛错.
+     * @param [message] 消息
+     * @param [ex] 异常类型
+     * @author Tang Li
+     * @date 2023/10/23 14:49
+     * @since 1.0.0
+     */
+    public fun throwIfNotExists(
+        message: String,
+        ex: (message: String, code: Int) -> BaseException,
+    ) {
+        throwIf(!exists(), message, ApiProperty.notFoundCode)
+    }
+
+    /**
+     * 当 [list] 为 null 或者 空时, 抛出异常.
+     *
+     * 异常信息为 [message]
+     * @param [message] 消息
+     * @return [list]
+     * @author Tang Li
+     * @date 2023/11/06 11:19
+     * @since 1.0.0
+     */
+    public fun listThrowIfEmpty(message: String): List<T> =
+        list().throwIfEmpty(message)
+
+    /**
+     * 当 [list] 为 null 或者 空时, 抛出异常.
+     *
+     * 异常信息为 [message]
+     * @param [message] 消息
+     * @param [ex] 异常类型
+     * @return [list]
+     * @author Tang Li
+     * @date 2023/11/06 11:19
+     * @since 1.0.0
+     */
+    public fun listThrowIfEmpty(
+        message: String,
+        ex: (message: String, code: Int) -> BaseException,
+    ): List<T> =
+        list().throwIfEmpty(message, ex = ex)
 
     /**
      * 分页查询出全局统一结构.
@@ -124,6 +196,36 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
         baseMapper.selectObjs<E>(wrapper)
 
     /**
+     * 当 [listObj] 为 null 或者 空时, 抛出异常.
+     *
+     * 注意： 只返回第一个字段的值.
+     * @param [message] 消息
+     * @return [List<E?>]
+     * @author Tang Li
+     * @date 2023/10/23 14:48
+     * @since 1.0.0
+     */
+    public fun <E> listObjThrowIfEmpty(message: String): List<E?> =
+        baseMapper.selectObjsIfEmpty<E>(wrapper, message)
+
+    /**
+     * 当 [listObj] 为 null 或者 空时, 抛出异常.
+     *
+     * 注意： 只返回第一个字段的值.
+     * @param [message] 消息
+     * @param [ex] 异常类型
+     * @return [List<E?>]
+     * @author Tang Li
+     * @date 2023/10/23 14:48
+     * @since 1.0.0
+     */
+    public fun <E> listObjThrowIfEmpty(
+        message: String,
+        ex: (message: String, code: Int) -> BaseException,
+    ): List<E?> =
+        baseMapper.selectObjsIfEmpty<E>(wrapper, message, ex = ex)
+
+    /**
      * 查询单条记录.
      *
      * 查询一条记录，限制取一条记录, 注意：多条数据会报异常.
@@ -150,6 +252,16 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
 
     /**
      * 查询单条记录.为 null 时抛错.
+     * @return [E]
+     * @author Tang Li
+     * @date 2023/10/23 14:47
+     * @since 1.0.0
+     */
+    public fun <E> oneObjNotNull(): E =
+        oneObj<E>().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
+
+    /**
+     * 查询单条记录.为 null 时抛错.
      * @param [message] 消息
      * @return [E]
      * @author Tang Li
@@ -161,13 +273,18 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
 
     /**
      * 查询单条记录.为 null 时抛错.
+     * @param [message] 消息
+     * @param [ex] 异常类型
      * @return [E]
      * @author Tang Li
-     * @date 2023/10/23 14:47
+     * @date 2023/10/23 14:46
      * @since 1.0.0
      */
-    public fun <E> oneObjNotNull(): E =
-        oneObj<E>().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
+    public fun <E> oneObjNotNull(
+        message: String,
+        ex: (message: String, code: Int) -> BaseException,
+    ): E =
+        oneObj<E>().throwIfNull(message, ApiProperty.notFoundCode, ex = ex)
 
     /**
      * 查询全部记录.
@@ -178,6 +295,43 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      */
     public fun listMap(): List<Map<String, Any?>> =
         baseMapper.selectMaps(wrapper)
+
+    /**
+     * 当 [listMap] 为 null 或者 空时, 抛出异常.
+     *
+     * @return [List]
+     * @author Tang Li
+     * @date 2023/10/23 14:50
+     * @since 1.0.0
+     */
+    public fun listMapThrowIfEmpty(): List<Map<String, Any?>> =
+        baseMapper.selectMapsIfEmpty(wrapper)
+
+    /**
+     * 当 [listMap] 为 null 或者 空时, 抛出异常.
+     * @param [message] 消息
+     * @return [List]
+     * @author Tang Li
+     * @date 2023/10/23 14:50
+     * @since 1.0.0
+     */
+    public fun listMapThrowIfEmpty(message: String): List<Map<String, Any?>> =
+        baseMapper.selectMapsIfEmpty(wrapper, message)
+
+    /**
+     * 当 [listMap] 为 null 或者 空时, 抛出异常.
+     * @param [message] 消息
+     * @param [ex] 异常类型
+     * @return [List]
+     * @author Tang Li
+     * @date 2023/10/23 14:50
+     * @since 1.0.0
+     */
+    public fun listMapThrowIfEmpty(
+        message: String,
+        ex: (message: String, code: Int) -> BaseException,
+    ): List<Map<String, Any?>> =
+        baseMapper.selectMapsIfEmpty(wrapper, message, ex = ex)
 
     /**
      * 查询单条记录.
@@ -203,6 +357,16 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
 
     /**
      * one map 不为空
+     * @return [Map<String, Any?>]
+     * @author Tang Li
+     * @date 2023/09/13 10:41
+     * @since 1.0.0
+     */
+    public fun oneMapNotNull(): Map<String, Any?> =
+        oneMap().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
+
+    /**
+     * one map 不为空
      * @param [message] 消息
      * @return [Map<String, Any>]
      * @author Tang Li
@@ -214,13 +378,18 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
 
     /**
      * one map 不为空
-     * @return [Map<String, Any?>]
+     * @param [message] 消息
+     * @param [ex] 异常类型
+     * @return [Map<String, Any>]
      * @author Tang Li
-     * @date 2023/09/13 10:41
+     * @date 2023/09/13 10:40
      * @since 1.0.0
      */
-    public fun oneMapNotNull(): Map<String, Any?> =
-        oneMap().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
+    public fun oneMapNotNull(
+        message: String,
+        ex: (message: String, code: Int) -> BaseException,
+    ): Map<String, Any?> =
+        oneMap().throwIfNull(message, ApiProperty.notFoundCode, ex = ex)
 
     override fun getEntityClass(): Class<T> =
         baseMapper.getEntityClass()

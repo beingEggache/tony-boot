@@ -163,7 +163,7 @@ public interface TaskService {
     public fun reclaimTask(
         taskId: String,
         flowOperator: FlowOperator,
-    ): FlowTask?
+    ): FlowTask
 
     /**
      * 撤回任务

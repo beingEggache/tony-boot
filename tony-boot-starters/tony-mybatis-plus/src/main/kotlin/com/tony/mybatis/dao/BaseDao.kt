@@ -38,10 +38,13 @@ import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers
 import com.tony.ApiProperty
 import com.tony.JPageQueryLike
 import com.tony.PageResultLike
+import com.tony.exception.BaseException
+import com.tony.exception.BizException
 import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyQueryChainWrapper
 import com.tony.utils.isTypesOrSubTypesOf
+import com.tony.utils.throwIfEmpty
 import com.tony.utils.throwIfNull
 import com.tony.utils.toPage
 import com.tony.utils.toPageResult
@@ -88,6 +91,23 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 根据id查询，为null 将会抛错
      * @param [id] id
      * @param [message] 消息
+     * @param [ex] 异常类型
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/09/13 10:38
+     * @since 1.0.0
+     */
+    public fun selectByIdNotNull(
+        id: Serializable,
+        message: String = ApiProperty.notFoundMessage,
+        ex: (message: String, code: Int) -> BaseException,
+    ): T =
+        selectById(id).throwIfNull(message, ex = ex)
+
+    /**
+     * 根据id查询，为null 将会抛错
+     * @param [id] id
+     * @param [message] 消息
      * @param [code] 密码
      * @return [T]
      * @author Tang Li
@@ -100,6 +120,87 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         code: Int = ApiProperty.notFoundCode,
     ): T =
         selectById(id).throwIfNull(message, code)
+
+    /**
+     * 根据id查询，为null 将会抛错
+     * @param [id] id
+     * @param [message] 消息
+     * @param [code] 密码
+     * @param [ex] 异常类型
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/09/13 10:38
+     * @since 1.0.0
+     */
+    public fun selectByIdNotNull(
+        id: Serializable,
+        message: String = ApiProperty.notFoundMessage,
+        code: Int = ApiProperty.notFoundCode,
+        ex: (message: String, code: Int) -> BaseException,
+    ): T =
+        selectById(id).throwIfNull(message, code, ex)
+
+    /**
+     * 根据 entity 条件，查询一条记录.
+     *
+     * @param [queryWrapper] 查询包装器
+     * @param [message] 消息
+     * @param [code] 密码
+     * @param [ex] ex
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/11/06 14:03
+     * @since 1.0.0
+     */
+    public fun selectOneNotNull(
+        @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
+        message: String = ApiProperty.notFoundMessage,
+        code: Int = ApiProperty.notFoundCode,
+        ex: (message: String, code: Int) -> BaseException = ::BizException,
+    ): T =
+        selectOne(queryWrapper).throwIfNull(message, code, ex)
+
+    /**
+     * 根据 entity 条件，查询一条记录.
+     *
+     * 注意： 只返回第一个字段的值.
+     * @param [queryWrapper] 查询包装器
+     * @param [message] 消息
+     * @param [code] 密码
+     * @param [ex] ex
+     * @return [List]List<E>
+     * @author Tang Li
+     * @date 2023/11/06 14:12
+     * @since 1.0.0
+     */
+    public fun <E> selectObjsIfEmpty(
+        @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
+        message: String = ApiProperty.notFoundMessage,
+        code: Int = ApiProperty.notFoundCode,
+        ex: (message: String, code: Int) -> BaseException = ::BizException,
+    ): List<E> =
+        selectObjs<E>(queryWrapper).throwIfEmpty(message, code, ex)
+
+    /**
+     * 根据 entity 条件，查询所有记录.
+     *
+     * 注意： 只返回第一个字段的值.
+     * @param [queryWrapper] 查询包装器
+     * @param [message] 消息
+     * @param [code] 密码
+     * @param [ex] ex
+     * @return [List] List<Map<String, Any?>>
+     * @author Tang Li
+     * @date 2023/11/06 14:12
+     * @since 1.0.0
+     */
+    public fun selectMapsIfEmpty(
+        @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
+        message: String = ApiProperty.notFoundMessage,
+        code: Int = ApiProperty.notFoundCode,
+        ex: (message: String, code: Int) -> BaseException = ::BizException,
+    ): List<Map<String, Any?>> =
+        selectMaps(queryWrapper).throwIfEmpty(message, code, ex)
 
     /**
      * TableId 注解存在更新记录，否插入一条记录

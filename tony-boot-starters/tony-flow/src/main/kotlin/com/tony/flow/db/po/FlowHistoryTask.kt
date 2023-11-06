@@ -3,6 +3,9 @@ package com.tony.flow.db.po
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.flow.db.enums.TaskState
+import com.tony.flow.model.FlowOperator
+import com.tony.utils.copyToNotNull
+import java.time.LocalDateTime
 
 /**
  * 历史任务
@@ -18,4 +21,11 @@ public class FlowHistoryTask : FlowTask() {
      */
     @TableField(value = "task_state")
     public var taskState: TaskState? = null
+
+    public fun undo(flowOperator: FlowOperator): FlowTask =
+        copyToNotNull(FlowTask()).apply {
+            creatorId = flowOperator.operatorId
+            creatorName = flowOperator.operatorName
+            createTime = LocalDateTime.now()
+        }
 }
