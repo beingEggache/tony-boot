@@ -54,4 +54,10 @@ public open class FlowTaskActor {
      */
     @TableField(value = "actor_type")
     public var actorType: ActorType? = null
+
+    /**
+     * 票签权重
+     */
+    @TableField(value = "weight")
+    public var weight: Int? = null
 }

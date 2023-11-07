@@ -18,7 +18,7 @@ internal interface FlowTaskActorMapper : BaseDao<FlowTaskActor> {
      * @date 2023/09/28 17:48
      * @since 1.0.0
      */
-    fun selectListByTaskId(taskId: String): List<FlowTaskActor> =
+    fun selectListByTaskId(taskId: String?): List<FlowTaskActor> =
         ktQuery()
             .eq(FlowTaskActor::taskId, taskId)
             .list()
@@ -31,7 +31,7 @@ internal interface FlowTaskActorMapper : BaseDao<FlowTaskActor> {
      * @date 2023/09/28 17:42
      * @since 1.0.0
      */
-    fun deleteByTaskId(taskId: String): Boolean =
+    fun deleteByTaskId(taskId: String?): Boolean =
         delete(ktQuery().eq(FlowTaskActor::taskId, taskId)) > 0
 
     /**

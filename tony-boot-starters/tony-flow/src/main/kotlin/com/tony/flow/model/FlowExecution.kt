@@ -34,7 +34,7 @@ public class FlowExecution {
 
     public var creatorName: String? = null
 
-    public var currentFlowTask: FlowTask? = null
+    public var flowTask: FlowTask? = null
 
     public val flowTaskList: MutableList<FlowTask> = mutableListOf()
 

@@ -23,7 +23,7 @@ public fun interface TaskPermission {
      * @since 1.0.0
      */
     public fun hasPermission(
-        userId: Long,
+        userId: String?,
         taskActorList: List<FlowTaskActor>,
     ): Boolean
 }

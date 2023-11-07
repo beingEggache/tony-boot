@@ -64,6 +64,22 @@ internal open class TaskServiceImpl(
             variable
         )
 
+    override fun completeActiveTasksByInstanceId(
+        instanceId: Long?,
+        flowOperator: FlowOperator,
+    ): Boolean {
+        flowTaskMapper
+            .ktQuery()
+            .eq(FlowTask::instanceId, instanceId)
+            .list()
+            .forEach {
+                if (!moveToHistoryTask(it, TaskState.TERMINATE, flowOperator)) {
+                    return false
+                }
+            }
+        return true
+    }
+
     override fun updateTaskById(flowTask: FlowTask) {
         flowTaskMapper.updateById(flowTask)
         // TODO notify
@@ -231,23 +247,41 @@ internal open class TaskServiceImpl(
         flowTask: FlowTask,
         userId: String?,
     ): Boolean {
-        TODO("Not yet implemented")
+        if (flowTask.creatorId.isNullOrEmpty()) {
+            return true
+        }
+
+        if (userId.isNullOrEmpty()) {
+            return true
+        }
+        val flowTaskActorList =
+            flowTaskActorMapper.selectListByTaskId(flowTask.taskId)
+
+        if (flowTaskActorList.isEmpty()) {
+            return true
+        }
+
+        return taskPermission.hasPermission(userId, flowTaskActorList)
     }
 
     override fun createTask(
         flowNode: FlowNode?,
         flowExecution: FlowExecution,
     ): List<FlowTask> {
-        FlowTask().apply {
-            this.creatorId = flowExecution.creatorId
-            this.creatorName = flowExecution.creatorName
-            this.createTime = LocalDateTime.now()
-            this.instanceId = flowExecution.flowInstance?.instanceId
-            this.taskName = flowNode?.nodeName
-            this.displayName = flowNode?.nodeName
-            // TODO ?
-            this.taskType = TaskType.create(flowNode?.nodeType?.value!!)
-        }
+        val flowTask =
+            FlowTask().apply {
+                this.creatorId = flowExecution.creatorId
+                this.creatorName = flowExecution.creatorName
+                this.createTime = LocalDateTime.now()
+                this.instanceId = flowExecution.flowInstance?.instanceId
+                this.taskName = flowNode?.nodeName
+                this.displayName = flowNode?.nodeName
+                // TODO ?
+                this.taskType = TaskType.create(flowNode?.nodeType?.value!!)
+                this.parentTaskId = flowExecution.flowTask?.taskId
+            }
+
+        flowExecution.taskActorProvider.getTaskActors(flowNode, flowExecution)
 
         TODO("Not yet implemented")
     }
@@ -348,26 +382,49 @@ internal open class TaskServiceImpl(
     ): FlowTask {
         val flowTask = flowTaskMapper.flowSelectByIdNotNull(taskId, "指定的任务不存在")
         flowTask.variable = variable.toJsonString().ifNullOrBlank("{}")
-        val flowHistoryTask =
-            flowTask.copyToNotNull(FlowHistoryTask()).apply {
-                finishTime = LocalDateTime.now()
-                this.taskState = taskState
-                this.creatorId = flowOperator.operatorId
-                this.creatorName = flowOperator.operatorName
-            }
-        flowHistoryTaskMapper.insert(flowHistoryTask)
-        flowTaskActorMapper
-            .selectListByTaskId(taskId)
-            .map {
-                it.copyToNotNull(FlowHistoryTaskActor())
-            }.apply {
-                flowHistoryTaskActorMapper.insertBatch(this)
-            }
-        flowTaskActorMapper.deleteByTaskId(taskId)
-        flowTaskMapper.deleteById(taskId)
 
+        flowThrowIf(
+            !hasPermission(flowTask, flowOperator.operatorId),
+            "当前参与者 [${flowOperator.operatorName}]不允许执行任务[taskId=$taskId]"
+        )
+
+        moveToHistoryTask(flowTask, taskState, flowOperator)
         // TODO notify
         return flowTask
+    }
+
+    protected fun moveToHistoryTask(
+        flowTask: FlowTask,
+        taskState: TaskState,
+        flowOperator: FlowOperator,
+    ): Boolean {
+        val flowHistoryTask =
+            flowTask.copyToNotNull(FlowHistoryTask())
+                .apply {
+                    finishTime = LocalDateTime.now()
+                    this.taskState = taskState
+                    this.creatorId = flowOperator.operatorId
+                    this.creatorName = flowOperator.operatorName
+                }
+
+        flowThrowIf(
+            (flowHistoryTaskMapper.insert(flowHistoryTask) <= 0),
+            "Migration to FlowHistoryTask table failed"
+        )
+        flowTaskActorMapper
+            .selectListByTaskId(flowTask.taskId)
+            .forEach {
+                flowThrowIf(
+                    (flowHistoryTaskActorMapper
+                        .insert(it.copyToNotNull(FlowHistoryTaskActor())) <= 0),
+                    "Migration to FlowHistoryTaskActor table failed"
+                )
+            }
+        flowThrowIf(
+            !flowTaskActorMapper.deleteByTaskId(flowTask.taskId),
+            "Delete FlowTaskActor table failed"
+        )
+        return flowTaskMapper.deleteById(flowTask) > 0
     }
 
     protected fun undoHistoryTask(

@@ -86,6 +86,11 @@ public class FlowNode : FlowModel {
     public var multiStageManagerMode: MultiStageManagerMode? = null
 
     /**
+     * 通过权重（ 所有分配任务权重之和大于该值即通过，默认 50 ）
+     */
+    public var passWeight: Int = 50
+
+    /**
      * 条件节点
      */
     public var conditionNodes: MutableList<FlowConditionNode> = mutableListOf()

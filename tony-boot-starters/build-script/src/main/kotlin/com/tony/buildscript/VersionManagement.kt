@@ -13,7 +13,7 @@ object VersionManagement  {
     const val POSTGRESQL_VERSION = "42.6.0"
     const val MYSQL_VERSION = "8.2.0"
     const val HIKARI_CP_VERSION = "5.1.0"
-    const val MYBATIS_PLUS_VERSION = "3.5.4"
+    const val MYBATIS_PLUS_VERSION = "3.5.4.1"
     const val MYBATIS_VERSION = "3.5.14"
     const val MYBATIS_SPRING_VERSION = "3.0.2"
     const val LETTUCE_CORE_VERSION = "6.2.6.RELEASE"

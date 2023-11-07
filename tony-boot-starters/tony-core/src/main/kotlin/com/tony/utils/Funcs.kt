@@ -36,13 +36,40 @@ import com.tony.ApiProperty
 import com.tony.exception.BaseException
 import com.tony.exception.BizException
 
+/**
+ * 如果为null, 提供默认值.
+ * @receiver [T]?
+ * @param [default] 默认值
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/11/07 11:38
+ * @since 1.0.0
+ */
 public fun <T> T?.ifNull(default: T): T =
     this ?: default
 
+/**
+ * 如果为null, 通过回调[block]提供默认值.
+ * @receiver [T]?
+ * @param [block] 回调
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/11/07 11:39
+ * @since 1.0.0
+ */
 @JvmSynthetic
 public inline fun <reified T> T?.ifNull(crossinline block: () -> T): T =
     this ?: block()
 
+/**
+ * 如果条件[this]为真,  执行回调[block]. 并返回回调函数值.
+ * @receiver [Boolean]
+ * @param [block] 回调
+ * @return [T?]
+ * @author Tang Li
+ * @date 2023/11/07 11:39
+ * @since 1.0.0
+ */
 @JvmSynthetic
 public inline fun <T> Boolean.runIf(crossinline block: () -> T?): T? =
     if (this) {
@@ -51,11 +78,28 @@ public inline fun <T> Boolean.runIf(crossinline block: () -> T?): T? =
         null
     }
 
+/**
+ * 如果条件为真,  执行回调[block].
+ * @receiver [Boolean] 条件.
+ * @param [block] 回调.
+ * @author Tang Li
+ * @date 2023/11/07 11:41
+ * @since 1.0.0
+ */
 @JvmSynthetic
 public inline fun Boolean.alsoIf(crossinline block: () -> Unit) {
     if (this) block()
 }
 
+/**
+ * 如果条件[condition]为真,  执行回调[block]. 并返回回调函数值.
+ * @param [condition] 条件
+ * @param [block] 块
+ * @return [R]?
+ * @author Tang Li
+ * @date 2023/11/07 11:41
+ * @since 1.0.0
+ */
 @JvmSynthetic
 public inline fun <T, R> T.runIf(
     condition: Boolean,
@@ -67,6 +111,15 @@ public inline fun <T, R> T.runIf(
         null
     }
 
+/**
+ * 如果条件[condition]为真,  执行回调[block]. 并返回回调函数值.
+ * @param [condition] 条件
+ * @param [block] 块
+ * @return [R]?
+ * @author Tang Li
+ * @date 2023/11/07 11:41
+ * @since 1.0.0
+ */
 @JvmSynthetic
 public inline fun <T, R> T.letIf(
     condition: Boolean,
@@ -78,6 +131,15 @@ public inline fun <T, R> T.letIf(
         null
     }
 
+/**
+ * 如果条件[condition]为真,  执行回调[block]. 并返回自身.
+ * @param [condition] 条件
+ * @param [block] 块
+ * @return [this]?
+ * @author Tang Li
+ * @date 2023/11/07 11:41
+ * @since 1.0.0
+ */
 @JvmSynthetic
 public inline fun <T> T.applyIf(
     condition: Boolean,
@@ -87,6 +149,15 @@ public inline fun <T> T.applyIf(
     return this
 }
 
+/**
+ * 如果条件[condition]为真,  执行回调[block]. 并返回自身.
+ * @param [condition] 条件
+ * @param [block] 块
+ * @return [this]?
+ * @author Tang Li
+ * @date 2023/11/07 11:41
+ * @since 1.0.0
+ */
 @JvmSynthetic
 public inline fun <T> T.alsoIf(
     condition: Boolean,

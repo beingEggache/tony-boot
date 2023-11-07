@@ -21,7 +21,7 @@ public fun interface FlowTaskActorProvider {
      * @since 1.0.0
      */
     public fun getTaskActors(
-        flowNode: FlowNode,
+        flowNode: FlowNode?,
         flowExecution: FlowExecution,
     ): List<FlowTaskActor>
 }

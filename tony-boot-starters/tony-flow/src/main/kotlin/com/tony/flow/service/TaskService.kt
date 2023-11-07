@@ -47,6 +47,21 @@ public interface TaskService {
     ): FlowTask =
         complete(taskId, flowOperator, null)
 
+
+    /**
+     * 完成指定实例ID活动任务
+     * @param [instanceId] 实例id
+     * @param [flowOperator] 任务完成者
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/11/07 14:08
+     * @since 1.0.0
+     */
+    public fun completeActiveTasksByInstanceId(
+        instanceId: Long?,
+        flowOperator: FlowOperator,
+    ): Boolean
+
     /**
      * 按id更新任务
      * @param [flowTask] 任务
