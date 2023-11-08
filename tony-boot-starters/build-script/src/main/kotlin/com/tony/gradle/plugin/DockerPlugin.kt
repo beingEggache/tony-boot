@@ -1,6 +1,7 @@
-package com.tony.buildscript
+package com.tony.gradle.plugin
 
 import com.palantir.gradle.docker.DockerExtension
+import com.tony.gradle.getImageNameFromProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Exec

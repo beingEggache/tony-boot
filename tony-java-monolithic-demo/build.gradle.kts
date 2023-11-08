@@ -1,24 +1,17 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.KaptDeps
-import com.tony.buildscript.addTestDependencies
-import com.tony.buildscript.getProfile
-import com.tony.buildscript.projectGroup
+import com.tony.gradle.Deps
+import com.tony.gradle.KaptDeps
+import com.tony.gradle.addTestDependencies
+import com.tony.gradle.getProfile
+import com.tony.gradle.projectGroup
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 
 plugins {
-    idea
     id("io.freefair.lombok") version "8.4"
 }
 
 val javaVersion: String by project
 
 // copyProjectHookToGitHook(rootDir.parentFile, "pre-commit", "pre-push")
-
-idea.project {
-    jdkName = javaVersion
-    languageLevel = IdeaLanguageLevel(JavaVersion.toVersion(javaVersion))
-    vcs = "Git"
-}
 
 configure(subprojects) {
     group = projectGroup
@@ -38,18 +31,18 @@ configure(subprojects) {
     apply {
         plugin("org.gradle.java-library")
         plugin("io.freefair.lombok")
-        plugin("com.tony.build.dep-configurations")
+        plugin("com.tony.gradle.plugin.dep-configurations")
     }
 
-    tasks.withType<Javadoc>().configureEach {
+    tasks.withType<Javadoc> {
         this.enabled = false
-     }
+    }
 
     configure<JavaPluginExtension> {
         toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
     }
 
-    tasks.withType<JavaCompile>().configureEach {
+    tasks.withType<JavaCompile> {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
         options.encoding = "UTF-8"
@@ -78,7 +71,7 @@ configure(subprojects) {
         addTestDependencies()
     }
 
-    tasks.named<Test>("test") {
+    tasks.withType<Test> {
         useJUnitPlatform()
     }
 }

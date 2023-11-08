@@ -1,7 +1,7 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.getProfile
+import com.tony.gradle.Deps
+import com.tony.gradle.getProfile
 
-apply(plugin = "com.tony.build.docker")
+apply(plugin = "com.tony.gradle.plugin.docker")
 dependencies {
     val profile = getProfile()
     //while execute gradle task, use -Pprofile=prod

@@ -399,7 +399,8 @@ internal open class TaskServiceImpl(
         flowOperator: FlowOperator,
     ): Boolean {
         val flowHistoryTask =
-            flowTask.copyToNotNull(FlowHistoryTask())
+            flowTask
+                .copyToNotNull(FlowHistoryTask())
                 .apply {
                     finishTime = LocalDateTime.now()
                     this.taskState = taskState
@@ -415,8 +416,10 @@ internal open class TaskServiceImpl(
             .selectListByTaskId(flowTask.taskId)
             .forEach {
                 flowThrowIf(
-                    (flowHistoryTaskActorMapper
-                        .insert(it.copyToNotNull(FlowHistoryTaskActor())) <= 0),
+                    (
+                        flowHistoryTaskActorMapper
+                            .insert(it.copyToNotNull(FlowHistoryTaskActor())) <= 0
+                    ),
                     "Migration to FlowHistoryTaskActor table failed"
                 )
             }

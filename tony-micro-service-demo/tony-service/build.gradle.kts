@@ -1,4 +1,4 @@
-import com.tony.buildscript.Deps
+import com.tony.gradle.Deps
 apply(plugin = "kotlin-spring")
 dependencies {
 

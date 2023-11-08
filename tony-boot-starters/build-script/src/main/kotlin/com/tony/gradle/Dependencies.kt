@@ -1,6 +1,6 @@
 @file:Suppress("unused", "SpellCheckingInspection", "ConstPropertyName")
 
-package com.tony.buildscript
+package com.tony.gradle
 
 const val projectGroup = "com.tony"
 const val projectPrefix = "tony"

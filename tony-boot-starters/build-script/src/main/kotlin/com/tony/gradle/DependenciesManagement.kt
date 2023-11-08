@@ -1,6 +1,6 @@
 @file:Suppress("unused", "SpellCheckingInspection", "ConstPropertyName")
 
-package com.tony.buildscript
+package com.tony.gradle
 
 import java.lang.reflect.Modifier
 import kotlin.reflect.KClass
@@ -232,11 +232,12 @@ internal object DepsManagement {
     }
 }
 
-private fun KClass<*>.staticFieldValues() = this.java.declaredFields.filter {
-    it.name != "INSTANCE" && Modifier.isStatic(it.modifiers)
-}.map {
-    it.get(null).toString()
-}
+private fun KClass<*>.staticFieldValues() =
+    this.java.declaredFields.filter {
+        it.name != "INSTANCE" && Modifier.isStatic(it.modifiers)
+    }.map {
+        it.get(null).toString()
+    }
 
 fun DependencyConstraintHandlerScope.addDepsManagement() {
     DepsManagement::class.nestedClasses.flatMap {
@@ -248,5 +249,4 @@ fun DependencyConstraintHandlerScope.addDepsManagement() {
 
 fun DependencyHandler.addTestDependencies(configuration: String = "testImplementation") {
     add(configuration, Deps.Test.springBootStarterTest)
-    add(configuration, Deps.Test.kotlinTest)
 }

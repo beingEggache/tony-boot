@@ -1,6 +1,8 @@
 @file:Suppress("ConstPropertyName")
 
-package com.tony.buildscript
+package com.tony.gradle
+
+import com.tony.gradle.VersionManagement
 
 object KaptDeps {
 

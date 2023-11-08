@@ -1,5 +1,5 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.addTestDependencies
+import com.tony.gradle.Deps
+import com.tony.gradle.addTestDependencies
 
 dependencies {
     api(Deps.Kotlin.stdlib)
@@ -14,6 +14,4 @@ dependencies {
 
     implementation(Deps.Other.bcprovJdk18On)
     compileOnly(Deps.Other.findbugsJsr305)
-
-    addTestDependencies()
 }

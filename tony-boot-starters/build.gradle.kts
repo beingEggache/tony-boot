@@ -1,20 +1,20 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.KaptDeps
-import com.tony.buildscript.VersionManagement
-import com.tony.buildscript.addDepsManagement
-import com.tony.buildscript.addTestDependencies
-import com.tony.buildscript.projectGroup
-import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import com.tony.gradle.KaptDeps
+import com.tony.gradle.VersionManagement
+import com.tony.gradle.addTestDependencies
+import com.tony.gradle.projectGroup
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    id("com.tony.build.dep-configurations") apply false
-    idea
+    id("com.tony.gradle.plugin.build")
 }
 
-configure(allprojects) {
+val projectPrefix: String by project
+val dependenciesProject = project("$projectPrefix-dependencies")
+val libraryProjects = subprojects - dependenciesProject
+
+configure(subprojects) {
     group = projectGroup
     version = VersionManagement.TEMPLATE_VERSION
     repositories {
@@ -29,51 +29,42 @@ configure(allprojects) {
         maven(url = "https://maven.aliyun.com/repository/public")
         mavenCentral()
     }
+    tasks.withType<Jar> {
+        manifest {
+            attributes["Implementation-Title"] = project.name
+            attributes["Implementation-Version"] = project.version
+        }
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 }
 
 val javaVersion: String by project
 // copyProjectHookToGitHook(rootDir.parentFile,"pre-commit", "pre-push")
-idea.project {
-    jdkName = javaVersion
-    languageLevel = IdeaLanguageLevel(JavaVersion.toVersion(javaVersion))
-    vcs = "Git"
-}
 
-configure(listOf(rootProject)) {
-
+configure(listOf(dependenciesProject)) {
     ext.set("pom", true)
-
     apply {
         plugin("org.gradle.java-platform")
-        plugin("com.tony.build.maven-publish")
+        plugin("com.tony.gradle.plugin.maven-publish")
     }
-
     configure<JavaPlatformExtension> {
         allowDependencies()
     }
-
-    dependencies {
-        constraints {
-            addDepsManagement()
-        }
-        add("api", platform(Deps.SpringCloudDeps.springCloudDependencies))
-        add("api", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
-    }
 }
-
+val libraries = libs
 val kotlinVersion: String by project
-configure(subprojects) {
+
+configure(libraryProjects) {
 
     apply {
         plugin("kotlin")
         plugin("kotlin-spring")
         plugin("kotlin-kapt")
-        plugin("com.tony.build.ktlint")
-        plugin("com.tony.build.dep-configurations")
-        plugin("com.tony.build.maven-publish")
+        plugin("com.tony.gradle.plugin.ktlint")
+        plugin("com.tony.gradle.plugin.dep-configurations")
+        plugin("com.tony.gradle.plugin.maven-publish")
     }
-
-    tasks.withType<Javadoc>().configureEach {
+    tasks.withType<Javadoc> {
         this.enabled = false
     }
 
@@ -95,17 +86,15 @@ configure(subprojects) {
     }
 
     dependencies {
-        add("implementation", platform(rootProject))
-
-        add("kapt", KaptDeps.SpringBoot.configurationProcessor)
-        add("kapt", KaptDeps.SpringBoot.autoconfigureProcessor)
-        add("kapt", KaptDeps.Spring.contextIndexer)
-
-        add("kaptTest", KaptDeps.Spring.contextIndexer)
+        add("implementation", platform(dependenciesProject))
+        add("kapt", rootProject.libs.springBootConfigurationProcessor)
+        add("kapt", rootProject.libs.springBootAutoconfigureProcessor)
+        add("kapt", rootProject.libs.springContextIndexer)
+        add("kaptTest", rootProject.libs.springContextIndexer)
         addTestDependencies()
     }
 
-    tasks.named<Test>("test") {
+    tasks.withType<Test> {
         useJUnitPlatform()
     }
 }

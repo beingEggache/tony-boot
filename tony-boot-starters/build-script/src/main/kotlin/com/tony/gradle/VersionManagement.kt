@@ -1,4 +1,4 @@
-package com.tony.buildscript
+package com.tony.gradle
 
 object VersionManagement  {
     const val TEMPLATE_VERSION = "0.1-SNAPSHOT"

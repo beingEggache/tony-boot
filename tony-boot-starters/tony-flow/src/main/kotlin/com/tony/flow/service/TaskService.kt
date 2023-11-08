@@ -47,7 +47,6 @@ public interface TaskService {
     ): FlowTask =
         complete(taskId, flowOperator, null)
 
-
     /**
      * 完成指定实例ID活动任务
      * @param [instanceId] 实例id

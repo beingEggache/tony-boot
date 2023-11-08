@@ -1,4 +1,4 @@
-package com.tony.buildscript
+package com.tony.gradle.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -12,6 +12,7 @@ class MavenPublishPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.apply {
             plugin("org.gradle.maven-publish")
+            plugin("org.gradle.version-catalog")
         }
         val isPom = project.extra.has("pom")
 
@@ -53,6 +54,9 @@ class MavenPublishPlugin : Plugin<Project> {
                 } else {
                     register("pom", MavenPublication::class) {
                         from(project.components["javaPlatform"])
+                    }
+                    register("catalog",MavenPublication::class) {
+                        from(project.components["versionCatalog"])
                     }
                 }
             }

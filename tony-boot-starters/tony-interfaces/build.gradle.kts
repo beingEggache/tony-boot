@@ -1,4 +1,4 @@
-import com.tony.buildscript.Deps
+import com.tony.gradle.Deps
 
 dependencies {
     implementation(Deps.Kotlin.stdlib)

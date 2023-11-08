@@ -1,4 +1,4 @@
-package com.tony.buildscript
+package com.tony.gradle.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

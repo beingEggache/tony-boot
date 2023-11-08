@@ -1,4 +1,4 @@
-import com.tony.buildscript.Deps
+import com.tony.gradle.Deps
 dependencies {
     api(Deps.Template.templateCore) { isChanging = true }
     implementation(Deps.Other.mysql)

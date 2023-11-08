@@ -11,8 +11,10 @@ version = "0.1-SNAPSHOT"
 
 val javaVersion: String by project
 
-configure<JavaPluginExtension> {
+java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    withSourcesJar()
+    withJavadocJar()
 }
 
 val kotlinVersion: String by project
@@ -20,7 +22,7 @@ kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
     }
-    compilerOptions  {
+    compilerOptions {
         jvmTarget.set(JvmTarget.fromTarget(javaVersion))
         languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
         verbose.set(true)
@@ -45,24 +47,29 @@ repositories {
 
 gradlePlugin {
     plugins {
-        create("com.tony.build.dep-configurations") {
-            id = "com.tony.build.dep-configurations"
-            implementationClass = "com.tony.buildscript.DependenciesConfigurationsPlugin"
+        create("com.tony.gradle.plugin.build") {
+            id = "com.tony.gradle.plugin.build"
+            implementationClass = "com.tony.gradle.plugin.Build"
         }
 
-        create("com.tony.build.ktlint") {
-            id = "com.tony.build.ktlint"
-            implementationClass = "com.tony.buildscript.KtlintPlugin"
+        create("com.tony.gradle.plugin.dep-configurations") {
+            id = "com.tony.gradle.plugin.dep-configurations"
+            implementationClass = "com.tony.gradle.plugin.DependenciesConfigurationsPlugin"
         }
 
-        create("com.tony.build.maven-publish") {
-            id = "com.tony.build.maven-publish"
-            implementationClass = "com.tony.buildscript.MavenPublishPlugin"
+        create("com.tony.gradle.plugin.ktlint") {
+            id = "com.tony.gradle.plugin.ktlint"
+            implementationClass = "com.tony.gradle.plugin.KtlintPlugin"
         }
 
-        create("com.tony.build.docker") {
-            id = "com.tony.build.docker"
-            implementationClass = "com.tony.buildscript.DockerPlugin"
+        create("com.tony.gradle.plugin.maven-publish") {
+            id = "com.tony.gradle.plugin.maven-publish"
+            implementationClass = "com.tony.gradle.plugin.MavenPublishPlugin"
+        }
+
+        create("com.tony.gradle.plugin.docker") {
+            id = "com.tony.gradle.plugin.docker"
+            implementationClass = "com.tony.gradle.plugin.DockerPlugin"
         }
     }
 }
@@ -71,17 +78,12 @@ dependencies {
     implementation("com.palantir.gradle.docker:gradle-docker:0.35.0")
 }
 
-configure<JavaPluginExtension> {
-    withSourcesJar()
-    withJavadocJar()
-}
-
 val releasesGradleRepoUrl: String by project
 val snapshotsGradleRepoUrl: String by project
 val nexusUsername: String by project
 val nexusPassword: String by project
 
-configure<PublishingExtension> {
+publishing {
     repositories {
         maven {
             name = "privateGradle"

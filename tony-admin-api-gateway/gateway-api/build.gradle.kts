@@ -1,7 +1,7 @@
-import com.tony.buildscript.Deps
+import com.tony.gradle.Deps
 
 apply(plugin = "kotlin-spring")
-apply(plugin = "com.tony.build.docker")
+apply(plugin = "com.tony.gradle.plugin.docker")
 dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")

@@ -1,5 +1,6 @@
-package com.tony.buildscript
+package com.tony.gradle.plugin
 
+import com.tony.gradle.VersionManagement
 import java.util.concurrent.TimeUnit
 import org.gradle.api.Plugin
 import org.gradle.api.Project

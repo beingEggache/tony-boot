@@ -22,8 +22,8 @@ gradle.rootProject {
     }
 }
 val projectPrefix: String by settings
-rootProject.name = "$projectPrefix-dependencies"
-
+rootProject.name = "$projectPrefix-boot-starters"
+include("$projectPrefix-dependencies")
 include("$projectPrefix-aliyun-oss")
 include("$projectPrefix-aliyun-sms")
 include("$projectPrefix-interfaces")

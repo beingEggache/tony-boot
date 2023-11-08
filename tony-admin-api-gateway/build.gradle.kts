@@ -1,26 +1,18 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.KaptDeps
-import com.tony.buildscript.addTestDependencies
-import com.tony.buildscript.projectGroup
-import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import com.tony.gradle.Deps
+import com.tony.gradle.KaptDeps
+import com.tony.gradle.addTestDependencies
+import com.tony.gradle.projectGroup
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    idea
+    base
 }
 
 val javaVersion: String by project
 
 // copyProjectHookToGitHook(rootDir.parentFile, "pre-commit", "pre-push")
-
-idea.project {
-    jdkName = javaVersion
-    languageLevel = IdeaLanguageLevel(JavaVersion.toVersion(javaVersion))
-    vcs = "Git"
-}
-
 val kotlinVersion: String by project
 configure(subprojects) {
     group = projectGroup
@@ -40,11 +32,11 @@ configure(subprojects) {
     apply {
         plugin("kotlin")
         plugin("kotlin-kapt")
-        plugin("com.tony.build.ktlint")
-        plugin("com.tony.build.dep-configurations")
+        plugin("com.tony.gradle.plugin.ktlint")
+        plugin("com.tony.gradle.plugin.dep-configurations")
     }
 
-    tasks.withType<Javadoc>().configureEach {
+    tasks.withType<Javadoc> {
         this.enabled = false
     }
 
@@ -52,7 +44,7 @@ configure(subprojects) {
         jvmToolchain {
             languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         }
-        compilerOptions  {
+        compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(javaVersion))
             languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
             verbose.set(true)
@@ -63,14 +55,13 @@ configure(subprojects) {
             )
         }
     }
-
     dependencies {
         add("implementation", platform(Deps.Template.templateDependencies))
         add("kapt", KaptDeps.Spring.contextIndexer)
         addTestDependencies()
     }
 
-    tasks.named<Test>("test") {
+    tasks.withType<Test> {
         useJUnitPlatform()
     }
 }
