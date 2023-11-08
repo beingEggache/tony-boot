@@ -33,7 +33,7 @@ configure(subprojects) {
         this.enabled = false
     }
 
-    configure<JavaPluginExtension> {
+    extensions.getByType<JavaPluginExtension>().apply {
         toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
     }
 

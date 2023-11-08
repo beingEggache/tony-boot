@@ -6,9 +6,9 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.extra
 import org.gradle.kotlin.dsl.get
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.register
 
@@ -21,7 +21,7 @@ class MavenPublishPlugin : Plugin<Project> {
         val isCatalog = project.extra.has("catalog")
 
         if (!isPom && !isCatalog) {
-            project.configure<JavaPluginExtension> {
+            project.extensions.getByType<JavaPluginExtension>().apply {
                 withSourcesJar()
                 withJavadocJar()
             }
@@ -32,7 +32,7 @@ class MavenPublishPlugin : Plugin<Project> {
         val nexusUsername: String by project
         val nexusPassword: String by project
 
-        project.configure<PublishingExtension> {
+        project.extensions.getByType<PublishingExtension>().apply {
             repositories {
                 maven {
                     name = "private"

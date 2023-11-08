@@ -50,7 +50,7 @@ configure(dependenciesProjects) {
         plugin("org.gradle.java-platform")
         plugin("com.tony.gradle.plugin.maven-publish")
     }
-    configure<JavaPlatformExtension> {
+    extensions.getByType<JavaPlatformExtension>().apply {
         allowDependencies()
     }
 }
@@ -77,12 +77,12 @@ configure(libraryProjects) {
         this.enabled = false
     }
 
-    configure<KotlinJvmProjectExtension> {
+    extensions.getByType<KotlinJvmProjectExtension>().apply {
 
         jvmToolchain {
             languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         }
-        compilerOptions  {
+        compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(javaVersion))
             languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
             verbose.set(true)

@@ -9,7 +9,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Exec
 import org.gradle.configurationcache.extensions.capitalized
-import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 
 class DockerPlugin : Plugin<Project> {
@@ -44,7 +44,7 @@ class DockerPlugin : Plugin<Project> {
 
         lateinit var taskNameList: List<String>
 
-        project.configure<DockerExtension> {
+        project.extensions.getByType<DockerExtension>().apply {
             //final name:my.registry.com/username/my-app:version
             name = "$dockerRegistry/$nameSpace/${imageNameFromProperty}"
             val today = yyyyMMdd.format(Date())

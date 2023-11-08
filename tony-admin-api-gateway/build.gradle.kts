@@ -40,7 +40,7 @@ configure(subprojects) {
         this.enabled = false
     }
 
-    configure<KotlinJvmProjectExtension> {
+    extensions.getByType<KotlinJvmProjectExtension>().apply {
         jvmToolchain {
             languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         }
