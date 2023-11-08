@@ -1,23 +1,21 @@
-import com.tony.gradle.Deps
-import com.tony.gradle.getProfile
+import com.tony.gradle.plugin.Build
 
 apply(plugin = "kotlin-spring")
 apply(plugin = "com.tony.gradle.plugin.docker")
 dependencies {
 
-    val profile = getProfile()
+    val profile = Build.getProfile()
     //while execute gradle task, use -Pprofile=prod
     if (profile == "qa") {
-        implementation(Deps.Template.templateKnife4j)
-        implementation(Deps.Knife4j.openapi3Ui)
+        implementation(Build.templateProject("knife4j-api")) { isChanging = true }
+        implementation(tonyLibs.knife4jOpenapi3Ui)
     }
     if (profile == "dev") {
-        implementation(Deps.Template.templateKnife4j)
-        implementation(Deps.Knife4j.openapi3Ui)
-//        implementation(Deps.SpringBoot.devtools)
+        implementation(Build.templateProject("knife4j-api")) { isChanging = true }
+        implementation(tonyLibs.knife4jOpenapi3Ui)
     }
-    implementation(Deps.Template.templateWeb) { isChanging = true }
-    implementation(Deps.Template.templateWebAuth) { isChanging = true }
+    implementation(Build.templateProject("web")) { isChanging = true }
+    implementation(Build.templateProject("web-auth")) { isChanging = true }
     implementation(project(":tony-service"))
 //    implementation(Deps.SpringBoot.starterActuator)
 }

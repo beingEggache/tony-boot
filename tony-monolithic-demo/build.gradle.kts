@@ -1,22 +1,21 @@
-import com.tony.gradle.Deps
-import com.tony.gradle.KaptDeps
-import com.tony.gradle.addTestDependencies
-import com.tony.gradle.projectGroup
+import com.tony.gradle.plugin.Build
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    base
+    alias(tonyLibs.plugins.kotlin) apply false
+    alias(tonyLibs.plugins.kotlinSpring) apply false
+    alias(tonyLibs.plugins.kotlinkapt) apply false
 }
 
-val javaVersion: String by project
+val javaVersion: String = rootProject.tonyLibs.versions.java.get()
+val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
 
 // copyProjectHookToGitHook(rootDir.parentFile, "pre-commit", "pre-push")
 
-val kotlinVersion: String by project
 configure(subprojects) {
-    group = projectGroup
+    group = Build.GROUP
     version = "0.1"
     repositories {
         mavenLocal()
@@ -58,9 +57,9 @@ configure(subprojects) {
     }
 
     dependencies {
-        add("implementation", platform(Deps.Template.templateDependencies))
-        add("kapt", KaptDeps.Spring.contextIndexer)
-        addTestDependencies()
+        add("implementation", platform(Build.templateProject("dependencies")))
+        add("kapt", rootProject.tonyLibs.springContextIndexer)
+        add("testImplementation", rootProject.tonyLibs.bundles.test)
     }
 
     tasks.withType<Test> {

@@ -1,20 +1,15 @@
-import com.tony.gradle.Deps
-import com.tony.gradle.KaptDeps
-import com.tony.gradle.addTestDependencies
-import com.tony.gradle.getProfile
-import com.tony.gradle.projectGroup
-import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import com.tony.gradle.plugin.Build
 
 plugins {
     id("io.freefair.lombok") version "8.4"
 }
 
-val javaVersion: String by project
+val javaVersion: String = rootProject.tonyLibs.versions.java.get()
 
 // copyProjectHookToGitHook(rootDir.parentFile, "pre-commit", "pre-push")
 
 configure(subprojects) {
-    group = projectGroup
+    group = Build.GROUP
     version = "0.1"
     repositories {
         mavenLocal()
@@ -48,7 +43,7 @@ configure(subprojects) {
         options.encoding = "UTF-8"
         options.isDeprecation = true
 //        options.isVerbose = true
-        if (getProfile() != "prod") {
+        if (Build.getProfile() != "prod") {
             options.isDebug = true
             options.debugOptions.debugLevel = "vars"
             options.isFork = true
@@ -66,9 +61,9 @@ configure(subprojects) {
     }
 
     dependencies {
-        add("implementation", platform(Deps.Template.templateDependencies))
-        add("annotationProcessor", KaptDeps.Spring.contextIndexer)
-        addTestDependencies()
+        add("implementation", platform(Build.templateProject("dependencies")))
+        add("annotationProcessor", rootProject.tonyLibs.springContextIndexer)
+        add("testImplementation", rootProject.tonyLibs.bundles.test)
     }
 
     tasks.withType<Test> {

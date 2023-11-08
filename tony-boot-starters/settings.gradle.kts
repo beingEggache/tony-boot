@@ -12,18 +12,14 @@ pluginManagement {
     includeBuild("build-script")
 }
 
-val kotlinVersion: String by settings
-gradle.rootProject {
-    buildscript {
-        dependencies {
-            classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-            classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
-        }
-    }
+dependencyResolutionManagement {
+    defaultLibrariesExtensionName = "tonyLibs"
 }
+
 val projectPrefix: String by settings
 rootProject.name = "$projectPrefix-boot-starters"
 include("$projectPrefix-dependencies")
+include("$projectPrefix-dependencies-catalog")
 include("$projectPrefix-aliyun-oss")
 include("$projectPrefix-aliyun-sms")
 include("$projectPrefix-interfaces")

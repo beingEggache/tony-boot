@@ -1,8 +1,5 @@
-import com.tony.gradle.Deps
-
 dependencies {
     api(projects.tonyCore)
-    implementation(Deps.SpringBoot.springBoot)
-    api(Deps.Aliyun.aliyunSdkOss)
-    api(Deps.Aliyun.aliyunJavaSdkCore)
+    implementation(tonyLibs.springBoot)
+    api("com.aliyun.oss:aliyun-sdk-oss:3.17.2")
 }

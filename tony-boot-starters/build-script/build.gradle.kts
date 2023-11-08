@@ -10,14 +10,13 @@ group = "com.tony"
 version = "0.1-SNAPSHOT"
 
 val javaVersion: String by project
+val kotlinVersion: String by project
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
     withSourcesJar()
     withJavadocJar()
 }
-
-val kotlinVersion: String by project
 kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))

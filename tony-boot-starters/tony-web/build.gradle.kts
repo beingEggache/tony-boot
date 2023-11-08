@@ -1,14 +1,12 @@
-import com.tony.gradle.Deps
-
 dependencies {
     api(projects.tonyCore)
     api(projects.tonyInterfaces)
-    api(Deps.SpringBoot.starterWeb) {
+    api(tonyLibs.springBootStarterWeb) {
         exclude("org.springframework.boot", "spring-boot-starter-tomcat")
     }
-    api(Deps.SpringBoot.starterUndertow)
-    implementation(Deps.SpringBoot.starterValidation)
+    api(tonyLibs.springBootStarterUndertow)
+    implementation(tonyLibs.springBootStarterValidation)
 
     testImplementation(projects.tonyKnife4jApi)
-    testImplementation(Deps.Knife4j.openapi3Ui)
+    testImplementation(tonyLibs.knife4jOpenapi3Ui)
 }

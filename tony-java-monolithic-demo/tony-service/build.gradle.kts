@@ -1,18 +1,14 @@
-import com.tony.gradle.Deps
+import com.tony.gradle.plugin.Build
+
 dependencies {
-    api(Deps.Template.templateCore) { isChanging = true }
-    implementation(Deps.Other.mysql)
-    implementation(Deps.Template.templateId) { isChanging = true }
-    api(Deps.Template.templateMybatisPlus) { isChanging = true }
-    implementation(Deps.Template.templateRedis) { isChanging = true }
-    implementation(Deps.Template.templateFeign) { isChanging = true }
-//    implementation(Deps.Template.templateWechat) { isChanging = true }
-//    implementation(Deps.Template.templateAlipay) { isChanging = true }
-//    implementation(Deps.Template.templateAliyunOss) { isChanging = true }
-//    implementation(Deps.Template.templateAliyunSms) { isChanging = true }
-//    implementation(Deps.Template.templateId) { isChanging = true }
-//    implementation(Deps.Template.templateXxlJob) { isChanging = true }
+    api(Build.templateProject("core")) { isChanging = true }
+    api(Build.templateProject("mybatis-plus")) { isChanging = true }
+
+    implementation(tonyLibs.mysql)
+    implementation(Build.templateProject("snowflake-id")) { isChanging = true }
+    implementation(Build.templateProject("redis")) { isChanging = true }
+    implementation(Build.templateProject("feign")) { isChanging = true }
     api(project(":tony-dto"))
-    api(Deps.Other.mybatisPlusBootStarter)
-    api(Deps.Spring.web)
+    api(tonyLibs.mybatisPlusBootStarter)
+    api(tonyLibs.springWeb)
 }

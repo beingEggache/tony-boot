@@ -1,22 +1,26 @@
-import com.tony.gradle.KaptDeps
-import com.tony.gradle.VersionManagement
-import com.tony.gradle.addTestDependencies
-import com.tony.gradle.projectGroup
+import com.tony.gradle.plugin.Build
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
+    `version-catalog`
+    alias(tonyLibs.plugins.kotlin) apply false
+    alias(tonyLibs.plugins.kotlinSpring) apply false
+    alias(tonyLibs.plugins.kotlinkapt) apply false
     id("com.tony.gradle.plugin.build")
 }
 
-val projectPrefix: String by project
-val dependenciesProject = project("$projectPrefix-dependencies")
-val libraryProjects = subprojects - dependenciesProject
+val dependenciesProjects = setOf(project("${Build.PREFIX}-dependencies"))
+val dependenciesCatalogProjects = setOf(project("${Build.PREFIX}-dependencies-catalog"))
+val libraryProjects = subprojects - dependenciesProjects
+
+val javaVersion: String = rootProject.tonyLibs.versions.java.get()
+val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
 
 configure(subprojects) {
-    group = projectGroup
-    version = VersionManagement.TEMPLATE_VERSION
+    group = Build.GROUP
+    version = Build.VERSION
     repositories {
         mavenLocal()
 
@@ -38,10 +42,9 @@ configure(subprojects) {
     }
 }
 
-val javaVersion: String by project
 // copyProjectHookToGitHook(rootDir.parentFile,"pre-commit", "pre-push")
 
-configure(listOf(dependenciesProject)) {
+configure(dependenciesProjects) {
     ext.set("pom", true)
     apply {
         plugin("org.gradle.java-platform")
@@ -51,8 +54,14 @@ configure(listOf(dependenciesProject)) {
         allowDependencies()
     }
 }
-val libraries = libs
-val kotlinVersion: String by project
+
+configure(dependenciesCatalogProjects) {
+    ext.set("catalog", true)
+    apply {
+        plugin("org.gradle.version-catalog")
+        plugin("com.tony.gradle.plugin.maven-publish")
+    }
+}
 
 configure(libraryProjects) {
 
@@ -69,6 +78,7 @@ configure(libraryProjects) {
     }
 
     configure<KotlinJvmProjectExtension> {
+
         jvmToolchain {
             languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         }
@@ -86,12 +96,10 @@ configure(libraryProjects) {
     }
 
     dependencies {
-        add("implementation", platform(dependenciesProject))
-        add("kapt", rootProject.libs.springBootConfigurationProcessor)
-        add("kapt", rootProject.libs.springBootAutoconfigureProcessor)
-        add("kapt", rootProject.libs.springContextIndexer)
-        add("kaptTest", rootProject.libs.springContextIndexer)
-        addTestDependencies()
+        add("implementation", platform(project(":${Build.PREFIX}-dependencies")))
+        add("kapt", rootProject.tonyLibs.bundles.springBootProcessors)
+        add("kaptTest", rootProject.tonyLibs.springContextIndexer)
+        add("testImplementation", rootProject.tonyLibs.bundles.test)
     }
 
     tasks.withType<Test> {

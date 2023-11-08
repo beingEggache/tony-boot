@@ -30,7 +30,6 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse
 import com.aliyuncs.exceptions.ClientException
 import com.aliyuncs.http.MethodType
 import com.aliyuncs.profile.DefaultProfile
-import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 
 /**
@@ -43,8 +42,13 @@ public class AliyunSmsManager(
     private val accessKeyId: String,
     private val accessKeySecret: String,
     private val smsSignName: String,
-    private val timeout: String,
+    timeout: String,
 ) {
+    init {
+        System.setProperty("sun.net.client.defaultConnectTimeout", timeout)
+        System.setProperty("sun.net.client.defaultReadTimeout", timeout)
+    }
+
     private val acsClient: DefaultAcsClient by lazy {
         val profile =
             DefaultProfile.getProfile(
@@ -58,12 +62,6 @@ public class AliyunSmsManager(
     }
 
     private val logger = LoggerFactory.getLogger(AliyunSmsManager::class.java)
-
-    @PostConstruct
-    private fun initSmsClient() {
-        System.setProperty("sun.net.client.defaultConnectTimeout", timeout)
-        System.setProperty("sun.net.client.defaultReadTimeout", timeout)
-    }
 
     /**
      * 发送短信

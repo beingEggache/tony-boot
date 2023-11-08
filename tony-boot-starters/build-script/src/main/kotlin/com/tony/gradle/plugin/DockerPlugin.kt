@@ -1,16 +1,16 @@
 package com.tony.gradle.plugin
 
 import com.palantir.gradle.docker.DockerExtension
-import com.tony.gradle.getImageNameFromProperty
+import com.tony.gradle.plugin.Build.Companion.getImageNameFromProperty
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Exec
 import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.provideDelegate
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
 
 class DockerPlugin : Plugin<Project> {
     override fun apply(project: Project) {

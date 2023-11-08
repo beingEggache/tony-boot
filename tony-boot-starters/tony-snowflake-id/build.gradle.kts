@@ -1,8 +1,5 @@
-import com.tony.gradle.Deps
-
 dependencies {
-    api(Deps.Kotlin.stdlib)
-
-    implementation(Deps.SpringBoot.springBootStarter)
-    implementation(Deps.Other.yitterIdgenerator)
+    api(tonyLibs.kotlinStdlib)
+    implementation(tonyLibs.springBootStarter)
+    implementation(tonyLibs.yitterIdgenerator)
 }

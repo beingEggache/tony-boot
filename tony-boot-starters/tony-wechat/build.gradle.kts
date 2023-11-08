@@ -1,11 +1,9 @@
-import com.tony.gradle.Deps
-
 dependencies {
     api(projects.tonyFeign)
-    api(Deps.Other.xstream)
+    api(tonyLibs.xstream)
 
-    implementation(Deps.Other.commonsCodec)
-    implementation(Deps.SpringBoot.springBoot)
+    implementation(tonyLibs.commonsCodec)
+    implementation(tonyLibs.springBoot)
 
     testImplementation(projects.tonyRedis)
 }

@@ -1,4 +1,4 @@
-val versionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+val versionCatalog = extensions.getByType<VersionCatalogsExtension>().named("tonyLibs")
 val libraryDependencies =
     versionCatalog
         .libraryAliases
@@ -12,6 +12,6 @@ dependencies {
             add("api", it)
         }
     }
-    add("api", platform(libs.springCloudDependencies))
-    add("api", platform(libs.springCloudAlibabaDenpendencies))
+    add("api", platform(tonyLibs.springCloudDependencies))
+    add("api", platform(tonyLibs.springCloudAlibabaDenpendencies))
 }

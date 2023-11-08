@@ -1,9 +1,7 @@
-import com.tony.gradle.Deps
-
 dependencies {
     api(projects.tonyCore)
-    api(Deps.Other.javaJwt)
+    api(tonyLibs.javaJwt)
 
-    implementation(Deps.SpringBoot.autoconfigure)
-    implementation(Deps.Other.annotationApi)
+    implementation(tonyLibs.springBootAutoconfigure)
+    implementation(tonyLibs.annotationApi)
 }

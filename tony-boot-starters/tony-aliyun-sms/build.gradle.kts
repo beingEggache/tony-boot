@@ -1,9 +1,6 @@
-import com.tony.gradle.Deps
-
 dependencies {
-    api(Deps.Kotlin.stdlib)
-    api(Deps.Aliyun.aliyunJavaSdkDysmsapi)
-    implementation(Deps.SpringBoot.springBoot)
-    implementation(Deps.Other.annotationApi)
-    implementation(Deps.Aliyun.aliyunJavaSdkCore)
+    api("com.aliyun:aliyun-java-sdk-dysmsapi:2.2.1")
+    implementation(tonyLibs.kotlinStdlib)
+    implementation(tonyLibs.springBoot)
+    implementation(tonyLibs.aliyunJavaSdkCore)
 }

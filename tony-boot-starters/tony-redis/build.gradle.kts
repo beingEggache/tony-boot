@@ -1,16 +1,14 @@
-import com.tony.gradle.Deps
-
 dependencies {
     implementation(projects.tonyCore)
     api(projects.tonyInterfaces)
-    implementation(Deps.SpringData.starterRedis)
-    implementation(Deps.SpringBoot.starterAop)
-    implementation(Deps.SpringBoot.starterJson)
+    implementation(tonyLibs.springBootStarterDataRedis)
+    implementation(tonyLibs.springBootStarterAop)
+    implementation(tonyLibs.springBootStarterJson)
     compileOnly("io.protostuff:protostuff-core:1.8.0")
     compileOnly("io.protostuff:protostuff-runtime:1.8.0")
 
-    testApi(Deps.SpringData.starterRedis)
-    testApi(Deps.SpringBoot.starterAop)
+    testApi(tonyLibs.springBootStarterDataRedis)
+    testApi(tonyLibs.springBootStarterAop)
     testImplementation("io.protostuff:protostuff-core:1.8.0")
     testImplementation("io.protostuff:protostuff-runtime:1.8.0")
 }

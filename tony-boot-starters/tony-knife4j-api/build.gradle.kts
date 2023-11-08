@@ -1,15 +1,13 @@
-import com.tony.gradle.Deps
-
 dependencies {
     api(projects.tonyCore)
-    api(Deps.Knife4j.core)
-    api(Deps.Other.swaggerV3Annotaion)
-    api(Deps.Other.springdocStarterCommon)
+    api(tonyLibs.knife4jCore)
+    api(tonyLibs.swaggerV3Annotaion)
+    api(tonyLibs.springdocStarterCommon)
 
-    implementation(Deps.Knife4j.openapi3JakartaSpringBootStarter)
-    implementation(Deps.SpringBoot.autoconfigure)
+    implementation(tonyLibs.knife4jOpenapi3JakartaSpringBootStarter)
+    implementation(tonyLibs.springBootAutoconfigure)
 
     testImplementation(projects.tonyWeb)
-    testImplementation(Deps.Knife4j.openapi3Ui)
+    testImplementation(tonyLibs.knife4jOpenapi3Ui)
     testImplementation("com.alibaba:easyexcel:3.3.2")
 }

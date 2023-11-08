@@ -1,22 +1,26 @@
 package com.tony.gradle.plugin
 
+import java.net.URI
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.*
-import java.net.URI
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.extra
+import org.gradle.kotlin.dsl.get
+import org.gradle.kotlin.dsl.provideDelegate
+import org.gradle.kotlin.dsl.register
 
 class MavenPublishPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.apply {
             plugin("org.gradle.maven-publish")
-            plugin("org.gradle.version-catalog")
         }
         val isPom = project.extra.has("pom")
+        val isCatalog = project.extra.has("catalog")
 
-        if (!isPom) {
+        if (!isPom && !isCatalog) {
             project.configure<JavaPluginExtension> {
                 withSourcesJar()
                 withJavadocJar()
@@ -42,21 +46,22 @@ class MavenPublishPlugin : Plugin<Project> {
                 }
             }
             publications {
-                if (!isPom) {
-                    register("jar", MavenPublication::class) {
-                        from(project.components["kotlin"])
-                    }
-
-                    register("jarAndSrc", MavenPublication::class) {
-                        from(project.components["kotlin"])
-                        artifact(project.tasks["sourcesJar"])
-                    }
-                } else {
+                if (isPom) {
                     register("pom", MavenPublication::class) {
                         from(project.components["javaPlatform"])
                     }
-                    register("catalog",MavenPublication::class) {
+
+                } else if (isCatalog) {
+                    register("catalog", MavenPublication::class) {
                         from(project.components["versionCatalog"])
+                    }
+                } else {
+                    register("jar", MavenPublication::class) {
+                        from(project.components["kotlin"])
+                    }
+                    register("jarAndSrc", MavenPublication::class) {
+                        from(project.components["kotlin"])
+                        artifact(project.tasks["sourcesJar"])
                     }
                 }
             }

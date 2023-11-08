@@ -1,8 +1,6 @@
-import com.tony.gradle.Deps
-
 dependencies {
     api(projects.tonyCore)
-    api(Deps.Other.xxlJob)
+    api(tonyLibs.xxlJob)
 
-    implementation(Deps.SpringBoot.autoconfigure)
+    implementation(tonyLibs.springBootAutoconfigure)
 }

@@ -18,6 +18,24 @@ gradle.rootProject {
     }
 }
 
+dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
+    repositories {
+        mavenLocal()
+        maven(url = "https://maven.aliyun.com/repository/gradle-plugin")
+//        val privateGradleRepoUrl: String by settings
+//        maven(url = privateGradleRepoUrl) {
+//            isAllowInsecureProtocol = true
+//        }
+        mavenCentral()
+    }
+    versionCatalogs {
+        create("tonyLibs") {
+            from("com.tony:tony-dependencies-catalog:0.1-SNAPSHOT")
+        }
+    }
+}
+
 include("tony-api")
 include("tony-service")
 include("tony-dto")

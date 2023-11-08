@@ -1,14 +1,12 @@
-import com.tony.gradle.Deps
-
 dependencies {
     api(projects.tonyCore)
     api(projects.tonyInterfaces)
     api("org.springframework.cloud:spring-cloud-starter-openfeign")
     api("org.springframework.cloud:spring-cloud-starter-loadbalancer")
 
-    api(Deps.OpenFeign.openFeignOkhttp)
-    api(Deps.OpenFeign.openFeignJackson)
-    implementation(Deps.Other.caffeine)
+    api(tonyLibs.openFeignOkhttp)
+    api(tonyLibs.openFeignJackson)
+    implementation(tonyLibs.caffeine)
 
     testImplementation(projects.tonyWebAuth)
 }
