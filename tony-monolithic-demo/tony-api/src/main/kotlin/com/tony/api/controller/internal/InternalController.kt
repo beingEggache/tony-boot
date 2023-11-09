@@ -37,7 +37,7 @@ class InternalController(
         @Validated
         req: ListReq<FrontEndModuleReq>,
     ) = moduleService.saveModules(
-        req.items.map { it.copyTo() },
+        req.rows.map { it.copyTo() },
         listOf(ModuleType.ROUTE, ModuleType.COMPONENT),
         WebApp.appId
     )

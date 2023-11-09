@@ -198,9 +198,7 @@ internal inline fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
  * @date 2023/10/23 14:50
  * @since 1.0.0
  */
-internal inline fun <T : Any> TonyChainQuery<T>.flowOneNotNull(
-    message: String = ApiProperty.notFoundMessage
-): T =
+internal inline fun <T : Any> TonyChainQuery<T>.flowOneNotNull(message: String = ApiProperty.notFoundMessage): T =
     baseMapper
         .selectOne(wrapper)
         .throwIfNull(message, ApiProperty.notFoundCode, ex = ::FlowException)

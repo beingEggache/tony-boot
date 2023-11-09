@@ -24,6 +24,7 @@
 
 package com.tony;
 
+import com.tony.utils.Cols;
 import com.tony.utils.Objs;
 
 import java.util.Collection;
@@ -42,11 +43,11 @@ import java.util.function.Predicate;
 public interface PageResultLike<T> {
 
     /**
-     * items
+     * rows.
      *
      * @return 分页集合.
      */
-    Collection<T> getItems();
+    Collection<T> getRows();
 
     /**
      * current page.
@@ -92,18 +93,17 @@ public interface PageResultLike<T> {
      * @see [List.map]
      */
     default <R, E extends PageResultLike<R>> E map(Function<T, R> transform) {
-        Collection<T> items = getItems();
-        if (items == null || items.isEmpty()) {
-            items = Collections.emptyList();
-        }
-        return Objs.asToNotNull(new PageResult<>(
-            items.stream().map(transform).toList(),
-            getPage(),
-            getSize(),
-            getPages(),
-            getTotal(),
-            getHasNext()
-        ));
+        Collection<T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
+        return Objs.asToNotNull(
+            new PageResult<>(
+                rows.stream().map(transform).toList(),
+                getPage(),
+                getSize(),
+                getPages(),
+                getTotal(),
+                getHasNext()
+            )
+        );
     }
 
     /**
@@ -114,19 +114,17 @@ public interface PageResultLike<T> {
      * @see [List.onEach]
      */
     default <E extends PageResultLike<T>> E onEach(Consumer<T> action) {
-        Collection<T> items = getItems();
-        if (items == null || items.isEmpty()) {
-            items = Collections.emptyList();
-        }
-
-        return Objs.asToNotNull(new PageResult<>(
-            items.stream().peek(action).toList(),
-            getPage(),
-            getSize(),
-            getPages(),
-            getTotal(),
-            getHasNext()
-        ));
+        Collection<T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
+        return Objs.asToNotNull(
+            new PageResult<>(
+                rows.stream().peek(action).toList(),
+                getPage(),
+                getSize(),
+                getPages(),
+                getTotal(),
+                getHasNext()
+            )
+        );
     }
 
     /**
@@ -136,10 +134,10 @@ public interface PageResultLike<T> {
      * @return first item.
      */
     default T firstOrNull(Predicate<T> predicate) {
-        Collection<T> items = getItems();
-        if (items == null || items.isEmpty()) {
-            items = Collections.emptyList();
+        Collection<T> rows = getRows();
+        if (Cols.isNullOrEmpty(rows)) {
+            return null;
         }
-        return items.stream().filter(predicate).findFirst().orElse(null);
+        return rows.stream().filter(predicate).findFirst().orElse(null);
     }
 }

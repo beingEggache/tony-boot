@@ -149,7 +149,7 @@ public class UnwrapResponseInterceptor : ResponseInterceptor {
             )
         if (returnRawClass.isArrayLikeType()) {
             val itemFieldName =
-                ListResult<*>::getItems
+                ListResult<*>::getRows
                     .name
                     .lTrimAndDecapitalize()
             return dataJsonNode

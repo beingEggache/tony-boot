@@ -22,23 +22,34 @@
  * SOFTWARE.
  */
 
-package com.tony;
+@file:JvmName("Cols")
 
-import java.util.Collection;
+package com.tony.utils
 
 /**
- * Global collection wrapper.
- *
+ * 集合 工具类, 只提供给Java.
  * @author Tang Li
- * @date 2021/12/6 10:51
+ * @date 2023/09/12 10:53
+ * @since 1.0.0
  */
-@SuppressWarnings("unused")
-public interface ItemsWrapper<T> {
 
-    /**
-     * 返回包装集合对象.
-     *
-     * @return 集合对象
-     */
-    Collection<? extends T> getItems();
-}
+public fun isNullOrEmpty(cols: Collection<*>?): Boolean =
+    cols.isNullOrEmpty()
+
+public fun <C : Collection<T>, T : Any?> ifEmpty(
+    cols: C?,
+    ifEmpty: C,
+): C =
+    if (cols.isNullOrEmpty()) ifEmpty else cols
+
+public fun <C : Collection<T>, T : Any?> orEmpty(
+    cols: C?,
+    ifEmpty: C,
+): C =
+    if (cols.isNullOrEmpty()) ifEmpty else cols
+
+public fun <C : MutableList<T>, T : Any?> orEmpty(cols: C?): C =
+    if (cols.isNullOrEmpty()) mutableListOf<T>().asToNotNull() else cols
+
+public fun <C : MutableSet<T>, T : Any?> orEmpty(cols: C?): C =
+    if (cols.isNullOrEmpty()) mutableSetOf<T>().asToNotNull() else cols

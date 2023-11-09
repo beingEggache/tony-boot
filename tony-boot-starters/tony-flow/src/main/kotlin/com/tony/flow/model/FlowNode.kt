@@ -131,7 +131,7 @@ public class FlowNode : FlowModel {
                                     it.expressionList,
                                     flowExecution
                                         .variable
-                                        .flowThrowIfEmpty("Execution parameter cannot be empty"),
+                                        .flowThrowIfEmpty("Execution parameter cannot be empty")
                                 )
                         }.flowThrowIfNull("Not found executable ConditionNode")
                 createTask(conditionNode.childNode, flowContext, flowExecution)

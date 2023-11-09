@@ -201,7 +201,7 @@ public data class MonoResult<T>(
  * 全局响应统一列表结构.
  *
  * @param T
- * @param items 列表
+ * @param rows 列表
  *
  * @author Tang Li
  * @date 2021/12/6 10:51
@@ -209,8 +209,8 @@ public data class MonoResult<T>(
 public data class ListResult<T>
     @JvmOverloads
     constructor(
-        private val items: Collection<T>? = mutableListOf(),
-    ) : ItemsWrapper<T> {
+        private val rows: Collection<T>? = mutableListOf(),
+    ) : RowsWrapper<T> {
         public constructor(array: Array<*>) : this(array.asList().asTo())
         public constructor(byteArray: ByteArray) : this(byteArray.asList().asTo())
         public constructor(shortArray: ShortArray) : this(shortArray.asList().asTo())
@@ -221,14 +221,14 @@ public data class ListResult<T>
         public constructor(booleanArray: BooleanArray) : this(booleanArray.asList().asTo())
         public constructor(charArray: CharArray) : this(charArray.asList().asTo())
 
-        override fun getItems(): Collection<T> =
-            items ?: Collections.emptyList()
+        override fun getRows(): Collection<T> =
+            rows ?: Collections.emptyList()
     }
 
 /**
  * 全局响应统一分页结构.
  * @param T
- * @param items 列表
+ * @param rows 列表
  * @param page 当前页
  * @param size 每页数量
  * @param pages 总页数
@@ -238,17 +238,17 @@ public data class ListResult<T>
  * @author Tang Li
  * @date 2021/12/6 10:51
  */
-@JsonPropertyOrder(value = ["page", "size", "total", "pages", "hasNext", "items"])
+@JsonPropertyOrder(value = ["page", "size", "total", "pages", "hasNext", "rows"])
 public data class PageResult<T>(
-    private val items: Collection<T>?,
+    private val rows: Collection<T>?,
     private val page: Long,
     private val size: Long,
     private val pages: Long,
     private val total: Long,
     private val hasNext: Boolean,
 ) : PageResultLike<T> {
-    override fun getItems(): Collection<T> =
-        items ?: emptyList()
+    override fun getRows(): Collection<T> =
+        rows ?: emptyList()
 
     override fun getPage(): Long =
         page
