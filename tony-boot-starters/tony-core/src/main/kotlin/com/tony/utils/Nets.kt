@@ -62,7 +62,7 @@ public val localIp: String =
 
 /**
  * 判断地址是否是期望的域.
- * @param [address] 住址
+ * @param [address] 地址
  * @return [Boolean]
  * @author Tang Li
  * @date 2023/09/13 10:23

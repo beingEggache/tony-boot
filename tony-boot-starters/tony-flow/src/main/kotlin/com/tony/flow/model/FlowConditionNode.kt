@@ -16,5 +16,4 @@ public class FlowConditionNode {
     public var expressionList: MutableList<MutableList<FlowNodeExpression>> = mutableListOf()
 
     public var childNode: FlowNode? = null
-
 }

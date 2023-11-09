@@ -43,17 +43,15 @@ import java.io.Serializable
  * @date 2023/10/26 15:50
  * @since 1.0.0
  */
+
 /**
- * 当 [condition] 为 true时, 抛出[FlowException].
+ * 当[condition]为真时,抛出[FlowException]异常.
  *
- * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
+ * 异常信息为[message], 异常代码为[code],默认为[ApiProperty.preconditionFailedCode]
  *
- * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
- * @param [message] 消息
- * @param [code] 密码
- * @author Tang Li
- * @date 2023/11/06 11:19
- * @since 1.0.0
+ * @param condition 异常条件
+ * @param message 异常信息
+ * @param code 异常代码
  */
 internal inline fun flowThrowIf(
     condition: Boolean,
@@ -64,16 +62,19 @@ internal inline fun flowThrowIf(
 }
 
 /**
- * 当 [this]? 为 null时, 抛出[FlowException].
+ * 当 [this] [T]? 为 null 时, 抛出[FlowException]异常.
  *
  * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
  *
  * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
- * @param [message] 消息
- * @param [code] 密码
- * @author Tang Li
- * @date 2023/11/06 11:19
- * @since 1.0.0
+ *
+ * @receiver [T]?
+ * @param [T] 自身类型
+ * @param message 异常信息
+ * @param code 异常代码
+ * @return [T] this
+ *
+ * @see throwIf
  */
 @JvmOverloads
 internal inline fun <T> T?.flowThrowIfNull(
@@ -88,8 +89,8 @@ internal inline fun <T> T?.flowThrowIfNull(
  * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
  *
  * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
- * @param [message] 消息
- * @param [code] 密码
+ * @param [message] 异常信息
+ * @param [code] 异常代码
  * @return [C]
  * @author Tang Li
  * @date 2023/11/06 11:19
@@ -108,8 +109,10 @@ internal inline fun <C : Collection<T>, T : Any?> C?.flowThrowIfEmpty(
  * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
  *
  * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
- * @param [message] 消息
- * @param [code] 密码
+ * @receiver [C]
+ * @param [C] Map类型
+ * @param [message] 异常信息
+ * @param [code] 异常代码
  * @return [C]
  * @author Tang Li
  * @date 2023/11/06 11:19
@@ -123,13 +126,15 @@ internal inline fun <C : Map<*, *>> C?.flowThrowIfEmpty(
     throwIfEmpty(message, code, ::FlowException)
 
 /**
- * 当 [this]? 为 null 或者 空时, 抛出[FlowException].
+ * 当 [this]? 为 null 或者 空时, 抛出[FlowException]异常.
  *
  * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
  *
  * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
- * @param [message] 消息
- * @param [code] 密码
+ * @receiver [C]
+ * @param [C] 字符串类型
+ * @param [message] 异常信息
+ * @param [code] 异常代码
  * @return [C]
  * @author Tang Li
  * @date 2023/11/06 11:19
@@ -140,7 +145,7 @@ public inline fun <C : CharSequence> C?.flowThrowIfNullOrEmpty(
     message: String = ApiProperty.notFoundMessage,
     code: Int = ApiProperty.notFoundCode,
 ): C =
-    this.throwIfNullOrEmpty(message, code, ::FlowException)
+    throwIfNullOrEmpty(message, code, ::FlowException)
 
 /**
  * 根据id查询，为null 抛出[FlowException].
@@ -193,7 +198,9 @@ internal inline fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
  * @date 2023/10/23 14:50
  * @since 1.0.0
  */
-internal inline fun <T : Any> TonyChainQuery<T>.flowOneNotNull(message: String = ApiProperty.notFoundMessage): T =
+internal inline fun <T : Any> TonyChainQuery<T>.flowOneNotNull(
+    message: String = ApiProperty.notFoundMessage
+): T =
     baseMapper
         .selectOne(wrapper)
         .throwIfNull(message, ApiProperty.notFoundCode, ex = ::FlowException)
@@ -208,5 +215,7 @@ internal inline fun <T : Any> TonyChainQuery<T>.flowOneNotNull(message: String =
  * @date 2023/11/06 11:19
  * @since 1.0.0
  */
-internal inline fun <T : Any> TonyChainQuery<T>.flowListThrowIfEmpty(message: String = ApiProperty.notFoundMessage): List<T> =
+internal inline fun <T : Any> TonyChainQuery<T>.flowListThrowIfEmpty(
+    message: String = ApiProperty.notFoundMessage,
+): List<T> =
     listThrowIfEmpty(message, ::FlowException)

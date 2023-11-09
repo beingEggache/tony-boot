@@ -47,7 +47,9 @@ import org.springframework.core.annotation.AnnotationUtils
  * @author Tang Li
  * @date 2023/7/12 10:29
  */
-public fun <A : Annotation> Field.selfOrGetterOrSetterHasAnnotation(annotationType: Class<A>): Boolean =
+public fun <A : Annotation> Field.selfOrGetterOrSetterHasAnnotation(
+    annotationType: Class<A>,
+): Boolean =
     annotationFromSelfOrGetterOrSetter(annotationType) != null
 
 /**
@@ -60,7 +62,9 @@ public fun <A : Annotation> Field.selfOrGetterOrSetterHasAnnotation(annotationTy
  * @date 2023/09/12 10:12
  * @since 1.0.0
  */
-public fun <A : Annotation> Field.annotationFromSelfOrGetterOrSetter(annotationType: Class<A>): A? =
+public fun <A : Annotation> Field.annotationFromSelfOrGetterOrSetter(
+    annotationType: Class<A>,
+): A? =
     annotation(annotationType)
         ?: getter()?.annotation(annotationType)
         ?: setter()?.annotation(annotationType)
@@ -88,7 +92,9 @@ public fun <A : Annotation> Method.hasAnnotation(annotationType: Class<A>): Bool
  * @date 2023/09/12 10:17
  * @since 1.0.0
  */
-public fun <A : Annotation> Class<*>.hasAnnotation(annotationType: Class<A>): Boolean =
+public fun <A : Annotation> Class<*>.hasAnnotation(
+    annotationType: Class<A>,
+): Boolean =
     AnnotationUtils.findAnnotation(this, annotationType) != null
 
 /**
@@ -101,7 +107,9 @@ public fun <A : Annotation> Class<*>.hasAnnotation(annotationType: Class<A>): Bo
  * @date 2023/09/12 10:17
  * @since 1.0.0
  */
-public fun <A : Annotation> AnnotatedElement.hasAnnotation(annotationType: Class<A>): Boolean =
+public fun <A : Annotation> AnnotatedElement.hasAnnotation(
+    annotationType: Class<A>,
+): Boolean =
     AnnotationUtils.findAnnotation(this, annotationType) != null
 
 /**

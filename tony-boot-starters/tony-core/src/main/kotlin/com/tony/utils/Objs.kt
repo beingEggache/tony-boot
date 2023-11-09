@@ -51,9 +51,8 @@ public fun getLogger(name: String?): Logger =
 
 /**
  * 将 [this] 自身 转为 [E] 类型
- *
  * @receiver [Any]?
- * @param E 转换后的类型
+ * @param [E] 目标类型
  */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asTo(): E? where E : Any =
@@ -63,7 +62,7 @@ public fun <E> Any?.asTo(): E? where E : Any =
  * 将 [this] 自身 转为 [E] 类型
  *
  * @receiver [Any]
- * @param E 转换后的类型
+ * @param [E] 目标类型
  */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any.asToNotNull(): E where E : Any =

@@ -71,92 +71,122 @@ public fun createObjectMapper(): ObjectMapper =
     ObjectMapper().initialize()
 
 /**
- * json字符串转对象
+ * json字符串转对象.
+ * @receiver [CharSequence]
+ * @param [T] 返回类型
  * @return [T]
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:20
  * @since 1.0.0
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
-public inline fun <reified T> String.jsonToObj(): T =
-    globalObjectMapper.readValue(this)
+public inline fun <reified T> CharSequence.jsonToObj(): T =
+    globalObjectMapper.readValue(this.toString())
 
 /**
  * Method to deserialize JSON content from given JSON content String.
+ * @receiver [CharSequence]
+ * @param [T] 对应类型
  * @param [clazz] clazz
  * @return [T]
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:20
  * @since 1.0.0
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
-public fun <T> String.jsonToObj(clazz: Class<T>): T =
-    globalObjectMapper.readValue(this, clazz)
+public fun <T> CharSequence.jsonToObj(clazz: Class<T>): T =
+    globalObjectMapper.readValue(this.toString(), clazz)
 
 /**
  * Method to deserialize JSON content from given JSON content String.
+ * @receiver [CharSequence]
+ * @param [T] 返回类型
  * @param [typeReference] 类型参考
  * @return [T]
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:20
  * @since 1.0.0
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
-public fun <T> String.jsonToObj(typeReference: TypeReference<T>): T =
-    globalObjectMapper.readValue(this, typeReference)
+public fun <T> CharSequence.jsonToObj(typeReference: TypeReference<T>): T =
+    globalObjectMapper.readValue(this.toString(), typeReference)
 
 /**
  * Method to deserialize JSON content from given JSON content String.
+ * @receiver [CharSequence]
+ * @param [T] 返回类型
  * @param [javaType] java类型
  * @return [T]
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:20
  * @since 1.0.0
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
-public fun <T> String.jsonToObj(javaType: JavaType): T =
-    globalObjectMapper.readValue(this, javaType)
+public fun <T> CharSequence.jsonToObj(javaType: JavaType): T =
+    globalObjectMapper.readValue(this.toString(), javaType)
 
 /**
  * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
+ * @receiver [CharSequence]
  * @return [JsonNode]
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:21
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
-public fun String.jsonNode(): JsonNode =
-    globalObjectMapper.readTree(this)
+@Throws(IOException::class)
+public fun CharSequence.jsonNode(): JsonNode =
+    globalObjectMapper.readTree(this.toString())
 
 /**
  * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
+ * @receiver [ByteArray]
  * @return [JsonNode]
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:21
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
+@Throws(IOException::class)
 public fun ByteArray.jsonNode(): JsonNode =
     globalObjectMapper.readTree(this)
 
 /**
  * Method to deserialize JSON content as tree expressed using set of JsonNode instances.
+ * @receiver [InputStream]
  * @return [JsonNode]
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:21
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
+@Throws(IOException::class)
 public fun InputStream.jsonNode(): JsonNode =
     globalObjectMapper.readTree(this)
 
 /**
  * Method that can be used to serialize any Java value as a String.
+ * @receiver [T]
+ * @param [T] 自身类型
  * @return [String]
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:22
  * @since 1.0.0
+ * @see com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString
  */
+@Throws(IOException::class)
 public fun <T> T?.toJsonString(): String =
     if (this != null) {
         globalObjectMapper.writeValueAsString(this)
@@ -179,14 +209,17 @@ private val jsonFactory = JsonFactory()
 
 /**
  * 流式获取Json 根节点的数据.
+ * @receiver [CharSequence]
  * @param [field] 领域
  * @return [String]?
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:22
  * @since 1.0.0
  */
-public fun String.getFromRootAsString(field: String): String? {
-    jsonFactory.createParser(this).use {
+@Throws(IOException::class)
+public fun CharSequence.getFromRootAsString(field: String): String? {
+    jsonFactory.createParser(this.toString()).use {
         while (
             try {
                 it.nextToken()
@@ -214,11 +247,15 @@ public fun String.getFromRootAsString(field: String): String? {
 }
 
 /**
- * json到obj
+ * json到obj.
+ * @receiver [ByteArray]
+ * @param [T] 返回类型
  * @return [T]
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:22
  * @since 1.0.0
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
 public inline fun <reified T> ByteArray.jsonToObj(): T =
@@ -226,10 +263,14 @@ public inline fun <reified T> ByteArray.jsonToObj(): T =
 
 /**
  * json到obj
+ * @receiver [InputStream]
+ * @param [T] 返回类型
  * @return [T]
+ * @throws [IOException]
  * @author Tang Li
  * @date 2023/09/13 10:22
  * @since 1.0.0
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
 public inline fun <reified T> InputStream.jsonToObj(): T =

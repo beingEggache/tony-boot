@@ -7,7 +7,6 @@ package com.tony.flow.model
  * @since 1.0.0
  */
 public interface FlowExpression {
-
     /**
      * 根据表达式串、参数解析表达式并返回指定类型
      * @param [conditionList] 条件组列表

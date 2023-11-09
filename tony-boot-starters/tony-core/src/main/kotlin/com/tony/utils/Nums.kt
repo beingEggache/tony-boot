@@ -41,6 +41,7 @@ import kotlin.math.pow
 
 /**
  * 数字类型转为 [BigDecimal]
+ * @receiver [Number]?
  * @param [decimal] 小数点后保留几位
  * @return [BigDecimal]
  * @author Tang Li
@@ -63,7 +64,9 @@ public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
 /**
  * 数值类型互转, 只支持常规数字类型.
  * 线程安全数值类型不支持.
- *
+ * @receiver [T]
+ * @param [T] 自身数值类型
+ * @param [R] 返回数值类型
  * @param [numberType] 目标类型
  * @return [R]
  * @author Tang Li
@@ -85,6 +88,8 @@ public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
 
 /**
  * 将字符串类型或数值类型转换成数值.
+ * @receiver [Any]? 字符串或数值
+ * @param [E] 返回数值类型
  * @param [numberType] 数值类型
  * @return [E]
  * @author Tang Li
@@ -100,6 +105,7 @@ public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E =
 
 /**
  * 数字截断并转为  [BigDecimal]
+ * @receiver [Number]?
  * @param [digit] 截断位数
  * @param [decimal] 保留几位小数
  * @return [BigDecimal]
@@ -116,6 +122,7 @@ public fun Number?.truncToBigDecimal(
 
 /**
  * 数字截断并转为 [String]
+ * @receiver [Number]?
  * @param [digit] 截断位数
  * @param [decimal] 保留几位小数
  * @return [String]
@@ -132,6 +139,7 @@ public fun Number?.truncToString(
 
 /**
  * 格式化为百分比
+ * @receiver [Float]?
  * @param [decimal] 保留几位小数
  * @param [roundingMode] see [RoundingMode]
  * @return [String]
@@ -148,6 +156,7 @@ public fun Float?.formatToPercent(
 
 /**
  * 格式化为百分比
+ * @receiver [Double]?
  * @param [decimal] 保留几位小数
  * @param [roundingMode] see [RoundingMode]
  * @return [String]
@@ -164,6 +173,7 @@ public fun Double?.formatToPercent(
 
 /**
  * 格式化为百分比
+ * @receiver [BigDecimal]?
  * @param [decimal] 保留几位小数
  * @param [roundingMode] see [RoundingMode]
  * @return [String]

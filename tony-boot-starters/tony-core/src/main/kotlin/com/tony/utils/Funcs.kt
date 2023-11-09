@@ -39,6 +39,7 @@ import com.tony.exception.BizException
 /**
  * 如果为null, 提供默认值.
  * @receiver [T]?
+ * @param [T] 自身类型
  * @param [default] 默认值
  * @return [T]
  * @author Tang Li
@@ -51,6 +52,7 @@ public fun <T> T?.ifNull(default: T): T =
 /**
  * 如果为null, 通过回调[block]提供默认值.
  * @receiver [T]?
+ * @param [T] 自身类型
  * @param [block] 回调
  * @return [T]
  * @author Tang Li
@@ -64,8 +66,9 @@ public inline fun <reified T> T?.ifNull(crossinline block: () -> T): T =
 /**
  * 如果条件[this]为真,  执行回调[block]. 并返回回调函数值.
  * @receiver [Boolean]
+ * @param [T] 返回类型
  * @param [block] 回调
- * @return [T?]
+ * @return [T]?
  * @author Tang Li
  * @date 2023/11/07 11:39
  * @since 1.0.0
@@ -93,6 +96,9 @@ public inline fun Boolean.alsoIf(crossinline block: () -> Unit) {
 
 /**
  * 如果条件[condition]为真,  执行回调[block]. 并返回回调函数值.
+ * @receiver [T] 自身
+ * @param [T] 自身类型
+ * @param [R] 返回类型
  * @param [condition] 条件
  * @param [block] 块
  * @return [R]?
@@ -113,6 +119,9 @@ public inline fun <T, R> T.runIf(
 
 /**
  * 如果条件[condition]为真,  执行回调[block]. 并返回回调函数值.
+ * @receiver [T] 自身
+ * @param [T] 自身类型
+ * @param [R] 返回类型
  * @param [condition] 条件
  * @param [block] 块
  * @return [R]?
@@ -133,6 +142,8 @@ public inline fun <T, R> T.letIf(
 
 /**
  * 如果条件[condition]为真,  执行回调[block]. 并返回自身.
+ * @receiver [T] 自身
+ * @param [T] 自身类型
  * @param [condition] 条件
  * @param [block] 块
  * @return [this]?
@@ -151,6 +162,8 @@ public inline fun <T> T.applyIf(
 
 /**
  * 如果条件[condition]为真,  执行回调[block]. 并返回自身.
+ * @receiver [T] 自身
+ * @param [T] 自身类型
  * @param [condition] 条件
  * @param [block] 块
  * @return [this]?
@@ -194,8 +207,8 @@ public fun throwIf(
  *
  * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
  *
- * @receiver [T]? this
- * @param [T]
+ * @receiver [T]?
+ * @param [T] 自身类型
  * @param message 异常信息
  * @param code 异常代码
  * @param ex 异常类型
@@ -219,9 +232,9 @@ public fun <T> T?.throwIfNull(
  * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
  *
  * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
- * @param [message] 消息
- * @param [code] 密码
- * @param [ex] ex
+ * @param [message] 异常信息
+ * @param [code] 异常代码
+ * @param [ex] 异常类型构造函数
  * @return [C]
  * @author Tang Li
  * @date 2023/11/06 11:19
@@ -243,9 +256,11 @@ public fun <C : Collection<T>, T : Any?> C?.throwIfEmpty(
  * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
  *
  * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
- * @param [message] 消息
- * @param [code] 密码
- * @param [ex] ex
+ * @receiver [C]
+ * @param [C] Map类型
+ * @param [message] 异常信息
+ * @param [code] 异常代码
+ * @param [ex] 异常类型构造函数
  * @return [C]
  * @author Tang Li
  * @date 2023/11/06 11:19
@@ -267,9 +282,11 @@ public fun <C : Map<*, *>> C?.throwIfEmpty(
  * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
  *
  * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
- * @param [message] 消息
- * @param [code] 密码
- * @param [ex] ex
+ * @receiver [C]
+ * @param [C] 字符串类型
+ * @param [message] 异常信息
+ * @param [code] 异常代码
+ * @param [ex] 异常类型构造函数
  * @return [C]
  * @author Tang Li
  * @date 2023/11/06 11:19
