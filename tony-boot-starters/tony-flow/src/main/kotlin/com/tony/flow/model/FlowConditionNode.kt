@@ -13,17 +13,8 @@ public class FlowConditionNode {
 
     public var priority: Int = 0
 
-    public var conditionMode: Int? = null
-
-    public var expressionList: MutableList<FlowNodeExpression> = mutableListOf()
+    public var expressionList: MutableList<MutableList<FlowNodeExpression>> = mutableListOf()
 
     public var childNode: FlowNode? = null
 
-    public val expression: String?
-        get() =
-            expressionList
-                .takeIf { it.any() }
-                ?.joinToString(if (0 == conditionMode) " && " else " || ") {
-                    "#${it.field}${it.operator}${it.value}"
-                }
 }

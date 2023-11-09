@@ -1,7 +1,7 @@
 package com.tony.flow.model
 
 import com.tony.flow.FlowContext
-import com.tony.flow.extension.flowThrowIf
+import com.tony.flow.extension.flowThrowIfEmpty
 import com.tony.flow.extension.flowThrowIfNull
 import com.tony.flow.handler.impl.CreateTaskHandler
 import com.tony.flow.model.enums.ApproverType
@@ -9,6 +9,7 @@ import com.tony.flow.model.enums.InitiatorAssignMode
 import com.tony.flow.model.enums.MultiApproveMode
 import com.tony.flow.model.enums.MultiStageManagerMode
 import com.tony.flow.model.enums.NodeType
+import com.tony.utils.applyIf
 import com.tony.utils.getLogger
 
 /**
@@ -118,29 +119,23 @@ public class FlowNode : FlowModel {
         flowContext: FlowContext,
         flowExecution: FlowExecution,
     ) {
-        if (conditionNodes.isNotEmpty()) {
-            val args = flowExecution.variable
-            flowThrowIf(args.isEmpty(), "Execution parameter cannot be empty")
-            val conditionNode =
-                conditionNodes
-                    .sortedBy { it.priority }
-                    .firstOrNull {
-                        val expr = it.expression
-                        if (expr.isNullOrEmpty()) {
-                            true
-                        } else {
-                            try {
-                                flowContext
-                                    .expression
-                                    .eval(Boolean::class.java, expr, args) == true
-                            } catch (e: Exception) {
-                                logger.error(e.message, e)
-                                false
-                            }
-                        }
-                    }.flowThrowIfNull("Not found executable ConditionNode")
-            createTask(conditionNode.childNode, flowContext, flowExecution)
-        }
+        conditionNodes
+            .applyIf(conditionNodes.isNotEmpty()) {
+                val conditionNode =
+                    conditionNodes
+                        .sortedBy { it.priority }
+                        .firstOrNull {
+                            flowContext
+                                .expression
+                                .eval(
+                                    it.expressionList,
+                                    flowExecution
+                                        .variable
+                                        .flowThrowIfEmpty("Execution parameter cannot be empty"),
+                                )
+                        }.flowThrowIfNull("Not found executable ConditionNode")
+                createTask(conditionNode.childNode, flowContext, flowExecution)
+            }
         if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER) {
             createTask(flowContext, flowExecution)
         }

@@ -42,6 +42,18 @@ import java.io.Serializable
  * @date 2023/10/26 15:50
  * @since 1.0.0
  */
+/**
+ * 当 [condition] 为 true时, 抛出[FlowException].
+ *
+ * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
+ *
+ * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
+ * @param [message] 消息
+ * @param [code] 密码
+ * @author Tang Li
+ * @date 2023/11/06 11:19
+ * @since 1.0.0
+ */
 internal fun flowThrowIf(
     condition: Boolean,
     message: String,
@@ -50,15 +62,38 @@ internal fun flowThrowIf(
     throwIf(condition, message, code, ::FlowException)
 }
 
+/**
+ * 当 [this]? 为 null时, 抛出[FlowException].
+ *
+ * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
+ *
+ * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
+ * @param [message] 消息
+ * @param [code] 密码
+ * @author Tang Li
+ * @date 2023/11/06 11:19
+ * @since 1.0.0
+ */
 @JvmOverloads
 internal fun <T> T?.flowThrowIfNull(
     message: String = ApiProperty.notFoundMessage,
     code: Int = ApiProperty.notFoundCode,
-): T {
-    throwIf(this == null, message, code, ::FlowException)
-    return this!!
-}
+): T =
+    throwIfNull(message, code, ::FlowException)
 
+/**
+ * 当 [this]? 为 null 或者 空时, 抛出[FlowException].
+ *
+ * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
+ *
+ * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
+ * @param [message] 消息
+ * @param [code] 密码
+ * @return [C]
+ * @author Tang Li
+ * @date 2023/11/06 11:19
+ * @since 1.0.0
+ */
 @JvmOverloads
 internal fun <C : Collection<T>, T : Any?> C?.flowThrowIfEmpty(
     message: String = ApiProperty.notFoundMessage,
@@ -67,7 +102,27 @@ internal fun <C : Collection<T>, T : Any?> C?.flowThrowIfEmpty(
     throwIfEmpty(message, code, ::FlowException)
 
 /**
- * 当 [this]? 为 null 或者 空时, 抛出异常.
+ * 当 [this]? 为 null 或者 空时, 抛出[FlowException].
+ *
+ * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
+ *
+ * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
+ * @param [message] 消息
+ * @param [code] 密码
+ * @return [C]
+ * @author Tang Li
+ * @date 2023/11/06 11:19
+ * @since 1.0.0
+ */
+@JvmOverloads
+internal fun <C : Map<*, *>> C?.flowThrowIfEmpty(
+    message: String = ApiProperty.notFoundMessage,
+    code: Int = ApiProperty.notFoundCode,
+): C =
+    throwIfEmpty(message, code, ::FlowException)
+
+/**
+ * 当 [this]? 为 null 或者 空时, 抛出[FlowException].
  *
  * 异常信息为 [message], 默认为 [ApiProperty.notFoundMessage]
  *
@@ -87,7 +142,7 @@ public fun <C : CharSequence> C?.flowThrowIfNullOrEmpty(
     this.throwIfNullOrEmpty(message, code, ::FlowException)
 
 /**
- * 根据id查询，为null 将会抛错
+ * 根据id查询，为null 抛出[FlowException].
  * @param [id] id
  * @return [T]
  * @author Tang Li
@@ -98,7 +153,7 @@ internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(id: Serializable?): T =
     selectById(id).throwIfNull(ex = ::FlowException)
 
 /**
- * 根据id查询，为null 将会抛错
+ * 根据id查询，为null 抛出[FlowException].
  * @param [id] id
  * @param [message] 消息
  * @return [T]
@@ -113,7 +168,7 @@ internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
     selectById(id).throwIfNull(message, ex = ::FlowException)
 
 /**
- * 根据id查询，为null 将会抛错
+ * 根据id查询，为null 抛出[FlowException].
  * @param [id] id
  * @param [message] 消息
  * @param [code] 密码
@@ -130,7 +185,7 @@ internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
     selectById(id).throwIfNull(message, code, ex = ::FlowException)
 
 /**
- * 查询单条记录.为 null 时抛错.
+ * 查询单条记录.为 null 时抛出[FlowException].
  * @param [message] 默认为 [ApiProperty.notFoundMessage]
  * @return [T]
  * @author Tang Li
@@ -143,7 +198,7 @@ internal fun <T : Any> TonyChainQuery<T>.flowOneNotNull(message: String = ApiPro
         .throwIfNull(message, ApiProperty.notFoundCode, ex = ::FlowException)
 
 /**
- * 当 [TonyChainQuery.list] 为 null 或者 空时, 抛出异常.
+ * 当 [TonyChainQuery.list] 为 null 或者 空时, 抛出抛出[FlowException].
  *
  * 异常信息为 [message]
  * @param [message] 消息
