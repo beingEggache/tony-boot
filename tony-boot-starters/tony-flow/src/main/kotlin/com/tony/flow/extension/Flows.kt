@@ -23,6 +23,7 @@
  */
 
 @file:JvmName("Flows")
+@file:Suppress("NOTHING_TO_INLINE")
 
 package com.tony.flow.extension
 
@@ -54,7 +55,7 @@ import java.io.Serializable
  * @date 2023/11/06 11:19
  * @since 1.0.0
  */
-internal fun flowThrowIf(
+internal inline fun flowThrowIf(
     condition: Boolean,
     message: String,
     code: Int = ApiProperty.preconditionFailedCode,
@@ -75,7 +76,7 @@ internal fun flowThrowIf(
  * @since 1.0.0
  */
 @JvmOverloads
-internal fun <T> T?.flowThrowIfNull(
+internal inline fun <T> T?.flowThrowIfNull(
     message: String = ApiProperty.notFoundMessage,
     code: Int = ApiProperty.notFoundCode,
 ): T =
@@ -95,7 +96,7 @@ internal fun <T> T?.flowThrowIfNull(
  * @since 1.0.0
  */
 @JvmOverloads
-internal fun <C : Collection<T>, T : Any?> C?.flowThrowIfEmpty(
+internal inline fun <C : Collection<T>, T : Any?> C?.flowThrowIfEmpty(
     message: String = ApiProperty.notFoundMessage,
     code: Int = ApiProperty.notFoundCode,
 ): C =
@@ -115,7 +116,7 @@ internal fun <C : Collection<T>, T : Any?> C?.flowThrowIfEmpty(
  * @since 1.0.0
  */
 @JvmOverloads
-internal fun <C : Map<*, *>> C?.flowThrowIfEmpty(
+internal inline fun <C : Map<*, *>> C?.flowThrowIfEmpty(
     message: String = ApiProperty.notFoundMessage,
     code: Int = ApiProperty.notFoundCode,
 ): C =
@@ -135,7 +136,7 @@ internal fun <C : Map<*, *>> C?.flowThrowIfEmpty(
  * @since 1.0.0
  */
 @JvmOverloads
-public fun <C : CharSequence> C?.flowThrowIfNullOrEmpty(
+public inline fun <C : CharSequence> C?.flowThrowIfNullOrEmpty(
     message: String = ApiProperty.notFoundMessage,
     code: Int = ApiProperty.notFoundCode,
 ): C =
@@ -149,7 +150,7 @@ public fun <C : CharSequence> C?.flowThrowIfNullOrEmpty(
  * @date 2023/09/13 10:38
  * @since 1.0.0
  */
-internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(id: Serializable?): T =
+internal inline fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(id: Serializable?): T =
     selectById(id).throwIfNull(ex = ::FlowException)
 
 /**
@@ -161,7 +162,7 @@ internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(id: Serializable?): T =
  * @date 2023/09/13 10:38
  * @since 1.0.0
  */
-internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
+internal inline fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
     id: Serializable?,
     message: String = ApiProperty.notFoundMessage,
 ): T =
@@ -177,7 +178,7 @@ internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
  * @date 2023/09/13 10:38
  * @since 1.0.0
  */
-internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
+internal inline fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
     id: Serializable,
     message: String = ApiProperty.notFoundMessage,
     code: Int = ApiProperty.notFoundCode,
@@ -192,7 +193,7 @@ internal fun <T : Any> BaseDao<T>.flowSelectByIdNotNull(
  * @date 2023/10/23 14:50
  * @since 1.0.0
  */
-internal fun <T : Any> TonyChainQuery<T>.flowOneNotNull(message: String = ApiProperty.notFoundMessage): T =
+internal inline fun <T : Any> TonyChainQuery<T>.flowOneNotNull(message: String = ApiProperty.notFoundMessage): T =
     baseMapper
         .selectOne(wrapper)
         .throwIfNull(message, ApiProperty.notFoundCode, ex = ::FlowException)
@@ -207,5 +208,5 @@ internal fun <T : Any> TonyChainQuery<T>.flowOneNotNull(message: String = ApiPro
  * @date 2023/11/06 11:19
  * @since 1.0.0
  */
-internal fun <T : Any> TonyChainQuery<T>.flowListThrowIfEmpty(message: String = ApiProperty.notFoundMessage): List<T> =
+internal inline fun <T : Any> TonyChainQuery<T>.flowListThrowIfEmpty(message: String = ApiProperty.notFoundMessage): List<T> =
     listThrowIfEmpty(message, ::FlowException)
