@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
+    alias(tonyLibs.plugins.tonyGradleBuild)
     alias(tonyLibs.plugins.kotlin) apply false
     alias(tonyLibs.plugins.kotlinSpring) apply false
     alias(tonyLibs.plugins.kotlinkapt) apply false

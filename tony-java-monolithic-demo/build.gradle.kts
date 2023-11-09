@@ -1,7 +1,8 @@
 import com.tony.gradle.plugin.Build
 
 plugins {
-    id("io.freefair.lombok") version "8.4"
+    alias(tonyLibs.plugins.tonyGradleBuild)
+    alias(tonyLibs.plugins.lombok)
 }
 
 val javaVersion: String = rootProject.tonyLibs.versions.java.get()

@@ -47,6 +47,8 @@ xxlJob = "2.4.0"
 springCloud = "2022.0.4"
 springCloudAlibaba = "2022.0.0.0"
 
+lombok = "8.4"
+
 [libraries]
 
 jacksonAnnotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson" }
@@ -218,8 +220,15 @@ aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 kotlinkapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+lombok = { id="io.freefair.lombok", version.ref = "lombok" }
+
+tonyGradleBuild = { id = "com.tony.gradle.plugin.build", version.ref="template"}
+tonyDepConfigurations = { id = "com.tony.gradle.plugin.dep-configurations", version.ref="template"}
+tonyKtlint = { id = "com.tony.gradle.plugin.ktlint", version.ref="template"}
+tonyMavenPublish = { id = "com.tony.gradle.plugin.maven-publish", version.ref="template"}
+tonyDocker = { id = "com.tony.gradle.plugin.docker", version.ref="template"}
 
 [bundles]
 #test = ["kotlinTest","kotlinTestJunit","springBootStarterTest"]
-test = ["kotlinTest", "springBootStarterTest"]
+test = ["springBootStarterTest"]
 springBootProcessors = ["springBootConfigurationProcessor", "springBootAutoconfigureProcessor", "springContextIndexer"]

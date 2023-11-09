@@ -5,15 +5,15 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     `version-catalog`
+    alias(tonyLibs.plugins.tonyGradleBuild)
     alias(tonyLibs.plugins.kotlin) apply false
     alias(tonyLibs.plugins.kotlinSpring) apply false
     alias(tonyLibs.plugins.kotlinkapt) apply false
-    id("com.tony.gradle.plugin.build")
 }
 
 val dependenciesProjects = setOf(project("${Build.PREFIX}-dependencies"))
 val dependenciesCatalogProjects = setOf(project("${Build.PREFIX}-dependencies-catalog"))
-val libraryProjects = subprojects - dependenciesProjects
+val libraryProjects = subprojects - dependenciesProjects - dependenciesCatalogProjects
 
 val javaVersion: String = rootProject.tonyLibs.versions.java.get()
 val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
