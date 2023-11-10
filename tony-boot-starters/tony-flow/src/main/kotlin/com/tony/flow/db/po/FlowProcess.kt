@@ -133,8 +133,8 @@ public class FlowProcess {
 
     public fun execute(
         flowContext: FlowContext,
-        flowExecution: FlowExecution,
-        nodeName: String,
+        flowExecution: FlowExecution?,
+        nodeName: String?,
     ) {
         model?.also {
             val flowNode =

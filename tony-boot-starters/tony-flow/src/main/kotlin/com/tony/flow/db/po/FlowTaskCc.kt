@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.flow.db.enums.ActorType
+import com.tony.flow.db.enums.TaskState
 import java.time.LocalDateTime
 
 /**
@@ -90,7 +91,7 @@ public class FlowTaskCc {
      * 任务状态 0，结束 1，活动
      */
     @TableField(value = "task_state")
-    public var taskState: Int? = null
+    public var taskState: TaskState? = null
 
     /**
      * 完成时间

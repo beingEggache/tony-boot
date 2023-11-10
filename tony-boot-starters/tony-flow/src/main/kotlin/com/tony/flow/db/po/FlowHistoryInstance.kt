@@ -14,7 +14,7 @@ import java.time.LocalDateTime
 @TableName("flow_history_instance")
 public class FlowHistoryInstance : FlowInstance() {
     /**
-     * 流程实例状态: 0-活动, 1-完成, 2-超时, 3-终止
+     * 流程实例状态: 1-活动, 2-完成, 3-超时, 4-终止
      */
     @TableField(value = "instance_state")
     public var instanceState: InstanceState? = null

@@ -12,6 +12,6 @@ import com.tony.flow.model.FlowExecution
 public fun interface FlowHandler {
     public fun handle(
         flowContext: FlowContext,
-        flowExecution: FlowExecution,
+        flowExecution: FlowExecution?,
     )
 }

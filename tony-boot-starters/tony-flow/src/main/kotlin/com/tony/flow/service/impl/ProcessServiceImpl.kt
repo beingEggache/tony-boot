@@ -21,7 +21,7 @@ import java.time.LocalDateTime
 internal class ProcessServiceImpl(
     private val flowProcessMapper: FlowProcessMapper,
 ) : ProcessService {
-    override fun getById(processId: String): FlowProcess =
+    override fun getById(processId: String?): FlowProcess? =
         flowProcessMapper.selectById(processId)
 
     override fun getByVersion(

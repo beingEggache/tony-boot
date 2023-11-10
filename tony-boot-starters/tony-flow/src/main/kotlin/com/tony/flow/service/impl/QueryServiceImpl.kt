@@ -28,7 +28,7 @@ internal class QueryServiceImpl(
     private val flowHistoryTaskMapper: FlowHistoryTaskMapper,
     private val flowHistoryTaskActorMapper: FlowHistoryTaskActorMapper,
 ) : QueryService {
-    override fun instance(instanceId: String): FlowInstance =
+    override fun instance(instanceId: String?): FlowInstance? =
         flowInstanceMapper.selectById(instanceId)
 
     override fun historyInstance(instanceId: String): FlowHistoryInstance =
@@ -51,6 +51,16 @@ internal class QueryServiceImpl(
         flowTaskMapper
             .ktQuery()
             .eq(FlowTask::instanceId, instanceId)
+            .list()
+
+    override fun listTaskByInstanceIdAndTaskName(
+        instanceId: String?,
+        taskName: String?,
+    ): List<FlowTask> =
+        flowTaskMapper
+            .ktQuery()
+            .eq(FlowTask::instanceId, instanceId)
+            .eq(FlowTask::taskName, taskName)
             .list()
 
     override fun historyTask(taskId: String): FlowHistoryTask =
@@ -84,5 +94,11 @@ internal class QueryServiceImpl(
         flowHistoryTaskActorMapper
             .ktQuery()
             .eq(FlowHistoryTaskActor::taskId, taskId)
+            .list()
+
+    override fun listTaskActorsByInstanceId(instanceId: String?): List<FlowTaskActor> =
+        flowTaskActorMapper
+            .ktQuery()
+            .eq(FlowTaskActor::instanceId, instanceId)
             .list()
 }

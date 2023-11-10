@@ -13,7 +13,7 @@ public class FlowProcessModel {
 
     public var flowNode: FlowNode? = null
 
-    public fun getNode(nodeName: String): FlowNode? =
+    public fun getNode(nodeName: String?): FlowNode? =
         flowNode?.getNode(nodeName)
 
     public fun buildParentNode(rootNode: FlowNode?) {

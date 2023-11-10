@@ -7,7 +7,7 @@ package com.tony.flow.model
  * @since 1.0.0
  */
 public class FlowNodeAssignee {
-    public var id: Long? = null
+    public var id: String = ""
 
     public var name: String = ""
 

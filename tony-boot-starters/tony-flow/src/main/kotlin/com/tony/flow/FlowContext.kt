@@ -1,7 +1,7 @@
 package com.tony.flow
 
 import com.tony.SpringContexts
-import com.tony.flow.model.FlowExpression
+import com.tony.flow.model.FlowExpressionEvaluator
 import com.tony.flow.model.FlowProcessModel
 import com.tony.flow.service.ProcessService
 import com.tony.flow.service.QueryService
@@ -20,7 +20,7 @@ public class FlowContext(
     public val queryService: QueryService,
     public val runtimeService: RuntimeService,
     public val taskService: TaskService,
-    public val expression: FlowExpression,
+    public val expressionEvaluator: FlowExpressionEvaluator,
     public val taskPermission: TaskPermission,
     public val interceptors: List<FlowInterceptor>,
     public val taskActorProvider: FlowTaskActorProvider,

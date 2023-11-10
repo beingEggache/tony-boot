@@ -19,6 +19,6 @@ public fun interface FlowModel {
      */
     public fun execute(
         flowContext: FlowContext,
-        flowExecution: FlowExecution,
+        flowExecution: FlowExecution?,
     )
 }

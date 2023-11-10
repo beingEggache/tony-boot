@@ -16,15 +16,15 @@ import com.tony.flow.model.FlowExecution
 public object EndProcessHandler : FlowHandler {
     override fun handle(
         flowContext: FlowContext,
-        flowExecution: FlowExecution,
+        flowExecution: FlowExecution?,
     ) {
-        val flowEngine = flowExecution.flowEngine
-        val flowInstance = flowExecution.flowInstance
+        val flowEngine = flowExecution?.flowEngine
+        val flowInstance = flowExecution?.flowInstance
 
         flowEngine
-            .queryService
-            .listTaskByInstanceId(flowInstance?.instanceId)
-            .forEach {
+            ?.queryService
+            ?.listTaskByInstanceId(flowInstance?.instanceId)
+            ?.forEach {
                 flowThrowIf(it.taskType == TaskType.MAJOR, "存在未完成的主办任务")
                 flowEngine
                     .taskService
@@ -32,7 +32,7 @@ public object EndProcessHandler : FlowHandler {
             }
 
         flowEngine
-            .runtimeService
-            .complete(flowInstance?.instanceId)
+            ?.runtimeService
+            ?.complete(flowInstance?.instanceId)
     }
 }

@@ -117,7 +117,7 @@ public class FlowNode : FlowModel {
 
     override fun execute(
         flowContext: FlowContext,
-        flowExecution: FlowExecution,
+        flowExecution: FlowExecution?,
     ) {
         conditionNodes
             .applyIf(conditionNodes.isNotEmpty()) {
@@ -126,11 +126,11 @@ public class FlowNode : FlowModel {
                         .sortedBy { it.priority }
                         .firstOrNull {
                             flowContext
-                                .expression
+                                .expressionEvaluator
                                 .eval(
                                     it.expressionList,
                                     flowExecution
-                                        .variable
+                                        ?.variable
                                         .flowThrowIfEmpty("Execution parameter cannot be empty")
                                 )
                         }.flowThrowIfNull("Not found executable ConditionNode")
@@ -151,7 +151,7 @@ public class FlowNode : FlowModel {
      */
     public fun createTask(
         flowContext: FlowContext,
-        flowExecution: FlowExecution,
+        flowExecution: FlowExecution?,
     ) {
         createTask(this, flowContext, flowExecution)
     }
@@ -168,7 +168,7 @@ public class FlowNode : FlowModel {
     public fun createTask(
         flowNode: FlowNode?,
         flowContext: FlowContext,
-        flowExecution: FlowExecution,
+        flowExecution: FlowExecution?,
     ) {
         CreateTaskHandler(flowNode).handle(flowContext, flowExecution)
     }
@@ -181,7 +181,7 @@ public class FlowNode : FlowModel {
      * @date 2023/10/25 11:36
      * @since 1.0.0
      */
-    public fun getNode(nodeName: String): FlowNode? {
+    public fun getNode(nodeName: String?): FlowNode? {
         if (this.nodeName == nodeName) {
             return this
         }
@@ -196,7 +196,7 @@ public class FlowNode : FlowModel {
      * @date 2023/10/25 11:36
      * @since 1.0.0
      */
-    public fun getNodeFromConditionNode(nodeName: String): FlowNode? =
+    public fun getNodeFromConditionNode(nodeName: String?): FlowNode? =
         conditionNodes.firstNotNullOfOrNull {
             it
                 .childNode

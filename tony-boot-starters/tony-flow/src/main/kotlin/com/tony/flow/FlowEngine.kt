@@ -51,9 +51,9 @@ public interface FlowEngine {
      * @since 1.0.0
      */
     public fun startInstanceById(
-        flowProcessId: Long,
+        flowProcessId: String,
         flowOperator: FlowOperator,
-        args: Map<String, Any?>?,
+        args: Map<String, Any?>,
     ): FlowInstance?
 
     /**
@@ -66,10 +66,10 @@ public interface FlowEngine {
      * @since 1.0.0
      */
     public fun startInstanceById(
-        flowProcessId: Long,
+        flowProcessId: String,
         flowOperator: FlowOperator,
     ): FlowInstance? =
-        startInstanceById(flowProcessId, flowOperator, null)
+        startInstanceById(flowProcessId, flowOperator, mapOf())
 
     /**
      * 按名称启动实例
@@ -86,7 +86,7 @@ public interface FlowEngine {
         flowProcessName: String,
         processVersion: Int,
         flowOperator: FlowOperator,
-        args: Map<String, Any?>?,
+        args: Map<String, Any?>,
     ): FlowInstance?
 
     /**
@@ -104,7 +104,7 @@ public interface FlowEngine {
         processVersion: Int,
         flowOperator: FlowOperator,
     ): FlowInstance? =
-        startInstanceByName(flowProcessName, processVersion, flowOperator, null)
+        startInstanceByName(flowProcessName, processVersion, flowOperator, mapOf())
 
     /**
      * 执行任务
@@ -116,9 +116,9 @@ public interface FlowEngine {
      * @since 1.0.0
      */
     public fun executeTask(
-        taskId: Long,
+        taskId: String,
         flowOperator: FlowOperator,
-        args: Map<String, Any?>?,
+        args: MutableMap<String, Any?>?,
     )
 
     /**
@@ -130,7 +130,7 @@ public interface FlowEngine {
      * @since 1.0.0
      */
     public fun executeTask(
-        taskId: Long,
+        taskId: String,
         flowOperator: FlowOperator,
     ) {
         executeTask(taskId, flowOperator, null)
@@ -147,10 +147,10 @@ public interface FlowEngine {
      * @since 1.0.0
      */
     public fun executeAndJumpTask(
-        taskId: Long,
+        taskId: String,
         nodeName: String,
         flowOperator: FlowOperator,
-        args: Map<String, Any?>?,
+        args: MutableMap<String, Any?>?,
     )
 
     /**
@@ -163,7 +163,7 @@ public interface FlowEngine {
      * @since 1.0.0
      */
     public fun executeAndJumpTask(
-        taskId: Long,
+        taskId: String,
         nodeName: String,
         flowOperator: FlowOperator,
     ) {

@@ -18,7 +18,7 @@ public interface ProcessService {
      * @date 2023/10/09 14:23
      * @since 1.0.0
      */
-    public fun getById(processId: String): FlowProcess
+    public fun getById(processId: String?): FlowProcess?
 
     /**
      * 根据流程名称或版本号查找流程定义对象

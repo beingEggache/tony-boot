@@ -1,6 +1,7 @@
 package com.tony.flow.service.impl
 
 import com.tony.flow.TaskPermission
+import com.tony.flow.db.enums.ActorType
 import com.tony.flow.db.enums.PerformType
 import com.tony.flow.db.enums.TaskState
 import com.tony.flow.db.enums.TaskType
@@ -15,6 +16,7 @@ import com.tony.flow.db.po.FlowHistoryTask
 import com.tony.flow.db.po.FlowHistoryTaskActor
 import com.tony.flow.db.po.FlowTask
 import com.tony.flow.db.po.FlowTaskActor
+import com.tony.flow.db.po.FlowTaskCc
 import com.tony.flow.extension.flowListThrowIfEmpty
 import com.tony.flow.extension.flowSelectByIdNotNull
 import com.tony.flow.extension.flowThrowIf
@@ -25,6 +27,7 @@ import com.tony.flow.model.FlowExecution
 import com.tony.flow.model.FlowNode
 import com.tony.flow.model.FlowOperator
 import com.tony.flow.model.enums.EventType
+import com.tony.flow.model.enums.NodeType
 import com.tony.flow.service.TaskService
 import com.tony.utils.copyToNotNull
 import com.tony.utils.ifNullOrBlank
@@ -65,7 +68,7 @@ internal open class TaskServiceImpl(
         )
 
     override fun completeActiveTasksByInstanceId(
-        instanceId: Long?,
+        instanceId: String?,
         flowOperator: FlowOperator,
     ): Boolean {
         flowTaskMapper
@@ -264,10 +267,12 @@ internal open class TaskServiceImpl(
         return taskPermission.hasPermission(userId, flowTaskActorList)
     }
 
+    @Transactional(rollbackFor = [Throwable::class])
     override fun createTask(
         flowNode: FlowNode?,
         flowExecution: FlowExecution,
     ): List<FlowTask> {
+        val nodeType = flowNode?.nodeType
         val flowTask =
             FlowTask().apply {
                 this.creatorId = flowExecution.creatorId
@@ -277,13 +282,70 @@ internal open class TaskServiceImpl(
                 this.taskName = flowNode?.nodeName
                 this.displayName = flowNode?.nodeName
                 // TODO ?
-                this.taskType = TaskType.create(flowNode?.nodeType?.value!!)
+                this.taskType = TaskType.create(nodeType?.value!!)
                 this.parentTaskId = flowExecution.flowTask?.taskId
             }
 
-        flowExecution.taskActorProvider.getTaskActors(flowNode, flowExecution)
+        val taskActors = flowExecution.taskActorProvider.listTaskActors(flowNode, flowExecution)
+        if (nodeType == NodeType.INITIATOR || nodeType == NodeType.APPROVER) {
+            return saveTask(
+                flowTask,
+                flowNode.multiApproveMode?.ofPerformType(),
+                taskActors,
+                flowExecution
+            )
+        }
 
-        TODO("Not yet implemented")
+        if (nodeType == NodeType.CC) {
+            saveTaskCc(flowNode, flowExecution)
+            flowNode.childNode?.also { nextNode ->
+                createTask(nextNode, flowExecution)
+            }
+            return emptyList()
+        }
+        if (nodeType == NodeType.CONDITIONAL_APPROVE) {
+            val newTask = flowTask
+                .copyToNotNull(FlowTask())
+                .apply {
+                    taskId = null
+                    createTime = LocalDateTime.now()
+                }
+            return saveTask(
+                newTask,
+                flowNode.multiApproveMode?.ofPerformType(),
+                taskActors,
+                flowExecution
+            )
+        }
+        return emptyList()
+    }
+
+    public fun saveTaskCc(
+        flowNode: FlowNode?,
+        flowExecution: FlowExecution,
+    ) {
+        val nodeUserList = flowNode?.nodeUserList
+        if (nodeUserList.isNullOrEmpty()) {
+            return
+        }
+        val parentTaskId = flowExecution.flowTask?.parentTaskId
+        nodeUserList.map {
+            FlowTaskCc().apply {
+                this.creatorId = flowExecution.creatorId
+                this.creatorName = flowExecution.creatorName
+                this.createTime = LocalDateTime.now()
+                this.instanceId = flowExecution.flowInstance?.instanceId
+                this.parentTaskId = parentTaskId
+                this.taskName = flowNode.nodeName
+                this.displayName = flowNode.nodeName
+                this.actorId = it.id
+                this.actorName = it.name
+                this.actorType = ActorType.USER
+                this.taskState = TaskState.ACTIVE
+            }
+        }.also { flowTaskCcList ->
+            flowTaskCcMapper.insertBatch(flowTaskCcList)
+        }
     }
 
     @Transactional(rollbackFor = [Throwable::class])
@@ -353,6 +415,7 @@ internal open class TaskServiceImpl(
         ) > 0
     }
 
+    @Transactional(rollbackFor = [Throwable::class])
     override fun removeTaskActor(
         taskId: String,
         taskActorIds: Collection<String>,
@@ -369,8 +432,39 @@ internal open class TaskServiceImpl(
             .remove()
     }
 
+    @Transactional(rollbackFor = [Throwable::class])
     override fun cascadeRemoveByInstanceId(instanceId: String) {
-        TODO("Not yet implemented")
+
+        flowHistoryTaskMapper
+            .ktQuery()
+            .select(FlowHistoryTask::taskId)
+            .eq(FlowHistoryTask::instanceId, instanceId)
+            .listObj<String>()
+            .filterNotNull()
+            .takeIf { it.isNotEmpty() }
+            ?.also { historyTaskIdList ->
+                flowHistoryTaskActorMapper.deleteByTaskIds(historyTaskIdList)
+                flowHistoryTaskMapper
+                    .ktUpdate()
+                    .eq(FlowHistoryTask::instanceId, instanceId)
+                    .remove()
+            }
+
+        flowTaskMapper
+            .ktQuery()
+            .select(FlowTask::taskId)
+            .eq(FlowTask::instanceId, instanceId)
+            .listObj<String>()
+            .filterNotNull()
+            .takeIf { it.isNotEmpty() }
+            ?.also { taskIdList ->
+                flowTaskActorMapper.deleteByTaskIds(taskIdList)
+                flowTaskMapper
+                    .ktUpdate()
+                    .eq(FlowTask::instanceId,instanceId)
+                    .remove()
+            }
+        // TODO 删除任务抄送
     }
 
     protected fun execute(
@@ -419,7 +513,7 @@ internal open class TaskServiceImpl(
                     (
                         flowHistoryTaskActorMapper
                             .insert(it.copyToNotNull(FlowHistoryTaskActor())) <= 0
-                    ),
+                        ),
                     "Migration to FlowHistoryTaskActor table failed"
                 )
             }
@@ -462,7 +556,7 @@ internal open class TaskServiceImpl(
 
     protected fun saveTask(
         flowTask: FlowTask,
-        performType: PerformType,
+        performType: PerformType?,
         flowTaskActorList: Collection<FlowTaskActor>,
         flowExecution: FlowExecution? = null,
     ): List<FlowTask> {
