@@ -8,7 +8,7 @@ plugins {
     alias(tonyLibs.plugins.tonyGradleBuild)
     alias(tonyLibs.plugins.kotlin) apply false
     alias(tonyLibs.plugins.kotlinSpring) apply false
-    alias(tonyLibs.plugins.kotlinkapt) apply false
+    alias(tonyLibs.plugins.kotlinKapt) apply false
 }
 
 val dependenciesProjects = setOf(project("${Build.PREFIX}-dependencies"))

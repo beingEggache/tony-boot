@@ -40,19 +40,19 @@ CREATE TABLE `sys_module`
 
 CREATE TABLE `sys_role`
 (
-    `role_id`      varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-    `app_id`       varchar(50) COLLATE utf8mb4_general_ci NOT NULL COMMENT '应用ID',
-    `role_name`    varchar(50) COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色名',
-    `remark`       varchar(200) COLLATE utf8mb4_general_ci         DEFAULT NULL COMMENT '备注',
-    `create_time`  timestamp                              NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `creator_id`   bigint                                 NOT NULL DEFAULT '0' COMMENT '创建人',
-    `creator_name` varchar(30) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建人名称',
-    `update_time`  timestamp                              NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-    `updator_id`   bigint                                 NOT NULL DEFAULT '0' COMMENT '更新人',
-    `updator_name` varchar(30) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '更新人名称',
-    `enabled`      tinyint                                NOT NULL DEFAULT '1' COMMENT '状态：1-启用，0-禁用',
-    `deleted`      tinyint                                NOT NULL DEFAULT '0' COMMENT '删除标记：1-已删除，0-未删除',
-    `tenant_id`    bigint                                 NOT NULL DEFAULT '0' COMMENT '租户id',
+    `role_id`      varchar(50) COLLATE utf8mb4_general_ci  NOT NULL,
+    `app_id`       varchar(50) COLLATE utf8mb4_general_ci  NOT NULL COMMENT '应用ID',
+    `role_name`    varchar(50) COLLATE utf8mb4_general_ci  NOT NULL COMMENT '角色名',
+    `remark`       varchar(200) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '备注',
+    `create_time`  timestamp                               NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `creator_id`   bigint                                  NOT NULL DEFAULT '0' COMMENT '创建人',
+    `creator_name` varchar(30) COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '创建人名称',
+    `update_time`  timestamp                               NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    `updator_id`   bigint                                  NOT NULL DEFAULT '0' COMMENT '更新人',
+    `updator_name` varchar(30) COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '更新人名称',
+    `enabled`      tinyint                                 NOT NULL DEFAULT '1' COMMENT '状态：1-启用，0-禁用',
+    `deleted`      tinyint                                 NOT NULL DEFAULT '0' COMMENT '删除标记：1-已删除，0-未删除',
+    `tenant_id`    bigint                                  NOT NULL DEFAULT '0' COMMENT '租户id',
     PRIMARY KEY (`role_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -94,7 +94,7 @@ CREATE TABLE `sys_user`
 
 CREATE TABLE `sys_user_role`
 (
-    `user_id`   varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+    `user_id`   bigint                                 NOT NULL,
     `role_id`   varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
     `tenant_id` bigint                                 NOT NULL DEFAULT '0' COMMENT '租户id',
     PRIMARY KEY (`user_id`, `role_id`)

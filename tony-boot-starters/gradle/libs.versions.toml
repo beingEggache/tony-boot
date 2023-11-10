@@ -57,6 +57,7 @@ jacksonDatabind = { module = "com.fasterxml.jackson.core:jackson-databind", vers
 jacksonDatatypeJdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jackson" }
 jacksonDatatypeJsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 jacksonModuleKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+jacksonModuleKogera = { module = "com.github.ProjectMapK:jackson-module-kogera", version = "2.15.3-beta6" }
 jacksonModuleParameterNames = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names", version.ref = "jackson" }
 
 knife4jCore = { module = "com.github.xiaoymin:knife4j-core", version.ref = "knife4j" }
@@ -219,7 +220,8 @@ aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
-kotlinkapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlinNoarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin" }
+kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 lombok = { id="io.freefair.lombok", version.ref = "lombok" }
 
 tonyGradleBuild = { id = "com.tony.gradle.plugin.build", version.ref="template"}

@@ -7,7 +7,7 @@ plugins {
     alias(tonyLibs.plugins.tonyGradleBuild)
     alias(tonyLibs.plugins.kotlin) apply false
     alias(tonyLibs.plugins.kotlinSpring) apply false
-    alias(tonyLibs.plugins.kotlinkapt) apply false
+    alias(tonyLibs.plugins.kotlinKapt) apply false
 }
 
 val javaVersion: String = rootProject.tonyLibs.versions.java.get()

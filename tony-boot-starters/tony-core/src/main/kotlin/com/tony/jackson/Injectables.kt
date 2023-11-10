@@ -37,16 +37,15 @@ import com.tony.utils.getLogger
 
 /**
  * Jackson 注入.
+ *
  * 没用.
+ *
  * 对于 Kotlin 非空字段, 接受 absent, 不接受 null 值.
- * 比如有个类
- * ```
- * ```
+ *
  * {} 是可接受的, { "name": null } 是不可接受的.
+ *
  * 对 Kotlin 不 友好, 建议只在 Java  使用, Kotlin 环境下, 建议只在 可变修饰的可空类型的 setter上使用.
- * 比如.
- * ```
- * ```
+ *
  * @author Tang Li
  * @date 2023/09/28 09:16
  * @since 1.0.0
