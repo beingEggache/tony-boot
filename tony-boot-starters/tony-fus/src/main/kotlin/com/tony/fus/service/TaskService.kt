@@ -1,0 +1,385 @@
+package com.tony.fus.service
+
+import com.tony.fus.db.enums.PerformType
+import com.tony.fus.db.enums.TaskType
+import com.tony.fus.db.po.FusHistoryTaskActor
+import com.tony.fus.db.po.FusTask
+import com.tony.fus.db.po.FusTaskActor
+import com.tony.fus.model.FusExecution
+import com.tony.fus.model.FusNode
+import com.tony.fus.model.FusOperator
+
+/**
+ * 任务业务类接口
+ * 任务服务
+ * @author Tang Li
+ * @date 2023/10/10 11:05
+ * @since 1.0.0
+ */
+public interface TaskService {
+    /**
+     * 完成任务
+     * @param [taskId] 任务id
+     * @param [operator] 任务完成者
+     * @param [variable] 任务变量
+     * @author Tang Li
+     * @date 2023/10/10 10:48
+     * @since 1.0.0
+     */
+    public fun complete(
+        taskId: String?,
+        operator: FusOperator,
+        variable: Map<String, Any?>?,
+    ): FusTask
+
+    /**
+     * 完成任务
+     * @param [taskId] 任务id
+     * @param [operator] 任务完成者
+     * @return [FusTask]
+     * @author Tang Li
+     * @date 2023/10/10 10:49
+     * @since 1.0.0
+     */
+    public fun complete(
+        taskId: String?,
+        operator: FusOperator,
+    ): FusTask =
+        complete(taskId, operator, null)
+
+    /**
+     * 完成指定实例ID活动任务
+     * @param [instanceId] 实例id
+     * @param [operator] 任务完成者
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/11/07 14:08
+     * @since 1.0.0
+     */
+    public fun completeActiveTasksByInstanceId(
+        instanceId: String?,
+        operator: FusOperator,
+    ): Boolean
+
+    /**
+     * 按id更新任务
+     * @param [task] 任务
+     * @author Tang Li
+     * @date 2023/10/10 10:50
+     * @since 1.0.0
+     */
+    public fun updateTaskById(task: FusTask)
+
+    /**
+     * 查看任务 设置为已阅状态
+     * @param [taskId] 任务id
+     * @param [taskActor] 任务参与者
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/11/03 11:55
+     * @since 1.0.0
+     */
+    public fun viewTask(
+        taskId: String,
+        taskActor: FusTaskActor,
+    ): Boolean
+
+    /**
+     * 任务超时
+     * @param [taskId] 任务id
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/10 11:05
+     * @since 1.0.0
+     */
+    public fun taskExpired(taskId: String): Boolean
+
+    /**
+     * 认领任务.
+     *
+     * 删除其它任务参与者
+     * @param [taskId] 任务id
+     * @param [historyTaskActor] 任务参与者
+     * @return [FusTask]
+     * @author Tang Li
+     * @date 2023/10/10 11:12
+     * @since 1.0.0
+     */
+    public fun claimTask(
+        taskId: String,
+        historyTaskActor: FusHistoryTaskActor,
+    ): FusTask
+
+    /**
+     * 分配任务
+     * @param [taskId] 任务id
+     * @param [taskType] 任务类型
+     * @param [taskActor] 任务参与者
+     * @param [assignee] 受让人
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/10 11:15
+     * @since 1.0.0
+     */
+    public fun assignTask(
+        taskId: String,
+        taskType: TaskType,
+        taskActor: FusTaskActor,
+        assignee: FusTaskActor,
+    ): Boolean
+
+    /**
+     * 转办任务
+     * @param [taskId] 任务id
+     * @param [taskActor] 任务参与者
+     * @param [assignee] 受让人
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/10 11:17
+     * @since 1.0.0
+     */
+    public fun transferTask(
+        taskId: String,
+        taskActor: FusTaskActor,
+        assignee: FusTaskActor,
+    ): Boolean =
+        assignTask(taskId, TaskType.TRANSFER, taskActor, assignee)
+
+    /**
+     * 委派任务.
+     *
+     * 代理人办理完任务该任务重新归还给原处理人
+     * @param [taskId] 任务id
+     * @param [taskActor] 任务参与者
+     * @param [assignee] 受让人
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/10 11:19
+     * @since 1.0.0
+     */
+    public fun delegateTask(
+        taskId: String,
+        taskActor: FusHistoryTaskActor,
+        assignee: FusHistoryTaskActor,
+    ): Boolean =
+        assignTask(taskId, TaskType.DELEGATE, taskActor, assignee)
+
+    /**
+     * 拿回任务.
+     *
+     * @param [taskId] 任务id
+     * @param [operator] 任务完成者
+     * @return [FusTask]?
+     * @author Tang Li
+     * @date 2023/10/10 11:20
+     * @since 1.0.0
+     */
+    public fun reclaimTask(
+        taskId: String,
+        operator: FusOperator,
+    ): FusTask
+
+    /**
+     * 撤回任务
+     * @param [taskId] 任务id
+     * @param [operator] 任务创建者
+     * @return [FusTask]?
+     * @author Tang Li
+     * @date 2023/10/10 11:24
+     * @since 1.0.0
+     */
+    public fun withdrawTask(
+        taskId: String,
+        operator: FusOperator,
+    ): FusTask?
+
+    /**
+     * 驳回任务.
+     *
+     * 驳回至上一步处理
+     * @param [task] 任务
+     * @param [operator] 任务创建者
+     * @param [variable] 变量
+     * @return [FusTask]?
+     * @author Tang Li
+     * @date 2023/10/10 11:31
+     * @since 1.0.0
+     */
+    public fun rejectTask(
+        task: FusTask,
+        operator: FusOperator,
+        variable: Map<String, Any?>?,
+    ): FusTask?
+
+    /**
+     * 驳回任务.
+     *
+     * 驳回至上一步处理
+     * @param [task] 任务
+     * @param [operator] 任务创建者
+     * @return [FusTask]?
+     * @author Tang Li
+     * @date 2023/10/10 11:31
+     * @since 1.0.0
+     */
+    public fun rejectTask(
+        task: FusTask,
+        operator: FusOperator,
+    ): FusTask? =
+        rejectTask(task, operator, null)
+
+    /**
+     * 判断可否执行任务.
+     *
+     * 根据 taskId、creatorId 判断创建人creatorId是否允许执行任务
+     * @param [task] 任务
+     * @param [userId] 用户id
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/10 13:59
+     * @since 1.0.0
+     */
+    public fun hasPermission(
+        task: FusTask,
+        userId: String?,
+    ): Boolean
+
+    /**
+     * 创建任务
+     * @param [node] 节点
+     * @param [execution] 流程执行
+     * @return [List<FusTask>]
+     * @author Tang Li
+     * @date 2023/10/25 10:05
+     * @since 1.0.0
+     */
+    public fun createTask(
+        node: FusNode?,
+        execution: FusExecution,
+    ): List<FusTask>
+
+    /**
+     * 创建新任务.
+     *
+     * 根据已有任务ID、任务类型、参与者创建新的任务.
+     * @param [taskId] 任务id
+     * @param [taskType] 任务类型
+     * @param [taskActors] 任务参与者
+     * @return [List<FusTask>]
+     * @author Tang Li
+     * @date 2023/10/25 10:08
+     * @since 1.0.0
+     */
+    public fun createNewTask(
+        taskId: String,
+        taskType: TaskType,
+        taskActors: Collection<FusTaskActor>,
+    ): List<FusTask>
+
+    /**
+     * 创建新任务
+     * @param [taskId] 任务id
+     * @param [taskType] 任务类型
+     * @param [taskActor] 任务参与者
+     * @return [List<FusTask>]
+     * @author Tang Li
+     * @date 2023/10/25 10:11
+     * @since 1.0.0
+     */
+    public fun createNewTask(
+        taskId: String,
+        taskType: TaskType,
+        taskActor: FusTaskActor,
+    ): List<FusTask> =
+        createNewTask(taskId, taskType, listOf(taskActor))
+
+    /**
+     * 列出过期或提醒任务
+     * @return [List<FusTask>]
+     * @author Tang Li
+     * @date 2023/10/25 10:23
+     * @since 1.0.0
+     */
+    public fun listExpiredOrRemindTasks(): List<FusTask>
+
+    /**
+     * 获取任务节点
+     * @param [taskId] 任务id
+     * @return [FusNode]
+     * @author Tang Li
+     * @date 2023/10/25 10:23
+     * @since 1.0.0
+     */
+    public fun getTaskNode(taskId: String): FusNode
+
+    /**
+     * 添加任务参与者【加签】
+     * @param [taskId] 任务id
+     * @param [performType] 执行类型
+     * @param [historyTaskActorList] 流历史任务参与者
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/25 10:25
+     * @since 1.0.0
+     */
+    public fun addTaskActor(
+        taskId: String,
+        performType: PerformType,
+        historyTaskActorList: List<FusHistoryTaskActor>,
+    ): Boolean
+
+    /**
+     * 添加任务参与者【加签】
+     * @param [taskId] 任务id
+     * @param [performType] 执行类型
+     * @param [taskActor] 流历史任务参与者
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/10/25 10:25
+     * @since 1.0.0
+     */
+    public fun addTaskActor(
+        taskId: String,
+        performType: PerformType,
+        taskActor: FusHistoryTaskActor,
+    ): Boolean =
+        addTaskActor(taskId, performType, listOf(taskActor))
+
+    /**
+     * 删除任务参与者【减签】
+     * @param [taskId] 任务id
+     * @param [taskActorIdList] 任务参与者ID
+     * @author Tang Li
+     * @date 2023/10/25 10:27
+     * @since 1.0.0
+     */
+    public fun removeTaskActor(
+        taskId: String,
+        taskActorIdList: Collection<String>,
+    ): Unit
+
+    /**
+     * 删除任务参与者【减签】
+     * @param [taskId] 任务id
+     * @param [taskActorId] 流历史任务参与者
+     * @author Tang Li
+     * @date 2023/10/25 10:25
+     * @since 1.0.0
+     */
+    public fun removeTaskActor(
+        taskId: String,
+        taskActorId: String,
+    ): Unit =
+        removeTaskActor(taskId, setOf(taskActorId))
+
+    /**
+     * 按实例id级联删除.
+     *
+     * 级联删除 fus_history_task, fus_history_task_actor, fus_task, fus_task_actor.
+     * @param [instanceId] 实例id
+     * @author Tang Li
+     * @date 2023/10/25 10:28
+     * @since 1.0.0
+     */
+    public fun cascadeRemoveByInstanceId(instanceId: String)
+}

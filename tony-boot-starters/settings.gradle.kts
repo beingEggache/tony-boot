@@ -37,7 +37,7 @@ include("$projectPrefix-captcha")
 include("$projectPrefix-snowflake-id")
 include("$projectPrefix-knife4j-api")
 include("$projectPrefix-web-crypto")
-include("$projectPrefix-flow")
+include("$projectPrefix-fus")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
