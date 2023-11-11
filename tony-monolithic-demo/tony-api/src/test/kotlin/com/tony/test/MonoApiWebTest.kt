@@ -1,7 +1,13 @@
 package com.tony.test
 
+import com.tony.JPageQuery
+import com.tony.db.service.RoleService
+import com.tony.dto.req.RoleCreateReq
+import com.tony.dto.req.RoleUpdateReq
+import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.annotation.Rollback
 
 /**
  *
@@ -11,8 +17,39 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest(classes = [TestMonoApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class MonoApiWebTest {
 
+    @Resource
+    private lateinit var roleService: RoleService
+
+    @Rollback(false)
     @Test
-    fun test() {
+    fun testAddRole() {
+        roleService.add(
+            RoleCreateReq(
+                roleId = null,
+                roleName = "test",
+            ),
+            "test"
+        )
+    }
+
+    @Rollback(false)
+    @Test
+    fun testUpdateRole() {
+        roleService.update(
+            RoleUpdateReq(
+                roleId = "7522585322053",
+                roleName = "testUpdate",
+            )
+        )
+    }
+
+    @Test
+    fun testPageRole() {
+        roleService.page(JPageQuery())
+    }
+    @Test
+    fun testListRole() {
+        roleService.list()
     }
 }
 

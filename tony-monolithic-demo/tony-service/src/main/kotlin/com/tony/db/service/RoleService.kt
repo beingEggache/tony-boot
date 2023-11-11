@@ -1,6 +1,7 @@
 package com.tony.db.service
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page
+import com.tony.JPageQuery
+import com.tony.PageResult
 import com.tony.db.dao.ModuleDao
 import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
@@ -57,14 +58,14 @@ class RoleService(
         )
     }
 
-    fun page(
-        query: String?,
-        page: Long = 1,
-        size: Long = 10,
-    ) = roleDao
-        .ktQuery()
-        .like(!query.isNullOrBlank(), Role::roleName, query)
-        .page(Page(page, size))
+    fun page(query: JPageQuery<String>): PageResult<Role> =
+        roleDao
+            .ktQuery()
+            .like(!query.query.isNullOrBlank(), Role::roleName, query)
+            .pageResult(query)
+
+    fun list(): List<Role> =
+        roleDao.ktQuery().list()
 
     fun selectByUserId(
         userId: String?,
