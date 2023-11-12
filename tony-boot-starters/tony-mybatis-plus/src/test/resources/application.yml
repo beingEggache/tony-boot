@@ -5,9 +5,3 @@ spring:
     username: tony_api
     password: tony_api
     driver-class-name: com.mysql.cj.jdbc.Driver
-mybatis-plus:
-  mapper-locations: classpath*:mappers/*.mapper.xml
-  configuration:
-    default-enum-type-handler: com.tony.mybatis.typehandler.EnumTypeHandler
-  global-config:
-    banner: off

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-    <include resource="logback-core.xml"/>
-
-    <logger name="trace-logger" level="TRACE"/>
-    <logger name="request-logger" level="TRACE"/>
-</configuration>

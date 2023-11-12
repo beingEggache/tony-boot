@@ -104,5 +104,6 @@ configure(libraryProjects) {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+        jvmArgs = listOf("-Dlogging.config=${rootProject.rootDir}/config/logback-spring.xml")
     }
 }

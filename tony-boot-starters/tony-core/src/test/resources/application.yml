@@ -12,4 +12,4 @@ spring:
     mapper:
       apply-default-values:
     parser:
-      use-fast-big-number-parser:
+      use-fast-big-number-parser: true
