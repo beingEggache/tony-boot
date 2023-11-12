@@ -36,7 +36,7 @@ import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateChainWrapper
 import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers
 import com.tony.ApiProperty
-import com.tony.JPageQueryLike
+import com.tony.PageQueryLike
 import com.tony.PageResultLike
 import com.tony.exception.BaseException
 import com.tony.exception.BizException
@@ -349,7 +349,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @since 1.0.0
      */
     public fun <E : PageResultLike<T>> selectPageResult(
-        page: JPageQueryLike<*>,
+        page: PageQueryLike<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
     ): E =
         selectPage(page.toPage(), queryWrapper).toPageResult()
@@ -364,7 +364,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @since 1.0.0
      */
     public fun <E : PageResultLike<Map<String, Any?>>> selectMapPageResult(
-        page: JPageQueryLike<*>,
+        page: PageQueryLike<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
     ): E =
         selectMapsPage(page.toPage(), queryWrapper).toPageResult()

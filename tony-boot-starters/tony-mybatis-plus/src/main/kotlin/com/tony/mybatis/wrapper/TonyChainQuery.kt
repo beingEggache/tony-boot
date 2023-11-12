@@ -26,7 +26,7 @@ package com.tony.mybatis.wrapper
 
 import com.baomidou.mybatisplus.extension.conditions.query.ChainQuery
 import com.tony.ApiProperty
-import com.tony.JPageQueryLike
+import com.tony.PageQueryLike
 import com.tony.PageResultLike
 import com.tony.exception.BaseException
 import com.tony.mybatis.dao.BaseDao
@@ -179,7 +179,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/10/23 14:49
      * @since 1.0.0
      */
-    public fun <E : PageResultLike<T>> pageResult(page: JPageQueryLike<*>): E =
+    public fun <E : PageResultLike<T>> pageResult(page: PageQueryLike<*>): E =
         baseMapper.selectPageResult(page, wrapper)
 
     /**
@@ -190,7 +190,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @date 2023/10/23 14:49
      * @since 1.0.0
      */
-    public fun <E : PageResultLike<Map<String, Any?>>> mapPageResult(page: JPageQueryLike<*>): E =
+    public fun <E : PageResultLike<Map<String, Any?>>> mapPageResult(page: PageQueryLike<*>): E =
         baseMapper.selectMapPageResult(page, wrapper)
 
     /**

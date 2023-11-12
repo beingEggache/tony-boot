@@ -32,7 +32,7 @@ package com.tony.web.interceptor
 import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.utils.hasAnnotation
 import com.tony.web.WebContext
-import com.tony.web.WebContextExtensions.apiSession
+import com.tony.web.WebContextExtensions.webSession
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.method.HandlerMethod
@@ -53,7 +53,7 @@ public interface LoginCheckInterceptor : HandlerInterceptor {
         if (handler !is HandlerMethod) return true
         if (handler.beanType.hasAnnotation(NoLoginCheck::class.java)) return true
         if (handler.method.hasAnnotation(NoLoginCheck::class.java)) return true
-        throw (WebContext.apiSession.unauthorizedException ?: return true)
+        throw (WebContext.webSession.unauthorizedException ?: return true)
     }
 }
 

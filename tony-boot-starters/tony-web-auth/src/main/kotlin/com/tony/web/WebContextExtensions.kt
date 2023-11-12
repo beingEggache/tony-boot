@@ -36,7 +36,7 @@ import com.tony.SpringContexts.getBeanByLazy
  */
 public object WebContextExtensions {
     @JvmStatic
-    private val apiSession: ApiSession by getBeanByLazy()
+    private val webSession: WebSession by getBeanByLazy()
 
     /**
      * 用户标识
@@ -45,7 +45,7 @@ public object WebContextExtensions {
     @JvmStatic
     public val WebContext.userId: String
         get() =
-            apiSession.userId
+            webSession.userId
 
     /**
      * Api session
@@ -53,17 +53,17 @@ public object WebContextExtensions {
     @Suppress("UnusedReceiverParameter")
     @get:JvmSynthetic
     @JvmStatic
-    public val WebContext.apiSession: ApiSession
+    public val WebContext.webSession: WebSession
         get() =
-            WebContextExtensions.apiSession
+            WebContextExtensions.webSession
 
     /**
-     * apiSession
-     * @return apiSession
+     * webSession
+     * @return webSession
      */
     @JvmStatic
-    public fun apiSession(): ApiSession =
-        apiSession
+    public fun apiSession(): WebSession =
+        webSession
 
     /**
      * 用户标识
@@ -71,5 +71,5 @@ public object WebContextExtensions {
      */
     @JvmStatic
     public fun userId(): String =
-        apiSession.userId
+        webSession.userId
 }

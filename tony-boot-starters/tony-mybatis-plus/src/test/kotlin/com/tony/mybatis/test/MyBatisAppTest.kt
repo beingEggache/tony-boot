@@ -1,9 +1,11 @@
 package com.tony.mybatis.test
 
-import com.tony.JPageQuery
+import com.tony.ApiSession
+import com.tony.PageQuery
 import com.tony.PageResult
 import com.tony.annotation.EnableTonyBoot
 import com.tony.digest.md5
+import com.tony.mybatis.DefaultMetaObjectHandler
 import com.tony.mybatis.test.db.dao.UserDao
 import com.tony.mybatis.test.db.po.User
 import com.tony.utils.getLogger
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.Test
 import org.mybatis.spring.annotation.MapperScan
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
@@ -37,7 +40,7 @@ class MyBatisAppTest {
         val oneObj = userDao.ktQuery().eq(User::userId, userId).oneObj<String>()
         logger.info(oneObj!!::class.java.name)
         logger.info(oneObj.toJsonString())
-        val pageResult = userDao.ktQuery().pageResult<PageResult<User>>(JPageQuery<String>())
+        val pageResult = userDao.ktQuery().pageResult<PageResult<User>>(PageQuery<String>())
         logger.info(pageResult.toJsonString())
     }
 
@@ -73,4 +76,18 @@ class MyBatisAppTest {
 @MapperScan("com.tony.mybatis.test.db.dao")
 @EnableTonyBoot
 @SpringBootApplication
-class TestMyBatisApp
+class TestMyBatisApp {
+
+    @Bean
+    fun defaultMetaObjectHandler() = object : DefaultMetaObjectHandler(NoopApiSession()){
+        override val userName: String?
+            get() = "aloha"
+    }
+}
+
+class NoopApiSession : ApiSession {
+    override val userId: String
+        get() = "1"
+    override val tenantId: String
+        get() = "1"
+}

@@ -1,10 +1,10 @@
 package com.tony.web.auth.test.controller
 
 import com.tony.ApiResult
+import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.jwt.JwtToken
 import com.tony.web.WebContext
-import com.tony.web.WebContextExtensions.apiSession
-import com.tony.annotation.web.auth.NoLoginCheck
+import com.tony.web.WebContextExtensions.webSession
 import com.tony.web.auth.test.req.TestLoginReq
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -22,7 +22,7 @@ class TestSessionController {
     @Operation(summary = "测试session", description = "测试session description")
     @GetMapping("/test-token-user-id")
     fun testUserId(): String {
-        return WebContext.apiSession.userId
+        return WebContext.webSession.userId
     }
 
     @NoLoginCheck

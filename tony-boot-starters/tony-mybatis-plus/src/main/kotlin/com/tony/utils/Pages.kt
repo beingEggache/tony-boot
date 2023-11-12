@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("PageUtils")
+@file:JvmName("Pages")
 
 /**
  * PageUtils
@@ -36,7 +36,7 @@ package com.tony.utils
 import com.baomidou.mybatisplus.core.metadata.IPage
 import com.baomidou.mybatisplus.core.metadata.OrderItem
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
-import com.tony.JPageQueryLike
+import com.tony.PageQueryLike
 import com.tony.PageResult
 import com.tony.PageResultLike
 import java.util.Collections
@@ -48,7 +48,7 @@ import java.util.Collections
  * @date 2023/09/28 10:55
  * @since 1.0.0
  */
-public fun <T> JPageQueryLike<*>.toPage(): IPage<T> =
+public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
     Page<T>().also { page ->
         page.current = this.page.takeIf { it > 0 } ?: 1L
         page.size = this.size.takeIf { it > 0 } ?: 10L

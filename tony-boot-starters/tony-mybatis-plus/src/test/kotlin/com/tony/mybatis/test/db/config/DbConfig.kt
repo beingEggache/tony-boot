@@ -1,4 +1,4 @@
-package com.tony.db.config
+package com.tony.mybatis.test.db.config
 
 import com.baomidou.mybatisplus.annotation.DbType
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator
@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 
 @Configuration
 @ComponentScan(
-    basePackages = ["com.tony.db"]
+    basePackages = ["com.tony.mybatis.test.db"]
 )
 @EnableTransactionManagement(proxyTargetClass = true)
-@MapperScan("com.tony.db.dao")
+@MapperScan("com.tony.mybatis.test.dao")
 class DbConfig {
     @Bean
     internal fun mybatisPlusInterceptor(): MybatisPlusInterceptor {

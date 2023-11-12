@@ -38,7 +38,7 @@ import java.util.Collection;
  * @author Tang Li
  * @date 2021/12/6 10:51
  */
-public interface JPageQueryLike<T> {
+public interface PageQueryLike<T> {
 
 
     /**

@@ -43,8 +43,10 @@ import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
  * @author Tang Li
  * @date 2023/5/25 15:15
  */
-internal class NoopApiSession : ApiSession {
+internal class NoopWebSession : WebSession {
     override val userId: String
+        get() = TODO("Not yet implemented")
+    override val tenantId: String
         get() = TODO("Not yet implemented")
 
     override val unauthorizedException: UnauthorizedException? = null
@@ -56,7 +58,7 @@ internal class NoopApiSession : ApiSession {
  * @author Tang Li
  * @date 2023/5/25 15:17
  */
-internal class JwtApiSession : ApiSession {
+internal class JwtWebSession : WebSession {
     private val logger = getLogger()
 
     private val token: DecodedJWT
@@ -82,6 +84,8 @@ internal class JwtApiSession : ApiSession {
                 logger.debug("init userId")
                 token.getClaim("userId")?.asString() ?: throw UnauthorizedException("请登录")
             }
+    override val tenantId: String
+        get() = TODO("Not yet implemented")
 
     override val unauthorizedException: UnauthorizedException?
         get() =

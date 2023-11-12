@@ -30,7 +30,7 @@ public class FusEngineImpl(
     override fun startInstanceById(
         processId: String,
         operator: FusOperator,
-        args: Map<String, Any?>
+        args: Map<String, Any?>,
     ): FusInstance? {
         return startProcess(
             processService.getById(processId) ?: return null,
@@ -43,7 +43,7 @@ public class FusEngineImpl(
         processName: String,
         processVersion: Int,
         operator: FusOperator,
-        args: Map<String, Any?>
+        args: Map<String, Any?>,
     ): FusInstance? =
         startProcess(
             processService.getByVersion(processName, processVersion),
@@ -65,7 +65,7 @@ public class FusEngineImpl(
         taskId: String,
         nodeName: String,
         operator: FusOperator,
-        args: MutableMap<String, Any?>?
+        args: MutableMap<String, Any?>?,
     ) {
         execute(taskId, operator, args ?: mutableMapOf()) {
             val model = it.process.model.fusThrowIfNull("当前任务未找到流程定义模型")
@@ -79,7 +79,7 @@ public class FusEngineImpl(
     protected fun startProcess(
         process: FusProcess,
         operator: FusOperator,
-        args: Map<String, Any?>
+        args: Map<String, Any?>,
     ): FusInstance? {
         val execution = execute(process, operator, args)
         process.executeStart(context, execution)
@@ -89,7 +89,7 @@ public class FusEngineImpl(
     protected fun execute(
         process: FusProcess,
         operator: FusOperator,
-        args: Map<String, Any?>
+        args: Map<String, Any?>,
     ): FusExecution {
         val instance =
             runtimeService
@@ -163,12 +163,13 @@ public class FusEngineImpl(
                     args.putIfAbsent(it.key, it.value)
                 }
             }
-        val execution = FusExecution(this, process, instance, args)
-            .apply {
-                creatorId = operator.operatorId
-                creatorName = operator.operatorName
-                this.task = task
-            }
+        val execution =
+            FusExecution(this, process, instance, args)
+                .apply {
+                    creatorId = operator.operatorId
+                    creatorName = operator.operatorName
+                    this.task = task
+                }
 
         if (performType == PerformType.SORT) {
             val nextNodeAssignee: FusNodeAssignee? =
@@ -198,9 +199,10 @@ public class FusEngineImpl(
                                 }
                         } else {
                             val nextNodeAssigneeIndex =
-                                nodeAssigneeList.indexOfFirst {
-                                    it.id == operator.operatorId
-                                }.plus(1)
+                                nodeAssigneeList
+                                    .indexOfFirst {
+                                        it.id == operator.operatorId
+                                    }.plus(1)
                             nodeAssigneeList.getOrNull(nextNodeAssigneeIndex)
                         }
                     }

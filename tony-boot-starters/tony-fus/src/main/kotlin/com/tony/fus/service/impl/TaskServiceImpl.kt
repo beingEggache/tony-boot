@@ -304,12 +304,13 @@ internal open class TaskServiceImpl(
             return emptyList()
         }
         if (nodeType == NodeType.CONDITIONAL_APPROVE) {
-            val newTask = task
-                .copyToNotNull(FusTask())
-                .apply {
-                    taskId = null
-                    createTime = LocalDateTime.now()
-                }
+            val newTask =
+                task
+                    .copyToNotNull(FusTask())
+                    .apply {
+                        taskId = null
+                        createTime = LocalDateTime.now()
+                    }
             return saveTask(
                 newTask,
                 node.multiApproveMode?.ofPerformType(),
@@ -329,23 +330,24 @@ internal open class TaskServiceImpl(
             return
         }
         val parentTaskId = execution.task?.parentTaskId
-        nodeUserList.map {
-            FusTaskCc().apply {
-                this.creatorId = execution.creatorId
-                this.creatorName = execution.creatorName
-                this.createTime = LocalDateTime.now()
-                this.instanceId = execution.instance?.instanceId
-                this.parentTaskId = parentTaskId
-                this.taskName = node.nodeName
-                this.displayName = node.nodeName
-                this.actorId = it.id
-                this.actorName = it.name
-                this.actorType = ActorType.USER
-                this.taskState = TaskState.ACTIVE
+        nodeUserList
+            .map {
+                FusTaskCc().apply {
+                    this.creatorId = execution.creatorId
+                    this.creatorName = execution.creatorName
+                    this.createTime = LocalDateTime.now()
+                    this.instanceId = execution.instance?.instanceId
+                    this.parentTaskId = parentTaskId
+                    this.taskName = node.nodeName
+                    this.displayName = node.nodeName
+                    this.actorId = it.id
+                    this.actorName = it.name
+                    this.actorType = ActorType.USER
+                    this.taskState = TaskState.ACTIVE
+                }
+            }.also { flowTaskCcList ->
+                taskCcMapper.insertBatch(flowTaskCcList)
             }
-        }.also { flowTaskCcList ->
-            taskCcMapper.insertBatch(flowTaskCcList)
-        }
     }
 
     @Transactional(rollbackFor = [Throwable::class])
@@ -460,7 +462,7 @@ internal open class TaskServiceImpl(
                 taskActorMapper.deleteByTaskIds(taskIdList)
                 taskMapper
                     .ktUpdate()
-                    .eq(FusTask::instanceId,instanceId)
+                    .eq(FusTask::instanceId, instanceId)
                     .remove()
             }
         // TODO 删除任务抄送
@@ -512,7 +514,7 @@ internal open class TaskServiceImpl(
                     (
                         historyTaskActorMapper
                             .insert(it.copyToNotNull(FusHistoryTaskActor())) <= 0
-                        ),
+                    ),
                     "Migration to FusHistoryTaskActor table failed"
                 )
             }

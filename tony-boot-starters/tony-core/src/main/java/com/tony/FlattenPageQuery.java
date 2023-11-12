@@ -35,11 +35,11 @@ import java.util.Collections;
  *
  * @param <T>
  * @author Tang Li
- * @see JPageQueryLike
+ * @see PageQueryLike
  * @date 2023/07/11 09:21
  */
 @SuppressWarnings("unused")
-public class JFlattenPageQuery<T> implements JPageQueryLike<T> {
+public class FlattenPageQuery<T> implements PageQueryLike<T> {
 
     @JsonUnwrapped
     private Object query;
@@ -53,16 +53,16 @@ public class JFlattenPageQuery<T> implements JPageQueryLike<T> {
     private Collection<String> descs = Collections.emptyList();
 
 
-    public JFlattenPageQuery() {
+    public FlattenPageQuery() {
     }
 
-    public JFlattenPageQuery(
+    public FlattenPageQuery(
         long page
     ) {
         this.page = page;
     }
 
-    public JFlattenPageQuery(
+    public FlattenPageQuery(
         long page,
         long size
     ) {
@@ -70,7 +70,7 @@ public class JFlattenPageQuery<T> implements JPageQueryLike<T> {
         this.size = size;
     }
 
-    public JFlattenPageQuery(
+    public FlattenPageQuery(
         long page,
         long size,
         Collection<String> ascs,
@@ -82,7 +82,7 @@ public class JFlattenPageQuery<T> implements JPageQueryLike<T> {
         this.descs = descs;
     }
 
-    public JFlattenPageQuery(
+    public FlattenPageQuery(
         long page,
         Collection<String> ascs,
         Collection<String> descs
@@ -92,7 +92,7 @@ public class JFlattenPageQuery<T> implements JPageQueryLike<T> {
         this.descs = descs;
     }
 
-    public JFlattenPageQuery(T query, long page, long size, Collection<String> ascs, Collection<String> descs) {
+    public FlattenPageQuery(T query, long page, long size, Collection<String> ascs, Collection<String> descs) {
         this.query = query;
         this.page = page;
         this.size = size;

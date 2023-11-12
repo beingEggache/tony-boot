@@ -29,6 +29,7 @@
  */
 package com.tony.web
 
+import com.tony.ApiSession
 import com.tony.web.exception.UnauthorizedException
 
 /**
@@ -37,12 +38,7 @@ import com.tony.web.exception.UnauthorizedException
  * @author Tang Li
  * @date 2023/5/25 10:52
  */
-public interface ApiSession {
-    /**
-     * 用户标识
-     */
-    public val userId: String
-
+public interface WebSession : ApiSession {
     /**
      * 未认证异常
      */

@@ -1,6 +1,6 @@
 package com.tony.web.test.controller
 
-import com.tony.JPageQuery
+import com.tony.PageQuery
 import com.tony.web.test.req.TestPatternReq
 import com.tony.web.test.req.TestQuery
 import io.swagger.v3.oas.annotations.Operation
@@ -22,7 +22,7 @@ class TestValidateController {
     @Operation(summary = "pageQuery 验证", description = "pageQuery 验证")
     @PostMapping("/page-query-validate")
     fun testPageQueryValidation(
-        @Validated @RequestBody req: JPageQuery<TestQuery>
+        @Validated @RequestBody req: PageQuery<TestQuery>
     ) = "req.query"
 
 }

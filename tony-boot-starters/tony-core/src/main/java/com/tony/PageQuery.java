@@ -35,10 +35,10 @@ import java.util.Collections;
  * @param <T>
  * @author Tang Li
  * @date 2023/07/11 09:21
- * @see JPageQueryLike
+ * @see PageQueryLike
  */
 @SuppressWarnings("unused")
-public class JPageQuery<T> implements JPageQueryLike<T> {
+public class PageQuery<T> implements PageQueryLike<T> {
 
     private Object query;
 
@@ -50,16 +50,16 @@ public class JPageQuery<T> implements JPageQueryLike<T> {
 
     private Collection<String> descs = Collections.emptyList();
 
-    public JPageQuery() {
+    public PageQuery() {
     }
 
-    public JPageQuery(
+    public PageQuery(
         long page
     ) {
         this.page = page;
     }
 
-    public JPageQuery(
+    public PageQuery(
         long page,
         long size
     ) {
@@ -67,7 +67,7 @@ public class JPageQuery<T> implements JPageQueryLike<T> {
         this.size = size;
     }
 
-    public JPageQuery(
+    public PageQuery(
         long page,
         long size,
         Collection<String> ascs,
@@ -79,7 +79,7 @@ public class JPageQuery<T> implements JPageQueryLike<T> {
         this.descs = descs;
     }
 
-    public JPageQuery(
+    public PageQuery(
         long page,
         Collection<String> ascs,
         Collection<String> descs
@@ -89,7 +89,7 @@ public class JPageQuery<T> implements JPageQueryLike<T> {
         this.descs = descs;
     }
 
-    public JPageQuery(T query, long page, long size, Collection<String> ascs, Collection<String> descs) {
+    public PageQuery(T query, long page, long size, Collection<String> ascs, Collection<String> descs) {
         this.query = query;
         this.page = page;
         this.size = size;

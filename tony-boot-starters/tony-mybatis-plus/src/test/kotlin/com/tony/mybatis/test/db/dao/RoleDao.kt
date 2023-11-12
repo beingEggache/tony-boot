@@ -5,7 +5,6 @@ import com.tony.mybatis.test.db.po.Role
 import org.apache.ibatis.annotations.Param
 
 interface RoleDao : BaseDao<Role> {
-
     fun selectByUserId(
         @Param("userId")
         userId: String?,

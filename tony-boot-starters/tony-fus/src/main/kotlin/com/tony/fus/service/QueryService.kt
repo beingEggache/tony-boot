@@ -137,7 +137,6 @@ public interface QueryService {
      */
     public fun listHistoryTaskActorByTaskId(taskId: String): List<FusHistoryTaskActor>
 
-
     /**
      * 按实例id列出任务参与者
      * @param [instanceId] 实例id
@@ -146,5 +145,5 @@ public interface QueryService {
      * @date 2023/11/10 16:59
      * @since 1.0.0
      */
-    public fun listTaskActorsByInstanceId(instanceId: String?):List<FusTaskActor>
+    public fun listTaskActorsByInstanceId(instanceId: String?): List<FusTaskActor>
 }

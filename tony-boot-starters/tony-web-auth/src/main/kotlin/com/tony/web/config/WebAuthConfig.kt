@@ -26,10 +26,10 @@ package com.tony.web.config
 
 import com.tony.jwt.config.JwtProperties
 import com.tony.utils.getLogger
-import com.tony.web.ApiSession
-import com.tony.web.JwtApiSession
-import com.tony.web.NoopApiSession
+import com.tony.web.JwtWebSession
+import com.tony.web.NoopWebSession
 import com.tony.web.WebApp
+import com.tony.web.WebSession
 import com.tony.web.interceptor.DefaultLoginCheckInterceptor
 import com.tony.web.interceptor.LoginCheckInterceptor
 import org.slf4j.LoggerFactory
@@ -63,15 +63,15 @@ internal class WebAuthConfig(
     internal fun loginCheckInterceptor(): LoginCheckInterceptor =
         DefaultLoginCheckInterceptor()
 
-    @ConditionalOnMissingBean(ApiSession::class)
+    @ConditionalOnMissingBean(WebSession::class)
     @Bean
-    internal fun apiSession(): ApiSession =
+    internal fun apiSession(): WebSession =
         if (jwtProperties.secret.isNotBlank()) {
-            JwtApiSession().apply {
+            JwtWebSession().apply {
                 getLogger().info("Jwt auth is enabled")
             }
         } else {
-            NoopApiSession()
+            NoopWebSession()
         }
 
     override fun addInterceptors(registry: InterceptorRegistry) {

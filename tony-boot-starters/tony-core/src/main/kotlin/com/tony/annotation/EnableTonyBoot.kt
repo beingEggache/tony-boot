@@ -71,6 +71,7 @@ internal class TonyBootImportSelector : ImportSelector {
             "$PROJECT_GROUP.id.config.IdConfig",
             "$PROJECT_GROUP.jwt.config.JwtConfig",
             "$PROJECT_GROUP.knife4j.config.Knife4jExtensionConfig",
+            "$PROJECT_GROUP.mybatis.config.MybatisPlusConfig",
             "$PROJECT_GROUP.web.config.WebAuthConfig",
             "$PROJECT_GROUP.web.config.WebConfig",
             "$PROJECT_GROUP.wechat.config.WechatConfig",
