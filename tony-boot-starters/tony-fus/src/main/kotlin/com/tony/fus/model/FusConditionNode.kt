@@ -1,5 +1,7 @@
 package com.tony.fus.model
 
+import com.tony.fus.model.enums.NodeType
+
 /**
  * 条件节点.
  * @author tangli
@@ -9,7 +11,7 @@ package com.tony.fus.model
 public class FusConditionNode {
     public var nodeName: String? = null
 
-    public var nodeType: Int? = null
+    public var nodeType: NodeType? = null
 
     public var priority: Int = 0
 

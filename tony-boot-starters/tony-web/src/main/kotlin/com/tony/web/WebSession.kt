@@ -39,8 +39,8 @@ import com.tony.web.exception.UnauthorizedException
  * @date 2023/5/25 10:52
  */
 public interface WebSession : ApiSession {
-
     override val userId: String
+
     /**
      * 未认证异常
      */

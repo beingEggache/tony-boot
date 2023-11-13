@@ -21,7 +21,7 @@ public class FusContext(
     public val runtimeService: RuntimeService,
     public val taskService: TaskService,
     public val expressionEvaluator: FusExpressionEvaluator,
-    public val taskPermission: TaskPermission,
+    public val taskPermission: FusTaskPermission,
     public val interceptors: List<FusInterceptor>,
     public val taskActorProvider: FusTaskActorProvider,
 ) {

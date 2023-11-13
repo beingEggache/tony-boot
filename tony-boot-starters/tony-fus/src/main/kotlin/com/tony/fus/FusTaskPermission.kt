@@ -10,7 +10,7 @@ import com.tony.fus.db.po.FusTaskActor
  * @date 2023/10/19 10:18
  * @since 1.0.0
  */
-public fun interface TaskPermission {
+public fun interface FusTaskPermission {
     /**
      * 是否拥有权限.
      *
@@ -26,4 +26,16 @@ public fun interface TaskPermission {
         userId: String?,
         taskActorList: List<FusTaskActor>,
     ): Boolean
+}
+
+internal class DefaultTaskPermission : FusTaskPermission {
+    override fun hasPermission(
+        userId: String?,
+        taskActorList: List<FusTaskActor>,
+    ): Boolean {
+        if (userId.isNullOrEmpty() || taskActorList.isEmpty()) {
+            return false
+        }
+        return taskActorList.any { it.actorId == userId }
+    }
 }

@@ -1,5 +1,6 @@
 package com.tony.fus
 
+import com.tony.fus.db.enums.ActorType
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
@@ -24,4 +25,34 @@ public fun interface FusTaskActorProvider {
         fusNode: FusNode?,
         fusExecution: FusExecution,
     ): List<FusTaskActor>
+}
+
+internal class DefaultFusTaskActorProvider : FusTaskActorProvider {
+    override fun listTaskActors(
+        fusNode: FusNode?,
+        fusExecution: FusExecution,
+    ): List<FusTaskActor> =
+        fusNode
+            ?.nodeUserList
+            ?.map {
+                FusTaskActor().apply {
+                    actorId = it.id
+                    actorName = it.name
+                    actorType = ActorType.USER
+                    weight = it.weight
+                }
+            }?.let {
+                it.ifEmpty {
+                    fusNode
+                        .nodeRoleList
+                        .map {
+                            FusTaskActor().apply {
+                                actorId = it.id
+                                actorName = it.name
+                                actorType = ActorType.ROLE
+                                weight = it.weight
+                            }
+                        }
+                }
+            }.orEmpty()
 }

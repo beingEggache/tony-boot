@@ -4,7 +4,6 @@ import com.tony.fus.FusContext
 import com.tony.fus.db.enums.ProcessState
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.po.FusProcess
-import com.tony.fus.extension.fusListThrowIfEmpty
 import com.tony.fus.extension.fusOneNotNull
 import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.extension.fusThrowIfNull
@@ -50,26 +49,21 @@ internal class ProcessServiceImpl(
                 .parse(modelContent, null, false)
                 .fusThrowIfNull()
 
-        val processVersion =
-            processMapper
-                .ktQuery()
-                .select(FusProcess::processId, FusProcess::processVersion)
-                .eq(FusProcess::processName, processModel.name)
-                .orderByDesc(FusProcess::processVersion)
-                .last("limit 1")
-                .fusListThrowIfEmpty()
-                .firstOrNull()
-                .fusThrowIfNull()
-                .let {
-                    if (!repeat) {
-                        return it.processId!!
-                    }
-                    it.processVersion!!
-                }
+        val process = processMapper
+            .ktQuery()
+            .select(FusProcess::processId, FusProcess::processVersion)
+            .eq(FusProcess::processName, processModel.name)
+            .orderByDesc(FusProcess::processVersion)
+            .last("limit 1")
+            .one()
 
-        val process =
+        if (process != null && !repeat) {
+            return process.processId!!
+        }
+
+        val newProcess =
             FusProcess().apply {
-                this.processVersion = processVersion + 1
+                this.processVersion = (process?.processVersion ?: 0) + 1
                 this.processState = ProcessState.ACTIVE
                 this.processName = processModel.name
                 this.displayName = processModel.name
@@ -80,8 +74,8 @@ internal class ProcessServiceImpl(
                 this.creatorName = creator.operatorName
                 this.createTime = LocalDateTime.now()
             }
-        processMapper.insert(process)
-        return process.processId!!
+        processMapper.insert(newProcess)
+        return newProcess.processId!!
     }
 
     override fun redeploy(

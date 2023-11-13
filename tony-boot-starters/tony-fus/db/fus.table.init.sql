@@ -1,11 +1,11 @@
-DROP TABLE `fus_task_cc` cascade;
-DROP TABLE `fus_task_actor` cascade;
-DROP TABLE `fus_task` cascade;
-DROP TABLE `fus_instance` cascade;
-DROP TABLE `fus_history_task_actor` cascade;
-DROP TABLE `fus_history_task` cascade;
-DROP TABLE `fus_history_instance` cascade;
-DROP TABLE `fus_process` cascade;
+DROP TABLE if exists `fus_task_cc` cascade;
+DROP TABLE if exists `fus_task_actor` cascade;
+DROP TABLE if exists `fus_task` cascade;
+DROP TABLE if exists `fus_instance` cascade;
+DROP TABLE if exists `fus_history_task_actor` cascade;
+DROP TABLE if exists `fus_history_task` cascade;
+DROP TABLE if exists `fus_history_instance` cascade;
+DROP TABLE if exists `fus_process` cascade;
 
 CREATE TABLE `fus_task_cc`
 (
