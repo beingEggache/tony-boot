@@ -86,7 +86,7 @@ internal interface DbMetaObjectHandler : MetaObjectHandler {
             userName != null &&
                 metaObject.hasSetter(fieldUpdatorNameName)
         ) {
-            strictInsertFill(
+            strictUpdateFill(
                 metaObject,
                 fieldUpdatorNameName,
                 String::class.java,

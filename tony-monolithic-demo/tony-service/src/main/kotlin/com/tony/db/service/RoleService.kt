@@ -1,6 +1,6 @@
 package com.tony.db.service
 
-import com.tony.JPageQuery
+import com.tony.PageQuery
 import com.tony.PageResult
 import com.tony.db.dao.ModuleDao
 import com.tony.db.dao.RoleDao
@@ -58,7 +58,7 @@ class RoleService(
         )
     }
 
-    fun page(query: JPageQuery<String>): PageResult<Role> =
+    fun page(query: PageQuery<String>): PageResult<Role> =
         roleDao
             .ktQuery()
             .like(!query.query.isNullOrBlank(), Role::roleName, query)

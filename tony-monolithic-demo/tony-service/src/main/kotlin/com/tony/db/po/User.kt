@@ -64,6 +64,7 @@ class User {
      * 创建人
      */
     @TableField(
+        fill = FieldFill.INSERT,
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )

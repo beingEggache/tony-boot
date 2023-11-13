@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotBlank
  * @date 2020-11-03 14:40
  */
 @Schema(description = "新增用户请求")
-data class UserCreateReq(
+data class UserAddReq(
     @Schema(description = "用户名", required = true)
     @get:NotBlank(message = "请输入用户名")
     val userName: String?,

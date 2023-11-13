@@ -1,16 +1,15 @@
 package com.tony.db.service
 
-import com.tony.JPageQuery
+import com.tony.PageQuery
 import com.tony.PageResult
 import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
 import com.tony.db.po.User
 import com.tony.digest.md5
-import com.tony.dto.req.UserCreateReq
+import com.tony.dto.req.UserAddReq
 import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
-import com.tony.dto.resp.RoleResp
 import com.tony.dto.resp.UserInfoResp
 import com.tony.dto.resp.UserResp
 import com.tony.exception.BizException
@@ -49,7 +48,7 @@ class UserService(
         )
     } ?: throw BizException("没有此用户")
 
-    fun list(req: JPageQuery<String>): PageResult<UserResp> =
+    fun list(req: PageQuery<String>): PageResult<UserResp> =
         userDao
             .ktQuery()
             .like(
@@ -61,15 +60,8 @@ class UserService(
             }.pageResult<PageResult<User>>(req)
             .map { it.copyTo<UserResp>() }
 
-    fun listRolesByUserId(
-        userId: String?,
-        appId: String,
-    ) = roleDao
-        .selectByUserId(userId, appId)
-        .map { it.copyTo<RoleResp>() }
-
     @Transactional
-    fun add(req: UserCreateReq): Boolean {
+    fun add(req: UserAddReq): Boolean {
         throwIf(req.pwd != req.confirmPwd, "两次密码不相等")
         userDao
             .ktQuery()
@@ -79,19 +71,16 @@ class UserService(
             .throwIfExists("用户名或手机号已重复")
 
         return userDao.insert(
-            User().apply {
-                userName = req.userName
-                realName = req.realName
-                mobile = req.mobile
-                pwd = "${req.pwd}${req.userName}".md5().uppercase()
+            req.copyTo<User>().apply {
+                pwd = "$pwd$userName".md5().uppercase()
             }
         ) > 0
     }
 
     @Transactional
     fun update(req: UserUpdateReq): Boolean {
-        val userId = checkNotNull(req.userId)
-        userDao.selectById(userId).throwIfNull("没有此用户")
+        val userId = req.userId
+        userDao.selectById(req.userId).throwIfNull("没有此用户")
         userDao
             .ktQuery()
             .eq(User::userName, req.userName)
@@ -100,14 +89,7 @@ class UserService(
             .ne(User::userId, userId)
             .throwIfExists("用户名或手机号已重复")
 
-        return userDao.updateById(
-            User().apply {
-                this.userId = userId
-                userName = req.userName
-                realName = req.realName
-                mobile = req.mobile
-            }
-        ) > 0
+        return userDao.updateById(req.copyTo(User())) > 0
     }
 
     @Transactional

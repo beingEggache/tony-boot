@@ -65,7 +65,7 @@ internal class WebAuthConfig(
 
     @ConditionalOnMissingBean(WebSession::class)
     @Bean
-    internal fun apiSession(): WebSession =
+    internal fun webSession(): WebSession =
         if (jwtProperties.secret.isNotBlank()) {
             JwtWebSession().apply {
                 getLogger().info("Jwt auth is enabled")

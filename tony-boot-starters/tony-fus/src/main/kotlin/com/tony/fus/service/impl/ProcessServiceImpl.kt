@@ -49,13 +49,14 @@ internal class ProcessServiceImpl(
                 .parse(modelContent, null, false)
                 .fusThrowIfNull()
 
-        val process = processMapper
-            .ktQuery()
-            .select(FusProcess::processId, FusProcess::processVersion)
-            .eq(FusProcess::processName, processModel.name)
-            .orderByDesc(FusProcess::processVersion)
-            .last("limit 1")
-            .one()
+        val process =
+            processMapper
+                .ktQuery()
+                .select(FusProcess::processId, FusProcess::processVersion)
+                .eq(FusProcess::processName, processModel.name)
+                .orderByDesc(FusProcess::processVersion)
+                .last("limit 1")
+                .one()
 
         if (process != null && !repeat) {
             return process.processId!!
