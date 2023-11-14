@@ -23,6 +23,7 @@ import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.extension.fusThrowIfEmpty
 import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.extension.fusThrowIfNullOrEmpty
+import com.tony.fus.extension.ofPerformType
 import com.tony.fus.listener.TaskListener
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
@@ -294,7 +295,8 @@ internal open class TaskServiceImpl
             if (nodeType == NodeType.INITIATOR || nodeType == NodeType.APPROVER) {
                 return saveTask(
                     task,
-                    node.multiApproveMode?.ofPerformType(),
+                    // ?
+                    node.multiApproveMode.ofPerformType(),
                     taskActorList,
                     execution
                 )

@@ -30,7 +30,7 @@ public interface ProcessService {
      * @since 1.0.0
      */
     public fun getByVersion(
-        processName: String,
+        processName: String?,
         processVersion: Int?,
     ): FusProcess
 

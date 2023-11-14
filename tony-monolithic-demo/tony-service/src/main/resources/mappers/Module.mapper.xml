@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tony.db.dao.ModuleDao">
 
-    <select id="selectModulesByUserIdAndAppId" resultType="com.tony.db.po.Module">
+    <select id="selectModulesByUserIdAndAppId">
         select m.module_id,
         m.app_id,
         m.module_name,

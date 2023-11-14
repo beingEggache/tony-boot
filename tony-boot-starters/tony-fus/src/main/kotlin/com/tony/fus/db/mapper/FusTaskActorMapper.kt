@@ -32,7 +32,9 @@ internal interface FusTaskActorMapper : BaseDao<FusTaskActor> {
      * @since 1.0.0
      */
     fun deleteByTaskId(taskId: String?): Boolean =
-        delete(ktQuery().eq(FusTaskActor::taskId, taskId)) > 0
+        ktUpdate()
+            .eq(FusTaskActor::taskId, taskId)
+            .remove()
 
     /**
      * 通过任务ID删除参与者
@@ -43,5 +45,7 @@ internal interface FusTaskActorMapper : BaseDao<FusTaskActor> {
      * @since 1.0.0
      */
     fun deleteByTaskIds(taskIds: Collection<String>): Boolean =
-        delete(ktQuery().`in`(FusTaskActor::taskId, taskIds)) > 0
+        ktUpdate()
+            .`in`(FusTaskActor::taskId, taskIds)
+            .remove()
 }

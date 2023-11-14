@@ -33,6 +33,7 @@ internal open class RuntimeServiceImpl
         private val taskService: TaskService,
         private val instanceListener: InstanceListener? = null,
     ) : RuntimeService {
+        @Transactional(rollbackFor = [Throwable::class])
         override fun createInstance(
             process: FusProcess,
             creator: FusOperator,
@@ -47,6 +48,7 @@ internal open class RuntimeServiceImpl
                 updatorName = creator.operatorName
                 processId = process.processId
                 this.variable = variable?.toJsonString() ?: "{}"
+                saveInstance(this)
             }
 
         @Transactional(rollbackFor = [Throwable::class])

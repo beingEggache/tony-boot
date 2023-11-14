@@ -3,8 +3,6 @@ package com.tony.fus.model.enums
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.tony.enums.EnumCreator
 import com.tony.enums.IntEnumValue
-import com.tony.fus.db.enums.PerformType
-import com.tony.fus.extension.fusThrowIfNull
 
 /**
  * 多人审批时审批方式
@@ -35,9 +33,6 @@ public enum class MultiApproveMode(
      */
     VOTE_SIGN(5),
     ;
-
-    public fun ofPerformType(): PerformType =
-        PerformType.create(value).fusThrowIfNull()
 
     internal companion object : EnumCreator<MultiApproveMode, Int>(MultiApproveMode::class.java) {
         @JsonCreator

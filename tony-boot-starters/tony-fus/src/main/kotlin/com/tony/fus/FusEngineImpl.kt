@@ -52,7 +52,7 @@ public class FusEngineImpl(
         )
 
     override fun executeTask(
-        taskId: String,
+        taskId: String?,
         operator: FusOperator,
         args: MutableMap<String, Any?>?,
     ) {
@@ -106,7 +106,7 @@ public class FusEngineImpl(
     }
 
     protected fun execute(
-        taskId: String,
+        taskId: String?,
         operator: FusOperator,
         args: MutableMap<String, Any?>,
         callback: Consumer<FusExecution>,

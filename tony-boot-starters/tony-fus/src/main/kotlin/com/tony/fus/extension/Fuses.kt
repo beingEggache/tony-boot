@@ -28,7 +28,9 @@
 package com.tony.fus.extension
 
 import com.tony.ApiProperty
+import com.tony.fus.db.enums.PerformType
 import com.tony.fus.exception.FusException
+import com.tony.fus.model.enums.MultiApproveMode
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.wrapper.TonyChainQuery
 import com.tony.utils.throwIf
@@ -217,3 +219,17 @@ internal inline fun <T : Any> TonyChainQuery<T>.fusListThrowIfEmpty(
     message: String = ApiProperty.notFoundMessage,
 ): List<T> =
     listThrowIfEmpty(message, ::FusException)
+
+/**
+ * 多人审批时审批方式 转换 参与类型
+ * @return [PerformType]
+ * @author Tang Li
+ * @date 2023/11/14 16:38
+ * @since 1.0.0
+ */
+public fun MultiApproveMode?.ofPerformType(): PerformType =
+    if (this?.value == null) {
+        PerformType.UNKNOWN
+    } else {
+        PerformType.create(value) ?: PerformType.UNKNOWN
+    }

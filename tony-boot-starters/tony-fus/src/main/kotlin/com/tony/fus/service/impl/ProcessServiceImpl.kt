@@ -7,6 +7,7 @@ import com.tony.fus.db.po.FusProcess
 import com.tony.fus.extension.fusOneNotNull
 import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.extension.fusThrowIfNull
+import com.tony.fus.extension.fusThrowIfNullOrEmpty
 import com.tony.fus.model.FusOperator
 import com.tony.fus.service.ProcessService
 import java.time.LocalDateTime
@@ -24,13 +25,12 @@ internal class ProcessServiceImpl(
         processMapper.selectById(processId)
 
     override fun getByVersion(
-        processName: String,
+        processName: String?,
         processVersion: Int?,
     ): FusProcess {
-        fusThrowIf(processName.isEmpty(), "processName can not be empty")
         return processMapper
             .ktQuery()
-            .eq(FusProcess::processName, processName)
+            .eq(FusProcess::processName, processName.fusThrowIfNullOrEmpty("processName can not be empty"))
             .eq(processVersion != null, FusProcess::processVersion, processVersion)
             .orderByDesc(FusProcess::processVersion)
             .last("limit 1")
