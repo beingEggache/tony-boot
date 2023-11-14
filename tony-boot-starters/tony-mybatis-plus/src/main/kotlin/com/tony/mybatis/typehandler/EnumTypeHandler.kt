@@ -33,7 +33,7 @@ import org.apache.ibatis.type.BaseTypeHandler
 import org.apache.ibatis.type.JdbcType
 
 /**
- * EnumTypeHandler
+ * mybatis 枚举 转换器.
  * @author Tang Li
  * @date 2023/09/13 10:40
  * @since 1.0.0
@@ -63,29 +63,35 @@ public open class EnumTypeHandler<E, KEY>(
         rs: ResultSet,
         columnName: String,
     ): E? =
-        if (null == rs.getObject(columnName) && rs.wasNull()) {
-            null
-        } else {
-            enumValueMap[rs.getObject(columnName)]
+        rs.getObject(columnName).let {
+            if (it == null && rs.wasNull()) {
+                null
+            } else {
+                enumValueMap[it]
+            }
         }
 
     override fun getNullableResult(
         rs: ResultSet,
         columnIndex: Int,
     ): E? =
-        if (null == rs.getObject(columnIndex) && rs.wasNull()) {
-            null
-        } else {
-            enumValueMap[rs.getObject(columnIndex)]
+        rs.getObject(columnIndex).let {
+            if (it == null && rs.wasNull()) {
+                null
+            } else {
+                enumValueMap[it]
+            }
         }
 
     override fun getNullableResult(
         cs: CallableStatement,
         columnIndex: Int,
     ): E? =
-        if (null == cs.getObject(columnIndex) && cs.wasNull()) {
-            null
-        } else {
-            enumValueMap[cs.getObject(columnIndex)]
+        cs.getObject(columnIndex).let {
+            if (it == null && cs.wasNull()) {
+                null
+            } else {
+                enumValueMap[it]
+            }
         }
 }
