@@ -7,9 +7,9 @@ package com.tony.fus.model
  * @since 1.0.0
  */
 public class FusProcessModel {
-    public var name: String? = null
+    public var name: String = ""
 
-    public var instanceUrl: String? = null
+    public var instanceUrl: String = ""
 
     public var node: FusNode? = null
 

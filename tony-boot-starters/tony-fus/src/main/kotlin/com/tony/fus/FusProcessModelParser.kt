@@ -28,7 +28,7 @@ public fun interface FlowProcessModelParser {
         content: String,
         processId: String?,
         redeploy: Boolean,
-    ): FusProcessModel?
+    ): FusProcessModel
 }
 
 internal class DefaultFlowProcessModelParser(
@@ -38,7 +38,7 @@ internal class DefaultFlowProcessModelParser(
         content: String,
         processId: String?,
         redeploy: Boolean,
-    ): FusProcessModel? {
+    ): FusProcessModel {
         if (processId == null) {
             return parse(content)
         }

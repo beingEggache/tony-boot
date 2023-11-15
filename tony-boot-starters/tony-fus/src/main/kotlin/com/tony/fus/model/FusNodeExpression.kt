@@ -10,20 +10,20 @@ public class FusNodeExpression {
     /**
      * 名称
      */
-    public var name: String? = null
+    public var name: String = ""
 
     /**
      * 属性
      */
-    public var field: String? = null
+    public var field: String = ""
 
     /**
      * 操作
      */
-    public var operator: String? = null
+    public var operator: String = ""
 
     /**
      * 内容
      */
-    public var value: String? = null
+    public var value: String = ""
 }

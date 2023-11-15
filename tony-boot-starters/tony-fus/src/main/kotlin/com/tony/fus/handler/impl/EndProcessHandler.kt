@@ -4,6 +4,7 @@ import com.tony.fus.ADMIN
 import com.tony.fus.FusContext
 import com.tony.fus.db.enums.TaskType
 import com.tony.fus.extension.fusThrowIf
+import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.handler.FusHandler
 import com.tony.fus.model.FusExecution
 
@@ -19,11 +20,11 @@ public object EndProcessHandler : FusHandler {
         execution: FusExecution?,
     ) {
         val engine = execution?.engine
-        val instance = execution?.instance
+        val instance = execution?.instance.fusThrowIfNull("execution instance null")
 
         engine
             ?.queryService
-            ?.listTaskByInstanceId(instance?.instanceId)
+            ?.listTaskByInstanceId(instance.instanceId)
             ?.forEach {
                 fusThrowIf(it.taskType == TaskType.MAJOR, "存在未完成的主办任务")
                 engine
@@ -33,6 +34,6 @@ public object EndProcessHandler : FusHandler {
 
         engine
             ?.runtimeService
-            ?.complete(instance?.instanceId)
+            ?.complete(instance.instanceId)
     }
 }

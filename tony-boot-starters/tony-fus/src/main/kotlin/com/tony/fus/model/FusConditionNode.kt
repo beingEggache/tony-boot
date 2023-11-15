@@ -9,7 +9,7 @@ import com.tony.fus.model.enums.NodeType
  * @since 1.0.0
  */
 public class FusConditionNode {
-    public var nodeName: String? = null
+    public var nodeName: String = ""
 
     public var nodeType: NodeType? = null
 

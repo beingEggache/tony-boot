@@ -24,7 +24,7 @@ public class FusNode : FusModel {
     /**
      * 节点名称
      */
-    public var nodeName: String? = null
+    public var nodeName: String = ""
 
     /**
      * 节点类型

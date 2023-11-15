@@ -24,15 +24,15 @@ public class FusExecution {
 
     public var nextTaskActor: FusTaskActor? = null
 
-    public var parentNodeName: String? = null
+    public var parentNodeName: String = ""
 
-    public var childInstanceId: Long? = null
+    public var childInstanceId: String = ""
 
     public val variable: MutableMap<String, Any?> = HashMap()
 
-    public var creatorId: String? = null
+    public var creatorId: String = ""
 
-    public var creatorName: String? = null
+    public var creatorName: String = ""
 
     public var task: FusTask? = null
 

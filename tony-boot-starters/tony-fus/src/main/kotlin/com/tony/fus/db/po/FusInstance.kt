@@ -1,5 +1,8 @@
 package com.tony.fus.db.po
 
+import com.baomidou.mybatisplus.annotation.FieldFill
+import com.baomidou.mybatisplus.annotation.FieldStrategy
+import com.baomidou.mybatisplus.annotation.OrderBy
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
@@ -11,95 +14,116 @@ import java.time.LocalDateTime
  * @date 2023/09/29 16:13
  * @since 1.0.0
  */
-@TableName(value = "fus_instance")
+@TableName
 public open class FusInstance {
     /**
      * 主键ID
      */
-    @TableId(value = "instance_id")
-    public var instanceId: String? = null
+    @TableId
+    public var instanceId: String = ""
 
     /**
      * 租户ID
      */
-    @TableField(value = "tenant_id")
-    public var tenantId: String? = null
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var tenantId: String = ""
 
     /**
      * 创建人ID
      */
-    @TableField(value = "creator_id")
-    public var creatorId: String? = null
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var creatorId: String = ""
 
     /**
      * 创建人
      */
-    @TableField(value = "creator_name")
-    public var creatorName: String? = null
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var creatorName: String = ""
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time")
-    public var createTime: LocalDateTime? = null
+    @OrderBy
+    @TableField(
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 流程定义ID
      */
-    @TableField(value = "process_id")
-    public var processId: String? = null
+    @TableField(
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var processId: String = ""
 
     /**
      * 优先级
      */
-    @TableField(value = "priority")
     public var priority: Int? = null
 
     /**
      * 流程实例编号
      */
-    @TableField(value = "instance_no")
-    public var instanceNo: String? = null
+    public var instanceNo: String = ""
 
     /**
      * 业务KEY
      */
-    @TableField(value = "business_key")
-    public var businessKey: String? = null
+    @TableField(
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var businessKey: String = ""
 
     /**
      * 变量json
      */
-    @TableField(value = "variable")
-    public var variable: String? = null
+    public var variable: String = "{}"
 
     /**
      * 流程实例版本
      */
-    @TableField(value = "instance_version")
     public var instanceVersion: Int? = null
 
     /**
      * 期望完成时间
      */
-    @TableField(value = "expire_time")
     public var expireTime: LocalDateTime? = null
 
     /**
      * 更新人id
      */
-    @TableField(value = "updator_id")
-    public var updatorId: String? = null
+    @TableField(
+        fill = FieldFill.UPDATE,
+        insertStrategy = FieldStrategy.NEVER
+    )
+    public var updatorId: String = ""
 
     /**
      * 上次更新人
      */
-    @TableField(value = "updator_name")
-    public var updatorName: String? = null
+    @TableField(
+        fill = FieldFill.UPDATE,
+        insertStrategy = FieldStrategy.NEVER
+    )
+    public var updatorName: String = ""
 
     /**
      * 上次更新时间
      */
-    @TableField(value = "update_time")
-    public var updateTime: LocalDateTime? = null
+    @TableField(
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var updateTime: LocalDateTime = LocalDateTime.now()
 }

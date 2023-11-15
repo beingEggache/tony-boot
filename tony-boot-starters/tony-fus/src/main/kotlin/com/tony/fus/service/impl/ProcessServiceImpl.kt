@@ -1,7 +1,6 @@
 package com.tony.fus.service.impl
 
 import com.tony.fus.FusContext
-import com.tony.fus.db.enums.ProcessState
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.po.FusProcess
 import com.tony.fus.extension.fusOneNotNull
@@ -10,7 +9,6 @@ import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.extension.fusThrowIfNullOrEmpty
 import com.tony.fus.model.FusOperator
 import com.tony.fus.service.ProcessService
-import java.time.LocalDateTime
 
 /**
  * ProcessServiceImpl is
@@ -59,24 +57,21 @@ internal class ProcessServiceImpl(
                 .one()
 
         if (process != null && !repeat) {
-            return process.processId!!
+            return process.processId
         }
 
         val newProcess =
             FusProcess().apply {
                 this.processVersion = (process?.processVersion ?: 0) + 1
-                this.processState = ProcessState.ACTIVE
                 this.processName = processModel.name
                 this.displayName = processModel.name
                 this.instanceUrl = processModel.instanceUrl
-                this.useScope = 0
                 this.modelContent = modelContent
                 this.creatorId = creator.operatorId
                 this.creatorName = creator.operatorName
-                this.createTime = LocalDateTime.now()
             }
         processMapper.insert(newProcess)
-        return newProcess.processId!!
+        return newProcess.processId
     }
 
     override fun redeploy(
@@ -89,9 +84,9 @@ internal class ProcessServiceImpl(
                 .fusThrowIfNull()
 
         val processModel = FusContext.parse(modelContent, processId, true)
-        process.processName = processModel?.name
-        process.displayName = processModel?.name
-        process.instanceUrl = processModel?.instanceUrl
+        process.processName = processModel.name
+        process.displayName = processModel.name
+        process.instanceUrl = processModel.instanceUrl
         process.modelContent = modelContent
 
         return processMapper.updateById(process) > 0

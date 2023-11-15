@@ -1,5 +1,6 @@
 package com.tony.fus.db.po
 
+import com.baomidou.mybatisplus.annotation.FieldFill
 import com.baomidou.mybatisplus.annotation.FieldStrategy
 import com.baomidou.mybatisplus.annotation.OrderBy
 import com.baomidou.mybatisplus.annotation.TableField
@@ -19,22 +20,34 @@ public open class FusTask {
      * 主键ID
      */
     @TableId
-    public var taskId: String? = null
+    public var taskId: String = ""
 
     /**
      * 租户ID
      */
-    public var tenantId: String? = null
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var tenantId: String = ""
 
     /**
      * 创建人ID
      */
-    public var creatorId: String? = null
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var creatorId: String = ""
 
     /**
      * 创建人
      */
-    public var creatorName: String? = null
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var creatorName: String = ""
 
     /**
      * 创建时间
@@ -44,57 +57,63 @@ public open class FusTask {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    public var createTime: LocalDateTime? = null
+    public var createTime: LocalDateTime? = LocalDateTime.now()
 
     /**
      * 流程实例ID
      */
-    public var instanceId: String? = null
+    @TableField(
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var instanceId: String = ""
 
     /**
      * 父任务ID
      */
-    public var parentTaskId: String? = null
+    @TableField(
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var parentTaskId: String = ""
 
     /**
      * 任务名称
      */
-    public var taskName: String? = null
+    public var taskName: String = ""
 
     /**
      * 任务显示名称
      */
-    public var displayName: String? = null
+    public var displayName: String = ""
 
     /**
-     * 任务类型: 1-主办, 2-转办, 3-委派, 4-会签
+     * 任务类型: 1.主办, 2.转办, 3.委派, 4.会签
      */
     public var taskType: TaskType? = null
 
     /**
-     * 参与类型: 1-发起、其它, 2-按顺序依次审批, 3-会签, 4-或签, 5-票签, 10-抄送
+     * 参与类型: 1.发起、其它, 2.按顺序依次审批, 3.会签, 4.或签, 5.票签, 10.抄送
      */
     public var performType: PerformType? = null
 
     /**
      * 任务处理的url
      */
-    public var actionUrl: String? = null
+    public var actionUrl: String = ""
 
     /**
      * 变量json
      */
-    public var variable: String? = null
+    public var variable: String = "{}"
 
     /**
      * 委托人ID
      */
-    public var assignorId: String? = null
+    public var assignorId: String = ""
 
     /**
      * 委托人
      */
-    public var assignorName: String? = null
+    public var assignorName: String = ""
 
     /**
      * 任务期望完成时间
@@ -112,9 +131,9 @@ public open class FusTask {
     public var remindRepeat: Int? = null
 
     /**
-     * 已阅 0，否 1，是
+     * 已阅: 0.否 1.是
      */
-    public var viewed: Boolean? = null
+    public var viewed: Boolean = false
 
     /**
      * 完成时间

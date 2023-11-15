@@ -169,11 +169,11 @@ internal open class TaskServiceImpl
         }
 
         protected fun assignTask(
-            instanceId: String?,
-            taskId: String?,
+            instanceId: String,
+            taskId: String,
             taskActor: FusTaskActor,
         ) {
-            taskActor.taskActorId = null
+            taskActor.taskActorId = ""
             taskActor.instanceId = instanceId
             taskActor.taskId = taskId
             taskActorMapper.insert(taskActor)
@@ -190,7 +190,7 @@ internal open class TaskServiceImpl
             ) { historyTask ->
                 taskMapper
                     .selectListByInstanceId(historyTask.instanceId)
-                    .mapNotNull {
+                    .map {
                         it.taskId
                     }.also { taskIdList ->
                         taskMapper.deleteBatchIds(taskIdList)
@@ -255,7 +255,7 @@ internal open class TaskServiceImpl
             task: FusTask,
             userId: String?,
         ): Boolean {
-            if (task.creatorId.isNullOrEmpty()) {
+            if (task.creatorId.isEmpty()) {
                 return true
             }
 
@@ -282,13 +282,12 @@ internal open class TaskServiceImpl
                 FusTask().apply {
                     this.creatorId = execution.creatorId
                     this.creatorName = execution.creatorName
-                    this.createTime = LocalDateTime.now()
-                    this.instanceId = execution.instance?.instanceId
-                    this.taskName = node?.nodeName
-                    this.displayName = node?.nodeName
+                    this.instanceId = execution.instance?.instanceId.ifNullOrBlank()
+                    this.taskName = node?.nodeName.ifNullOrBlank()
+                    this.displayName = node?.nodeName.ifNullOrBlank()
                     // ?
                     this.taskType = TaskType.create(nodeType?.value!!)
-                    this.parentTaskId = execution.task?.taskId
+                    this.parentTaskId = execution.task?.taskId.ifNullOrBlank()
                 }
 
             val taskActorList = execution.taskActorProvider.listTaskActors(node, execution)
@@ -314,8 +313,7 @@ internal open class TaskServiceImpl
                     task
                         .copyToNotNull(FusTask())
                         .apply {
-                            taskId = null
-                            createTime = LocalDateTime.now()
+                            taskId = ""
                         }
                 return saveTask(
                     newTask,
@@ -341,9 +339,8 @@ internal open class TaskServiceImpl
                     FusTaskCc().apply {
                         this.creatorId = execution.creatorId
                         this.creatorName = execution.creatorName
-                        this.createTime = LocalDateTime.now()
-                        this.instanceId = execution.instance?.instanceId
-                        this.parentTaskId = parentTaskId
+                        this.instanceId = execution.instance?.instanceId.ifNullOrBlank()
+                        this.parentTaskId = parentTaskId.ifNullOrBlank()
                         this.taskName = node.nodeName
                         this.displayName = node.nodeName
                         this.actorId = it.id
@@ -392,7 +389,7 @@ internal open class TaskServiceImpl
                 }.let {
                     processMapper.fusSelectByIdNotNull(it.processId)
                 }.model
-                ?.node
+                .node
                 .fusThrowIfNull("任务ID无法找到节点模型.")
 
         @Transactional(rollbackFor = [Throwable::class])

@@ -1,10 +1,13 @@
 package com.tony.fus.db.po
 
+import com.baomidou.mybatisplus.annotation.FieldFill
+import com.baomidou.mybatisplus.annotation.FieldStrategy
+import com.baomidou.mybatisplus.annotation.OrderBy
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.fus.FusContext
-import com.tony.fus.db.enums.ProcessState
+import com.tony.fus.db.enums.UseScope
 import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.handler.impl.EndProcessHandler
 import com.tony.fus.model.FusExecution
@@ -19,102 +22,104 @@ import java.time.LocalDateTime
  * @date 2023/09/29 16:13
  * @since 1.0.0
  */
-@TableName(value = "fus_process")
+@TableName
 public class FusProcess {
     /**
      * 主键ID
      */
-    @TableId(value = "process_id")
-    public var processId: String? = null
+    @TableId
+    public var processId: String = ""
 
     /**
      * 租户ID
      */
-    @TableField(value = "tenant_id")
-    public var tenantId: String? = null
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var tenantId: String = ""
 
     /**
      * 创建人ID
      */
-    @TableField(value = "creator_id")
-    public var creatorId: String? = null
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var creatorId: String = ""
 
     /**
      * 创建人
      */
-    @TableField(value = "creator_name")
-    public var creatorName: String? = null
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var creatorName: String = ""
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time")
-    public var createTime: LocalDateTime? = null
+    @OrderBy
+    @TableField(
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    public var createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 流程名称
      */
-    @TableField(value = "process_name")
-    public var processName: String? = null
+    public var processName: String = ""
 
     /**
      * 流程显示名称
      */
-    @TableField(value = "display_name")
-    public var displayName: String? = null
+    public var displayName: String = ""
 
     /**
      * 流程图标地址
      */
-    @TableField(value = "process_icon")
-    public var processIcon: String? = null
+    public var processIcon: String = ""
 
     /**
      * 流程类型
      */
-    @TableField(value = "process_type")
-    public var processType: String? = null
+    public var processType: String = ""
 
     /**
      * 流程版本，默认 1
      */
-    @TableField(value = "process_version")
-    public var processVersion: Int? = null
+    public var processVersion: Int = 0
 
     /**
      * 实例地址
      */
-    @TableField(value = "instance_url")
-    public var instanceUrl: String? = null
+    public var instanceUrl: String = ""
 
     /**
-     * 使用范围 0，全员 1，指定人员（业务关联） 2，均不可提交
+     * 使用范围: 1.全员, 2.指定人员（业务关联）, 3.均不可提交
      */
-    @TableField(value = "use_scope")
-    public var useScope: Int? = null
+    public var useScope: UseScope = UseScope.ALL
 
     /**
-     * 流程状态 0，不可用 1，可用
+     * 流程状态: 0.不可用, 1.可用
      */
-    @TableField(value = "process_state")
-    public var processState: ProcessState? = null
+    public var enabled: Boolean = true
 
     /**
      * 流程模型定义JSON内容
      */
-    @TableField(value = "model_content")
-    public var modelContent: String? = null
+    public var modelContent: String = "{}"
 
     /**
      * 排序
      */
-    @TableField(value = "sort")
-    public var sort: Int? = null
+    public var sort: Int = 0
 
-    public val model: FusProcessModel?
+    public val model: FusProcessModel
         get() {
-            val content = modelContent ?: return null
-            return FusContext.parse(content, processId, false)
+            return FusContext.parse(modelContent, processId, false)
         }
 
     public tailrec fun nextNode(fusNode: FusNode): FusNode? {
@@ -136,7 +141,7 @@ public class FusProcess {
         fusExecution: FusExecution?,
         nodeName: String?,
     ) {
-        model?.also {
+        model.also {
             val flowNode =
                 it
                     .getNode(nodeName)
@@ -168,7 +173,7 @@ public class FusProcess {
         fusContext: FusContext,
         fusExecution: FusExecution,
     ) {
-        model?.also {
+        model.also {
             it
                 .node
                 .fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")

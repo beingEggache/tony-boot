@@ -41,8 +41,6 @@ internal open class RuntimeServiceImpl
         ): FusInstance =
             saveInstance(
                 FusInstance().apply {
-                    createTime = LocalDateTime.now()
-                    updateTime = createTime
                     creatorId = creator.operatorId
                     creatorName = creator.operatorName
                     updatorId = creator.operatorId
@@ -53,7 +51,7 @@ internal open class RuntimeServiceImpl
             )
 
         @Transactional(rollbackFor = [Throwable::class])
-        override fun complete(instanceId: String?) {
+        override fun complete(instanceId: String) {
             val historyInstance =
                 FusHistoryInstance().apply {
                     this.instanceId = instanceId

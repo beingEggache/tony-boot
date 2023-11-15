@@ -8,5 +8,5 @@ import com.baomidou.mybatisplus.annotation.TableName
  * @date 2023/09/29 16:13
  * @since 1.0.0
  */
-@TableName(value = "fus_history_task_actor")
+@TableName
 public class FusHistoryTaskActor : FusTaskActor()

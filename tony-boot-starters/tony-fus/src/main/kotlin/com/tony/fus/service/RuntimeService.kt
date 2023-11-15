@@ -34,7 +34,7 @@ public interface RuntimeService {
      * @date 2023/10/10 10:02
      * @since 1.0.0
      */
-    public fun complete(instanceId: String?)
+    public fun complete(instanceId: String)
 
     /**
      * 保存流程实例

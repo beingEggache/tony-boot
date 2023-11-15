@@ -1,4 +1,5 @@
 import com.tony.gradle.plugin.Build
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     alias(tonyLibs.plugins.tonyGradleBuild)
@@ -69,5 +70,8 @@ configure(subprojects) {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
+        }
     }
 }

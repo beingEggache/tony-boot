@@ -142,7 +142,7 @@ public class FusEngineImpl(
                 .getById(instance.processId)
                 .fusThrowIfNull()
 
-        val node = process.model?.getNode(taskName)
+        val node = process.model.getNode(taskName)
         if (performType == PerformType.VOTE_SIGN) {
             val taskActors = queryService.listTaskActorsByInstanceId(instanceId)
             val passWeight = node?.passWeight.ifNull(50)
@@ -156,7 +156,7 @@ public class FusEngineImpl(
 
         instance
             .variable
-            .takeIf { !it.isNullOrEmpty() }
+            .takeIf { it.isNotEmpty() }
             ?.also { variableStr ->
                 val instanceVariableMap = variableStr.jsonToObj(object : TypeReference<Map<String, Any?>>() {})
                 instanceVariableMap.forEach {

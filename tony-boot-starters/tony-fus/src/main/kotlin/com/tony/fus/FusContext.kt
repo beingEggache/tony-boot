@@ -34,7 +34,7 @@ public class FusContext(
             content: String,
             processId: String?,
             redeploy: Boolean,
-        ): FusProcessModel? =
+        ): FusProcessModel =
             processModelParser.parse(content, processId, redeploy)
     }
 
