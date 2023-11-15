@@ -50,6 +50,7 @@ public interface ProcessService {
      * @param [modelContent] 流程定义json字符串
      * @param [creator] 流程创建者
      * @param [repeat] 是否重复部署 true 存在版本+1新增一条记录 false 存在流程直接返回
+     * @return [String] 流程id
      * @author Tang Li
      * @date 2023/10/09 14:52
      * @since 1.0.0

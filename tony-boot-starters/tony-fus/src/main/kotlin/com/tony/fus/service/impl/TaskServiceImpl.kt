@@ -327,7 +327,7 @@ internal open class TaskServiceImpl
             return emptyList()
         }
 
-        public fun saveTaskCc(
+        fun saveTaskCc(
             node: FusNode?,
             execution: FusExecution,
         ) {
@@ -515,7 +515,13 @@ internal open class TaskServiceImpl
             )
             taskActorMapper
                 .selectListByTaskId(task.taskId)
-                .forEach {
+                .takeIf { it.isNotEmpty() }
+                ?.apply {
+                    fusThrowIf(
+                        !taskActorMapper.deleteByTaskId(task.taskId),
+                        "Delete FusTaskActor table failed"
+                    )
+                }?.forEach {
                     fusThrowIf(
                         (
                             historyTaskActorMapper
@@ -524,10 +530,6 @@ internal open class TaskServiceImpl
                         "Migration to FusHistoryTaskActor table failed"
                     )
                 }
-            fusThrowIf(
-                !taskActorMapper.deleteByTaskId(task.taskId),
-                "Delete FusTaskActor table failed"
-            )
             return taskMapper.deleteById(task) > 0
         }
 

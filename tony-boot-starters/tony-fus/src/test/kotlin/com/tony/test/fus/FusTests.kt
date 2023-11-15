@@ -2,10 +2,12 @@ package com.tony.test.fus
 
 import com.tony.fus.ADMIN
 import com.tony.fus.FusEngine
-import com.tony.fus.db.mapper.FusTaskMapper
 import com.tony.fus.model.FusOperator
+import com.tony.utils.getLogger
 import com.tony.utils.string
+import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
@@ -19,11 +21,12 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 @SpringBootTest(classes = [TestFusApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class FusTests {
 
+    private val logger = getLogger()
+
     @Resource
     private lateinit var fusEngine: FusEngine
 
-    @Resource
-    private lateinit var taskMapper: FusTaskMapper
+    private lateinit var processId: String
 
     private val resourceResolver = PathMatchingResourcePatternResolver()
 
@@ -35,19 +38,18 @@ class FusTests {
             "1"
         )
 
-    @Test
-    fun testDeployProcess() {
+    @BeforeEach
+    fun before() {
         val processModelJson = resourceResolver
             .getResource("json/process.json")
             .inputStream
             .readAllBytes()
             .string()
-        fusEngine.processService.deploy(processModelJson, ADMIN, false)
+        processId = fusEngine.processService.deploy(processModelJson, ADMIN, false)
     }
 
     @Test
     fun testStartInstance() {
-        val processId = "1724364540673454081"
         val processService = fusEngine.processService
         val process = processService.getById(processId)
         if (process != null) {
@@ -61,19 +63,23 @@ class FusTests {
                 "assignee" to testOperatorId
             )
         )?.let { instance ->
-            fusEngine
+            val queryService = fusEngine
                 .queryService
+            val taskList1 = queryService
                 .listTaskByInstanceId(instance.instanceId)
+            logger.info(taskList1.toJsonString())
+            taskList1
                 .forEach { task ->
                     fusEngine.executeTask(task.taskId, testOperator)
+                }
+            val taskList2 = queryService
+                .listTaskByInstanceId(instance.instanceId)
+            logger.info(taskList2.toJsonString())
+            taskList2
+                .forEach { task ->
                     fusEngine.executeTask(task.taskId, testOperator)
                 }
         }
     }
 
-    @Test
-    fun getTask() {
-        val task = taskMapper.selectById("1724352162695196674")
-        println(task)
-    }
 }

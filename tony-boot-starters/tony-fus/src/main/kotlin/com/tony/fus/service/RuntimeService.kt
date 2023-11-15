@@ -43,7 +43,7 @@ public interface RuntimeService {
      * @date 2023/10/10 10:03
      * @since 1.0.0
      */
-    public fun saveInstance(instance: FusInstance)
+    public fun saveInstance(instance: FusInstance): FusInstance
 
     /**
      * 流程实例强制终止

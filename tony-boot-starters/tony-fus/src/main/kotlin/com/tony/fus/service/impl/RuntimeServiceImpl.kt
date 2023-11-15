@@ -39,17 +39,18 @@ internal open class RuntimeServiceImpl
             creator: FusOperator,
             variable: Map<String, Any?>?,
         ): FusInstance =
-            FusInstance().apply {
-                createTime = LocalDateTime.now()
-                updateTime = createTime
-                creatorId = creator.operatorId
-                creatorName = creator.operatorName
-                updatorId = creator.operatorId
-                updatorName = creator.operatorName
-                processId = process.processId
-                this.variable = variable?.toJsonString() ?: "{}"
-                saveInstance(this)
-            }
+            saveInstance(
+                FusInstance().apply {
+                    createTime = LocalDateTime.now()
+                    updateTime = createTime
+                    creatorId = creator.operatorId
+                    creatorName = creator.operatorName
+                    updatorId = creator.operatorId
+                    updatorName = creator.operatorName
+                    processId = process.processId
+                    this.variable = variable?.toJsonString() ?: "{}"
+                }
+            )
 
         @Transactional(rollbackFor = [Throwable::class])
         override fun complete(instanceId: String?) {
@@ -65,7 +66,7 @@ internal open class RuntimeServiceImpl
         }
 
         @Transactional(rollbackFor = [Throwable::class])
-        override fun saveInstance(instance: FusInstance) {
+        override fun saveInstance(instance: FusInstance): FusInstance {
             instanceMapper.insert(instance)
             val historyInstance =
                 instance.copyToNotNull(FusHistoryInstance()).apply {
@@ -73,6 +74,7 @@ internal open class RuntimeServiceImpl
                 }
             historyInstanceMapper.insert(historyInstance)
             instanceListener?.notify(EventType.CREATE, instance)
+            return instance
         }
 
         @Transactional(rollbackFor = [Throwable::class])

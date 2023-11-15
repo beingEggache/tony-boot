@@ -31,13 +31,14 @@ public class FusEngineImpl(
         processId: String,
         operator: FusOperator,
         args: Map<String, Any?>,
-    ): FusInstance? {
-        return startProcess(
-            processService.getById(processId) ?: return null,
+    ): FusInstance? =
+        startProcess(
+            processService
+                .getById(processId)
+                .fusThrowIfNull("流程[id=$processId]不存在"),
             operator,
             args
         )
-    }
 
     override fun startInstanceByName(
         processName: String,
@@ -46,7 +47,9 @@ public class FusEngineImpl(
         args: Map<String, Any?>,
     ): FusInstance? =
         startProcess(
-            processService.getByVersion(processName, processVersion),
+            processService
+                .getByVersion(processName, processVersion)
+                .fusThrowIfNull("流程[processName=$processName,processVersion=$processVersion]不存在"),
             operator,
             args
         )
@@ -90,20 +93,17 @@ public class FusEngineImpl(
         process: FusProcess,
         operator: FusOperator,
         args: Map<String, Any?>,
-    ): FusExecution {
-        val instance =
-            runtimeService
-                .createInstance(process, operator, args)
-        return FusExecution(
+    ): FusExecution =
+        FusExecution(
             this,
             process,
-            instance,
+            runtimeService
+                .createInstance(process, operator, args),
             args
         ).apply {
             this.creatorId = operator.operatorId
             this.creatorName = operator.operatorName
         }
-    }
 
     protected fun execute(
         taskId: String?,
@@ -218,7 +218,7 @@ public class FusEngineImpl(
                     CreateTaskHandler(node).handle(context, execution)
                     return
                 }
-            callback.accept(execution)
         }
+        callback.accept(execution)
     }
 }

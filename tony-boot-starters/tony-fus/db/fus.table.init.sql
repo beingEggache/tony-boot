@@ -117,7 +117,7 @@ CREATE TABLE `fus_task_actor`
     `actor_id`      varchar(32)  NOT NULL DEFAULT '' COMMENT '参与者ID',
     `actor_name`    varchar(100) NOT NULL DEFAULT '' COMMENT '参与者名称',
     `actor_type`    int          NOT NULL COMMENT '参与者类型 1，用户 2，角色 3，部门',
-    `weight`        int          NOT NULL COMMENT '票签权重',
+    `weight`        int          NULL COMMENT '票签权重',
     PRIMARY KEY (`task_actor_id`) USING BTREE,
     KEY `idx_task_actor_task_id` (`task_id`) USING BTREE,
     CONSTRAINT `fk_task_actor_task_id` FOREIGN KEY (`task_id`) REFERENCES `fus_task` (`task_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -194,7 +194,7 @@ CREATE TABLE `fus_history_task_actor`
     `actor_id`      varchar(32)  NOT NULL DEFAULT '' COMMENT '参与者ID',
     `actor_name`    varchar(100) NOT NULL COMMENT '参与者名称',
     `actor_type`    int          NOT NULL COMMENT '参与者类型 0，用户 1，角色 2，部门',
-    `weight`        int          NOT NULL COMMENT '票签权重',
+    `weight`        int          NULL COMMENT '票签权重',
     PRIMARY KEY (`task_actor_id`) USING BTREE,
     KEY `idx_his_task_actor_task_id` (`task_id`) USING BTREE,
     CONSTRAINT `fk_his_task_actor_task_id` FOREIGN KEY (`task_id`) REFERENCES `fus_history_task` (`task_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
