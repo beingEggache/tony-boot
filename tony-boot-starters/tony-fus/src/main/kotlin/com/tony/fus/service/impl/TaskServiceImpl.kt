@@ -288,7 +288,7 @@ internal open class TaskServiceImpl
                     this.taskName = node?.nodeName.ifNullOrBlank()
                     this.displayName = node?.nodeName.ifNullOrBlank()
                     // ?
-                    this.taskType = TaskType.create(nodeType?.value!!)
+                    this.taskType = TaskType.create(nodeType?.value!!).fusThrowIfNull("nodeType null")
                     this.parentTaskId = execution.task?.taskId.ifNullOrBlank()
                 }
 
@@ -319,7 +319,7 @@ internal open class TaskServiceImpl
                         }
                 return saveTask(
                     newTask,
-                    node.multiApproveMode?.ofPerformType(),
+                    node.multiApproveMode.ofPerformType(),
                     taskActorList,
                     execution
                 )
@@ -564,7 +564,7 @@ internal open class TaskServiceImpl
 
         protected fun saveTask(
             task: FusTask,
-            performType: PerformType?,
+            performType: PerformType,
             taskActorList: Collection<FusTaskActor>,
             execution: FusExecution? = null,
         ): List<FusTask> {

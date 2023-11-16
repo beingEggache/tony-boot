@@ -115,12 +115,12 @@ public class FusTaskCc {
     @TableField(
         updateStrategy = FieldStrategy.NEVER
     )
-    public var actorType: ActorType? = null
+    public var actorType: ActorType = ActorType.USER
 
     /**
      * 任务状态: 1.结束 2.活动
      */
-    public var taskState: TaskState? = null
+    public var taskState: TaskState = TaskState.ACTIVE
 
     /**
      * 完成时间

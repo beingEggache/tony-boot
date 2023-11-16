@@ -15,7 +15,7 @@ public class FusHistoryInstance : FusInstance() {
     /**
      * 流程实例状态: 1.活动, 2.完成, 3.超时, 4.终止
      */
-    public var instanceState: InstanceState? = null
+    public var instanceState: InstanceState = InstanceState.ACTIVE
 
     /**
      * 结束时间

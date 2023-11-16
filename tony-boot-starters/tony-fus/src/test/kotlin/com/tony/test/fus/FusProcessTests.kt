@@ -2,7 +2,6 @@ package com.tony.test.fus
 
 import com.tony.fus.model.FusOperator
 import com.tony.utils.getLogger
-import com.tony.utils.toJsonString
 import org.junit.jupiter.api.Test
 
 /**
@@ -50,7 +49,6 @@ class FusProcessTests : FusTests() {
                 fusEngine
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
-            logger.info(taskList1.toJsonString())
             taskList1
                 .forEach { task ->
                     fusEngine.executeTask(task.taskId, testOperator1)
@@ -59,7 +57,6 @@ class FusProcessTests : FusTests() {
                 fusEngine
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
-            logger.info(taskList2.toJsonString())
             taskList2
                 .forEach { task ->
                     fusEngine.executeTask(task.taskId, testOperator1)

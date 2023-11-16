@@ -65,7 +65,7 @@ public open class FusTaskActor {
     /**
      * 参与者类型: 0.用户, 1.角色, 2.部门
      */
-    public var actorType: ActorType? = null
+    public var actorType: ActorType = ActorType.USER
 
     /**
      * 票签权重
