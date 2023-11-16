@@ -57,7 +57,7 @@ public open class FusTask {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    public var createTime: LocalDateTime? = LocalDateTime.now()
+    public val createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 流程实例ID

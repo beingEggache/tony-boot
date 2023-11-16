@@ -15,7 +15,6 @@ import com.tony.fus.model.FusOperator
 import com.tony.utils.ifNull
 import com.tony.utils.ifNullOrBlank
 import com.tony.utils.jsonToObj
-import java.time.LocalDateTime
 import java.util.function.Consumer
 
 /**
@@ -119,7 +118,6 @@ public class FusEngineImpl(
                 .apply {
                     updatorId = operator.operatorId
                     updatorName = operator.operatorName
-                    updateTime = LocalDateTime.now()
                 }
         runtimeService.updateInstance(instance)
         val instanceId = instance.instanceId

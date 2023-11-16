@@ -11,6 +11,7 @@ import com.tony.fus.model.enums.MultiStageManagerMode
 import com.tony.fus.model.enums.NodeType
 import com.tony.utils.applyIf
 import com.tony.utils.getLogger
+import com.tony.utils.ifNull
 
 /**
  * 节点.
@@ -133,6 +134,10 @@ public class FusNode : FusModel {
                                         ?.variable
                                         .fusThrowIfEmpty("Execution parameter cannot be empty")
                                 )
+                        }.ifNull {
+                            conditionNodes.firstOrNull {
+                                it.expressionList.isEmpty()
+                            }
                         }.fusThrowIfNull("Not found executable ConditionNode")
                 createTask(conditionNode.childNode, context, execution)
             }

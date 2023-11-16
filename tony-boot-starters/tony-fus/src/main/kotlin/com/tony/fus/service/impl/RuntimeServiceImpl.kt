@@ -8,6 +8,7 @@ import com.tony.fus.db.po.FusHistoryInstance
 import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusProcess
 import com.tony.fus.db.po.FusTask
+import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.listener.InstanceListener
 import com.tony.fus.model.FusOperator
 import com.tony.fus.model.enums.EventType
@@ -19,7 +20,7 @@ import java.time.LocalDateTime
 import org.springframework.transaction.annotation.Transactional
 
 /**
- * RuntimServiceImpl is
+ * RuntimeServiceImpl is
  * @author tangli
  * @date 2023/10/26 15:44
  * @since 1.0.0
@@ -53,11 +54,13 @@ internal open class RuntimeServiceImpl
         @Transactional(rollbackFor = [Throwable::class])
         override fun complete(instanceId: String) {
             val historyInstance =
-                FusHistoryInstance().apply {
-                    this.instanceId = instanceId
-                    this.instanceState = InstanceState.COMPLETE
-                    this.endTime = LocalDateTime.now()
-                }
+                historyInstanceMapper
+                    .fusSelectByIdNotNull(instanceId)
+                    .apply {
+                        this.instanceId = instanceId
+                        this.instanceState = InstanceState.COMPLETE
+                        this.endTime = LocalDateTime.now()
+                    }
             instanceMapper.deleteById(instanceId)
             historyInstanceMapper.updateById(historyInstance)
             instanceListener?.notify(EventType.COMPLETE, historyInstance)
@@ -80,25 +83,25 @@ internal open class RuntimeServiceImpl
             instanceId: String,
             operator: FusOperator,
         ) {
-            instanceMapper.selectById(instanceId)?.apply {
-                taskMapper
-                    .ktQuery()
-                    .eq(FusTask::instanceId, instanceId)
-                    .list()
-                    .forEach {
-                        taskService.complete(it.taskId, operator)
-                    }
+            val instance = instanceMapper.fusSelectByIdNotNull(instanceId)
+            taskMapper
+                .ktQuery()
+                .eq(FusTask::instanceId, instanceId)
+                .list()
+                .forEach {
+                    taskService.complete(it.taskId, operator)
+                }
 
-                val flowHistoryInstance =
-                    this.copyToNotNull(FusHistoryInstance()).apply {
-                        this.instanceState = InstanceState.TERMINATED
-                        this.endTime = LocalDateTime.now()
+            val historyInstance =
+                instance
+                    .copyToNotNull(FusHistoryInstance())
+                    .apply {
+                        instanceState = InstanceState.TERMINATED
+                        endTime = LocalDateTime.now()
                     }
-                historyInstanceMapper.updateById(flowHistoryInstance)
-                instanceMapper.deleteById(instanceId)
-
-                instanceListener?.notify(EventType.TERMINATE, this)
-            }
+            historyInstanceMapper.updateById(historyInstance)
+            instanceMapper.deleteById(instanceId)
+            instanceListener?.notify(EventType.TERMINATE, instance)
         }
 
         override fun updateInstance(instance: FusInstance) {

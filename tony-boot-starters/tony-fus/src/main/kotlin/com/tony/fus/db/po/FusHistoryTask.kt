@@ -21,6 +21,7 @@ public class FusHistoryTask : FusTask() {
 
     public fun undo(operator: FusOperator): FusTask =
         copyToNotNull(FusTask()).apply {
+            taskId = ""
             creatorId = operator.operatorId
             creatorName = operator.operatorName
         }

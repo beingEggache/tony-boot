@@ -30,7 +30,7 @@ import com.baomidou.mybatisplus.extension.conditions.AbstractChainWrapper
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
 import java.util.function.Predicate
-import kotlin.reflect.KMutableProperty1
+import kotlin.reflect.KProperty1
 
 /**
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
@@ -41,16 +41,16 @@ import kotlin.reflect.KMutableProperty1
  */
 public open class TonyKtQueryChainWrapper<T : Any> internal constructor(
     private val baseMapper: BaseDao<T>,
-) : AbstractChainWrapper<T, KMutableProperty1<T, *>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
+) : AbstractChainWrapper<T, KProperty1<T, *>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
     TonyChainQuery<T>,
-    Query<TonyKtQueryChainWrapper<T>, T, KMutableProperty1<T, *>> {
+    Query<TonyKtQueryChainWrapper<T>, T, KProperty1<T, *>> {
     init {
         wrapperChildren = TonyKtQueryWrapper(baseMapper.getEntityClass())
     }
 
     override fun select(
         condition: Boolean,
-        columns: MutableList<KMutableProperty1<T, *>>,
+        columns: MutableList<KProperty1<T, *>>,
     ): TonyKtQueryChainWrapper<T> {
         wrapperChildren.select(condition, columns)
         return typedThis

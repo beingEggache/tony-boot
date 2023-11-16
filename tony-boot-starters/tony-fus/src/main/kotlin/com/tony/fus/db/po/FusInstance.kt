@@ -57,7 +57,7 @@ public open class FusInstance {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    public var createTime: LocalDateTime = LocalDateTime.now()
+    public val createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 流程定义ID
@@ -125,5 +125,5 @@ public open class FusInstance {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    public var updateTime: LocalDateTime = LocalDateTime.now()
+    public val updateTime: LocalDateTime = LocalDateTime.now()
 }

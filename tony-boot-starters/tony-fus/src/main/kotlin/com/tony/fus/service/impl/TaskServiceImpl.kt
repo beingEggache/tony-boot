@@ -102,12 +102,11 @@ internal open class TaskServiceImpl
                 .eq(FusTaskActor::actorId, taskActor.actorId)
                 .exists()
                 .runIf {
-                    taskMapper.updateById(
-                        FusTask().apply {
-                            this.taskId = taskId
-                            this.viewed = true
-                        }
-                    ) > 0
+                    taskMapper
+                        .ktUpdate()
+                        .eq(FusTask::taskId, taskId)
+                        .set(FusTask::viewed, true)
+                        .update()
                 } ?: false
 
         @Transactional(rollbackFor = [Throwable::class])
@@ -154,14 +153,17 @@ internal open class TaskServiceImpl
                     .eq(FusTaskActor::actorId, taskActor.actorId)
                     .fusListThrowIfEmpty("无权转办该任务.")
 
-            val task =
-                FusTask().apply {
-                    this.taskId = taskId
-                    this.taskType = taskType
-                    this.assignorId = taskActor.actorId
-                    this.assignorName = taskActor.actorName
-                }
-            taskMapper.updateById(task)
+            val result =
+                taskMapper
+                    .ktUpdate()
+                    .eq(FusTask::taskId, taskId)
+                    .set(FusTask::taskType, taskType)
+                    .set(FusTask::assignorId, taskActor.actorId)
+                    .set(FusTask::assignorName, taskActor.actorName)
+                    .update()
+
+            fusThrowIf(!result, "update task assignor failed.")
+
             taskActorMapper.deleteBatchIds(taskActorList.map { it.taskActorId })
             assignTask(taskActorList.first().instanceId, taskId, assignee)
 
@@ -412,12 +414,12 @@ internal open class TaskServiceImpl
                 }.forEach {
                     assignTask(task.instanceId, taskId, it)
                 }
-            return taskMapper.updateById(
-                FusTask().apply {
-                    this.taskId = taskId
-                    this.performType = performType
-                }
-            ) > 0
+
+            return taskMapper
+                .ktUpdate()
+                .eq(FusTask::taskId, taskId)
+                .set(FusTask::performType, performType)
+                .update()
         }
 
         @Transactional(rollbackFor = [Throwable::class])

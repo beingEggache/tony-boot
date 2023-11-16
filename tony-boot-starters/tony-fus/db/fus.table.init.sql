@@ -37,7 +37,7 @@ CREATE TABLE `fus_process`
     `creator_name`    varchar(50)  NOT NULL DEFAULT '' COMMENT '创建人',
     `create_time`     timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `process_name`    varchar(100) NOT NULL DEFAULT '' COMMENT '流程名称',
-    `display_name`    varchar(200) NOT NULL DEFAULT '' COMMENT '流程显示名称',
+    `process_key`     varchar(200) NOT NULL DEFAULT '' COMMENT '流程定义 key 唯一标识',
     `process_icon`    varchar(255) NOT NULL DEFAULT '' COMMENT '流程图标地址',
     `process_type`    varchar(100) NOT NULL DEFAULT '' COMMENT '流程类型',
     `process_version` int          NOT NULL DEFAULT '1' COMMENT '流程版本，默认 1',

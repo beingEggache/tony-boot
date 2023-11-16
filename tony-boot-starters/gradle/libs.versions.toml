@@ -15,7 +15,7 @@ reactorKotlinExtensions = "1.1.12"
 openFeign = "13.1"
 lettuce = "6.2.6.RELEASE"
 
-jackson = "2.15.3"
+jackson = "2.16.0"
 gson = "2.10.1"
 fastjson = "2.0.41"
 

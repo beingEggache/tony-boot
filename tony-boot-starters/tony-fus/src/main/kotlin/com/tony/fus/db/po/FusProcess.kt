@@ -65,7 +65,7 @@ public class FusProcess {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    public var createTime: LocalDateTime = LocalDateTime.now()
+    public val createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 流程名称
@@ -73,9 +73,9 @@ public class FusProcess {
     public var processName: String = ""
 
     /**
-     * 流程显示名称
+     * 流程定义 key 唯一标识
      */
-    public var displayName: String = ""
+    public var processKey: String = ""
 
     /**
      * 流程图标地址

@@ -4,6 +4,7 @@ import com.tony.fus.FusContext
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.po.FusProcess
 import com.tony.fus.extension.fusOneNotNull
+import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.extension.fusThrowIfNullOrEmpty
@@ -64,7 +65,7 @@ internal class ProcessServiceImpl(
             FusProcess().apply {
                 this.processVersion = (process?.processVersion ?: 0) + 1
                 this.processName = processModel.name
-                this.displayName = processModel.name
+                this.processKey = processModel.key
                 this.instanceUrl = processModel.instanceUrl
                 this.modelContent = modelContent
                 this.creatorId = creator.operatorId
@@ -78,17 +79,12 @@ internal class ProcessServiceImpl(
         processId: String,
         modelContent: String,
     ): Boolean {
-        val process =
-            processMapper
-                .selectById(processId)
-                .fusThrowIfNull()
-
+        val process = processMapper.fusSelectByIdNotNull(processId)
         val processModel = FusContext.parse(modelContent, processId, true)
         process.processName = processModel.name
-        process.displayName = processModel.name
+        process.processKey = processModel.key
         process.instanceUrl = processModel.instanceUrl
         process.modelContent = modelContent
-
         return processMapper.updateById(process) > 0
     }
 
