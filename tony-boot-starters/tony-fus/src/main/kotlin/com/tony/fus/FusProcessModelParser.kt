@@ -13,7 +13,7 @@ import com.tony.utils.jsonToObj
  * @date 2023/11/02 09:15
  * @since 1.0.0
  */
-public fun interface FlowProcessModelParser {
+public fun interface FusProcessModelParser {
     /**
      * 流程模型 JSON 解析
      * @param [content] 模型内容
@@ -31,9 +31,9 @@ public fun interface FlowProcessModelParser {
     ): FusProcessModel
 }
 
-internal class DefaultFlowProcessModelParser(
+internal class DefaultFusProcessModelParser(
     private val cache: FusCache = DefaultFusCache(),
-) : FlowProcessModelParser {
+) : FusProcessModelParser {
     override fun parse(
         content: String,
         processId: String?,
@@ -42,7 +42,7 @@ internal class DefaultFlowProcessModelParser(
         if (processId == null) {
             return parse(content)
         }
-        val cacheKey = "flowProcessModel#$processId"
+        val cacheKey = "FUS_PROCESS_MODEL:$processId"
         return cache
             .get(cacheKey, object : TypeReference<FusProcessModel>() {})
             .let {

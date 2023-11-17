@@ -142,14 +142,14 @@ public class FusProcess {
         nodeName: String?,
     ) {
         model.also {
-            val flowNode =
+            val node =
                 it
                     .getNode(nodeName)
                     .fusThrowIfNull("流程模型中未发现，流程节点:$nodeName")
 
             val executeNode =
-                flowNode.childNode
-                    ?: nextNode(flowNode)
+                node.childNode
+                    ?: nextNode(node)
             if (executeNode == null) {
                 EndProcessHandler.handle(fusContext, fusExecution)
                 return

@@ -66,7 +66,6 @@ class FusCounterSignTests : FusTests() {
                     fusEngine.executeTask(task.taskId, testOperator1)
                 }
 
-
             //会签1
             val taskList2 =
                 fusEngine
@@ -85,7 +84,6 @@ class FusCounterSignTests : FusTests() {
                                 testOperator1
                             )
                         }
-
                 }
 
             // 会签2
@@ -107,7 +105,6 @@ class FusCounterSignTests : FusTests() {
                             )
                         }
                 }
-
         }
     }
 }

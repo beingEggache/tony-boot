@@ -350,8 +350,8 @@ internal open class TaskServiceImpl
                         this.actorType = ActorType.USER
                         this.taskState = TaskState.ACTIVE
                     }
-                }.also { flowTaskCcList ->
-                    taskCcMapper.insertBatch(flowTaskCcList)
+                }.also { taskCcList ->
+                    taskCcMapper.insertBatch(taskCcList)
                 }
         }
 

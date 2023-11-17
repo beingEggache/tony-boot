@@ -1,4 +1,4 @@
-@file:JvmName("FlowCore")
+@file:JvmName("FusCore")
 
 package com.tony.fus
 

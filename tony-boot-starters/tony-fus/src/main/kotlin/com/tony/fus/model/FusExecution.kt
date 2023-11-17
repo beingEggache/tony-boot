@@ -48,13 +48,13 @@ public class FusExecution {
 
     public constructor(
         engine: FusEngine,
-        fusProcess: FusProcess,
-        fusInstance: FusInstance,
+        process: FusProcess,
+        instance: FusInstance,
         args: Map<String, Any?>,
     ) {
         this.engine = engine
-        this.process = fusProcess
-        this.instance = fusInstance
+        this.process = process
+        this.instance = instance
         this
             .variable
             .putAll(args)

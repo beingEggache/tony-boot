@@ -28,7 +28,7 @@ public class FusContext(
     private val logger = getLogger()
 
     public companion object {
-        public var processModelParser: FlowProcessModelParser = DefaultFlowProcessModelParser()
+        public var processModelParser: FusProcessModelParser = DefaultFusProcessModelParser()
 
         public fun parse(
             content: String,
@@ -39,7 +39,7 @@ public class FusContext(
     }
 
     public fun build(): FusEngine {
-        logger.info("FlowEngine start.")
+        logger.info("FusEngine start.")
         return SpringContexts.getBean(FusEngine::class.java).also {
             it.context = this
         }
