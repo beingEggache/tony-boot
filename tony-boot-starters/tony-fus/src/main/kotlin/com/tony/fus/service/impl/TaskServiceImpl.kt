@@ -606,11 +606,11 @@ internal open class TaskServiceImpl
             }
 
             return taskActorList.map {
-                val newTask = FusTask()
+                val newTask = task.copyToNotNull(FusTask()).apply { taskId = "" }
                 taskMapper.insert(newTask)
                 assignTask(newTask.instanceId, newTask.taskId, it)
                 taskListener?.notify(EventType.CREATE, newTask)
-                it.copyToNotNull(newTask)
+                newTask
             }
         }
     }

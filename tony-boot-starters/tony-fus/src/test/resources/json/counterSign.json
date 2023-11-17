@@ -1,6 +1,6 @@
 {
-  "key": "process",
-  "name": "请假审批",
+  "key": "countersign",
+  "name": "请假审批（会签）",
   "node": {
     "nodeName": "发起人",
     "nodeType": 1,
@@ -10,9 +10,9 @@
       "nodeType": 5,
       "conditionNodes": [
         {
-          "nodeName": "长期",
+          "nodeName": "7天长期",
           "nodeType": 4,
-          "priority": 1,
+          "priorityLevel": 1,
           "conditionMode": 1,
           "expressionList": [
             [
@@ -25,13 +25,17 @@
             ]
           ],
           "childNode": {
-            "nodeName": "领导审批",
+            "nodeName": "7天领导审批",
             "nodeType": 2,
             "setType": 2,
             "nodeUserList": [
               {
                 "id": "test001",
-                "name": "何敏"
+                "name": "测试会签审批人001"
+              },
+              {
+                "id": "test003",
+                "name": "测试会签审批人003"
               }
             ],
             "nodeRoleList": [],
@@ -41,24 +45,21 @@
             "autoWhenExpired": false,
             "expiresIn": 0,
             "autoWhenExpiredExecuteMode": 1,
-            "multiApproveMode": 2,
+            "multiApproveMode": 3,
             "multiStageManagerMode": 1
           }
         },
         {
           "nodeName": "短期",
           "nodeType": 4,
-          "priority": 2,
+          "priorityLevel": 2,
           "conditionMode": 1,
           "expressionList": [],
           "childNode": {
-            "nodeName": "直接主管审批",
+            "nodeName": "默认主管审批",
             "nodeType": 2,
             "setType": 2,
-            "nodeUserList": [{
-              "id": "zg0001",
-              "name": "张三"
-            }],
+            "nodeUserList": [],
             "nodeRoleList": [],
             "managerLevel": 1,
             "multistageManagerLevel": 1,
@@ -74,11 +75,11 @@
       "childNode": {
         "nodeName": "抄送人",
         "nodeType": 3,
-        "allowInitiatorAssignCc": true,
+        "userSelectFlag": true,
         "nodeUserList": [
           {
             "id": "test002",
-            "name": "何秀英"
+            "name": "抄送人2"
           }
         ]
       }
