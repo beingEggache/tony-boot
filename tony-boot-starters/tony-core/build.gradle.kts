@@ -1,6 +1,5 @@
 dependencies {
     api(tonyLibs.kotlinStdlib)
-    api(tonyLibs.kotlinReflect)
     api(tonyLibs.springContext)
     api(tonyLibs.springBootStarterLogging)
     api(tonyLibs.validationApi)
