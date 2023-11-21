@@ -23,17 +23,17 @@ public fun interface FusTaskPermission {
      * @since 1.0.0
      */
     public fun hasPermission(
-        userId: String?,
+        userId: String,
         taskActorList: List<FusTaskActor>,
     ): Boolean
 }
 
 internal class DefaultTaskPermission : FusTaskPermission {
     override fun hasPermission(
-        userId: String?,
+        userId: String,
         taskActorList: List<FusTaskActor>,
     ): Boolean {
-        if (userId.isNullOrEmpty() || taskActorList.isEmpty()) {
+        if (userId.isEmpty() || taskActorList.isEmpty()) {
             return false
         }
         return taskActorList.any { it.actorId == userId }

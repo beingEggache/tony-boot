@@ -23,7 +23,7 @@ public interface QueryService {
      * @date 2023/10/10 09:22
      * @since 1.0.0
      */
-    public fun instance(instanceId: String?): FusInstance?
+    public fun instance(instanceId: String): FusInstance
 
     /**
      * 获取历史流程实例
@@ -46,6 +46,16 @@ public interface QueryService {
     public fun task(taskId: String): FusTask
 
     /**
+     * 获取历史任务
+     * @param [taskId] 历史任务id
+     * @return [FusTask] 历史任务对象
+     * @author Tang Li
+     * @date 2023/10/10 09:24
+     * @since 1.0.0
+     */
+    public fun historyTask(taskId: String): FusHistoryTask
+
+    /**
      * 按实例id和参与者id查找任务
      * @param [instanceId] 实例id
      * @param [actorId] 任务参与者id
@@ -59,20 +69,6 @@ public interface QueryService {
     ): FusTask
 
     /**
-     * 列出任务
-     * @param [instanceId] 实例id
-     * @param [taskNames] 任务名称
-     * @return [List<FusTask>]
-     * @author Tang Li
-     * @date 2023/10/10 09:38
-     * @since 1.0.0
-     */
-    public fun listTask(
-        instanceId: String,
-        taskNames: Collection<String>,
-    ): List<FusTask>
-
-    /**
      * 按实例id列出任务
      * @param [instanceId] 实例id
      * @return [List<FusTask>]
@@ -80,7 +76,7 @@ public interface QueryService {
      * @date 2023/10/10 09:31
      * @since 1.0.0
      */
-    public fun listTaskByInstanceId(instanceId: String?): List<FusTask>
+    public fun listTaskByInstanceId(instanceId: String): List<FusTask>
 
     /**
      * 按实例id和任务名称列出任务
@@ -92,19 +88,9 @@ public interface QueryService {
      * @since 1.0.0
      */
     public fun listTaskByInstanceIdAndTaskName(
-        instanceId: String?,
-        taskName: String?,
+        instanceId: String,
+        taskName: String,
     ): List<FusTask>
-
-    /**
-     * 获取历史任务
-     * @param [taskId] 历史任务id
-     * @return [FusTask] 历史任务对象
-     * @author Tang Li
-     * @date 2023/10/10 09:24
-     * @since 1.0.0
-     */
-    public fun historyTask(taskId: String): FusHistoryTask
 
     /**
      * 列出历史任务
@@ -117,18 +103,14 @@ public interface QueryService {
     public fun listHistoryTask(instanceId: String): List<FusHistoryTask>
 
     /**
-     * 按名称列出历史任务
+     * 最近的历史任务
      * @param [instanceId] 实例id
-     * @param [taskName] 任务名称
-     * @return [List<FusHistoryTask>]
+     * @return [FusHistoryTask]
      * @author Tang Li
-     * @date 2023/10/10 09:30
+     * @date 2023/10/10 09:39
      * @since 1.0.0
      */
-    public fun listHistoryTaskByName(
-        instanceId: String,
-        taskName: String,
-    ): List<FusHistoryTask>
+    public fun recentHistoryTask(instanceId: String): FusHistoryTask
 
     /**
      * 按任务id列出任务参与者
@@ -158,5 +140,5 @@ public interface QueryService {
      * @date 2023/11/10 16:59
      * @since 1.0.0
      */
-    public fun listTaskActorsByInstanceId(instanceId: String?): List<FusTaskActor>
+    public fun listTaskActorsByInstanceId(instanceId: String): List<FusTaskActor>
 }

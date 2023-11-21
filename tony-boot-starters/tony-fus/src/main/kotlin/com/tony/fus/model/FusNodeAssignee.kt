@@ -6,10 +6,10 @@ package com.tony.fus.model
  * @date 2023/10/24 17:09
  * @since 1.0.0
  */
-public class FusNodeAssignee {
-    public var id: String = ""
-
-    public var name: String = ""
-
-    public var weight: Int? = null
-}
+public data class FusNodeAssignee
+    @JvmOverloads
+    constructor(
+        public val id: String,
+        public val name: String,
+        public val weight: Int = 0,
+    )

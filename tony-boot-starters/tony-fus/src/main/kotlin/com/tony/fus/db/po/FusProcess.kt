@@ -117,14 +117,14 @@ public class FusProcess {
             return FusContext.parse(modelContent, processId, false)
         }
 
-    public tailrec fun nextNode(fusNode: FusNode): FusNode? {
-        val parentNode = fusNode.parentNode
+    private tailrec fun nextNode(node: FusNode): FusNode? {
+        val parentNode = node.parentNode
         if (parentNode == null || parentNode.nodeType == NodeType.INITIATOR) {
             return null
         }
         if (parentNode.isConditionNode && parentNode
                 .childNode
-                ?.nodeName != fusNode.nodeName
+                ?.nodeName != node.nodeName
         ) {
             return parentNode.childNode
         }
@@ -132,8 +132,8 @@ public class FusProcess {
     }
 
     public fun execute(
-        fusContext: FusContext,
-        fusExecution: FusExecution?,
+        context: FusContext,
+        execution: FusExecution,
         nodeName: String?,
     ) {
         model.also {
@@ -146,11 +146,11 @@ public class FusProcess {
                 node.childNode
                     ?: nextNode(node)
             if (executeNode == null) {
-                EndProcessHandler.handle(fusContext, fusExecution)
+                EndProcessHandler.handle(context, execution)
                 return
             }
 
-            executeNode.execute(fusContext, fusExecution)
+            executeNode.execute(context, execution)
             if (executeNode.childNode == null &&
                 executeNode
                     .conditionNodes
@@ -158,21 +158,21 @@ public class FusProcess {
             ) {
                 val nextNode = nextNode(executeNode)
                 if (nextNode == null && executeNode.nodeType != NodeType.APPROVER) {
-                    EndProcessHandler.handle(fusContext, fusExecution)
+                    EndProcessHandler.handle(context, execution)
                 }
             }
         }
     }
 
     public fun executeStart(
-        fusContext: FusContext,
-        fusExecution: FusExecution,
+        context: FusContext,
+        execution: FusExecution,
     ) {
         model.also {
             it
                 .node
                 .fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
-                .createTask(fusContext, fusExecution)
+                .createTask(context, execution)
         }
     }
 }

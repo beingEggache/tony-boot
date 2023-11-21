@@ -18,9 +18,7 @@ class FusProcessTests : FusTests() {
     fun testStartInstanceCondition1() {
         val processService = fusEngine.processService
         val process = processService.getById(processId)
-        if (process != null) {
-            processService.getByVersion(process.processName, process.processVersion)
-        }
+        processService.getByNameAndVersion(process.processName, process.processVersion)
         fusEngine.startInstanceById(
             processId,
             testOperator1,
@@ -53,9 +51,7 @@ class FusProcessTests : FusTests() {
     fun testStartInstanceCondition2() {
         val processService = fusEngine.processService
         val process = processService.getById(processId)
-        if (process != null) {
-            processService.getByVersion(process.processName, process.processVersion)
-        }
+        processService.getByNameAndVersion(process.processName, process.processVersion)
         fusEngine.startInstanceById(
             processId,
             testOperator1,

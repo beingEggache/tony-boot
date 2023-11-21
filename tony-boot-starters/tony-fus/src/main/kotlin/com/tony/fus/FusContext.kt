@@ -28,7 +28,7 @@ public class FusContext(
     private val logger = getLogger()
 
     public companion object {
-        public var processModelParser: FusProcessModelParser = DefaultFusProcessModelParser()
+        private val processModelParser: FusProcessModelParser = DefaultFusProcessModelParser()
 
         public fun parse(
             content: String,

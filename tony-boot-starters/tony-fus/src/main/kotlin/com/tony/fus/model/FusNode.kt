@@ -10,7 +10,6 @@ import com.tony.fus.model.enums.MultiApproveMode
 import com.tony.fus.model.enums.MultiStageManagerMode
 import com.tony.fus.model.enums.NodeType
 import com.tony.utils.applyIf
-import com.tony.utils.getLogger
 import com.tony.utils.ifNull
 
 /**
@@ -20,92 +19,90 @@ import com.tony.utils.ifNull
  * @since 1.0.0
  */
 public class FusNode : FusModel {
-    private val logger = getLogger()
-
     /**
      * 节点名称
      */
-    public var nodeName: String = ""
+    public val nodeName: String = ""
 
     /**
      * 节点类型
      */
-    public var nodeType: NodeType? = null
+    public val nodeType: NodeType? = null
 
     /**
      * 审核人类型
      */
-    public var approverType: ApproverType? = null
+    public val approverType: ApproverType? = null
 
     /**
      * 审核人成员
      */
-    public var nodeUserList: MutableList<FusNodeAssignee> = mutableListOf()
+    public val nodeUserList: List<FusNodeAssignee> = emptyList()
 
     /**
      * 审核角色
      */
-    public var nodeRoleList: MutableList<FusNodeAssignee> = mutableListOf()
+    public val nodeRoleList: List<FusNodeAssignee> = emptyList()
 
     /**
      * 指定主管层级
      */
-    public var managerLevel: Int? = null
+    public val managerLevel: Int? = null
 
     /**
      * 自定义连续主管审批层级
      */
-    public var multistageManagerLevel: Int? = null
+    public val multistageManagerLevel: Int? = null
 
     /**
      * 发起人自选类型
      */
-    public var initiatorAssignMode: InitiatorAssignMode? = null
+    public val initiatorAssignMode: InitiatorAssignMode? = null
 
     /**
      * 审批期限
      */
-    public var expiresIn: Int? = null
+    public val expiresIn: Int? = null
 
     /**
      * 审批期限超时自动审批
      */
-    public var autoWhenExpired: Boolean? = null
+    public val autoWhenExpired: Boolean? = null
 
     /**
      * 过审批期限超时后执行类型
      */
-    public var autoWhenExpiredExecuteMode: Int? = null
+    public val autoWhenExpiredExecuteMode: Int? = null
 
     /**
      * 多人审批时审批方式
      */
-    public var multiApproveMode: MultiApproveMode? = null
+    public val multiApproveMode: MultiApproveMode? = null
 
     /**
      * 连续主管审批方式
      */
-    public var multiStageManagerMode: MultiStageManagerMode? = null
+    public val multiStageManagerMode: MultiStageManagerMode? = null
 
     /**
      * 通过权重（ 所有分配任务权重之和大于该值即通过，默认 50 ）
      */
-    public var passWeight: Int = 50
+    public val passWeight: Int = 50
 
     /**
      * 条件节点
      */
-    public var conditionNodes: MutableList<FusConditionNode> = mutableListOf()
+    public val conditionNodes: List<FusConditionNode> = emptyList()
 
     /**
      * 允许发起人自选抄送人
      */
-    public var allowInitiatorAssignCc: Boolean? = null
+    public val allowInitiatorAssignCc: Boolean? = null
 
     /**
      * 子节点
      */
-    public var childNode: FusNode? = null
+    public val childNode: FusNode? = null
 
     /**
      * 父节点.
@@ -118,7 +115,7 @@ public class FusNode : FusModel {
 
     override fun execute(
         context: FusContext,
-        execution: FusExecution?,
+        execution: FusExecution,
     ) {
         conditionNodes
             .applyIf(conditionNodes.isNotEmpty()) {
@@ -131,7 +128,7 @@ public class FusNode : FusModel {
                                 .eval(
                                     it.expressionList,
                                     execution
-                                        ?.variable
+                                        .variable
                                         .fusThrowIfEmpty("Execution parameter cannot be empty")
                                 )
                         }.ifNull {
@@ -156,7 +153,7 @@ public class FusNode : FusModel {
      */
     public fun createTask(
         context: FusContext,
-        execution: FusExecution?,
+        execution: FusExecution,
     ) {
         createTask(this, context, execution)
     }
@@ -173,7 +170,7 @@ public class FusNode : FusModel {
     public fun createTask(
         node: FusNode?,
         context: FusContext,
-        execution: FusExecution?,
+        execution: FusExecution,
     ) {
         CreateTaskHandler(node).handle(context, execution)
     }

@@ -9,13 +9,13 @@ import com.tony.fus.model.enums.NodeType
  * @since 1.0.0
  */
 public class FusConditionNode {
-    public var nodeName: String = ""
+    public val nodeName: String = ""
 
-    public var nodeType: NodeType? = null
+    public val nodeType: NodeType? = null
 
-    public var priority: Int = 0
+    public val priority: Int = 0
 
-    public var expressionList: MutableList<MutableList<FusNodeExpression>> = mutableListOf()
+    public val expressionList: List<List<FusNodeExpression>> = emptyList()
 
-    public var childNode: FusNode? = null
+    public val childNode: FusNode? = null
 }

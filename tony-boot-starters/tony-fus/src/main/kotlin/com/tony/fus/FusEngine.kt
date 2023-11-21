@@ -116,7 +116,7 @@ public interface FusEngine {
      * @since 1.0.0
      */
     public fun executeTask(
-        taskId: String?,
+        taskId: String,
         operator: FusOperator,
         args: MutableMap<String, Any?>?,
     )
@@ -130,7 +130,7 @@ public interface FusEngine {
      * @since 1.0.0
      */
     public fun executeTask(
-        taskId: String?,
+        taskId: String,
         operator: FusOperator,
     ) {
         executeTask(taskId, operator, null)

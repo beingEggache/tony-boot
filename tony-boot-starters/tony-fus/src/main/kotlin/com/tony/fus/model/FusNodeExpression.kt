@@ -6,24 +6,21 @@ package com.tony.fus.model
  * @date 2023/10/24 17:35
  * @since 1.0.0
  */
-public class FusNodeExpression {
+public data class FusNodeExpression(
     /**
      * 名称
      */
-    public var name: String = ""
-
+    public val name: String,
     /**
      * 属性
      */
-    public var field: String = ""
-
+    public val field: String,
     /**
      * 操作
      */
-    public var operator: String = ""
-
+    public val operator: String,
     /**
      * 内容
      */
-    public var value: String = ""
-}
+    public val value: String,
+)

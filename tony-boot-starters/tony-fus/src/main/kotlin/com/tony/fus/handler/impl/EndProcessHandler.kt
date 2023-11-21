@@ -4,7 +4,6 @@ import com.tony.fus.ADMIN
 import com.tony.fus.FusContext
 import com.tony.fus.db.enums.TaskType
 import com.tony.fus.extension.fusThrowIf
-import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.handler.FusHandler
 import com.tony.fus.model.FusExecution
 
@@ -17,15 +16,15 @@ import com.tony.fus.model.FusExecution
 public object EndProcessHandler : FusHandler {
     override fun handle(
         context: FusContext,
-        execution: FusExecution?,
+        execution: FusExecution,
     ) {
-        val engine = execution?.engine
-        val instance = execution?.instance.fusThrowIfNull("execution instance null")
+        val engine = execution.engine
+        val instance = execution.instance
 
         engine
-            ?.queryService
-            ?.listTaskByInstanceId(instance.instanceId)
-            ?.forEach {
+            .queryService
+            .listTaskByInstanceId(execution.instance.instanceId)
+            .forEach {
                 fusThrowIf(it.taskType == TaskType.MAJOR, "存在未完成的主办任务")
                 engine
                     .taskService
@@ -33,7 +32,7 @@ public object EndProcessHandler : FusHandler {
             }
 
         engine
-            ?.runtimeService
-            ?.complete(instance.instanceId)
+            .runtimeService
+            .complete(instance.instanceId)
     }
 }

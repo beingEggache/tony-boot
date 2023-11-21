@@ -68,11 +68,6 @@ public open class FusInstance {
     public var processId: String = ""
 
     /**
-     * 优先级
-     */
-    public var priority: Int? = null
-
-    /**
      * 业务KEY
      */
     @TableField(

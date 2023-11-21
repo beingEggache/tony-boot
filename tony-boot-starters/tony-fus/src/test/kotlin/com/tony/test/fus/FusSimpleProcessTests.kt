@@ -18,9 +18,7 @@ class FusSimpleProcessTests : FusTests() {
     fun test() {
         val processService = fusEngine.processService
         val process = processService.getById(processId)
-        if (process != null) {
-            processService.getByVersion(process.processName, process.processVersion)
-        }
+        processService.getByNameAndVersion(process.processName, process.processVersion)
 
         val args =
             mapOf(
@@ -65,9 +63,8 @@ class FusSimpleProcessTests : FusTests() {
             //撤回任务(条件路由子审批) 回到测试会签审批人003【审批】任务
             fusEngine
                 .queryService
-                .listHistoryTask(instanceId)
-                .first()
-                .let { historyTask ->
+                .recentHistoryTask(instanceId)
+                .also { historyTask ->
                     fusEngine
                         .taskService
                         .withdrawTask(historyTask.taskId, testOperator1)

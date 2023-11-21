@@ -6,8 +6,6 @@ import com.tony.fus.db.po.FusProcess
 import com.tony.fus.extension.fusOneNotNull
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.extension.fusThrowIf
-import com.tony.fus.extension.fusThrowIfNull
-import com.tony.fus.extension.fusThrowIfNullOrEmpty
 import com.tony.fus.model.FusOperator
 import com.tony.fus.service.ProcessService
 
@@ -20,21 +18,24 @@ import com.tony.fus.service.ProcessService
 internal class ProcessServiceImpl(
     private val processMapper: FusProcessMapper,
 ) : ProcessService {
-    override fun getById(processId: String?): FusProcess? =
-        processMapper.selectById(processId)
+    override fun getById(processId: String): FusProcess =
+        processMapper.fusSelectByIdNotNull(processId, "流程[id=$processId]不存在")
 
-    override fun getByVersion(
-        processName: String?,
-        processVersion: Int?,
-    ): FusProcess {
-        return processMapper
+    override fun getByNameAndVersion(
+        processName: String,
+        processVersion: Int,
+    ): FusProcess =
+        processMapper
             .ktQuery()
-            .eq(FusProcess::processName, processName.fusThrowIfNullOrEmpty("processName can not be empty"))
-            .eq(processVersion != null, FusProcess::processVersion, processVersion)
-            .orderByDesc(FusProcess::processVersion)
-            .last("limit 1")
-            .fusOneNotNull()
-    }
+            .eq(FusProcess::processName, processName)
+            .eq(FusProcess::processVersion, processVersion)
+            .fusOneNotNull("流程[processName=$processName, processVersion=$processVersion] 不存在.")
+
+    override fun getByName(processName: String): FusProcess =
+        processMapper
+            .ktQuery()
+            .eq(FusProcess::processName, processName)
+            .fusOneNotNull("流程[processName=$processName] 不存在.")
 
     override fun deploy(
         modelContent: String,
@@ -46,7 +47,6 @@ internal class ProcessServiceImpl(
         val processModel =
             FusContext
                 .parse(modelContent, null, false)
-                .fusThrowIfNull()
 
         val process =
             processMapper

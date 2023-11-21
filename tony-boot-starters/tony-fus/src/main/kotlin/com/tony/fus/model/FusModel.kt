@@ -19,6 +19,6 @@ public fun interface FusModel {
      */
     public fun execute(
         context: FusContext,
-        execution: FusExecution?,
+        execution: FusExecution,
     )
 }

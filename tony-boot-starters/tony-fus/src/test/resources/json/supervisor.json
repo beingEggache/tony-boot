@@ -12,12 +12,12 @@
         {
           "nodeName": "长期",
           "nodeType": 4,
-          "priorityLevel": 1,
+          "priority": 1,
           "conditionMode": 1,
           "expressionList": [
             [
               {
-                "label": "请假天数",
+                "name": "请假天数",
                 "field": "day",
                 "operator": ">",
                 "value": "7"
@@ -48,7 +48,7 @@
         {
           "nodeName": "短期",
           "nodeType": 4,
-          "priorityLevel": 2,
+          "priority": 2,
           "conditionMode": 1,
           "expressionList": [],
           "childNode": {

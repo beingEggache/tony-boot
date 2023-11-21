@@ -18,9 +18,7 @@ class FusPurchaseProcessTests : FusTests() {
     fun test() {
         val processService = fusEngine.processService
         val process = processService.getById(processId)
-        if (process != null) {
-            processService.getByVersion(process.processName, process.processVersion)
-        }
+        processService.getByNameAndVersion(process.processName, process.processVersion)
         fusEngine.startInstanceById(
             processId,
             testOperator1,
@@ -51,8 +49,7 @@ class FusPurchaseProcessTests : FusTests() {
             //领导撤回
             fusEngine
                 .queryService
-                .listHistoryTask(instanceId)
-                .first()
+                .recentHistoryTask(instanceId)
                 .also { historyTask ->
                     fusEngine
                         .taskService

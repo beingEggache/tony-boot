@@ -13,7 +13,6 @@ import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNodeAssignee
 import com.tony.fus.model.FusOperator
 import com.tony.utils.ifNull
-import com.tony.utils.ifNullOrBlank
 import com.tony.utils.jsonToObj
 import java.util.function.Consumer
 
@@ -30,11 +29,10 @@ public class FusEngineImpl(
         processId: String,
         operator: FusOperator,
         args: Map<String, Any?>,
-    ): FusInstance? =
+    ): FusInstance =
         startProcess(
             processService
-                .getById(processId)
-                .fusThrowIfNull("流程[id=$processId]不存在"),
+                .getById(processId),
             operator,
             args
         )
@@ -44,17 +42,16 @@ public class FusEngineImpl(
         processVersion: Int,
         operator: FusOperator,
         args: Map<String, Any?>,
-    ): FusInstance? =
+    ): FusInstance =
         startProcess(
             processService
-                .getByVersion(processName, processVersion)
-                .fusThrowIfNull("流程[processName=$processName,processVersion=$processVersion]不存在"),
+                .getByNameAndVersion(processName, processVersion),
             operator,
             args
         )
 
     override fun executeTask(
-        taskId: String?,
+        taskId: String,
         operator: FusOperator,
         args: MutableMap<String, Any?>?,
     ) {
@@ -70,42 +67,37 @@ public class FusEngineImpl(
         args: MutableMap<String, Any?>?,
     ) {
         execute(taskId, operator, args ?: mutableMapOf()) {
-            val model = it.process.model.fusThrowIfNull("当前任务未找到流程定义模型")
-            model
+            it
+                .process
+                .model
+                .fusThrowIfNull("当前任务未找到流程定义模型")
                 .getNode(nodeName)
                 .fusThrowIfNull("根据节点名称[$nodeName]无法找到节点模型")
                 .createTask(context, it)
         }
     }
 
-    protected fun startProcess(
+    private fun startProcess(
         process: FusProcess,
         operator: FusOperator,
         args: Map<String, Any?>,
-    ): FusInstance? {
-        val execution = execute(process, operator, args)
+    ): FusInstance {
+        val execution =
+            FusExecution(
+                this,
+                process,
+                operator.operatorId,
+                operator.operatorName,
+                runtimeService
+                    .createInstance(process, operator, args),
+                args
+            )
         process.executeStart(context, execution)
         return execution.instance
     }
 
-    protected fun execute(
-        process: FusProcess,
-        operator: FusOperator,
-        args: Map<String, Any?>,
-    ): FusExecution =
-        FusExecution(
-            this,
-            process,
-            runtimeService
-                .createInstance(process, operator, args),
-            args
-        ).apply {
-            this.creatorId = operator.operatorId
-            this.creatorName = operator.operatorName
-        }
-
-    protected fun execute(
-        taskId: String?,
+    private fun execute(
+        taskId: String,
         operator: FusOperator,
         args: MutableMap<String, Any?>,
         callback: Consumer<FusExecution>,
@@ -138,13 +130,12 @@ public class FusEngineImpl(
         val process =
             processService
                 .getById(instance.processId)
-                .fusThrowIfNull()
 
         val node = process.model.getNode(taskName)
         if (performType == PerformType.VOTE_SIGN) {
             val taskActors = queryService.listTaskActorsByInstanceId(instanceId)
             val passWeight = node?.passWeight.ifNull(50)
-            val voteWeight = 100 - taskActors.sumOf { it.weight.ifNull(0) }
+            val voteWeight = 100 - taskActors.sumOf { it.weight }
             if (voteWeight < passWeight) {
                 return
             }
@@ -162,12 +153,16 @@ public class FusEngineImpl(
                 }
             }
         val execution =
-            FusExecution(this, process, instance, args)
-                .apply {
-                    creatorId = operator.operatorId
-                    creatorName = operator.operatorName
-                    this.task = task
-                }
+            FusExecution(
+                this,
+                process,
+                operator.operatorId,
+                operator.operatorName,
+                instance,
+                args
+            ).apply {
+                this.task = task
+            }
 
         if (performType == PerformType.SORT) {
             val nextNodeAssignee: FusNodeAssignee? =
@@ -189,11 +184,7 @@ public class FusEngineImpl(
                             actorList
                                 .getOrNull(nextNodeAssigneeIndex ?: 1)
                                 ?.let {
-                                    FusNodeAssignee()
-                                        .apply {
-                                            this.id = it.actorId.ifNullOrBlank()
-                                            this.name = it.actorName.ifNullOrBlank()
-                                        }
+                                    FusNodeAssignee(it.actorId, it.actorName)
                                 }
                         } else {
                             val nextNodeAssigneeIndex =

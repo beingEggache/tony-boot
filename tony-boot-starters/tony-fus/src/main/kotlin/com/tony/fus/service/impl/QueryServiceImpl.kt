@@ -13,6 +13,7 @@ import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.exception.FusException
+import com.tony.fus.extension.fusOneNotNull
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.service.QueryService
 
@@ -30,14 +31,14 @@ internal class QueryServiceImpl(
     private val historyTaskMapper: FusHistoryTaskMapper,
     private val historyTaskActorMapper: FusHistoryTaskActorMapper,
 ) : QueryService {
-    override fun instance(instanceId: String?): FusInstance? =
-        instanceMapper.selectById(instanceId)
+    override fun instance(instanceId: String): FusInstance =
+        instanceMapper.fusSelectByIdNotNull(instanceId)
 
     override fun historyInstance(instanceId: String): FusHistoryInstance =
-        historyInstanceMapper.selectById(instanceId)
+        historyInstanceMapper.fusSelectByIdNotNull(instanceId)
 
     override fun task(taskId: String): FusTask =
-        taskMapper.selectById(taskId)
+        taskMapper.fusSelectByIdNotNull(taskId)
 
     override fun taskByInstanceIdAndActorId(
         instanceId: String,
@@ -56,25 +57,15 @@ internal class QueryServiceImpl(
         return taskMapper.fusSelectByIdNotNull(taskId)
     }
 
-    override fun listTask(
-        instanceId: String,
-        taskNames: Collection<String>,
-    ): List<FusTask> =
-        taskMapper
-            .ktQuery()
-            .eq(FusTask::instanceId, instanceId)
-            .`in`(FusTask::taskName, taskNames)
-            .list()
-
-    override fun listTaskByInstanceId(instanceId: String?): List<FusTask> =
+    override fun listTaskByInstanceId(instanceId: String): List<FusTask> =
         taskMapper
             .ktQuery()
             .eq(FusTask::instanceId, instanceId)
             .list()
 
     override fun listTaskByInstanceIdAndTaskName(
-        instanceId: String?,
-        taskName: String?,
+        instanceId: String,
+        taskName: String,
     ): List<FusTask> =
         taskMapper
             .ktQuery()
@@ -92,16 +83,13 @@ internal class QueryServiceImpl(
             .orderByDesc(FusHistoryTask::finishTime)
             .list()
 
-    override fun listHistoryTaskByName(
-        instanceId: String,
-        taskName: String,
-    ): List<FusHistoryTask> =
+    override fun recentHistoryTask(instanceId: String): FusHistoryTask =
         historyTaskMapper
             .ktQuery()
             .eq(FusHistoryTask::instanceId, instanceId)
-            .eq(FusHistoryTask::taskName, taskName)
-            .orderByDesc(FusHistoryTask::createTime)
-            .list()
+            .orderByDesc(FusHistoryTask::finishTime)
+            .last("limit 1")
+            .fusOneNotNull()
 
     override fun listTaskActorByTaskId(taskId: String): List<FusTaskActor> =
         taskActorMapper
@@ -115,7 +103,7 @@ internal class QueryServiceImpl(
             .eq(FusHistoryTaskActor::taskId, taskId)
             .list()
 
-    override fun listTaskActorsByInstanceId(instanceId: String?): List<FusTaskActor> =
+    override fun listTaskActorsByInstanceId(instanceId: String): List<FusTaskActor> =
         taskActorMapper
             .ktQuery()
             .eq(FusTaskActor::instanceId, instanceId)

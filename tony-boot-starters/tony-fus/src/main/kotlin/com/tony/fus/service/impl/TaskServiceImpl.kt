@@ -34,7 +34,6 @@ import com.tony.fus.service.TaskService
 import com.tony.utils.copyToNotNull
 import com.tony.utils.ifNullOrBlank
 import com.tony.utils.runIf
-import com.tony.utils.throwIfNull
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
 import java.util.function.Consumer
@@ -59,19 +58,21 @@ internal open class TaskServiceImpl
         private val historyTaskActorMapper: FusHistoryTaskActorMapper,
         private val taskListener: TaskListener? = null,
     ) : TaskService {
+        @Transactional(rollbackFor = [Throwable::class])
         override fun complete(
-            taskId: String?,
+            taskId: String,
             operator: FusOperator,
             variable: Map<String, Any?>?,
         ): FusTask =
             execute(
-                taskId.throwIfNull(),
+                taskId,
                 operator,
                 TaskState.COMPLETE,
                 EventType.COMPLETE,
                 variable
             )
 
+        @Transactional(rollbackFor = [Throwable::class])
         override fun completeActiveTasksByInstanceId(
             instanceId: String?,
             operator: FusOperator,
@@ -170,7 +171,7 @@ internal open class TaskServiceImpl
             return true
         }
 
-        protected fun assignTask(
+        private fun assignTask(
             instanceId: String,
             taskId: String,
             taskActor: FusTaskActor,
@@ -191,7 +192,9 @@ internal open class TaskServiceImpl
                 operator
             ) { historyTask ->
                 taskMapper
-                    .selectListByInstanceId(historyTask.instanceId)
+                    .ktQuery()
+                    .eq(FusTask::instanceId, historyTask.instanceId)
+                    .list()
                     .map {
                         it.taskId
                     }.also { taskIdList ->
@@ -252,19 +255,19 @@ internal open class TaskServiceImpl
         ): FusTask {
             val parentTaskId =
                 task.parentTaskId.fusThrowIfNullOrEmpty("上一步任务ID为空，无法驳回至上一步处理")
-            execute(task.taskId.ifNullOrBlank(), operator, TaskState.REJECT, EventType.REJECT, variable)
+            execute(task.taskId, operator, TaskState.REJECT, EventType.REJECT, variable)
             return undoHistoryTask(parentTaskId, operator)
         }
 
         override fun hasPermission(
             task: FusTask,
-            userId: String?,
+            userId: String,
         ): Boolean {
             if (task.creatorId.isEmpty()) {
                 return true
             }
 
-            if (userId.isNullOrEmpty()) {
+            if (userId.isEmpty()) {
                 return true
             }
             val taskActorList =
@@ -287,7 +290,7 @@ internal open class TaskServiceImpl
                 FusTask().apply {
                     this.creatorId = execution.creatorId
                     this.creatorName = execution.creatorName
-                    this.instanceId = execution.instance?.instanceId.ifNullOrBlank()
+                    this.instanceId = execution.instance.instanceId
                     this.taskName = node?.nodeName.ifNullOrBlank()
                     // ?
                     this.taskType = TaskType.create(nodeType?.value!!).fusThrowIfNull("nodeType null")
@@ -329,7 +332,8 @@ internal open class TaskServiceImpl
             return emptyList()
         }
 
-        fun saveTaskCc(
+        @Transactional(rollbackFor = [Throwable::class])
+        open fun saveTaskCc(
             node: FusNode?,
             execution: FusExecution,
         ) {
@@ -343,7 +347,7 @@ internal open class TaskServiceImpl
                     FusTaskCc().apply {
                         this.creatorId = execution.creatorId
                         this.creatorName = execution.creatorName
-                        this.instanceId = execution.instance?.instanceId.ifNullOrBlank()
+                        this.instanceId = execution.instance.instanceId
                         this.parentTaskId = parentTaskId.ifNullOrBlank()
                         this.taskName = node.nodeName
                         this.actorId = it.id
@@ -353,24 +357,6 @@ internal open class TaskServiceImpl
                     }
                 }.also { taskCcList ->
                     taskCcMapper.insertBatch(taskCcList)
-                }
-        }
-
-        @Transactional(rollbackFor = [Throwable::class])
-        override fun createNewTask(
-            taskId: String,
-            taskType: TaskType,
-            taskActors: Collection<FusTaskActor>,
-        ): List<FusTask> {
-            taskActors.fusThrowIfEmpty()
-            return taskMapper
-                .fusSelectByIdNotNull(taskId)
-                .copyToNotNull(FusTask())
-                .apply {
-                    this.taskType = taskType
-                    this.parentTaskId = taskId
-                }.let {
-                    saveTask(it, PerformType.SORT, taskActors)
                 }
         }
 
@@ -474,7 +460,7 @@ internal open class TaskServiceImpl
             // TODO 删除任务抄送
         }
 
-        protected fun execute(
+        private fun execute(
             taskId: String,
             operator: FusOperator,
             taskState: TaskState,
@@ -494,7 +480,7 @@ internal open class TaskServiceImpl
             return task
         }
 
-        protected fun moveToHistoryTask(
+        private fun moveToHistoryTask(
             task: FusTask,
             taskState: TaskState,
             operator: FusOperator,
@@ -533,7 +519,7 @@ internal open class TaskServiceImpl
             return taskMapper.deleteById(task) > 0
         }
 
-        protected fun undoHistoryTask(
+        private fun undoHistoryTask(
             historyTaskId: String,
             operator: FusOperator,
             callback: Consumer<FusHistoryTask>? = null,
@@ -542,10 +528,17 @@ internal open class TaskServiceImpl
                 historyTaskMapper
                     .fusSelectByIdNotNull(historyTaskId, "指定的任务不存在")
             callback?.accept(historyTask)
-            val task = historyTask.undo(operator)
+            val task =
+                historyTask.copyToNotNull(FusTask()).apply {
+                    taskId = ""
+                    creatorId = operator.operatorId
+                    creatorName = operator.operatorName
+                }
             taskMapper.insert(task)
             historyTaskActorMapper
-                .selectListByTaskId(historyTaskId)
+                .ktQuery()
+                .eq(FusHistoryTaskActor::taskId, historyTaskId)
+                .list()
                 .map {
                     FusTaskActor().apply {
                         tenantId = it.tenantId
@@ -563,17 +556,17 @@ internal open class TaskServiceImpl
             return task
         }
 
-        protected fun saveTask(
+        private fun saveTask(
             task: FusTask,
             performType: PerformType,
             taskActorList: Collection<FusTaskActor>,
-            execution: FusExecution? = null,
+            execution: FusExecution,
         ): List<FusTask> {
             task.performType = performType
             if (performType == PerformType.UNKNOWN) {
                 task.variable =
                     execution
-                        ?.variable
+                        .variable
                         .toJsonString()
                         .ifNullOrBlank("{}")
                 taskMapper.insert(task)
@@ -600,7 +593,7 @@ internal open class TaskServiceImpl
                 assignTask(
                     task.instanceId,
                     task.taskId,
-                    execution?.nextTaskActor ?: taskActorList.first()
+                    execution.nextTaskActor ?: taskActorList.first()
                 )
                 taskListener?.notify(EventType.CREATE, task)
                 return listOf(task)

@@ -29,14 +29,14 @@ public class CreateTaskHandler(
      */
     override fun handle(
         context: FusContext,
-        execution: FusExecution?,
+        execution: FusExecution,
     ) {
         val taskList =
             execution
-                ?.engine
-                ?.taskService
-                ?.createTask(node, execution)
-        execution?.addTasks(taskList.orEmpty())
+                .engine
+                .taskService
+                .createTask(node, execution)
+        execution.addTasks(taskList)
 
         try {
             context

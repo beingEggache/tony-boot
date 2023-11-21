@@ -70,5 +70,5 @@ public open class FusTaskActor {
     /**
      * 票签权重
      */
-    public var weight: Int? = null
+    public var weight: Int = 0
 }

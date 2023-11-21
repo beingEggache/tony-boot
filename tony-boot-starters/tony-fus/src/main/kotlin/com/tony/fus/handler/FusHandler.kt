@@ -12,6 +12,6 @@ import com.tony.fus.model.FusExecution
 public fun interface FusHandler {
     public fun handle(
         context: FusContext,
-        execution: FusExecution?,
+        execution: FusExecution,
     )
 }

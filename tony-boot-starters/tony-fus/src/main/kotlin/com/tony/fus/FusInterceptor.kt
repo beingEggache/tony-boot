@@ -13,14 +13,14 @@ public fun interface FusInterceptor {
     /**
      * 拦截处理方法.
      *
-     * @param [fusContext] 上下文
-     * @param [fusExecution] 执行对象
+     * @param [context] 上下文
+     * @param [execution] 执行对象
      * @author Tang Li
      * @date 2023/10/19 13:58
      * @since 1.0.0
      */
     public fun handle(
-        fusContext: FusContext,
-        fusExecution: FusExecution?,
+        context: FusContext,
+        execution: FusExecution,
     )
 }

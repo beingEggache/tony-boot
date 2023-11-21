@@ -18,7 +18,7 @@ public interface ProcessService {
      * @date 2023/10/09 14:23
      * @since 1.0.0
      */
-    public fun getById(processId: String?): FusProcess?
+    public fun getById(processId: String): FusProcess
 
     /**
      * 根据流程名称或版本号查找流程定义对象
@@ -29,9 +29,9 @@ public interface ProcessService {
      * @date 2023/10/09 14:25
      * @since 1.0.0
      */
-    public fun getByVersion(
-        processName: String?,
-        processVersion: Int?,
+    public fun getByNameAndVersion(
+        processName: String,
+        processVersion: Int,
     ): FusProcess
 
     /**
@@ -42,8 +42,7 @@ public interface ProcessService {
      * @date 2023/10/09 14:26
      * @since 1.0.0
      */
-    public fun getByName(processName: String): FusProcess =
-        getByVersion(processName, null)
+    public fun getByName(processName: String): FusProcess
 
     /**
      * 部署流程

@@ -27,7 +27,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun complete(
-        taskId: String?,
+        taskId: String,
         operator: FusOperator,
         variable: Map<String, Any?>?,
     ): FusTask
@@ -42,7 +42,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun complete(
-        taskId: String?,
+        taskId: String,
         operator: FusOperator,
     ): FusTask =
         complete(taskId, operator, null)
@@ -241,7 +241,7 @@ public interface TaskService {
      */
     public fun hasPermission(
         task: FusTask,
-        userId: String?,
+        userId: String,
     ): Boolean
 
     /**
@@ -257,41 +257,6 @@ public interface TaskService {
         node: FusNode?,
         execution: FusExecution,
     ): List<FusTask>
-
-    /**
-     * 创建新任务.
-     *
-     * 根据已有任务ID、任务类型、参与者创建新的任务.
-     * @param [taskId] 任务id
-     * @param [taskType] 任务类型
-     * @param [taskActors] 任务参与者
-     * @return [List<FusTask>]
-     * @author Tang Li
-     * @date 2023/10/25 10:08
-     * @since 1.0.0
-     */
-    public fun createNewTask(
-        taskId: String,
-        taskType: TaskType,
-        taskActors: Collection<FusTaskActor>,
-    ): List<FusTask>
-
-    /**
-     * 创建新任务
-     * @param [taskId] 任务id
-     * @param [taskType] 任务类型
-     * @param [taskActor] 任务参与者
-     * @return [List<FusTask>]
-     * @author Tang Li
-     * @date 2023/10/25 10:11
-     * @since 1.0.0
-     */
-    public fun createNewTask(
-        taskId: String,
-        taskType: TaskType,
-        taskActor: FusTaskActor,
-    ): List<FusTask> =
-        createNewTask(taskId, taskType, listOf(taskActor))
 
     /**
      * 列出过期或提醒任务

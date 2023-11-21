@@ -19,9 +19,7 @@ class FusCounterSignTests : FusTests() {
     fun test() {
         val processService = fusEngine.processService
         val process = processService.getById(processId)
-        if (process != null) {
-            processService.getByVersion(process.processName, process.processVersion)
-        }
+        processService.getByNameAndVersion(process.processName, process.processVersion)
 
         val args = mapOf(
             "day" to 8,

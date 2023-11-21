@@ -12,7 +12,7 @@
         {
           "nodeName": "7天长期",
           "nodeType": 4,
-          "priorityLevel": 1,
+          "priority": 1,
           "conditionMode": 1,
           "expressionList": [
             [
@@ -54,7 +54,7 @@
                 {
                   "nodeName": "年龄等于18",
                   "nodeType": 4,
-                  "priorityLevel": 1,
+                  "priority": 1,
                   "conditionMode": 1,
                   "expressionList": [
                     [
@@ -90,7 +90,7 @@
                 {
                   "nodeName": "其它年龄",
                   "nodeType": 4,
-                  "priorityLevel": 2,
+                  "priority": 2,
                   "conditionMode": 1,
                   "expressionList": [],
                   "childNode": {
@@ -152,7 +152,7 @@
         {
           "nodeName": "短期",
           "nodeType": 4,
-          "priorityLevel": 2,
+          "priority": 2,
           "conditionMode": 1,
           "expressionList": [],
           "childNode": {

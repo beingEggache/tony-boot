@@ -16,36 +16,21 @@ import com.tony.fus.db.po.FusTaskActor
 public class FusExecution public constructor(
     public val engine: FusEngine,
     public val process: FusProcess,
-    instance: FusInstance,
+    public val creatorId: String,
+    public val creatorName: String,
+    public val instance: FusInstance,
     args: Map<String, Any?>,
 ) {
-    public var instance: FusInstance? = instance
-
-    public var parentInstance: FusInstance? = null
-
     public var nextTaskActor: FusTaskActor? = null
-
-    public var parentNodeName: String = ""
-
-    public var childInstanceId: String = ""
-
-    public var creatorId: String = ""
-
-    public var creatorName: String = ""
 
     public var task: FusTask? = null
 
     public val taskList: MutableList<FusTask> = mutableListOf()
 
-    public val merged: Boolean = false
-
-    public val variable: MutableMap<String, Any?> = HashMap()
-
-    init {
-        this
-            .variable
-            .putAll(args)
-    }
+    public val variable: MutableMap<String, Any?> =
+        HashMap<String, Any?>().apply {
+            putAll(args)
+        }
 
     public val taskActorProvider: FusTaskActorProvider
         get() =
@@ -57,11 +42,5 @@ public class FusExecution public constructor(
         this
             .taskList
             .addAll(taskList)
-    }
-
-    public fun addTask(task: FusTask) {
-        this
-            .taskList
-            .add(task)
     }
 }
