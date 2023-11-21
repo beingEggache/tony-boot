@@ -54,7 +54,7 @@ public val globalObjectMapper: ObjectMapper by lazy(LazyThreadSafetyMode.PUBLICA
         SpringContexts.getBean(ObjectMapper::class.java)
     } catch (e: Exception) {
         // If not in spring env.
-        getLogger("com.tony.utils.Jsons").warn(e.cause?.message)
+        getLogger("com.tony.utils.Jsons").warn(e.message)
         createObjectMapper()
     }
 }

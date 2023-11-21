@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Test
 import org.springframework.transaction.annotation.Transactional
 
 /**
- * 或签测试
+ * 票签流程测试
  * @author tangli
  * @date 2023/11/13 15:17
  * @since 1.0.0
  */
-class FusOrSignTests : FusTests() {
+class FusVoteSignProcessTests : FusTests() {
 
-    override val processJson = "json/orSign.json"
+    override val processJson = "json/voteSign.json"
 
     @Transactional(rollbackFor = [Exception::class])
     @Test
@@ -26,46 +26,29 @@ class FusOrSignTests : FusTests() {
             testOperator1,
         )?.let { instance ->
             // 发起
+            val instanceId = instance.instanceId
             val taskList1 =
                 fusEngine
                     .queryService
-                    .listTaskByInstanceId(instance.instanceId)
-
+                    .listTaskByInstanceId(instanceId)
             taskList1
                 .forEach { task ->
                     fusEngine.executeTask(task.taskId, testOperator1)
                 }
 
-            //驳回
-            val taskList2 =
-                fusEngine
-                    .queryService
-                    .listTaskByInstanceId(instance.instanceId)
-            taskList2
-                .forEach { task ->
-                    fusEngine.taskService.rejectTask(
-                        task,
-                        testOperator3,
-                        mapOf("reason" to "不符合要求")
-                    )
-                }
-
-            // 调整, 再发起
-            val taskList3 =
-                fusEngine
-                    .queryService
-                    .listTaskByInstanceId(instance.instanceId)
-            taskList3
-                .forEach { task ->
+            //test1 领导审批同意
+            fusEngine
+                .queryService
+                .taskByInstanceIdAndActorId(instanceId, testOperator1.operatorId)
+                .also { task ->
                     fusEngine.executeTask(task.taskId, testOperator1)
                 }
 
-            val taskList4 =
-                fusEngine
-                    .queryService
-                    .listTaskByInstanceId(instance.instanceId)
-            taskList4
-                .forEach { task ->
+            //test3 领导审批同意
+            fusEngine
+                .queryService
+                .taskByInstanceIdAndActorId(instanceId, testOperator3.operatorId)
+                .also { task ->
                     fusEngine.executeTask(task.taskId, testOperator3)
                 }
         }

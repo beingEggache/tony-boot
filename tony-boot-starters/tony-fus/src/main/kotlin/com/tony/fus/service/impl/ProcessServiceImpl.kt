@@ -66,7 +66,6 @@ internal class ProcessServiceImpl(
                 this.processVersion = (process?.processVersion ?: 0) + 1
                 this.processName = processModel.name
                 this.processKey = processModel.key
-                this.instanceUrl = processModel.instanceUrl
                 this.modelContent = modelContent
                 this.creatorId = creator.operatorId
                 this.creatorName = creator.operatorName
@@ -83,7 +82,6 @@ internal class ProcessServiceImpl(
         val processModel = FusContext.parse(modelContent, processId, true)
         process.processName = processModel.name
         process.processKey = processModel.key
-        process.instanceUrl = processModel.instanceUrl
         process.modelContent = modelContent
         return processMapper.updateById(process) > 0
     }

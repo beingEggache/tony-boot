@@ -1,8 +1,7 @@
 package com.tony.test.fus
 
-import com.tony.fus.model.FusOperator
-import com.tony.utils.getLogger
 import org.junit.jupiter.api.Test
+import org.springframework.transaction.annotation.Transactional
 
 /**
  * FusTests is
@@ -12,24 +11,9 @@ import org.junit.jupiter.api.Test
  */
 class FusProcessTests : FusTests() {
 
-    private val logger = getLogger()
-
-    private val testOperatorId = "test001"
-    private val testOperator1: FusOperator =
-        FusOperator(
-            testOperatorId,
-            "测试1",
-            "1"
-        )
-    private val testOperator2: FusOperator =
-        FusOperator(
-            "zg0001",
-            "张三",
-            "1"
-        )
-
     override val processJson = "json/process.json"
 
+    @Transactional(rollbackFor = [Exception::class])
     @Test
     fun testStartInstanceCondition1() {
         val processService = fusEngine.processService
@@ -64,6 +48,7 @@ class FusProcessTests : FusTests() {
         }
     }
 
+    @Transactional(rollbackFor = [Exception::class])
     @Test
     fun testStartInstanceCondition2() {
         val processService = fusEngine.processService

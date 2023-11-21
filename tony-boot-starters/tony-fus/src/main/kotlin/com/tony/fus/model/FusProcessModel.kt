@@ -11,8 +11,6 @@ public class FusProcessModel {
 
     public var key: String = ""
 
-    public var instanceUrl: String = ""
-
     public var node: FusNode? = null
 
     public fun getNode(nodeName: String?): FusNode? =

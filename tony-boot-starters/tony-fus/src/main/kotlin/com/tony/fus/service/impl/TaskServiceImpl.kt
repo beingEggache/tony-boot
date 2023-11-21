@@ -221,11 +221,14 @@ internal open class TaskServiceImpl
                                 .ktQuery()
                                 .select(FusHistoryTask::taskId)
                                 .eq(FusHistoryTask::instanceId, historyTask.instanceId)
-                                .eq(FusHistoryTask::taskName, historyTask::taskName)
+                                .eq(FusHistoryTask::taskName, historyTask.taskName)
                                 .eq(FusHistoryTask::parentTaskId, historyTask.parentTaskId)
                                 .listObj<String>()
                                 .let { historyTaskIdList ->
-                                    taskMapper.selectBatchIds(historyTaskIdList)
+                                    taskMapper
+                                        .ktQuery()
+                                        .`in`(FusTask::parentTaskId, historyTaskIdList)
+                                        .list()
                                 }
                         taskList
                     }.fusThrowIfEmpty("后续活动任务已完成或不存在，无法撤回.")
@@ -286,7 +289,6 @@ internal open class TaskServiceImpl
                     this.creatorName = execution.creatorName
                     this.instanceId = execution.instance?.instanceId.ifNullOrBlank()
                     this.taskName = node?.nodeName.ifNullOrBlank()
-                    this.displayName = node?.nodeName.ifNullOrBlank()
                     // ?
                     this.taskType = TaskType.create(nodeType?.value!!).fusThrowIfNull("nodeType null")
                     this.parentTaskId = execution.task?.taskId.ifNullOrBlank()
@@ -344,7 +346,6 @@ internal open class TaskServiceImpl
                         this.instanceId = execution.instance?.instanceId.ifNullOrBlank()
                         this.parentTaskId = parentTaskId.ifNullOrBlank()
                         this.taskName = node.nodeName
-                        this.displayName = node.nodeName
                         this.actorId = it.id
                         this.actorName = it.name
                         this.actorType = ActorType.USER
@@ -549,7 +550,7 @@ internal open class TaskServiceImpl
                     FusTaskActor().apply {
                         tenantId = it.tenantId
                         instanceId = it.instanceId
-                        taskId = it.taskId
+                        taskId = task.taskId
                         actorType = it.actorType
                         actorId = it.actorId
                         actorName = it.actorName

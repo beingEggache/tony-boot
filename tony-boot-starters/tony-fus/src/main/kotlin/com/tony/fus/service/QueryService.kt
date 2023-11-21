@@ -46,6 +46,19 @@ public interface QueryService {
     public fun task(taskId: String): FusTask
 
     /**
+     * 按实例id和参与者id查找任务
+     * @param [instanceId] 实例id
+     * @param [actorId] 任务参与者id
+     * @author Tang Li
+     * @date 2023/11/21 10:41
+     * @since 1.0.0
+     */
+    public fun taskByInstanceIdAndActorId(
+        instanceId: String,
+        actorId: String,
+    ): FusTask
+
+    /**
      * 列出任务
      * @param [instanceId] 实例id
      * @param [taskNames] 任务名称

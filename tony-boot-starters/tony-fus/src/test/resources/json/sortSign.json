@@ -1,6 +1,6 @@
 {
-  "key": "orSign",
-  "name": "报销审批（或签）",
+  "key": "sortSign",
+  "name": "报销审批（按顺序依次审批）",
   "node": {
     "nodeName": "发起人",
     "nodeType": 1,
@@ -36,8 +36,8 @@
         "autoWhenExpired": false,
         "expiresIn": 0,
         "autoWhenExpiredExecuteMode": 1,
-        "multiApproveMode": 4,
-        "directorMode": 1,
+        "multiApproveMode": 2,
+        "multiStageManagerMode": 1,
         "childNode": {
           "nodeName": "抄送人力资源",
           "nodeType": 3,

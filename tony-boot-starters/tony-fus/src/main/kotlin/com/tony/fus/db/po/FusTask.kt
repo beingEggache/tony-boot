@@ -81,11 +81,6 @@ public open class FusTask {
     public var taskName: String = ""
 
     /**
-     * 任务显示名称
-     */
-    public var displayName: String = ""
-
-    /**
      * 任务类型: 1.主办, 2.转办, 3.委派, 4.会签
      */
     public var taskType: TaskType = TaskType.MAJOR
@@ -94,11 +89,6 @@ public open class FusTask {
      * 参与类型: 1.发起、其它, 2.按顺序依次审批, 3.会签, 4.或签, 5.票签, 10.抄送
      */
     public var performType: PerformType = PerformType.UNKNOWN
-
-    /**
-     * 任务处理的url
-     */
-    public var actionUrl: String = ""
 
     /**
      * 变量json

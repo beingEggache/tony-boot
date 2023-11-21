@@ -63,7 +63,7 @@ public open class FusTaskActor {
     public var actorName: String = ""
 
     /**
-     * 参与者类型: 0.用户, 1.角色, 2.部门
+     * 参与者类型: 1.用户, 2.角色, 3.部门
      */
     public var actorType: ActorType = ActorType.USER
 

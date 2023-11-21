@@ -13,12 +13,13 @@ import com.tony.fus.db.po.FusTaskActor
  * @date 2023/10/19 10:16
  * @since 1.0.0
  */
-public class FusExecution {
-    public val engine: FusEngine
-
-    public val process: FusProcess
-
-    public var instance: FusInstance? = null
+public class FusExecution public constructor(
+    public val engine: FusEngine,
+    public val process: FusProcess,
+    instance: FusInstance,
+    args: Map<String, Any?>,
+) {
+    public var instance: FusInstance? = instance
 
     public var parentInstance: FusInstance? = null
 
@@ -27,8 +28,6 @@ public class FusExecution {
     public var parentNodeName: String = ""
 
     public var childInstanceId: String = ""
-
-    public val variable: MutableMap<String, Any?> = HashMap()
 
     public var creatorId: String = ""
 
@@ -40,48 +39,19 @@ public class FusExecution {
 
     public val merged: Boolean = false
 
-    public val taskActorProvider: FusTaskActorProvider
-        get() =
-            engine
-                .context
-                .taskActorProvider
+    public val variable: MutableMap<String, Any?> = HashMap()
 
-    public constructor(
-        engine: FusEngine,
-        process: FusProcess,
-        instance: FusInstance,
-        args: Map<String, Any?>,
-    ) {
-        this.engine = engine
-        this.process = process
-        this.instance = instance
+    init {
         this
             .variable
             .putAll(args)
     }
 
-    internal constructor(
-        execution: FusExecution,
-        process: FusProcess,
-        parentNodeName: String,
-    ) {
-        this.engine = execution.engine
-        this.process = process
-        this
-            .variable
-            .putAll(execution.variable)
-        this.parentInstance = execution.instance
-        this.parentNodeName = parentNodeName
-        this.creatorId = execution.creatorId
-        this.creatorName = execution.creatorName
-    }
-
-    public fun createSubExecution(
-        execution: FusExecution,
-        process: FusProcess,
-        parentNodeName: String,
-    ): FusExecution =
-        FusExecution(execution, process, parentNodeName)
+    public val taskActorProvider: FusTaskActorProvider
+        get() =
+            engine
+                .context
+                .taskActorProvider
 
     public fun addTasks(taskList: Collection<FusTask>) {
         this

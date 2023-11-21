@@ -21,7 +21,7 @@ internal interface FusHistoryTaskActorMapper : BaseDao<FusHistoryTaskActor> {
      */
     fun selectListByTaskId(taskId: String): List<FusTaskActor> =
         ktQuery()
-            .eq(FusHistoryTaskActor::taskActorId, taskId)
+            .eq(FusHistoryTaskActor::taskId, taskId)
             .list()
 
     /**

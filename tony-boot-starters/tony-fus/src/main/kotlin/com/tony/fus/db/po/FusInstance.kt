@@ -73,11 +73,6 @@ public open class FusInstance {
     public var priority: Int? = null
 
     /**
-     * 流程实例编号
-     */
-    public var instanceNo: String = ""
-
-    /**
      * 业务KEY
      */
     @TableField(
@@ -89,11 +84,6 @@ public open class FusInstance {
      * 变量json
      */
     public var variable: String = "{}"
-
-    /**
-     * 流程实例版本
-     */
-    public var instanceVersion: Int? = null
 
     /**
      * 期望完成时间

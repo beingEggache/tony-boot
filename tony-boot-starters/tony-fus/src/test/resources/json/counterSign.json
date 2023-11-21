@@ -27,7 +27,7 @@
           "childNode": {
             "nodeName": "7天领导审批",
             "nodeType": 2,
-            "setType": 2,
+            "approverType": 1,
             "nodeUserList": [
               {
                 "id": "test001",
@@ -58,7 +58,7 @@
           "childNode": {
             "nodeName": "默认主管审批",
             "nodeType": 2,
-            "setType": 2,
+            "approverType": 2,
             "nodeUserList": [],
             "nodeRoleList": [],
             "managerLevel": 1,

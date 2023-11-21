@@ -1,6 +1,6 @@
 {
-  "key": "orSign",
-  "name": "报销审批（或签）",
+  "key": "voteSign",
+  "name": "人事审批（票签）",
   "node": {
     "nodeName": "发起人",
     "nodeType": 1,
@@ -22,11 +22,18 @@
         "nodeUserList": [
           {
             "id": "test001",
-            "name": "何敏"
+            "name": "青苗",
+            "weight": 30
+          },
+          {
+            "id": "test002",
+            "name": "咩咩",
+            "weight": 35
           },
           {
             "id": "test003",
-            "name": "聂秋"
+            "name": "聂秋秋",
+            "weight": 35
           }
         ],
         "nodeRoleList": [],
@@ -36,16 +43,16 @@
         "autoWhenExpired": false,
         "expiresIn": 0,
         "autoWhenExpiredExecuteMode": 1,
-        "multiApproveMode": 4,
-        "directorMode": 1,
+        "multiApproveMode": 5,
+        "multiStageManagerMode": 1,
         "childNode": {
           "nodeName": "抄送人力资源",
           "nodeType": 3,
           "userSelectFlag": true,
           "nodeUserList": [
             {
-              "id": "test002",
-              "name": "何秀英"
+              "id": "test005",
+              "name": "逗号"
             }
           ]
         }

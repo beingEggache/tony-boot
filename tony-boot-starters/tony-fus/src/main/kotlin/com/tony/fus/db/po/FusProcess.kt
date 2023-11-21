@@ -93,11 +93,6 @@ public class FusProcess {
     public var processVersion: Int = 0
 
     /**
-     * 实例地址
-     */
-    public var instanceUrl: String = ""
-
-    /**
      * 使用范围: 1.全员, 2.指定人员（业务关联）, 3.均不可提交
      */
     public var useScope: UseScope = UseScope.ALL

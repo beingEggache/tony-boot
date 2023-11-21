@@ -12,6 +12,8 @@ import com.tony.fus.db.po.FusHistoryTaskActor
 import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.db.po.FusTaskActor
+import com.tony.fus.exception.FusException
+import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.service.QueryService
 
 /**
@@ -36,6 +38,23 @@ internal class QueryServiceImpl(
 
     override fun task(taskId: String): FusTask =
         taskMapper.selectById(taskId)
+
+    override fun taskByInstanceIdAndActorId(
+        instanceId: String,
+        actorId: String,
+    ): FusTask {
+        val taskId =
+            taskActorMapper
+                .ktQuery()
+                .select(FusTaskActor::taskId)
+                .eq(FusTaskActor::instanceId, instanceId)
+                .eq(FusTaskActor::actorId, actorId)
+                .oneObjNotNull<String>(
+                    "Task actor(actorId = $actorId) in Task(instanceId = $instanceId) Not Found",
+                    ex = ::FusException
+                )
+        return taskMapper.fusSelectByIdNotNull(taskId)
+    }
 
     override fun listTask(
         instanceId: String,

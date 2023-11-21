@@ -1,6 +1,6 @@
 package com.tony.test
 
-import com.tony.JPageQuery
+import com.tony.PageQuery
 import com.tony.db.service.RoleService
 import com.tony.dto.req.RoleCreateReq
 import com.tony.dto.req.RoleUpdateReq
@@ -45,7 +45,7 @@ class MonoApiWebTest {
 
     @Test
     fun testPageRole() {
-        roleService.page(JPageQuery())
+        roleService.page(PageQuery())
     }
     @Test
     fun testListRole() {

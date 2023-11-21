@@ -86,14 +86,6 @@ public class FusTaskCc {
     public var taskName: String = ""
 
     /**
-     * 任务显示名称
-     */
-    @TableField(
-        updateStrategy = FieldStrategy.NEVER
-    )
-    public var displayName: String = ""
-
-    /**
      * 参与者ID
      */
     @TableField(
