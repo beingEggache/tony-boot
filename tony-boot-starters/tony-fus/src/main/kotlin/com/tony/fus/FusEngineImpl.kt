@@ -37,19 +37,6 @@ public class FusEngineImpl(
             args
         )
 
-    override fun startInstanceByName(
-        processName: String,
-        processVersion: Int,
-        operator: FusOperator,
-        args: Map<String, Any?>,
-    ): FusInstance =
-        startProcess(
-            processService
-                .getByNameAndVersion(processName, processVersion),
-            operator,
-            args
-        )
-
     override fun executeTask(
         taskId: String,
         operator: FusOperator,
@@ -89,7 +76,7 @@ public class FusEngineImpl(
                 operator.operatorId,
                 operator.operatorName,
                 runtimeService
-                    .createInstance(process, operator, args),
+                    .createInstance(process.processId, operator, args),
                 args
             )
         process.executeStart(context, execution)

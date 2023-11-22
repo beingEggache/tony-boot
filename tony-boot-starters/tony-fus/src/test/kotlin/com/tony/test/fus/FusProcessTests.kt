@@ -17,8 +17,8 @@ class FusProcessTests : FusTests() {
     @Test
     fun testStartInstanceCondition1() {
         val processService = fusEngine.processService
-        val process = processService.getById(processId)
-        processService.getByNameAndVersion(process.processName, process.processVersion)
+        processService.getById(processId)
+
         fusEngine.startInstanceById(
             processId,
             testOperator1,
@@ -26,7 +26,7 @@ class FusProcessTests : FusTests() {
                 "day" to 8,
                 "assignee" to testOperatorId
             )
-        )?.let { instance ->
+        ).let { instance ->
             val taskList1 =
                 fusEngine
                     .queryService
@@ -50,8 +50,8 @@ class FusProcessTests : FusTests() {
     @Test
     fun testStartInstanceCondition2() {
         val processService = fusEngine.processService
-        val process = processService.getById(processId)
-        processService.getByNameAndVersion(process.processName, process.processVersion)
+        processService.getById(processId)
+
         fusEngine.startInstanceById(
             processId,
             testOperator1,
@@ -59,7 +59,7 @@ class FusProcessTests : FusTests() {
                 "day" to 6,
                 "assignee" to testOperatorId
             )
-        )?.let { instance ->
+        ).let { instance ->
             val taskList1 =
                 fusEngine
                     .queryService

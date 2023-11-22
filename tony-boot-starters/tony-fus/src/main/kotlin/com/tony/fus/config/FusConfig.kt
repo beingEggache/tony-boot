@@ -47,8 +47,6 @@ internal class FusConfig {
     @Bean
     internal fun taskService(
         taskPermission: FusTaskPermission,
-        processMapper: FusProcessMapper,
-        instanceMapper: FusInstanceMapper,
         taskMapper: FusTaskMapper,
         taskActorMapper: FusTaskActorMapper,
         taskCcMapper: FusTaskCcMapper,
@@ -59,8 +57,6 @@ internal class FusConfig {
     ): TaskService =
         TaskServiceImpl(
             taskPermission,
-            processMapper,
-            instanceMapper,
             taskMapper,
             taskActorMapper,
             taskCcMapper,

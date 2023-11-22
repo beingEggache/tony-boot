@@ -6,7 +6,6 @@ import com.tony.fus.db.mapper.FusInstanceMapper
 import com.tony.fus.db.mapper.FusTaskMapper
 import com.tony.fus.db.po.FusHistoryInstance
 import com.tony.fus.db.po.FusInstance
-import com.tony.fus.db.po.FusProcess
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.listener.InstanceListener
@@ -36,7 +35,7 @@ internal open class RuntimeServiceImpl
     ) : RuntimeService {
         @Transactional(rollbackFor = [Throwable::class])
         override fun createInstance(
-            process: FusProcess,
+            processId: String,
             creator: FusOperator,
             variable: Map<String, Any?>?,
         ): FusInstance =
@@ -46,7 +45,7 @@ internal open class RuntimeServiceImpl
                     creatorName = creator.operatorName
                     updatorId = creator.operatorId
                     updatorName = creator.operatorName
-                    processId = process.processId
+                    this.processId = processId
                     this.variable = variable?.toJsonString() ?: "{}"
                 }
             )

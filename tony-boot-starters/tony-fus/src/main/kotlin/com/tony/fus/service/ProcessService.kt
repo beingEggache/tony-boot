@@ -21,30 +21,6 @@ public interface ProcessService {
     public fun getById(processId: String): FusProcess
 
     /**
-     * 根据流程名称或版本号查找流程定义对象
-     * @param [processName] 流程定义名称
-     * @param [processVersion] 版本
-     * @return [FusProcess]
-     * @author Tang Li
-     * @date 2023/10/09 14:25
-     * @since 1.0.0
-     */
-    public fun getByNameAndVersion(
-        processName: String,
-        processVersion: Int,
-    ): FusProcess
-
-    /**
-     * 根据流程名称查找流程定义对象
-     * @param [processName] 流程定义名称
-     * @return [FusProcess]
-     * @author Tang Li
-     * @date 2023/10/09 14:26
-     * @since 1.0.0
-     */
-    public fun getByName(processName: String): FusProcess
-
-    /**
      * 部署流程
      * @param [modelContent] 流程定义json字符串
      * @param [creator] 流程创建者

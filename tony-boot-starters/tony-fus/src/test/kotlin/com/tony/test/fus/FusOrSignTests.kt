@@ -17,12 +17,12 @@ class FusOrSignTests : FusTests() {
     @Test
     fun test() {
         val processService = fusEngine.processService
-        val process = processService.getById(processId)
-        processService.getByNameAndVersion(process.processName, process.processVersion)
+        processService.getById(processId)
+
         fusEngine.startInstanceById(
             processId,
             testOperator1,
-        )?.let { instance ->
+        ).let { instance ->
             // 发起
             val taskList1 =
                 fusEngine

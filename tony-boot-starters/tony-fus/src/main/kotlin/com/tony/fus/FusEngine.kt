@@ -72,41 +72,6 @@ public interface FusEngine {
         startInstanceById(processId, operator, mapOf())
 
     /**
-     * 按名称启动实例
-     * @param [processName] 流程名称
-     * @param [processVersion] 流程版本
-     * @param [operator] 任务创建者
-     * @param [args] variable
-     * @return [FusInstance]?
-     * @author Tang Li
-     * @date 2023/10/20 16:31
-     * @since 1.0.0
-     */
-    public fun startInstanceByName(
-        processName: String,
-        processVersion: Int,
-        operator: FusOperator,
-        args: Map<String, Any?>,
-    ): FusInstance
-
-    /**
-     * 按名称启动实例
-     * @param [processName] 流程名称
-     * @param [processVersion] 流程版本
-     * @param [operator] 任务创建者
-     * @return [FusInstance]?
-     * @author Tang Li
-     * @date 2023/10/20 16:32
-     * @since 1.0.0
-     */
-    public fun startInstanceByName(
-        processName: String,
-        processVersion: Int,
-        operator: FusOperator,
-    ): FusInstance =
-        startInstanceByName(processName, processVersion, operator, mapOf())
-
-    /**
      * 执行任务
      * @param [taskId] 任务id
      * @param [operator] 处理人员

@@ -17,8 +17,7 @@ class FusSimpleProcessTests : FusTests() {
     @Test
     fun test() {
         val processService = fusEngine.processService
-        val process = processService.getById(processId)
-        processService.getByNameAndVersion(process.processName, process.processVersion)
+        processService.getById(processId)
 
         val args =
             mapOf(
@@ -31,7 +30,7 @@ class FusSimpleProcessTests : FusTests() {
             processId,
             testOperator1,
             args,
-        )?.let { instance ->
+        ).let { instance ->
             // 发起
             val instanceId = instance.instanceId
             val taskList1 =

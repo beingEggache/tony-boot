@@ -49,8 +49,8 @@ class FusSupervisorProcessTests {
     @Test
     fun test() {
         val processService = fusEngine.processService
-        val process = processService.getById(processId)
-        processService.getByNameAndVersion(process.processName, process.processVersion)
+        processService.getById(processId)
+
         val args =
             mapOf(
                 "day" to 4
@@ -60,7 +60,7 @@ class FusSupervisorProcessTests {
             processId,
             user4,
             args,
-        )?.let { instance ->
+        ).let { instance ->
             // 四级部门发起审批
             val instanceId = instance.instanceId
             val taskList1 =

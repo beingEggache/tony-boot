@@ -3,7 +3,6 @@ package com.tony.fus.service.impl
 import com.tony.fus.FusContext
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.po.FusProcess
-import com.tony.fus.extension.fusOneNotNull
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.model.FusOperator
@@ -20,22 +19,6 @@ internal class ProcessServiceImpl(
 ) : ProcessService {
     override fun getById(processId: String): FusProcess =
         processMapper.fusSelectByIdNotNull(processId, "流程[id=$processId]不存在")
-
-    override fun getByNameAndVersion(
-        processName: String,
-        processVersion: Int,
-    ): FusProcess =
-        processMapper
-            .ktQuery()
-            .eq(FusProcess::processName, processName)
-            .eq(FusProcess::processVersion, processVersion)
-            .fusOneNotNull("流程[processName=$processName, processVersion=$processVersion] 不存在.")
-
-    override fun getByName(processName: String): FusProcess =
-        processMapper
-            .ktQuery()
-            .eq(FusProcess::processName, processName)
-            .fusOneNotNull("流程[processName=$processName] 不存在.")
 
     override fun deploy(
         modelContent: String,

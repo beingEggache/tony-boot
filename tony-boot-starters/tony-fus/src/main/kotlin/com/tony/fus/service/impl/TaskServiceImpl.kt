@@ -7,8 +7,6 @@ import com.tony.fus.db.enums.TaskState
 import com.tony.fus.db.enums.TaskType
 import com.tony.fus.db.mapper.FusHistoryTaskActorMapper
 import com.tony.fus.db.mapper.FusHistoryTaskMapper
-import com.tony.fus.db.mapper.FusInstanceMapper
-import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.mapper.FusTaskActorMapper
 import com.tony.fus.db.mapper.FusTaskCcMapper
 import com.tony.fus.db.mapper.FusTaskMapper
@@ -49,8 +47,6 @@ internal open class TaskServiceImpl
     @JvmOverloads
     constructor(
         private val taskPermission: FusTaskPermission,
-        private val processMapper: FusProcessMapper,
-        private val instanceMapper: FusInstanceMapper,
         private val taskMapper: FusTaskMapper,
         private val taskActorMapper: FusTaskActorMapper,
         private val taskCcMapper: FusTaskCcMapper,
@@ -96,11 +92,11 @@ internal open class TaskServiceImpl
 
         override fun viewTask(
             taskId: String,
-            taskActor: FusTaskActor,
+            actorId: String,
         ): Boolean =
             taskActorMapper
                 .ktQuery()
-                .eq(FusTaskActor::actorId, taskActor.actorId)
+                .eq(FusTaskActor::actorId, actorId)
                 .exists()
                 .runIf {
                     taskMapper
@@ -131,14 +127,13 @@ internal open class TaskServiceImpl
 
         override fun claimTask(
             taskId: String,
-            historyTaskActor: FusHistoryTaskActor,
-        ): FusTask {
-            return taskMapper
+            actorId: String,
+        ): FusTask =
+            taskMapper
                 .fusSelectByIdNotNull("任务不存在(id=$taskId)")
                 .also {
-                    hasPermission(it, historyTaskActor.actorId)
+                    hasPermission(it, actorId)
                 }
-        }
 
         @Transactional(rollbackFor = [Throwable::class])
         override fun assignTask(
@@ -369,17 +364,6 @@ internal open class TaskServiceImpl
                     .le(FusTask::remindTime, now)
                     .list()
             }
-
-        override fun getTaskNode(taskId: String): FusNode =
-            taskMapper
-                .fusSelectByIdNotNull(taskId)
-                .let {
-                    instanceMapper.fusSelectByIdNotNull(it.instanceId)
-                }.let {
-                    processMapper.fusSelectByIdNotNull(it.processId)
-                }.model()
-                .node
-                .fusThrowIfNull("任务ID无法找到节点模型.")
 
         @Transactional(rollbackFor = [Throwable::class])
         override fun addTaskActor(

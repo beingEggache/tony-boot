@@ -2,7 +2,6 @@ package com.tony.fus.service
 
 import com.tony.fus.ADMIN
 import com.tony.fus.db.po.FusInstance
-import com.tony.fus.db.po.FusProcess
 import com.tony.fus.model.FusOperator
 
 /**
@@ -13,7 +12,7 @@ import com.tony.fus.model.FusOperator
 public interface RuntimeService {
     /**
      * 创建实例
-     * @param [process] 流程定义
+     * @param [processId] 流程id
      * @param [creator] 流程创建者
      * @param [variable] 流程参数
      * @return [FusInstance]
@@ -22,7 +21,7 @@ public interface RuntimeService {
      * @since 1.0.0
      */
     public fun createInstance(
-        process: FusProcess,
+        processId: String,
         creator: FusOperator,
         variable: Map<String, Any?>?,
     ): FusInstance

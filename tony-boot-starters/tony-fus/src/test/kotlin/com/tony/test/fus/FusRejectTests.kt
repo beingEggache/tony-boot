@@ -15,12 +15,12 @@ class FusRejectTests : FusTests() {
     @Test
     fun testReject() {
         val processService = fusEngine.processService
-        val process = processService.getById(processId)
-        processService.getByNameAndVersion(process.processName, process.processVersion)
+        processService.getById(processId)
+
         fusEngine.startInstanceById(
             processId,
             testOperator1,
-        )?.let { instance ->
+        ).let { instance ->
             val taskList1 =
                 fusEngine
                     .queryService

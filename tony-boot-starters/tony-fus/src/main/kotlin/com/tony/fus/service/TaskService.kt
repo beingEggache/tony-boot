@@ -73,7 +73,7 @@ public interface TaskService {
     /**
      * 查看任务 设置为已阅状态
      * @param [taskId] 任务id
-     * @param [taskActor] 任务参与者
+     * @param [actorId] 参与者id
      * @return [Boolean]
      * @author Tang Li
      * @date 2023/11/03 11:55
@@ -81,7 +81,7 @@ public interface TaskService {
      */
     public fun viewTask(
         taskId: String,
-        taskActor: FusTaskActor,
+        actorId: String,
     ): Boolean
 
     /**
@@ -99,7 +99,7 @@ public interface TaskService {
      *
      * 删除其它任务参与者
      * @param [taskId] 任务id
-     * @param [historyTaskActor] 任务参与者
+     * @param [actorId] 参与者id
      * @return [FusTask]
      * @author Tang Li
      * @date 2023/10/10 11:12
@@ -107,7 +107,7 @@ public interface TaskService {
      */
     public fun claimTask(
         taskId: String,
-        historyTaskActor: FusHistoryTaskActor,
+        actorId: String,
     ): FusTask
 
     /**
@@ -266,16 +266,6 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun listExpiredOrRemindTasks(): List<FusTask>
-
-    /**
-     * 获取任务节点
-     * @param [taskId] 任务id
-     * @return [FusNode]
-     * @author Tang Li
-     * @date 2023/10/25 10:23
-     * @since 1.0.0
-     */
-    public fun getTaskNode(taskId: String): FusNode
 
     /**
      * 添加任务参与者【加签】
