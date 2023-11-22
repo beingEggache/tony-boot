@@ -1,13 +1,11 @@
 package com.tony.fus
 
-import com.tony.SpringContexts
 import com.tony.fus.model.FusExpressionEvaluator
 import com.tony.fus.model.FusProcessModel
 import com.tony.fus.service.ProcessService
 import com.tony.fus.service.QueryService
 import com.tony.fus.service.RuntimeService
 import com.tony.fus.service.TaskService
-import com.tony.utils.getLogger
 
 /**
  * FusContext is
@@ -25,8 +23,6 @@ public class FusContext(
     public val interceptors: List<FusInterceptor>,
     public val taskActorProvider: FusTaskActorProvider,
 ) {
-    private val logger = getLogger()
-
     public companion object {
         private val processModelParser: FusProcessModelParser = DefaultFusProcessModelParser()
 
@@ -36,12 +32,5 @@ public class FusContext(
             redeploy: Boolean,
         ): FusProcessModel =
             processModelParser.parse(content, processId, redeploy)
-    }
-
-    public fun build(): FusEngine {
-        logger.info("FusEngine start.")
-        return SpringContexts.getBean(FusEngine::class.java).also {
-            it.context = this
-        }
     }
 }

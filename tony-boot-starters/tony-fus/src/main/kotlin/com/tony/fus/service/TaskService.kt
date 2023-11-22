@@ -57,7 +57,7 @@ public interface TaskService {
      * @since 1.0.0
      */
     public fun completeActiveTasksByInstanceId(
-        instanceId: String?,
+        instanceId: String,
         operator: FusOperator,
     ): Boolean
 

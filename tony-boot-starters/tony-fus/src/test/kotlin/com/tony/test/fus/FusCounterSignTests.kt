@@ -1,6 +1,5 @@
 package com.tony.test.fus
 
-import com.tony.utils.alsoIf
 import org.junit.jupiter.api.Test
 import org.springframework.transaction.annotation.Transactional
 
@@ -43,43 +42,25 @@ class FusCounterSignTests : FusTests() {
                 }
 
             //会签1
-            val taskList2 =
-                fusEngine
-                    .queryService
-                    .listTaskByInstanceId(instance.instanceId)
-            taskList2
-                .forEach { task ->
-                    fusEngine
-                        .queryService
-                        .listTaskActorByTaskId(task.taskId)
-                        .any {
-                            it.actorId == testOperator1.operatorId
-                        }.alsoIf {
-                            fusEngine.executeTask(
-                                task.taskId,
-                                testOperator1
-                            )
-                        }
+            fusEngine
+                .queryService
+                .taskByInstanceIdAndActorId(instance.instanceId, testOperator1.operatorId)
+                .also { task ->
+                    fusEngine.executeTask(
+                        task.taskId,
+                        testOperator1
+                    )
                 }
 
             // 会签2
-            val taskList3 =
-                fusEngine
-                    .queryService
-                    .listTaskByInstanceId(instance.instanceId)
-            taskList3
-                .forEach { task ->
-                    fusEngine
-                        .queryService
-                        .listTaskActorByTaskId(task.taskId)
-                        .any {
-                            it.actorId == testOperator3.operatorId
-                        }.alsoIf {
-                            fusEngine.executeTask(
-                                task.taskId,
-                                testOperator3
-                            )
-                        }
+            fusEngine
+                .queryService
+                .taskByInstanceIdAndActorId(instance.instanceId, testOperator3.operatorId)
+                .also { task ->
+                    fusEngine.executeTask(
+                        task.taskId,
+                        testOperator3
+                    )
                 }
         }
     }

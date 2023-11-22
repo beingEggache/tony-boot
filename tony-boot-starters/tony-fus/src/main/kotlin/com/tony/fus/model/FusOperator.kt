@@ -20,5 +20,5 @@ public data class FusOperator
         /**
          * 租户ID
          */
-        val tenantId: String? = null,
+        val tenantId: String = "",
     )

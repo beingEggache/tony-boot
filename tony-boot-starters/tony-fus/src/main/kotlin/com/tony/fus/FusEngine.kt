@@ -14,7 +14,7 @@ import com.tony.fus.service.TaskService
  * @since 1.0.0
  */
 public interface FusEngine {
-    public var context: FusContext
+    public val context: FusContext
 
     /**
      * 流程定义服务

@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.fus.FusContext
-import com.tony.fus.db.enums.UseScope
 import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.handler.impl.EndProcessHandler
 import com.tony.fus.model.FusExecution
@@ -78,11 +77,6 @@ public class FusProcess {
     public var processKey: String = ""
 
     /**
-     * 流程图标地址
-     */
-    public var processIcon: String = ""
-
-    /**
      * 流程类型
      */
     public var processType: String = ""
@@ -91,11 +85,6 @@ public class FusProcess {
      * 流程版本，默认 1
      */
     public var processVersion: Int = 0
-
-    /**
-     * 使用范围: 1.全员, 2.指定人员（业务关联）, 3.均不可提交
-     */
-    public var useScope: UseScope = UseScope.ALL
 
     /**
      * 流程状态: 0.不可用, 1.可用
@@ -112,10 +101,8 @@ public class FusProcess {
      */
     public var sort: Int = 0
 
-    public val model: FusProcessModel
-        get() {
-            return FusContext.parse(modelContent, processId, false)
-        }
+    public fun model(): FusProcessModel =
+        FusContext.parse(modelContent, processId, false)
 
     private tailrec fun nextNode(node: FusNode): FusNode? {
         val parentNode = node.parentNode
@@ -136,7 +123,7 @@ public class FusProcess {
         execution: FusExecution,
         nodeName: String?,
     ) {
-        model.also {
+        model().also {
             val node =
                 it
                     .getNode(nodeName)
@@ -168,7 +155,7 @@ public class FusProcess {
         context: FusContext,
         execution: FusExecution,
     ) {
-        model.also {
+        model().also {
             it
                 .node
                 .fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")

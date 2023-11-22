@@ -74,7 +74,7 @@ internal open class TaskServiceImpl
 
         @Transactional(rollbackFor = [Throwable::class])
         override fun completeActiveTasksByInstanceId(
-            instanceId: String?,
+            instanceId: String,
             operator: FusOperator,
         ): Boolean {
             taskMapper
@@ -377,7 +377,7 @@ internal open class TaskServiceImpl
                     instanceMapper.fusSelectByIdNotNull(it.instanceId)
                 }.let {
                     processMapper.fusSelectByIdNotNull(it.processId)
-                }.model
+                }.model()
                 .node
                 .fusThrowIfNull("任务ID无法找到节点模型.")
 

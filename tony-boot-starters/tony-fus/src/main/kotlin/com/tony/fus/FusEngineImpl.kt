@@ -23,7 +23,7 @@ import java.util.function.Consumer
  * @since 1.0.0
  */
 public class FusEngineImpl(
-    override var context: FusContext,
+    override val context: FusContext,
 ) : FusEngine {
     override fun startInstanceById(
         processId: String,
@@ -69,7 +69,7 @@ public class FusEngineImpl(
         execute(taskId, operator, args ?: mutableMapOf()) {
             it
                 .process
-                .model
+                .model()
                 .fusThrowIfNull("当前任务未找到流程定义模型")
                 .getNode(nodeName)
                 .fusThrowIfNull("根据节点名称[$nodeName]无法找到节点模型")
@@ -131,7 +131,7 @@ public class FusEngineImpl(
             processService
                 .getById(instance.processId)
 
-        val node = process.model.getNode(taskName)
+        val node = process.model().getNode(taskName)
         if (performType == PerformType.VOTE_SIGN) {
             val taskActors = queryService.listTaskActorsByInstanceId(instanceId)
             val passWeight = node?.passWeight.ifNull(50)

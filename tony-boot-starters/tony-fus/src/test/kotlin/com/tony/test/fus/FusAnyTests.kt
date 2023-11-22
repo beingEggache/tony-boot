@@ -1,8 +1,11 @@
 package com.tony.test.fus
 
-import com.tony.fus.db.mapper.FusHistoryInstanceMapper
-import com.tony.fus.db.po.FusHistoryInstance
+import com.tony.PageQuery
+import com.tony.PageResult
+import com.tony.fus.db.mapper.FusProcessMapper
+import com.tony.fus.db.po.FusProcess
 import com.tony.utils.getLogger
+import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -19,16 +22,15 @@ class FusAnyTests {
     private val logger = getLogger()
 
     @Resource
-    private lateinit var historyInstanceMapper: FusHistoryInstanceMapper
+    private lateinit var processMapper: FusProcessMapper
 
     @Test
     fun test() {
-        historyInstanceMapper
+        val pageResult = processMapper
             .ktQuery()
-            .select(FusHistoryInstance::createTime)
-            .listObj<Any>()
-            .forEach {
-                logger.info(it.toString())
-            }
+            .orderByDesc(FusProcess::sort)
+            .pageResult<PageResult<FusProcess>>(PageQuery<String>(1,3))
+
+        logger.info(pageResult.toJsonString())
     }
 }
