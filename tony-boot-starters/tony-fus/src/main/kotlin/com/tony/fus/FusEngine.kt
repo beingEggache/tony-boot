@@ -54,7 +54,7 @@ public interface FusEngine {
         processId: String,
         operator: FusOperator,
         args: Map<String, Any?>,
-    ): FusInstance?
+    ): FusInstance
 
     /**
      * 按id启动实例
@@ -68,7 +68,7 @@ public interface FusEngine {
     public fun startInstanceById(
         processId: String,
         operator: FusOperator,
-    ): FusInstance? =
+    ): FusInstance =
         startInstanceById(processId, operator, mapOf())
 
     /**
@@ -87,7 +87,7 @@ public interface FusEngine {
         processVersion: Int,
         operator: FusOperator,
         args: Map<String, Any?>,
-    ): FusInstance?
+    ): FusInstance
 
     /**
      * 按名称启动实例
@@ -103,7 +103,7 @@ public interface FusEngine {
         processName: String,
         processVersion: Int,
         operator: FusOperator,
-    ): FusInstance? =
+    ): FusInstance =
         startInstanceByName(processName, processVersion, operator, mapOf())
 
     /**

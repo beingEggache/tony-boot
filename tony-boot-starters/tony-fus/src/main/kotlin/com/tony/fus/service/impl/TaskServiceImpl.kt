@@ -207,7 +207,7 @@ internal open class TaskServiceImpl
         override fun withdrawTask(
             taskId: String,
             operator: FusOperator,
-        ): FusTask? =
+        ): FusTask =
             undoHistoryTask(
                 taskId,
                 operator

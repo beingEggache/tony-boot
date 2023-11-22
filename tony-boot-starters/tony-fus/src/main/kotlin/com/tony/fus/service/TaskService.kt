@@ -191,7 +191,7 @@ public interface TaskService {
     public fun withdrawTask(
         taskId: String,
         operator: FusOperator,
-    ): FusTask?
+    ): FusTask
 
     /**
      * 驳回任务.
@@ -209,7 +209,7 @@ public interface TaskService {
         task: FusTask,
         operator: FusOperator,
         variable: Map<String, Any?>?,
-    ): FusTask?
+    ): FusTask
 
     /**
      * 驳回任务.
@@ -225,7 +225,7 @@ public interface TaskService {
     public fun rejectTask(
         task: FusTask,
         operator: FusOperator,
-    ): FusTask? =
+    ): FusTask =
         rejectTask(task, operator, null)
 
     /**
@@ -321,7 +321,7 @@ public interface TaskService {
     public fun removeTaskActor(
         taskId: String,
         taskActorIdList: Collection<String>,
-    ): Unit
+    )
 
     /**
      * 删除任务参与者【减签】
