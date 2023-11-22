@@ -1,5 +1,6 @@
 package com.tony.test.mybatis
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.tony.ApiSession
 import com.tony.PageQuery
 import com.tony.PageResult
@@ -64,6 +65,21 @@ class MyBatisAppTest {
             .select("sum(states)")
             .oneMap()
         println(list)
+    }
+
+    @Test
+    fun testDaoTransform(){
+        val mapList = userDao
+            .ktQuery()
+            .list<Map<String, Any?>> {
+                mapOf(
+                    "userName" to it.userName,
+                    "realName" to it.realName
+                )
+            }
+        logger.info(mapList.toJsonString())
+        val pageResult1 = userDao.selectPageResult<PageResult<User>>(PageQuery<String>(), Wrappers.emptyWrapper())
+        logger.info(pageResult1.toJsonString())
     }
 }
 

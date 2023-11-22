@@ -131,6 +131,27 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     }
 
     /**
+     * 列表查询, 再根据[transformer] 对 [T] 转换成 [R]
+     * @param [transformer] 转换器
+     * @return [List<R?>]
+     * @author Tang Li
+     * @date 2023/11/22 11:23
+     * @since 1.0.0
+     */
+    public fun <R> list(transformer: java.util.function.Function<T, R>): List<R> {
+        lateinit var list: MutableList<R>
+        var initList = false
+        baseMapper.selectList(wrapper) {
+            if (!initList) {
+                list = ArrayList(it.resultCount)
+                initList = true
+            }
+            list.add(transformer.apply(it.resultObject))
+        }
+        return list
+    }
+
+    /**
      * 当 [list] 为 null 或者 空时, 抛出异常.
      *
      * @return [list]
