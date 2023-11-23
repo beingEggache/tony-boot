@@ -69,7 +69,7 @@ internal class JwtWebSession : WebSession {
                     JwtToken.parse(
                         WebContext
                             .request
-                            .getHeader("x-token")
+                            .getHeader("X-Token")
                             .ifNullOrBlank()
                     )
                 } catch (e: JWTVerificationException) {

@@ -11,7 +11,7 @@ package com.tony.test.feign.module.file
 import com.tony.ApiProperty
 import com.tony.exception.BizException
 import com.tony.feign.multipart.ByteArrayMultipartFile
-import com.tony.test.feign.module.file.client.FeignTestFileClient
+import com.tony.test.feign.module.file.client.FeignFileTestClient
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
@@ -21,11 +21,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import java.nio.file.Files
 import java.nio.file.Paths
 
-@SpringBootTest(classes = [FeignTestFileApp::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = [FeignFileTestApp::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class FeignFileTest {
 
     @Resource
-    lateinit var feignTestFileClient: FeignTestFileClient
+    lateinit var feignFileTestClient: FeignFileTestClient
 
     @Value("\${test-file-path-from:}")
     lateinit var testFilePathFrom: String
@@ -43,7 +43,7 @@ class FeignFileTest {
             "uploadMany2.png",
             bytes1
         )
-        val result = feignTestFileClient.uploadMany(listOf(file1, file2), "test")
+        val result = feignFileTestClient.uploadMany(listOf(file1, file2), "test")
         if (result.code != ApiProperty.okCode) {
             throw BizException("fail")
         }
@@ -56,7 +56,7 @@ class FeignFileTest {
             "uploadSingle.png",
             bytes1
         )
-        val result = feignTestFileClient.uploadSingle(file1, "test")
+        val result = feignFileTestClient.uploadSingle(file1, "test")
         if (result.code != ApiProperty.okCode) {
             logger.info(result.toJsonString())
             throw BizException("fail")

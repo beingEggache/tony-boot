@@ -1,18 +1,10 @@
-/**
- * OpenFeignTestFileApp
- *
- * TODO
- *
- * @author Tang Li
- * @date 2021/12/27 11:39
- */
-package com.tony.test.feign.module.file
+package com.tony.test.feign.module.unwrap
 
 import com.tony.annotation.EnableTonyBoot
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 
 @EnableFeignClients
-@SpringBootApplication
 @EnableTonyBoot
-class FeignTestFileApp
+@SpringBootApplication
+class FeignUnwrapTestApp

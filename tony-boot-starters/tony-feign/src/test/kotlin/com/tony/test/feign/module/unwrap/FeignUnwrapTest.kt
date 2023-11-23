@@ -1,8 +1,8 @@
 package com.tony.test.feign.module.unwrap
 
 import com.tony.test.feign.dto.Person
-import com.tony.test.feign.module.unwrap.client.FeignTestWithUnwrapClient
-import com.tony.test.feign.module.unwrap.client.FeignTestWithoutUnwrapClient
+import com.tony.test.feign.module.unwrap.client.FeignWithUnwrapTestClient
+import com.tony.test.feign.module.unwrap.client.FeignWithoutUnwrapTestClient
 import com.tony.utils.getLogger
 import com.tony.utils.println
 import com.tony.utils.toJsonString
@@ -11,23 +11,23 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(
-    classes = [FeignTestUnwrapApp::class],
+    classes = [FeignUnwrapTestApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
 class FeignUnwrapTest {
 
     @Resource
-    lateinit var feignTestWithUnwrapClient: FeignTestWithUnwrapClient
+    lateinit var feignWithUnwrapTestClient: FeignWithUnwrapTestClient
 
     @Resource
-    lateinit var feignTestWithoutUnwrapClient: FeignTestWithoutUnwrapClient
+    lateinit var feignWithoutUnwrapTestClient: FeignWithoutUnwrapTestClient
 
     private val logger = getLogger()
 
     @Test
     fun testWithUnwrap() {
         val personReq = Person(listOf(1, 2, 3).toIntArray(), 123, "http:", mapOf("qwe" to 123))
-        val client = feignTestWithUnwrapClient
+        val client = feignWithUnwrapTestClient
 
         client.boolean().toJsonString().println()
         client.booleanArray().toJsonString().println()
@@ -86,7 +86,7 @@ class FeignUnwrapTest {
     @Test
     fun testWithoutUnwrap() {
         val personReq = Person(listOf(1, 2, 3).toIntArray(), 123, "http:", mapOf("qwe" to 123))
-        val client = feignTestWithoutUnwrapClient
+        val client = feignWithoutUnwrapTestClient
 
         client.boolean().println()
         try {

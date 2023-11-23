@@ -23,6 +23,7 @@
  */
 
 package com.tony.feign.interceptor.request
+
 /**
  * Feign 请求拦截器 provider.
  *
@@ -34,6 +35,7 @@ package com.tony.feign.interceptor.request
 import com.tony.SpringContexts
 import com.tony.annotation.feign.RequestProcessors
 import com.tony.utils.annotation
+import com.tony.utils.getLogger
 import feign.RequestInterceptor
 import feign.RequestTemplate
 import java.util.concurrent.ConcurrentHashMap
@@ -72,34 +74,64 @@ public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
  * @since 1.0.0
  */
 public class UseRequestProcessorsRequestInterceptor : RequestInterceptor {
+    private val logger = getLogger()
+
     override fun apply(template: RequestTemplate) {
-        val annotation =
+        val configKey =
+            template
+                .methodMetadata()
+                .configKey()
+
+        if (feignRequestProcessorMap[configKey] != null) {
+            return
+        }
+
+        val annotationOnClass =
+            template
+                .feignTarget()
+                .type()
+                .annotation(RequestProcessors::class.java)
+
+        val annotationOnMethod =
             template
                 .methodMetadata()
                 .method()
-                .annotation(RequestProcessors::class.java) ?: return
-        val processorList =
-            feignRequestProcessorMap.getOrPut(
-                template
-                    .feignTarget()
-                    .type()
+                .annotation(RequestProcessors::class.java)
+
+        if (annotationOnClass == null && annotationOnMethod == null) {
+            return
+        }
+
+        val requestProcessorsValuesOnClass =
+            annotationOnClass?.values.orEmpty()
+        val requestProcessorsValuesOnMethod =
+            annotationOnMethod?.values.orEmpty()
+
+        val requestProcessorsValues = linkedSetOf(*requestProcessorsValuesOnClass, *requestProcessorsValuesOnMethod)
+
+        feignRequestProcessorMap
+            .getOrPut(
+                configKey
             ) {
-                annotation.values.map {
-                    if (it.type == BeanType.CLASS) {
-                        SpringContexts.getBean(it.value.java)
+                requestProcessorsValues.map { requestProcessorValue ->
+                    if (requestProcessorValue.type == BeanType.CLASS) {
+                        SpringContexts.getBean(requestProcessorValue.value.java)
                     } else {
-                        SpringContexts.getBean(it.name, it.value.java)
+                        SpringContexts.getBean(requestProcessorValue.name, requestProcessorValue.value.java)
                     }
                 }
+            }.forEach { requestProcessor ->
+                logger.info(
+                    "Feign method[{}] apply RequestProcessor[{}]",
+                    configKey,
+                    requestProcessor::class.java.simpleName
+                )
+                requestProcessor(template)
             }
-
-        processorList.forEach {
-            it(template)
-        }
     }
 
     internal companion object {
-        internal val feignRequestProcessorMap: MutableMap<Class<*>, List<RequestProcessor>> =
+        internal val feignRequestProcessorMap: MutableMap<String, List<RequestProcessor>> =
             ConcurrentHashMap()
     }
 }

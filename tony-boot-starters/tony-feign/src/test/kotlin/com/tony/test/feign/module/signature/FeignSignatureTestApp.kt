@@ -1,17 +1,71 @@
-package com.tony.test.feign
+package com.tony.test.feign.module.signature
 
+import com.tony.annotation.EnableTonyBoot
 import com.tony.feign.genSign
+import com.tony.feign.interceptor.request.RequestProcessor
 import com.tony.feign.sortRequestBody
 import com.tony.test.feign.exception.SignInvalidException
 import com.tony.utils.getFromRootAsString
 import com.tony.utils.getLogger
 import com.tony.utils.isBetween
+import com.tony.utils.jsonNode
 import com.tony.utils.toLocalDateTime
+import com.tony.utils.toString
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
+import feign.RequestTemplate
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
+import org.springframework.context.annotation.Bean
+import org.springframework.core.PriorityOrdered
 import org.springframework.web.servlet.HandlerInterceptor
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import java.time.LocalDateTime
+
+@EnableFeignClients
+@EnableTonyBoot
+@SpringBootApplication
+class FeignSignatureTestApp : WebMvcConfigurer {
+
+    override fun addInterceptors(registry: InterceptorRegistry) {
+        registry.addInterceptor(SignatureInterceptor())
+            .order(PriorityOrdered.HIGHEST_PRECEDENCE)
+    }
+
+    @Bean
+    fun signatureRequestProcessor(): SignatureRequestProcessor {
+        return SignatureRequestProcessor()
+    }
+
+}
+
+
+class SignatureRequestProcessor : RequestProcessor {
+
+    private val logger = getLogger()
+    override operator fun invoke(template: RequestTemplate) {
+        val body = template.body()
+        if (body?.isNotEmpty() != true) {
+            return
+        }
+        val appId = "appId"
+        val secret = "secret"
+
+        val timestampStr = LocalDateTime.now().toString("yyyy-MM-dd HH:mm:ss")
+        logger.info("timestampStr:$timestampStr")
+        val sortedJsonStr = body.jsonNode().sortRequestBody(timestampStr)
+        logger.info("sortedJsonStr:$sortedJsonStr")
+        val sign = sortedJsonStr.genSign(appId, secret)
+
+        template
+            .header("X-App-Id", appId)
+            .header("X-Signature", sign)
+            .header("X-Timestamp", timestampStr)
+            .body(sortedJsonStr)
+    }
+}
 
 class SignatureInterceptor : HandlerInterceptor {
     private val logger = getLogger()

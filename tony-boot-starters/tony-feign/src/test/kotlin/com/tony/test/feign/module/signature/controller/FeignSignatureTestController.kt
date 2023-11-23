@@ -3,14 +3,14 @@ package com.tony.test.feign.module.signature.controller
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
 import com.tony.test.feign.dto.Person
-import com.tony.test.feign.module.signature.api.FeignTestTargeterSignatureApi
+import com.tony.test.feign.module.signature.api.FeignSignatureTestApi
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @Validated
-class FeignTestTargeterSignatureController : FeignTestTargeterSignatureApi {
+class FeignSignatureTestController : FeignSignatureTestApi {
     override fun boolean(): Boolean = true
 
     override fun booleanArray(): BooleanArray = booleanArrayOf(true, false)

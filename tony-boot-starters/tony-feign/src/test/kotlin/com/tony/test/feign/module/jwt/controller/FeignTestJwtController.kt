@@ -5,14 +5,14 @@ import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.jwt.JwtToken
 import com.tony.test.feign.dto.LoginReq
 import com.tony.test.feign.dto.Person
-import com.tony.test.feign.module.jwt.api.FeignTestJwtApi
+import com.tony.test.feign.module.jwt.api.FeignJwtTestApi
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @Validated
-class FeignTestJwtController : FeignTestJwtApi {
+class FeignTestJwtController : FeignJwtTestApi {
 
     @NoLoginCheck
     override fun login(@RequestBody req: LoginReq) =

@@ -100,7 +100,7 @@ public annotation class FeignUseGlobalInterceptor
  * @author Tang Li
  * @date 2023/8/15 9:59
  */
-@Target(AnnotationTarget.FUNCTION)
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
 public annotation class RequestProcessors(

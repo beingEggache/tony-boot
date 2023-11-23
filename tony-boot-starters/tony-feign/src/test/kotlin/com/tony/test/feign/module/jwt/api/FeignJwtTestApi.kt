@@ -6,7 +6,7 @@ import com.tony.test.feign.dto.Person
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 
-interface FeignTestJwtApi {
+interface FeignJwtTestApi {
 
     @PostMapping("/test/login")
     fun login(@RequestBody req: LoginReq): MonoResult<String>

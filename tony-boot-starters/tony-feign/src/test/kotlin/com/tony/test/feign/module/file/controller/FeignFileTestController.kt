@@ -8,7 +8,9 @@
  */
 package com.tony.test.feign.module.file.controller
 
+import com.tony.ApiResult
 import com.tony.annotation.web.auth.NoLoginCheck
+import com.tony.test.feign.module.file.api.FeignFileTestApi
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,36 +22,38 @@ import java.nio.file.Paths
 
 @NoLoginCheck
 @RestController
-class FeignTestFileController {
+class FeignFileTestController : FeignFileTestApi {
 
     @Value("\${test-file-path-to:}")
     lateinit var testFilePathTo: String
 
     @PostMapping("/upload-many", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-    fun uploadMany(
+    override fun uploadMany(
         @RequestPart("files")
-        files: List<MultipartFile>?,
+        files: List<MultipartFile>,
         @RequestParam("remark")
         remark: String?
-    ) {
+    ):ApiResult<*> {
         println(remark)
-        files?.forEach {
+        files.forEach {
             println(it.name)
             println(it.originalFilename)
             it.transferTo(Paths.get("$testFilePathTo/${it.originalFilename}"))
         }
+        return ApiResult.message()
     }
 
     @PostMapping("/upload-single", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-    fun uploadSingle(
+    override fun uploadSingle(
         @RequestPart("file")
         file: MultipartFile,
         @RequestParam("remark")
         remark: String?
-    ) {
+    ):ApiResult<*> {
         println(remark)
         println(file.name)
         println(file.originalFilename)
         file.transferTo(Paths.get("$testFilePathTo/${file.originalFilename}"))
+        return ApiResult.message()
     }
 }

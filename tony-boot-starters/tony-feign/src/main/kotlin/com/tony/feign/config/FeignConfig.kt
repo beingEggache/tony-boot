@@ -27,6 +27,7 @@ package com.tony.feign.config
 import com.tony.feign.FeignTargeter
 import com.tony.feign.codec.DefaultErrorDecoder
 import com.tony.feign.interceptor.request.GlobalRequestInterceptorProvider
+import com.tony.feign.interceptor.request.UseRequestProcessorsRequestInterceptor
 import com.tony.feign.interceptor.response.GlobalResponseInterceptorProvider
 import com.tony.feign.interceptor.response.UnwrapResponseInterceptor
 import com.tony.feign.interceptor.response.UnwrapResponseInterceptorProvider
@@ -36,6 +37,7 @@ import com.tony.feign.log.FeignRequestTraceLogger
 import com.tony.feign.okhttp.interceptor.AppInterceptor
 import com.tony.feign.okhttp.interceptor.NetworkInterceptor
 import com.tony.misc.YamlPropertySourceFactory
+import feign.RequestInterceptor
 import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
@@ -94,6 +96,11 @@ public class FeignConfig {
     @Bean
     internal fun feignLogInterceptor(feignRequestTraceLogger: FeignRequestTraceLogger) =
         FeignLogInterceptor(feignRequestTraceLogger)
+
+    @ConditionalOnMissingBean(name = ["useRequestProcessorsRequestInterceptor"])
+    @Bean("useRequestProcessorsRequestInterceptor")
+    internal fun useRequestProcessorsRequestInterceptor(): GlobalRequestInterceptorProvider<RequestInterceptor> =
+        GlobalRequestInterceptorProvider(UseRequestProcessorsRequestInterceptor())
 
     @Bean
     internal fun unwrapResponseInterceptorProvider() =

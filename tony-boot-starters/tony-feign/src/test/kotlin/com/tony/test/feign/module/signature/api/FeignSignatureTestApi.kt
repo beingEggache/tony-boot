@@ -1,11 +1,11 @@
-package com.tony.test.feign.module.unwrap.api
+package com.tony.test.feign.module.signature.api
 
 import com.tony.test.feign.dto.Person
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 
-interface FeignTestUnwrapApi {
+interface FeignSignatureTestApi {
 
     @PostMapping("/test/boolean")
     fun boolean(): Boolean

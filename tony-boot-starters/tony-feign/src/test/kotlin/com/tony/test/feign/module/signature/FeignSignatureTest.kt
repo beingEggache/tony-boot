@@ -1,7 +1,7 @@
 package com.tony.test.feign.module.signature
 
 import com.tony.test.feign.dto.Person
-import com.tony.test.feign.module.signature.client.FeignTestTargeterSignatureClient
+import com.tony.test.feign.module.signature.client.FeignSignatureTestClient
 import com.tony.utils.getLogger
 import com.tony.utils.println
 import com.tony.utils.toJsonString
@@ -10,20 +10,20 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(
-    classes = [OpenFeignTestTargeterSignatureApp::class],
+    classes = [FeignSignatureTestApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
-class FeignTargeterSignatureTest {
+class FeignSignatureTest {
 
     @Resource
-    lateinit var openFeignTestTargeterSignatureClient: FeignTestTargeterSignatureClient
+    lateinit var openFeignSignatureTestClient: FeignSignatureTestClient
 
 
     private val logger = getLogger()
 
     @Test
-    fun testWithGlobalInterceptor() {
-        val client = openFeignTestTargeterSignatureClient
+    fun test() {
+        val client = openFeignSignatureTestClient
         client.person(Person(listOf(1, 2, 3).toIntArray(), 123, "432", mapOf("age" to 456))).toJsonString().println()
     }
 }

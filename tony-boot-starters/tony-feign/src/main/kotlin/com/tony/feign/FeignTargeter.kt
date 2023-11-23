@@ -29,6 +29,7 @@ import com.tony.annotation.feign.FeignUseGlobalRequestInterceptor
 import com.tony.annotation.feign.FeignUseGlobalResponseInterceptor
 import com.tony.feign.interceptor.response.UnwrapResponseInterceptor
 import com.tony.utils.applyIf
+import com.tony.utils.getLogger
 import com.tony.utils.hasAnnotation
 import feign.Feign
 import feign.RequestInterceptor
@@ -57,6 +58,8 @@ public class FeignTargeter(
     private val globalResponseInterceptors: List<ResponseInterceptor>,
     private val unwrapResponseInterceptor: UnwrapResponseInterceptor,
 ) : Targeter {
+    private val logger = getLogger()
+
     override fun <T : Any?> target(
         factory: FeignClientFactoryBean,
         feign: Feign.Builder,
@@ -66,11 +69,29 @@ public class FeignTargeter(
         val type = target.type()
         return feign
             .applyIf(type.hasAnnotation(FeignUnwrapResponse::class.java)) {
+                logger.info(
+                    "FeignClient[{}] apply unwrapResponseInterceptor.",
+                    type.simpleName
+                )
                 responseInterceptor(unwrapResponseInterceptor)
             }.applyIf(type.hasAnnotation(FeignUseGlobalRequestInterceptor::class.java)) {
-                globalRequestInterceptors.forEach { requestInterceptor(it) }
+                globalRequestInterceptors.forEach { reqInterceptor ->
+                    logger.info(
+                        "FeignClient[{}] apply requestInterceptor[{}].",
+                        type.simpleName,
+                        reqInterceptor::class.java.simpleName
+                    )
+                    requestInterceptor(reqInterceptor)
+                }
             }.applyIf(type.hasAnnotation(FeignUseGlobalResponseInterceptor::class.java)) {
-                globalResponseInterceptors.forEach { responseInterceptor(it) }
+                globalResponseInterceptors.forEach { respInterceptor ->
+                    logger.info(
+                        "FeignClient[{}] apply responseInterceptor[{}].",
+                        type.simpleName,
+                        respInterceptor::class.java.simpleName
+                    )
+                    responseInterceptor(respInterceptor)
+                }
             }.target(target)
     }
 }

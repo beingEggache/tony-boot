@@ -68,8 +68,8 @@ public object WebContext {
             RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
 
     /**
-     * ServletRequestAttributes 存取变量.
-     * @param [key] 钥匙
+     * ServletRequestAttributes [scope]范围 存取变量.
+     * @param [key] 键
      * @param [scope] 范围
      * @param [callback] 回调
      * @return [T]
@@ -78,14 +78,32 @@ public object WebContext {
      * @since 1.0.0
      */
     @JvmStatic
-    @JvmSynthetic
     public fun <T : Any> ServletRequestAttributes.getOrPut(
         key: String,
         scope: Int = SCOPE_REQUEST,
-        callback: () -> T,
+        callback: java.util.function.Supplier<T>,
     ): T =
-        getAttribute(key, scope).asTo() ?: callback().apply {
+        getAttribute(key, scope).asTo() ?: callback.get().apply {
             setAttribute(key, this, scope)
+        }
+
+    /**
+     * ServletRequestAttributes [SCOPE_REQUEST]范围 存取变量.
+     * @param [key] 键
+     * @param [callback] 回调
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/10/24 14:28
+     * @since 1.0.0
+     */
+    @JvmOverloads
+    @JvmStatic
+    public fun <T : Any> ServletRequestAttributes.getOrPut(
+        key: String,
+        callback: java.util.function.Supplier<T>? = null,
+    ): T? =
+        getAttribute(key, SCOPE_REQUEST).asTo() ?: callback?.get()?.apply {
+            setAttribute(key, this, SCOPE_REQUEST)
         }
 
     @JvmStatic
