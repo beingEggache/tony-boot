@@ -39,6 +39,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.convertValue
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.tony.SpringContexts
 import com.tony.jackson.initialize
@@ -131,6 +132,50 @@ public fun <T> CharSequence.jsonToObj(typeReference: TypeReference<T>): T =
 @Throws(IOException::class)
 public fun <T> CharSequence.jsonToObj(javaType: JavaType): T =
     globalObjectMapper.readValue(this.toString(), javaType)
+
+/**
+ * 转换为 [T]
+ * @param [T]
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/11/23 14:36
+ * @since 1.0.0
+ */
+public inline fun <reified T> JsonNode.convertTo(): T =
+    globalObjectMapper.convertValue(this)
+
+/**
+ * 转换为 [T]
+ * @param [clazz] clazz
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/11/23 14:36
+ * @since 1.0.0
+ */
+public fun <T> JsonNode.convertTo(clazz: Class<T>): T =
+    globalObjectMapper.convertValue(this, clazz)
+
+/**
+ * 转换为 [T]
+ * @param [typeReference] TypeReference
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/11/23 14:36
+ * @since 1.0.0
+ */
+public fun <T> JsonNode.convertTo(typeReference: TypeReference<T>): T =
+    globalObjectMapper.convertValue(this, typeReference)
+
+/**
+ * 转换为 [T]
+ * @param [javaType] JavaType
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/11/23 14:36
+ * @since 1.0.0
+ */
+public fun <T> JsonNode.convertTo(javaType: JavaType): T =
+    globalObjectMapper.convertValue(this, javaType)
 
 /**
  * Method to deserialize JSON content as tree expressed using set of JsonNode instances.

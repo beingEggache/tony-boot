@@ -37,6 +37,12 @@ public interface FusCache {
         typeReference: TypeReference<T>,
     ): T?
 
+    public fun <T : Any> getOrPut(
+        key: String,
+        typeReference: TypeReference<T>,
+        defaultValue: java.util.function.Supplier<T>,
+    ): T
+
     /**
      * 删.
      * @param [key] 键

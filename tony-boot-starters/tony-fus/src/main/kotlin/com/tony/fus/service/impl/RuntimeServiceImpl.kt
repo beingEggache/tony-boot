@@ -43,8 +43,6 @@ internal open class RuntimeServiceImpl
                 FusInstance().apply {
                     creatorId = creator.operatorId
                     creatorName = creator.operatorName
-                    updatorId = creator.operatorId
-                    updatorName = creator.operatorName
                     this.processId = processId
                     this.variable = variable?.toJsonString() ?: "{}"
                 }

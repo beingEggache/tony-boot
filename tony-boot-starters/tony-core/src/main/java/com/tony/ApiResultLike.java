@@ -34,7 +34,7 @@ import java.util.Objects;
  * @author Tang Li
  * @date 2021/12/6 10:51
  */
-@JsonPropertyOrder(value = {"code", "message", "data"})
+@JsonPropertyOrder(value = {"success", "code", "message", "data"})
 public interface ApiResultLike<T> {
 
     /**

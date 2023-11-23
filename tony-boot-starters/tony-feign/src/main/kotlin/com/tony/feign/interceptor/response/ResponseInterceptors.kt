@@ -33,15 +33,14 @@ package com.tony.feign.interceptor.response
  * @date 2023/08/02 21:00
  */
 import com.tony.ApiProperty
-import com.tony.ApiResult
 import com.tony.ApiResultLike
 import com.tony.ListResult
 import com.tony.exception.ApiException
 import com.tony.misc.notSupportResponseWrapClasses
+import com.tony.utils.convertTo
 import com.tony.utils.isArrayLikeType
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.jsonNode
-import com.tony.utils.jsonToObj
 import com.tony.utils.rawClass
 import com.tony.utils.toJavaType
 import feign.InvocationContext
@@ -113,7 +112,7 @@ public class UnwrapResponseInterceptor : ResponseInterceptor {
             response
                 .headers()[CONTENT_TYPE]
                 ?.firstOrNull() == MediaType.APPLICATION_JSON_VALUE
-        if (returnRawClass.isTypesOrSubTypesOf(*notSupportResponseWrapClasses) && !isJson) {
+        if (returnRawClass.isTypesOrSubTypesOf(*notSupportResponseWrapClasses) || !isJson) {
             return invocationContext.proceed()
         }
 
@@ -122,49 +121,48 @@ public class UnwrapResponseInterceptor : ResponseInterceptor {
                 .body()
                 .asInputStream()
                 .jsonNode()
+
         val message =
             jsonNode
-                .get(
-                    ApiResultLike<*>::getMessage
-                        .name
-                        .lTrimAndDecapitalize()
-                ).asText()
+                .get(messageFieldName)
+                .asText()
+
         val code =
             jsonNode
-                .get(
-                    ApiResultLike<*>::getCode
-                        .name
-                        .lTrimAndDecapitalize()
-                ).asInt()
+                .get(codeFieldName)
+                .asInt()
 
         if (code != ApiProperty.okCode) {
             throw ApiException(message, code)
         }
 
-        val dataJsonNode =
-            jsonNode.get(
-                ApiResult<*>::getData
-                    .name
-                    .lTrimAndDecapitalize()
-            )
-        if (returnRawClass.isArrayLikeType()) {
-            val itemFieldName =
-                ListResult<*>::getRows
-                    .name
-                    .lTrimAndDecapitalize()
-            return dataJsonNode
-                .get(itemFieldName)
-                .toString()
-                .jsonToObj(returnJavaType)
-        }
+        val dataJsonNode = jsonNode.get(dataFieldName)
 
-        return dataJsonNode
-            .toString()
-            .jsonToObj(returnJavaType)
+        return if (returnRawClass.isArrayLikeType()) {
+            dataJsonNode
+                .get(rowsFieldName)
+                .convertTo(returnJavaType)
+        } else {
+            dataJsonNode.convertTo(returnJavaType)
+        }
     }
 
-    private fun String.lTrimAndDecapitalize(): String =
-        this
-            .substring(3)
-            .replaceFirstChar { it.lowercase(Locale.getDefault()) }
+    private companion object {
+        @JvmStatic
+        private val messageFieldName = ApiResultLike<*>::getMessage.name.lTrimAndDecapitalize()
+
+        @JvmStatic
+        private val codeFieldName = ApiResultLike<*>::getCode.name.lTrimAndDecapitalize()
+
+        @JvmStatic
+        private val dataFieldName = ApiResultLike<*>::getData.name.lTrimAndDecapitalize()
+
+        @JvmStatic
+        private val rowsFieldName = ListResult<*>::getRows.name.lTrimAndDecapitalize()
+
+        private fun String.lTrimAndDecapitalize(): String =
+            this
+                .substring(3)
+                .replaceFirstChar { it.lowercase(Locale.getDefault()) }
+    }
 }

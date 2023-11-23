@@ -2,7 +2,9 @@ package com.tony.fus.cache
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.tony.utils.asTo
+import com.tony.utils.asToNotNull
 import java.util.concurrent.ConcurrentHashMap
+import java.util.function.Supplier
 
 /**
  * DefaultFusCache is
@@ -25,6 +27,16 @@ public class DefaultFusCache : FusCache {
         typeReference: TypeReference<T>,
     ): T? =
         cache[key].asTo()
+
+    override fun <T : Any> getOrPut(
+        key: String,
+        typeReference: TypeReference<T>,
+        defaultValue: Supplier<T>,
+    ): T =
+        cache
+            .getOrPut(key) {
+                defaultValue.get()
+            }?.asToNotNull() ?: defaultValue.get()
 
     override fun delete(key: String) {
         cache.remove(key)

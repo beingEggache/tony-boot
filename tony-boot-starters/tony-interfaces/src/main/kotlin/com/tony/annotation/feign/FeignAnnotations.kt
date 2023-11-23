@@ -106,7 +106,7 @@ public annotation class FeignUseGlobalInterceptor
 public annotation class RequestProcessors(
     vararg val values: Value,
 ) {
-    @Target()
+    @Target
     @Retention(AnnotationRetention.RUNTIME)
     public annotation class Value(
         val value: KClass<out RequestProcessor> = RequestProcessor::class,

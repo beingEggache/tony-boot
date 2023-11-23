@@ -86,18 +86,9 @@ public class UseRequestProcessorsRequestInterceptor : RequestInterceptor {
             ) {
                 annotation.values.map {
                     if (it.type == BeanType.CLASS) {
-                        SpringContexts.getBean(
-                            it
-                                .value
-                                .java
-                        )
+                        SpringContexts.getBean(it.value.java)
                     } else {
-                        SpringContexts.getBean(
-                            it.name,
-                            it
-                                .value
-                                .java
-                        )
+                        SpringContexts.getBean(it.name, it.value.java)
                     }
                 }
             }

@@ -1,8 +1,6 @@
 package com.tony.test.feign
 
-import com.tony.SpringContexts
 import com.tony.feign.genSign
-import com.tony.feign.okhttp.interceptor.AppInterceptor
 import com.tony.feign.sortRequestBody
 import com.tony.test.feign.exception.SignInvalidException
 import com.tony.utils.getFromRootAsString
@@ -12,40 +10,8 @@ import com.tony.utils.toLocalDateTime
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import okhttp3.Interceptor
-import okhttp3.Request
-import okhttp3.Response
 import org.springframework.web.servlet.HandlerInterceptor
 import java.time.LocalDateTime
-
-open class ProcessByHeaderInterceptor(
-    private val headerName: String
-) : AppInterceptor {
-
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val originRequest = chain.request()
-        val beanMap = SpringContexts.getBeansOfType(ByHeaderRequestProcessor::class.java)
-        val processedRequest = originRequest
-            .header(headerName)
-            ?.split(",")
-            ?.onEach { it.trim() }
-            ?.mapNotNull {
-                beanMap[it]
-            }
-            ?.fold(originRequest) { request, processor ->
-                processor.process(request)
-            }
-            ?.run {
-                this.newBuilder().removeHeader(headerName).build()
-            }
-
-        return chain.proceed(processedRequest ?: originRequest)
-    }
-}
-
-fun interface ByHeaderRequestProcessor {
-    fun process(request: Request): Request
-}
 
 class SignatureInterceptor : HandlerInterceptor {
     private val logger = getLogger()

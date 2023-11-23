@@ -49,7 +49,7 @@ internal val getterCache: MutableMap<AnnotatedElement, Method?> = ConcurrentRefe
  */
 internal val setterCache: MutableMap<AnnotatedElement, Method?> = ConcurrentReferenceHashMap()
 
-internal val logger: Logger = LoggerFactory.getLogger("com.tony.utils.ReflectionUtils")
+internal val logger: Logger = LoggerFactory.getLogger("com.tony.utils.Reflects")
 
 /**
  * PropertyDescriptor
