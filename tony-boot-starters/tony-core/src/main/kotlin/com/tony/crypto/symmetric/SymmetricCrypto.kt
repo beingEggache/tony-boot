@@ -49,7 +49,7 @@ public sealed interface SymmetricCrypto {
         secret: ByteArray,
         encoding: Encoding,
     ): ByteArray {
-        val digestedSrc = encoding.codec.encodeToByteArray(src)
+        val digestedSrc = encoding.codec.decodeToByteArray(src)
         return decrypt(digestedSrc, secret)
     }
 
