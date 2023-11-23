@@ -5,7 +5,7 @@ import com.tony.ApiSession
 import com.tony.PageQuery
 import com.tony.PageResult
 import com.tony.annotation.EnableTonyBoot
-import com.tony.digest.md5
+import com.tony.utils.md5
 import com.tony.mybatis.DefaultMetaObjectHandler
 import com.tony.test.mybatis.db.config.DbConfig
 import com.tony.test.mybatis.db.dao.UserDao

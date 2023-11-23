@@ -26,8 +26,8 @@
 
 package com.tony.wechat
 
-import com.tony.digest.md5
 import com.tony.utils.jsonToObj
+import com.tony.utils.md5
 import com.tony.utils.toJsonString
 import com.tony.wechat.client.resp.WechatResp
 import com.tony.wechat.exception.WechatException

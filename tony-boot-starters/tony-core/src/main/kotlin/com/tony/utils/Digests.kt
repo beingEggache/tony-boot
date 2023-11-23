@@ -22,8 +22,16 @@
  * SOFTWARE.
  */
 
-package com.tony.digest.enums
+@file:JvmName("Digests")
 
+package com.tony.utils
+
+/**
+ * 摘要工具类
+ *
+ * @author Tang Li
+ * @date 2022/9/29 10:20
+ */
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.tony.codec.encodeToString
@@ -31,6 +39,36 @@ import com.tony.codec.enums.Encoding
 import com.tony.enums.StringEnumCreator
 import com.tony.enums.StringEnumValue
 import java.security.MessageDigest
+
+/**
+ * 字符串转为MD5
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/09/27 18:21
+ * @since 1.0.0
+ */
+public fun String.md5(): String =
+    DigestAlgorithm.MD5.digest(this)
+
+/**
+ * 字符串转为 sha1
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/09/27 18:21
+ * @since 1.0.0
+ */
+public fun String.sha1(): String =
+    DigestAlgorithm.SHA1.digest(this)
+
+/**
+ * 字符串转为 sha256
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/09/27 18:21
+ * @since 1.0.0
+ */
+public fun String.sha256(): String =
+    DigestAlgorithm.SHA256.digest(this)
 
 /**
  * 摘要算法

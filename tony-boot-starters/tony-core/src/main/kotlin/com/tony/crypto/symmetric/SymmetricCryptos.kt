@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("SymmetricCryptoUtils")
+@file:JvmName("SymmetricCryptos")
 
 package com.tony.crypto.symmetric
 

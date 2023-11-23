@@ -1,6 +1,6 @@
 package com.tony.test.core
 
-import com.tony.digest.enums.DigestAlgorithm
+import com.tony.utils.DigestAlgorithm
 import com.tony.utils.println
 
 fun main() {

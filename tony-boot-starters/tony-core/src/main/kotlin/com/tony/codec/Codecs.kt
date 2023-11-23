@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:JvmName("CodecUtils")
+@file:JvmName("Codecs")
 
 package com.tony.codec
 /**

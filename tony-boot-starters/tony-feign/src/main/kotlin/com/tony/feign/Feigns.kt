@@ -30,9 +30,9 @@ package com.tony.feign
  * Feign 工具
  */
 import com.fasterxml.jackson.databind.JsonNode
-import com.tony.digest.md5
 import com.tony.utils.globalObjectMapper
 import com.tony.utils.jsonNode
+import com.tony.utils.md5
 import com.tony.utils.toJsonString
 import okhttp3.RequestBody
 import okhttp3.ResponseBody

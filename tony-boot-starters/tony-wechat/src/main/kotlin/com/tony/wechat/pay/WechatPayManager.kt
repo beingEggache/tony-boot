@@ -25,10 +25,10 @@
 package com.tony.wechat.pay
 
 import com.tony.SpringContexts
-import com.tony.digest.md5
 import com.tony.exception.ApiException
 import com.tony.utils.getLogger
 import com.tony.utils.ifNullOrBlank
+import com.tony.utils.md5
 import com.tony.utils.toString
 import com.tony.wechat.WechatPropProvider
 import com.tony.wechat.client.WechatPayClient
