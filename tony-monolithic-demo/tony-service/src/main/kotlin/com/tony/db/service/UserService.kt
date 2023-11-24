@@ -6,7 +6,6 @@ import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
 import com.tony.db.po.User
-import com.tony.digest.md5
 import com.tony.dto.req.UserAddReq
 import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
@@ -14,6 +13,7 @@ import com.tony.dto.resp.UserInfoResp
 import com.tony.dto.resp.UserResp
 import com.tony.exception.BizException
 import com.tony.utils.copyTo
+import com.tony.utils.md5
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
 import org.springframework.stereotype.Service

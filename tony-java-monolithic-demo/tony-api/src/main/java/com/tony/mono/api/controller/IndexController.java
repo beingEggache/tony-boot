@@ -1,7 +1,7 @@
 package com.tony.mono.api.controller;
 
-import com.tony.JPageQuery;
 import com.tony.MonoResult;
+import com.tony.PageQuery;
 import com.tony.PageResult;
 import com.tony.annotation.web.auth.NoLoginCheck;
 import com.tony.jwt.JwtToken;
@@ -53,7 +53,7 @@ public class IndexController {
     @PostMapping("/user/list")
     public PageResult<User> list(
         @Validated
-        @RequestBody final JPageQuery<String> req
+        @RequestBody final PageQuery<String> req
     ) {
         return userService.list(req);
     }
