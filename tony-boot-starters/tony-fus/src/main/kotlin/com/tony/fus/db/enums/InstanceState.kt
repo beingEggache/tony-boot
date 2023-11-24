@@ -14,24 +14,36 @@ public enum class InstanceState(
     override val value: Int,
 ) : IntEnumValue {
     /**
-     * 活动
+     * 审批中
      */
     ACTIVE(1),
 
     /**
-     * 完成
+     * 审批通过
      */
-    COMPLETE(2),
+    COMPLETED(2),
 
     /**
-     * 超时
+     * 审批拒绝
+     *
      */
-    EXPIRED(3),
+    REJECTED(3),
 
     /**
-     * 终止
+     * 超时结束
      */
-    TERMINATED(4),
+    EXPIRED(4),
+
+    /**
+     * 强制终止
+     */
+    TERMINATED(5),
+
+    /**
+     * 撤销审批
+     *
+     */
+    REVOKED(6),
     ;
 
     internal companion object : EnumCreator<InstanceState, Int>(InstanceState::class.java) {

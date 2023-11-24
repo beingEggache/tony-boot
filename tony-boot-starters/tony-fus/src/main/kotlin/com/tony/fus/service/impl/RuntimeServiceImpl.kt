@@ -1,6 +1,8 @@
 package com.tony.fus.service.impl
 
+import com.tony.fus.ADMIN
 import com.tony.fus.db.enums.InstanceState
+import com.tony.fus.db.enums.TaskState
 import com.tony.fus.db.mapper.FusHistoryInstanceMapper
 import com.tony.fus.db.mapper.FusInstanceMapper
 import com.tony.fus.db.mapper.FusTaskMapper
@@ -55,12 +57,12 @@ internal open class RuntimeServiceImpl
                     .fusSelectByIdNotNull(instanceId)
                     .apply {
                         this.instanceId = instanceId
-                        this.instanceState = InstanceState.COMPLETE
+                        this.instanceState = InstanceState.COMPLETED
                         this.endTime = LocalDateTime.now()
                     }
             instanceMapper.deleteById(instanceId)
             historyInstanceMapper.updateById(historyInstance)
-            instanceListener?.notify(EventType.COMPLETE, historyInstance)
+            instanceListener?.notify(EventType.COMPLETED, historyInstance)
         }
 
         @Transactional(rollbackFor = [Throwable::class])
@@ -76,29 +78,52 @@ internal open class RuntimeServiceImpl
         }
 
         @Transactional(rollbackFor = [Throwable::class])
+        override fun reject(
+            instanceId: String,
+            operator: FusOperator,
+        ) {
+            forceComplete(
+                instanceId,
+                operator,
+                InstanceState.REJECTED,
+                EventType.REJECTED
+            )
+        }
+
+        @Transactional(rollbackFor = [Throwable::class])
         override fun terminate(
             instanceId: String,
             operator: FusOperator,
         ) {
-            val instance = instanceMapper.fusSelectByIdNotNull(instanceId)
-            taskMapper
-                .ktQuery()
-                .eq(FusTask::instanceId, instanceId)
-                .list()
-                .forEach {
-                    taskService.complete(it.taskId, operator)
-                }
+            forceComplete(
+                instanceId,
+                operator,
+                InstanceState.TERMINATED,
+                EventType.TERMINATED
+            )
+        }
 
-            val historyInstance =
-                instance
-                    .copyToNotNull(FusHistoryInstance())
-                    .apply {
-                        instanceState = InstanceState.TERMINATED
-                        endTime = LocalDateTime.now()
-                    }
-            historyInstanceMapper.updateById(historyInstance)
-            instanceMapper.deleteById(instanceId)
-            instanceListener?.notify(EventType.TERMINATE, instance)
+        @Transactional(rollbackFor = [Throwable::class])
+        override fun revoke(
+            instanceId: String,
+            operator: FusOperator,
+        ) {
+            forceComplete(
+                instanceId,
+                operator,
+                InstanceState.REVOKED,
+                EventType.REVOKED
+            )
+        }
+
+        @Transactional(rollbackFor = [Throwable::class])
+        override fun expire(instanceId: String) {
+            forceComplete(
+                instanceId,
+                ADMIN,
+                InstanceState.EXPIRED,
+                EventType.EXPIRED
+            )
         }
 
         override fun updateInstance(instance: FusInstance) {
@@ -107,5 +132,43 @@ internal open class RuntimeServiceImpl
 
         override fun cascadeRemoveByProcessId(processId: String) {
             TODO("Not yet implemented")
+        }
+
+        private fun forceComplete(
+            instanceId: String,
+            operator: FusOperator,
+            instanceState: InstanceState,
+            eventType: EventType,
+        ) {
+            instanceMapper
+                .fusSelectByIdNotNull(
+                    instanceId,
+                    "instance[$instanceId] not exists"
+                ).also { instance ->
+                    taskMapper
+                        .ktQuery()
+                        .eq(FusTask::instanceId, instanceId)
+                        .list()
+                        .forEach { task ->
+                            taskService.execute(
+                                task.taskId,
+                                operator,
+                                TaskState.of(instanceState),
+                                eventType,
+                                null
+                            )
+                        }
+
+                    val historyInstance =
+                        instance
+                            .copyToNotNull(FusHistoryInstance())
+                            .apply {
+                                this.instanceState = instanceState
+                                this.endTime = LocalDateTime.now()
+                            }
+                    historyInstanceMapper.updateById(historyInstance)
+                    instanceMapper.deleteById(instanceId)
+                    instanceListener?.notify(eventType, historyInstance)
+                }
         }
     }

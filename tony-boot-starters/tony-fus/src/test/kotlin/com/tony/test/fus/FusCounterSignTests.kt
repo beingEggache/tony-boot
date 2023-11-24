@@ -16,7 +16,7 @@ class FusCounterSignTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = fusEngine.processService
+        val processService = engine.processService
         processService.getById(processId)
 
         val args = mapOf(
@@ -24,39 +24,39 @@ class FusCounterSignTests : FusTests() {
             "assignee" to testOperatorId
         )
 
-        fusEngine.startInstanceById(
+        engine.startInstanceById(
             processId,
             testOperator1,
             args
         ).let { instance ->
             // 发起
             val taskList1 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
 
             taskList1
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
 
             //会签1
-            fusEngine
+            engine
                 .queryService
                 .taskByInstanceIdAndActorId(instance.instanceId, testOperator1.operatorId)
                 .also { task ->
-                    fusEngine.executeTask(
+                    engine.executeTask(
                         task.taskId,
                         testOperator1
                     )
                 }
 
             // 会签2
-            fusEngine
+            engine
                 .queryService
                 .taskByInstanceIdAndActorId(instance.instanceId, testOperator3.operatorId)
                 .also { task ->
-                    fusEngine.executeTask(
+                    engine.executeTask(
                         task.taskId,
                         testOperator3
                     )

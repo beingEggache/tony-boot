@@ -1,7 +1,7 @@
 [versions]
 template = "0.1-SNAPSHOT"
 java = "17"
-kotlin = "1.9.20"
+kotlin = "1.9.21"
 spring = "6.0.14"
 springBoot = "3.1.6"
 slf4j = "2.0.9"

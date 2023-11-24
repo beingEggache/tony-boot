@@ -15,66 +15,50 @@ class FusProcessTests : FusTests() {
 
     @Transactional(rollbackFor = [Exception::class])
     @Test
-    fun testStartInstanceCondition1() {
-        val processService = fusEngine.processService
-        processService.getById(processId)
-
-        fusEngine.startInstanceById(
-            processId,
-            testOperator1,
-            mapOf(
-                "day" to 8,
-                "assignee" to testOperatorId
-            )
-        ).let { instance ->
-            val taskList1 =
-                fusEngine
-                    .queryService
-                    .listTaskByInstanceId(instance.instanceId)
-            taskList1
-                .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
-                }
-            val taskList2 =
-                fusEngine
-                    .queryService
-                    .listTaskByInstanceId(instance.instanceId)
-            taskList2
-                .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
-                }
-        }
+    fun testComplete() {
+        test(false)
     }
-
     @Transactional(rollbackFor = [Exception::class])
     @Test
-    fun testStartInstanceCondition2() {
-        val processService = fusEngine.processService
+    fun testReject() {
+        test(true)
+    }
+
+    fun test(reject: Boolean) {
+        val processService = engine.processService
         processService.getById(processId)
 
-        fusEngine.startInstanceById(
+        val args = mapOf(
+            "day" to 8,
+            "assignee" to testOperatorId
+        )
+        engine.startInstanceById(
             processId,
             testOperator1,
-            mapOf(
-                "day" to 6,
-                "assignee" to testOperatorId
-            )
+            args
         ).let { instance ->
+            val instanceId = instance.instanceId
+
             val taskList1 =
-                fusEngine
+                engine
                     .queryService
-                    .listTaskByInstanceId(instance.instanceId)
+                    .listTaskByInstanceId(instanceId)
             taskList1
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
+            if (reject) {
+                engine.runtimeService.reject(instanceId, testOperator1)
+                return
+            }
+
             val taskList2 =
-                fusEngine
+                engine
                     .queryService
-                    .listTaskByInstanceId(instance.instanceId)
+                    .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator2)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
         }
     }

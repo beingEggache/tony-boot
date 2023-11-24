@@ -19,7 +19,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 abstract class FusTests {
 
     @Resource
-    protected lateinit var fusEngine: FusEngine
+    protected lateinit var engine: FusEngine
 
     lateinit var processId: String
 
@@ -48,7 +48,7 @@ abstract class FusTests {
     @BeforeEach
     fun before() {
         val processModelJson = getProcessModelJson()
-        processId = fusEngine.processService.deploy(processModelJson, ADMIN, false)
+        processId = engine.processService.deploy(processModelJson, ADMIN, false)
     }
 
     private fun getProcessModelJson() = PathMatchingResourcePatternResolver()

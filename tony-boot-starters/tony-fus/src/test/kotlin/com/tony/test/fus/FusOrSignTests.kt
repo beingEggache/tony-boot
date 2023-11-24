@@ -16,32 +16,32 @@ class FusOrSignTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = fusEngine.processService
+        val processService = engine.processService
         processService.getById(processId)
 
-        fusEngine.startInstanceById(
+        engine.startInstanceById(
             processId,
             testOperator1,
         ).let { instance ->
             // 发起
             val taskList1 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
 
             taskList1
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
 
             //驳回
             val taskList2 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
             taskList2
                 .forEach { task ->
-                    fusEngine.taskService.rejectTask(
+                    engine.taskService.rejectTask(
                         task,
                         testOperator3,
                         mapOf("reason" to "不符合要求")
@@ -50,21 +50,21 @@ class FusOrSignTests : FusTests() {
 
             // 调整, 再发起
             val taskList3 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
             taskList3
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
 
             val taskList4 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
             taskList4
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator3)
+                    engine.executeTask(task.taskId, testOperator3)
                 }
         }
     }

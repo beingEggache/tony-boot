@@ -20,12 +20,12 @@ public enum class TaskState(
     /**
      * 完成
      */
-    COMPLETE(2),
+    COMPLETED(2),
 
     /**
      * 拒绝
      */
-    REJECT(3),
+    REJECTED(3),
 
     /**
      * 超时
@@ -35,7 +35,7 @@ public enum class TaskState(
     /**
      * 终止
      */
-    TERMINATE(5),
+    TERMINATED(5),
     ;
 
     internal companion object : EnumCreator<TaskState, Int>(TaskState::class.java) {
@@ -43,5 +43,15 @@ public enum class TaskState(
         @JvmStatic
         override fun create(value: Int) =
             super.create(value)
+
+        fun of(instanceState: InstanceState): TaskState {
+            if (instanceState == InstanceState.REJECTED) {
+                return REJECTED
+            }
+            if (instanceState == InstanceState.EXPIRED) {
+                return EXPIRED
+            }
+            return COMPLETED
+        }
     }
 }

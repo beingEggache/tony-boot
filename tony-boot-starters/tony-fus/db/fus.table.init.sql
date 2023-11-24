@@ -132,7 +132,7 @@ CREATE TABLE `fus_history_instance`
     `updator_id`     varchar(32)  NOT NULL DEFAULT '' COMMENT '更新人id',
     `updator_name`   varchar(50)  NOT NULL DEFAULT '' COMMENT '上次更新人',
     `update_time`    timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '上次更新时间',
-    `instance_state` smallint     NOT NULL DEFAULT '1' COMMENT '流程实例状态: 1.活动, 2.完成, 3.超时, 4.终止',
+    `instance_state` smallint     NOT NULL DEFAULT '1' COMMENT '流程实例状态: 1.审批中, 2.审批通过, 3.审批拒绝, 4.超时结束, 5.强制终止, 6.撤销审批',
     `end_time`       timestamp    NULL     DEFAULT NULL COMMENT '结束时间',
     PRIMARY KEY (`instance_id`) USING BTREE,
     KEY `idx_his_instance_process_id` (`process_id`) USING BTREE,

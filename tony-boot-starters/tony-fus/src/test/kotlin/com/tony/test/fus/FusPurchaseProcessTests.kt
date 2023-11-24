@@ -16,54 +16,54 @@ class FusPurchaseProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = fusEngine.processService
+        val processService = engine.processService
         processService.getById(processId)
 
-        fusEngine.startInstanceById(
+        engine.startInstanceById(
             processId,
             testOperator1,
         ).let { instance ->
             // 发起
             val instanceId = instance.instanceId
             val taskList1 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList1
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
 
             Thread.sleep(1000)
 
             //领导审批
             val taskList2 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
 
             //领导撤回
-            fusEngine
+            engine
                 .queryService
                 .recentHistoryTask(instanceId)
                 .also { historyTask ->
-                    fusEngine
+                    engine
                         .taskService
                         .withdrawTask(historyTask.taskId, testOperator1)
                 }
 
             //领导驳回
             val taskList3 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList3
                 .forEach { task ->
-                    fusEngine
+                    engine
                         .taskService
                         .rejectTask(
                             task,
@@ -76,12 +76,12 @@ class FusPurchaseProcessTests : FusTests() {
 
             // 执行当前任务并跳到【经理确认】节点
             val taskList4 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList4
                 .forEach { task ->
-                    fusEngine
+                    engine
                         .executeAndJumpTask(
                             task.taskId,
                             "经理确认",
@@ -91,12 +91,12 @@ class FusPurchaseProcessTests : FusTests() {
 
             // 经理确认，流程结束
             val taskList5 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList5
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
 
         }

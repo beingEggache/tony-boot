@@ -1,6 +1,7 @@
 package com.tony.fus.service
 
 import com.tony.fus.db.enums.PerformType
+import com.tony.fus.db.enums.TaskState
 import com.tony.fus.db.enums.TaskType
 import com.tony.fus.db.po.FusHistoryTaskActor
 import com.tony.fus.db.po.FusTask
@@ -8,6 +9,7 @@ import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
 import com.tony.fus.model.FusOperator
+import com.tony.fus.model.enums.EventType
 
 /**
  * 任务业务类接口
@@ -30,7 +32,14 @@ public interface TaskService {
         taskId: String,
         operator: FusOperator,
         variable: Map<String, Any?>?,
-    ): FusTask
+    ): FusTask =
+        execute(
+            taskId,
+            operator,
+            TaskState.COMPLETED,
+            EventType.COMPLETED,
+            variable
+        )
 
     /**
      * 完成任务
@@ -46,6 +55,26 @@ public interface TaskService {
         operator: FusOperator,
     ): FusTask =
         complete(taskId, operator, null)
+
+    /**
+     * 执行任务
+     * @param [taskId] 任务id
+     * @param [operator] 操作人员
+     * @param [taskState] 任务状态
+     * @param [eventType] 事件类型
+     * @param [variable] 变量
+     * @return [FusTask]
+     * @author Tang Li
+     * @date 2023/11/24 14:51
+     * @since 1.0.0
+     */
+    public fun execute(
+        taskId: String,
+        operator: FusOperator,
+        taskState: TaskState,
+        eventType: EventType,
+        variable: Map<String, Any?>?,
+    ): FusTask
 
     /**
      * 完成指定实例ID活动任务

@@ -26,33 +26,37 @@ public enum class EventType(
     /**
      * 完成.
      */
-    COMPLETE(3),
+    COMPLETED(3),
+
+    /**
+     * 撤销.
+     */
+    REVOKED(4),
 
     /**
      * 终止.
      */
-    TERMINATE(4),
+    TERMINATED(5),
 
     /**
      * 更新.
      */
-    UPDATE(5),
+    UPDATE(6),
 
     /**
      * 删除.
      */
-    DELETE(6),
+    DELETE(7),
 
     /**
      * 驳回.
-     *
      */
-    REJECT(7),
+    REJECTED(8),
 
     /**
      * 超时.
      */
-    EXPIRED(8),
+    EXPIRED(9),
     ;
 
     internal companion object : EnumCreator<EventType, Int>(EventType::class.java) {

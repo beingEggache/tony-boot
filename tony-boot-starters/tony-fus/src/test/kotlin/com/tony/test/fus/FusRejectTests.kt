@@ -1,6 +1,7 @@
 package com.tony.test.fus
 
 import org.junit.jupiter.api.Test
+import org.springframework.transaction.annotation.Transactional
 
 /**
  * 驳回测试
@@ -12,33 +13,34 @@ class FusRejectTests : FusTests() {
 
     override val processJson = "json/orSign.json"
 
+    @Transactional(rollbackFor = [Exception::class])
     @Test
     fun testReject() {
-        val processService = fusEngine.processService
+        val processService = engine.processService
         processService.getById(processId)
 
-        fusEngine.startInstanceById(
+        engine.startInstanceById(
             processId,
             testOperator1,
         ).let { instance ->
             val taskList1 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
 
             taskList1
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
 
             val taskList2 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
 
             taskList2
                 .forEach { task ->
-                    fusEngine.taskService.rejectTask(
+                    engine.taskService.rejectTask(
                         task,
                         testOperator1,
                         mapOf("reason" to "不符合要求")

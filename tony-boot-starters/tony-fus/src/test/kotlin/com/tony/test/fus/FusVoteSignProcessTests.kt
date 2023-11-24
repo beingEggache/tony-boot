@@ -16,38 +16,38 @@ class FusVoteSignProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = fusEngine.processService
+        val processService = engine.processService
         processService.getById(processId)
 
-        fusEngine.startInstanceById(
+        engine.startInstanceById(
             processId,
             testOperator1,
         ).let { instance ->
             // 发起
             val instanceId = instance.instanceId
             val taskList1 =
-                fusEngine
+                engine
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList1
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
 
             //test1 领导审批同意
-            fusEngine
+            engine
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator1.operatorId)
                 .also { task ->
-                    fusEngine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1)
                 }
 
             //test3 领导审批同意
-            fusEngine
+            engine
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator3.operatorId)
                 .also { task ->
-                    fusEngine.executeTask(task.taskId, testOperator3)
+                    engine.executeTask(task.taskId, testOperator3)
                 }
         }
     }
