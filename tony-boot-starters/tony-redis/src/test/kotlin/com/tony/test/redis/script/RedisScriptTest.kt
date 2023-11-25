@@ -42,7 +42,7 @@ class RedisScriptTest {
             return keys
         """.trimIndent()
         val result =
-            RedisManager.executeScript<String>(script.toRedisScript(), listOf("hello", "aloha"), listOf("go", "fuck", "yourself"))
+            RedisManager.executeScript<String>(script.toRedisScript(), listOf("hello", """"aloha""""), listOf("go", "fuck", "yourself"))
         logger.info(result.toString())
     }
 

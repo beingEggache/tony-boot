@@ -20,7 +20,7 @@ class TestAspectApp
 @Service
 class TestAopService {
 
-    @TestAnnoAop(expression = "obj.name")
+    @TestAnnoAop(expression = "#obj.name")
     fun testAop(obj: TestAnnoAopArg) {
         println("I'm aop.")
     }

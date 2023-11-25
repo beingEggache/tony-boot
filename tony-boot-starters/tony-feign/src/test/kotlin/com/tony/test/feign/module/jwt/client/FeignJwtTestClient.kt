@@ -10,5 +10,5 @@ import org.springframework.cloud.openfeign.FeignClient
 @RequestProcessors(RequestProcessors.Value(AddTokenRequestProcessor::class))
 @FeignUnwrapResponse
 @FeignUseGlobalInterceptor
-@FeignClient(name = "feignJwtTestClient", url = "http://localhost:9090")
+@FeignClient(name = "feignJwtTestClient", url = "http://localhost:9092")
 interface FeignJwtTestClient : FeignJwtTestApi

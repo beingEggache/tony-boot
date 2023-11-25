@@ -11,7 +11,7 @@ package com.tony.test.feign.module.file.controller
 import com.tony.ApiResult
 import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.test.feign.module.file.api.FeignFileTestApi
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -24,8 +24,12 @@ import java.nio.file.Paths
 @RestController
 class FeignFileTestController : FeignFileTestApi {
 
-    @Value("\${test-file-path-to:}")
-    lateinit var testFilePathTo: String
+    private val resourceResolver = PathMatchingResourcePatternResolver()
+    private val absolutePath = resourceResolver
+        .resourceLoader
+        .getResource("to")
+        .file
+        .absolutePath
 
     @PostMapping("/upload-many", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     override fun uploadMany(
@@ -35,10 +39,11 @@ class FeignFileTestController : FeignFileTestApi {
         remark: String?
     ):ApiResult<*> {
         println(remark)
+        println(absolutePath)
         files.forEach {
             println(it.name)
             println(it.originalFilename)
-            it.transferTo(Paths.get("$testFilePathTo/${it.originalFilename}"))
+            it.transferTo(Paths.get("$absolutePath/${it.originalFilename}"))
         }
         return ApiResult.message()
     }
@@ -53,7 +58,8 @@ class FeignFileTestController : FeignFileTestApi {
         println(remark)
         println(file.name)
         println(file.originalFilename)
-        file.transferTo(Paths.get("$testFilePathTo/${file.originalFilename}"))
+        println(absolutePath)
+        file.transferTo(Paths.get("$absolutePath/${file.originalFilename}"))
         return ApiResult.message()
     }
 }

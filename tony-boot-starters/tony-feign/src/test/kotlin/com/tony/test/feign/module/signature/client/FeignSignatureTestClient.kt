@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody
 
 @FeignUnwrapResponse
 @FeignUseGlobalInterceptor
-@FeignClient(name = "feignSignatureTestClient", url = "http://localhost:9090")
+@FeignClient(name = "feignSignatureTestClient", url = "http://localhost:9093")
 interface FeignSignatureTestClient : FeignSignatureTestApi {
 
     @PostMapping("/test/boolean")

@@ -14,7 +14,11 @@ import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest(classes = [FeignTestEnumApp::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(
+    properties = ["server.port=9090"],
+    classes = [FeignTestEnumApp::class],
+    webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
+)
 class FeignEnumTest {
 
     @Resource

@@ -16,25 +16,29 @@ import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
-import java.nio.file.Files
-import java.nio.file.Paths
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
-@SpringBootTest(classes = [FeignFileTestApp::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(
+    properties = ["server.port=9091"],
+    classes = [FeignFileTestApp::class],
+    webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
+)
 class FeignFileTest {
 
     @Resource
     lateinit var feignFileTestClient: FeignFileTestClient
 
-    @Value("\${test-file-path-from:}")
-    lateinit var testFilePathFrom: String
+    private val resourceResolver = PathMatchingResourcePatternResolver()
 
     private val logger = getLogger()
 
     @Test
     fun testMultiFileUpload() {
-        val bytes1 = Files.readAllBytes(Paths.get("$testFilePathFrom/1.jpg"))
+        val bytes1 = resourceResolver
+            .resourceLoader
+            .getResource("/feign-test.png")
+            .contentAsByteArray
         val file1 = ByteArrayMultipartFile(
             "uploadMany1.png",
             bytes1
@@ -51,7 +55,10 @@ class FeignFileTest {
 
     @Test
     fun testSingleFileUpload() {
-        val bytes1 = Files.readAllBytes(Paths.get("$testFilePathFrom/1.jpg"))
+        val bytes1 = resourceResolver
+            .resourceLoader
+            .getResource("/feign-test.png")
+            .contentAsByteArray
         val file1 = ByteArrayMultipartFile(
             "uploadSingle.png",
             bytes1

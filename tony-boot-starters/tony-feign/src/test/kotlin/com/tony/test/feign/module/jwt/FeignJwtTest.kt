@@ -12,7 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(
     properties = [
-        "jwt.secret: saoidadsio3jsdfn12323",
+        "jwt.secret=saoidadsio3jsdfn12323",
+        "server.port=9092"
     ],
     classes = [FeignJwtTestApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT

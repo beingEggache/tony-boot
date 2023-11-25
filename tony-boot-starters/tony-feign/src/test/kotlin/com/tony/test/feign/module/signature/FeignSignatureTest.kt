@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(
+    properties = ["server.port=9093"],
     classes = [FeignSignatureTestApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )

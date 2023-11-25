@@ -5,8 +5,8 @@ import com.tony.test.feign.module.unwrap.api.FeignUnwrapTestApi
 import org.springframework.cloud.openfeign.FeignClient
 
 @FeignUnwrapResponse
-@FeignClient(name = "feignWithUnwrapTestClient", url = "http://localhost:9090")
+@FeignClient(name = "feignWithUnwrapTestClient", url = "http://localhost:9094")
 interface FeignWithUnwrapTestClient : FeignUnwrapTestApi
 
-@FeignClient(name = "feignWithoutUnwrapTestClient", url = "http://localhost:9090")
+@FeignClient(name = "feignWithoutUnwrapTestClient", url = "http://localhost:9094")
 interface FeignWithoutUnwrapTestClient : FeignUnwrapTestApi
