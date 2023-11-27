@@ -7,7 +7,6 @@ package com.tony.gateway.global
 
 import com.tony.ApiProperty
 import com.tony.ApiResult
-import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.gateway.utils.jsonBody
 import com.tony.utils.getLogger
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
@@ -36,7 +35,7 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
 
             response.jsonBody(
                 ApiResult(
-                    EMPTY_RESULT,
+                    Unit,
                     httpStatus.value() * 100,
                     ex.reason ?: ""
                 )
@@ -44,7 +43,7 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
         } else {
             response.jsonBody(
                 ApiResult(
-                    EMPTY_RESULT,
+                    Unit,
                     ApiProperty.errorCode,
                     ApiProperty.errorMsg
                 )

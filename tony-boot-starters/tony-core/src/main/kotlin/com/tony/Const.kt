@@ -33,3 +33,7 @@ package com.tony
 public const val PROJECT_GROUP: String = "com.tony"
 
 public const val TRACE_ID_HEADER_NAME: String = "X-B3-Trace-Id"
+
+public const val TOKEN_HEADER_NAME: String = "X-Access-Token"
+
+public const val ERROR_CODE_HEADER_NAME: String = "X-Error-Code"

@@ -40,7 +40,6 @@ import com.fasterxml.jackson.databind.SerializationConfig
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier
-import com.tony.ApiResult
 import com.tony.utils.isArrayLikeType
 import com.tony.utils.isBooleanType
 import com.tony.utils.isDateTimeLikeType
@@ -78,7 +77,7 @@ internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
         serializers: SerializerProvider?,
     ) {
         if (value == null) {
-            gen.writeObject(ApiResult.EMPTY_RESULT)
+            gen.writeObject(Unit)
         }
     }
 }

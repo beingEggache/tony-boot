@@ -1,5 +1,6 @@
 package com.tony.test.feign.module.signature.controller
 
+import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
 import com.tony.test.feign.dto.Person
@@ -59,6 +60,7 @@ class FeignSignatureTestController : FeignSignatureTestApi {
 
     override fun map(@RequestBody person: Person) = mapOf("test" to true)
 
+    @NoLoginCheck
     override fun person(@RequestBody person: Person) = person
 
     override fun validate(@Validated @RequestBody person: Person): Person = person

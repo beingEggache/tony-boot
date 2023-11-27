@@ -23,6 +23,7 @@
  */
 
 package com.tony.web
+
 /**
  * 默认ApiSession实现.
  * @author Tang Li
@@ -30,6 +31,7 @@ package com.tony.web
  */
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
+import com.tony.TOKEN_HEADER_NAME
 import com.tony.jwt.JwtToken
 import com.tony.utils.getLogger
 import com.tony.utils.ifNullOrBlank
@@ -65,15 +67,15 @@ internal class JwtWebSession : WebSession {
         get() =
             WebContext.current.getOrPut("token", SCOPE_REQUEST) {
                 logger.debug("init token")
+                val jwtTokenString =
+                    WebContext
+                        .request
+                        .getHeader(TOKEN_HEADER_NAME)
+                        .ifNullOrBlank()
                 try {
-                    JwtToken.parse(
-                        WebContext
-                            .request
-                            .getHeader("X-Token")
-                            .ifNullOrBlank()
-                    )
+                    JwtToken.parse(jwtTokenString)
                 } catch (e: JWTVerificationException) {
-                    logger.warn(e.message, e)
+                    logger.warn("Jwt Token($jwtTokenString) verify failed.")
                     throw UnauthorizedException("请登录")
                 }
             }

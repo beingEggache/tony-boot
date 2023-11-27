@@ -5,5 +5,5 @@ spring:
     name: tony-api
   main:
     banner-mode: off
-server:
-  port: 9090
+jwt:
+  secret: "saoidadsio3jsdfn12323"

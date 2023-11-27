@@ -1,5 +1,6 @@
 package com.tony.test.feign.module.jwt
 
+import com.tony.test.feign.config.mockWebAttributes
 import com.tony.test.feign.dto.LoginReq
 import com.tony.test.feign.dto.Person
 import com.tony.test.feign.module.jwt.client.FeignJwtTestClient
@@ -8,12 +9,14 @@ import com.tony.utils.ifNullOrBlank
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.parallel.Execution
+import org.junit.jupiter.api.parallel.ExecutionMode
 import org.springframework.boot.test.context.SpringBootTest
 
+@Execution(ExecutionMode.CONCURRENT)
 @SpringBootTest(
     properties = [
-        "jwt.secret=saoidadsio3jsdfn12323",
-        "server.port=9092"
+        "server.port=10003"
     ],
     classes = [FeignJwtTestApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT

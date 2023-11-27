@@ -7,10 +7,15 @@ import com.tony.utils.println
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.parallel.Execution
+import org.junit.jupiter.api.parallel.ExecutionMode
 import org.springframework.boot.test.context.SpringBootTest
 
+@Execution(ExecutionMode.CONCURRENT)
 @SpringBootTest(
-    properties = ["server.port=9093"],
+    properties = [
+        "server.port=10004"
+    ],
     classes = [FeignSignatureTestApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )

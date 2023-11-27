@@ -16,11 +16,16 @@ import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.parallel.Execution
+import org.junit.jupiter.api.parallel.ExecutionMode
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
+@Execution(ExecutionMode.CONCURRENT)
 @SpringBootTest(
-    properties = ["server.port=9091"],
+    properties = [
+        "server.port=10002"
+    ],
     classes = [FeignFileTestApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
 )

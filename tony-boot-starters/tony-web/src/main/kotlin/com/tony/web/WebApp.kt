@@ -24,9 +24,6 @@
 
 package com.tony.web
 
-import com.tony.ApiProperty
-import com.tony.ApiResult
-import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.SpringContexts.Env
 import com.tony.SpringContexts.getBeanByLazy
 import com.tony.utils.sanitizedPath
@@ -108,40 +105,6 @@ public object WebApp {
     public val whiteUrlPatternsWithContextPath: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
         whiteUrlPatterns(contextPath)
     }
-
-    /**
-     * 错误响应
-     * @param [msg] 消息
-     * @param [code] 默认为 [ApiProperty.errorCode]
-     * @return [ApiResult<*>]
-     * @author Tang Li
-     * @date 2023/10/24 14:27
-     * @since 1.0.0
-     */
-    @JvmOverloads
-    @JvmStatic
-    public fun errorResponse(
-        msg: String = "",
-        code: Int = ApiProperty.errorCode,
-    ): ApiResult<*> =
-        ApiResult(EMPTY_RESULT, code, msg)
-
-    /**
-     * 返回请求错误响应
-     * @param [msg] 消息
-     * @param [code] 默认为 [ApiProperty.badRequestCode]
-     * @return [ApiResult<*>]
-     * @author Tang Li
-     * @date 2023/10/24 14:27
-     * @since 1.0.0
-     */
-    @JvmOverloads
-    @JvmStatic
-    public fun badRequest(
-        msg: String = "",
-        code: Int = ApiProperty.badRequestCode,
-    ): ApiResult<*> =
-        ApiResult(EMPTY_RESULT, code, msg)
 
     private fun whiteUrlPatterns(prefix: String = ""): Set<String> {
         val actuatorBasePath = Env.getProperty("management.endpoints.web.base-path", "/actuator")

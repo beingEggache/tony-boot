@@ -111,9 +111,6 @@ public data class ApiResult<T>
             }
 
         public companion object {
-            @JvmField
-            public val EMPTY_RESULT: Any = emptyMap<String?, Any?>()
-
             /**
              * 只返回消息
              * @param message 默认为 [ApiProperty.defaultOkMessage]

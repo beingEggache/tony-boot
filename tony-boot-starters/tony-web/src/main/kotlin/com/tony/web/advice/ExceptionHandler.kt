@@ -25,13 +25,13 @@
 package com.tony.web.advice
 
 import com.tony.ApiProperty
+import com.tony.ApiResult
+import com.tony.ERROR_CODE_HEADER_NAME
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
 import com.tony.utils.getLogger
-import com.tony.web.WebApp.badRequest
-import com.tony.web.WebApp.errorResponse
+import com.tony.utils.ifNullOrBlank
 import com.tony.web.WebContext
-import com.tony.web.WebContext.toResponse
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.ConstraintViolationException
 import org.springframework.boot.web.servlet.error.ErrorController
@@ -67,7 +67,7 @@ internal class ExceptionHandler : ErrorController {
     @ExceptionHandler(BizException::class)
     @ResponseBody
     fun bizException(e: BizException) =
-        e.toResponse()
+        errorResponse(e.message.ifNullOrBlank(), e.code)
 
     /**
      * 框架异常
@@ -83,7 +83,7 @@ internal class ExceptionHandler : ErrorController {
             e.cause?.apply {
                 logger.warn(message, cause)
             }
-            e.toResponse()
+            errorResponse(e.message.ifNullOrBlank(), e.code)
         }
 
     /**
@@ -118,16 +118,20 @@ internal class ExceptionHandler : ErrorController {
     @ExceptionHandler(BindException::class)
     @ResponseBody
     fun bindingResultException(e: BindException) =
-        badRequest(bindingResultMessages(e.bindingResult))
+        errorResponse(
+            bindingResultMessages(e.bindingResult),
+            ApiProperty.badRequestCode
+        )
 
     @ExceptionHandler(ConstraintViolationException::class)
     @ResponseBody
     fun constraintViolationException(e: ConstraintViolationException) =
-        badRequest(
+        errorResponse(
             e
                 .constraintViolations
                 .first()
-                .message
+                .message,
+            ApiProperty.badRequestCode
         )
 
     @ExceptionHandler(
@@ -141,7 +145,10 @@ internal class ExceptionHandler : ErrorController {
     fun badRequestException(e: Exception) =
         run {
             logger.warn(e.localizedMessage, e)
-            badRequest(ApiProperty.badRequestMsg)
+            errorResponse(
+                ApiProperty.badRequestMsg,
+                ApiProperty.badRequestCode
+            )
         }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
@@ -152,9 +159,27 @@ internal class ExceptionHandler : ErrorController {
             WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
             WebContext.httpStatus >= 500 -> {
                 logger.error(WebContext.errorMessage)
-                errorResponse(ApiProperty.errorMsg, ApiProperty.errorCode)
+                errorResponse(ApiProperty.errorMsg)
             }
 
             else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
         }
+
+    /**
+     * 错误响应
+     * @param [msg] 消息
+     * @param [code] 默认为 [ApiProperty.errorCode]
+     * @return [ApiResult<*>]
+     * @author Tang Li
+     * @date 2023/10/24 14:27
+     * @since 1.0.0
+     */
+    @JvmOverloads
+    fun errorResponse(
+        msg: String = "",
+        code: Int = ApiProperty.errorCode,
+    ): ApiResult<*> {
+        WebContext.response?.addHeader(ERROR_CODE_HEADER_NAME, code.toString())
+        return ApiResult(Unit, code, msg)
+    }
 }

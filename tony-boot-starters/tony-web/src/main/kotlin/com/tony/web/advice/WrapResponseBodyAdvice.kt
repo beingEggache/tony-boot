@@ -26,7 +26,6 @@ package com.tony.web.advice
 
 import com.tony.ApiProperty
 import com.tony.ApiResult
-import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.ListResult
 import com.tony.misc.notSupportResponseWrapClasses
 import com.tony.utils.antPathMatchAny
@@ -62,7 +61,7 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         response: ServerHttpResponse,
     ): ApiResult<*> =
         when {
-            body == null -> ApiResult(EMPTY_RESULT, ApiProperty.okCode)
+            body == null -> ApiResult(Unit, ApiProperty.okCode)
             !body::class.java
                 .isArrayLikeType() -> ApiResult(body, ApiProperty.okCode)
             else ->

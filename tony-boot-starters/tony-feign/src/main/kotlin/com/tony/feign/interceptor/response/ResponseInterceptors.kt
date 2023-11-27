@@ -34,6 +34,7 @@ package com.tony.feign.interceptor.response
  */
 import com.tony.ApiProperty
 import com.tony.ApiResultLike
+import com.tony.ERROR_CODE_HEADER_NAME
 import com.tony.ListResult
 import com.tony.exception.ApiException
 import com.tony.misc.notSupportResponseWrapClasses
@@ -108,12 +109,14 @@ public class UnwrapResponseInterceptor : ResponseInterceptor {
         val returnRawClass = returnType.rawClass()
 
         val response = invocationContext.response()
+        val responseHeaders = response.headers()
         val isJson =
-            response
-                .headers()[CONTENT_TYPE]
+            responseHeaders[CONTENT_TYPE]
                 ?.firstOrNull() == MediaType.APPLICATION_JSON_VALUE
-        if (returnRawClass.isTypesOrSubTypesOf(*notSupportResponseWrapClasses) || !isJson) {
-            return invocationContext.proceed()
+
+        val hasErrorCode = !responseHeaders[ERROR_CODE_HEADER_NAME].isNullOrEmpty()
+        if (!hasErrorCode && (returnRawClass.isTypesOrSubTypesOf(*notSupportResponseWrapClasses) || !isJson)) {
+            return chain.next(invocationContext)
         }
 
         val jsonNode =

@@ -1,5 +1,6 @@
 package com.tony.test.feign.module.unwrap.controller
 
+import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
 import com.tony.test.feign.dto.Person
@@ -8,6 +9,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
+@NoLoginCheck
 @RestController
 @Validated
 class FeignTestUnwrapController : FeignUnwrapTestApi {

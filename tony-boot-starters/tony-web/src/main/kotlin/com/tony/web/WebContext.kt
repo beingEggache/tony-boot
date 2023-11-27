@@ -24,9 +24,6 @@
 
 package com.tony.web
 
-import com.tony.ApiResult
-import com.tony.ApiResult.Companion.EMPTY_RESULT
-import com.tony.exception.BaseException
 import com.tony.utils.asTo
 import com.tony.utils.ifNull
 import com.tony.utils.ifNullOrBlank
@@ -134,10 +131,6 @@ public object WebContext {
     public val url: URL
         get() =
             request.url
-
-    @JvmSynthetic
-    public fun BaseException.toResponse(): ApiResult<*> =
-        ApiResult(EMPTY_RESULT, code, message.ifNullOrBlank())
 
     internal val response: HttpServletResponse?
         @JvmSynthetic

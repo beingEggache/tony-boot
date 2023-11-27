@@ -32,7 +32,6 @@ package com.tony.web.config
  */
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.tony.ApiResult
-import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.jackson.InjectableValueSupplier
 import com.tony.jackson.InjectableValuesBySupplier
 import com.tony.jackson.NullValueBeanSerializerModifier
@@ -352,7 +351,7 @@ internal class ApiCorsProcessor : DefaultCorsProcessor() {
         @JvmStatic
         val invalidCorsRequestResponseByteArray by lazy(LazyThreadSafetyMode.NONE) {
             ApiResult(
-                EMPTY_RESULT,
+                Unit,
                 HttpServletResponse.SC_FORBIDDEN,
                 "Invalid CORS request"
             ).toJsonString().toByteArray()
