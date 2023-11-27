@@ -26,14 +26,8 @@ package com.tony.web
 
 import com.tony.utils.asTo
 import com.tony.utils.ifNull
-import com.tony.utils.ifNullOrBlank
-import com.tony.web.utils.headers
-import com.tony.web.utils.origin
-import com.tony.web.utils.remoteIp
-import com.tony.web.utils.url
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import java.net.URL
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.error.ErrorAttributeOptions.Include
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
@@ -83,36 +77,12 @@ public object WebContext {
         }
 
     @JvmStatic
-    public val headers: Map<String, String>
-        get() =
-            request.headers
-
-    @JvmStatic
-    public fun getHeader(name: String?): String =
-        headers[name].ifNullOrBlank()
-
-    @JvmStatic
-    public val origin: String
-        get() =
-            request.origin
-
-    @JvmStatic
-    public val remoteIP: String
-        get() =
-            request.remoteIp
-
-    @JvmStatic
     public val request: HttpServletRequest
         get() =
             current.request
 
     @JvmStatic
-    public val url: URL
-        get() =
-            request.url
-
-    internal val response: HttpServletResponse?
-        @JvmSynthetic
+    public val response: HttpServletResponse?
         get() = current.response
 
     @JvmStatic

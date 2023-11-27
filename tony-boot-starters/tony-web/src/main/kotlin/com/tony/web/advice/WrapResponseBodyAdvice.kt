@@ -34,6 +34,7 @@ import com.tony.utils.isArrayLikeType
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.web.WebApp
 import com.tony.web.WebContext
+import com.tony.web.utils.url
 import java.util.Collections
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
@@ -78,6 +79,7 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
     ) = !WebContext
+        .request
         .url
         .path
         .antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
