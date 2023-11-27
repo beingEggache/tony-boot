@@ -37,7 +37,6 @@ import com.tony.utils.getLogger
 import com.tony.utils.ifNullOrBlank
 import com.tony.web.WebContext.getOrPut
 import com.tony.web.exception.UnauthorizedException
-import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
 
 /**
  * noop session. 获取用户标识永远抛出异常.
