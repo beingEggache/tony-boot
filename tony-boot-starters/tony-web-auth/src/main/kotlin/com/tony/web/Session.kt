@@ -65,7 +65,7 @@ internal class JwtWebSession : WebSession {
 
     private val token: DecodedJWT
         get() =
-            WebContext.current.getOrPut("token", SCOPE_REQUEST) {
+            WebContext.current.getOrPut("token") {
                 logger.debug("init token")
                 val jwtTokenString =
                     WebContext
@@ -82,7 +82,7 @@ internal class JwtWebSession : WebSession {
 
     override val userId: String
         get() =
-            WebContext.current.getOrPut("userId", SCOPE_REQUEST) {
+            WebContext.current.getOrPut("userId") {
                 logger.debug("init userId")
                 token.getClaim("userId")?.asString() ?: throw UnauthorizedException("请登录")
             }
