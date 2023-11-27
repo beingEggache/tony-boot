@@ -2,6 +2,7 @@ package com.tony.test.feign.module.enums.controller
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
+import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.enums.EnumCreator
 import com.tony.enums.IntEnumValue
 import com.tony.enums.StringEnumValue
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
+@NoLoginCheck
 @Validated
 @RestController
 class FeignEnumTestController {
