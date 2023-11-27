@@ -12,21 +12,17 @@ pluginManagement {
     includeBuild("build-script")
 }
 
-val kotlinVersion: String by settings
-gradle.rootProject {
-    buildscript {
-        dependencies {
-            classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-            classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
-        }
-    }
+dependencyResolutionManagement {
+    defaultLibrariesExtensionName = "tonyLibs"
 }
-val projectPrefix: String by settings
-rootProject.name = "$projectPrefix-dependencies"
 
+val projectPrefix: String by settings
+rootProject.name = "$projectPrefix-boot-starters"
+include("$projectPrefix-dependencies")
+include("$projectPrefix-dependencies-catalog")
 include("$projectPrefix-aliyun-oss")
 include("$projectPrefix-aliyun-sms")
-include("$projectPrefix-annotations")
+include("$projectPrefix-interfaces")
 include("$projectPrefix-web")
 include("$projectPrefix-core")
 include("$projectPrefix-redis")
@@ -41,5 +37,7 @@ include("$projectPrefix-captcha")
 include("$projectPrefix-snowflake-id")
 include("$projectPrefix-knife4j-api")
 include("$projectPrefix-web-crypto")
+include("$projectPrefix-fus")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+

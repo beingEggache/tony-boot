@@ -1,10 +1,7 @@
-import com.tony.buildscript.Deps
 dependencies {
     api(projects.tonyCore)
+    api(tonyLibs.javaJwt)
 
-    api(Deps.Other.javaJwt)
-
-    implementation(Deps.SpringBoot.autoconfigure)
-
-    implementation(Deps.Other.annotationApi)
+    implementation(tonyLibs.springBootAutoconfigure)
+    implementation(tonyLibs.annotationApi)
 }

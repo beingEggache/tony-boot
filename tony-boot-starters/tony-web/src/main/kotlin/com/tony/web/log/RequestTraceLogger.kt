@@ -1,5 +1,35 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.web.log
 
+/**
+ * 请求日志记录接口.
+ *
+ * @author Tang Li
+ * @date 2023/5/25 10:29
+ */
 import com.tony.ApiProperty
 import com.tony.utils.getFromRootAsString
 import com.tony.utils.getLogger
@@ -20,7 +50,7 @@ import com.tony.web.utils.remoteIp
 import com.tony.web.utils.status1xxInformational
 import com.tony.web.utils.status2xxSuccessful
 import com.tony.web.utils.status3xxRedirection
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.Logger
 import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
@@ -28,11 +58,10 @@ import org.springframework.web.util.ContentCachingResponseWrapper
 /**
  * 请求日志记录接口.
  *
- * @author tangli
- * @since 2023/5/25 10:29
+ * @author Tang Li
+ * @date 2023/5/25 10:29
  */
 public fun interface RequestTraceLogger {
-
     /**
      * 记录请求日志
      *
@@ -47,7 +76,6 @@ public fun interface RequestTraceLogger {
     )
 
     public companion object Const {
-
         public const val OK: String = "OK"
 
         public const val INTERNAL_SERVER_ERROR: String = "INTERNAL_SERVER_ERROR"
@@ -67,11 +95,10 @@ public fun interface RequestTraceLogger {
 /**
  * 请求日志记录默认实现
  *
- * @author tangli
- * @since 2023/5/25 10:30
+ * @author Tang Li
+ * @date 2023/5/25 10:30
  */
 internal class DefaultRequestTraceLogger : RequestTraceLogger {
-
     override fun requestTraceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
@@ -83,10 +110,25 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         val resultStatus = resultStatus(resultCode)
         val protocol = request.scheme
         val httpMethod = request.method
-        val origin = request.requestURL?.toString() ?: ""
-        val path = request.requestURI.removePrefix(WebApp.contextPath)
+        val origin =
+            request
+                .requestURL
+                ?.toString() ?: ""
+        val path =
+            request
+                .requestURI
+                .removePrefix(WebApp.contextPath)
         val query = request.queryString ?: NULL
-        val headers = request.headers.entries.joinToString { "${it.key}:${it.value}" }
+        val requestHeaders =
+            request
+                .headers
+                .entries
+                .joinToString(";;") { "${it.key}:${it.value}" }
+        val responseHeaders =
+            response
+                .headers
+                .entries
+                .joinToString(";;") { "${it.key}:${it.value}" }
         val remoteIp = request.remoteIp
         val logStr =
             """
@@ -98,7 +140,8 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
             |$origin|
             |$path|
             |$query|
-            |$headers|
+            |$requestHeaders|
+            |$responseHeaders|
             |$requestBody|
             |$responseBody|
             |$remoteIp
@@ -109,7 +152,15 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
     private fun requestBody(request: RepeatReadRequestWrapper) =
         if (!isTextMediaTypes(request.parsedMedia)) {
             "[${request.contentType}]"
-        } else if (request.method.equals(HttpMethod.POST.name, true)) {
+        } else if (request
+                .method
+                .equals(
+                    HttpMethod
+                        .POST
+                        .name(),
+                    true
+                )
+        ) {
             val bytes = request.contentAsByteArray
             when {
                 bytes.isEmpty() -> NULL
@@ -134,8 +185,14 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
             }
         }
 
-    private fun resultCode(responseBody: String, response: HttpServletResponse): Int {
-        val codeFromResponseDirectly = responseBody.getFromRootAsString("code")?.toInt()
+    private fun resultCode(
+        responseBody: String,
+        response: HttpServletResponse,
+    ): Int {
+        val codeFromResponseDirectly =
+            responseBody
+                .getFromRootAsString("code")
+                ?.toInt()
         return when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
             response.status2xxSuccessful ||
@@ -146,13 +203,14 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         }
     }
 
-    private fun resultStatus(resultCode: Int): String = when (resultCode) {
-        ApiProperty.okCode -> OK
-        ApiProperty.badRequestCode -> BAD_REQUEST
-        ApiProperty.preconditionFailedCode -> PRECONDITION_FAILED
-        ApiProperty.unauthorizedCode -> UNAUTHORIZED
-        in 400 * 100..499 * 100 -> BAD_REQUEST
-        in 100 * 100..199 * 100 -> OK
-        else -> INTERNAL_SERVER_ERROR
-    }
+    private fun resultStatus(resultCode: Int): String =
+        when (resultCode) {
+            ApiProperty.okCode -> OK
+            ApiProperty.badRequestCode -> BAD_REQUEST
+            ApiProperty.preconditionFailedCode -> PRECONDITION_FAILED
+            ApiProperty.unauthorizedCode -> UNAUTHORIZED
+            in 400 * 100..499 * 100 -> BAD_REQUEST
+            in 100 * 100..199 * 100 -> OK
+            else -> INTERNAL_SERVER_ERROR
+        }
 }

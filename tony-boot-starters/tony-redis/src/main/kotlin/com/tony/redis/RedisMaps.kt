@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.redis
 
 import com.fasterxml.jackson.core.type.TypeReference
@@ -9,11 +33,10 @@ import java.util.concurrent.TimeUnit
 /**
  * redis hash操作单例.
  *
- * @author tangli
- * @since 2023/5/25 9:57
+ * @author Tang Li
+ * @date 2023/5/25 9:57
  */
 public object RedisMaps {
-
     /**
      * Determine if given hash hashKey exists.
      *
@@ -23,7 +46,10 @@ public object RedisMaps {
      */
     @Suppress("SimplifyBooleanWithConstants")
     @JvmStatic
-    public fun hasKey(key: String, hashKey: String): Boolean =
+    public fun hasKey(
+        key: String,
+        hashKey: String,
+    ): Boolean =
         true == hashOp.hasKey(key, hashKey)
 
     /**
@@ -35,7 +61,10 @@ public object RedisMaps {
      */
     @Suppress("RedundantNullableReturnType")
     @JvmStatic
-    public fun delete(key: String, vararg hashKeys: String): Long? =
+    public fun delete(
+        key: String,
+        vararg hashKeys: String,
+    ): Long? =
         hashOp.delete(key, *hashKeys)
 
     /**
@@ -50,13 +79,20 @@ public object RedisMaps {
      */
     @JvmStatic
     @JvmOverloads
-    public fun increment(key: String, hashKey: String, delta: Long = 1L, initial: Long? = null): Long? =
-        RedisManager.doInTransaction {
-            if (initial != null) {
-                hashOp.putIfAbsent(key, hashKey, initial)
-            }
-            hashOp.increment(key, hashKey, delta)
-        }.last().asTo()
+    public fun increment(
+        key: String,
+        hashKey: String,
+        delta: Long = 1L,
+        initial: Long? = null,
+    ): Long? =
+        RedisManager
+            .doInTransaction {
+                if (initial != null) {
+                    hashOp.putIfAbsent(key, hashKey, initial)
+                }
+                hashOp.increment(key, hashKey, delta)
+            }.last()
+            .asTo()
 
     /**
      * 同 RedisTemplate.boundValueOps.increment.
@@ -71,13 +107,20 @@ public object RedisMaps {
      */
     @JvmStatic
     @JvmOverloads
-    public fun increment(key: String, hashKey: String, delta: Double = 1.0, initial: Double? = null): Double? =
-        RedisManager.doInTransaction {
-            if (initial != null) {
-                hashOp.putIfAbsent(key, hashKey, initial)
-            }
-            hashOp.increment(key, hashKey, delta)
-        }.last().asTo()
+    public fun increment(
+        key: String,
+        hashKey: String,
+        delta: Double = 1.0,
+        initial: Double? = null,
+    ): Double? =
+        RedisManager
+            .doInTransaction {
+                if (initial != null) {
+                    hashOp.putIfAbsent(key, hashKey, initial)
+                }
+                hashOp.increment(key, hashKey, delta)
+            }.last()
+            .asTo()
 
     /**
      * 同 redisTemplate.boundHashOps(key).put(hashKey, value).
@@ -92,7 +135,8 @@ public object RedisMaps {
         key: String,
         hashKey: String,
         value: T,
-    ): Unit = redisService.put(key, hashKey, value)
+    ): Unit =
+        redisService.put(key, hashKey, value)
 
     /**
      * 同 redisTemplate.boundHashOps(key).putIfAbsent(hashKey, value).
@@ -107,7 +151,8 @@ public object RedisMaps {
         key: String,
         hashKey: String,
         value: T,
-    ): Unit = redisService.putIfAbsent(key, hashKey, value)
+    ): Unit =
+        redisService.putIfAbsent(key, hashKey, value)
 
     /**
      * 同 redisTemplate.boundHashOps(key).putAll(map).
@@ -126,7 +171,8 @@ public object RedisMaps {
         map: Map<String, Any?>?,
         timeout: Long = 0,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Unit = redisService.putAll(key, map, timeout, timeUnit)
+    ): Unit =
+        redisService.putAll(key, map, timeout, timeUnit)
 
     /**
      * 同 redisTemplate.boundHashOps(key).putAll(map).
@@ -142,7 +188,8 @@ public object RedisMaps {
         key: String,
         map: Map<String, Any?>?,
         date: Date,
-    ): Unit = redisService.putAll(key, map, date)
+    ): Unit =
+        redisService.putAll(key, map, date)
 
     /**
      * 同 redisTemplate.boundHashOp(key).get(hashKey)
@@ -153,7 +200,10 @@ public object RedisMaps {
      * @return
      */
     @JvmStatic
-    public inline fun <reified T : Any> get(key: String, hashKey: String): T? =
+    public inline fun <reified T : Any> get(
+        key: String,
+        hashKey: String,
+    ): T? =
         get(key, hashKey, T::class.java)
 
     /**
@@ -167,7 +217,11 @@ public object RedisMaps {
      * @return
      */
     @JvmStatic
-    public fun <T : Any> get(key: String, hashKey: String, clazz: Class<T>): T? =
+    public fun <T : Any> get(
+        key: String,
+        hashKey: String,
+        clazz: Class<T>,
+    ): T? =
         redisService.get(key, hashKey, clazz)
 
     /**
@@ -181,7 +235,11 @@ public object RedisMaps {
      * @return
      */
     @JvmStatic
-    public fun <T : Any> get(key: String, hashKey: String, javaType: JavaType): T? =
+    public fun <T : Any> get(
+        key: String,
+        hashKey: String,
+        javaType: JavaType,
+    ): T? =
         redisService.get(key, hashKey, javaType)
 
     /**
@@ -195,7 +253,11 @@ public object RedisMaps {
      * @return
      */
     @JvmStatic
-    public fun <T : Any> get(key: String, hashKey: String, typeReference: TypeReference<T>): T? =
+    public fun <T : Any> get(
+        key: String,
+        hashKey: String,
+        typeReference: TypeReference<T>,
+    ): T? =
         redisService.get(key, hashKey, typeReference)
 
     /**

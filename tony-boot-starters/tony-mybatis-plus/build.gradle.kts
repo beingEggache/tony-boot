@@ -1,18 +1,11 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.addTestDependencies
 dependencies {
-
     api(projects.tonyCore)
+    api(tonyLibs.mybatisPlusBootStarter3)
+    implementation(projects.tonyInterfaces)
 
-    api(Deps.Other.mybatisPlusBootStarter)
+    implementation(tonyLibs.hikariCP)
+    implementation(tonyLibs.mybatisTypehandlersJsr310)
 
-    implementation(Deps.Other.HikariCP)
-    implementation(Deps.Other.mybatisTypehandlersJsr310)
-
-    addTestDependencies()
-    testImplementation(Deps.Other.mysql)
-}
-
-tasks.named<Test>("test") {
-    useJUnitPlatform()
+    testImplementation(tonyLibs.mysql)
+    testImplementation(projects.tonySnowflakeId)
 }

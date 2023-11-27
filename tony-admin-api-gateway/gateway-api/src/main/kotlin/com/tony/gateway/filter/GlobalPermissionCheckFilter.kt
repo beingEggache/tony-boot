@@ -1,7 +1,7 @@
 /**
  *
- * @author tangli
- * @since 2021/8/5 14:29
+ * @author Tang Li
+ * @date 2021/8/5 14:29
  */
 package com.tony.gateway.filter
 
@@ -18,8 +18,12 @@ import reactor.core.publisher.Mono
 @Component
 class GlobalPermissionCheckFilter(
     private val gatewayRouteConfigProperties: GatewayRouteConfigProperties,
-) : GlobalFilter, Ordered {
-    override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
+) : GlobalFilter,
+    Ordered {
+    override fun filter(
+        exchange: ServerWebExchange,
+        chain: GatewayFilterChain,
+    ): Mono<Void> {
         val originalPath = exchange.request.uri.path
 
         if (gatewayRouteConfigProperties.noPermissionCheck(originalPath)) {
@@ -29,5 +33,6 @@ class GlobalPermissionCheckFilter(
         return exchange.response.jsonBody(ApiResult("未经许可的访问", 40300))
     }
 
-    override fun getOrder(): Int = 10152
+    override fun getOrder(): Int =
+        10152
 }

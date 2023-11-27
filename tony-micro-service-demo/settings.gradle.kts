@@ -11,13 +11,18 @@ pluginManagement {
     }
 }
 
-val kotlinVersion: String by settings
-gradle.rootProject {
-    buildscript {
-        dependencies {
-            classpath("com.tony:build-script:0.1-SNAPSHOT")
-            classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-            classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
+dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
+    repositories {
+        mavenLocal()
+//        val privateGradleRepoUrl: String by settings
+//        maven(url = privateGradleRepoUrl) {
+//            isAllowInsecureProtocol = true
+//        }
+    }
+    versionCatalogs {
+        create("tonyLibs") {
+            from("com.tony:tony-dependencies-catalog:0.1-SNAPSHOT")
         }
     }
 }

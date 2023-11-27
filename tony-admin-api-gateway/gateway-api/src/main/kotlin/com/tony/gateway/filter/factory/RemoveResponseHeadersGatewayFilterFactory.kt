@@ -11,17 +11,20 @@ import reactor.core.publisher.Mono
 
 /**
  * RemoveResponseHeadersGatewayFilterFactories is
- * @author tangli
- * @since 2023/07/20 15:20
+ * @author Tang Li
+ * @date 2023/07/20 15:20
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class RemoveResponseHeadersGatewayFilterFactory :
     AbstractGatewayFilterFactory<RemoveHeaders>(RemoveHeaders::class.java) {
-
-    override fun apply(config: RemoveHeaders): GatewayFilter {
-        return object : GatewayFilter {
-            override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
-                return chain.filter(exchange)
+    override fun apply(config: RemoveHeaders): GatewayFilter =
+        object : GatewayFilter {
+            override fun filter(
+                exchange: ServerWebExchange,
+                chain: GatewayFilterChain,
+            ): Mono<Void> =
+                chain
+                    .filter(exchange)
                     .then(
                         Mono.fromRunnable {
                             val response = exchange.response
@@ -30,14 +33,13 @@ class RemoveResponseHeadersGatewayFilterFactory :
                             }
                         }
                     )
-            }
 
-            override fun toString(): String {
-                return GatewayToStringStyler.filterToStringCreator(this@RemoveResponseHeadersGatewayFilterFactory)
-                    .append("headers", config.headers).toString()
-            }
+            override fun toString(): String =
+                GatewayToStringStyler
+                    .filterToStringCreator(this@RemoveResponseHeadersGatewayFilterFactory)
+                    .append("headers", config.headers)
+                    .toString()
         }
-    }
 }
 
 data class RemoveHeaders(

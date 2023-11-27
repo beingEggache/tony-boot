@@ -1,5 +1,35 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.jackson
 
+/**
+ * Jackson 注入
+ * @author Tang Li
+ * @date 2023/09/28 09:16
+ * @since 1.0.0
+ */
 import com.fasterxml.jackson.databind.BeanProperty
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.InjectableValues
@@ -8,34 +38,21 @@ import com.tony.utils.getLogger
 /**
  * Jackson 注入.
  *
- * [com.fasterxml.jackson.annotation.JacksonInject.useInput] 没用.
+ * 没用.
  *
  * 对于 Kotlin 非空字段, 接受 absent, 不接受 null 值.
  *
- * 比如有个类
- * ```
- * data class Person(
- *   val name: String = "" // 建议给 val 赋默认值,否则 注入会调用两次.
- * )
- * ```
  * {} 是可接受的, { "name": null } 是不可接受的.
  *
  * 对 Kotlin 不 友好, 建议只在 Java  使用, Kotlin 环境下, 建议只在 可变修饰的可空类型的 setter上使用.
- * 比如.
- * ```
- * data class Person(
- *   @set:JacksonInject
- *   var name: String?
- * )
- * ```
  *
- * @author tangli
- * @since 2023/07/21 14:23
+ * @author Tang Li
+ * @date 2023/09/28 09:16
+ * @since 1.0.0
  */
 public class InjectableValuesBySupplier(
     private val values: Map<String, InjectableValueSupplier>,
 ) : InjectableValues() {
-
     private val logger = getLogger()
 
     override fun findInjectableValue(
@@ -53,11 +70,29 @@ public class InjectableValuesBySupplier(
     }
 }
 
+/**
+ * Jackson 注入 Supplier.
+ * @author Tang Li
+ * @date 2023/09/13 10:17
+ * @since 1.0.0
+ */
 public interface InjectableValueSupplier {
     public val name: String
-    public fun value(property: BeanProperty?, instance: Any?): Any
+
+    public fun value(
+        property: BeanProperty?,
+        instance: Any?,
+    ): Any
 }
 
-public abstract class AbstractInjectableValueSupplier(override val name: String) : InjectableValueSupplier {
+/**
+ * 抽象Jackson 注入 Supplier.
+ * @author Tang Li
+ * @date 2023/09/13 10:18
+ * @since 1.0.0
+ */
+public abstract class AbstractInjectableValueSupplier(
+    override val name: String,
+) : InjectableValueSupplier {
     public constructor(type: Class<*>) : this(type.name)
 }

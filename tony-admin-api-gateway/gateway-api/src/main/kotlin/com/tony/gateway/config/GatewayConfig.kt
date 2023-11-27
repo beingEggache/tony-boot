@@ -1,7 +1,7 @@
 /**
  *
- * @author tangli
- * @since 2021/8/5 14:29
+ * @author Tang Li
+ * @date 2021/8/5 14:29
  */
 package com.tony.gateway.config
 
@@ -21,7 +21,6 @@ import reactor.core.publisher.Mono
  */
 @Configuration
 class GatewayConfig {
-
     /**
      * 根据IP做限流 , 在配置文件filter处加
      *
@@ -32,29 +31,37 @@ class GatewayConfig {
      *      redis-rate-limiter.burstCapacity: 1  #令牌桶总容量
      */
     @Bean
-    fun ipKeyResolver() = KeyResolver { exchange ->
-        Mono.just(exchange.request.remoteAddress?.address?.hostAddress ?: "")
-    }
+    fun ipKeyResolver() =
+        KeyResolver { exchange ->
+            Mono.just(
+                exchange
+                    .request
+                    .remoteAddress
+                    ?.address
+                    ?.hostAddress ?: ""
+            )
+        }
 
     @Bean
     @ConditionalOnEnabledFilter
-    fun removeResponseHeadersGatewayFilterFactory() = RemoveResponseHeadersGatewayFilterFactory()
+    fun removeResponseHeadersGatewayFilterFactory() =
+        RemoveResponseHeadersGatewayFilterFactory()
 }
 
 @Component
 @ConfigurationProperties(prefix = "tony.gateway")
 @NacosConfigurationProperties(dataId = "tony-gateway-routes-auth.yml")
 class GatewayRouteConfigProperties {
-
     var noLoginCheckUrls: List<String>? = null
     var noPermissionCheckUrls: List<String>? = null
 
     fun noLoginCheck(path: String?) =
         path.antPathMatchAny(noLoginCheckUrls)
 
-    fun noPermissionCheck(path: String?) = if (noLoginCheck(path)) {
-        true
-    } else {
-        path.antPathMatchAny(noPermissionCheckUrls)
-    }
+    fun noPermissionCheck(path: String?) =
+        if (noLoginCheck(path)) {
+            true
+        } else {
+            path.antPathMatchAny(noPermissionCheckUrls)
+        }
 }

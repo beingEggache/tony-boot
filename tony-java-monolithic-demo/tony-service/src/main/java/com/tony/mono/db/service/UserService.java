@@ -27,7 +27,7 @@ public class UserService {
                 User::getUserName,
                 req.getQuery()
             )
-            .or(StringUtils.hasLength(req.getQuery()), (it) -> it.like(User::getRealName, req.getQuery()))
+            .or(StringUtils.hasLength(req.getQuery()), it -> it.like(User::getRealName, req.getQuery()))
             .pageResult(req);
     }
 }

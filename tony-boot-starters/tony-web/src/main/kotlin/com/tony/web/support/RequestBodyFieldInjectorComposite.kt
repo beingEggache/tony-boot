@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.web.support
 
 import com.tony.annotation.web.support.InjectRequestBodyField
@@ -12,8 +36,8 @@ import org.slf4j.LoggerFactory
 /**
  * RequestBody 注入
  *
- * @author tangli
- * @since 2023/7/6 14:59
+ * @author Tang Li
+ * @date 2023/7/6 14:59
  */
 internal class RequestBodyFieldInjectorComposite(
     private val requestBodyFieldInjectors: List<RequestBodyFieldInjector>,
@@ -54,16 +78,17 @@ internal class RequestBodyFieldInjectorComposite(
         val fieldListMap = supportedClassFieldsCache[bodyClass]
         val injectorMap = classSupportedInjectorMap[bodyClass]
 
-        val removedInjectorNames = injectorMap
-            ?.values
-            ?.filter { injector ->
-                val fieldList = fieldListMap?.getValue(injector.name) ?: return@filter false
-                val injectResultList = fieldList.map { field ->
-                    field to injector.internalInject(field, body)
-                }
-                injectorHasNoSupportedFields(fieldListMap, injectResultList, fieldList, bodyClass, injector.name)
-            }
-            ?.map { it.name }
+        val removedInjectorNames =
+            injectorMap
+                ?.values
+                ?.filter { injector ->
+                    val fieldList = fieldListMap?.getValue(injector.name) ?: return@filter false
+                    val injectResultList =
+                        fieldList.map { field ->
+                            field to injector.internalInject(field, body)
+                        }
+                    injectorHasNoSupportedFields(fieldListMap, injectResultList, fieldList, bodyClass, injector.name)
+                }?.map { it.name }
         removeInjectorSupports(bodyClass, removedInjectorNames)
         removeClassSupports(bodyClass)
         return body
@@ -91,9 +116,7 @@ internal class RequestBodyFieldInjectorComposite(
         return fieldList.isEmpty()
     }
 
-    private fun removeClassSupports(
-        targetType: Class<*>,
-    ) {
+    private fun removeClassSupports(targetType: Class<*>) {
         val fieldMap = supportedClassFieldsCache[targetType]
         val injectorMap = classSupportedInjectorMap[targetType]
 
@@ -165,8 +188,7 @@ internal class RequestBodyFieldInjectorComposite(
             requestBodyFieldInjectors
                 .associateBy {
                     it.name
-                }
-                .filterValues { injector ->
+                }.filterValues { injector ->
                     hasSupportInjectorFields(annotatedFields, injector, targetType)
                 }.let {
                     ConcurrentHashMap<String, RequestBodyFieldInjector>().apply {
@@ -183,17 +205,17 @@ internal class RequestBodyFieldInjectorComposite(
         .filter { field ->
             isFieldSupportByAnnoValueOrFieldName(
                 field.name,
-                field.annotationFromSelfOrGetterOrSetter(InjectRequestBodyField::class.java)!!.value,
+                field
+                    .annotationFromSelfOrGetterOrSetter(InjectRequestBodyField::class.java)!!
+                    .value,
                 injector.name
             )
-        }
-        .onEach {
+        }.onEach {
             supportedClassFieldsCache
                 .getOrPut(targetType) { ConcurrentHashMap() }
                 .getOrPut(injector.name) { mutableSetOf() }
                 .add(it)
-        }
-        .isNotEmpty()
+        }.isNotEmpty()
 
     /**
      * 根据注解值或字段名 判断字段是否支持注入

@@ -1,153 +1,74 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.mybatis.wrapper
 
 import com.baomidou.mybatisplus.core.conditions.query.Query
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
 import com.baomidou.mybatisplus.extension.conditions.AbstractChainWrapper
-import com.baomidou.mybatisplus.extension.conditions.query.ChainQuery
-import com.tony.ApiProperty
-import com.tony.JPageQueryLike
-import com.tony.PageResultLike
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
-import com.tony.utils.throwIf
-import com.tony.utils.throwIfNull
 import java.util.function.Predicate
-import kotlin.reflect.KProperty
-import org.apache.ibatis.exceptions.TooManyResultsException
+import kotlin.reflect.KProperty1
 
 /**
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
  * 比如 [oneNotNull], [throwIfExists], [pageResult]
- *
- * @author tangli
- * @since 2023/5/25 15:26
+ * @author Tang Li
+ * @date 2023/09/13 10:41
+ * @since 1.0.0
  */
-public open class TonyKtQueryChainWrapper<T : Any>(
+public open class TonyKtQueryChainWrapper<T : Any> internal constructor(
     private val baseMapper: BaseDao<T>,
-) : AbstractChainWrapper<T, KProperty<*>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
-    ChainQuery<T>,
-    Query<TonyKtQueryChainWrapper<T>, T, String> {
-
-        init {
-            super.wrapperChildren = TonyKtQueryWrapper(entityClass)
-        }
-
-        public constructor(baseMapper: BaseDao<T>, entityClass: Class<T>) : this(baseMapper) {
-            super.wrapperChildren = TonyKtQueryWrapper(entityClass)
-        }
-
-        public constructor(baseMapper: BaseDao<T>, entity: T) : this(baseMapper) {
-            super.wrapperChildren = TonyKtQueryWrapper(entity)
-        }
-
-        override fun select(vararg columns: String): TonyKtQueryChainWrapper<T> {
-            wrapperChildren.select(*columns)
-            return typedThis
-        }
-
-        override fun select(entityClass: Class<T>, predicate: Predicate<TableFieldInfo>): TonyKtQueryChainWrapper<T> {
-            wrapperChildren.select(entityClass, predicate)
-            return typedThis
-        }
-
-        /**
-         * 查出不可空的单个实体, 为空时抛错.
-         * @param message 默认为 [ApiProperty.notFoundMessage]
-         * @param code 默认为 [ApiProperty.notFoundCode]
-         * @return
-         */
-        @JvmOverloads
-        public fun oneNotNull(
-            message: String = ApiProperty.notFoundMessage,
-            code: Int = ApiProperty.notFoundCode,
-        ): T = baseMapper.selectOne(wrapper).throwIfNull(message, code)
-
-        /**
-         * 查询某个条件是否存在, 存在就抛错
-         * @param message
-         * @param code 默认为 [ApiProperty.preconditionFailedCode]
-         */
-        @JvmOverloads
-        public fun throwIfExists(
-            message: String,
-            code: Int = ApiProperty.preconditionFailedCode,
-        ) {
-            throwIf(exists(), message, code)
-        }
-
-        /**
-         * 查询某个条件是否存在, 不存在就抛错
-         *
-         * @param message
-         * @param code 默认为 [ApiProperty.notFoundCode]
-         */
-        @JvmOverloads
-        public fun throwIfNotExists(
-            message: String,
-            code: Int = ApiProperty.notFoundCode,
-        ) {
-            throwIf(!exists(), message, code)
-        }
-
-        /**
-         * 根据 Wrapper 条件，查询全部记录
-         * <p>注意： 只返回第一个字段的值</p>
-         */
-        public fun listObj(): List<Any?> = baseMapper.selectObjs(wrapper)
-
-        /**
-         * 根据 条件，查询一条记录.
-         * 查询一条记录，限制取一条记录, 注意：多条数据会报异常
-         */
-        public fun oneObj(): Any? {
-            val list: List<Any?> = listObj()
-            // 抄自 DefaultSqlSession#selectOne
-            return if (list.size == 1) {
-                list[0]
-            } else if (list.size > 1) {
-                throw TooManyResultsException(
-                    "Expected one result (or null) to be returned by oneObj(), but found: ${list.size}"
-                )
-            } else {
-                null
-            }
-        }
-
-        /**
-         * 根据 Wrapper 条件，查询全部记录
-         */
-        public fun listMap(): List<Map<String, Any?>> = baseMapper.selectMaps(wrapper)
-
-        /**
-         * 根据 条件，查询一条记录.
-         * 查询一条记录，限制取一条记录, 注意：多条数据会报异常
-         */
-        public fun oneMap(): Map<String, Any?>? {
-            val list = listMap()
-            // 抄自 DefaultSqlSession#selectOne
-            return if (list.size == 1) {
-                list[0]
-            } else if (list.size > 1) {
-                throw TooManyResultsException(
-                    "Expected one result (or null) to be returned by oneObj(), but found: ${list.size}"
-                )
-            } else {
-                null
-            }
-        }
-
-        /**
-         * 分页查询出全局统一结构.
-         *
-         * @param E
-         * @param page 全局统一请求分页结构.
-         * @return
-         */
-        public fun <E : PageResultLike<T>> pageResult(
-            page: JPageQueryLike<*>,
-        ): E = baseMapper.selectPageResult(page, wrapper)
-
-        override fun getBaseMapper(): BaseDao<T> = baseMapper
-
-        override fun getEntityClass(): Class<T> = baseMapper.getEntityClass()
+) : AbstractChainWrapper<T, KProperty1<T, *>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
+    TonyChainQuery<T>,
+    Query<TonyKtQueryChainWrapper<T>, T, KProperty1<T, *>> {
+    init {
+        wrapperChildren = TonyKtQueryWrapper(baseMapper.getEntityClass())
     }
+
+    override fun select(
+        condition: Boolean,
+        columns: MutableList<KProperty1<T, *>>,
+    ): TonyKtQueryChainWrapper<T> {
+        wrapperChildren.select(condition, columns)
+        return typedThis
+    }
+
+    override fun select(
+        entityClass: Class<T>,
+        predicate: Predicate<TableFieldInfo>,
+    ): TonyKtQueryChainWrapper<T> {
+        wrapperChildren.select(entityClass, predicate)
+        return typedThis
+    }
+
+    public fun select(vararg columns: String): TonyKtQueryChainWrapper<T> {
+        wrapperChildren.select(*columns)
+        return typedThis
+    }
+
+    override fun getBaseMapper(): BaseDao<T> =
+        baseMapper
+}

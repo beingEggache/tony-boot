@@ -1,22 +1,40 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.web
 
-import com.tony.ApiProperty
-import com.tony.ApiResult
-import com.tony.ApiResult.Companion.EMPTY_RESULT
 import com.tony.SpringContexts.Env
 import com.tony.SpringContexts.getBeanByLazy
 import com.tony.utils.sanitizedPath
 import com.tony.web.config.WebProperties
-import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 
 /**
- * Web 全局变量
- *
+ * Web 全局变量.
  */
 public object WebApp {
-
     private const val SWAGGER_UI_PATH: String = "springdoc.swagger-ui.path"
     private const val SWAGGER_UI_PATH_VALUE: String = "/swagger-ui.html"
 
@@ -53,11 +71,15 @@ public object WebApp {
     @JvmStatic
     public val contextPath: String by Env.getPropertyByLazy("server.servlet.context-path", "")
 
-    internal val responseWrapExcludePatterns by lazy {
-        val set = setOf(
-            *whiteUrlPatternsWithContextPath.toTypedArray(),
-            *webProperties.wrapResponseExcludePatterns.map { sanitizedPath("$contextPath/$it") }.toTypedArray()
-        )
+    internal val responseWrapExcludePatterns by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        val set =
+            setOf(
+                *whiteUrlPatternsWithContextPath.toTypedArray(),
+                *webProperties
+                    .wrapResponseExcludePatterns
+                    .map { sanitizedPath("$contextPath/$it") }
+                    .toTypedArray()
+            )
         logger.info("Response Wrap Exclude Pattern are: $set")
         set
     }
@@ -68,7 +90,7 @@ public object WebApp {
      * 一般默认包含 文档地址, 及对应的静态文件地址.
      */
     @JvmStatic
-    public val whiteUrlPatterns: Set<String> by lazy {
+    public val whiteUrlPatterns: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
         whiteUrlPatterns()
     }
 
@@ -77,36 +99,12 @@ public object WebApp {
      *
      * 一般默认包含 文档地址, 及对应的静态文件地址.
      *
-     * 将 [HttpServletRequest.getContextPath] 包含进去.
+     * 将 [ HttpServletRequest.getContextPath] 包含进去.
      */
     @JvmStatic
-    public val whiteUrlPatternsWithContextPath: Set<String> by lazy {
+    public val whiteUrlPatternsWithContextPath: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
         whiteUrlPatterns(contextPath)
     }
-
-    /**
-     * 返回错误响应
-     *
-     * @param msg
-     * @param code 默认为 [ApiProperty.errorCode]
-     * @return
-     */
-    @JvmOverloads
-    @JvmStatic
-    public fun errorResponse(msg: String = "", code: Int = ApiProperty.errorCode): ApiResult<*> =
-        ApiResult(EMPTY_RESULT, code, msg)
-
-    /**
-     * 返回请求错误响应
-     *
-     * @param msg
-     * @param code 默认为 [ApiProperty.badRequestCode]
-     * @return
-     */
-    @JvmOverloads
-    @JvmStatic
-    public fun badRequest(msg: String = "", code: Int = ApiProperty.badRequestCode): ApiResult<*> =
-        ApiResult(EMPTY_RESULT, code, msg)
 
     private fun whiteUrlPatterns(prefix: String = ""): Set<String> {
         val actuatorBasePath = Env.getProperty("management.endpoints.web.base-path", "/actuator")

@@ -2,28 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tony.db.dao.ModuleDao">
 
-    <resultMap id="BaseResultMap" type="com.tony.db.po.Module">
-        <id column="module_id" jdbcType="VARCHAR" property="moduleId"/>
-        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
-        <result column="module_name" jdbcType="VARCHAR" property="moduleName"/>
-        <result column="module_value" jdbcType="VARCHAR" property="moduleValue"/>
-        <result column="module_type" jdbcType="SMALLINT" property="moduleType"/>
-        <result column="module_group" jdbcType="VARCHAR" property="moduleGroup"/>
-        <result column="module_description" jdbcType="VARCHAR" property="moduleDescription"/>
-    </resultMap>
-
-    <select id="selectModulesByUserIdAndAppId" resultMap="BaseResultMap">
+    <select id="selectModulesByUserIdAndAppId">
         select m.module_id,
         m.app_id,
         m.module_name,
         m.module_value,
         m.module_type,
         m.module_group,
-        m.module_description
-        from t_sys_user_role ur
-        join t_sys_role r on ur.role_id = r.role_id
-        join t_sys_role_module rm on r.role_id = rm.role_id
-        join t_sys_module m on rm.module_id = m.module_id
+        m.remark
+        from sys_user_role ur
+        join sys_role r on ur.role_id = r.role_id
+        join sys_role_module rm on r.role_id = rm.role_id
+        join sys_module m on rm.module_id = m.module_id
         where ur.user_id = #{userId,jdbcType=VARCHAR}
         and m.app_id = #{appId,jdbcType=VARCHAR}
         and m.module_type in (<foreach collection="types" item="type" separator=",">#{type,jdbcType=SMALLINT}</foreach> )

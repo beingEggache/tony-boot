@@ -1,17 +1,9 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.addTestDependencies
 dependencies {
     api(projects.tonyFeign)
+    api(tonyLibs.xstream)
 
-    api(Deps.Other.xstream)
-    implementation(Deps.Other.commonsCodec)
+    implementation(tonyLibs.commonsCodec)
+    implementation(tonyLibs.springBoot)
 
-    implementation(Deps.SpringBoot.springBoot)
-
-    addTestDependencies()
     testImplementation(projects.tonyRedis)
-}
-
-tasks.named<Test>("test") {
-    useJUnitPlatform()
 }

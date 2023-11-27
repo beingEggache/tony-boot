@@ -1,26 +1,23 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.KaptDeps
-import com.tony.buildscript.projectGroup
-import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import com.tony.gradle.plugin.Build
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    idea
+    alias(tonyLibs.plugins.tonyGradleBuild)
+    alias(tonyLibs.plugins.kotlin) apply false
+    alias(tonyLibs.plugins.kotlinSpring) apply false
+    alias(tonyLibs.plugins.kotlinKapt) apply false
 }
 
-val javaVersion: String by project
+val javaVersion: String = rootProject.tonyLibs.versions.java.get()
+val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
 
 // copyProjectHookToGitHook(rootDir.parentFile, "pre-commit", "pre-push")
 
-idea.project {
-    jdkName = javaVersion
-    languageLevel = IdeaLanguageLevel(JavaVersion.toVersion(javaVersion))
-    vcs = "Git"
-}
-
 configure(subprojects) {
-    group = projectGroup
+    group = Build.GROUP
     version = "0.1"
     repositories {
         mavenLocal()
@@ -37,42 +34,40 @@ configure(subprojects) {
     apply {
         plugin("kotlin")
         plugin("kotlin-kapt")
-        plugin("com.tony.build.ktlint")
-        plugin("com.tony.build.dep-substitute")
+        plugin("com.tony.gradle.plugin.ktlint")
+        plugin("com.tony.gradle.plugin.dep-configurations")
     }
 
-    dependencies {
-        add("implementation", platform(Deps.Template.templateDependencies))
-        add("kapt", KaptDeps.Spring.contextIndexer)
+    tasks.withType<Javadoc> {
+        this.enabled = false
     }
 
-    configure<JavaPluginExtension> {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
-    }
-
-    configure<KotlinJvmProjectExtension> {
+    extensions.getByType<KotlinJvmProjectExtension>().apply {
         jvmToolchain {
-            languageVersion.set(JavaLanguageVersion.of(javaVersion))
+            languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
+        }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(javaVersion))
+            languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
+            verbose.set(true)
+            progressiveMode.set(true)
+            freeCompilerArgs.addAll(
+                "-Xjsr305=strict",
+                "-Xjvm-default=all",
+            )
         }
     }
 
-    tasks.withType<KotlinCompile>().configureEach {
-//        val isTest = this.name.contains("test", ignoreCase = true)
-        kotlinOptions {
-            jvmTarget = javaVersion
-            verbose = true
-//            allWarningsAsErrors = !isTest
-            freeCompilerArgs = listOf(
-                "-Xjsr305=strict",
-                "-Xjvm-default=all",
-                "-verbose",
-                "-version",
-                "-progressive",
-//                "-Werror",
-//                "-deprecation",
-//                "-Xlint:all",
-//                "-encoding UTF-8",
-            )
+    dependencies {
+        add("implementation", platform(Build.templateProject("dependencies")))
+        add("kapt", rootProject.tonyLibs.springContextIndexer)
+        add("testImplementation", rootProject.tonyLibs.bundles.test)
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
         }
     }
 }

@@ -1,7 +1,11 @@
 package com.tony.db.po
 
+import com.baomidou.mybatisplus.annotation.FieldFill
+import com.baomidou.mybatisplus.annotation.FieldStrategy
+import com.baomidou.mybatisplus.annotation.OrderBy
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
+import com.baomidou.mybatisplus.annotation.TableLogic
 import com.baomidou.mybatisplus.annotation.TableName
 import java.time.LocalDateTime
 
@@ -10,57 +14,119 @@ import java.time.LocalDateTime
  * 用户
  * </p>
  *
- * @author tangli
- * @since 2020-11-15
+ * @author Tang Li
+ * @date 2020-11-15
  */
-@TableName("t_sys_user")
+@TableName("sys_user")
 class User {
-
     /**
      * 用户id
      */
-    @TableId("user_id")
-    var userId: String? = null
+    @TableId
+    var userId: Long? = null
 
     /**
      * 用户登录名
      */
-    @TableField("user_name")
     var userName: String? = null
 
     /**
      * 用户真实姓名
      */
-    @TableField("real_name")
     var realName: String? = null
 
     /**
      * 手机号
      */
-    @TableField("mobile")
     var mobile: String? = null
 
     /**
      * 密码
      */
-    @TableField("pwd")
     var pwd: String? = null
-
-    /**
-     * 创建时间
-     */
-    @TableField("create_time")
-    var createTime: LocalDateTime? = null
-
-    /**
-     * 用户状态：1:启用，0:禁用。 可根据需求扩展
-     */
-    @TableField("states")
-    var states: Int? = null
 
     /**
      * 备注
      */
-    @TableField("remark")
     var remark: String? = null
+
+    /**
+     * 创建时间
+     */
+    @OrderBy
+    @TableField(
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    var createTime: LocalDateTime? = null
+
+    /**
+     * 创建人
+     */
+    @TableField(
+        fill = FieldFill.INSERT,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    var creatorId: Long? = null
+
+    /**
+     * 创建人名称
+     */
+    @TableField(
+        fill = FieldFill.INSERT,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    var creatorName: String? = null
+
+    /**
+     * 更新时间
+     */
+    @TableField(
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.ALWAYS,
+        update = "CURRENT_TIMESTAMP"
+    )
+    var updateTime: LocalDateTime? = null
+
+    /**
+     * 更新人
+     */
+    @TableField(
+        fill = FieldFill.UPDATE,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    var updatorId: Long? = null
+
+    /**
+     * 更新人名称
+     */
+    @TableField(
+        fill = FieldFill.UPDATE,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    var updatorName: String? = null
+
+    /**
+     * 状态：1-启用，0-禁用
+     */
+    var enabled: Boolean? = null
+
+    /**
+     * 删除标记：1-已删除，0-未删除
+     */
+    @TableLogic
+    var deleted: Boolean? = null
+
+    /**
+     * 租户id
+     */
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    var tenantId: Long? = null
 }

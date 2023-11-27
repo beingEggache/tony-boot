@@ -1,21 +1,27 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.KaptDeps
-import com.tony.buildscript.VersionManagement
-import com.tony.buildscript.addDepsManagement
-import com.tony.buildscript.projectGroup
-import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import com.tony.gradle.plugin.Build
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.plugin.KaptExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    id("com.tony.build.dep-substitute") apply false
-    idea
+    `version-catalog`
+    alias(tonyLibs.plugins.tonyGradleBuild)
+    alias(tonyLibs.plugins.kotlin) apply false
+    alias(tonyLibs.plugins.kotlinSpring) apply false
+    alias(tonyLibs.plugins.kotlinKapt) apply false
 }
 
-configure(allprojects) {
-    group = projectGroup
-    version = VersionManagement.templateVersion
+val dependenciesProjects = setOf(project("${Build.PREFIX}-dependencies"))
+val dependenciesCatalogProjects = setOf(project("${Build.PREFIX}-dependencies-catalog"))
+val libraryProjects = subprojects - dependenciesProjects - dependenciesCatalogProjects
+
+val javaVersion: String = rootProject.tonyLibs.versions.java.get()
+val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
+
+configure(subprojects) {
+    group = Build.GROUP
+    version = Build.VERSION
     repositories {
         mavenLocal()
 
@@ -28,99 +34,80 @@ configure(allprojects) {
         maven(url = "https://maven.aliyun.com/repository/public")
         mavenCentral()
     }
+    tasks.withType<Jar> {
+        manifest {
+            attributes["Implementation-Title"] = project.name
+            attributes["Implementation-Version"] = project.version
+        }
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 }
 
-val javaVersion: String by project
 // copyProjectHookToGitHook(rootDir.parentFile,"pre-commit", "pre-push")
-idea.project {
-    jdkName = javaVersion
-    languageLevel = IdeaLanguageLevel(JavaVersion.toVersion(javaVersion))
-    vcs = "Git"
-}
 
-configure(listOf(rootProject)) {
-
+configure(dependenciesProjects) {
     ext.set("pom", true)
-
     apply {
         plugin("org.gradle.java-platform")
-        plugin("com.tony.build.maven-publish")
+        plugin("com.tony.gradle.plugin.maven-publish")
     }
-
-    configure<JavaPlatformExtension> {
+    extensions.getByType<JavaPlatformExtension>().apply {
         allowDependencies()
-    }
-
-    dependencies {
-        constraints {
-            addDepsManagement()
-        }
-        add("api", platform(Deps.SpringCloudDeps.springCloudDependencies))
-        add("api", platform(Deps.SpringCloudDeps.springCloudAlibabaDenpendencies))
     }
 }
 
-configure(subprojects) {
+configure(dependenciesCatalogProjects) {
+    ext.set("catalog", true)
+    apply {
+        plugin("org.gradle.version-catalog")
+        plugin("com.tony.gradle.plugin.maven-publish")
+    }
+}
+
+configure(libraryProjects) {
 
     apply {
         plugin("kotlin")
         plugin("kotlin-spring")
         plugin("kotlin-kapt")
-        plugin("com.tony.build.ktlint")
-        plugin("com.tony.build.dep-substitute")
-        plugin("com.tony.build.maven-publish")
-        plugin("org.gradle.java-library")
+        plugin("com.tony.gradle.plugin.ktlint")
+        plugin("com.tony.gradle.plugin.dep-configurations")
+        plugin("com.tony.gradle.plugin.maven-publish")
+    }
+    tasks.withType<Javadoc> {
+        this.enabled = false
     }
 
-    configure<JavaPluginExtension> {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
-    }
+    extensions.getByType<KotlinJvmProjectExtension>().apply {
 
-    configure<KotlinJvmProjectExtension> {
         jvmToolchain {
             languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
+        }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(javaVersion))
+            languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
+            verbose.set(true)
+            progressiveMode.set(true)
+            freeCompilerArgs.addAll(
+                "-Xjsr305=strict",
+                "-Xjvm-default=all",
+            )
         }
         explicitApi()
     }
 
     dependencies {
-        add("implementation", platform(rootProject))
-        add("kapt", KaptDeps.SpringBoot.configurationProcessor)
-        add("kapt", KaptDeps.SpringBoot.autoconfigureProcessor)
-        add("kapt", KaptDeps.Spring.contextIndexer)
+        add("implementation", platform(project(":${Build.PREFIX}-dependencies")))
+        add("kapt", rootProject.tonyLibs.bundles.springBootProcessors)
+        add("kaptTest", rootProject.tonyLibs.springContextIndexer)
+        add("testImplementation", rootProject.tonyLibs.bundles.test)
     }
 
-    configure<KaptExtension> {
-        generateStubs = false
-        inheritedAnnotations = true
-        useLightAnalysis = true
-        correctErrorTypes = true
-        dumpDefaultParameterValues = true
-        mapDiagnosticLocations = true
-        strictMode = true
-        stripMetadata = true
-        showProcessorStats = true
-        keepJavacAnnotationProcessors = true
-        useBuildCache = true
-    }
-
-    tasks.withType<KotlinCompile>().configureEach {
-//        val isTest = this.name.contains("test", ignoreCase = true)
-        kotlinOptions {
-            jvmTarget = javaVersion
-            verbose = true
-//            allWarningsAsErrors = !isTest
-            freeCompilerArgs = listOf(
-                "-Xjsr305=strict",
-                "-Xjvm-default=all",
-                "-verbose",
-                "-version",
-                "-progressive",
-//                "-Werror",
-//                "-deprecation",
-//                "-Xlint:all",
-//                "-encoding UTF-8",
-            )
+    tasks.withType<Test> {
+        useJUnitPlatform()
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
         }
+        jvmArgs = listOf("-Dlogging.config=${rootProject.rootDir}/config/logback-spring.xml")
     }
 }

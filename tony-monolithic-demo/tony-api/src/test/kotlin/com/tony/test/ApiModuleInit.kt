@@ -1,14 +1,14 @@
 package com.tony.test
 
 import com.tony.db.dao.ModuleDao
+import jakarta.annotation.Resource
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
-import javax.annotation.Resource
 
 /**
  *
- * @author tangli
- * @since 2020-11-04 16:54
+ * @author Tang Li
+ * @date 2020-11-04 16:54
  */
 @SpringBootTest(classes = [TestMonoApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 class ApiModuleInit {
@@ -33,7 +33,7 @@ class ApiModuleInit {
 //                ?: throw ApiException("${handlerMethod.shortLogMessage} apiOperation value null")
 //            val moduleId = requestMappingInfo.name ?: handlerMethod.shortLogMessage
 //            val moduleGroup = apiOperation.tags.sortedArray().joinToString(",")
-//            val moduleDescription = apiOperation.notes.defaultIfBlank()
+//            val remark = apiOperation.notes.defaultIfBlank()
 //            val moduleValue = "${requestMappingInfo.methodsCondition.methods.first()} " +
 //                requestMappingInfo.patternValues.first()
 //            Module().apply {
@@ -43,7 +43,7 @@ class ApiModuleInit {
 //                this.moduleValue = moduleValue
 //                this.moduleType = ModuleType.API
 //                this.moduleGroup = moduleGroup
-//                this.moduleDescription = moduleDescription
+//                this.remark = remark
 //            }
 //        }.forEach {
 //            println(it.toJsonString())

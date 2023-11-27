@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.redis.aspect
 
 import com.fasterxml.jackson.databind.JavaType
@@ -21,7 +45,6 @@ import com.tony.utils.isShortType
 import com.tony.utils.isStringLikeType
 import com.tony.utils.jsonToObj
 import com.tony.utils.secondOfTodayRest
-import com.tony.utils.toJsonString
 import java.math.BigDecimal
 import java.math.BigInteger
 import org.aspectj.lang.JoinPoint
@@ -37,14 +60,14 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
 
 /**
  * 默认RedisCache实现.
- * 给常规的 @Cacheable 加了过期时间
  *
- * @author tangli
- * @since 2023/5/24 18:09
+ * 给常规的 @Cacheable 加了过期时间.
+ * @author Tang Li
+ * @date 2023/09/28 10:55
+ * @since 1.0.0
  */
 @Aspect
 public class DefaultRedisCacheAspect {
-
     private val logger = LoggerFactory.getLogger(DefaultRedisCacheAspect::class.java)
 
     /**
@@ -70,41 +93,71 @@ public class DefaultRedisCacheAspect {
                 paramMap[paramName] = arguments[index]
                 paramMap
             }
-        val paramsValues = expressions.foldIndexed<String, Array<Any?>>(
-            Array(expressions.size) {}
-        ) { index, paramsValues, expression ->
-            paramsValues.apply {
-                this[index] = getValueFromParam(expression, paramMap)
+        val paramsValues =
+            expressions.foldIndexed<String, Array<Any?>>(
+                Array(expressions.size) {}
+            ) { index, paramsValues, expression ->
+                paramsValues.apply {
+                    this[index] = getValueFromParam(expression, paramMap)
+                }
             }
-        }
         return RedisKeys.genKey(cacheKey, *paramsValues)
     }
 
+    /**
+     * 执行删除缓存
+     * @param [joinPoint] 连接点
+     * @author Tang Li
+     * @date 2023/09/13 10:43
+     * @since 1.0.0
+     */
     @After("@annotation($PROJECT_GROUP.annotation.redis.RedisCacheEvict.Container)")
     public fun doCacheEvict(joinPoint: JoinPoint) {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
-        val annotations = methodSignature.method.getAnnotationsByType(RedisCacheEvict::class.java)
+        val annotations =
+            methodSignature
+                .method
+                .getAnnotationsByType(RedisCacheEvict::class.java)
         annotations.forEach { annotation ->
             val cacheKey = cacheKey(arguments, paramsNames, annotation.expressions, annotation.cacheKey)
             RedisManager.delete(cacheKey)
         }
     }
 
+    /**
+     * 缓存
+     * @param [joinPoint] 连接点
+     * @param [annotation] 注解
+     * @return [Any?]
+     * @author Tang Li
+     * @date 2023/09/13 10:43
+     * @since 1.0.0
+     */
     @Around("@annotation(annotation)")
-    public fun doCacheable(joinPoint: ProceedingJoinPoint, annotation: RedisCacheable): Any? {
+    public fun doCacheable(
+        joinPoint: ProceedingJoinPoint,
+        annotation: RedisCacheable,
+    ): Any? {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature as MethodSignature
         val paramsNames = methodSignature.parameterNames
         val cacheKey = cacheKey(arguments, paramsNames, annotation.expressions, annotation.cacheKey)
         val timeout = if (annotation.expire == RedisCacheable.TODAY_END) secondOfTodayRest() else annotation.expire
-        val cachedValue = RedisManager.values.get<String>(cacheKey)
+        val cachedValue =
+            RedisManager
+                .values
+                .get<String>(cacheKey)
 
         val javaType =
             TypeFactory
                 .defaultInstance()
-                .constructType(methodSignature.method.genericReturnType)
+                .constructType(
+                    methodSignature
+                        .method
+                        .genericReturnType
+                )
 
         if (javaType.isDateTimeLikeType()) {
             throw ApiException("Not support dateTimeLike type.")
@@ -121,7 +174,9 @@ public class DefaultRedisCacheAspect {
                     )
                 }
             } else {
-                RedisManager.values.set(cacheKey, toCachedValueByType(result, javaType) as Any, timeout)
+                RedisManager
+                    .values
+                    .set(cacheKey, result, timeout)
             }
             return result
         }
@@ -141,13 +196,19 @@ public class DefaultRedisCacheAspect {
      * @param paramMap 参数map
      * @return 执行spel表达式后的结果
      */
-    private fun getValueFromParam(expression: String, paramMap: Map<String, Any?>): Any? {
+    private fun getValueFromParam(
+        expression: String,
+        paramMap: Map<String, Any?>,
+    ): Any? {
         val stringList = expression.split(".")
         if (stringList.size < 2) {
             return paramMap[expression]
         }
         val paramName = stringList.first()
-        val realExpression = stringList.drop(1).joinToString(".")
+        val realExpression =
+            stringList
+                .drop(1)
+                .joinToString(".")
         return try {
             expressionParser
                 .parseExpression(realExpression)
@@ -158,43 +219,35 @@ public class DefaultRedisCacheAspect {
         }
     }
 
-    private fun toCachedValueByType(result: Any?, javaType: JavaType): Any? = when {
-        javaType.isStringLikeType() -> result
-        javaType.isByteType() -> result
-        javaType.isShortType() -> result
-        javaType.isIntType() -> result
-        javaType.isLongType() -> result
-        javaType.isFloatType() -> result
-        javaType.isDoubleType() -> result
-        javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> result
-        javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> result
-        javaType.isBooleanType() -> result
-        else -> result.toJsonString()
-    }
+    private fun getCachedEmptyValueByType(javaType: JavaType): String =
+        when {
+            javaType.isStringLikeType() -> ""
+            javaType.isNumberType() -> ""
+            javaType.isBooleanType() -> ""
+            javaType.isArrayLikeType() -> "[]"
+            else -> "{}"
+        }
 
-    private fun getCachedEmptyValueByType(javaType: JavaType): String = when {
-        javaType.isStringLikeType() -> ""
-        javaType.isNumberType() -> ""
-        javaType.isBooleanType() -> ""
-        javaType.isArrayLikeType() -> "[]"
-        else -> "{}"
-    }
-
-    private fun getCachedValueByType(cachedValue: String?, javaType: JavaType): Any? = when {
-        javaType.isStringLikeType() -> cachedValue
-        javaType.isByteType() -> cachedValue?.toByteOrNull()
-        javaType.isShortType() -> cachedValue?.toShortOrNull()
-        javaType.isIntType() -> cachedValue?.toIntOrNull()
-        javaType.isLongType() -> cachedValue?.toLongOrNull()
-        javaType.isFloatType() -> cachedValue?.toFloatOrNull()
-        javaType.isDoubleType() -> cachedValue?.toDoubleOrNull()
-        javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> cachedValue?.toBigDecimalOrNull()
-        javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> cachedValue?.toBigIntegerOrNull()
-        javaType.isBooleanType() -> cachedValue?.toBooleanStrictOrNull()
-        else -> cachedValue?.jsonToObj(
-            TypeFactory
-                .defaultInstance()
-                .constructType(javaType)
-        )
-    }
+    private fun getCachedValueByType(
+        cachedValue: String?,
+        javaType: JavaType,
+    ): Any? =
+        when {
+            javaType.isStringLikeType() -> cachedValue
+            javaType.isByteType() -> cachedValue?.toByteOrNull()
+            javaType.isShortType() -> cachedValue?.toShortOrNull()
+            javaType.isIntType() -> cachedValue?.toIntOrNull()
+            javaType.isLongType() -> cachedValue?.toLongOrNull()
+            javaType.isFloatType() -> cachedValue?.toFloatOrNull()
+            javaType.isDoubleType() -> cachedValue?.toDoubleOrNull()
+            javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> cachedValue?.toBigDecimalOrNull()
+            javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> cachedValue?.toBigIntegerOrNull()
+            javaType.isBooleanType() -> cachedValue?.toBooleanStrictOrNull()
+            else ->
+                cachedValue?.jsonToObj(
+                    TypeFactory
+                        .defaultInstance()
+                        .constructType(javaType)
+                )
+        }
 }

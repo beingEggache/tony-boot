@@ -5,8 +5,8 @@ import com.tony.exception.BizException
 import com.tony.web.WebApp
 import com.tony.web.WebContext
 import com.tony.web.WebContextExtensions.userId
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
@@ -14,8 +14,8 @@ import org.springframework.web.servlet.HandlerInterceptor
 
 /**
  *
- * @author tangli
- * @since 2020-11-05 10:06
+ * @author Tang Li
+ * @date 2020-11-05 10:06
  */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
@@ -27,8 +27,11 @@ annotation class NoPermissionCheck
 class DefaultPermissionInterceptor(
     private val moduleService: ModuleService,
 ) : PermissionInterceptor {
-
-    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+    override fun preHandle(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        handler: Any,
+    ): Boolean {
         if (handler !is HandlerMethod) return true
         if (handler.method.getAnnotation(NoPermissionCheck::class.java) != null) return true
         val apiModules = moduleService.listApiModules(WebContext.userId, WebApp.appId)

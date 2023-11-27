@@ -1,7 +1,7 @@
 package com.tony.dto.req
 
-import javax.validation.Valid
+import jakarta.validation.Valid
 
 data class ListReq<E>(
-    @get:Valid val items: List<E>,
+    @get:Valid val rows: List<E>,
 )

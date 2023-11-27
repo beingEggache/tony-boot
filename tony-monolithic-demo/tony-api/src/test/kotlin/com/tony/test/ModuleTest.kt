@@ -4,14 +4,14 @@ import com.tony.db.service.ModuleService
 import com.tony.jwt.JwtToken
 import com.tony.utils.println
 import com.tony.utils.toJsonString
+import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import javax.annotation.Resource
 
 /**
  *
- * @author tangli
- * @since 2020-11-04 16:03
+ * @author Tang Li
+ * @date 2020-11-04 16:03
  */
 @SpringBootTest(classes = [TestMonoApiWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class ModuleTest {

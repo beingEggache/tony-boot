@@ -1,10 +1,34 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.wechat.pay
 
 import com.tony.SpringContexts
 import com.tony.exception.ApiException
-import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
-import com.tony.utils.md5Uppercase
+import com.tony.utils.ifNullOrBlank
+import com.tony.utils.md5
 import com.tony.utils.toString
 import com.tony.wechat.WechatPropProvider
 import com.tony.wechat.client.WechatPayClient
@@ -23,7 +47,6 @@ import com.tony.wechat.xml.xmlToObj
 import java.time.LocalDateTime
 
 public object WechatPayManager {
-
     @JvmStatic
     private val wechatProperties: WechatProperties by SpringContexts.getBeanByLazy()
 
@@ -87,24 +110,25 @@ public object WechatPayManager {
     @JvmStatic
     public fun checkSign(notifyRequest: WechatPayNotifyReq): Boolean {
         val app = wechatProperties.getAppByAppId(notifyRequest.appId)
-        val deepLink = "appid=${notifyRequest.appId}&" +
-            "bank_type=${notifyRequest.bankType}&" +
-            "cash_fee=${notifyRequest.cashFee}&" +
-            "fee_type=${notifyRequest.feeType}&" +
-            "is_subscribe=${notifyRequest.isSubscribe}&" +
-            "mch_id=${notifyRequest.mchId}&" +
-            "nonce_str=${notifyRequest.nonceStr}&" +
-            "openid=${notifyRequest.openId}&" +
-            "out_trade_no=${notifyRequest.outTradeNo}&" +
-            "result_code=${notifyRequest.resultCode}&" +
-            "return_code=${notifyRequest.returnCode}&" +
-            "time_end=${notifyRequest.timeEnd}&" +
-            "total_fee=${notifyRequest.totalFee}&" +
-            "trade_type=${notifyRequest.tradeType}&" +
-            "transaction_id=${notifyRequest.transactionId}&" +
-            "key=${wechatPropProvider.getMchSecretKey(app.defaultIfBlank())}"
+        val deepLink =
+            "appid=${notifyRequest.appId}&" +
+                "bank_type=${notifyRequest.bankType}&" +
+                "cash_fee=${notifyRequest.cashFee}&" +
+                "fee_type=${notifyRequest.feeType}&" +
+                "is_subscribe=${notifyRequest.isSubscribe}&" +
+                "mch_id=${notifyRequest.mchId}&" +
+                "nonce_str=${notifyRequest.nonceStr}&" +
+                "openid=${notifyRequest.openId}&" +
+                "out_trade_no=${notifyRequest.outTradeNo}&" +
+                "result_code=${notifyRequest.resultCode}&" +
+                "return_code=${notifyRequest.returnCode}&" +
+                "time_end=${notifyRequest.timeEnd}&" +
+                "total_fee=${notifyRequest.totalFee}&" +
+                "trade_type=${notifyRequest.tradeType}&" +
+                "transaction_id=${notifyRequest.transactionId}&" +
+                "key=${wechatPropProvider.getMchSecretKey(app.ifNullOrBlank())}"
 
-        return deepLink.md5Uppercase() == notifyRequest.sign
+        return deepLink.md5().uppercase() == notifyRequest.sign
     }
 
     @JvmStatic
@@ -116,15 +140,16 @@ public object WechatPayManager {
         nonceStr: String,
         timestamp: String,
         sign: String,
-    ): WechatAppPayReq = WechatAppPayReq(
-        appId = appId,
-        partnerId = partnerId,
-        prepayId = prepayId,
-        `package` = `package`,
-        nonceStr = nonceStr,
-        timestamp = timestamp,
-        sign = sign
-    )
+    ): WechatAppPayReq =
+        WechatAppPayReq(
+            appId = appId,
+            partnerId = partnerId,
+            prepayId = prepayId,
+            `package` = `package`,
+            nonceStr = nonceStr,
+            timestamp = timestamp,
+            sign = sign
+        )
 
     /**
      * 返回统一下单响应对象
@@ -164,33 +189,35 @@ public object WechatPayManager {
     ): WechatPayReq {
         val appId = wechatPropProvider.getAppId(app)
         val mchId = wechatPropProvider.getMchId(app)
-        val orderResponse = getPayOrderResponse(
-            WechatPayOrderReq(
-                appId = appId,
-                mchId = mchId,
-                nonceStr = genNonceStr(),
-                body = body,
-                detail = detail,
-                attach = attach,
-                signType = signType,
-                outTradeNo = outTradeNo,
-                totalFee = totalAmount,
-                spbillCreateIP = ip,
-                timeStart = timeStart?.toString("yyyyMMddHHmmss"),
-                timeExpire = timeExpire?.toString("yyyyMMddHHmmss"),
-                notifyUrl = notifyUrl,
-                tradeType = "APP",
-                openId = openId
-            ).apply {
-                sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
-            }
-        )
+        val orderResponse =
+            getPayOrderResponse(
+                WechatPayOrderReq(
+                    appId = appId,
+                    mchId = mchId,
+                    nonceStr = genNonceStr(),
+                    body = body,
+                    detail = detail,
+                    attach = attach,
+                    signType = signType,
+                    outTradeNo = outTradeNo,
+                    totalFee = totalAmount,
+                    spbillCreateIP = ip,
+                    timeStart = timeStart?.toString("yyyyMMddHHmmss"),
+                    timeExpire = timeExpire?.toString("yyyyMMddHHmmss"),
+                    notifyUrl = notifyUrl,
+                    tradeType = "APP",
+                    openId = openId
+                ).apply {
+                    sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
+                }
+            )
 
         return WechatAppPayReq(
             appId = appId,
             partnerId = mchId,
-            prepayId = orderResponse.prePayId
-                ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}"),
+            prepayId =
+                orderResponse.prePayId
+                    ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}"),
             nonceStr = genNonceStr(),
             timestamp = genTimeStamp().toString()
         ).apply {
@@ -215,30 +242,32 @@ public object WechatPayManager {
     ): WechatPayReq {
         val appId = wechatPropProvider.getAppId(app)
         val mchId = wechatPropProvider.getMchId(app)
-        val orderResponse = getPayOrderResponse(
-            WechatPayOrderReq(
-                appId = appId,
-                mchId = mchId,
-                nonceStr = genNonceStr(),
-                body = body,
-                detail = detail,
-                attach = attach,
-                signType = signType,
-                outTradeNo = outTradeNo,
-                totalFee = totalAmount,
-                spbillCreateIP = ip,
-                timeStart = timeStart?.toString("yyyyMMddHHmmss"),
-                timeExpire = timeExpire?.toString("yyyyMMddHHmmss"),
-                notifyUrl = notifyUrl,
-                tradeType = "JSAPI",
-                openId = openId
-            ).apply {
-                sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
-            }
-        )
+        val orderResponse =
+            getPayOrderResponse(
+                WechatPayOrderReq(
+                    appId = appId,
+                    mchId = mchId,
+                    nonceStr = genNonceStr(),
+                    body = body,
+                    detail = detail,
+                    attach = attach,
+                    signType = signType,
+                    outTradeNo = outTradeNo,
+                    totalFee = totalAmount,
+                    spbillCreateIP = ip,
+                    timeStart = timeStart?.toString("yyyyMMddHHmmss"),
+                    timeExpire = timeExpire?.toString("yyyyMMddHHmmss"),
+                    notifyUrl = notifyUrl,
+                    tradeType = "JSAPI",
+                    openId = openId
+                ).apply {
+                    sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
+                }
+            )
 
-        val prePayId = orderResponse.prePayId
-            ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}")
+        val prePayId =
+            orderResponse.prePayId
+                ?: throw ApiException("${orderResponse.errCode}:${orderResponse.errCodeDes}")
 
         return WechatMiniProgramPayReq(
             appId = appId,

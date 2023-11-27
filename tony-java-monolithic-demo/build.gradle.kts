@@ -1,26 +1,17 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.KaptDeps
-import com.tony.buildscript.getProfile
-import com.tony.buildscript.projectGroup
-import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import com.tony.gradle.plugin.Build
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
-    idea
-    id("io.freefair.lombok") version "8.1.0"
+    alias(tonyLibs.plugins.tonyGradleBuild)
+    alias(tonyLibs.plugins.lombok)
 }
 
-val javaVersion: String by project
+val javaVersion: String = rootProject.tonyLibs.versions.java.get()
 
 // copyProjectHookToGitHook(rootDir.parentFile, "pre-commit", "pre-push")
 
-idea.project {
-    jdkName = javaVersion
-    languageLevel = IdeaLanguageLevel(JavaVersion.toVersion(javaVersion))
-    vcs = "Git"
-}
-
 configure(subprojects) {
-    group = projectGroup
+    group = Build.GROUP
     version = "0.1"
     repositories {
         mavenLocal()
@@ -37,26 +28,26 @@ configure(subprojects) {
     apply {
         plugin("org.gradle.java-library")
         plugin("io.freefair.lombok")
-        plugin("com.tony.build.dep-substitute")
+        plugin("com.tony.gradle.plugin.dep-configurations")
     }
 
-    dependencies {
-        add("implementation", platform(Deps.Template.templateDependencies))
-        add("annotationProcessor", KaptDeps.Spring.contextIndexer)
+    tasks.withType<Javadoc> {
+        this.enabled = false
     }
 
-    configure<JavaPluginExtension> {
+    extensions.getByType<JavaPluginExtension>().apply {
         toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
     }
 
-    tasks.withType<JavaCompile>().configureEach {
+    tasks.withType<JavaCompile> {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
         options.encoding = "UTF-8"
         options.isDeprecation = true
-        if (getProfile() != "prod") {
+//        options.isVerbose = true
+        if (Build.getProfile() != "prod") {
             options.isDebug = true
-            options.debugOptions.debugLevel = "variable"
+            options.debugOptions.debugLevel = "vars"
             options.isFork = true
             options.forkOptions.jvmArgs?.add("-Duser.language=en")
             options.isIncremental = true
@@ -66,7 +57,21 @@ configure(subprojects) {
         options.compilerArgs = mutableListOf(
 //            "-Xlint:all,-serial,-processing,-classfile,-unchecked",
             "-Xlint:all,-processing,-unchecked",
+            "-Xdoclint:all,-missing",
             "-Werror"
         )
+    }
+
+    dependencies {
+        add("implementation", platform(Build.templateProject("dependencies")))
+        add("annotationProcessor", rootProject.tonyLibs.springContextIndexer)
+        add("testImplementation", rootProject.tonyLibs.bundles.test)
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
+        }
     }
 }

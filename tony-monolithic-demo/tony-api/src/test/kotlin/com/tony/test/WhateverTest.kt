@@ -4,8 +4,8 @@ import com.tony.utils.secureRandom
 
 /**
  *
- * @author tangli
- * @since 2020-11-05 11:31
+ * @author Tang Li
+ * @date 2020-11-05 11:31
  */
 fun main() {
     val list = makeArray(100)

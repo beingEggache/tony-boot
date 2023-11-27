@@ -1,16 +1,34 @@
-/**
- * tony-boot-starters
- * WechatClient
+/*
+ * MIT License
  *
- * @author tangli
- * @since 2021/9/26 13:21
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
+
 package com.tony.wechat.client
 
 import com.tony.wechat.client.req.WechatMenu
 import com.tony.wechat.client.req.WechatMiniProgramQrCodeCreateReq
 import com.tony.wechat.client.req.WechatMiniProgramUserPhoneReq
 import com.tony.wechat.client.req.WechatQrCodeCreateReq
+import com.tony.wechat.client.req.WechatStableAccessTokenReq
 import com.tony.wechat.client.resp.WechatApiTokenResp
 import com.tony.wechat.client.resp.WechatJsApiTicketResp
 import com.tony.wechat.client.resp.WechatJsCode2SessionResp
@@ -30,12 +48,11 @@ import org.springframework.web.bind.annotation.RequestParam
 /**
  * 微信 http client
  *
- * @author tangli
- * @since 2023/5/25 15:21
+ * @author Tang Li
+ * @date 2023/5/25 15:21
  */
 @FeignClient("wechatClient", url = "https://api.weixin.qq.com")
 public interface WechatClient {
-
     /**
      * ## 获取Access token
      * @param appId 第三方用户唯一凭证
@@ -52,6 +69,27 @@ public interface WechatClient {
             required = true,
             defaultValue = "client_credential"
         ) grantType: String? = "client_credential",
+    ): WechatApiTokenResp
+
+    /**
+     * ## 获取稳定版接口调用凭据
+     * - 获取小程序全局后台接口调用凭据，有效期最长为7200s，开发者需要进行妥善保存.
+     * - 有两种调用模式:
+     * - 该接口调用频率限制为 1万次 每分钟，每天限制调用 50万 次；
+     * - 与 getAccessToken 获取的调用凭证完全隔离，互不影响。该接口仅支持 POST JSON 形式的调用；
+     * - 如使用云开发，可通过云调用免维护 access_token 调用；
+     * - 如使用云托管，也可以通过微信令牌/开放接口服务免维护 access_token 调用；
+     * @param [req] 请求
+     * @return [WechatApiTokenResp]
+     * @author Tang Li
+     * @date 2023/09/26 09:15
+     * @since 1.0.0
+     */
+    @PostMapping("/cgi-bin/stable_token")
+    public fun stableAccessToken(
+        @Validated
+        @RequestBody
+        req: WechatStableAccessTokenReq,
     ): WechatApiTokenResp
 
     /**

@@ -12,3 +12,20 @@ feign:
     enabled: true
   httpclient:
     enabled: false
+
+spring:
+  cloud:
+    openfeign:
+      httpclient:
+        enabled: false
+      okhttp:
+        enabled: true
+      compression:
+        request:
+          enabled: true
+          min-request-size: 2048
+          mime-types:
+            - text/xml
+            - text/plain
+            - application/xml
+            - application/json

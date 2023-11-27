@@ -1,19 +1,39 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.web.advice
 
 import com.tony.ApiProperty
+import com.tony.ApiResult
+import com.tony.ERROR_CODE_HEADER_NAME
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
-import com.tony.fromInternalHeaderName
-import com.tony.utils.doIf
 import com.tony.utils.getLogger
-import com.tony.web.WebApp.badRequest
-import com.tony.web.WebApp.errorResponse
+import com.tony.utils.ifNullOrBlank
 import com.tony.web.WebContext
-import com.tony.web.WebContext.toResponse
-import com.tony.wrapExceptionHeaderName
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-import javax.validation.ConstraintViolationException
+import jakarta.servlet.http.HttpServletResponse
+import jakarta.validation.ConstraintViolationException
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -30,57 +50,61 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 /**
  * 全局异常处理
  *
- * @author tangli
- * @since 2023/5/25 10:53
+ * @author Tang Li
+ * @date 2023/5/25 10:53
  */
 @RestControllerAdvice
 internal class ExceptionHandler : ErrorController {
-
     private val logger = getLogger()
 
+    /**
+     * 业务异常
+     * @param [e] e
+     * @author Tang Li
+     * @date 2023/09/13 10:45
+     * @since 1.0.0
+     */
     @ExceptionHandler(BizException::class)
     @ResponseBody
-    fun bizException(
-        e: BizException,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) =
-        e.toResponse()
-            .doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-                response.addHeader(wrapExceptionHeaderName, "true")
-            }
+    fun bizException(e: BizException) =
+        errorResponse(e.message.ifNullOrBlank(), e.code)
 
+    /**
+     * 框架异常
+     * @param [e] e
+     * @author Tang Li
+     * @date 2023/09/13 10:45
+     * @since 1.0.0
+     */
     @ExceptionHandler(ApiException::class)
     @ResponseBody
-    fun apiException(
-        e: ApiException,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) =
+    fun apiException(e: ApiException) =
         run {
             e.cause?.apply {
                 logger.warn(message, cause)
             }
-            e.toResponse()
-        }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-            response.addHeader(wrapExceptionHeaderName, "true")
+            errorResponse(e.message.ifNullOrBlank(), e.code)
         }
 
+    /**
+     * 异常
+     * @param [e] e
+     * @param [response] 响应
+     * @author Tang Li
+     * @date 2023/09/13 10:46
+     * @since 1.0.0
+     */
     @ExceptionHandler(Exception::class)
     @ResponseBody
     fun exception(
         e: Exception,
-        request: HttpServletRequest,
         response: HttpServletResponse,
-    ) =
-        run {
-            logger.error(e.message, e)
-            // handle the json generate exception
-            response.resetBuffer()
-            errorResponse(ApiProperty.errorMsg)
-        }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-            response.addHeader(wrapExceptionHeaderName, "true")
-        }
+    ) = run {
+        logger.error(e.message, e)
+        // handle the json generate exception
+        response.resetBuffer()
+        errorResponse(ApiProperty.errorMsg)
+    }
 
     private fun bindingResultMessages(bindingResult: BindingResult) =
         bindingResult.fieldErrors.first().let {
@@ -93,27 +117,22 @@ internal class ExceptionHandler : ErrorController {
 
     @ExceptionHandler(BindException::class)
     @ResponseBody
-    fun bindingResultException(
-        e: BindException,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) =
-        badRequest(bindingResultMessages(e.bindingResult))
-            .doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-                response.addHeader(wrapExceptionHeaderName, "true")
-            }
+    fun bindingResultException(e: BindException) =
+        errorResponse(
+            bindingResultMessages(e.bindingResult),
+            ApiProperty.badRequestCode
+        )
 
     @ExceptionHandler(ConstraintViolationException::class)
     @ResponseBody
-    fun constraintViolationException(
-        e: ConstraintViolationException,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) =
-        badRequest(e.constraintViolations.first().message)
-            .doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-                response.addHeader(wrapExceptionHeaderName, "true")
-            }
+    fun constraintViolationException(e: ConstraintViolationException) =
+        errorResponse(
+            e
+                .constraintViolations
+                .first()
+                .message,
+            ApiProperty.badRequestCode
+        )
 
     @ExceptionHandler(
         value = [
@@ -123,33 +142,44 @@ internal class ExceptionHandler : ErrorController {
         ]
     )
     @ResponseBody
-    fun badRequestException(
-        e: Exception,
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) =
+    fun badRequestException(e: Exception) =
         run {
             logger.warn(e.localizedMessage, e)
-            badRequest(ApiProperty.badRequestMsg)
-        }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-            response.addHeader(wrapExceptionHeaderName, "true")
+            errorResponse(
+                ApiProperty.badRequestMsg,
+                ApiProperty.badRequestCode
+            )
         }
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    fun error(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-    ) = when {
-        WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
-        WebContext.httpStatus >= 500 -> {
-            logger.error(WebContext.errorMessage)
-            errorResponse(ApiProperty.errorMsg, ApiProperty.errorCode)
+    fun error() =
+        when {
+            WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
+            WebContext.httpStatus >= 500 -> {
+                logger.error(WebContext.errorMessage)
+                errorResponse(ApiProperty.errorMsg)
+            }
+
+            else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
         }
 
-        else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
-    }.doIf(!request.getHeader(fromInternalHeaderName).isNullOrBlank()) {
-        response.addHeader(wrapExceptionHeaderName, "true")
+    /**
+     * 错误响应
+     * @param [msg] 消息
+     * @param [code] 默认为 [ApiProperty.errorCode]
+     * @return [ApiResult<*>]
+     * @author Tang Li
+     * @date 2023/10/24 14:27
+     * @since 1.0.0
+     */
+    @JvmOverloads
+    fun errorResponse(
+        msg: String = "",
+        code: Int = ApiProperty.errorCode,
+    ): ApiResult<*> {
+        WebContext.response?.addHeader(ERROR_CODE_HEADER_NAME, code.toString())
+        return ApiResult(Unit, code, msg)
     }
 }

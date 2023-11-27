@@ -1,6 +1,5 @@
-import com.tony.buildscript.Deps
 dependencies {
     api(projects.tonyCore)
-    implementation(Deps.SpringBoot.springBoot)
-    implementation(Deps.Aliyun.alipaySdkJava)
+    implementation(tonyLibs.springBoot)
+    implementation("com.alipay.sdk:alipay-sdk-java:4.38.111.ALL")
 }

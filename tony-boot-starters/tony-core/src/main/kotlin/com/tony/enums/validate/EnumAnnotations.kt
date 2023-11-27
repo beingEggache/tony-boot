@@ -1,20 +1,44 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.enums.validate
 
 /**
- *
- * @author tangli
- * @since 2021-05-19 10:58
+ * 枚举转换注解
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
-import javax.validation.Constraint
-import javax.validation.Payload
+import jakarta.validation.Constraint
+import jakarta.validation.Payload
 import kotlin.reflect.KClass
 
 /**
  * 简单枚举校验
  * @param enums 枚举值
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 @MustBeDocumented
 @Constraint(validatedBy = [SimpleEnumValidator::class])
@@ -38,8 +62,8 @@ public annotation class SimpleEnum(
  * @param enums 枚举值
  * @param required 是否必须
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 @MustBeDocumented
 @Constraint(validatedBy = [SimpleIntEnumValidator::class])
@@ -64,8 +88,8 @@ public annotation class SimpleIntEnum(
  * @param enumClass 枚举类
  * @param required 是否必须
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 @MustBeDocumented
 @Constraint(validatedBy = [IntEnumValidator::class])
@@ -90,8 +114,8 @@ public annotation class IntEnum(
  * @param enums 枚举值
  * @param required 是否必须
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 @MustBeDocumented
 @Constraint(validatedBy = [SimpleStringEnumValidator::class])
@@ -116,8 +140,8 @@ public annotation class SimpleStringEnum(
  * @param enumClass 枚举类
  * @param required 是否必须
  *
- * @author tangli
- * @since 2021-05-19 10:58
+ * @author Tang Li
+ * @date 2021-05-19 10:58
  */
 @MustBeDocumented
 @Constraint(validatedBy = [StringEnumValidator::class])

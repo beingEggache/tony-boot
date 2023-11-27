@@ -1,13 +1,10 @@
-import com.tony.buildscript.Deps
+import com.tony.gradle.plugin.Build
 
 dependencies {
-
     //while execute gradle task, use -Pprofile=prod
-    api(Deps.Other.validationApi)
-    api(Deps.Other.swaggerV3Annotaion)
-    implementation(Deps.Template.templateCore) { isChanging = true }
-    implementation(Deps.Spring.web)
-    implementation(Deps.Spring.context)
-
-//    implementation(Deps.SpringBoot.starterActuator)
+    api(tonyLibs.validationApi)
+    api(tonyLibs.swaggerV3Annotaion)
+    implementation(Build.templateProject("core")){ isChanging = true }
+    implementation(tonyLibs.springWeb)
+    implementation(tonyLibs.springContext)
 }

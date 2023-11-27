@@ -1,4 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     `kotlin-dsl`
@@ -9,32 +10,25 @@ group = "com.tony"
 version = "0.1-SNAPSHOT"
 
 val javaVersion: String by project
+val kotlinVersion: String by project
 
-configure<JavaPluginExtension> {
+java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    withSourcesJar()
+    withJavadocJar()
 }
-
 kotlin {
     jvmToolchain {
-        this.languageVersion.set(JavaLanguageVersion.of(javaVersion))
+        languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
     }
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = javaVersion
-        verbose = true
-//        allWarningsAsErrors = true
-        freeCompilerArgs = listOf(
+    compilerOptions {
+        jvmTarget.set(JvmTarget.fromTarget(javaVersion))
+        languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
+        verbose.set(true)
+        progressiveMode.set(true)
+        freeCompilerArgs.addAll(
             "-Xjsr305=strict",
             "-Xjvm-default=all",
-            "-verbose",
-            "-version",
-            "-progressive",
-//            "-Werror",
-//                "-deprecation",
-//                "-Xlint:all",
-//                "-encoding UTF-8",
         )
     }
 }
@@ -52,35 +46,35 @@ repositories {
 
 gradlePlugin {
     plugins {
-        create("com.tony.build.dep-substitute") {
-            id = "com.tony.build.dep-substitute"
-            implementationClass = "com.tony.buildscript.SubstituteDepsPlugin"
+        create("com.tony.gradle.plugin.build") {
+            id = "com.tony.gradle.plugin.build"
+            implementationClass = "com.tony.gradle.plugin.Build"
         }
 
-        create("com.tony.build.ktlint") {
-            id = "com.tony.build.ktlint"
-            implementationClass = "com.tony.buildscript.KtlintPlugin"
+        create("com.tony.gradle.plugin.dep-configurations") {
+            id = "com.tony.gradle.plugin.dep-configurations"
+            implementationClass = "com.tony.gradle.plugin.DependenciesConfigurationsPlugin"
         }
 
-        create("com.tony.build.maven-publish") {
-            id = "com.tony.build.maven-publish"
-            implementationClass = "com.tony.buildscript.MavenPublishPlugin"
+        create("com.tony.gradle.plugin.ktlint") {
+            id = "com.tony.gradle.plugin.ktlint"
+            implementationClass = "com.tony.gradle.plugin.KtlintPlugin"
         }
 
-        create("com.tony.build.docker") {
-            id = "com.tony.build.docker"
-            implementationClass = "com.tony.buildscript.DockerPlugin"
+        create("com.tony.gradle.plugin.maven-publish") {
+            id = "com.tony.gradle.plugin.maven-publish"
+            implementationClass = "com.tony.gradle.plugin.MavenPublishPlugin"
+        }
+
+        create("com.tony.gradle.plugin.docker") {
+            id = "com.tony.gradle.plugin.docker"
+            implementationClass = "com.tony.gradle.plugin.DockerPlugin"
         }
     }
 }
 dependencies {
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.7.14")
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:3.1.6")
     implementation("com.palantir.gradle.docker:gradle-docker:0.35.0")
-}
-
-configure<JavaPluginExtension> {
-    withSourcesJar()
-    withJavadocJar()
 }
 
 val releasesGradleRepoUrl: String by project
@@ -88,7 +82,7 @@ val snapshotsGradleRepoUrl: String by project
 val nexusUsername: String by project
 val nexusPassword: String by project
 
-configure<PublishingExtension> {
+publishing {
     repositories {
         maven {
             name = "privateGradle"

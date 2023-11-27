@@ -1,17 +1,12 @@
-import com.tony.buildscript.Deps
-import com.tony.buildscript.addTestDependencies
-
 dependencies {
     api(projects.tonyCore)
-    api(projects.tonyAnnotations)
-    api(Deps.SpringBoot.starterWeb)
-    implementation(Deps.SpringBoot.starterValidation)
+    api(projects.tonyInterfaces)
+    api(tonyLibs.springBootStarterWeb) {
+        exclude("org.springframework.boot", "spring-boot-starter-tomcat")
+    }
+    api(tonyLibs.springBootStarterUndertow)
+    implementation(tonyLibs.springBootStarterValidation)
 
-    addTestDependencies()
-    testImplementation(Deps.Template.templateKnife4j)
-    testImplementation(Deps.Knife4j.openapi3Ui)
-}
-
-tasks.named<Test>("test") {
-    useJUnitPlatform()
+    testImplementation(projects.tonyKnife4jApi)
+    testImplementation(tonyLibs.knife4jOpenapi3Ui)
 }

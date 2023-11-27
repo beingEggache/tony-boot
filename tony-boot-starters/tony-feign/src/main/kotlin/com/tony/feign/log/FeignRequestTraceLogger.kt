@@ -1,17 +1,48 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.feign.log
 
-import com.tony.feign.interceptor.NetworkInterceptor
+/**
+ * Feign okhttp 请求日志拦截器
+ *
+ * @author Tang Li
+ * @date 2023/5/25 15:48
+ */
+import com.tony.TRACE_ID_HEADER_NAME
 import com.tony.feign.isTextMediaTypes
+import com.tony.feign.okhttp.interceptor.NetworkInterceptor
 import com.tony.feign.parsedMedia
 import com.tony.feign.string
-import com.tony.utils.defaultIfBlank
 import com.tony.utils.getLogger
+import com.tony.utils.ifNullOrBlank
+import com.tony.utils.mdcPutOrGetDefault
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toInstant
-import com.tony.utils.toJsonString
+import jakarta.annotation.Priority
 import java.net.URL
 import java.time.LocalDateTime
-import javax.annotation.Priority
 import okhttp3.Connection
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -20,68 +51,129 @@ import org.slf4j.Logger
 import org.springframework.http.HttpStatus
 
 /**
- * feign okhttp 请求日志拦截器
+ * Feign okhttp 请求日志拦截器
  *
- * @author tangli
- * @since 2023/5/25 15:48
+ * @author Tang Li
+ * @date 2023/5/25 15:48
  */
 @Priority(Int.MAX_VALUE)
 internal class FeignLogInterceptor(
     private val feignRequestTraceLogger: FeignRequestTraceLogger,
 ) : NetworkInterceptor {
-
     override fun intercept(chain: Interceptor.Chain): Response {
         val startTime = LocalDateTime.now()
         val request = chain.request()
         val response = chain.proceed(request)
-        val elapsedTime = System.currentTimeMillis() - startTime.toInstant().toEpochMilli()
+        val elapsedTime =
+            System.currentTimeMillis() -
+                startTime
+                    .toInstant()
+                    .toEpochMilli()
 
-        feignRequestTraceLogger.log(chain.connection(), request, response, elapsedTime)
+        val headers =
+            request
+                .headers
+                .newBuilder()
+                .add(TRACE_ID_HEADER_NAME, mdcPutOrGetDefault(TRACE_ID_HEADER_NAME))
+                .build()
+
+        val newRequest =
+            request
+                .newBuilder()
+                .headers(headers)
+                .build()
+
+        feignRequestTraceLogger.log(chain.connection(), newRequest, response, elapsedTime)
         return response
     }
 }
 
 /**
  * 默认ok http 请求日志记录器
- *
- * @author tangli
- * @since 2023/5/25 15:48
+ * @author Tang Li
+ * @date 2023/09/13 10:35
+ * @since 1.0.0
  */
 public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
-
     @Suppress("MemberVisibilityCanBePrivate")
-    protected val logger: Logger = getLogger("request-logger")
+    protected val logger: Logger =
+        getLogger("request-logger")
 
+    /**
+     * 记录请求日志
+     * @param [connection] 链接
+     * @param [request] 请求
+     * @param [response] 响应
+     * @param [elapsedTime] 执行时间
+     * @author Tony
+     * @date 2023/09/12 10:10
+     * @since 1.0.0
+     */
     override fun log(
         connection: Connection?,
         request: Request,
         response: Response,
         elapsedTime: Long,
     ) {
-        val url = request.url.toUri().toURL()
+        val url =
+            request
+                .url
+                .toUri()
+                .toURL()
         val resultCode = response.code
         val protocol = url.protocol
         val httpMethod = request.method
         val origin = url.origin
         val path = url.path
-        val query = url.query.defaultIfBlank("[null]")
-        val headers = request.headers.toMultimap().toMap().mapValues { it.value.joinToString() }.toJsonString()
-        val requestBody = request.body?.run {
-            if (isTextMediaTypes(parsedMedia)) {
-                string()
-            } else {
-                "[${contentType()}]"
+        val query =
+            url
+                .query
+                .ifNullOrBlank("[null]")
+        val requestHeaders =
+            request
+                .headers
+                .names()
+                .associateWith {
+                    request.header(it)
+                }.entries
+                .joinToString(";;") { "${it.key}:${it.value}" }
+        val responseHeaders =
+            response
+                .headers
+                .names()
+                .associateWith {
+                    response.header(it)
+                }.entries
+                .joinToString(";;") { "${it.key}:${it.value}" }
+        val requestBody =
+            request.body?.run {
+                if (isTextMediaTypes(parsedMedia)) {
+                    string()
+                } else {
+                    "[${contentType()}]"
+                }
             }
-        }
-        val responseBody = response.peekBody((response.body?.contentLength() ?: 0).coerceAtLeast(0)).run {
-            if (isTextMediaTypes(parsedMedia)) {
-                string()
-            } else {
-                "[${contentType()}]"
-            }
-        }
+        val responseBody =
+            response
+                .peekBody(
+                    (
+                        response
+                            .body
+                            ?.contentLength() ?: 0
+                    ).coerceAtLeast(0)
+                ).run {
+                    if (isTextMediaTypes(parsedMedia)) {
+                        string()
+                    } else {
+                        "[${contentType()}]"
+                    }
+                }
 
-        val remoteIp = connection?.socket()?.inetAddress?.hostAddress
+        val remoteIp =
+            connection
+                ?.socket()
+                ?.inetAddress
+                ?.hostAddress
         val logStr =
             """
             |$elapsedTime|
@@ -92,29 +184,31 @@ public open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
             |$origin|
             |$path|
             |$query|
-            |$headers|
+            |$requestHeaders|
+            |$responseHeaders|
             |$requestBody|
             |$responseBody|
-            |$remoteIp"""
-                .trimMargin()
+            |$remoteIp
+            """.trimMargin()
         logger.trace(logStr.removeLineBreak())
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected val URL.origin: String
-        get() = run {
-            val protocol = protocol
-            val host = host
-            val port = port
-            "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}"
-        }
+        get() =
+            run {
+                val protocol = protocol
+                val host = host
+                val port = port
+                "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}"
+            }
 }
 
 /**
- * feign okhttp 请求日志记录接口.
- *
- * @author tangli
- * @since 2023/5/25 15:49
+ * Feign okhttp 请求日志记录接口.
+ * @author Tang Li
+ * @date 2023/09/13 10:35
+ * @since 1.0.0
  */
 public fun interface FeignRequestTraceLogger {
     public fun log(

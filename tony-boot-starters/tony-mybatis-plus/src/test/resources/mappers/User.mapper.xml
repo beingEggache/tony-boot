@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tony.mybatis.test.db.dao.UserDao">
+<mapper namespace="com.tony.test.mybatis.db.dao.UserDao">
 
-    <resultMap id="BaseResultMap" type="com.tony.mybatis.test.db.po.User">
-        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
-        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
-        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
-        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
-        <result column="pwd" jdbcType="VARCHAR" property="pwd"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="states" jdbcType="SMALLINT" property="states"/>
-        <result column="remark" jdbcType="VARCHAR" property="remark"/>
-    </resultMap>
-
-    <select id="getByNameOrPhone" resultMap="BaseResultMap">
+    <select id="getByNameOrPhone" resultType="com.tony.test.mybatis.db.po.User">
         select user_id,
         user_name,
         real_name,
@@ -22,7 +11,7 @@
         create_time,
         states,
         remark
-        from t_sys_user
+        from sys_user
         <trim prefix="where" suffixOverrides="or">
             <if test="!@kotlin.text.StringsKt@isBlank(userName)">
                 user_name = #{userName,jdbcType=VARCHAR} or
@@ -34,7 +23,7 @@
         limit 1
     </select>
 
-    <select id="getByUserNameAndPwd" parameterType="hashmap" resultMap="BaseResultMap">
+    <select id="getByUserNameAndPwd" parameterType="hashmap" resultType="com.tony.test.mybatis.db.po.User">
         select user_id,
                user_name,
                real_name,
@@ -43,7 +32,7 @@
                create_time,
                states,
                remark
-        from t_sys_user
+        from sys_user
         where user_name = #{userName,jdbcType=VARCHAR}
         and pwd = #{pwd,jdbcType=VARCHAR}
         and states = 1

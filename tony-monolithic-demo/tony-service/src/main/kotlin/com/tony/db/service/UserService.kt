@@ -1,19 +1,19 @@
 package com.tony.db.service
 
-import com.tony.JPageQuery
+import com.tony.PageQuery
 import com.tony.PageResult
-import com.tony.PageResultLike
 import com.tony.db.dao.RoleDao
 import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
 import com.tony.db.po.User
-import com.tony.dto.req.UserCreateReq
+import com.tony.dto.req.UserAddReq
 import com.tony.dto.req.UserLoginReq
 import com.tony.dto.req.UserUpdateReq
 import com.tony.dto.resp.UserInfoResp
 import com.tony.dto.resp.UserResp
 import com.tony.exception.BizException
-import com.tony.utils.md5Uppercase
+import com.tony.utils.copyTo
+import com.tony.utils.md5
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
 import org.springframework.stereotype.Service
@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional
 
 /**
  *
- * @author tangli
- * @since 2020-11-03 14:35
+ * @author Tang Li
+ * @date 2020-11-03 14:35
  */
 @Service
 class UserService(
@@ -30,43 +30,38 @@ class UserService(
     private val roleDao: RoleDao,
     private val moduleService: ModuleService,
 ) {
-
     fun login(req: UserLoginReq) =
         userDao
-            .query()
+            .ktQuery()
             .eq(User::userName, req.userName)
-            .eq(User::pwd, "${req.pwd}${req.userName}".md5Uppercase())
+            .eq(User::pwd, "${req.pwd}${req.userName}".md5().uppercase())
             .oneNotNull("用户名或密码错误")
 
-    fun info(userId: String, appId: String) =
-        userDao.selectById(userId)?.run {
-            UserInfoResp(
-                realName,
-                mobile,
-                moduleService.listRouteAndComponentModules(userId, appId)
-            )
-        } ?: throw BizException("没有此用户")
-
-    fun list(
-        req: JPageQuery<String>,
-    ): PageResultLike<UserResp> = userDao
-        .query()
-        .like(
-            !req.query.isNullOrBlank(),
-            User::userName,
-            req.query
+    fun info(
+        userId: String,
+        appId: String,
+    ) = userDao.selectById(userId)?.run {
+        UserInfoResp(
+            realName,
+            mobile,
+            moduleService.listRouteAndComponentModules(userId, appId)
         )
-        .or(!req.query.isNullOrBlank()) {
-            it.like(User::realName, req.query)
-        }
-        .pageResult<PageResult<User>>(req)
-        .map { it.toDto() }
+    } ?: throw BizException("没有此用户")
 
-    fun listRolesByUserId(userId: String?, appId: String) =
-        roleDao.selectByUserId(userId, appId).map { it.toDto() }
+    fun list(req: PageQuery<String>): PageResult<UserResp> =
+        userDao
+            .ktQuery()
+            .like(
+                !req.query.isNullOrBlank(),
+                User::userName,
+                req.query
+            ).or(!req.query.isNullOrBlank()) {
+                it.like(User::realName, req.query)
+            }.pageResult<PageResult<User>>(req)
+            .map { it.copyTo<UserResp>() }
 
     @Transactional
-    fun add(req: UserCreateReq): Boolean {
+    fun add(req: UserAddReq): Boolean {
         throwIf(req.pwd != req.confirmPwd, "两次密码不相等")
         userDao
             .ktQuery()
@@ -76,47 +71,38 @@ class UserService(
             .throwIfExists("用户名或手机号已重复")
 
         return userDao.insert(
-            User().apply {
-                userName = req.userName
-                realName = req.realName
-                mobile = req.mobile
-                pwd = "${req.pwd}${req.userName}".md5Uppercase()
+            req.copyTo<User>().apply {
+                pwd = "$pwd$userName".md5().uppercase()
             }
         ) > 0
     }
 
     @Transactional
     fun update(req: UserUpdateReq): Boolean {
-        val userId = checkNotNull(req.userId)
-        userDao.selectById(userId).throwIfNull("没有此用户")
+        val userId = req.userId
+        userDao.selectById(req.userId).throwIfNull("没有此用户")
         userDao
-            .lambdaQuery()
+            .ktQuery()
             .eq(User::userName, req.userName)
             .or()
             .eq(User::mobile, req.mobile)
             .ne(User::userId, userId)
             .throwIfExists("用户名或手机号已重复")
 
-        return userDao.updateById(
-            User().apply {
-                this.userId = userId
-                userName = req.userName
-                realName = req.realName
-                mobile = req.mobile
-            }
-        ) > 0
+        return userDao.updateById(req.copyTo(User())) > 0
     }
 
     @Transactional
     fun initSuperAdmin(appId: String) {
         val superAdmin = "SUPER_ADMIN"
-        val user = User().apply {
-            this.userId = superAdmin
-            userName = "gateway"
-            realName = "超级管理员"
-            mobile = "13984842424"
-            pwd = "lxkj123!@#gateway".md5Uppercase()
-        }
+        val user =
+            User().apply {
+                this.userId = 1L
+                userName = "gateway"
+                realName = "超级管理员"
+                mobile = "13984842424"
+                pwd = "lxkj123!@#gateway".md5().uppercase()
+            }
         userDao.deleteById(superAdmin)
         userDao.insert(user)
         roleDao.deleteById(superAdmin)

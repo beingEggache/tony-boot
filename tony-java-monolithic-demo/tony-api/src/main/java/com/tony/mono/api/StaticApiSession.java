@@ -1,7 +1,7 @@
 package com.tony.mono.api;
 
-import com.tony.web.ApiSession;
 import com.tony.web.WebContext;
+import com.tony.web.WebSession;
 import com.tony.web.exception.UnauthorizedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 @Component
-public class StaticApiSession implements ApiSession {
+public class StaticApiSession implements WebSession {
     @NotNull
     @Override
     public String getUserId() {
@@ -22,6 +22,12 @@ public class StaticApiSession implements ApiSession {
         if (!StringUtils.hasLength(getUserId())) {
             return new UnauthorizedException("请登录");
         }
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String getTenantId() {
         return null;
     }
 }

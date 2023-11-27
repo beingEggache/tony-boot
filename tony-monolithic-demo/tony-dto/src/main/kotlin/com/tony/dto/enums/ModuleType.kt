@@ -8,8 +8,8 @@ import com.tony.enums.IntEnumValue
 
 /**
  *
- * @author tangli
- * @since 2020-11-04 14:54
+ * @author Tang Li
+ * @date 2020-11-04 14:54
  */
 enum class ModuleType(
     override val value: Int,
@@ -23,7 +23,6 @@ enum class ModuleType(
     ;
 
     companion object : IntEnumCreator(ModuleType::class.java) {
-
         @JsonCreator
         @JvmStatic
         override fun create(value: Int) =

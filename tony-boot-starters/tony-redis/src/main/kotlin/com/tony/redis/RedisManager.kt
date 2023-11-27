@@ -1,7 +1,31 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.redis
 
 import com.tony.exception.ApiException
-import com.tony.utils.doIf
+import com.tony.utils.alsoIf
 import com.tony.utils.secureRandom
 import java.util.Collections
 import java.util.Date
@@ -17,7 +41,6 @@ import org.springframework.data.redis.core.script.RedisScript
  * @constructor Create empty Redis manager
  */
 public object RedisManager {
-
     private val logger = LoggerFactory.getLogger(RedisManager::class.java)
 
     @JvmField
@@ -33,11 +56,14 @@ public object RedisManager {
     public val keys: RedisKeys = RedisKeys
 
     /**
-     * redis 事务操作.
-     *
+     * Redis 事务操作.
      * ## 注: 在事务中的redis 操作是获取不到值的. 只能在方法最终返回值中按顺序获取.
      *
-     * @param callback
+     * @param [callback] 回调
+     * @return [List<Any>]
+     * @author Tang Li
+     * @date 2023/09/28 10:58
+     * @since 1.0.0
      */
     @JvmSynthetic
     @JvmStatic
@@ -50,7 +76,9 @@ public object RedisManager {
                 return redisConnection.exec()
             } catch (e: Throwable) {
                 logger.error(e.message, e)
-                redisConnection.isQueueing.doIf { redisConnection.discard() }
+                redisConnection
+                    .isQueueing
+                    .alsoIf { redisConnection.discard() }
                 throw e
             } finally {
                 RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
@@ -59,10 +87,14 @@ public object RedisManager {
     }
 
     /**
-     * redis 事务操作.
+     * Redis 事务操作.
      *
      * @see `RedisTemplate.execute(SessionCallback<T> session)`
-     * @param callback
+     * @param [callback] 回调
+     * @return [List<Any?>]
+     * @author Tang Li
+     * @date 2023/09/28 10:58
+     * @since 1.0.0
      */
     @JvmStatic
     public fun doInTransaction(callback: Runnable): List<Any?> {
@@ -73,7 +105,9 @@ public object RedisManager {
                 callback.run()
                 return redisConnection.exec()
             } catch (e: Throwable) {
-                redisConnection.isQueueing.doIf { redisConnection.discard() }
+                redisConnection
+                    .isQueueing
+                    .alsoIf { redisConnection.discard() }
                 throw e
             } finally {
                 RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
@@ -88,22 +122,29 @@ public object RedisManager {
      * @return
      */
     @JvmStatic
-    public fun hasKey(key: String): Boolean = redisTemplate.hasKey(key)
+    public fun hasKey(key: String): Boolean =
+        redisTemplate.hasKey(key)
 
     /**
-     * redis 分布式锁简单实现.
-     *
-     * @param key
-     * @param timeout
-     * @return
+     * Redis 分布式锁简单实现.
+     * @param [key] 钥匙
+     * @param [timeout] 超时
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2023/09/28 10:59
+     * @since 1.0.0
      */
     @JvmStatic
-    public fun lockKey(key: String, timeout: Long): Boolean {
+    public fun lockKey(
+        key: String,
+        timeout: Long,
+    ): Boolean {
         if (timeout <= 0) throw ApiException("timeout must greater than 0")
         return redisTemplate.execute(lockScript, Collections.singletonList(key), 1L, timeout) == 1L
     }
 
-    public inline fun <reified T> String.toRedisScript(): RedisScript<T> = RedisScript.of(this, T::class.java)
+    public inline fun <reified T> String.toRedisScript(): RedisScript<T> =
+        RedisScript.of(this, T::class.java)
 
     /**
      * Executes the given RedisScript.
@@ -116,7 +157,11 @@ public object RedisManager {
      * likely indicating a throw-away status reply (i.e. "OK")
      */
     @JvmStatic
-    public fun <T> executeScript(script: RedisScript<T>, keys: List<String>, args: List<Any?>): T? {
+    public fun <T> executeScript(
+        script: RedisScript<T>,
+        keys: List<String>,
+        args: List<Any?>,
+    ): T? {
         return redisTemplate.execute(script, keys, *args.toTypedArray())
     }
 
@@ -129,14 +174,24 @@ public object RedisManager {
      * @return
      */
     @JvmStatic
-    public fun lockKey(key: String, timeout: Long, waitTimeout: Long): Boolean {
+    public fun lockKey(
+        key: String,
+        timeout: Long,
+        waitTimeout: Long,
+    ): Boolean {
         val start = System.currentTimeMillis()
         while (System.currentTimeMillis() - start < waitTimeout) {
             if (lockKey(key, timeout)) {
                 return true
             }
             try {
-                TimeUnit.MILLISECONDS.sleep(secureRandom.nextInt(100).toLong())
+                TimeUnit
+                    .MILLISECONDS
+                    .sleep(
+                        secureRandom
+                            .nextInt(100)
+                            .toLong()
+                    )
             } catch (e: InterruptedException) {
                 logger.error(e.message, e)
             }
@@ -159,7 +214,8 @@ public object RedisManager {
         key: String,
         timeout: Long,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Boolean = redisTemplate.expire(key, timeout, timeUnit)
+    ): Boolean =
+        redisTemplate.expire(key, timeout, timeUnit)
 
     /**
      * Set the expiration for given key as a date timestamp.
@@ -173,7 +229,8 @@ public object RedisManager {
     public fun expireAt(
         key: String,
         date: Date,
-    ): Boolean = redisTemplate.expireAt(key, date)
+    ): Boolean =
+        redisTemplate.expireAt(key, date)
 
     /**
      * Get the time to live for key in and convert it to the given TimeUnit.
@@ -188,7 +245,8 @@ public object RedisManager {
     public fun getExpire(
         key: String,
         timeUnit: TimeUnit = TimeUnit.SECONDS,
-    ): Long = redisTemplate.getExpire(key, timeUnit)
+    ): Long =
+        redisTemplate.getExpire(key, timeUnit)
 
     /**
      * redis 根据 [keyPatterns] 批量删除.
@@ -256,7 +314,8 @@ public object RedisManager {
      * @return null when used in pipeline / transaction.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    public fun keys(vararg keys: String): Collection<String> = keys(keys.asList())
+    public fun keys(vararg keys: String): Collection<String> =
+        keys(keys.asList())
 
     /**
      * Find all keys matching the given pattern.
@@ -265,8 +324,9 @@ public object RedisManager {
      * @return null when used in pipeline / transaction.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    public fun keys(keys: Collection<String>): Collection<String> = keys.fold(HashSet()) { set, key ->
-        set.addAll(redisTemplate.keys(key))
-        set
-    }
+    public fun keys(keys: Collection<String>): Collection<String> =
+        keys.fold(HashSet()) { set, key ->
+            set.addAll(redisTemplate.keys(key))
+            set
+        }
 }

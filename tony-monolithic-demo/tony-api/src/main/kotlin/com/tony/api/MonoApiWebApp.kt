@@ -35,9 +35,9 @@ fun main(args: Array<String>) {
 class MonoApiWebApp(
     private val permissionInterceptor: PermissionInterceptor,
 ) : WebMvcConfigurer {
-
     override fun addInterceptors(registry: InterceptorRegistry) {
-        registry.addInterceptor(permissionInterceptor)
+        registry
+            .addInterceptor(permissionInterceptor)
             .excludePathPatterns(*WebApp.whiteUrlPatternsWithContextPath.toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE + 1)
     }

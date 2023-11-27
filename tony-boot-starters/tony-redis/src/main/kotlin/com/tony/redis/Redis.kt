@@ -1,7 +1,36 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 @file:JvmName("Redis")
 
 package com.tony.redis
-
+/**
+ * Redis 相关.
+ * @author Tang Li
+ * @date 2023/09/28 10:56
+ * @since 1.0.0
+ */
 import com.tony.SpringContexts
 import com.tony.redis.service.RedisService
 import org.springframework.core.io.ClassPathResource
@@ -13,17 +42,29 @@ import org.springframework.data.redis.core.script.RedisScript
 
 internal val redisTemplate: RedisTemplate<String, Any> by SpringContexts.getBeanByLazy("redisTemplate")
 
+/**
+ * redis服务
+ */
 public val redisService: RedisService by SpringContexts.getBeanByLazy()
 
-public val valueOp: ValueOperations<String, Any> by lazy {
+/**
+ * 值运算
+ */
+public val valueOp: ValueOperations<String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForValue()
 }
 
-public val listOp: ListOperations<String, Any> by lazy {
+/**
+ * 列表操作
+ */
+public val listOp: ListOperations<String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForList()
 }
 
-public val hashOp: HashOperations<String, String, Any> by lazy {
+/**
+ * 散列运算
+ */
+public val hashOp: HashOperations<String, String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForHash()
 }
 
@@ -35,15 +76,7 @@ internal val lockScript: RedisScript<Long> =
 
 /**
  * 批量删除脚本
- * @since redis 3.2+
+ * @date redis 3.2+
  */
 internal val deleteKeyByPatternScript: RedisScript<Long?> =
     RedisScript.of(ClassPathResource("META-INF/scripts/deleteByKeyPatterns.lua"), Long::class.java)
-
-private val QUOTES_CHARS = arrayOf('\'', '\"')
-
-internal fun String.trimQuotes(): String = when {
-    this.length < 2 -> this
-    first() in QUOTES_CHARS && last() in QUOTES_CHARS -> substring(1, this.length - 1)
-    else -> this
-}

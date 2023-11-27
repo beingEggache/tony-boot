@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.mybatis.wrapper
 
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper
@@ -14,9 +38,9 @@ import java.util.function.Predicate
 /**
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
  * Lambda 语法使用 Wrapper
- *
- * @author tangli
- * @since 2022/7/27
+ * @author Tang Li
+ * @date 2023/09/13 10:42
+ * @since 1.0.0
  */
 public class TonyLambdaQueryWrapper<T : Any> :
     AbstractLambdaWrapper<T, TonyLambdaQueryWrapper<T>>,
@@ -26,19 +50,13 @@ public class TonyLambdaQueryWrapper<T : Any> :
      */
     private var sqlSelect: SharedString? = SharedString()
 
-    @JvmOverloads
-    public constructor(entity: T? = null) {
-        this.entity = entity
-        initNeed()
-    }
-
-    public constructor(entityClass: Class<T>?) {
+    internal constructor(entityClass: Class<T>) {
         this.entityClass = entityClass
-        initNeed()
+        this.initNeed()
     }
 
     internal constructor(
-        entity: T?,
+        entity: T,
         entityClass: Class<T>?,
         sqlSelect: SharedString?,
         paramNameSeq: AtomicInteger?,
@@ -61,16 +79,14 @@ public class TonyLambdaQueryWrapper<T : Any> :
         this.sqlFirst = sqlFirst
     }
 
-    /**
-     * SELECT 部分 SQL 设置
-     *
-     * @param columns 查询字段
-     */
-    @SafeVarargs
-    override fun select(vararg columns: SFunction<T, *>): TonyLambdaQueryWrapper<T> = apply {
-        if (columns.isNotEmpty()) {
-            sqlSelect?.stringValue = columnsToString(false, *columns)
+    override fun select(
+        condition: Boolean,
+        columns: List<SFunction<T, *>?>,
+    ): TonyLambdaQueryWrapper<T> {
+        if (condition && columns.isNotEmpty()) {
+            sqlSelect?.setStringValue(columnsToString(false, columns))
         }
+        return typedThis
     }
 
     /**
@@ -89,13 +105,17 @@ public class TonyLambdaQueryWrapper<T : Any> :
      * @param predicate 过滤方式
      * @return this
      */
-    override fun select(entityClass: Class<T>?, predicate: Predicate<TableFieldInfo>): TonyLambdaQueryWrapper<T> {
+    override fun select(
+        entityClass: Class<T>?,
+        predicate: Predicate<TableFieldInfo>,
+    ): TonyLambdaQueryWrapper<T> {
         this.entityClass = (entityClass ?: this.entityClass).throwIfNull("entityClass can not be null")
-        sqlSelect?.stringValue = TableInfoHelper.getTableInfo(this.entityClass).chooseSelect(predicate)
+        sqlSelect?.setStringValue(TableInfoHelper.getTableInfo(this.entityClass).chooseSelect(predicate))
         return typedThis
     }
 
-    override fun getSqlSelect(): String? = sqlSelect?.stringValue
+    override fun getSqlSelect(): String? =
+        sqlSelect?.stringValue
 
     /**
      * 用于生成嵌套 sql
