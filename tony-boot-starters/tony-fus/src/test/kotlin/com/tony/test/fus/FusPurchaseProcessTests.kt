@@ -21,7 +21,7 @@ class FusPurchaseProcessTests : FusTests() {
 
         engine.startInstanceById(
             processId,
-            testOperator1,
+            testOperator1Id,
         ).let { instance ->
             // 发起
             val instanceId = instance.instanceId
@@ -31,7 +31,7 @@ class FusPurchaseProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList1
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             Thread.sleep(1000)
@@ -43,7 +43,7 @@ class FusPurchaseProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             //领导撤回
@@ -53,7 +53,7 @@ class FusPurchaseProcessTests : FusTests() {
                 .also { historyTask ->
                     engine
                         .taskService
-                        .withdrawTask(historyTask.taskId, testOperator1)
+                        .withdrawTask(historyTask.taskId, testOperator1Id)
                 }
 
             //领导驳回
@@ -67,7 +67,7 @@ class FusPurchaseProcessTests : FusTests() {
                         .taskService
                         .rejectTask(
                             task,
-                            testOperator1,
+                            testOperator1Id,
                             mapOf(
                                 "reason" to "不符合要求"
                             )
@@ -85,7 +85,7 @@ class FusPurchaseProcessTests : FusTests() {
                         .executeAndJumpTask(
                             task.taskId,
                             "经理确认",
-                            testOperator1
+                            testOperator1Id
                         )
                 }
 
@@ -96,7 +96,7 @@ class FusPurchaseProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList5
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
         }

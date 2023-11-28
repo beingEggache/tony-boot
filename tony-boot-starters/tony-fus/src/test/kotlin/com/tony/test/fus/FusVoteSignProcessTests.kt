@@ -21,7 +21,7 @@ class FusVoteSignProcessTests : FusTests() {
 
         engine.startInstanceById(
             processId,
-            testOperator1,
+            testOperator1Id,
         ).let { instance ->
             // 发起
             val instanceId = instance.instanceId
@@ -31,23 +31,23 @@ class FusVoteSignProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList1
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             //test1 领导审批同意
             engine
                 .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1.operatorId)
+                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             //test3 领导审批同意
             engine
                 .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator3.operatorId)
+                .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator3)
+                    engine.executeTask(task.taskId, testOperator3Id)
                 }
         }
     }

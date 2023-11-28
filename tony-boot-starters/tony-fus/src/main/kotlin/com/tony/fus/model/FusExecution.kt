@@ -16,8 +16,7 @@ import com.tony.fus.db.po.FusTaskActor
 public class FusExecution public constructor(
     public val engine: FusEngine,
     public val process: FusProcess,
-    public val creatorId: String,
-    public val creatorName: String,
+    public val userId: String,
     public val instance: FusInstance,
     args: Map<String, Any?>,
 ) {

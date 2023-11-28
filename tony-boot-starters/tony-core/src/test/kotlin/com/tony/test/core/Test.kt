@@ -1,7 +1,11 @@
 package com.tony.test.core
 
-fun main() {
+import com.tony.utils.println
+import java.time.LocalDateTime
 
+fun main() {
+    TestDelegate.saySomething.println()
+    TestDelegate.saySomething.println()
 }
 
 fun quickSort(list: List<Int>): List<Int> =
@@ -13,3 +17,13 @@ fun quickSort(list: List<Int>): List<Int> =
         val greater = list.filter { it > pivot }
         quickSort(less) + equal + quickSort(greater)
     }
+
+
+interface ITestDelegate {
+    val saySomething: String
+}
+
+object TestDelegate : ITestDelegate by object : ITestDelegate {
+    override val saySomething: String
+        get() = LocalDateTime.now().toString()
+}

@@ -6,7 +6,6 @@ import com.tony.fus.db.enums.ActorType
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
-import com.tony.fus.model.FusOperator
 import com.tony.fus.model.enums.ApproverType
 import com.tony.fus.model.enums.NodeType
 import com.tony.utils.getLogger
@@ -28,26 +27,14 @@ class TestFusApp
 @SpringBootApplication
 class TestFusSupervisorApp {
     companion object {
-        val user1 =
-            FusOperator(
-                "1",
-                "一级部门"
-            )
-        val user2 =
-            FusOperator(
-                "2",
-                "二级部门"
-            )
-        val user3 =
-            FusOperator(
-                "3",
-                "三级部门"
-            )
-        val user4 =
-            FusOperator(
-                "4",
-                "四级部门"
-            )
+        val user1Id = "1"
+        val user1Name = "一级部门"
+        val user2Id = "2"
+        val user2Name = "二级部门"
+        val user3Id = "3"
+        val user3Name = "三级部门"
+        val user4Id = "4"
+        val user4Name = "四级部门"
     }
 
     @ConditionalOnExpression("\${supervisor-task-actor-provider:false}")
@@ -59,10 +46,10 @@ class TestFusSupervisorApp {
                 getLogger().info("supervisor-task-actor-provider")
                 if (node?.nodeType == NodeType.APPROVER && node.approverType == ApproverType.MULTISTAGE_MANAGER) {
                     return listOf(
-                        FusTaskActor().apply { actorId = user4.operatorId; actorName = user4.operatorName },
-                        FusTaskActor().apply { actorId = user3.operatorId; actorName = user3.operatorName },
-                        FusTaskActor().apply { actorId = user2.operatorId; actorName = user2.operatorName },
-                        FusTaskActor().apply { actorId = user1.operatorId; actorName = user1.operatorName },
+                        FusTaskActor().apply { actorId = user4Id; actorName = user4Name },
+                        FusTaskActor().apply { actorId = user3Id; actorName = user3Name },
+                        FusTaskActor().apply { actorId = user2Id; actorName = user2Name },
+                        FusTaskActor().apply { actorId = user1Id; actorName = user1Name },
                     )
                 }
                 val nodeUserList = node?.nodeUserList

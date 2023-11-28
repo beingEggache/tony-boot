@@ -1,6 +1,5 @@
 package com.tony.fus.service.impl
 
-import com.tony.fus.ADMIN
 import com.tony.fus.db.enums.InstanceState
 import com.tony.fus.db.enums.TaskState
 import com.tony.fus.db.mapper.FusHistoryInstanceMapper
@@ -11,7 +10,6 @@ import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.listener.InstanceListener
-import com.tony.fus.model.FusOperator
 import com.tony.fus.model.enums.EventType
 import com.tony.fus.service.RuntimeService
 import com.tony.fus.service.TaskService
@@ -38,13 +36,12 @@ internal open class RuntimeServiceImpl
         @Transactional(rollbackFor = [Throwable::class])
         override fun createInstance(
             processId: String,
-            creator: FusOperator,
+            userId: String,
             variable: Map<String, Any?>?,
         ): FusInstance =
             saveInstance(
                 FusInstance().apply {
-                    creatorId = creator.operatorId
-                    creatorName = creator.operatorName
+                    this.creatorId = userId
                     this.processId = processId
                     this.variable = variable?.toJsonString() ?: "{}"
                 }
@@ -80,11 +77,11 @@ internal open class RuntimeServiceImpl
         @Transactional(rollbackFor = [Throwable::class])
         override fun reject(
             instanceId: String,
-            operator: FusOperator,
+            userId: String,
         ) {
             forceComplete(
                 instanceId,
-                operator,
+                userId,
                 InstanceState.REJECTED,
                 EventType.REJECTED
             )
@@ -93,11 +90,11 @@ internal open class RuntimeServiceImpl
         @Transactional(rollbackFor = [Throwable::class])
         override fun terminate(
             instanceId: String,
-            operator: FusOperator,
+            userId: String,
         ) {
             forceComplete(
                 instanceId,
-                operator,
+                userId,
                 InstanceState.TERMINATED,
                 EventType.TERMINATED
             )
@@ -106,11 +103,11 @@ internal open class RuntimeServiceImpl
         @Transactional(rollbackFor = [Throwable::class])
         override fun revoke(
             instanceId: String,
-            operator: FusOperator,
+            userId: String,
         ) {
             forceComplete(
                 instanceId,
-                operator,
+                userId,
                 InstanceState.REVOKED,
                 EventType.REVOKED
             )
@@ -120,7 +117,7 @@ internal open class RuntimeServiceImpl
         override fun expire(instanceId: String) {
             forceComplete(
                 instanceId,
-                ADMIN,
+                "ADMIN",
                 InstanceState.EXPIRED,
                 EventType.EXPIRED
             )
@@ -136,7 +133,7 @@ internal open class RuntimeServiceImpl
 
         private fun forceComplete(
             instanceId: String,
-            operator: FusOperator,
+            userId: String,
             instanceState: InstanceState,
             eventType: EventType,
         ) {
@@ -152,7 +149,7 @@ internal open class RuntimeServiceImpl
                         .forEach { task ->
                             taskService.execute(
                                 task.taskId,
-                                operator,
+                                userId,
                                 TaskState.of(instanceState),
                                 eventType,
                                 null

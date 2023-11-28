@@ -5,7 +5,6 @@ import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.po.FusProcess
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.extension.fusThrowIf
-import com.tony.fus.model.FusOperator
 import com.tony.fus.service.ProcessService
 
 /**
@@ -17,12 +16,13 @@ import com.tony.fus.service.ProcessService
 internal class ProcessServiceImpl(
     private val processMapper: FusProcessMapper,
 ) : ProcessService {
+
     override fun getById(processId: String): FusProcess =
         processMapper.fusSelectByIdNotNull(processId, "流程[id=$processId]不存在")
 
     override fun deploy(
         modelContent: String,
-        creator: FusOperator,
+        userId: String,
         repeat: Boolean,
     ): String {
         fusThrowIf(modelContent.isEmpty(), "modelContent can not be empty")
@@ -50,8 +50,7 @@ internal class ProcessServiceImpl(
                 this.processName = processModel.name
                 this.processKey = processModel.key
                 this.modelContent = modelContent
-                this.creatorId = creator.operatorId
-                this.creatorName = creator.operatorName
+                this.creatorId = userId
             }
         processMapper.insert(newProcess)
         return newProcess.processId

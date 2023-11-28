@@ -1,7 +1,6 @@
 package com.tony.fus
 
 import com.tony.fus.db.po.FusInstance
-import com.tony.fus.model.FusOperator
 import com.tony.fus.service.ProcessService
 import com.tony.fus.service.QueryService
 import com.tony.fus.service.RuntimeService
@@ -43,7 +42,7 @@ public interface FusEngine {
     /**
      * 按id启动实例
      * @param [processId] 流程id
-     * @param [operator] 任务创建者
+     * @param [userId] 任务创建者id
      * @param [args] variable
      * @return [FusInstance?]
      * @author Tang Li
@@ -52,14 +51,14 @@ public interface FusEngine {
      */
     public fun startInstanceById(
         processId: String,
-        operator: FusOperator,
+        userId: String,
         args: Map<String, Any?>,
     ): FusInstance
 
     /**
      * 按id启动实例
      * @param [processId] 流程id
-     * @param [operator] 任务创建者
+     * @param [userId] 任务创建者id
      * @return [FusInstance?]
      * @author Tang Li
      * @date 2023/10/20 16:31
@@ -67,14 +66,14 @@ public interface FusEngine {
      */
     public fun startInstanceById(
         processId: String,
-        operator: FusOperator,
+        userId: String,
     ): FusInstance =
-        startInstanceById(processId, operator, mapOf())
+        startInstanceById(processId, userId, mapOf())
 
     /**
      * 执行任务
      * @param [taskId] 任务id
-     * @param [operator] 处理人员
+     * @param [userId] 处理人id
      * @param [args] variable
      * @author Tang Li
      * @date 2023/10/20 16:32
@@ -82,30 +81,30 @@ public interface FusEngine {
      */
     public fun executeTask(
         taskId: String,
-        operator: FusOperator,
+        userId: String,
         args: MutableMap<String, Any?>?,
     )
 
     /**
      * 执行任务
      * @param [taskId] 任务id
-     * @param [operator] 处理人员
+     * @param [userId] 处理人id
      * @author Tang Li
      * @date 2023/10/20 16:32
      * @since 1.0.0
      */
     public fun executeTask(
         taskId: String,
-        operator: FusOperator,
+        userId: String,
     ) {
-        executeTask(taskId, operator, null)
+        executeTask(taskId, userId, null)
     }
 
     /**
      * 执行并跳转到节点
      * @param [taskId] 任务id
      * @param [nodeName] 节点名称
-     * @param [operator] 处理人员
+     * @param [userId] 处理人员id
      * @param [args] variable
      * @author Tang Li
      * @date 2023/10/20 16:33
@@ -114,7 +113,7 @@ public interface FusEngine {
     public fun executeAndJumpTask(
         taskId: String,
         nodeName: String,
-        operator: FusOperator,
+        userId: String,
         args: MutableMap<String, Any?>?,
     )
 
@@ -122,7 +121,7 @@ public interface FusEngine {
      * 执行并跳转到节点
      * @param [taskId] 任务id
      * @param [nodeName] 节点名称
-     * @param [operator] 处理人员
+     * @param [userId] 处理人员id
      * @author Tang Li
      * @date 2023/10/20 16:33
      * @since 1.0.0
@@ -130,8 +129,8 @@ public interface FusEngine {
     public fun executeAndJumpTask(
         taskId: String,
         nodeName: String,
-        operator: FusOperator,
+        userId: String,
     ) {
-        executeAndJumpTask(taskId, nodeName, operator, null)
+        executeAndJumpTask(taskId, nodeName, userId, null)
     }
 }

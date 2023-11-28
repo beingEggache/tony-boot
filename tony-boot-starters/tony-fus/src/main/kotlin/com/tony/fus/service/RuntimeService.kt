@@ -1,8 +1,6 @@
 package com.tony.fus.service
 
-import com.tony.fus.ADMIN
 import com.tony.fus.db.po.FusInstance
-import com.tony.fus.model.FusOperator
 
 /**
  * 流程实例运行业务类
@@ -13,7 +11,7 @@ public interface RuntimeService {
     /**
      * 创建实例
      * @param [processId] 流程id
-     * @param [creator] 流程创建者
+     * @param [userId] 创建者id
      * @param [variable] 流程参数
      * @return [FusInstance]
      * @author Tang Li
@@ -22,7 +20,7 @@ public interface RuntimeService {
      */
     public fun createInstance(
         processId: String,
-        creator: FusOperator,
+        userId: String,
         variable: Map<String, Any?>?,
     ): FusInstance
 
@@ -47,40 +45,40 @@ public interface RuntimeService {
     /**
      * 流程实例拒绝审批强制终止（用于后续审核人员认为该审批不再需要继续，拒绝审批强行终止）
      * @param [instanceId] 实例id
-     * @param [operator] 操作人员
+     * @param [userId] 操作人id
      * @author Tang Li
      * @date 2023/11/24 14:47
      * @since 1.0.0
      */
     public fun reject(
         instanceId: String,
-        operator: FusOperator,
+        userId: String,
     )
 
     /**
      * 流程实例强制终止
      * @param [instanceId] 流程实例ID
-     * @param [operator] 处理人员
+     * @param [userId] 操作人员id
      * @author Tang Li
      * @date 2023/10/10 10:06
      * @since 1.0.0
      */
     public fun terminate(
         instanceId: String,
-        operator: FusOperator,
+        userId: String,
     )
 
     /**
      * 流程实例撤销（用于错误发起审批申请，发起人主动撤销）
      * @param [instanceId] 实例id
-     * @param [operator] 操作人员
+     * @param [userId] 操作人员id
      * @author Tang Li
      * @date 2023/11/24 11:41
      * @since 1.0.0
      */
     public fun revoke(
         instanceId: String,
-        operator: FusOperator,
+        userId: String,
     )
 
     /**
@@ -100,7 +98,7 @@ public interface RuntimeService {
      * @since 1.0.0
      */
     public fun terminate(instanceId: String) {
-        terminate(instanceId, ADMIN)
+        terminate(instanceId, "ADMIN")
     }
 
     /**

@@ -11,7 +11,6 @@ import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.handler.impl.CreateTaskHandler
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNodeAssignee
-import com.tony.fus.model.FusOperator
 import com.tony.utils.ifNull
 import com.tony.utils.jsonToObj
 import java.util.function.Consumer
@@ -27,22 +26,22 @@ public class FusEngineImpl(
 ) : FusEngine {
     override fun startInstanceById(
         processId: String,
-        operator: FusOperator,
+        userId: String,
         args: Map<String, Any?>,
     ): FusInstance =
         startProcess(
             processService
                 .getById(processId),
-            operator,
+            userId,
             args
         )
 
     override fun executeTask(
         taskId: String,
-        operator: FusOperator,
+        userId: String,
         args: MutableMap<String, Any?>?,
     ) {
-        execute(taskId, operator, args ?: mutableMapOf()) {
+        execute(taskId, userId, args ?: mutableMapOf()) {
             it.process.execute(context, it, it.task?.taskName)
         }
     }
@@ -50,10 +49,10 @@ public class FusEngineImpl(
     override fun executeAndJumpTask(
         taskId: String,
         nodeName: String,
-        operator: FusOperator,
+        userId: String,
         args: MutableMap<String, Any?>?,
     ) {
-        execute(taskId, operator, args ?: mutableMapOf()) {
+        execute(taskId, userId, args ?: mutableMapOf()) {
             it
                 .process
                 .model()
@@ -66,17 +65,16 @@ public class FusEngineImpl(
 
     private fun startProcess(
         process: FusProcess,
-        operator: FusOperator,
+        userId: String,
         args: Map<String, Any?>,
     ): FusInstance {
         val execution =
             FusExecution(
                 this,
                 process,
-                operator.operatorId,
-                operator.operatorName,
+                userId,
                 runtimeService
-                    .createInstance(process.processId, operator, args),
+                    .createInstance(process.processId, userId, args),
                 args
             )
         process.executeStart(context, execution)
@@ -85,18 +83,17 @@ public class FusEngineImpl(
 
     private fun execute(
         taskId: String,
-        operator: FusOperator,
+        userId: String,
         args: MutableMap<String, Any?>,
         callback: Consumer<FusExecution>,
     ) {
-        val task = taskService.complete(taskId, operator, args)
+        val task = taskService.complete(taskId, userId, args)
         val instance =
             queryService
                 .instance(task.instanceId)
                 .fusThrowIfNull("指定的流程实例[id=${task.instanceId}]已完成或不存在.")
                 .apply {
-                    updatorId = operator.operatorId
-                    updatorName = operator.operatorName
+                    updatorId = userId
                 }
         runtimeService.updateInstance(instance)
         val instanceId = instance.instanceId
@@ -126,7 +123,7 @@ public class FusEngineImpl(
             if (voteWeight < passWeight) {
                 return
             }
-            val result = taskService.completeActiveTasksByInstanceId(instanceId, operator)
+            val result = taskService.completeActiveTasksByInstanceId(instanceId, userId)
             fusThrowIf(!result, "Failed to close voting status")
         }
 
@@ -143,8 +140,7 @@ public class FusEngineImpl(
             FusExecution(
                 this,
                 process,
-                operator.operatorId,
-                operator.operatorName,
+                userId,
                 instance,
                 args
             ).apply {
@@ -166,7 +162,7 @@ public class FusEngineImpl(
                                     .takeIf {
                                         it.isNotEmpty()
                                     }?.indexOfFirst { taskActor ->
-                                        taskActor.actorId == operator.operatorId
+                                        taskActor.actorId == userId
                                     }?.plus(1)
                             actorList
                                 .getOrNull(nextNodeAssigneeIndex ?: 1)
@@ -177,7 +173,7 @@ public class FusEngineImpl(
                             val nextNodeAssigneeIndex =
                                 nodeAssigneeList
                                     .indexOfFirst {
-                                        it.id == operator.operatorId
+                                        it.id == userId
                                     }.plus(1)
                             nodeAssigneeList.getOrNull(nextNodeAssigneeIndex)
                         }

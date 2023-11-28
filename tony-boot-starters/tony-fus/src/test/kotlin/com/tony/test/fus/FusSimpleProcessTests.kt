@@ -23,12 +23,12 @@ class FusSimpleProcessTests : FusTests() {
             mapOf(
                 "day" to 8,
                 "age" to 18,
-                "assignee" to testOperatorId,
+                "assignee" to testOperator1Id,
             )
 
         engine.startInstanceById(
             processId,
-            testOperator1,
+            testOperator1Id,
             args,
         ).let { instance ->
             // 发起
@@ -39,24 +39,24 @@ class FusSimpleProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList1
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             // 测试会签审批人001【审批】
             engine
                 .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1.operatorId)
+                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
             Thread.sleep(2000)
 
             // 测试会签审批人003【审批】
             engine
                 .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator3.operatorId)
+                .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator3)
+                    engine.executeTask(task.taskId, testOperator3Id)
                 }
 
             //撤回任务(条件路由子审批) 回到测试会签审批人003【审批】任务
@@ -66,39 +66,39 @@ class FusSimpleProcessTests : FusTests() {
                 .also { historyTask ->
                     engine
                         .taskService
-                        .withdrawTask(historyTask.taskId, testOperator1)
+                        .withdrawTask(historyTask.taskId, testOperator1Id)
                 }
 
             // 测试会签审批人003【审批】
             engine
                 .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator3.operatorId)
+                .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator3)
+                    engine.executeTask(task.taskId, testOperator3Id)
                 }
 
             // 年龄审批【审批】
             engine
                 .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1.operatorId)
+                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             // 条件内部审核【审批】
             engine
                 .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1.operatorId)
+                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             // 条件路由子审批【审批】 抄送 结束
             engine
                 .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1.operatorId)
+                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
         }
     }

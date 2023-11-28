@@ -1,6 +1,5 @@
 package com.tony.fus.handler.impl
 
-import com.tony.fus.ADMIN
 import com.tony.fus.FusContext
 import com.tony.fus.db.enums.TaskType
 import com.tony.fus.extension.fusThrowIf
@@ -28,7 +27,7 @@ public object EndProcessHandler : FusHandler {
                 fusThrowIf(it.taskType == TaskType.MAJOR, "存在未完成的主办任务")
                 engine
                     .taskService
-                    .complete(it.taskId, ADMIN)
+                    .complete(it.taskId, "ADMIN")
             }
 
         engine

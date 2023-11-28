@@ -21,7 +21,7 @@ class FusRejectTests : FusTests() {
 
         engine.startInstanceById(
             processId,
-            testOperator1,
+            testOperator1Id,
         ).let { instance ->
             val taskList1 =
                 engine
@@ -30,7 +30,7 @@ class FusRejectTests : FusTests() {
 
             taskList1
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             val taskList2 =
@@ -42,7 +42,7 @@ class FusRejectTests : FusTests() {
                 .forEach { task ->
                     engine.taskService.rejectTask(
                         task,
-                        testOperator1,
+                        testOperator1Id,
                         mapOf("reason" to "不符合要求")
                     )
                 }

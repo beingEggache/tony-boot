@@ -1,7 +1,6 @@
 package com.tony.fus.service
 
 import com.tony.fus.db.po.FusProcess
-import com.tony.fus.model.FusOperator
 
 /**
  * 流程定义 Service
@@ -23,7 +22,7 @@ public interface ProcessService {
     /**
      * 部署流程
      * @param [modelContent] 流程定义json字符串
-     * @param [creator] 流程创建者
+     * @param [userId] 流程创建者id
      * @param [repeat] 是否重复部署 true 存在版本+1新增一条记录 false 存在流程直接返回
      * @return [String] 流程id
      * @author Tang Li
@@ -32,7 +31,7 @@ public interface ProcessService {
      */
     public fun deploy(
         modelContent: String,
-        creator: FusOperator,
+        userId: String,
         repeat: Boolean,
     ): String
 

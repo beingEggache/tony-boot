@@ -1,8 +1,6 @@
 package com.tony.test.fus
 
-import com.tony.fus.ADMIN
 import com.tony.fus.FusEngine
-import com.tony.fus.model.FusOperator
 import com.tony.utils.string
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.BeforeEach
@@ -25,30 +23,15 @@ abstract class FusTests {
 
     abstract val processJson: String
 
-    protected val testOperatorId = "test001"
-    protected val testOperator1: FusOperator =
-        FusOperator(
-            testOperatorId,
-            "测试1",
-            "1"
-        )
-    protected val testOperator2: FusOperator =
-        FusOperator(
-            "zg0001",
-            "张三",
-            "1"
-        )
-    protected val testOperator3: FusOperator =
-        FusOperator(
-            "test003",
-            "测试003",
-            "1"
-        )
+    protected val testOperator1Id = "test001"
+    protected val testOperator1Name = "测试1"
+    protected val testOperator3Id = "test003"
+    protected val testOperator3Name = "测试003"
 
     @BeforeEach
     fun before() {
         val processModelJson = getProcessModelJson()
-        processId = engine.processService.deploy(processModelJson, ADMIN, false)
+        processId = engine.processService.deploy(processModelJson, "ADMIN", false)
     }
 
     private fun getProcessModelJson() = PathMatchingResourcePatternResolver()

@@ -109,7 +109,8 @@ public class FusProcess {
         if (parentNode == null || parentNode.nodeType == NodeType.INITIATOR) {
             return null
         }
-        if (parentNode.isConditionNode && parentNode
+        if (parentNode.isConditionNode &&
+            parentNode
                 .childNode
                 ?.nodeName != node.nodeName
         ) {

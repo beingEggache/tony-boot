@@ -21,7 +21,7 @@ class FusOrSignTests : FusTests() {
 
         engine.startInstanceById(
             processId,
-            testOperator1,
+            testOperator1Id,
         ).let { instance ->
             // 发起
             val taskList1 =
@@ -31,7 +31,7 @@ class FusOrSignTests : FusTests() {
 
             taskList1
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             //驳回
@@ -43,7 +43,7 @@ class FusOrSignTests : FusTests() {
                 .forEach { task ->
                     engine.taskService.rejectTask(
                         task,
-                        testOperator3,
+                        testOperator3Id,
                         mapOf("reason" to "不符合要求")
                     )
                 }
@@ -55,7 +55,7 @@ class FusOrSignTests : FusTests() {
                     .listTaskByInstanceId(instance.instanceId)
             taskList3
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             val taskList4 =
@@ -64,7 +64,7 @@ class FusOrSignTests : FusTests() {
                     .listTaskByInstanceId(instance.instanceId)
             taskList4
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator3)
+                    engine.executeTask(task.taskId, testOperator3Id)
                 }
         }
     }

@@ -21,12 +21,12 @@ class FusCounterSignTests : FusTests() {
 
         val args = mapOf(
             "day" to 8,
-            "assignee" to testOperatorId
+            "assignee" to testOperator1Id
         )
 
         engine.startInstanceById(
             processId,
-            testOperator1,
+            testOperator1Id,
             args
         ).let { instance ->
             // 发起
@@ -37,28 +37,28 @@ class FusCounterSignTests : FusTests() {
 
             taskList1
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             //会签1
             engine
                 .queryService
-                .taskByInstanceIdAndActorId(instance.instanceId, testOperator1.operatorId)
+                .taskByInstanceIdAndActorId(instance.instanceId, testOperator1Id)
                 .also { task ->
                     engine.executeTask(
                         task.taskId,
-                        testOperator1
+                        testOperator1Id
                     )
                 }
 
             // 会签2
             engine
                 .queryService
-                .taskByInstanceIdAndActorId(instance.instanceId, testOperator3.operatorId)
+                .taskByInstanceIdAndActorId(instance.instanceId, testOperator3Id)
                 .also { task ->
                     engine.executeTask(
                         task.taskId,
-                        testOperator3
+                        testOperator3Id
                     )
                 }
         }

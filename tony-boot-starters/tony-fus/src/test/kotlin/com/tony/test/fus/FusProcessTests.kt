@@ -30,11 +30,11 @@ class FusProcessTests : FusTests() {
 
         val args = mapOf(
             "day" to 8,
-            "assignee" to testOperatorId
+            "assignee" to testOperator1Id
         )
         engine.startInstanceById(
             processId,
-            testOperator1,
+            testOperator1Id,
             args
         ).let { instance ->
             val instanceId = instance.instanceId
@@ -45,10 +45,10 @@ class FusProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList1
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
             if (reject) {
-                engine.runtimeService.reject(instanceId, testOperator1)
+                engine.runtimeService.reject(instanceId, testOperator1Id)
                 return
             }
 
@@ -58,7 +58,7 @@ class FusProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
         }
     }

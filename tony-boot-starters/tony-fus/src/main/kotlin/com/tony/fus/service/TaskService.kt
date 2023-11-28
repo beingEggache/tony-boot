@@ -8,7 +8,6 @@ import com.tony.fus.db.po.FusTask
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
-import com.tony.fus.model.FusOperator
 import com.tony.fus.model.enums.EventType
 
 /**
@@ -22,7 +21,7 @@ public interface TaskService {
     /**
      * 完成任务
      * @param [taskId] 任务id
-     * @param [operator] 任务完成者
+     * @param [userId] 任务完成者id
      * @param [variable] 任务变量
      * @author Tang Li
      * @date 2023/10/10 10:48
@@ -30,12 +29,12 @@ public interface TaskService {
      */
     public fun complete(
         taskId: String,
-        operator: FusOperator,
+        userId: String,
         variable: Map<String, Any?>?,
     ): FusTask =
         execute(
             taskId,
-            operator,
+            userId,
             TaskState.COMPLETED,
             EventType.COMPLETED,
             variable
@@ -44,7 +43,7 @@ public interface TaskService {
     /**
      * 完成任务
      * @param [taskId] 任务id
-     * @param [operator] 任务完成者
+     * @param [userId] 任务完成者id
      * @return [FusTask]
      * @author Tang Li
      * @date 2023/10/10 10:49
@@ -52,14 +51,14 @@ public interface TaskService {
      */
     public fun complete(
         taskId: String,
-        operator: FusOperator,
+        userId: String,
     ): FusTask =
-        complete(taskId, operator, null)
+        complete(taskId, userId, null)
 
     /**
      * 执行任务
      * @param [taskId] 任务id
-     * @param [operator] 操作人员
+     * @param [userId] 操作人员id
      * @param [taskState] 任务状态
      * @param [eventType] 事件类型
      * @param [variable] 变量
@@ -70,7 +69,7 @@ public interface TaskService {
      */
     public fun execute(
         taskId: String,
-        operator: FusOperator,
+        userId: String,
         taskState: TaskState,
         eventType: EventType,
         variable: Map<String, Any?>?,
@@ -79,7 +78,7 @@ public interface TaskService {
     /**
      * 完成指定实例ID活动任务
      * @param [instanceId] 实例id
-     * @param [operator] 任务完成者
+     * @param [userId] 任务完成者id
      * @return [Boolean]
      * @author Tang Li
      * @date 2023/11/07 14:08
@@ -87,7 +86,7 @@ public interface TaskService {
      */
     public fun completeActiveTasksByInstanceId(
         instanceId: String,
-        operator: FusOperator,
+        userId: String,
     ): Boolean
 
     /**
@@ -197,7 +196,7 @@ public interface TaskService {
      * 拿回任务.
      *
      * @param [taskId] 任务id
-     * @param [operator] 任务完成者
+     * @param [userId] 操作人员id
      * @return [FusTask]?
      * @author Tang Li
      * @date 2023/10/10 11:20
@@ -205,13 +204,13 @@ public interface TaskService {
      */
     public fun reclaimTask(
         taskId: String,
-        operator: FusOperator,
+        userId: String,
     ): FusTask
 
     /**
      * 撤回任务
      * @param [taskId] 任务id
-     * @param [operator] 任务创建者
+     * @param [userId] 操作人员id
      * @return [FusTask]?
      * @author Tang Li
      * @date 2023/10/10 11:24
@@ -219,7 +218,7 @@ public interface TaskService {
      */
     public fun withdrawTask(
         taskId: String,
-        operator: FusOperator,
+        userId: String,
     ): FusTask
 
     /**
@@ -227,7 +226,7 @@ public interface TaskService {
      *
      * 驳回至上一步处理
      * @param [task] 任务
-     * @param [operator] 任务创建者
+     * @param [userId] 操作人员id
      * @param [variable] 变量
      * @return [FusTask]?
      * @author Tang Li
@@ -236,7 +235,7 @@ public interface TaskService {
      */
     public fun rejectTask(
         task: FusTask,
-        operator: FusOperator,
+        userId: String,
         variable: Map<String, Any?>?,
     ): FusTask
 
@@ -245,7 +244,7 @@ public interface TaskService {
      *
      * 驳回至上一步处理
      * @param [task] 任务
-     * @param [operator] 任务创建者
+     * @param [userId] 操作人员id
      * @return [FusTask]?
      * @author Tang Li
      * @date 2023/10/10 11:31
@@ -253,14 +252,14 @@ public interface TaskService {
      */
     public fun rejectTask(
         task: FusTask,
-        operator: FusOperator,
+        userId: String,
     ): FusTask =
-        rejectTask(task, operator, null)
+        rejectTask(task, userId, null)
 
     /**
      * 判断可否执行任务.
      *
-     * 根据 taskId、creatorId 判断创建人creatorId是否允许执行任务
+     * 根据 taskId、userId 判断创建人creatorId是否允许执行任务
      * @param [task] 任务
      * @param [userId] 用户id
      * @return [Boolean]

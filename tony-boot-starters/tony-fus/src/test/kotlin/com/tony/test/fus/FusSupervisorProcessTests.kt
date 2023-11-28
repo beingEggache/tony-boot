@@ -1,11 +1,10 @@
 package com.tony.test.fus
 
-import com.tony.fus.ADMIN
 import com.tony.fus.FusEngine
-import com.tony.test.fus.TestFusSupervisorApp.Companion.user1
-import com.tony.test.fus.TestFusSupervisorApp.Companion.user2
-import com.tony.test.fus.TestFusSupervisorApp.Companion.user3
-import com.tony.test.fus.TestFusSupervisorApp.Companion.user4
+import com.tony.test.fus.TestFusSupervisorApp.Companion.user1Id
+import com.tony.test.fus.TestFusSupervisorApp.Companion.user2Id
+import com.tony.test.fus.TestFusSupervisorApp.Companion.user3Id
+import com.tony.test.fus.TestFusSupervisorApp.Companion.user4Id
 import com.tony.utils.string
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.BeforeEach
@@ -34,7 +33,7 @@ class FusSupervisorProcessTests {
     @BeforeEach
     fun before() {
         val processModelJson = getProcessModelJson()
-        processId = fusEngine.processService.deploy(processModelJson, ADMIN, false)
+        processId = fusEngine.processService.deploy(processModelJson, "ADMIN", false)
     }
 
     private fun getProcessModelJson() = PathMatchingResourcePatternResolver()
@@ -58,7 +57,7 @@ class FusSupervisorProcessTests {
 
         fusEngine.startInstanceById(
             processId,
-            user4,
+            user4Id,
             args,
         ).let { instance ->
             // 四级部门发起审批
@@ -69,7 +68,7 @@ class FusSupervisorProcessTests {
                     .listTaskByInstanceId(instanceId)
             taskList1
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, user4)
+                    fusEngine.executeTask(task.taskId, user4Id)
                 }
 
             //四级部门审核
@@ -79,7 +78,7 @@ class FusSupervisorProcessTests {
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, user4)
+                    fusEngine.executeTask(task.taskId, user4Id)
                 }
 
             //三级部门审核
@@ -89,7 +88,7 @@ class FusSupervisorProcessTests {
                     .listTaskByInstanceId(instanceId)
             taskList3
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, user3)
+                    fusEngine.executeTask(task.taskId, user3Id)
                 }
 
             //二级部门审核
@@ -99,7 +98,7 @@ class FusSupervisorProcessTests {
                     .listTaskByInstanceId(instanceId)
             taskList4
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, user2)
+                    fusEngine.executeTask(task.taskId, user2Id)
                 }
 
             //一级部门审核
@@ -109,7 +108,7 @@ class FusSupervisorProcessTests {
                     .listTaskByInstanceId(instanceId)
             taskList5
                 .forEach { task ->
-                    fusEngine.executeTask(task.taskId, user1)
+                    fusEngine.executeTask(task.taskId, user1Id)
                 }
         }
     }

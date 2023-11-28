@@ -21,7 +21,7 @@ class FusSortSignProcessTests : FusTests() {
 
         engine.startInstanceById(
             processId,
-            testOperator1,
+            testOperator1Id,
         ).let { instance ->
             // 发起
             val instanceId = instance.instanceId
@@ -31,7 +31,7 @@ class FusSortSignProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList1
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             //领导审批
@@ -41,7 +41,7 @@ class FusSortSignProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1)
+                    engine.executeTask(task.taskId, testOperator1Id)
                 }
 
             //领导审批
@@ -51,7 +51,7 @@ class FusSortSignProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList3
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator3)
+                    engine.executeTask(task.taskId, testOperator3Id)
                 }
         }
     }
