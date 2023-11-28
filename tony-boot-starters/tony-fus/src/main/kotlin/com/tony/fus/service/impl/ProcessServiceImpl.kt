@@ -16,7 +16,6 @@ import com.tony.fus.service.ProcessService
 internal class ProcessServiceImpl(
     private val processMapper: FusProcessMapper,
 ) : ProcessService {
-
     override fun getById(processId: String): FusProcess =
         processMapper.fusSelectByIdNotNull(processId, "流程[id=$processId]不存在")
 

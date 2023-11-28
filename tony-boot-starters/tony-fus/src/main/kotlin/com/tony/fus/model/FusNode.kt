@@ -204,4 +204,21 @@ public class FusNode : FusModel {
                 .childNode
                 ?.getNode(nodeName)
         }
+
+    public companion object {
+        public tailrec fun nextNode(node: FusNode): FusNode? {
+            val parentNode = node.parentNode
+            if (parentNode == null || parentNode.nodeType == NodeType.INITIATOR) {
+                return null
+            }
+            if (parentNode.isConditionNode &&
+                parentNode
+                    .childNode
+                    ?.nodeName != node.nodeName
+            ) {
+                return parentNode.childNode
+            }
+            return nextNode(parentNode)
+        }
+    }
 }

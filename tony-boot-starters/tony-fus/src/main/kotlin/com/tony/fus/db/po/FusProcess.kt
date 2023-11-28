@@ -104,21 +104,6 @@ public class FusProcess {
     public fun model(): FusProcessModel =
         FusContext.parse(modelContent, processId, false)
 
-    private tailrec fun nextNode(node: FusNode): FusNode? {
-        val parentNode = node.parentNode
-        if (parentNode == null || parentNode.nodeType == NodeType.INITIATOR) {
-            return null
-        }
-        if (parentNode.isConditionNode &&
-            parentNode
-                .childNode
-                ?.nodeName != node.nodeName
-        ) {
-            return parentNode.childNode
-        }
-        return nextNode(parentNode)
-    }
-
     public fun execute(
         context: FusContext,
         execution: FusExecution,
@@ -132,7 +117,7 @@ public class FusProcess {
 
             val executeNode =
                 node.childNode
-                    ?: nextNode(node)
+                    ?: FusNode.nextNode(node)
             if (executeNode == null) {
                 EndProcessHandler.handle(context, execution)
                 return
@@ -144,7 +129,7 @@ public class FusProcess {
                     .conditionNodes
                     .isEmpty()
             ) {
-                val nextNode = nextNode(executeNode)
+                val nextNode = FusNode.nextNode(executeNode)
                 if (nextNode == null && executeNode.nodeType != NodeType.APPROVER) {
                     EndProcessHandler.handle(context, execution)
                 }

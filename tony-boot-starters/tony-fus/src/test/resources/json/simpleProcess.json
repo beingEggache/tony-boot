@@ -84,7 +84,18 @@
                     "expiresIn": 0,
                     "autoWhenExpiredExecuteMode": 1,
                     "multiApproveMode": 2,
-                    "multiStageManagerMode": 1
+                    "multiStageManagerMode": 1,
+                    "childNode": {
+                        "nodeName": "抄送人",
+                        "nodeType": 3,
+                        "userSelectFlag": true,
+                        "nodeUserList": [
+                            {
+                                "id": "test002",
+                                "name": "何秀英002"
+                            }
+                        ]
+                    }
                   }
                 },
                 {
