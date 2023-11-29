@@ -17,7 +17,7 @@ import com.tony.fus.db.po.FusTaskActor
 public interface QueryService {
     /**
      * 获取流程实例
-     * @param [instanceId] 流程实例id
+     * @param [instanceId] 实例id
      * @return [FusInstance] 流程实例
      * @author Tang Li
      * @date 2023/10/10 09:22
@@ -27,7 +27,7 @@ public interface QueryService {
 
     /**
      * 获取历史流程实例
-     * @param [instanceId] 流程实例id
+     * @param [instanceId] 实例id
      * @return [FusHistoryInstance] 历史流程实例
      * @author Tang Li
      * @date 2023/10/10 09:23

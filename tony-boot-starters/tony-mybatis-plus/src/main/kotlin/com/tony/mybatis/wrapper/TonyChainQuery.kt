@@ -274,7 +274,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询一条记录，限制取一条记录, 注意：多条数据会报异常.
      *
      * 注意： 只返回第一个字段的值.
-     * @return [E?]
+     * @return [E]?
      * @author Tang Li
      * @date 2023/10/23 14:48
      * @since 1.0.0

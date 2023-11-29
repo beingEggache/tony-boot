@@ -15,7 +15,7 @@ public fun interface FusTaskPermission {
      * 是否拥有权限.
      *
      * 根据创建人ID、参与者集合判断是否允许访问所属任务
-     * @param [userId] 用户id
+     * @param [userId] 操作人id
      * @param [taskActorList] 任务参与者列表
      * @return [Boolean]
      * @author Tang Li

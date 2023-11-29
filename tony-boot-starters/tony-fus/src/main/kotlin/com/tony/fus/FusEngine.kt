@@ -42,9 +42,9 @@ public interface FusEngine {
     /**
      * 按id启动实例
      * @param [processId] 流程id
-     * @param [userId] 任务创建者id
+     * @param [userId] 操作人id
      * @param [args] variable
-     * @return [FusInstance?]
+     * @return [FusInstance]?
      * @author Tang Li
      * @date 2023/10/20 16:31
      * @since 1.0.0
@@ -58,8 +58,8 @@ public interface FusEngine {
     /**
      * 按id启动实例
      * @param [processId] 流程id
-     * @param [userId] 任务创建者id
-     * @return [FusInstance?]
+     * @param [userId] 操作人id
+     * @return [FusInstance]?
      * @author Tang Li
      * @date 2023/10/20 16:31
      * @since 1.0.0
@@ -73,7 +73,7 @@ public interface FusEngine {
     /**
      * 执行任务
      * @param [taskId] 任务id
-     * @param [userId] 处理人id
+     * @param [userId] 操作人id
      * @param [args] variable
      * @author Tang Li
      * @date 2023/10/20 16:32
@@ -88,7 +88,7 @@ public interface FusEngine {
     /**
      * 执行任务
      * @param [taskId] 任务id
-     * @param [userId] 处理人id
+     * @param [userId] 操作人id
      * @author Tang Li
      * @date 2023/10/20 16:32
      * @since 1.0.0
@@ -104,7 +104,7 @@ public interface FusEngine {
      * 执行并跳转到节点
      * @param [taskId] 任务id
      * @param [nodeName] 节点名称
-     * @param [userId] 处理人员id
+     * @param [userId] 操作人id
      * @param [args] variable
      * @author Tang Li
      * @date 2023/10/20 16:33
@@ -121,7 +121,7 @@ public interface FusEngine {
      * 执行并跳转到节点
      * @param [taskId] 任务id
      * @param [nodeName] 节点名称
-     * @param [userId] 处理人员id
+     * @param [userId] 操作人id
      * @author Tang Li
      * @date 2023/10/20 16:33
      * @since 1.0.0

@@ -11,7 +11,7 @@ import com.tony.fus.db.po.FusProcess
 public interface ProcessService {
     /**
      * 根据主键ID获取流程定义对象
-     * @param [processId] 流程定义id
+     * @param [processId] 流程id
      * @return [FusProcess] 流程定义对象
      * @author Tang Li
      * @date 2023/10/09 14:23
@@ -22,7 +22,7 @@ public interface ProcessService {
     /**
      * 部署流程
      * @param [modelContent] 流程定义json字符串
-     * @param [userId] 流程创建者id
+     * @param [userId] 操作人id
      * @param [repeat] 是否重复部署 true 存在版本+1新增一条记录 false 存在流程直接返回
      * @return [String] 流程id
      * @author Tang Li
@@ -37,7 +37,7 @@ public interface ProcessService {
 
     /**
      * 重新部署流程
-     * @param [processId] 流程定义id
+     * @param [processId] 流程id
      * @param [modelContent] 流程定义json字符串
      * @return [Boolean]
      * @author Tang Li
@@ -54,7 +54,7 @@ public interface ProcessService {
      *
      * 谨慎使用！！！不可恢复，
      * 级联删除指定流程定义的所有数据
-     * @param [processId] 流程定义ID
+     * @param [processId] 流程id
      * @author Tang Li
      * @date 2023/10/10 09:19
      * @since 1.0.0

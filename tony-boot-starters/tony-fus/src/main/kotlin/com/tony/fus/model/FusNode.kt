@@ -182,7 +182,7 @@ public class FusNode : FusModel {
     /**
      * 获取节点
      * @param [nodeName] 节点名称
-     * @return [FusNode?]
+     * @return [FusNode]?
      * @author Tang Li
      * @date 2023/10/25 11:36
      * @since 1.0.0
@@ -197,7 +197,7 @@ public class FusNode : FusModel {
     /**
      * 从条件节点获取节点
      * @param [nodeName] 节点名称
-     * @return [FusNode?]
+     * @return [FusNode]?
      * @author Tang Li
      * @date 2023/10/25 11:36
      * @since 1.0.0

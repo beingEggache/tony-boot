@@ -17,7 +17,7 @@ public fun interface FusProcessModelParser {
     /**
      * 流程模型 JSON 解析
      * @param [content] 模型内容
-     * @param [processId] 流程 ID
+     * @param [processId] 流程id
      * @param [redeploy] 重新部署
      * @return [FusProcessModel]
      * @author Tang Li

@@ -11,7 +11,7 @@ public interface RuntimeService {
     /**
      * 创建实例
      * @param [processId] 流程id
-     * @param [userId] 创建者id
+     * @param [userId] 操作人id
      * @param [variable] 流程参数
      * @return [FusInstance]
      * @author Tang Li
@@ -57,8 +57,8 @@ public interface RuntimeService {
 
     /**
      * 流程实例强制终止
-     * @param [instanceId] 流程实例ID
-     * @param [userId] 操作人员id
+     * @param [instanceId] 实例id
+     * @param [userId] 操作人id
      * @author Tang Li
      * @date 2023/10/10 10:06
      * @since 1.0.0
@@ -71,7 +71,7 @@ public interface RuntimeService {
     /**
      * 流程实例撤销（用于错误发起审批申请，发起人主动撤销）
      * @param [instanceId] 实例id
-     * @param [userId] 操作人员id
+     * @param [userId] 操作人id
      * @author Tang Li
      * @date 2023/11/24 11:41
      * @since 1.0.0
@@ -92,7 +92,7 @@ public interface RuntimeService {
 
     /**
      * 流程实例强制终止
-     * @param [instanceId] 流程实例ID
+     * @param [instanceId] 实例id
      * @author Tang Li
      * @date 2023/10/10 10:10
      * @since 1.0.0
@@ -112,7 +112,7 @@ public interface RuntimeService {
 
     /**
      * 级联删除指定流程实例的所有数据
-     * @param [processId] 进程id
+     * @param [processId] 流程id
      * @author Tang Li
      * @date 2023/10/10 10:15
      * @since 1.0.0

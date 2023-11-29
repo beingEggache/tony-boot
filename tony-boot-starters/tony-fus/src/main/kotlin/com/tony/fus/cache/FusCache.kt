@@ -27,7 +27,7 @@ public interface FusCache {
      * 获值
      * @param [key] 键
      * @param [typeReference] 类型参考
-     * @return [T?]
+     * @return [T]?
      * @author Tang Li
      * @date 2023/10/19 10:45
      * @since 1.0.0

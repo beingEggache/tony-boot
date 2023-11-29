@@ -21,7 +21,7 @@ public interface TaskService {
     /**
      * 完成任务
      * @param [taskId] 任务id
-     * @param [userId] 任务完成者id
+     * @param [userId] 操作人id
      * @param [variable] 任务变量
      * @author Tang Li
      * @date 2023/10/10 10:48
@@ -43,7 +43,7 @@ public interface TaskService {
     /**
      * 完成任务
      * @param [taskId] 任务id
-     * @param [userId] 任务完成者id
+     * @param [userId] 操作人id
      * @return [FusTask]
      * @author Tang Li
      * @date 2023/10/10 10:49
@@ -58,7 +58,7 @@ public interface TaskService {
     /**
      * 执行任务
      * @param [taskId] 任务id
-     * @param [userId] 操作人员id
+     * @param [userId] 操作人id
      * @param [taskState] 任务状态
      * @param [eventType] 事件类型
      * @param [variable] 变量
@@ -78,7 +78,7 @@ public interface TaskService {
     /**
      * 完成指定实例ID活动任务
      * @param [instanceId] 实例id
-     * @param [userId] 任务完成者id
+     * @param [userId] 操作人id
      * @return [Boolean]
      * @author Tang Li
      * @date 2023/11/07 14:08
@@ -196,7 +196,7 @@ public interface TaskService {
      * 拿回任务.
      *
      * @param [taskId] 任务id
-     * @param [userId] 操作人员id
+     * @param [userId] 操作人id
      * @return [FusTask]?
      * @author Tang Li
      * @date 2023/10/10 11:20
@@ -210,7 +210,7 @@ public interface TaskService {
     /**
      * 撤回任务
      * @param [taskId] 任务id
-     * @param [userId] 操作人员id
+     * @param [userId] 操作人id
      * @return [FusTask]?
      * @author Tang Li
      * @date 2023/10/10 11:24
@@ -226,7 +226,7 @@ public interface TaskService {
      *
      * 驳回至上一步处理
      * @param [task] 任务
-     * @param [userId] 操作人员id
+     * @param [userId] 操作人id
      * @param [variable] 变量
      * @return [FusTask]?
      * @author Tang Li
@@ -244,7 +244,7 @@ public interface TaskService {
      *
      * 驳回至上一步处理
      * @param [task] 任务
-     * @param [userId] 操作人员id
+     * @param [userId] 操作人id
      * @return [FusTask]?
      * @author Tang Li
      * @date 2023/10/10 11:31
@@ -261,7 +261,7 @@ public interface TaskService {
      *
      * 根据 taskId、userId 判断创建人creatorId是否允许执行任务
      * @param [task] 任务
-     * @param [userId] 用户id
+     * @param [userId] 操作人id
      * @return [Boolean]
      * @author Tang Li
      * @date 2023/10/10 13:59
@@ -344,7 +344,7 @@ public interface TaskService {
     /**
      * 删除任务参与者【减签】
      * @param [taskId] 任务id
-     * @param [taskActorId] 流历史任务参与者
+     * @param [taskActorId] 任务参与者id
      * @author Tang Li
      * @date 2023/10/25 10:25
      * @since 1.0.0
