@@ -310,14 +310,10 @@ internal open class TaskServiceImpl(
                 execution
             )
         }
-
         if (nodeType == NodeType.CC) {
             saveTaskCc(node, execution)
-            return node
-                .nextNode()
-                ?.let { nextNode ->
-                    createTask(nextNode, execution)
-                } ?: emptyList()
+            node.nextNode()?.execute(execution.engine.context, execution)
+            return emptyList()
         }
         if (nodeType == NodeType.CONDITIONAL_APPROVE) {
             val newTask =
