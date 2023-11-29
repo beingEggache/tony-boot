@@ -1,3 +1,4 @@
+-- mysql 8.0.13+ json default value supported
 DROP TABLE if exists `fus_task_cc` cascade;
 DROP TABLE if exists `fus_task_actor` cascade;
 DROP TABLE if exists `fus_task` cascade;
