@@ -6,6 +6,7 @@ import com.tony.fus.db.po.FusProcess
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.service.ProcessService
+import com.tony.utils.jsonNode
 
 /**
  * ProcessServiceImpl is
@@ -26,9 +27,10 @@ internal class ProcessServiceImpl(
     ): String {
         fusThrowIf(modelContent.isEmpty(), "modelContent can not be empty")
 
+        val compressedModelContent = modelContent.jsonNode().toString()
         val processModel =
             FusContext
-                .parse(modelContent, null, false)
+                .parse(compressedModelContent, null, false)
 
         val process =
             processMapper
@@ -48,7 +50,7 @@ internal class ProcessServiceImpl(
                 this.processVersion = (process?.processVersion ?: 0) + 1
                 this.processName = processModel.name
                 this.processKey = processModel.key
-                this.modelContent = modelContent
+                this.modelContent = compressedModelContent
                 this.creatorId = userId
             }
         processMapper.insert(newProcess)

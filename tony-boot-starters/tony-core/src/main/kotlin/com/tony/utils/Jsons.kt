@@ -53,7 +53,7 @@ import java.io.InputStream
 public val globalObjectMapper: ObjectMapper by lazy(LazyThreadSafetyMode.PUBLICATION) {
     try {
         SpringContexts.getBean(ObjectMapper::class.java)
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         // If not in spring env.
         getLogger("com.tony.utils.Jsons").warn(e.message)
         createObjectMapper()
