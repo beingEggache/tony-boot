@@ -142,9 +142,8 @@ public fun JsonNode.sortRequestBody(timestampStr: String): String =
         .fold<String, LinkedHashMap<String, Any?>>(
             linkedMapOf("timestamp" to timestampStr)
         ) { map, key ->
-            if (key == "timestamp") {
-                return@fold map
+            if (key != "timestamp") {
+                map[key] = this[key]
             }
-            map[key] = this[key]
             map
         }.toJsonString()
