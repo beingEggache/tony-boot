@@ -34,7 +34,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateChainWrapper
-import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers
 import com.tony.ApiProperty
 import com.tony.PageQueryLike
 import com.tony.PageResultLike
@@ -429,7 +428,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      */
     @JvmSynthetic
     public fun ktUpdate(): KtUpdateChainWrapper<T> =
-        ChainWrappers.ktUpdateChain(this, getEntityClass())
+        KtUpdateChainWrapper(this, getEntityClass())
 
     /**
      * 链式更改 普通.
@@ -439,7 +438,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @since 1.0.0
      */
     public fun update(): UpdateChainWrapper<T> =
-        ChainWrappers.updateChain(this)
+        UpdateChainWrapper(this)
 
     /**
      * 链式更改 lambda 式.
@@ -450,5 +449,5 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @since 1.0.0
      */
     public fun lambdaUpdate(): LambdaUpdateChainWrapper<T> =
-        ChainWrappers.lambdaUpdateChain(this)
+        LambdaUpdateChainWrapper(this)
 }

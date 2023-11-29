@@ -379,8 +379,8 @@ internal open class TaskServiceImpl(
             taskActorMapper
                 .selectListByTaskId(taskId)
                 .fusThrowIfEmpty()
-                .associateBy { it.actorId }
-                .keys
+                .map { it.actorId }
+                .toSet()
 
         historyTaskActorList
             .filter {

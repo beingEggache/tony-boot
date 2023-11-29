@@ -36,7 +36,7 @@ internal class ProcessServiceImpl(
             processMapper
                 .ktQuery()
                 .select(FusProcess::processId, FusProcess::processVersion)
-                .eq(FusProcess::processName, processModel.name)
+                .eq(FusProcess::processKey, processModel.key)
                 .orderByDesc(FusProcess::processVersion)
                 .last("limit 1")
                 .one()

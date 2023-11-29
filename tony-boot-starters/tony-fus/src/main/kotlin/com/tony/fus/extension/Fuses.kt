@@ -152,32 +152,6 @@ public inline fun <C : CharSequence> C?.fusThrowIfNullOrEmpty(
 /**
  * 根据id查询，为null 抛出[FusException].
  * @param [id] id
- * @return [T]
- * @author Tang Li
- * @date 2023/09/13 10:38
- * @since 1.0.0
- */
-internal inline fun <T : Any> BaseDao<T>.fusSelectByIdNotNull(id: Serializable?): T =
-    selectById(id).throwIfNull(ex = ::FusException)
-
-/**
- * 根据id查询，为null 抛出[FusException].
- * @param [id] id
- * @param [message] 消息
- * @return [T]
- * @author Tang Li
- * @date 2023/09/13 10:38
- * @since 1.0.0
- */
-internal inline fun <T : Any> BaseDao<T>.fusSelectByIdNotNull(
-    id: Serializable?,
-    message: String = ApiProperty.notFoundMessage,
-): T =
-    selectById(id).throwIfNull(message, ex = ::FusException)
-
-/**
- * 根据id查询，为null 抛出[FusException].
- * @param [id] id
  * @param [message] 消息
  * @param [code] 密码
  * @return [T]
