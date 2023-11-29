@@ -137,10 +137,7 @@ public class FusNode : FusModel {
                             }
                         }.fusThrowIfNull("Not found executable ConditionNode")
 
-                (conditionNode.childNode ?: childNode)
-                    ?.also { node ->
-                        node.execute(context, execution)
-                    }
+                (conditionNode.childNode ?: childNode)?.execute(context, execution)
             }
         if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER) {
             createTask(context, execution)
