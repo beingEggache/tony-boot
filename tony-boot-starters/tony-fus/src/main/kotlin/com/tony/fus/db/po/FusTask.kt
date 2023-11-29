@@ -57,7 +57,7 @@ public open class FusTask {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    public val createTime: LocalDateTime = LocalDateTime.now()
+    public val createTime: LocalDateTime? = null
 
     /**
      * 流程实例ID
@@ -83,17 +83,21 @@ public open class FusTask {
     /**
      * 任务类型: 1.主办, 2.转办, 3.委派, 4.会签
      */
-    public var taskType: TaskType = TaskType.MAJOR
+    public var taskType: TaskType? = null
 
     /**
      * 参与类型: 1.发起、其它, 2.按顺序依次审批, 3.会签, 4.或签, 5.票签, 10.抄送
      */
-    public var performType: PerformType = PerformType.UNKNOWN
+    public var performType: PerformType? = null
 
     /**
      * 变量json
      */
-    public var variable: String = "{}"
+    @TableField(
+        insertStrategy = FieldStrategy.NOT_EMPTY,
+        updateStrategy = FieldStrategy.NOT_EMPTY
+    )
+    public var variable: String = ""
 
     /**
      * 委托人ID
@@ -123,7 +127,7 @@ public open class FusTask {
     /**
      * 已阅: 0.否 1.是
      */
-    public var viewed: Boolean = false
+    public var viewed: Boolean? = null
 
     /**
      * 完成时间

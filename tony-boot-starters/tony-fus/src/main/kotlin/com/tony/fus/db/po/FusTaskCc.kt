@@ -59,7 +59,7 @@ public class FusTaskCc {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    public val createTime: LocalDateTime = LocalDateTime.now()
+    public val createTime: LocalDateTime? = null
 
     /**
      * 流程实例ID
@@ -107,12 +107,12 @@ public class FusTaskCc {
     @TableField(
         updateStrategy = FieldStrategy.NEVER
     )
-    public var actorType: ActorType = ActorType.USER
+    public var actorType: ActorType? = null
 
     /**
      * 任务状态: 1.结束 2.活动
      */
-    public var taskState: TaskState = TaskState.ACTIVE
+    public var taskState: TaskState? = null
 
     /**
      * 完成时间
