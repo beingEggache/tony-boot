@@ -109,5 +109,6 @@ configure(libraryProjects) {
             exceptionFormat = TestExceptionFormat.FULL
         }
         jvmArgs = listOf("-Dlogging.config=${rootProject.rootDir}/config/logback-spring.xml")
+        dependsOn("ktlintFormat")
     }
 }
