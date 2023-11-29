@@ -10,9 +10,9 @@ import com.tony.fus.FusContext
 import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.handler.impl.EndProcessHandler
 import com.tony.fus.model.FusExecution
-import com.tony.fus.model.FusNode
 import com.tony.fus.model.FusProcessModel
 import com.tony.fus.model.enums.NodeType
+import com.tony.utils.alsoIf
 import java.time.LocalDateTime
 
 /**
@@ -109,31 +109,22 @@ public class FusProcess {
         execution: FusExecution,
         nodeName: String?,
     ) {
-        model().also {
-            val node =
-                it
-                    .getNode(nodeName)
-                    .fusThrowIfNull("流程模型中未发现，流程节点:$nodeName")
-
-            val executeNode =
-                node.childNode
-                    ?: FusNode.nextNode(node)
-            if (executeNode == null) {
-                EndProcessHandler.handle(context, execution)
-                return
-            }
-
-            executeNode.execute(context, execution)
-            if (executeNode.childNode == null &&
-                executeNode
-                    .conditionNodes
-                    .isEmpty()
-            ) {
-                val nextNode = FusNode.nextNode(executeNode)
-                if (nextNode == null && executeNode.nodeType != NodeType.APPROVER) {
-                    EndProcessHandler.handle(context, execution)
-                }
-            }
+        model().also { model ->
+            model
+                .getNode(nodeName)
+                .fusThrowIfNull("流程模型中未发现，流程节点:$nodeName")
+                .nextNode()
+                ?.also { executeNode ->
+                    executeNode.execute(context, execution)
+                    (
+                        executeNode.childNode == null &&
+                            executeNode.conditionNodes.isEmpty() &&
+                            executeNode.nextNode() == null &&
+                            executeNode.nodeType != NodeType.APPROVER
+                    ).alsoIf {
+                        EndProcessHandler.handle(context, execution)
+                    }
+                } ?: EndProcessHandler.handle(context, execution)
         }
     }
 

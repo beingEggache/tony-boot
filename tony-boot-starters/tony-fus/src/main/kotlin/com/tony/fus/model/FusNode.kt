@@ -136,7 +136,11 @@ public class FusNode : FusModel {
                                 it.expressionList.isEmpty()
                             }
                         }.fusThrowIfNull("Not found executable ConditionNode")
-                createTask(conditionNode.childNode, context, execution)
+
+                (conditionNode.childNode ?: childNode)
+                    ?.also {
+                        createTask(it, context, execution)
+                    }
             }
         if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER) {
             createTask(context, execution)
@@ -204,6 +208,16 @@ public class FusNode : FusModel {
                 .childNode
                 ?.getNode(nodeName)
         }
+
+    /**
+     * 下一个节点
+     * @return [FusNode]?
+     * @author Tang Li
+     * @date 2023/11/29 10:14
+     * @since 1.0.0
+     */
+    public fun nextNode(): FusNode? =
+        childNode ?: nextNode(this)
 
     public companion object {
         public tailrec fun nextNode(node: FusNode): FusNode? {

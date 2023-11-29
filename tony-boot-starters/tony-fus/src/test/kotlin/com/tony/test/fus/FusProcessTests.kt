@@ -16,20 +16,26 @@ class FusProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun testComplete() {
-        test(false)
+        test(false, 8)
     }
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun testReject() {
-        test(true)
+        test(true, 8)
     }
 
-    fun test(reject: Boolean) {
+    @Transactional(rollbackFor = [Exception::class])
+    @Test
+    fun testDay() {
+        test(false, 3)
+    }
+
+    fun test(reject: Boolean, day: Int) {
         val processService = engine.processService
         processService.getById(processId)
 
         val args = mapOf(
-            "day" to 8,
+            "day" to day,
             "assignee" to testOperator1Id
         )
         engine.startInstanceById(
