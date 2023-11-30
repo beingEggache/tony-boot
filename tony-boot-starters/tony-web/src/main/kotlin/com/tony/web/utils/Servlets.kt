@@ -58,6 +58,7 @@ import org.springframework.web.cors.CorsUtils
 public val HttpServletRequest.origin: String
     get() =
         run {
+            val url = url
             val protocol = url.protocol
             val host = url.host
             val port = url.port
