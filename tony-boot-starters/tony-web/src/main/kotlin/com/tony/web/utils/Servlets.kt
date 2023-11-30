@@ -135,8 +135,7 @@ public val HttpServletRequest.remoteIp: String
  * @receiver [HttpServletRequest]
  */
 public val HttpServletRequest.url: URL
-    get() =
-        URI(requestURI).toURL()
+    get() = URI(requestURL.toString()).toURL()
 
 private val TEXT_MEDIA_TYPES =
     listOf(
