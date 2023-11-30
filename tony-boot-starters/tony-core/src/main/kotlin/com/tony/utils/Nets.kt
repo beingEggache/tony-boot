@@ -80,11 +80,13 @@ public fun isPreferredAddress(address: InetAddress): Boolean {
     }
 
     val preferredNetworks =
-        SpringContexts.Env.getProperty(
-            "spring.cloud.inetutils.preferred-networks",
-            List::class.java,
-            emptyList<String>()
-        ).asToNotNull<List<String>>()
+        SpringContexts
+            .Env
+            .getProperty(
+                "spring.cloud.inetutils.preferred-networks",
+                List::class.java,
+                emptyList<String>()
+            ).asToNotNull<List<String>>()
 
     if (preferredNetworks.isEmpty()) {
         return true

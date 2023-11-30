@@ -49,16 +49,14 @@ public object WebContext {
      */
     @JvmStatic
     public val isWeb: Boolean
-        get() =
-            RequestContextHolder.getRequestAttributes() != null
+        get() = RequestContextHolder.getRequestAttributes() != null
 
     /**
      * ServletRequestAttributes
      */
     @JvmStatic
     public val current: ServletRequestAttributes
-        get() =
-            RequestContextHolder.currentRequestAttributes().asToNotNull()
+        get() = RequestContextHolder.currentRequestAttributes().asToNotNull()
 
     /**
      * ServletRequestAttributes [SCOPE_REQUEST]范围 存取变量.
@@ -84,8 +82,7 @@ public object WebContext {
 
     @JvmStatic
     public val request: HttpServletRequest
-        get() =
-            current.request
+        get() = current.request
 
     @JvmStatic
     public val response: HttpServletResponse?

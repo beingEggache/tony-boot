@@ -38,7 +38,6 @@ import com.tony.exception.ApiException
 import com.tony.exception.BaseException
 import com.tony.exception.BizException
 import com.tony.utils.asTo
-import java.util.Collections
 
 public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
 
@@ -219,7 +218,7 @@ public data class ListResult<T>
         public constructor(charArray: CharArray) : this(charArray.asList().asTo())
 
         override fun getRows(): Collection<T> =
-            rows ?: Collections.emptyList()
+            rows ?: emptyList()
     }
 
 /**
