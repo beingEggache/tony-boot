@@ -25,6 +25,9 @@
 package com.tony.web
 
 import com.tony.utils.asTo
+import com.tony.utils.asToDefault
+import com.tony.utils.asToNotNull
+import com.tony.utils.ifNull
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.boot.web.error.ErrorAttributeOptions
@@ -55,7 +58,7 @@ public object WebContext {
     @JvmStatic
     public val current: ServletRequestAttributes
         get() =
-            RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+            RequestContextHolder.currentRequestAttributes().asToNotNull()
 
     /**
      * ServletRequestAttributes [SCOPE_REQUEST]范围 存取变量.
@@ -71,9 +74,13 @@ public object WebContext {
         key: String,
         callback: java.util.function.Supplier<T>,
     ): T =
-        getAttribute(key, SCOPE_REQUEST).asTo() ?: callback.get().apply {
-            setAttribute(key, this, SCOPE_REQUEST)
-        }
+        getAttribute(key, SCOPE_REQUEST)
+            .asTo<T>()
+            .ifNull(
+                callback.get().apply {
+                    setAttribute(key, this, SCOPE_REQUEST)
+                }
+            )
 
     @JvmStatic
     public val request: HttpServletRequest
@@ -91,17 +98,17 @@ public object WebContext {
     internal val error: String
         @JvmSynthetic
         get() =
-            errorAttributes["error"].asTo() ?: ""
+            errorAttributes["error"].asToDefault("")
 
     internal val errorMessage: String
         @JvmSynthetic
         get() =
-            errorAttributes["message"].asTo() ?: ""
+            errorAttributes["message"].asToDefault("")
 
     internal val httpStatus: Int
         @JvmSynthetic
         get() =
-            errorAttributes["status"] as? Int ?: 0
+            errorAttributes["status"].asToDefault(0)
 
     @Suppress("MemberVisibilityCanBePrivate")
     internal val errorAttributes

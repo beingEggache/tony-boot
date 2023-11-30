@@ -32,6 +32,7 @@ import com.tony.annotation.redis.RedisCacheable
 import com.tony.exception.ApiException
 import com.tony.redis.RedisKeys
 import com.tony.redis.RedisManager
+import com.tony.utils.asToNotNull
 import com.tony.utils.isArrayLikeType
 import com.tony.utils.isBooleanType
 import com.tony.utils.isByteType
@@ -114,7 +115,7 @@ public class DefaultRedisCacheAspect {
     @After("@annotation($PROJECT_GROUP.annotation.redis.RedisCacheEvict.Container)")
     public fun doCacheEvict(joinPoint: JoinPoint) {
         val arguments = joinPoint.args
-        val methodSignature = joinPoint.signature as MethodSignature
+        val methodSignature = joinPoint.signature.asToNotNull<MethodSignature>()
         val paramsNames = methodSignature.parameterNames
         val annotations =
             methodSignature
@@ -141,7 +142,7 @@ public class DefaultRedisCacheAspect {
         annotation: RedisCacheable,
     ): Any? {
         val arguments = joinPoint.args
-        val methodSignature = joinPoint.signature as MethodSignature
+        val methodSignature = joinPoint.signature.asToNotNull<MethodSignature>()
         val paramsNames = methodSignature.parameterNames
         val cacheKey = cacheKey(arguments, paramsNames, annotation.expressions, annotation.cacheKey)
         val timeout = if (annotation.expire == RedisCacheable.TODAY_END) secondOfTodayRest() else annotation.expire

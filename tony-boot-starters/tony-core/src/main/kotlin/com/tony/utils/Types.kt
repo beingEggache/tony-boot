@@ -50,7 +50,7 @@ import java.util.Date
 public fun Type.rawClass(): Class<*> =
     when (this) {
         is Class<*> -> this
-        is ParameterizedType -> this.rawType as Class<*>
+        is ParameterizedType -> this.rawType.asToNotNull()
         else -> error("Ain't gonna happen.")
     }
 
@@ -76,7 +76,7 @@ public fun Type.toJavaType(): JavaType =
 public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
     val superClass = this.genericSuperclass
     check(superClass !is Class<*>) { "${superClass.typeName} constructed without actual type information" }
-    return (superClass as ParameterizedType).actualTypeArguments[index]
+    return superClass.asToNotNull<ParameterizedType>().actualTypeArguments[index]
 }
 
 /**
@@ -99,7 +99,7 @@ public fun Class<*>.typeParamOfSuperInterface(
             it.rawClass().name == type.typeName
         } ?: throw IllegalStateException("$this does not implement the $type")
     check(matchedInterface !is Class<*>) { "${matchedInterface.typeName} constructed without actual type information" }
-    return (matchedInterface as ParameterizedType).actualTypeArguments[index]
+    return matchedInterface.asToNotNull<ParameterizedType>().actualTypeArguments[index]
 }
 
 /**
@@ -179,12 +179,11 @@ public fun Class<*>.isArrayLikeType(): Boolean =
  * @date 2023/09/13 10:30
  * @since 1.0.0
  */
-@Suppress("UNCHECKED_CAST")
 public fun <T> TypeReference<T>.rawClass(): Class<T> =
     when (type) {
-        is ParameterizedType -> (type as ParameterizedType).rawType
+        is ParameterizedType -> type.asToNotNull<ParameterizedType>().rawType
         else -> type
-    } as Class<T>
+    }.asToNotNull()
 
 /**
  * 是类似字符串类型
@@ -217,9 +216,8 @@ public fun <T> TypeReference<T>.isNumberTypes(): Boolean =
  * @date 2023/09/13 10:30
  * @since 1.0.0
  */
-@Suppress("UNCHECKED_CAST")
 public fun <T> JavaType.rawClass(): Class<T> =
-    rawClass as Class<T>
+    rawClass.asToNotNull()
 
 /**
  * 是类似日期时间类型

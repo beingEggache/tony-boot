@@ -68,7 +68,6 @@ public val localIp: String =
  * @date 2023/09/13 10:23
  * @since 1.0.0
  */
-@Suppress("UNCHECKED_CAST")
 public fun isPreferredAddress(address: InetAddress): Boolean {
     val useOnlySiteLocalInterfaces =
         SpringContexts.Env.getProperty(
@@ -85,7 +84,7 @@ public fun isPreferredAddress(address: InetAddress): Boolean {
             "spring.cloud.inetutils.preferred-networks",
             List::class.java,
             emptyList<String>()
-        ) as List<String>
+        ).asToNotNull<List<String>>()
 
     if (preferredNetworks.isEmpty()) {
         return true

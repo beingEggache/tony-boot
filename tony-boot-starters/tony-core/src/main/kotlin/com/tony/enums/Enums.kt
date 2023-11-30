@@ -35,6 +35,7 @@ package com.tony.enums
 import com.fasterxml.jackson.annotation.JsonValue
 import com.tony.utils.asToNotNull
 import com.tony.utils.isTypesOrSubTypesOf
+import com.tony.utils.throwIfNull
 import java.io.Serializable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -78,17 +79,19 @@ private val logger: Logger = LoggerFactory.getLogger(EnumCreator::class.java)
 internal sealed interface EnumCreatorFactory {
     @JvmSynthetic
     fun getCreator(clazz: Class<*>): EnumCreator<*, *> =
-        creators.getOrPut(clazz) {
-            logger.debug("${clazz.name} EnumCreator initialized.")
-            clazz
-                .classes
-                .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
-                ?.constructors
-                ?.firstOrNull()
-                ?.newInstance(null) as EnumCreator<*, *>
-        }
+        creators
+            .getOrPut(clazz) {
+                logger.debug("${clazz.name} EnumCreator initialized.")
+                clazz
+                    .classes
+                    .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
+                    .throwIfNull("${clazz.name} must have an EnumCreator.")
+                    .constructors
+                    .first()
+                    .newInstance(null)
+                    .asToNotNull()
+            }
 
-    @Suppress("UNCHECKED_CAST")
     fun <T, R> creatorOf(
         clazz: Class<T>,
     ): EnumCreator<T, R>
@@ -100,9 +103,11 @@ internal sealed interface EnumCreatorFactory {
                 clazz
                     .classes
                     .firstOrNull { it.isTypesOrSubTypesOf(EnumCreator::class.java) }
-                    ?.constructors
-                    ?.firstOrNull()
-                    ?.newInstance(null) as EnumCreator<T, R>
+                    .throwIfNull("${clazz.name} must have an EnumCreator.")
+                    .constructors
+                    .first()
+                    .newInstance(null)
+                    .asToNotNull()
             }.asToNotNull()
 }
 
@@ -144,7 +149,7 @@ public abstract class StringEnumCreator(
     public companion object : EnumCreatorFactory {
         @JvmStatic
         override fun getCreator(clazz: Class<*>): StringEnumCreator =
-            super.getCreator(clazz) as StringEnumCreator
+            super.getCreator(clazz).asToNotNull()
     }
 }
 
@@ -163,6 +168,6 @@ public abstract class IntEnumCreator(
     public companion object : EnumCreatorFactory {
         @JvmStatic
         override fun getCreator(clazz: Class<*>): IntEnumCreator =
-            super.getCreator(clazz) as IntEnumCreator
+            super.getCreator(clazz).asToNotNull()
     }
 }

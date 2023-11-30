@@ -27,6 +27,7 @@ package com.tony.redis.service
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.tony.redis.listOp
+import com.tony.utils.asTo
 import java.util.concurrent.TimeUnit
 
 /**
@@ -268,13 +269,12 @@ public sealed interface RedisListGetOp : RedisValueTransformer {
      * @return null when used in pipeline / transaction.
      * @see org.springframework.data.redis.core.ListOperations.range
      */
-    @Suppress("UNCHECKED_CAST")
     public fun <T : Any> range(
         key: String,
         start: Long,
         end: Long,
     ): List<T>? =
-        listOp.range(key, start, end) as List<T>?
+        listOp.range(key, start, end).asTo()
 
     /**
      * Get the size of list stored at key.

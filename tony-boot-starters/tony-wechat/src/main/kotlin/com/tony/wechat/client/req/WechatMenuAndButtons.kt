@@ -35,6 +35,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.tony.enums.StringEnumCreator
 import com.tony.enums.StringEnumValue
+import com.tony.utils.asTo
 
 public data class WechatMenu(
     val button: List<WechatButton>,
@@ -103,6 +104,6 @@ public enum class WechatButtonType(
         @JsonCreator
         @JvmStatic
         override fun create(value: String): WechatButtonType? =
-            super.create(value) as WechatButtonType?
+            super.create(value).asTo()
     }
 }

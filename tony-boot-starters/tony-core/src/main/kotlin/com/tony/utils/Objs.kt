@@ -56,7 +56,17 @@ public fun getLogger(name: String?): Logger =
  */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asTo(): E? where E : Any =
-    this as E?
+    this as? E
+
+/**
+ * 将 [this] 自身 转为 [E] 类型
+ * @receiver [Any]?
+ * @param [E] 目标类型
+ * @param default 默认值
+ */
+@Suppress("UNCHECKED_CAST")
+public fun <E> Any?.asToDefault(default: E): E where E : Any =
+    this as? E ?: default
 
 /**
  * 将 [this] 自身 转为 [E] 类型

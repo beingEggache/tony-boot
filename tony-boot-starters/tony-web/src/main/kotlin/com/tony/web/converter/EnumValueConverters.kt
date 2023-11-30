@@ -36,6 +36,7 @@ import com.tony.enums.EnumCreator
 import com.tony.enums.EnumValue
 import com.tony.enums.IntEnumValue
 import com.tony.enums.StringEnumValue
+import com.tony.utils.asToNotNull
 import java.io.Serializable
 import java.util.WeakHashMap
 import org.springframework.core.convert.converter.Converter
@@ -50,13 +51,12 @@ private val converters =
  * @date 2023/09/28 11:01
  * @since 1.0.0
  */
-@Suppress("UNCHECKED_CAST")
 internal class EnumIntValueConverterFactory : ConverterFactory<String, IntEnumValue> {
-    override fun <E : IntEnumValue> getConverter(targetType: Class<E>) =
+    override fun <E : IntEnumValue> getConverter(targetType: Class<E>): Converter<String, E> =
         converters
             .getOrPut(targetType) {
                 EnumIntValueConverter(targetType)
-            } as Converter<String, E>
+            }.asToNotNull()
 }
 
 /**
@@ -65,13 +65,12 @@ internal class EnumIntValueConverterFactory : ConverterFactory<String, IntEnumVa
  * @date 2023/09/28 11:02
  * @since 1.0.0
  */
-@Suppress("UNCHECKED_CAST")
 internal class EnumStringValueConverterFactory : ConverterFactory<String, StringEnumValue> {
-    override fun <E : StringEnumValue> getConverter(targetType: Class<E>) =
+    override fun <E : StringEnumValue> getConverter(targetType: Class<E>): Converter<String, E> =
         converters
             .getOrPut(targetType) {
                 EnumStringValueConverter(targetType)
-            } as Converter<String, E>
+            }.asToNotNull()
 }
 
 /**

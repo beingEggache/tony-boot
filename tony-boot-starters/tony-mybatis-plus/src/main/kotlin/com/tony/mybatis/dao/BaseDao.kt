@@ -42,6 +42,7 @@ import com.tony.exception.BizException
 import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyQueryChainWrapper
+import com.tony.utils.asTo
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.throwIfEmpty
 import com.tony.utils.throwIfNull
@@ -233,7 +234,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
                     .keyProperty
                     .throwIfNull("error: can not execute. because can not find column for id from entity!")
             val idVal = tableInfo.getPropertyValue(entity, keyProperty)
-            return if (StringUtils.checkValNull(idVal) || Objects.isNull(selectById(idVal as Serializable))) {
+            return if (StringUtils.checkValNull(idVal) || Objects.isNull(selectById(idVal.asTo()))) {
                 insert(entity) > 0
             } else {
                 updateById(entity) > 0

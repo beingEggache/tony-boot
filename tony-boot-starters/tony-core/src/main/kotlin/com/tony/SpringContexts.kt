@@ -24,6 +24,7 @@
 
 package com.tony
 
+import com.tony.utils.asToNotNull
 import org.springframework.beans.factory.getBean
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
@@ -61,7 +62,7 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
     @JvmSynthetic
     @JvmStatic
     public inline fun <reified T : Any> getBeanByLazy(name: String): Lazy<T> =
-        lazy(LazyThreadSafetyMode.PUBLICATION) { getBean(name) as T }
+        lazy(LazyThreadSafetyMode.PUBLICATION) { getBean(name).asToNotNull() }
 
     internal object ApplicationContextHolder : ApplicationContextAware {
         @JvmStatic

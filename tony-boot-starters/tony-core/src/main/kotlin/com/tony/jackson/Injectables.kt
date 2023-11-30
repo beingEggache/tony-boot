@@ -33,6 +33,7 @@ package com.tony.jackson
 import com.fasterxml.jackson.databind.BeanProperty
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.InjectableValues
+import com.tony.utils.asToNotNull
 import com.tony.utils.getLogger
 
 /**
@@ -61,7 +62,7 @@ public class InjectableValuesBySupplier(
         property: BeanProperty,
         beanInstance: Any?,
     ): Any? {
-        val key = valueId as String
+        val key = valueId.asToNotNull<String>()
         val ob = values[key]?.value(property, beanInstance)
         if (!values.containsKey(key)) {
             logger.warn("""No injectable id with value '$key' found (for property '${property.name}')""")

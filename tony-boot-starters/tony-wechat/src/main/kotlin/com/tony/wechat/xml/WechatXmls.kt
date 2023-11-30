@@ -32,6 +32,7 @@ import com.thoughtworks.xstream.core.util.QuickWriter
 import com.thoughtworks.xstream.io.naming.NameCoder
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter
 import com.thoughtworks.xstream.io.xml.XppDriver
+import com.tony.utils.asToNotNull
 import java.io.Writer
 import java.util.Collections
 import java.util.WeakHashMap
@@ -103,4 +104,4 @@ public inline fun <reified T> T?.toXmlString(): String =
  * 针对微信的xml转换
  */
 public inline fun <reified T> String.xmlToObj(): T =
-    xStream(T::class.java).fromXML(this) as T
+    xStream(T::class.java).fromXML(this).asToNotNull()
