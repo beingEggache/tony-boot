@@ -27,10 +27,13 @@ package com.tony.feign
 import com.tony.annotation.feign.FeignUnwrapResponse
 import com.tony.annotation.feign.FeignUseGlobalRequestInterceptor
 import com.tony.annotation.feign.FeignUseGlobalResponseInterceptor
+import com.tony.feign.interceptor.response.DefaultUnwrapResponseInterceptor
 import com.tony.feign.interceptor.response.UnwrapResponseInterceptor
+import com.tony.utils.annotation
 import com.tony.utils.applyIf
 import com.tony.utils.getLogger
 import com.tony.utils.hasAnnotation
+import com.tony.utils.throwIfNull
 import feign.Feign
 import feign.RequestInterceptor
 import feign.ResponseInterceptor
@@ -53,10 +56,10 @@ import org.springframework.cloud.openfeign.Targeter
  * @author Tang Li
  * @date 2023/08/02 21:00
  */
-public class FeignTargeter(
+internal class FeignTargeter(
     private val globalRequestInterceptors: List<RequestInterceptor>,
     private val globalResponseInterceptors: List<ResponseInterceptor>,
-    private val unwrapResponseInterceptor: UnwrapResponseInterceptor,
+    private val unwrapResponseInterceptors: List<UnwrapResponseInterceptor>,
 ) : Targeter {
     private val logger = getLogger()
 
@@ -69,11 +72,20 @@ public class FeignTargeter(
         val type = target.type()
         return feign
             .applyIf(type.hasAnnotation(FeignUnwrapResponse::class.java)) {
+                val annotation = type.annotation(FeignUnwrapResponse::class.java).throwIfNull()
+                val unwrapResponseInterceptorType = annotation.type
                 logger.info(
-                    "FeignClient[{}] apply unwrapResponseInterceptor.",
-                    type.simpleName
+                    "FeignClient[{}] apply UnwrapResponseInterceptor[{}].",
+                    type.simpleName,
+                    unwrapResponseInterceptorType.simpleName
                 )
-                responseInterceptor(unwrapResponseInterceptor)
+                if (unwrapResponseInterceptorType == UnwrapResponseInterceptor::class) {
+                    responseInterceptor(
+                        unwrapResponseInterceptors.first { it::class == DefaultUnwrapResponseInterceptor::class }
+                    )
+                } else {
+                    responseInterceptor(unwrapResponseInterceptors.first { it::class == unwrapResponseInterceptorType })
+                }
             }.applyIf(type.hasAnnotation(FeignUseGlobalRequestInterceptor::class.java)) {
                 globalRequestInterceptors.forEach { reqInterceptor ->
                     logger.info(

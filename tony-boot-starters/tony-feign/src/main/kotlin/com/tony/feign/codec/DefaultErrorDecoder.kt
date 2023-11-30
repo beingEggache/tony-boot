@@ -35,7 +35,7 @@ import feign.codec.ErrorDecoder
  * @date 2023/09/13 10:33
  * @since 1.0.0
  */
-public class DefaultErrorDecoder : ErrorDecoder {
+internal class DefaultErrorDecoder : ErrorDecoder {
     private val default = ErrorDecoder.Default()
 
     override fun decode(

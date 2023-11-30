@@ -31,6 +31,7 @@ package com.tony.annotation.feign
  */
 import com.tony.feign.interceptor.request.BeanType
 import com.tony.feign.interceptor.request.RequestProcessor
+import com.tony.feign.interceptor.response.UnwrapResponseInterceptor
 import kotlin.reflect.KClass
 
 /**
@@ -76,7 +77,9 @@ public annotation class FeignUseGlobalResponseInterceptor
 @Target(AnnotationTarget.CLASS, AnnotationTarget.ANNOTATION_CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
-public annotation class FeignUnwrapResponse
+public annotation class FeignUnwrapResponse(
+    val type: KClass<out UnwrapResponseInterceptor> = UnwrapResponseInterceptor::class,
+)
 
 /**
  * Feign global interceptors.

@@ -40,11 +40,13 @@ import org.springframework.core.env.Environment
  */
 public object SpringContexts : ApplicationContext by ApplicationContextHolder.springContext {
     /**
-     * 惰性获取 bean
-     * @return [Lazy<T>]
+     * 惰性获取 根据 bean类型获取 bean
+     * @param [T] bean类型
+     * @return [Lazy]
      * @author Tang Li
      * @date 2023/09/13 10:32
      * @since 1.0.0
+     * @see [ApplicationContext.getBean]
      */
     @JvmSynthetic
     @JvmStatic
@@ -52,12 +54,14 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
         lazy(LazyThreadSafetyMode.PUBLICATION) { getBean() }
 
     /**
-     * 惰性获取 bean
-     * @param [name] 名称
-     * @return [Lazy<T>]
+     * 惰性 根据 bean 名称获取 bean
+     * @param [T] bean类型
+     * @param [name] bean名称
+     * @return [Lazy]
      * @author Tang Li
      * @date 2023/09/13 10:32
      * @since 1.0.0
+     * @see [ApplicationContext.getBean]
      */
     @JvmSynthetic
     @JvmStatic
@@ -80,13 +84,15 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
      */
     public object Env : Environment by SpringContexts.environment {
         /**
-         * 惰性获取配置参数
-         * @param [key] 钥匙
+         * 惰性 从[Environment]中获取属性
+         * @param [T] 属性类型
+         * @param [key] 属性名
          * @param [defaultValue] 默认值
-         * @return [Lazy<T>]
+         * @return [Lazy]
          * @author Tang Li
          * @date 2023/09/13 10:32
          * @since 1.0.0
+         * @see [Environment.getProperty]
          */
         @JvmSynthetic
         @JvmStatic

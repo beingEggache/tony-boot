@@ -42,7 +42,27 @@ import com.tony.utils.asTo
 public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
 
 /**
- * 压平结果
+ * 拉平对象成 [FlattenApiResult], 将所有字段拉到最外层显示.
+ *
+ * 比如
+ * ```
+ * {
+ *   "code": 20000,
+ *   "data": {
+ *     "name": "Tony",
+ *     "age": 18
+ *   }
+ * }
+ * ```
+ * 变成
+ * ```
+ * {
+ *   "code": 20000,
+ *   "name": "Tony",
+ *   "age": 18
+ * }
+ * ```
+ *
  * @return [ApiResultLike<T>]
  * @author Tang Li
  * @date 2023/09/13 10:31
@@ -88,6 +108,7 @@ public data class ApiResult<T>
 
         /**
          * 将 data 的属性拉到根节点
+         * @see [flattenResult]
          */
         public fun flatten(): ApiResultLike<T> =
             FlattenApiResult(data, code, message)

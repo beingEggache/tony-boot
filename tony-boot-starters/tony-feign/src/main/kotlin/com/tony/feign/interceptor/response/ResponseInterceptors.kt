@@ -77,19 +77,19 @@ public class GlobalResponseInterceptorProvider<T : ResponseInterceptor>(
         obj
 }
 
-internal class UnwrapResponseInterceptorProvider(
-    private val obj: UnwrapResponseInterceptor,
-) : ObjectProvider<UnwrapResponseInterceptor> {
-    override fun getObject(vararg args: Any?): UnwrapResponseInterceptor =
+internal class UnwrapResponseInterceptorProvider<T : UnwrapResponseInterceptor>(
+    private val obj: T,
+) : ObjectProvider<T> {
+    override fun getObject(vararg args: Any?): T =
         obj
 
-    override fun getObject(): UnwrapResponseInterceptor =
+    override fun getObject(): T =
         obj
 
-    override fun getIfAvailable(): UnwrapResponseInterceptor =
+    override fun getIfAvailable(): T =
         obj
 
-    override fun getIfUnique(): UnwrapResponseInterceptor =
+    override fun getIfUnique(): T =
         obj
 }
 
@@ -99,7 +99,7 @@ internal class UnwrapResponseInterceptorProvider(
  * @date 2023/09/13 10:34
  * @since 1.0.0
  */
-public class UnwrapResponseInterceptor : ResponseInterceptor {
+internal class DefaultUnwrapResponseInterceptor : UnwrapResponseInterceptor {
     override fun intercept(
         invocationContext: InvocationContext,
         chain: ResponseInterceptor.Chain,
