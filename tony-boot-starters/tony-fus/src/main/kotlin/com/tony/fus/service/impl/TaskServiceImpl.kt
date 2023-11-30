@@ -113,25 +113,6 @@ internal open class TaskServiceImpl(
                 ) > 0
             } ?: false
 
-    @Transactional(rollbackFor = [Throwable::class])
-    override fun taskExpired(taskId: String): Boolean {
-        taskMapper
-            .selectById(taskId)
-            .takeIf { it != null }
-            ?.also {
-                it.copyToNotNull(FusHistoryTask()).apply {
-                    this.finishTime = LocalDateTime.now()
-                    this.taskState = TaskState.EXPIRED
-                    historyTaskMapper.insert(this)
-                    taskActorMapper.deleteByTaskId(taskId)
-                    taskMapper.deleteById(taskId)
-
-                    taskListener?.notify(EventType.EXPIRED, it)
-                }
-            }
-        return true
-    }
-
     override fun claimTask(
         taskId: String,
         actorId: String,

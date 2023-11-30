@@ -113,16 +113,6 @@ public interface TaskService {
     ): Boolean
 
     /**
-     * 任务超时
-     * @param [taskId] 任务id
-     * @return [Boolean]
-     * @author Tang Li
-     * @date 2023/10/10 11:05
-     * @since 1.0.0
-     */
-    public fun taskExpired(taskId: String): Boolean
-
-    /**
      * 认领任务.
      *
      * 删除其它任务参与者
