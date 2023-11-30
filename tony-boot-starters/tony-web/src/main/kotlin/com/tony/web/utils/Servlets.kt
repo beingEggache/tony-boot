@@ -36,6 +36,7 @@ import com.tony.utils.applyIf
 import com.tony.web.WebContext
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import java.net.URI
 import java.net.URL
 import java.net.URLEncoder
 import org.springframework.http.ContentDisposition
@@ -135,7 +136,7 @@ public val HttpServletRequest.remoteIp: String
  */
 public val HttpServletRequest.url: URL
     get() =
-        URL(requestURL.toString())
+        URI(requestURI).toURL()
 
 private val TEXT_MEDIA_TYPES =
     listOf(

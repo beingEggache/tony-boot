@@ -13,7 +13,7 @@ public class StaticApiSession implements WebSession {
     @NotNull
     @Override
     public String getUserId() {
-        return WebContext.getHeader("x-user-id");
+        return WebContext.getRequest().getHeader("x-user-id");
     }
 
     @Nullable
