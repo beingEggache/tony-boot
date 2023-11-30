@@ -216,6 +216,9 @@ springBootStarterDataRedisReactive = { module = "org.springframework.boot:spring
 
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6.4" }
 
+gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.35.0"}
+springBootGradlePlugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot"}
+
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }

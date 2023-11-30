@@ -9,8 +9,10 @@ plugins {
 group = "com.tony"
 version = "0.1-SNAPSHOT"
 
-val javaVersion: String by project
-val kotlinVersion: String by project
+val versionCatalog = versionCatalogs.named("tonyLibs")
+
+val javaVersion: String = versionCatalog.findVersion("java").get().toString()
+val kotlinVersion: String = versionCatalog.findVersion("kotlin").get().toString()
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
@@ -72,9 +74,10 @@ gradlePlugin {
         }
     }
 }
+
 dependencies {
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:3.1.6")
-    implementation("com.palantir.gradle.docker:gradle-docker:0.35.0")
+    implementation(versionCatalog.findLibrary("springBootGradlePlugin").get())
+    implementation(versionCatalog.findLibrary("gradleDocker").get())
 }
 
 val releasesGradleRepoUrl: String by project

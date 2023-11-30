@@ -11,5 +11,13 @@ pluginManagement {
     }
 }
 
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("tonyLibs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
+}
+
 rootProject.name = "build-script"
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
