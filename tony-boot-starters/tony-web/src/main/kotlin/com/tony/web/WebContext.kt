@@ -25,7 +25,6 @@
 package com.tony.web
 
 import com.tony.utils.asTo
-import com.tony.utils.ifNull
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.boot.web.error.ErrorAttributeOptions
@@ -109,14 +108,9 @@ public object WebContext {
         @JvmStatic
         get() =
             current
-                .getAttribute("errorAttribute", SCOPE_REQUEST)
-                .asTo<Map<String, Any?>>()
-                .ifNull {
-                    val errorAttributes =
-                        WebApp
-                            .errorAttributes
-                            .getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
-                    current.setAttribute("errorAttribute", errorAttributes, SCOPE_REQUEST)
-                    errorAttributes
+                .getOrPut("errorAttribute") {
+                    WebApp
+                        .errorAttributes
+                        .getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
                 }
 }
