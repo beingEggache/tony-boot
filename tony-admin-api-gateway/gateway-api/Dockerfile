@@ -7,8 +7,8 @@ RUN java -Djarmode=layertools -jar app.jar extract
 FROM eclipse-temurin:21-jre-alpine
 RUN echo "Asia/Shanghai" > /etc/timezone
 WORKDIR app
-
-ENV JAVA_OPTS="-Xmx2g -XX:+UseZGC -XX:+ZGenerational"
+#-XX:+EnableDynamicAgentLoading hide "Java agent has been loaded dynamically" warning.
+ENV JAVA_OPTS="-Xmx2g -XX:+UseZGC -XX:+ZGenerational -XX:+EnableDynamicAgentLoading"
 ENV PROPS=""
 ENV ENABLE_GC_LOGS="false"
 ENV ENABLE_JVM_LOGS="false"
