@@ -38,13 +38,13 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
         }
     }
 
-
     private fun canReplacedDependencies(target: Project):Map<String,String> {
         val versionCatalog =
             target
                 .rootProject
                 .extensions
-                .getByType<VersionCatalogsExtension>().named("tonyLibs")
+                .getByType<VersionCatalogsExtension>()
+                .named("tonyLibs")
 
         val kotlinVersion = versionCatalog.findVersion("kotlin").get()
         val bouncycastleVersion = versionCatalog.findVersion("bouncycastle").get()
