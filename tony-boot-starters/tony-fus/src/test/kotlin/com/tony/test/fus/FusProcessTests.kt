@@ -18,6 +18,7 @@ class FusProcessTests : FusTests() {
     fun testComplete() {
         test(false, 8)
     }
+
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun testReject() {
@@ -34,17 +35,17 @@ class FusProcessTests : FusTests() {
         val processService = engine.processService
         processService.getById(processId)
 
-        val args = mapOf(
+        val args = mutableMapOf<String, Any?>(
             "day" to day,
             "assignee" to testOperator1Id
         )
         engine.startInstanceById(
             processId,
-            testOperator1Id,
-            args
+            testOperator1Id
         ).let { instance ->
             val instanceId = instance.instanceId
 
+            // 发起, 执行条件路由
             val taskList1 =
                 engine
                     .queryService
@@ -53,10 +54,7 @@ class FusProcessTests : FusTests() {
                 .forEach { task ->
                     engine.executeTask(task.taskId, testOperator1Id)
                 }
-            if (reject) {
-                engine.runtimeService.reject(instanceId, testOperator1Id)
-                return
-            }
+
 
             val taskList2 =
                 engine
@@ -64,8 +62,14 @@ class FusProcessTests : FusTests() {
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
+                    engine.executeTask(task.taskId, testOperator1Id, args)
                 }
+
+            if (reject) {
+                engine.runtimeService.reject(instanceId, testOperator1Id)
+                return
+            }
+
         }
     }
 }

@@ -4,6 +4,7 @@ import com.tony.fus.FusContext
 import com.tony.fus.extension.fusThrowIfEmpty
 import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.handler.impl.CreateTaskHandler
+import com.tony.fus.handler.impl.EndProcessHandler
 import com.tony.fus.model.enums.ApproverType
 import com.tony.fus.model.enums.InitiatorAssignMode
 import com.tony.fus.model.enums.MultiApproveMode
@@ -141,6 +142,14 @@ public class FusNode : FusModel {
             }
         if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER) {
             createTask(context, execution)
+        }
+
+        if (childNode == null &&
+            conditionNodes.isEmpty() &&
+            nextNode() == null &&
+            nodeType != NodeType.APPROVER
+        ) {
+            EndProcessHandler.handle(context, execution)
         }
     }
 

@@ -11,8 +11,6 @@ import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.handler.impl.EndProcessHandler
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusProcessModel
-import com.tony.fus.model.enums.NodeType
-import com.tony.utils.alsoIf
 import java.time.LocalDateTime
 
 /**
@@ -109,34 +107,28 @@ public class FusProcess {
         execution: FusExecution,
         nodeName: String?,
     ) {
-        model().also { model ->
-            model
-                .getNode(nodeName)
-                .fusThrowIfNull("流程模型中未发现，流程节点:$nodeName")
-                .nextNode()
-                ?.also { executeNode ->
-                    executeNode.execute(context, execution)
-                    (
-                        executeNode.childNode == null &&
-                            executeNode.conditionNodes.isEmpty() &&
-                            executeNode.nextNode() == null &&
-                            executeNode.nodeType != NodeType.APPROVER
-                    ).alsoIf {
-                        EndProcessHandler.handle(context, execution)
-                    }
-                } ?: EndProcessHandler.handle(context, execution)
-        }
+        model()
+            .also { model ->
+                model
+                    .getNode(nodeName)
+                    .fusThrowIfNull("流程模型中未发现，流程节点:$nodeName")
+                    .nextNode()
+                    ?.also { executeNode ->
+                        executeNode.execute(context, execution)
+                    } ?: EndProcessHandler.handle(context, execution)
+            }
     }
 
     public fun executeStart(
         context: FusContext,
         execution: FusExecution,
     ) {
-        model().also {
-            it
-                .node
-                .fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
-                .createTask(context, execution)
-        }
+        model()
+            .also { model ->
+                model
+                    .node
+                    .fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
+                    .createTask(context, execution)
+            }
     }
 }
