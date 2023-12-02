@@ -55,7 +55,6 @@ class FusProcessTests : FusTests() {
                     engine.executeTask(task.taskId, testOperator1Id)
                 }
 
-
             val taskList2 =
                 engine
                     .queryService

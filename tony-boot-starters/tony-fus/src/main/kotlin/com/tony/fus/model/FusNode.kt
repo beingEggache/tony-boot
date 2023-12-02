@@ -3,8 +3,6 @@ package com.tony.fus.model
 import com.tony.fus.FusContext
 import com.tony.fus.extension.fusThrowIfEmpty
 import com.tony.fus.extension.fusThrowIfNull
-import com.tony.fus.handler.impl.CreateTaskHandler
-import com.tony.fus.handler.impl.EndProcessHandler
 import com.tony.fus.model.enums.ApproverType
 import com.tony.fus.model.enums.InitiatorAssignMode
 import com.tony.fus.model.enums.MultiApproveMode
@@ -141,7 +139,7 @@ public class FusNode : FusModel {
                 (conditionNode.childNode ?: childNode)?.execute(context, execution)
             }
         if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER) {
-            createTask(context, execution)
+            context.createTask(execution, this)
         }
 
         if (childNode == null &&
@@ -149,40 +147,8 @@ public class FusNode : FusModel {
             nextNode() == null &&
             nodeType != NodeType.APPROVER
         ) {
-            EndProcessHandler.handle(context, execution)
+            execution.endInstance()
         }
-    }
-
-    /**
-     * 创建任务
-     * @param [context] 流上下文
-     * @param [execution] 流程执行
-     * @author Tang Li
-     * @date 2023/10/25 11:37
-     * @since 1.0.0
-     */
-    public fun createTask(
-        context: FusContext,
-        execution: FusExecution,
-    ) {
-        createTask(this, context, execution)
-    }
-
-    /**
-     * 创建任务
-     * @param [node] 流量节点
-     * @param [context] 流上下文
-     * @param [execution] 流程执行
-     * @author Tang Li
-     * @date 2023/10/25 11:37
-     * @since 1.0.0
-     */
-    public fun createTask(
-        node: FusNode?,
-        context: FusContext,
-        execution: FusExecution,
-    ) {
-        CreateTaskHandler(node).handle(context, execution)
     }
 
     /**

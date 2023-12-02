@@ -2,7 +2,7 @@ package com.tony.fus.handler.impl
 
 import com.tony.fus.FusContext
 import com.tony.fus.exception.FusException
-import com.tony.fus.handler.FusHandler
+import com.tony.fus.handler.CreateTaskHandler
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
 import com.tony.utils.getLogger
@@ -13,9 +13,7 @@ import com.tony.utils.getLogger
  * @date 2023/10/25 10:02
  * @since 1.0.0
  */
-public class CreateTaskHandler(
-    public val node: FusNode?,
-) : FusHandler {
+public object DefaultCreateTaskHandler : CreateTaskHandler {
     private val logger = getLogger()
 
     /**
@@ -30,6 +28,7 @@ public class CreateTaskHandler(
     override fun handle(
         context: FusContext,
         execution: FusExecution,
+        node: FusNode?,
     ) {
         val taskList =
             execution

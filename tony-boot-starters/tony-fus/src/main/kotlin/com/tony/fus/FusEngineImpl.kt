@@ -8,7 +8,6 @@ import com.tony.fus.db.po.FusProcess
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.extension.fusThrowIfNull
-import com.tony.fus.handler.impl.CreateTaskHandler
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNodeAssignee
 import com.tony.utils.ifNull
@@ -52,14 +51,15 @@ public class FusEngineImpl(
         userId: String,
         args: MutableMap<String, Any?>?,
     ) {
-        execute(taskId, userId, args ?: mutableMapOf()) {
-            it
-                .process
-                .model()
-                .fusThrowIfNull("当前任务未找到流程定义模型")
-                .getNode(nodeName)
-                .fusThrowIfNull("根据节点名称[$nodeName]无法找到节点模型")
-                .createTask(context, it)
+        execute(taskId, userId, args ?: mutableMapOf()) { execution ->
+            val node =
+                execution
+                    .process
+                    .model()
+                    .fusThrowIfNull("当前任务未找到流程定义模型")
+                    .getNode(nodeName)
+                    .fusThrowIfNull("根据节点名称[$nodeName]无法找到节点模型")
+            context.createTask(execution, node)
         }
     }
 
@@ -187,7 +187,7 @@ public class FusEngineImpl(
                                 actorName = it.name
                                 actorType = ActorType.USER
                             }
-                    CreateTaskHandler(node).handle(context, execution)
+                    context.createTask(execution, node)
                     return
                 }
         }

@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.fus.FusContext
 import com.tony.fus.extension.fusThrowIfNull
-import com.tony.fus.handler.impl.EndProcessHandler
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusProcessModel
 import java.time.LocalDateTime
@@ -115,7 +114,7 @@ public class FusProcess {
                     .nextNode()
                     ?.also { executeNode ->
                         executeNode.execute(context, execution)
-                    } ?: EndProcessHandler.handle(context, execution)
+                    } ?: execution.endInstance()
             }
     }
 
@@ -123,12 +122,9 @@ public class FusProcess {
         context: FusContext,
         execution: FusExecution,
     ) {
-        model()
-            .also { model ->
-                model
-                    .node
-                    .fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
-                    .createTask(context, execution)
-            }
+        val model = model()
+        val node = model.node
+        node.fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
+        context.createTask(execution, node)
     }
 }
