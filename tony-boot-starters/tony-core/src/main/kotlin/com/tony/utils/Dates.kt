@@ -207,68 +207,61 @@ public fun LocalDate.isBetween(
 public fun LocalDate.atEndOfDay(): LocalDateTime =
     LocalDateTime.of(this, LocalTime.MAX)
 
-// TODO needTest
-public class TimePeriod {
+/**
+ * 是否与另一时间段重叠
+ * @param [timePeriod] 时间段
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/12/04 18:33
+ * @since 1.0.0
+ */
+public fun <T : TemporalAccessor> Pair<T, T>.overlap(timePeriod: Pair<T, T>): Boolean =
+    TimePeriod(this.first, this.second).overlapWith(TimePeriod(timePeriod.first, timePeriod.second))
+
+/**
+ * 是否与另一时间段重叠
+ * @param [timePeriod] 时间段
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/12/04 18:33
+ * @since 1.0.0
+ */
+public fun <T : Date> Pair<T, T>.dateOverlap(timePeriod: Pair<T, T>): Boolean =
+    TimePeriod(this.first, this.second).overlapWith(TimePeriod(timePeriod.first, timePeriod.second))
+
+internal class TimePeriod {
     private val start: Any
     private val end: Any
 
-    public constructor(start: LocalDate, end: LocalDate) {
+    constructor(start: TemporalAccessor, end: TemporalAccessor) {
+        throwIf(
+            seconds(start) > seconds(end),
+            "The start time must before the end time"
+        )
         this.start = start
         this.end = end
     }
 
-    public constructor(start: LocalDateTime, end: LocalDateTime) {
+    constructor(start: Date, end: Date) {
+        throwIf(
+            seconds(start) > seconds(end),
+            "The start time must before the end time"
+        )
         this.start = start
         this.end = end
     }
 
-    public constructor(start: Date, end: Date) {
-        this.start = start
-        this.end = end
-    }
+    fun overlapWith(another: TimePeriod): Boolean =
+        !(
+            seconds(end) <= another.seconds(another.start) ||
+                seconds(start) >= another.seconds(another.end)
+        )
 
-    public constructor(start: LocalDate, end: LocalDateTime) {
-        this.start = start
-        this.end = end
-    }
-
-    public constructor(start: LocalDate, end: Date) {
-        this.start = start
-        this.end = end
-    }
-
-    public constructor(start: LocalDateTime, end: LocalDate) {
-        this.start = start
-        this.end = end
-    }
-
-    public constructor(start: LocalDateTime, end: Date) {
-        this.start = start
-        this.end = end
-    }
-
-    private fun startSeconds(time: LocalTime = LocalTime.MIN) =
-        seconds(start, time)
-
-    private fun endSeconds(time: LocalTime = LocalTime.MIN) =
-        seconds(start, time)
-
-    public fun overlapWith(another: TimePeriod): Boolean {
-        val anotherStartSeconds = another.startSeconds()
-        val endSeconds = if (another.start is LocalDate) endSeconds(LocalTime.MAX) else endSeconds()
-        val startSeconds = startSeconds()
-        val anotherEndSeconds = if (start is LocalDate) another.endSeconds(LocalTime.MAX) else another.endSeconds()
-
-        return !(endSeconds <= anotherStartSeconds || startSeconds >= anotherEndSeconds)
-    }
-
-    private fun seconds(
-        dateTimeObject: Any,
-        time: LocalTime = LocalTime.MIN,
-    ) = when (dateTimeObject) {
-        is LocalDate -> dateTimeObject.toEpochSecond(time, defaultZoneOffset)
-        is LocalDateTime -> dateTimeObject.toEpochSecond(defaultZoneOffset)
-        is Date -> dateTimeObject.toLocalDateTime().toEpochSecond(defaultZoneOffset)
-        else -> error("Ain't gonna happen.")
-    }
+    private fun seconds(dateTimeObject: Any) =
+        when (dateTimeObject) {
+            is LocalDate -> dateTimeObject.toEpochSecond(LocalTime.MIN, defaultZoneOffset)
+            is LocalDateTime -> dateTimeObject.toEpochSecond(defaultZoneOffset)
+            is Date -> dateTimeObject.toLocalDateTime().toEpochSecond(defaultZoneOffset)
+            else -> error("Ain't gonna happen.")
+        }
 }
