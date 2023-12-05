@@ -13,5 +13,4 @@ dependencies {
         }
     }
     add("api", platform(tonyLibs.springCloudDependencies))
-    add("api", platform(tonyLibs.springCloudAlibabaDenpendencies))
 }
