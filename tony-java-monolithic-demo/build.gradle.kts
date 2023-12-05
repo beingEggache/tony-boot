@@ -73,5 +73,6 @@ configure(subprojects) {
         testLogging {
             exceptionFormat = TestExceptionFormat.FULL
         }
+        listOf("-XX:+EnableDynamicAgentLoading")
     }
 }

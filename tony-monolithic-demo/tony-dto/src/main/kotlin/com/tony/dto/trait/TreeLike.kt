@@ -33,7 +33,7 @@ interface TreeLike<T : TreeLike<T>> {
     @get:JsonIgnore
     val order: Int?
 
-    var children: List<T>?
+    val children: MutableList<T>
 
     fun findAndSetChildren(nodes: List<T>) {
         nodes
@@ -44,7 +44,7 @@ interface TreeLike<T : TreeLike<T>> {
             }.onEach {
                 it.findAndSetChildren(nodes)
             }.let { children ->
-                this.children = children
+                this.children.addAll(children)
                 this
             }
     }

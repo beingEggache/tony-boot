@@ -108,6 +108,10 @@ configure(libraryProjects) {
         testLogging {
             exceptionFormat = TestExceptionFormat.FULL
         }
-        jvmArgs = listOf("-Dlogging.config=${rootProject.rootDir}/config/logback-spring.xml")
+        jvmArgs =
+            listOf(
+                "-Dlogging.config=${rootProject.rootDir}/config/logback-spring.xml",
+                "-XX:+EnableDynamicAgentLoading"
+            )
     }
 }

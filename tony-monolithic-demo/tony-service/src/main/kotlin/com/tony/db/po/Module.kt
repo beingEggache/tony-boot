@@ -24,22 +24,22 @@ class Module {
      * 模块/权限ID
      */
     @TableId
-    var moduleId: String? = null
+    var moduleId: String = ""
 
     /**
      * 应用ID
      */
-    var appId: String? = null
+    var appId: String = ""
 
     /**
      * 模块/权限名
      */
-    var moduleName: String? = null
+    var moduleName: String = ""
 
     /**
      * 模块/权限值（接口URL，前端路由，前端组件名）
      */
-    var moduleValue: String? = null
+    var moduleValue: String = ""
 
     /**
      * 模块/权限类型（1：接口，2：前端路由，3：前端组件）
@@ -49,12 +49,12 @@ class Module {
     /**
      * 模块/权限分组
      */
-    var moduleGroup: String? = null
+    var moduleGroup: String = ""
 
     /**
      * 备注
      */
-    var remark: String? = null
+    var remark: String = ""
 
     /**
      * 创建时间
@@ -64,7 +64,7 @@ class Module {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var createTime: LocalDateTime? = null
+    var createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 创建人
@@ -74,7 +74,7 @@ class Module {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var creatorId: Long? = null
+    var creatorId: String = ""
 
     /**
      * 创建人名称
@@ -84,17 +84,16 @@ class Module {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var creatorName: String? = null
+    var creatorName: String = ""
 
     /**
      * 更新时间
      */
     @TableField(
         insertStrategy = FieldStrategy.NEVER,
-        updateStrategy = FieldStrategy.ALWAYS,
-        update = "CURRENT_TIMESTAMP"
+        updateStrategy = FieldStrategy.NEVER,
     )
-    var updateTime: LocalDateTime? = null
+    var updateTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 更新人
@@ -104,7 +103,7 @@ class Module {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var updatorId: Long? = null
+    var updatorId: String = ""
 
     /**
      * 更新人名称
@@ -114,7 +113,7 @@ class Module {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var updatorName: String? = null
+    var updatorName: String = ""
 
     /**
      * 状态：1-启用，0-禁用
@@ -134,5 +133,5 @@ class Module {
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER
     )
-    var tenantId: Long? = null
+    var tenantId: String = ""
 }

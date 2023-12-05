@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 @Schema(description = "用户响应")
 class UserResp {
     @Schema(description = "用户Id")
-    var userId: Long? = null
+    var userId: String? = null
 
     @Schema(description = "用户登录名")
     var userName: String? = null

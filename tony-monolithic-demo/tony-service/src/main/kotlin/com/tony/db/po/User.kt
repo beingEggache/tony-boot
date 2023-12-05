@@ -23,32 +23,32 @@ class User {
      * 用户id
      */
     @TableId
-    var userId: Long? = null
+    var userId: String = ""
 
     /**
      * 用户登录名
      */
-    var userName: String? = null
+    var userName: String = ""
 
     /**
      * 用户真实姓名
      */
-    var realName: String? = null
+    var realName: String = ""
 
     /**
      * 手机号
      */
-    var mobile: String? = null
+    var mobile: String = ""
 
     /**
      * 密码
      */
-    var pwd: String? = null
+    var pwd: String = ""
 
     /**
      * 备注
      */
-    var remark: String? = null
+    var remark: String = ""
 
     /**
      * 创建时间
@@ -58,7 +58,7 @@ class User {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var createTime: LocalDateTime? = null
+    var createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 创建人
@@ -68,7 +68,7 @@ class User {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var creatorId: Long? = null
+    var creatorId: String = ""
 
     /**
      * 创建人名称
@@ -78,17 +78,17 @@ class User {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var creatorName: String? = null
+    var creatorName: String = ""
 
     /**
      * 更新时间
      */
     @TableField(
         insertStrategy = FieldStrategy.NEVER,
-        updateStrategy = FieldStrategy.ALWAYS,
+        updateStrategy = FieldStrategy.NEVER,
         update = "CURRENT_TIMESTAMP"
     )
-    var updateTime: LocalDateTime? = null
+    var updateTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 更新人
@@ -98,7 +98,7 @@ class User {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var updatorId: Long? = null
+    var updatorId: String = ""
 
     /**
      * 更新人名称
@@ -108,7 +108,7 @@ class User {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var updatorName: String? = null
+    var updatorName: String = ""
 
     /**
      * 状态：1-启用，0-禁用
@@ -128,5 +128,5 @@ class User {
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER
     )
-    var tenantId: Long? = null
+    var tenantId: String = ""
 }

@@ -26,7 +26,7 @@ data class ModuleResp(
         get() = moduleId
 
     @Schema(description = "子路由")
-    override var children: List<ModuleResp>? = listOf()
+    override val children: MutableList<ModuleResp> = mutableListOf()
 
     override val order: Int
         get() = 0

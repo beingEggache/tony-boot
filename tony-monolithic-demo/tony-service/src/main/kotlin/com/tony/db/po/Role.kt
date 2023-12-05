@@ -20,25 +20,25 @@ class Role {
      *
      */
     @TableId
-    var roleId: String? = null
+    var roleId: String = ""
 
     /**
      * 应用ID
      *
      */
-    var appId: String? = null
+    var appId: String = ""
 
     /**
      * 角色名
      *
      */
-    var roleName: String? = null
+    var roleName: String = ""
 
     /**
      * 备注
      *
      */
-    var remark: String? = null
+    var remark: String = ""
 
     /**
      * 创建时间
@@ -48,7 +48,7 @@ class Role {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var createTime: LocalDateTime? = null
+    var createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 创建人
@@ -58,7 +58,7 @@ class Role {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var creatorId: Long? = null
+    var creatorId: String = ""
 
     /**
      * 创建人名称
@@ -68,17 +68,16 @@ class Role {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var creatorName: String? = null
+    var creatorName: String = ""
 
     /**
      * 更新时间
      */
     @TableField(
         insertStrategy = FieldStrategy.NEVER,
-        updateStrategy = FieldStrategy.ALWAYS,
-        update = "CURRENT_TIMESTAMP"
+        updateStrategy = FieldStrategy.NEVER,
     )
-    var updateTime: LocalDateTime? = null
+    var updateTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 更新人
@@ -88,7 +87,7 @@ class Role {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var updatorId: Long? = null
+    var updatorId: String = ""
 
     /**
      * 更新人名称
@@ -98,7 +97,7 @@ class Role {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var updatorName: String? = null
+    var updatorName: String = ""
 
     /**
      * 状态：1-启用，0-禁用
@@ -121,5 +120,5 @@ class Role {
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER
     )
-    var tenantId: Long? = null
+    var tenantId: String = ""
 }

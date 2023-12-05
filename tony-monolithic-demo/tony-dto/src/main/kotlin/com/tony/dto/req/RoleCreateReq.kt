@@ -2,7 +2,6 @@ package com.tony.dto.req
 
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
 
 /**
  *
@@ -12,11 +11,11 @@ import jakarta.validation.constraints.NotNull
 @Schema(description = "创建角色请求")
 data class RoleCreateReq(
     @Schema(description = "角色ID", required = true)
-    @get:NotNull(message = "请输入角色ID")
-    val roleId: String?,
+    @get:NotBlank(message = "请输入角色ID")
+    val roleId: String = "",
     @Schema(description = "角色名", required = true)
     @get:NotBlank(message = "请输入角色名")
-    var roleName: String?,
+    var roleName: String = "",
     @Schema(description = "备注")
     var remark: String? = "",
 )

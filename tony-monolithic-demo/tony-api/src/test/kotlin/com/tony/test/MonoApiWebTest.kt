@@ -25,7 +25,6 @@ class MonoApiWebTest {
     fun testAddRole() {
         roleService.add(
             RoleCreateReq(
-                roleId = null,
                 roleName = "test",
             ),
             "test"
