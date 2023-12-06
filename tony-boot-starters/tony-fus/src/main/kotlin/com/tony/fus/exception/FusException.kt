@@ -10,9 +10,8 @@ import com.tony.exception.ApiException
  * @since 1.0.0
  */
 public class FusException
-    @JvmOverloads
-    constructor(
-        override val message: String? = "",
-        override val code: Int = ApiProperty.errorCode,
-        cause: Throwable? = null,
-    ) : ApiException(message.toString(), code, cause)
+internal constructor(
+    override val message: String? = "",
+    override val code: Int = ApiProperty.errorCode,
+    cause: Throwable? = null,
+) : ApiException(message.toString(), code, cause)

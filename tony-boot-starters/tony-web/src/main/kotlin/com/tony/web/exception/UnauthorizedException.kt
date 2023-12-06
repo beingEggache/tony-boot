@@ -33,9 +33,7 @@ import com.tony.exception.ApiException
  * @date 2023/10/24 10:08
  * @since 1.0.0
  */
-public class UnauthorizedException
-    @JvmOverloads
-    constructor(
-        override val message: String?,
-        override val code: Int = ApiProperty.unauthorizedCode,
-    ) : ApiException(message, code)
+public class UnauthorizedException(
+    override val message: String?,
+    override val code: Int = ApiProperty.unauthorizedCode,
+) : ApiException(message, code)

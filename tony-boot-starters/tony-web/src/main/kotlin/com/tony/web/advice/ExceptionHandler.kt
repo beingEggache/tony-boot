@@ -107,13 +107,11 @@ internal class ExceptionHandler : ErrorController {
     }
 
     private fun bindingResultMessages(bindingResult: BindingResult) =
-        bindingResult.fieldErrors.first().let {
-            if (it.isBindingFailure) {
-                ApiProperty.badRequestMsg
-            } else {
-                it.defaultMessage ?: ""
+        bindingResult
+            .allErrors
+            .joinToString(System.lineSeparator()) {
+                it.defaultMessage.ifNullOrBlank()
             }
-        }
 
     @ExceptionHandler(BindException::class)
     @ResponseBody
@@ -129,8 +127,7 @@ internal class ExceptionHandler : ErrorController {
         errorResponse(
             e
                 .constraintViolations
-                .first()
-                .message,
+                .joinToString(System.lineSeparator()) { it.message },
             ApiProperty.badRequestCode
         )
 
@@ -144,7 +141,7 @@ internal class ExceptionHandler : ErrorController {
     @ResponseBody
     fun badRequestException(e: Exception) =
         run {
-            logger.warn(e.localizedMessage, e)
+            logger.warn(e.localizedMessage)
             errorResponse(
                 ApiProperty.badRequestMsg,
                 ApiProperty.badRequestCode
@@ -174,8 +171,7 @@ internal class ExceptionHandler : ErrorController {
      * @date 2023/10/24 14:27
      * @since 1.0.0
      */
-    @JvmOverloads
-    fun errorResponse(
+    private fun errorResponse(
         msg: String = "",
         code: Int = ApiProperty.errorCode,
     ): ApiResult<*> {

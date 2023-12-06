@@ -35,7 +35,6 @@ package com.tony.redis.serializer.wrapper
  * @date 2023/5/24 18:12
  */
 internal class ProtoWrapper
-    @JvmOverloads
-    constructor(
-        var data: Any? = null,
-    )
+internal constructor(
+    var data: Any? = null,
+)
