@@ -33,6 +33,7 @@ package com.tony.utils
  * @date 2022/9/29 10:20
  */
 import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.module.kotlin.convertValue
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.net.URLDecoder
@@ -103,10 +104,10 @@ public fun CharSequence.queryStringToMap(): Map<String, String> =
  * 将queryString字符串转为对象， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
  */
 public inline fun <reified T> CharSequence.queryStringToObj(): T =
-    toString()
-        .queryStringToMap()
-        .toJsonString()
-        .jsonToObj()
+    globalObjectMapper.convertValue(
+        toString()
+            .queryStringToMap()
+    )
 
 /**
  * 当字符串为Null 或者空字符串时 提供默认值.

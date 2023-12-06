@@ -34,11 +34,13 @@ package com.tony.feign.interceptor.response
  */
 import com.tony.ApiProperty
 import com.tony.ApiResultLike
+import com.tony.ENCRYPTED_HEADER_NAME
 import com.tony.ERROR_CODE_HEADER_NAME
 import com.tony.ListResult
 import com.tony.exception.ApiException
 import com.tony.misc.notSupportResponseWrapClasses
 import com.tony.utils.convertTo
+import com.tony.utils.getLogger
 import com.tony.utils.isArrayLikeType
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.jsonNode
@@ -100,6 +102,8 @@ internal class UnwrapResponseInterceptorProvider<T : UnwrapResponseInterceptor>(
  * @since 1.0.0
  */
 internal class DefaultUnwrapResponseInterceptor : UnwrapResponseInterceptor {
+    private val logger = getLogger()
+
     override fun intercept(
         invocationContext: InvocationContext,
         chain: ResponseInterceptor.Chain,
@@ -116,6 +120,11 @@ internal class DefaultUnwrapResponseInterceptor : UnwrapResponseInterceptor {
 
         val hasErrorCode = !responseHeaders[ERROR_CODE_HEADER_NAME].isNullOrEmpty()
         if (!hasErrorCode && (returnRawClass.isTypesOrSubTypesOf(*notSupportResponseWrapClasses) || !isJson)) {
+            return chain.next(invocationContext)
+        }
+        val hasEncrypted = !responseHeaders[ENCRYPTED_HEADER_NAME].isNullOrEmpty()
+        if (hasEncrypted) {
+            logger.warn("Not support encrypted response")
             return chain.next(invocationContext)
         }
 
@@ -140,7 +149,6 @@ internal class DefaultUnwrapResponseInterceptor : UnwrapResponseInterceptor {
         }
 
         val dataJsonNode = jsonNode.get(dataFieldName)
-
         return if (returnRawClass.isArrayLikeType()) {
             dataJsonNode
                 .get(rowsFieldName)

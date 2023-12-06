@@ -23,26 +23,28 @@
  */
 
 package com.tony.web.crpto
+
 /**
  * 响应体加密
  * @author Tang Li
  * @date 2023/05/26 16:53
  */
 import com.tony.ApiResultLike
-import com.tony.EncryptApiResult
+import com.tony.ENCRYPTED_HEADER_NAME
 import com.tony.annotation.web.crypto.EncryptResponseBody
 import com.tony.codec.enums.Encoding
 import com.tony.crypto.symmetric.encryptToString
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
+import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.toJsonString
 import com.tony.utils.trimQuotes
 import com.tony.web.WebContext
-import com.tony.web.utils.isTextMediaTypes
-import com.tony.web.utils.parsedMedia
 import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter
+import org.springframework.http.converter.StringHttpMessageConverter
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.http.server.ServerHttpRequest
 import org.springframework.http.server.ServerHttpResponse
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -67,10 +69,9 @@ public interface EncryptResponseBodyAdvice :
         converterType: Class<out HttpMessageConverter<*>>,
     ): Boolean =
         returnType.hasMethodAnnotation(EncryptResponseBody::class.java) &&
-            isTextMediaTypes(
-                WebContext
-                    .request
-                    .parsedMedia
+            converterType.isTypesOrSubTypesOf(
+                StringHttpMessageConverter::class.java,
+                MappingJackson2HttpMessageConverter::class.java
             )
 
     override fun beforeBodyWrite(
@@ -81,21 +82,21 @@ public interface EncryptResponseBodyAdvice :
         request: ServerHttpRequest,
         response: ServerHttpResponse,
     ): Any? {
+        WebContext.response?.addHeader(ENCRYPTED_HEADER_NAME, "true")
         if (body != null && body is ApiResultLike<*>) {
             return if (body.success) {
-                EncryptApiResult().apply {
-                    code = body.code
-                    message = body.message
-                    data =
-                        body
-                            .data
-                            .toJsonString()
-                            .encryptToString(
-                                algorithm,
-                                secret,
-                                encoding
-                            )
-                }
+                EncryptApiResult(
+                    body.code,
+                    body.message,
+                    body
+                        .data
+                        .toJsonString()
+                        .encryptToString(
+                            algorithm,
+                            secret,
+                            encoding
+                        )
+                )
             } else {
                 body
             }
