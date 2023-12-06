@@ -9,8 +9,7 @@ import com.tony.exception.ApiException
  * @date 2023/10/20 16:40
  * @since 1.0.0
  */
-public class FusException
-internal constructor(
+public class FusException(
     override val message: String? = "",
     override val code: Int = ApiProperty.errorCode,
     cause: Throwable? = null,
