@@ -9,5 +9,5 @@ dependencies {
 
     testImplementation(projects.tonyWeb)
     testImplementation(tonyLibs.knife4jOpenapi3Ui)
-    testImplementation("com.alibaba:easyexcel:3.3.2")
+    testImplementation("com.alibaba:easyexcel:3.3.3")
 }
