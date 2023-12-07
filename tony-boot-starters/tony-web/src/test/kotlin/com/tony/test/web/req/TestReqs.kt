@@ -14,9 +14,9 @@ data class TestReq(
     val name: String? = null,
     @get:NotNull(message = "请输入年龄")
     val age: Int? = null,
-    @get:SimpleIntEnum(enums = [1])
+    @get:SimpleIntEnum(enums = [1],"不合法的testIntNum")
     val testIntEnum: TestIntEnum? = null,
-    @get:SimpleStringEnum(enums = ["2"])
+    @get:SimpleStringEnum(enums = ["2"], message = "不合法的testStringEnum")
     val testStringEnum: TestStringEnum? = null
 )
 

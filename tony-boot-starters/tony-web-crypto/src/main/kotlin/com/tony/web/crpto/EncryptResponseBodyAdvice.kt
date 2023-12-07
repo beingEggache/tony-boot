@@ -32,9 +32,7 @@ package com.tony.web.crpto
 import com.tony.ApiResultLike
 import com.tony.ENCRYPTED_HEADER_NAME
 import com.tony.annotation.web.crypto.EncryptResponseBody
-import com.tony.codec.enums.Encoding
 import com.tony.crypto.symmetric.encryptToString
-import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.toJsonString
 import com.tony.utils.trimQuotes
@@ -58,11 +56,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 public interface EncryptResponseBodyAdvice :
     PriorityOrdered,
     ResponseBodyAdvice<Any?> {
-    public val algorithm: SymmetricCryptoAlgorithm
-
-    public val secret: String
-
-    public val encoding: Encoding
+    public val cryptoProvider: CryptoProvider
 
     override fun supports(
         returnType: MethodParameter,
@@ -92,9 +86,9 @@ public interface EncryptResponseBodyAdvice :
                         .data
                         .toJsonString()
                         .encryptToString(
-                            algorithm,
-                            secret,
-                            encoding
+                            cryptoProvider.algorithm,
+                            cryptoProvider.secret,
+                            cryptoProvider.encoding
                         )
                 )
             } else {
@@ -105,9 +99,9 @@ public interface EncryptResponseBodyAdvice :
             .toJsonString()
             .trimQuotes()
             .encryptToString(
-                algorithm,
-                secret,
-                encoding
+                cryptoProvider.algorithm,
+                cryptoProvider.secret,
+                cryptoProvider.encoding
             )
     }
 
@@ -117,7 +111,5 @@ public interface EncryptResponseBodyAdvice :
 
 @RestControllerAdvice
 internal class DefaultEncryptResponseBodyAdvice(
-    override val algorithm: SymmetricCryptoAlgorithm,
-    override val secret: String,
-    override val encoding: Encoding,
+    override val cryptoProvider: CryptoProvider,
 ) : EncryptResponseBodyAdvice

@@ -30,9 +30,7 @@ package com.tony.web.crpto
  * @date 2023/05/26 16:53
  */
 import com.tony.annotation.web.crypto.DecryptRequestBody
-import com.tony.codec.enums.Encoding
 import com.tony.crypto.symmetric.decryptToBytes
-import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.lang.reflect.Type
@@ -54,9 +52,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice
 public interface DecryptRequestBodyAdvice :
     PriorityOrdered,
     RequestBodyAdvice {
-    public val algorithm: SymmetricCryptoAlgorithm
-    public val secret: String
-    public val encoding: Encoding
+    public val cryptoProvider: CryptoProvider
 
     override fun supports(
         methodParameter: MethodParameter,
@@ -95,9 +91,9 @@ public interface DecryptRequestBodyAdvice :
             ByteArrayInputStream(
                 bytes
                     .decryptToBytes(
-                        algorithm,
-                        secret,
-                        encoding
+                        cryptoProvider.algorithm,
+                        cryptoProvider.secret,
+                        cryptoProvider.encoding
                     )
             )
         )
@@ -138,7 +134,5 @@ public interface DecryptRequestBodyAdvice :
 
 @RestControllerAdvice
 internal class DefaultDecryptRequestBodyAdvice(
-    override val algorithm: SymmetricCryptoAlgorithm,
-    override val secret: String,
-    override val encoding: Encoding,
+    override val cryptoProvider: CryptoProvider,
 ) : DecryptRequestBodyAdvice
