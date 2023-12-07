@@ -1,6 +1,6 @@
 package com.tony.test.feign.module.jwt.controller
 
-import com.tony.MonoResult
+import com.tony.MonoResult.Companion.ofMonoResult
 import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.jwt.JwtToken
 import com.tony.test.feign.dto.LoginReq
@@ -16,7 +16,7 @@ class FeignTestJwtController : FeignJwtTestApi {
 
     @NoLoginCheck
     override fun login(@RequestBody req: LoginReq) =
-        MonoResult(JwtToken.gen("userId" to "99efd6bbc03b491191ca3206bd20046f"))
+        JwtToken.gen("userId" to "99efd6bbc03b491191ca3206bd20046f").ofMonoResult()
 
     override fun doAfterLogin(@RequestBody person: Person) = person
 }
