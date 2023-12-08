@@ -46,6 +46,10 @@ import org.springframework.util.AntPathMatcher
 
 /**
  * 生成uuid并去掉横杠 “-”，并大写
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:27
+ * @since 1.0.0
  */
 public fun uuid(): String =
     UUID
@@ -56,6 +60,10 @@ public fun uuid(): String =
 
 /**
  * 判断字符串是否是一个json
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/12/08 20:28
+ * @since 1.0.0
  */
 public fun CharSequence.isJson(): Boolean =
     try {
@@ -67,6 +75,10 @@ public fun CharSequence.isJson(): Boolean =
 
 /**
  * 转为 queryString表示， 如a=1&b=2&c=3
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:28
+ * @since 1.0.0
  */
 public fun <T> T.toQueryString(): String =
     toJsonString()
@@ -75,6 +87,11 @@ public fun <T> T.toQueryString(): String =
 
 /**
  * 判断两字符串是否相等，null == "" -> true, "" == null -> true
+ * @param [str] str
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/12/08 20:28
+ * @since 1.0.0
  */
 public fun CharSequence?.equalsIgnoreNullOrEmpty(str: String?): Boolean =
     if (this.isNullOrEmpty()) {
@@ -85,6 +102,10 @@ public fun CharSequence?.equalsIgnoreNullOrEmpty(str: String?): Boolean =
 
 /**
  * 转为 queryString表示， 如a=1&b=2&c=3
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:28
+ * @since 1.0.0
  */
 public fun Map<String, Any?>.toQueryString(): String =
     asIterable()
@@ -93,6 +114,10 @@ public fun Map<String, Any?>.toQueryString(): String =
 
 /**
  * 将queryString字符串转为map， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
+ * @return [Map<String, String>]
+ * @author Tang Li
+ * @date 2023/12/08 20:28
+ * @since 1.0.0
  */
 public fun CharSequence.queryStringToMap(): Map<String, String> =
     toString()
@@ -102,6 +127,10 @@ public fun CharSequence.queryStringToMap(): Map<String, String> =
 
 /**
  * 将queryString字符串转为对象， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/12/08 20:28
+ * @since 1.0.0
  */
 public inline fun <reified T> CharSequence.queryStringToObj(): T =
     globalObjectMapper.convertValue(
@@ -111,9 +140,11 @@ public inline fun <reified T> CharSequence.queryStringToObj(): T =
 
 /**
  * 当字符串为Null 或者空字符串时 提供默认值.
- *
- * @param default
- * @return
+ * @param [default] 默认值
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:28
+ * @since 1.0.0
  */
 @JvmOverloads
 public fun CharSequence?.ifNullOrBlank(default: String = ""): String =
@@ -125,9 +156,11 @@ public fun CharSequence?.ifNullOrBlank(default: String = ""): String =
 
 /**
  * 当字符串为Null 或者空字符串时 提供默认值.
- *
- * @param block
- * @return
+ * @param [block] 默认值
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:29
+ * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun CharSequence?.ifNullOrBlank(crossinline block: () -> String): String =
@@ -141,16 +174,32 @@ private val mobileRegex = Regex("^1[3-9][0-9]{9}$")
 
 /**
  * 字符串是否手机号
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/12/08 20:29
+ * @since 1.0.0
  */
 public fun CharSequence.isMobileNumber(): Boolean =
     mobileRegex.matches(this)
 
 /**
  * 字符串是否一个整形
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/12/08 20:29
+ * @since 1.0.0
  */
 public fun CharSequence.isInt(): Boolean =
     toString().toIntOrNull() != null
 
+/**
+ * 字符串转数字
+ * @param [numberType] 数字类型
+ * @return [T]
+ * @author Tang Li
+ * @date 2023/12/08 20:29
+ * @since 1.0.0
+ */
 public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
     when (numberType) {
         Long::class.javaObjectType, Long::class.javaPrimitiveType -> toString().toLong()
@@ -166,6 +215,11 @@ public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
 
 /**
  * Translates a string into application/x-www-form-urlencoded format using a specific codec scheme.
+ * @param [charset] 字符集
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:29
+ * @since 1.0.0
  */
 @JvmOverloads
 public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
@@ -173,8 +227,12 @@ public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
 
 /**
  * Decodes an application/x-www-form-urlencoded string using a specific Charset.
- *
  * The supplied charset is used to determine what characters are represented by any consecutive sequences of the form "%xy".
+ * @param [charset] 字符集
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:29
+ * @since 1.0.0
  */
 @JvmOverloads
 public fun CharSequence?.urlDecode(charset: Charset = Charsets.UTF_8): String =
@@ -184,6 +242,10 @@ private val lineBreakRegex = Regex("[\\n\\r]+")
 
 /**
  * 去掉字符串的换行符, 比如 \n, \r
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:30
+ * @since 1.0.0
  */
 public fun CharSequence.removeLineBreak(): String =
     this.replace(lineBreakRegex, "")
@@ -192,6 +254,11 @@ private val antPathMatcher = AntPathMatcher()
 
 /**
  * 字符串 ant 匹配
+ * @param [patterns] 图案
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/12/08 20:30
+ * @since 1.0.0
  * @see AntPathMatcher.match
  */
 public fun CharSequence?.antPathMatchAny(patterns: Collection<String>?): Boolean =
@@ -202,6 +269,10 @@ private val snakeRegex = "_[a-zA-Z]".toRegex()
 
 /**
  * 字符串驼峰转 snake
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:30
+ * @since 1.0.0
  */
 public fun CharSequence.camelToSnakeCase(): String =
     camelRegex
@@ -211,6 +282,10 @@ public fun CharSequence.camelToSnakeCase(): String =
 
 /**
  * snake 字符串 转驼峰
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:30
+ * @since 1.0.0
  */
 public fun CharSequence.snakeToLowerCamelCase(): String =
     snakeRegex
@@ -223,6 +298,10 @@ public fun CharSequence.snakeToLowerCamelCase(): String =
 
 /**
  * snake 字符串 转驼峰
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:30
+ * @since 1.0.0
  */
 public fun CharSequence.snakeToUpperCamelCase(): String =
     snakeToLowerCamelCase()
@@ -239,8 +318,12 @@ internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
 
 /**
  * 清理 路径.
- *
  * 将多个重复的斜杠转为一个.
+ * @param [input] 输入
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:30
+ * @since 1.0.0
  */
 public fun sanitizedPath(input: CharSequence): String =
     duplicateSlash
@@ -249,6 +332,13 @@ public fun sanitizedPath(input: CharSequence): String =
 
 private val QUOTES_CHARS = arrayOf('\'', '\"')
 
+/**
+ * 去掉引号
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 20:30
+ * @since 1.0.0
+ */
 public fun String.trimQuotes(): String =
     when {
         this.length < 2 -> this
