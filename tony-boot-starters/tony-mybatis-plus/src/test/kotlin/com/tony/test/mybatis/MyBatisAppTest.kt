@@ -72,6 +72,19 @@ class MyBatisAppTest {
     }
 
     @Test
+    fun testDaoUpdate() {
+        val one = userDao
+            .ktQuery()
+            .eq(User::userName, "lg2")
+            .one()
+        one.userName = "lg1"
+
+        userDao
+            .updateById(one)
+
+    }
+
+    @Test
     fun testDaoOneMap() {
         val list = userDao
             .ktQuery()
