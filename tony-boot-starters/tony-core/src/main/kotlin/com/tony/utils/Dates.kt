@@ -73,8 +73,11 @@ internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =
 
 /**
  * 日期转为字符串表示
- * @param pattern 字符串格式
- * @see DateTimeFormatter
+ * @param [pattern] 字符串格式
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 19:42
+ * @since 1.0.0
  */
 public fun TemporalAccessor.toString(pattern: String): String =
     dateTimeFormatterMap
@@ -83,11 +86,28 @@ public fun TemporalAccessor.toString(pattern: String): String =
         }.format(this)
 
 /**
- * 字符串转 Date
- * @param pattern 字符串格式
- * @see DateTimeFormatter
+ * LocalDate 或 LocalDatetime 转 Date
+ * @return [Date]
+ * @author Tang Li
+ * @date 2023/12/08 19:42
+ * @since 1.0.0
  */
-public fun String.toDate(pattern: String): Date =
+internal fun TemporalAccessor.toDate(): Date =
+    when (this) {
+        is LocalDate -> toDate()
+        is LocalDateTime -> toDate()
+        else -> Date.from(Instant.from(this))
+    }
+
+/**
+ * 字符串转 Date
+ * @param [pattern] 字符串格式
+ * @return [Date]
+ * @author Tang Li
+ * @date 2023/12/08 19:42
+ * @since 1.0.0
+ */
+public fun CharSequence.toDate(pattern: String): Date =
     dateTimeFormatterMap
         .getOrPut(pattern) {
             dateTimeFormatterWithDefaultOptions(pattern)
@@ -96,13 +116,16 @@ public fun String.toDate(pattern: String): Date =
 
 /**
  * 字符串转 LocalDate
- * @param pattern 字符串格式
- * @see DateTimeFormatter
+ * @param [pattern] 字符串格式
+ * @return [LocalDate]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
  */
-public fun String.toLocalDate(pattern: String): LocalDate =
+public fun CharSequence.toLocalDate(pattern: CharSequence): LocalDate =
     dateTimeFormatterMap
-        .getOrPut(pattern) {
-            dateTimeFormatterWithDefaultOptions(pattern)
+        .getOrPut(pattern.toString()) {
+            dateTimeFormatterWithDefaultOptions(pattern.toString())
         }.parse(this)
         .run {
             LocalDate.from(this)
@@ -110,69 +133,49 @@ public fun String.toLocalDate(pattern: String): LocalDate =
 
 /**
  * 字符串转 LocalDateTime
- * @param pattern 字符串格式
- * @see DateTimeFormatter
+ * @param [pattern] 字符串格式
+ * @return [LocalDateTime]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
  */
-public fun String.toLocalDateTime(pattern: String): LocalDateTime =
+public fun CharSequence.toLocalDateTime(pattern: CharSequence): LocalDateTime =
     dateTimeFormatterMap
-        .getOrPut(pattern) {
-            dateTimeFormatterWithDefaultOptions(pattern)
+        .getOrPut(pattern.toString()) {
+            dateTimeFormatterWithDefaultOptions(pattern.toString())
         }.parse(this)
         .run {
             LocalDateTime.from(this)
         }
 
 /**
- * LocalDate 或 LocalDatetime 转 Date
+ * LocalDateTime 转 Instant
+ * @return [Instant]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
  */
-internal fun TemporalAccessor.toDate(): Date =
-    LocalDateTime.from(this).toDate()
-
-/**
- * Date 转 LocalDate
- */
-public fun Date.toLocalDate(): LocalDate =
-    toLocalDateTime().toLocalDate()
-
-/**
- * Date 转 LocalDateTime
- */
-public fun Date.toLocalDateTime(): LocalDateTime =
-    toInstant()
-        .atZone(ZoneId.systemDefault())
-        .toLocalDateTime()
-
-/**
- * LocalDate 转 Date
- */
-public fun LocalDate.toDate(): Date =
-    Date.from(atStartOfDay(ZoneId.systemDefault()).toInstant())
+public fun LocalDateTime.toInstant(): Instant =
+    Instant.from(atZone(ZoneId.systemDefault()))
 
 /**
  * LocalDateTime 转 Date
+ * @return [Date]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
  */
 public fun LocalDateTime.toDate(): Date =
-    Date.from(atZone(ZoneId.systemDefault()).toInstant())
-
-/**
- * LocalDateTime 转 Instant
- */
-public fun LocalDateTime.toInstant(): Instant =
-    toInstant(defaultZoneOffset)
-
-/**
- * 获取今天所剩秒数
- */
-public fun secondOfTodayRest(): Long =
-    ChronoUnit.SECONDS.between(
-        LocalDateTime.now(),
-        LocalDateTime.now().with(LocalTime.MAX)
-    )
+    Date.from(toInstant())
 
 /**
  * 判断 一个 LocalDateTime 是否在 start 和 end 之间
- * @param start
- * @param end
+ * @param [start] 开始
+ * @param [end] 终止
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
  */
 public fun LocalDateTime.isBetween(
     start: LocalDateTime?,
@@ -185,9 +188,33 @@ public fun LocalDateTime.isBetween(
     }
 
 /**
+ * LocalDate 转 Date
+ * @return [Instant]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
+ */
+public fun LocalDate.toInstant(): Instant =
+    atStartOfDay(ZoneId.systemDefault()).toInstant()
+
+/**
+ * LocalDate 转 Date
+ * @return [Date]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
+ */
+public fun LocalDate.toDate(): Date =
+    Date.from(toInstant())
+
+/**
  * 判断 一个 LocalDate 是否在 start 和 end 之间
- * @param start
- * @param end
+ * @param [start] 开始
+ * @param [end] 终止
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
  */
 public fun LocalDate.isBetween(
     start: LocalDate?,
@@ -201,9 +228,60 @@ public fun LocalDate.isBetween(
 
 /**
  * 获取某天的23:59:59
+ * @return [LocalDateTime]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
  */
 public fun LocalDate.atEndOfDay(): LocalDateTime =
     LocalDateTime.of(this, LocalTime.MAX)
+
+/**
+ * date 转 字符串
+ * @param [pattern] 图案
+ * @return [String]
+ * @author Tang Li
+ * @date 2023/12/08 19:40
+ * @since 1.0.0
+ */
+public fun Date.toString(pattern: String): String =
+    dateTimeFormatterMap
+        .getOrPut(pattern) {
+            dateTimeFormatterWithDefaultOptions(pattern)
+        }.format(toInstant())
+
+/**
+ * Date 转 LocalDate
+ * @return [LocalDate]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
+ */
+public fun Date.toLocalDate(): LocalDate =
+    LocalDate.ofInstant(toInstant(), ZoneId.systemDefault())
+
+/**
+ * Date 转 LocalDateTime
+ * @return [LocalDateTime]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
+ */
+public fun Date.toLocalDateTime(): LocalDateTime =
+    LocalDateTime.ofInstant(toInstant(), ZoneId.systemDefault())
+
+/**
+ * 获取今天所剩秒数
+ * @return [Long]
+ * @author Tang Li
+ * @date 2023/12/08 19:43
+ * @since 1.0.0
+ */
+public fun secondOfTodayRest(): Long =
+    ChronoUnit.SECONDS.between(
+        LocalDateTime.now(),
+        LocalDateTime.now().with(LocalTime.MAX)
+    )
 
 /**
  * 是否与另一时间段重叠
@@ -227,24 +305,30 @@ public fun <T : TemporalAccessor> Pair<T, T>.overlap(timePeriod: Pair<T, T>): Bo
 public fun <T : Date> Pair<T, T>.dateOverlap(timePeriod: Pair<T, T>): Boolean =
     TimePeriod(this.first, this.second).overlapWith(TimePeriod(timePeriod.first, timePeriod.second))
 
+/**
+ * 时间段
+ * @author Tang Li
+ * @date 2023/12/08 19:44
+ * @since 1.0.0
+ */
 internal class TimePeriod {
-    private val start: Any
-    private val end: Any
+    private val start: Date
+    private val end: Date
 
     constructor(start: TemporalAccessor, end: TemporalAccessor) {
-        throwIf(
-            seconds(start) > seconds(end),
-            "The start time must before the end time"
-        )
-        this.start = start
-        this.end = end
+        val startDate = start.toDate()
+        val endDate = end.toDate()
+        if (seconds(startDate) > seconds(endDate)) {
+            throw ApiException("The start time must before the end time")
+        }
+        this.start = startDate
+        this.end = endDate
     }
 
     constructor(start: Date, end: Date) {
-        throwIf(
-            seconds(start) > seconds(end),
-            "The start time must before the end time"
-        )
+        if (seconds(start) > seconds(end)) {
+            throw ApiException("The start time must before the end time")
+        }
         this.start = start
         this.end = end
     }
@@ -255,11 +339,6 @@ internal class TimePeriod {
                 seconds(start) >= another.seconds(another.end)
         )
 
-    private fun seconds(dateTimeObject: Any) =
-        when (dateTimeObject) {
-            is LocalDate -> dateTimeObject.toEpochSecond(LocalTime.MIN, defaultZoneOffset)
-            is LocalDateTime -> dateTimeObject.toEpochSecond(defaultZoneOffset)
-            is Date -> dateTimeObject.toLocalDateTime().toEpochSecond(defaultZoneOffset)
-            else -> error("Ain't gonna happen.")
-        }
+    private fun seconds(dateTimeObject: Date) =
+        dateTimeObject.time / 1000L
 }

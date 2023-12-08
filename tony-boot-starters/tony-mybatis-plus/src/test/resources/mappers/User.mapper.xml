@@ -1,40 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tony.test.mybatis.db.dao.UserDao">
-
-    <select id="getByNameOrPhone" resultType="com.tony.test.mybatis.db.po.User">
-        select user_id,
-        user_name,
-        real_name,
-        mobile,
-        pwd,
-        create_time,
-        states,
-        remark
-        from sys_user
-        <trim prefix="where" suffixOverrides="or">
-            <if test="!@kotlin.text.StringsKt@isBlank(userName)">
-                user_name = #{userName,jdbcType=VARCHAR} or
-            </if>
-            <if test="!@kotlin.text.StringsKt@isBlank(mobile)">
-                mobile = #{mobile,jdbcType=VARCHAR} or
-            </if>
-        </trim>
-        limit 1
-    </select>
-
-    <select id="getByUserNameAndPwd" parameterType="hashmap" resultType="com.tony.test.mybatis.db.po.User">
-        select user_id,
-               user_name,
-               real_name,
-               mobile,
-               pwd,
-               create_time,
-               states,
-               remark
-        from sys_user
-        where user_name = #{userName,jdbcType=VARCHAR}
-        and pwd = #{pwd,jdbcType=VARCHAR}
-        and states = 1
-    </select>
 </mapper>
