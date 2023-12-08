@@ -57,6 +57,19 @@ class MyBatisAppTest {
         }
         userDao.insertBatch(users)
     }
+    @Test
+    fun testDaoInsert() {
+        val user =
+            User().apply {
+                val s = "lg1"
+                userName = s
+                realName = "李赣1"
+                mobile = "13981842691"
+                pwd = "123456$s".md5().uppercase()
+            }
+
+        userDao.insert(user)
+    }
 
     @Test
     fun testDaoOneMap() {
@@ -90,15 +103,14 @@ class MyBatisAppTest {
 class TestMyBatisApp {
 
     @Bean
-    fun defaultMetaObjectHandler() = object : DefaultMetaObjectHandler(NoopApiSession()) {
-        override val userName: String?
-            get() = "aloha"
-    }
+    fun defaultMetaObjectHandler() = object : DefaultMetaObjectHandler(NoopApiSession()){}
 }
 
 class NoopApiSession : ApiSession {
     override val userId: String
         get() = "1"
+    override val userName: String
+        get() = "aloha"
     override val tenantId: String
         get() = "1"
 }

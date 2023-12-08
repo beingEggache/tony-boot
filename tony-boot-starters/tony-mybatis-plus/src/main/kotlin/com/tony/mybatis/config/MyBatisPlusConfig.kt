@@ -25,10 +25,6 @@
 package com.tony.mybatis.config
 
 import com.tony.misc.YamlPropertySourceFactory
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.context.properties.bind.ConstructorBinding
-import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 
@@ -38,27 +34,5 @@ import org.springframework.context.annotation.PropertySource
  * @date 2023/5/25 15:55
  */
 @Configuration
-@EnableConfigurationProperties(MyBatisPlusProperties::class)
 @PropertySource("classpath:mybatis-plus.config.yml", factory = YamlPropertySourceFactory::class)
 internal class MybatisPlusConfig
-
-/**
- * JwtProperties
- * @author Tang Li
- * @date 2023/5/25 15:56
- */
-@ConfigurationProperties(prefix = "mybatis-plus.meta")
-public data class MyBatisPlusProperties
-    @ConstructorBinding
-    constructor(
-        @DefaultValue("creatorId")
-        val fieldCreatorIdName: String,
-        @DefaultValue("updatorId")
-        val fieldUpdatorIdName: String,
-        @DefaultValue("creatorName")
-        val fieldCreatorNameName: String,
-        @DefaultValue("updatorName")
-        val fieldUpdatorNameName: String,
-        @DefaultValue("tenantId")
-        val fieldTenantIdName: String,
-    )

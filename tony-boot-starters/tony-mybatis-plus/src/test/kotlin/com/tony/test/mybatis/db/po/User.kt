@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableLogic
 import com.baomidou.mybatisplus.annotation.TableName
+import com.tony.mybatis.MetaColumn
+import com.tony.mybatis.MybatisPlusMetaProperty
 import java.time.LocalDateTime
 
 /**
@@ -23,32 +25,32 @@ class User {
      * 用户id
      */
     @TableId
-    var userId: Long? = null
+    var userId: String = ""
 
     /**
      * 用户登录名
      */
-    var userName: String? = null
+    var userName: String = ""
 
     /**
      * 用户真实姓名
      */
-    var realName: String? = null
+    var realName: String = ""
 
     /**
      * 手机号
      */
-    var mobile: String? = null
+    var mobile: String = ""
 
     /**
      * 密码
      */
-    var pwd: String? = null
+    var pwd: String = ""
 
     /**
      * 备注
      */
-    var remark: String? = null
+    var remark: String = ""
 
     /**
      * 创建时间
@@ -58,57 +60,60 @@ class User {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    var createTime: LocalDateTime? = null
+    var createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 创建人
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_ID)
     @TableField(
         fill = FieldFill.INSERT,
-        insertStrategy = FieldStrategy.NEVER,
+        insertStrategy = FieldStrategy.NOT_EMPTY,
         updateStrategy = FieldStrategy.NEVER
     )
-    var creatorId: Long? = null
+    var creatorId: String = ""
 
     /**
      * 创建人名称
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_NAME)
     @TableField(
         fill = FieldFill.INSERT,
-        insertStrategy = FieldStrategy.NEVER,
+        insertStrategy = FieldStrategy.NOT_EMPTY,
         updateStrategy = FieldStrategy.NEVER
     )
-    var creatorName: String? = null
+    var creatorName: String = ""
 
     /**
      * 更新时间
      */
     @TableField(
         insertStrategy = FieldStrategy.NEVER,
-        updateStrategy = FieldStrategy.ALWAYS,
-        update = "CURRENT_TIMESTAMP"
+        updateStrategy = FieldStrategy.NEVER
     )
-    var updateTime: LocalDateTime? = null
+    var updateTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 更新人
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_ID)
     @TableField(
         fill = FieldFill.UPDATE,
         insertStrategy = FieldStrategy.NEVER,
-        updateStrategy = FieldStrategy.NEVER
+        updateStrategy = FieldStrategy.NOT_EMPTY
     )
-    var updatorId: Long? = null
+    var updatorId: String = ""
 
     /**
      * 更新人名称
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_NAME)
     @TableField(
         fill = FieldFill.UPDATE,
         insertStrategy = FieldStrategy.NEVER,
-        updateStrategy = FieldStrategy.NEVER
+        updateStrategy = FieldStrategy.NOT_EMPTY
     )
-    var updatorName: String? = null
+    var updatorName: String = ""
 
     /**
      * 状态：1-启用，0-禁用
@@ -124,9 +129,11 @@ class User {
     /**
      * 租户id
      */
+    @MybatisPlusMetaProperty(MetaColumn.TENANT_ID)
     @TableField(
         fill = FieldFill.INSERT,
+        insertStrategy = FieldStrategy.NOT_EMPTY,
         updateStrategy = FieldStrategy.NEVER
     )
-    var tenantId: Long? = null
+    var tenantId: String = ""
 }

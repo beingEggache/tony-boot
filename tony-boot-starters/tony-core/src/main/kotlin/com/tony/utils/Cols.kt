@@ -42,12 +42,6 @@ public fun <C : Collection<T>, T : Any?> ifEmpty(
 ): C =
     if (cols.isNullOrEmpty()) ifEmpty else cols
 
-public fun <C : Collection<T>, T : Any?> orEmpty(
-    cols: C?,
-    ifEmpty: C,
-): C =
-    if (cols.isNullOrEmpty()) ifEmpty else cols
-
 public fun <C : MutableList<T>, T : Any?> orEmpty(cols: C?): C =
     if (cols.isNullOrEmpty()) mutableListOf<T>().asToNotNull() else cols
 

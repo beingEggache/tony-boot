@@ -38,6 +38,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -68,7 +69,7 @@ internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =
     DateTimeFormatter
         .ofPattern(pattern)
         .withLocale(Locale.getDefault())
-        .withZone(defaultZoneOffset)
+        .withZone(ZoneId.systemDefault())
 
 /**
  * 日期转为字符串表示
@@ -131,29 +132,27 @@ internal fun TemporalAccessor.toDate(): Date =
  * Date 转 LocalDate
  */
 public fun Date.toLocalDate(): LocalDate =
-    toInstant()
-        .atOffset(defaultZoneOffset)
-        .toLocalDate()
+    toLocalDateTime().toLocalDate()
 
 /**
  * Date 转 LocalDateTime
  */
 public fun Date.toLocalDateTime(): LocalDateTime =
     toInstant()
-        .atOffset(defaultZoneOffset)
+        .atZone(ZoneId.systemDefault())
         .toLocalDateTime()
 
 /**
  * LocalDate 转 Date
  */
 public fun LocalDate.toDate(): Date =
-    Date.from(atStartOfDay(defaultZoneOffset).toInstant())
+    Date.from(atStartOfDay(ZoneId.systemDefault()).toInstant())
 
 /**
  * LocalDateTime 转 Date
  */
 public fun LocalDateTime.toDate(): Date =
-    Date.from(atOffset(defaultZoneOffset).toInstant())
+    Date.from(atZone(ZoneId.systemDefault()).toInstant())
 
 /**
  * LocalDateTime 转 Instant

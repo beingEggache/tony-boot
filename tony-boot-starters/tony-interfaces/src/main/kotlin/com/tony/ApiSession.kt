@@ -12,5 +12,14 @@ public interface ApiSession {
      */
     public val userId: String?
 
+    public val userName: String?
+        get() = ""
+
+    public val orgId: String?
+        get() = ""
+
+    public val orgName: String?
+        get() = ""
+
     public val tenantId: String?
 }
