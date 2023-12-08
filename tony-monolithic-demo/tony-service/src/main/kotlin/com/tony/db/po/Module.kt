@@ -91,7 +91,7 @@ class Module {
      */
     @TableField(
         insertStrategy = FieldStrategy.NEVER,
-        updateStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
     )
     var updateTime: LocalDateTime = LocalDateTime.now()
 

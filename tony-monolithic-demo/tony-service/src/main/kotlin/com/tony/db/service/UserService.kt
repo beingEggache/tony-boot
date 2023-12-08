@@ -97,7 +97,7 @@ class UserService(
         val superAdmin = "SUPER_ADMIN"
         val user =
             User().apply {
-                this.userId = 1L
+                this.userId = "1"
                 userName = "gateway"
                 realName = "超级管理员"
                 mobile = "13984842424"

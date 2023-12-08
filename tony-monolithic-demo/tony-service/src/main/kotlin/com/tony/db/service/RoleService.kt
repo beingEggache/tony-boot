@@ -39,7 +39,7 @@ class RoleService(
             Role().apply {
                 this.roleId = req.roleId
                 this.roleName = req.roleName
-                this.remark = req.remark
+                this.remark = req.remark.ifNullOrBlank()
                 this.appId = appId
             }
         )
