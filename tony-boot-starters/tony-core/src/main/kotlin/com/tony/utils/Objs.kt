@@ -39,6 +39,7 @@ import org.springframework.beans.BeanUtils
 /**
  * println
  */
+@JvmSynthetic
 public fun <T> T?.println(): Unit =
     println(this)
 

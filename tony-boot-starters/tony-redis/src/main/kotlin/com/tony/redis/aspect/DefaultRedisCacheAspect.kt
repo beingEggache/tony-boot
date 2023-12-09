@@ -146,10 +146,6 @@ public class DefaultRedisCacheAspect {
         val paramsNames = methodSignature.parameterNames
         val cacheKey = cacheKey(arguments, paramsNames, annotation.expressions, annotation.cacheKey)
         val timeout = if (annotation.expire == RedisCacheable.TODAY_END) secondOfTodayRest() else annotation.expire
-        val cachedValue =
-            RedisManager
-                .values
-                .get<String>(cacheKey)
 
         val javaType =
             TypeFactory
@@ -159,6 +155,11 @@ public class DefaultRedisCacheAspect {
                         .method
                         .genericReturnType
                 )
+
+        val cachedValue =
+            RedisManager
+                .values
+                .get<String>(cacheKey)
 
         if (javaType.isDateTimeLikeType()) {
             throw ApiException("Not support dateTimeLike type.")
