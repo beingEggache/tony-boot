@@ -7,7 +7,6 @@ import com.tony.dto.req.UserLoginReq
 import com.tony.dto.resp.UserLoginResp
 import com.tony.jwt.JwtToken
 import com.tony.jwt.config.JwtProperties
-import com.tony.utils.defaultZoneOffset
 import com.tony.utils.toString
 import com.tony.web.WebApp
 import io.swagger.v3.oas.annotations.Operation
@@ -38,13 +37,6 @@ class IndexController(
     @NoPermissionCheck
     fun locale(): String =
         Locale.getDefault().toLanguageTag()
-
-    @Operation(summary = "zoneOffset")
-    @GetMapping("/zone-offset")
-    @NoLoginCheck
-    @NoPermissionCheck
-    fun zoneId(): String =
-        defaultZoneOffset.toString()
 
     @Operation(summary = "时间戳")
     @GetMapping("/now")

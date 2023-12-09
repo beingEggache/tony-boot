@@ -205,14 +205,12 @@ public fun genRandomNumber(digit: Int): Int {
     }
     val base =
         9 * (
-            (10)
-                .toDouble()
+            10.0
                 .pow((digit - 1).toDouble())
                 .toInt()
         )
     val fix =
-        10
-            .toDouble()
+        10.0
             .pow((digit - 1).toDouble())
             .toInt()
     return secureRandom.nextInt(base) + fix

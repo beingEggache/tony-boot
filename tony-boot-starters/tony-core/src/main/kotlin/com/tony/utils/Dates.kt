@@ -37,28 +37,13 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.OffsetDateTime
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAccessor
 import java.util.Date
 import java.util.Locale
 import java.util.WeakHashMap
-
-/**
- * 系统默认时区(ZoneOffset)
- * 如果以加或减{+|-}开头, 则创建ZoneOffset实例
- * 如果以{GMT|UTC|UT}开头, 则创建ZoneRegion实例
- * ZoneId.of(“UT+8”) 得到 ZoneRegion
- * ZoneId.of("+8") 得到ZoneOffset
- * ZoneId.of("+08:00") 得到ZoneOffset
- * ZoneId.of(“Asia/Shanghai”) 得到ZoneRegion
- */
-@JvmField
-public val defaultZoneOffset: ZoneOffset =
-    ZoneOffset.from(OffsetDateTime.now())
 
 @JvmField
 @JvmSynthetic
@@ -79,10 +64,10 @@ internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =
  * @date 2023/12/08 19:42
  * @since 1.0.0
  */
-public fun TemporalAccessor.toString(pattern: String): String =
+public fun TemporalAccessor.toString(pattern: CharSequence): String =
     dateTimeFormatterMap
-        .getOrPut(pattern) {
-            dateTimeFormatterWithDefaultOptions(pattern)
+        .getOrPut(pattern.toString()) {
+            dateTimeFormatterWithDefaultOptions(pattern.toString())
         }.format(this)
 
 /**
@@ -107,10 +92,10 @@ internal fun TemporalAccessor.toDate(): Date =
  * @date 2023/12/08 19:42
  * @since 1.0.0
  */
-public fun CharSequence.toDate(pattern: String): Date =
+public fun CharSequence.toDate(pattern: CharSequence): Date =
     dateTimeFormatterMap
-        .getOrPut(pattern) {
-            dateTimeFormatterWithDefaultOptions(pattern)
+        .getOrPut(pattern.toString()) {
+            dateTimeFormatterWithDefaultOptions(pattern.toString())
         }.parse(this)
         .toDate()
 
@@ -244,10 +229,10 @@ public fun LocalDate.atEndOfDay(): LocalDateTime =
  * @date 2023/12/08 19:40
  * @since 1.0.0
  */
-public fun Date.toString(pattern: String): String =
+public fun Date.toString(pattern: CharSequence): String =
     dateTimeFormatterMap
-        .getOrPut(pattern) {
-            dateTimeFormatterWithDefaultOptions(pattern)
+        .getOrPut(pattern.toString()) {
+            dateTimeFormatterWithDefaultOptions(pattern.toString())
         }.format(toInstant())
 
 /**
@@ -291,7 +276,7 @@ public fun secondOfTodayRest(): Long =
  * @date 2023/12/04 18:33
  * @since 1.0.0
  */
-public fun <T : TemporalAccessor> Pair<T, T>.overlap(timePeriod: Pair<T, T>): Boolean =
+public infix fun <T : TemporalAccessor> Pair<T, T>.overlap(timePeriod: Pair<T, T>): Boolean =
     TimePeriod(this.first, this.second).overlapWith(TimePeriod(timePeriod.first, timePeriod.second))
 
 /**
@@ -302,7 +287,7 @@ public fun <T : TemporalAccessor> Pair<T, T>.overlap(timePeriod: Pair<T, T>): Bo
  * @date 2023/12/04 18:33
  * @since 1.0.0
  */
-public fun <T : Date> Pair<T, T>.dateOverlap(timePeriod: Pair<T, T>): Boolean =
+public infix fun <T : Date> Pair<T, T>.dateOverlap(timePeriod: Pair<T, T>): Boolean =
     TimePeriod(this.first, this.second).overlapWith(TimePeriod(timePeriod.first, timePeriod.second))
 
 /**
@@ -318,7 +303,7 @@ internal class TimePeriod {
     constructor(start: TemporalAccessor, end: TemporalAccessor) {
         val startDate = start.toDate()
         val endDate = end.toDate()
-        if (seconds(startDate) > seconds(endDate)) {
+        if (startDate > endDate) {
             throw ApiException("The start time must before the end time")
         }
         this.start = startDate
@@ -326,7 +311,7 @@ internal class TimePeriod {
     }
 
     constructor(start: Date, end: Date) {
-        if (seconds(start) > seconds(end)) {
+        if (start > end) {
             throw ApiException("The start time must before the end time")
         }
         this.start = start
@@ -334,11 +319,5 @@ internal class TimePeriod {
     }
 
     fun overlapWith(another: TimePeriod): Boolean =
-        !(
-            seconds(end) <= another.seconds(another.start) ||
-                seconds(start) >= another.seconds(another.end)
-        )
-
-    private fun seconds(dateTimeObject: Date) =
-        dateTimeObject.time / 1000L
+        end > another.start && start < another.end
 }
