@@ -87,23 +87,6 @@ public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
     }.asToNotNull()
 
 /**
- * 将字符串类型或数值类型转换成数值.
- * @receiver [Any]? 字符串或数值
- * @param [E] 返回数值类型
- * @param [numberType] 数值类型
- * @return [E]
- * @author Tang Li
- * @date 2023/09/13 10:24
- * @since 1.0.0
- */
-public fun <E : Number> Any?.toNumber(numberType: Class<in E>): E =
-    when (this) {
-        is Number -> this.toNumber(numberType)
-        is CharSequence -> this.toNumber(numberType)
-        else -> error("${this?.javaClass} can't transform to number.")
-    }
-
-/**
  * 数字截断并转为  [BigDecimal]
  * @receiver [Number]?
  * @param [digit] 截断位数

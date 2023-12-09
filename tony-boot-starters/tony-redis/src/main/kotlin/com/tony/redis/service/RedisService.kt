@@ -27,10 +27,10 @@ package com.tony.redis.service
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.tony.redis.serializer.SerializerMode
+import com.tony.redis.toNum
 import com.tony.utils.asTo
 import com.tony.utils.isNumberTypes
 import com.tony.utils.rawClass
-import com.tony.utils.toNumber
 
 /**
  * RedisService is
@@ -58,7 +58,7 @@ public sealed interface RedisValueTransformer {
      */
     public fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? {
         if (type.isNumberTypes()) {
-            return this?.toNumber(type)
+            return toNum(type)
         }
         return this?.asTo()
     }

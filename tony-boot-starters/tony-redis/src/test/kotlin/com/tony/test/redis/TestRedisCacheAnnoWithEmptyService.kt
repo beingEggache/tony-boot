@@ -107,7 +107,7 @@ class TestRedisCacheAnnoWithEmptyService {
 
     @RedisCacheable(cacheKey = "accountName:%s", expressions = ["accountId"], cacheEmpty = true)
     fun testCacheNameMap(accountId: String): Map<String, String> {
-        return mapOf("a" to "123")
+        return mutableMapOf("a" to "123")
     }
 
     @RedisCacheable(cacheKey = "accountName:%s", expressions = ["accountId"], cacheEmpty = true)

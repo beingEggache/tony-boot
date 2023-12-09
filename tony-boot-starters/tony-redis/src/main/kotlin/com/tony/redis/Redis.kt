@@ -25,6 +25,7 @@
 @file:JvmName("Redis")
 
 package com.tony.redis
+
 /**
  * Redis 相关.
  * @author Tang Li
@@ -32,7 +33,9 @@ package com.tony.redis
  * @since 1.0.0
  */
 import com.tony.SpringContexts
+import com.tony.exception.ApiException
 import com.tony.redis.service.RedisService
+import com.tony.utils.toNumber
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.HashOperations
 import org.springframework.data.redis.core.ListOperations
@@ -80,3 +83,11 @@ internal val lockScript: RedisScript<Long> =
  */
 internal val deleteKeyByPatternScript: RedisScript<Long?> =
     RedisScript.of(ClassPathResource("META-INF/scripts/deleteByKeyPatterns.lua"), Long::class.java)
+
+internal fun <R : Number> Any?.toNum(type: Class<in R>): R? =
+    when (this) {
+        is String -> this.toNumber(type)
+        is Number -> this.toNumber(type)
+        null -> null
+        else -> throw ApiException("Not support ${this::class.java}")
+    }
