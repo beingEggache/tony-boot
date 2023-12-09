@@ -198,7 +198,7 @@ public val secureRandom: SecureRandom = SecureRandom()
  * @date 2023/09/13 10:25
  * @since 1.0.0
  */
-public fun genRandomNumber(digit: Int): Int {
+public fun genRandomInt(digit: Int): Int {
     if (digit < 1) throw ApiException("随机数至少是一位数")
     if (digit == 1) {
         return secureRandom.nextInt(10)
@@ -214,6 +214,32 @@ public fun genRandomNumber(digit: Int): Int {
             .pow((digit - 1).toDouble())
             .toInt()
     return secureRandom.nextInt(base) + fix
+}
+
+/**
+ * 生成指定位数随机数
+ * @param [digit] 位数
+ * @return [Long]
+ * @author Tang Li
+ * @date 2023/09/13 10:25
+ * @since 1.0.0
+ */
+public fun genRandomLong(digit: Int): Long {
+    if (digit < 1) throw ApiException("随机数至少是一位数")
+    if (digit == 1) {
+        return secureRandom.nextLong(10)
+    }
+    val base =
+        9 * (
+            10.0
+                .pow((digit - 1).toDouble())
+                .toLong()
+        )
+    val fix =
+        10.0
+            .pow((digit - 1).toDouble())
+            .toLong()
+    return secureRandom.nextLong(base) + fix
 }
 
 private fun String?.toBigDecimal(decimal: Int = 2) =

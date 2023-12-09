@@ -18,7 +18,7 @@ import java.util.Date
  * @date 2023/12/08 18:50
  * @since 1.0.0
  */
-object DateTest {
+object DatesTest {
 
     private val logger = getLogger()
     val pattern_yyyyMMddHHmmss = "yyyy-MM-dd HH:mm:ss"
