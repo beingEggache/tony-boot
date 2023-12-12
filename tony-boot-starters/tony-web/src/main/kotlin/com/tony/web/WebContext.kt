@@ -45,40 +45,11 @@ import org.springframework.web.context.request.ServletWebRequest
  */
 public object WebContext {
     /**
-     * 是否web 环境, 单元测试时有用.
-     */
-    @JvmStatic
-    public val isWeb: Boolean
-        get() = RequestContextHolder.getRequestAttributes() != null
-
-    /**
      * ServletRequestAttributes
      */
     @JvmStatic
     public val current: ServletRequestAttributes
         get() = RequestContextHolder.currentRequestAttributes().asToNotNull()
-
-    /**
-     * ServletRequestAttributes [SCOPE_REQUEST]范围 存取变量.
-     * @param [key] 键
-     * @param [callback] 回调
-     * @return [T]
-     * @author Tang Li
-     * @date 2023/10/24 14:28
-     * @since 1.0.0
-     */
-    @JvmStatic
-    public fun <T : Any> ServletRequestAttributes.getOrPut(
-        key: String,
-        callback: java.util.function.Supplier<T>,
-    ): T =
-        getAttribute(key, SCOPE_REQUEST)
-            .asTo<T>()
-            .ifNull(
-                callback.get().apply {
-                    setAttribute(key, this, SCOPE_REQUEST)
-                }
-            )
 
     @JvmStatic
     public val request: HttpServletRequest
@@ -117,4 +88,26 @@ public object WebContext {
                         .errorAttributes
                         .getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
                 }
+
+    /**
+     * ServletRequestAttributes [SCOPE_REQUEST]范围 存取变量.
+     * @param [key] 键
+     * @param [callback] 回调
+     * @return [T]
+     * @author Tang Li
+     * @date 2023/10/24 14:28
+     * @since 1.0.0
+     */
+    @JvmStatic
+    public fun <T : Any> ServletRequestAttributes.getOrPut(
+        key: String,
+        callback: java.util.function.Supplier<T>,
+    ): T =
+        getAttribute(key, SCOPE_REQUEST)
+            .asTo<T>()
+            .ifNull(
+                callback.get().apply {
+                    setAttribute(key, this, SCOPE_REQUEST)
+                }
+            )
 }
