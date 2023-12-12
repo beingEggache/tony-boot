@@ -133,4 +133,10 @@ public open class FusTask {
      * 完成时间
      */
     public var finishTime: LocalDateTime? = null
+
+    /**
+     * 是否开始节点
+     */
+    public val atStartNode: Boolean
+        get() = parentTaskId == ""
 }

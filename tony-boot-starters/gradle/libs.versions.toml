@@ -38,7 +38,7 @@ websocketApi = "2.1.1"
 bindApi = "4.0.1"
 
 swagger = "2.2.19"
-knife4j = "4.3.0"
+knife4j = "4.4.0"
 springdoc = "1.7.0"
 springdocStarter = "2.3.0"
 

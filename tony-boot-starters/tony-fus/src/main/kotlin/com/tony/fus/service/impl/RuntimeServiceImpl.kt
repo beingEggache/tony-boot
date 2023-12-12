@@ -57,7 +57,9 @@ internal open class RuntimeServiceImpl(
                 }
         instanceMapper.deleteById(instanceId)
         historyInstanceMapper.updateById(historyInstance)
-        instanceListener?.notify(EventType.COMPLETED, historyInstance)
+        instanceListener?.notify(EventType.COMPLETED) {
+            historyInstanceMapper.selectById(instanceId)
+        }
     }
 
     @Transactional(rollbackFor = [Throwable::class])
@@ -68,7 +70,7 @@ internal open class RuntimeServiceImpl(
                 this.instanceState = InstanceState.ACTIVE
             }
         historyInstanceMapper.insert(historyInstance)
-        instanceListener?.notify(EventType.CREATE, instance)
+        instanceListener?.notify(EventType.CREATE) { instance }
         return instance
     }
 
@@ -163,7 +165,7 @@ internal open class RuntimeServiceImpl(
                         }
                 historyInstanceMapper.updateById(historyInstance)
                 instanceMapper.deleteById(instanceId)
-                instanceListener?.notify(eventType, historyInstance)
+                instanceListener?.notify(eventType) { historyInstance }
             }
     }
 }

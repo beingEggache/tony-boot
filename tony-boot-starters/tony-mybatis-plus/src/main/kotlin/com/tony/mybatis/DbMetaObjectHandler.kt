@@ -3,6 +3,7 @@ package com.tony.mybatis
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler
 import com.tony.ApiSession
 import com.tony.utils.annotation
+import com.tony.utils.asTo
 import com.tony.utils.hasAnnotation
 import com.tony.utils.throwIfNull
 import org.apache.ibatis.reflection.MetaObject
@@ -22,6 +23,7 @@ public abstract class DefaultMetaObjectHandler(
 @MustBeDocumented
 public annotation class MybatisPlusMetaProperty(
     val propertyType: MetaColumn,
+    val override: Boolean = false,
 )
 
 public enum class MetaColumn {
@@ -68,7 +70,8 @@ internal interface DbMetaObjectHandler : MetaObjectHandler {
 
         fieldInfoList
             .forEach {
-                val metaProperty = it.field.annotation(MybatisPlusMetaProperty::class.java).throwIfNull()
+                val field = it.field
+                val metaProperty = field.annotation(MybatisPlusMetaProperty::class.java).throwIfNull()
                 val metaValue =
                     when (metaProperty.propertyType) {
                         MetaColumn.USER_ID -> apiSession.userId
@@ -78,8 +81,13 @@ internal interface DbMetaObjectHandler : MetaObjectHandler {
                         MetaColumn.TENANT_ID -> apiSession.tenantId
                     }
 
-                if (!metaValue.isNullOrBlank()) {
-                    metaObject.setValue(it.field.name, metaValue)
+                val fieldName = field.name
+                val fieldValue = metaObject.getValue(fieldName).asTo<String>()
+                if (
+                    !metaValue.isNullOrBlank() &&
+                    (metaProperty.override || fieldValue.isNullOrBlank())
+                ) {
+                    metaObject.setValue(fieldName, metaValue)
                 }
             }
     }

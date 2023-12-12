@@ -20,7 +20,6 @@ import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.extension.fusThrowIfEmpty
 import com.tony.fus.extension.fusThrowIfNull
-import com.tony.fus.extension.fusThrowIfNullOrEmpty
 import com.tony.fus.extension.ofPerformType
 import com.tony.fus.listener.TaskListener
 import com.tony.fus.model.FusExecution
@@ -68,7 +67,7 @@ internal open class TaskServiceImpl(
         )
 
         moveToHistoryTask(task, taskState, userId)
-        taskListener?.notify(eventType, task)
+        taskListener?.notify(eventType) { task }
         return task
     }
 
@@ -91,7 +90,7 @@ internal open class TaskServiceImpl(
 
     override fun updateTaskById(task: FusTask) {
         taskMapper.updateById(task)
-        taskListener?.notify(EventType.UPDATE, task)
+        taskListener?.notify(EventType.UPDATE) { task }
     }
 
     override fun viewTask(
@@ -173,8 +172,7 @@ internal open class TaskServiceImpl(
         userId: String,
     ): FusTask =
         undoHistoryTask(
-            taskId,
-            userId
+            taskId
         ) { historyTask ->
             taskMapper
                 .ktQuery()
@@ -194,8 +192,7 @@ internal open class TaskServiceImpl(
         userId: String,
     ): FusTask =
         undoHistoryTask(
-            taskId,
-            userId
+            taskId
         ) { historyTask ->
             val taskIdList =
                 if (historyTask.performType == PerformType.COUNTERSIGN) {
@@ -238,10 +235,9 @@ internal open class TaskServiceImpl(
         userId: String,
         variable: Map<String, Any?>?,
     ): FusTask {
-        val parentTaskId =
-            task.parentTaskId.fusThrowIfNullOrEmpty("上一步任务ID为空，无法驳回至上一步处理")
+        fusThrowIf(task.atStartNode, "上一步任务ID为空，无法驳回至上一步处理")
         execute(task.taskId, userId, TaskState.REJECTED, EventType.REJECTED, variable)
-        return undoHistoryTask(parentTaskId, userId)
+        return undoHistoryTask(task.parentTaskId)
     }
 
     override fun hasPermission(
@@ -324,14 +320,14 @@ internal open class TaskServiceImpl(
         }
         val parentTaskId = execution.task?.parentTaskId
         nodeUserList
-            .map {
+            .map { nodeAssignee  ->
                 FusTaskCc().apply {
                     this.creatorId = execution.userId
                     this.instanceId = execution.instance.instanceId
                     this.parentTaskId = parentTaskId.ifNullOrBlank()
                     this.taskName = node.nodeName
-                    this.actorId = it.id
-                    this.actorName = it.name
+                    this.actorId = nodeAssignee.id
+                    this.actorName = nodeAssignee.name
                     this.actorType = ActorType.USER
                     this.taskState = TaskState.ACTIVE
                 }
@@ -450,11 +446,11 @@ internal open class TaskServiceImpl(
                     !taskActorMapper.deleteByTaskId(task.taskId),
                     "Delete FusTaskActor table failed"
                 )
-            }?.forEach {
+            }?.forEach { taskActor ->
                 fusThrowIf(
                     (
                         historyTaskActorMapper
-                            .insert(it.copyToNotNull(FusHistoryTaskActor())) <= 0
+                            .insert(taskActor.copyToNotNull(FusHistoryTaskActor())) <= 0
                     ),
                     "Migration to FusHistoryTaskActor table failed"
                 )
@@ -464,7 +460,6 @@ internal open class TaskServiceImpl(
 
     private fun undoHistoryTask(
         historyTaskId: String,
-        userId: String,
         callback: Consumer<FusHistoryTask>? = null,
     ): FusTask {
         val historyTask =
@@ -474,27 +469,33 @@ internal open class TaskServiceImpl(
         val task =
             historyTask.copyToNotNull(FusTask()).apply {
                 taskId = ""
-                creatorId = userId
             }
         taskMapper.insert(task)
-        historyTaskActorMapper
-            .ktQuery()
-            .eq(FusHistoryTaskActor::taskId, historyTaskId)
-            .list()
-            .map {
+        if (task.atStartNode) {
+            taskActorMapper.insert(
                 FusTaskActor().apply {
-                    tenantId = it.tenantId
-                    instanceId = it.instanceId
-                    taskId = task.taskId
-                    actorType = it.actorType
-                    actorId = it.actorId
-                    actorName = it.actorName
+                    this.actorId = task.creatorId
+                    this.actorName = task.creatorName
                 }
-            }.takeIf {
-                it.isNotEmpty()
-            }?.also {
-                taskActorMapper.insertBatch(it)
-            }
+            )
+        } else {
+            historyTaskActorMapper
+                .ktQuery()
+                .eq(FusHistoryTaskActor::taskId, historyTaskId)
+                .list()
+                .map { historyTaskActor ->
+                    FusTaskActor().apply {
+                        tenantId = historyTaskActor.tenantId
+                        instanceId = historyTaskActor.instanceId
+                        taskId = task.taskId
+                        actorType = historyTaskActor.actorType
+                        actorId = historyTaskActor.actorId
+                        actorName = historyTaskActor.actorName
+                    }
+                }.also { taskActorList ->
+                    taskActorMapper.insertBatch(taskActorList)
+                }
+        }
         return task
     }
 
@@ -526,7 +527,7 @@ internal open class TaskServiceImpl(
             taskActorList.forEach {
                 assignTask(task.instanceId, task.taskId, it)
             }
-            taskListener?.notify(EventType.CREATE, task)
+            taskListener?.notify(EventType.CREATE) { task }
             return listOf(task)
         }
 
@@ -537,7 +538,7 @@ internal open class TaskServiceImpl(
                 task.taskId,
                 execution.nextTaskActor ?: taskActorList.first()
             )
-            taskListener?.notify(EventType.CREATE, task)
+            taskListener?.notify(EventType.CREATE) { task }
             return listOf(task)
         }
 
@@ -545,7 +546,7 @@ internal open class TaskServiceImpl(
             val newTask = task.copyToNotNull(FusTask()).apply { taskId = "" }
             taskMapper.insert(newTask)
             assignTask(newTask.instanceId, newTask.taskId, it)
-            taskListener?.notify(EventType.CREATE, newTask)
+            taskListener?.notify(EventType.CREATE) { newTask }
             newTask
         }
     }
