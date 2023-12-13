@@ -60,15 +60,12 @@ internal interface DbMetaObjectHandler : MetaObjectHandler {
         metaObject: MetaObject,
         withInsertFill: Boolean,
     ) {
-        val fieldInfoList =
-            findTableInfo(metaObject)
-                .fieldList
-                .filter {
-                    (if (withInsertFill) it.isWithInsertFill else it.isWithUpdateFill) &&
-                        it.field.hasAnnotation(MybatisPlusMetaProperty::class.java)
-                }
-
-        fieldInfoList
+        findTableInfo(metaObject)
+            .fieldList
+            .filter {
+                (if (withInsertFill) it.isWithInsertFill else it.isWithUpdateFill) &&
+                    it.field.hasAnnotation(MybatisPlusMetaProperty::class.java)
+            }
             .forEach {
                 val field = it.field
                 val metaProperty = field.annotation(MybatisPlusMetaProperty::class.java).throwIfNull()
