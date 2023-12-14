@@ -30,13 +30,9 @@ class DbConfig {
 
     @Bean
     internal fun metaObjectHandler(apiSession: ApiSession): MetaObjectHandler =
-        MonoApiMetaObjectHandler(apiSession)
+        DefaultMetaObjectHandler(apiSession)
 
     @Bean
     fun identifierGenerator(): IdentifierGenerator =
         IdentifierGenerator { IdGenerator.nextId() }
 }
-
-class MonoApiMetaObjectHandler(
-    apiSession: ApiSession,
-) : DefaultMetaObjectHandler(apiSession)

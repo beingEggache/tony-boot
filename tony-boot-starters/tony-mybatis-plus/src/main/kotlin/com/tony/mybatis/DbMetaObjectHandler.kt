@@ -79,7 +79,7 @@ public interface DbMetaObjectHandler : MetaObjectHandler {
  * @date 2023/12/14 09:51
  * @since 1.0.0
  */
-public class DefaultMetaObjectHandler(
+public open class DefaultMetaObjectHandler(
     private val apiSession: ApiSession,
 ) : DbMetaObjectHandler {
     private val metaPropertyMap: ConcurrentMap<Field, MybatisPlusMetaProperty> = ConcurrentHashMap()
