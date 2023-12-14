@@ -84,7 +84,10 @@ public class DefaultMetaObjectHandler(
 ) : DbMetaObjectHandler {
     private val metaPropertyMap: ConcurrentMap<Field, MybatisPlusMetaProperty> = ConcurrentHashMap()
 
-    override fun fill(metaObject: MetaObject, withInsertFill: Boolean) {
+    override fun fill(
+        metaObject: MetaObject,
+        withInsertFill: Boolean,
+    ) {
         findTableInfo(metaObject)
             .fieldList
             .filter {
@@ -92,9 +95,10 @@ public class DefaultMetaObjectHandler(
                     it.field.hasAnnotation(MybatisPlusMetaProperty::class.java)
             }.forEach {
                 val field = it.field
-                val metaProperty = metaPropertyMap.getOrPut(field) {
-                    field.annotation(MybatisPlusMetaProperty::class.java).throwIfNull()
-                }
+                val metaProperty =
+                    metaPropertyMap.getOrPut(field) {
+                        field.annotation(MybatisPlusMetaProperty::class.java).throwIfNull()
+                    }
                 val metaValue =
                     when (metaProperty.propertyType) {
                         MetaColumn.USER_ID -> apiSession.userId
