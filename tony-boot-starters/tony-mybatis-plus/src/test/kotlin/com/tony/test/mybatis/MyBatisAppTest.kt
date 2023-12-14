@@ -5,12 +5,13 @@ import com.tony.ApiSession
 import com.tony.PageQuery
 import com.tony.PageResult
 import com.tony.annotation.EnableTonyBoot
-import com.tony.utils.md5
+import com.tony.mybatis.DbMetaObjectHandler
 import com.tony.mybatis.DefaultMetaObjectHandler
 import com.tony.test.mybatis.db.config.DbConfig
 import com.tony.test.mybatis.db.dao.UserDao
 import com.tony.test.mybatis.db.po.User
 import com.tony.utils.getLogger
+import com.tony.utils.md5
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
@@ -57,6 +58,7 @@ class MyBatisAppTest {
         }
         userDao.insertBatch(users)
     }
+
     @Test
     fun testDaoInsert() {
         val user =
@@ -94,7 +96,7 @@ class MyBatisAppTest {
     }
 
     @Test
-    fun testDaoTransform(){
+    fun testDaoTransform() {
         val mapList = userDao
             .ktQuery()
             .list<Map<String, Any?>> {
@@ -116,7 +118,7 @@ class MyBatisAppTest {
 class TestMyBatisApp {
 
     @Bean
-    fun defaultMetaObjectHandler() = object : DefaultMetaObjectHandler(NoopApiSession()){}
+    fun defaultMetaObjectHandler(): DbMetaObjectHandler = DefaultMetaObjectHandler(NoopApiSession())
 }
 
 class NoopApiSession : ApiSession {

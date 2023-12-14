@@ -6,11 +6,10 @@ import com.tony.utils.annotation
 import com.tony.utils.asTo
 import com.tony.utils.hasAnnotation
 import com.tony.utils.throwIfNull
+import java.lang.reflect.Field
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentMap
 import org.apache.ibatis.reflection.MetaObject
-
-public abstract class DefaultMetaObjectHandler(
-    override val apiSession: ApiSession,
-) : DbMetaObjectHandler
 
 /**
  * mybatis-plus 属性填充注解
@@ -34,9 +33,13 @@ public enum class MetaColumn {
     TENANT_ID,
 }
 
-internal interface DbMetaObjectHandler : MetaObjectHandler {
-    val apiSession: ApiSession
-
+/**
+ * 元对象字段填充控制器抽接口，实现公共字段自动写入
+ * @author Tang Li
+ * @date 2023/12/14 09:44
+ * @since 1.0.0
+ */
+public interface DbMetaObjectHandler : MetaObjectHandler {
     /**
      * 插入时填充数据，比如创建用户id,创建用户名字，租户id等
      *
@@ -56,19 +59,42 @@ internal interface DbMetaObjectHandler : MetaObjectHandler {
         fill(metaObject, false)
     }
 
-    private fun fill(
+    /**
+     * 填充数据
+     * @param [metaObject] 元对象
+     * @param [withInsertFill] true 插入填充, false 更新填充,
+     * @author Tang Li
+     * @date 2023/12/14 09:43
+     * @since 1.0.0
+     */
+    public fun fill(
         metaObject: MetaObject,
         withInsertFill: Boolean,
-    ) {
+    )
+}
+
+/**
+ * 默认元对象处理程序
+ * @author Tang Li
+ * @date 2023/12/14 09:51
+ * @since 1.0.0
+ */
+public class DefaultMetaObjectHandler(
+    private val apiSession: ApiSession,
+) : DbMetaObjectHandler {
+    private val metaPropertyMap: ConcurrentMap<Field, MybatisPlusMetaProperty> = ConcurrentHashMap()
+
+    override fun fill(metaObject: MetaObject, withInsertFill: Boolean) {
         findTableInfo(metaObject)
             .fieldList
             .filter {
                 (if (withInsertFill) it.isWithInsertFill else it.isWithUpdateFill) &&
                     it.field.hasAnnotation(MybatisPlusMetaProperty::class.java)
-            }
-            .forEach {
+            }.forEach {
                 val field = it.field
-                val metaProperty = field.annotation(MybatisPlusMetaProperty::class.java).throwIfNull()
+                val metaProperty = metaPropertyMap.getOrPut(field) {
+                    field.annotation(MybatisPlusMetaProperty::class.java).throwIfNull()
+                }
                 val metaValue =
                     when (metaProperty.propertyType) {
                         MetaColumn.USER_ID -> apiSession.userId

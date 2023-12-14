@@ -320,7 +320,7 @@ internal open class TaskServiceImpl(
         }
         val parentTaskId = execution.task?.parentTaskId
         nodeUserList
-            .map { nodeAssignee  ->
+            .map { nodeAssignee ->
                 FusTaskCc().apply {
                     this.creatorId = execution.userId
                     this.instanceId = execution.instance.instanceId
@@ -474,8 +474,11 @@ internal open class TaskServiceImpl(
         if (task.atStartNode) {
             taskActorMapper.insert(
                 FusTaskActor().apply {
+                    this.tenantId = task.tenantId
                     this.actorId = task.creatorId
                     this.actorName = task.creatorName
+                    this.taskId = task.taskId
+                    this.instanceId = task.instanceId
                 }
             )
         } else {
