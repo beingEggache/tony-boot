@@ -63,7 +63,7 @@ import org.springframework.context.annotation.PropertySource
 /**
  * FeignConfig
  * @author Tony
- * @date 2023/5/25 15:43
+ * @date 2023/05/25 19:43
  * @since 1.0.0
  */
 @EnableConfigurationProperties(FeignConfigProperties::class)

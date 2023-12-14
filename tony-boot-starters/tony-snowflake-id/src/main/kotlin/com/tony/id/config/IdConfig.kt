@@ -26,7 +26,7 @@
  * IdConfig
  *
  * @author Tang Li
- * @date 2022/7/12 14:56
+ * @date 2022/07/12 19:56
  */
 package com.tony.id.config
 

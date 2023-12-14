@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.RequestParam
  * 微信 http client
  *
  * @author Tang Li
- * @date 2023/5/25 15:21
+ * @date 2023/05/25 19:21
  */
 @FeignClient("wechatClient", url = "https://api.weixin.qq.com")
 public interface WechatClient {
@@ -82,7 +82,7 @@ public interface WechatClient {
      * @param [req] 请求
      * @return [WechatApiTokenResp]
      * @author Tang Li
-     * @date 2023/09/26 09:15
+     * @date 2023/09/26 19:15
      * @since 1.0.0
      */
     @PostMapping("/cgi-bin/stable_token")

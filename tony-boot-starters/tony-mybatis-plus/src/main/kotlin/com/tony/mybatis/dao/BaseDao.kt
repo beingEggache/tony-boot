@@ -57,7 +57,7 @@ import org.springframework.transaction.annotation.Transactional
 /**
  * mybatis plus [BaseMapper] 包装, 增加了一些方法.
  * @author Tang Li
- * @date 2023/09/13 10:37
+ * @date 2023/09/13 19:37
  * @since 1.0.0
  */
 public interface BaseDao<T : Any> : BaseMapper<T> {
@@ -66,7 +66,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [id] id
      * @return [T]
      * @author Tang Li
-     * @date 2023/09/13 10:38
+     * @date 2023/09/13 19:38
      * @since 1.0.0
      */
     public fun selectByIdNotNull(id: Serializable): T =
@@ -78,7 +78,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [message] 消息
      * @return [T]
      * @author Tang Li
-     * @date 2023/09/13 10:38
+     * @date 2023/09/13 19:38
      * @since 1.0.0
      */
     public fun selectByIdNotNull(
@@ -94,7 +94,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [ex] 异常类型
      * @return [T]
      * @author Tang Li
-     * @date 2023/09/13 10:38
+     * @date 2023/09/13 19:38
      * @since 1.0.0
      */
     public fun selectByIdNotNull(
@@ -111,7 +111,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [code] 密码
      * @return [T]
      * @author Tang Li
-     * @date 2023/09/13 10:38
+     * @date 2023/09/13 19:38
      * @since 1.0.0
      */
     public fun selectByIdNotNull(
@@ -129,7 +129,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [ex] 异常类型
      * @return [T]
      * @author Tang Li
-     * @date 2023/09/13 10:38
+     * @date 2023/09/13 19:38
      * @since 1.0.0
      */
     public fun selectByIdNotNull(
@@ -149,7 +149,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [ex] ex
      * @return [T]
      * @author Tang Li
-     * @date 2023/11/06 14:03
+     * @date 2023/11/06 19:03
      * @since 1.0.0
      */
     public fun selectOneNotNull(
@@ -183,7 +183,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [ex] ex
      * @return [List]List<E>
      * @author Tang Li
-     * @date 2023/11/06 14:12
+     * @date 2023/11/06 19:12
      * @since 1.0.0
      */
     public fun <E> selectObjsThrowIfEmpty(
@@ -204,7 +204,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [ex] ex
      * @return [List] List<Map<String, Any?>>
      * @author Tang Li
-     * @date 2023/11/06 14:12
+     * @date 2023/11/06 19:12
      * @since 1.0.0
      */
     public fun selectMapsThrowIfEmpty(
@@ -220,7 +220,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [entity] 实体对象
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/09/13 10:38
+     * @date 2023/09/13 19:38
      * @since 1.0.0
      */
     public fun upsert(entity: T?): Boolean {
@@ -248,7 +248,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [batchList] 实体列表
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/09/13 10:38
+     * @date 2023/09/13 19:38
      * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
@@ -262,7 +262,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [batchList] 实体列表
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/09/13 10:38
+     * @date 2023/09/13 19:38
      * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
@@ -300,7 +300,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [batchList] 实体列表
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/09/13 10:38
+     * @date 2023/09/13 19:38
      * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
@@ -316,7 +316,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [batchList] 实体列表
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/09/13 10:38
+     * @date 2023/09/13 19:38
      * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
@@ -345,7 +345,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [queryWrapper] 查询包装器
      * @return [E]
      * @author Tang Li
-     * @date 2023/09/13 10:39
+     * @date 2023/09/13 19:39
      * @since 1.0.0
      */
     public fun <E : PageResultLike<T>> selectPageResult(
@@ -360,7 +360,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [queryWrapper] 查询包装器
      * @return [E]
      * @author Tang Li
-     * @date 2023/10/23 14:42
+     * @date 2023/10/23 19:42
      * @since 1.0.0
      */
     public fun <E : PageResultLike<Map<String, Any?>>> selectMapPageResult(
@@ -390,7 +390,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 链式查询 普通
      * @return [TonyQueryChainWrapper]
      * @author Tang Li
-     * @date 2023/09/13 10:39
+     * @date 2023/09/13 19:39
      * @since 1.0.0
      */
     public fun query(): TonyQueryChainWrapper<T> =
@@ -401,7 +401,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * <p>注意：不支持 Kotlin </p>
      * @return [TonyLambdaQueryChainWrapper]
      * @author Tang Li
-     * @date 2023/09/13 10:39
+     * @date 2023/09/13 19:39
      * @since 1.0.0
      */
     public fun lambdaQuery(): TonyLambdaQueryChainWrapper<T> =
@@ -412,7 +412,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 仅支持 Kotlin.
      * @return [TonyKtQueryChainWrapper]
      * @author Tang Li
-     * @date 2023/09/13 10:39
+     * @date 2023/09/13 19:39
      * @since 1.0.0
      */
     @JvmSynthetic
@@ -424,7 +424,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 仅支持 Kotlin.
      * @return [KtUpdateChainWrapper]
      * @author Tang Li
-     * @date 2023/09/13 10:39
+     * @date 2023/09/13 19:39
      * @since 1.0.0
      */
     @JvmSynthetic
@@ -435,7 +435,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 链式更改 普通.
      * @return [UpdateChainWrapper]
      * @author Tang Li
-     * @date 2023/09/13 10:40
+     * @date 2023/09/13 19:40
      * @since 1.0.0
      */
     public fun update(): UpdateChainWrapper<T> =
@@ -446,7 +446,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * <p>注意：不支持 Kotlin </p>
      * @return [LambdaUpdateChainWrapper]
      * @author Tang Li
-     * @date 2023/09/13 10:40
+     * @date 2023/09/13 19:40
      * @since 1.0.0
      */
     public fun lambdaUpdate(): LambdaUpdateChainWrapper<T> =

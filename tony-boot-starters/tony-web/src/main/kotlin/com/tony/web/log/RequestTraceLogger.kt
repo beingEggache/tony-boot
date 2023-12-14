@@ -28,7 +28,7 @@ package com.tony.web.log
  * 请求日志记录接口.
  *
  * @author Tang Li
- * @date 2023/5/25 10:29
+ * @date 2023/05/25 19:29
  */
 import com.tony.ApiProperty
 import com.tony.utils.getFromRootAsString
@@ -59,7 +59,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper
  * 请求日志记录接口.
  *
  * @author Tang Li
- * @date 2023/5/25 10:29
+ * @date 2023/05/25 19:29
  */
 public fun interface RequestTraceLogger {
     /**
@@ -96,7 +96,7 @@ public fun interface RequestTraceLogger {
  * 请求日志记录默认实现
  *
  * @author Tang Li
- * @date 2023/5/25 10:30
+ * @date 2023/05/25 19:30
  */
 internal class DefaultRequestTraceLogger : RequestTraceLogger {
     override fun requestTraceLog(

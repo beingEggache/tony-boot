@@ -38,7 +38,7 @@ import org.apache.ibatis.exceptions.TooManyResultsException
 /**
  * 链式查询.
  * @author Tang Li
- * @date 2023/08/11 09:18
+ * @date 2023/08/11 19:18
  */
 public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     override fun getBaseMapper(): BaseDao<T>
@@ -47,7 +47,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询单条记录.为 null 时抛错.
      * @return [T]
      * @author Tang Li
-     * @date 2023/10/23 14:50
+     * @date 2023/10/23 19:50
      * @since 1.0.0
      */
     public fun oneNotNull(): T =
@@ -58,7 +58,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 默认为 [ApiProperty.notFoundMessage]
      * @return [T]
      * @author Tang Li
-     * @date 2023/10/23 14:50
+     * @date 2023/10/23 19:50
      * @since 1.0.0
      */
     public fun oneNotNull(message: String): T =
@@ -69,7 +69,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 默认为 [ApiProperty.notFoundMessage]
      * @return [T]
      * @author Tang Li
-     * @date 2023/10/23 14:50
+     * @date 2023/10/23 19:50
      * @since 1.0.0
      */
     public fun oneNotNull(
@@ -82,7 +82,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询某个条件是否存在, 存在就抛错.
      * @param [message] 消息
      * @author Tang Li
-     * @date 2023/10/23 14:49
+     * @date 2023/10/23 19:49
      * @since 1.0.0
      */
     public fun throwIfExists(message: String) {
@@ -94,7 +94,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @param [ex] 异常类型
      * @author Tang Li
-     * @date 2023/10/23 14:49
+     * @date 2023/10/23 19:49
      * @since 1.0.0
      */
     public fun throwIfExists(
@@ -108,7 +108,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询某个条件是否不存在, 不存在就抛错.
      * @param [message] 消息
      * @author Tang Li
-     * @date 2023/10/23 14:49
+     * @date 2023/10/23 19:49
      * @since 1.0.0
      */
     public fun throwIfNotExists(message: String) {
@@ -120,7 +120,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @param [ex] 异常类型
      * @author Tang Li
-     * @date 2023/10/23 14:49
+     * @date 2023/10/23 19:49
      * @since 1.0.0
      */
     public fun throwIfNotExists(
@@ -135,7 +135,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [transformer] 转换器
      * @return [List<R?>]
      * @author Tang Li
-     * @date 2023/11/22 11:23
+     * @date 2023/11/22 19:23
      * @since 1.0.0
      */
     public fun <R> list(transformer: java.util.function.Function<T, R>): List<R> {
@@ -156,7 +156,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      *
      * @return [list]
      * @author Tang Li
-     * @date 2023/11/06 11:19
+     * @date 2023/11/06 19:19
      * @since 1.0.0
      */
     public fun listThrowIfEmpty(): List<T> =
@@ -169,7 +169,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @return [list]
      * @author Tang Li
-     * @date 2023/11/06 11:19
+     * @date 2023/11/06 19:19
      * @since 1.0.0
      */
     public fun listThrowIfEmpty(message: String): List<T> =
@@ -183,7 +183,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [ex] 异常类型
      * @return [list]
      * @author Tang Li
-     * @date 2023/11/06 11:19
+     * @date 2023/11/06 19:19
      * @since 1.0.0
      */
     public fun listThrowIfEmpty(
@@ -197,7 +197,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [page] 全局统一请求分页结构.
      * @return [E]
      * @author Tang Li
-     * @date 2023/10/23 14:49
+     * @date 2023/10/23 19:49
      * @since 1.0.0
      */
     public fun <E : PageResultLike<T>> pageResult(page: PageQueryLike<*>): E =
@@ -208,7 +208,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [page] 全局统一请求分页结构.
      * @return [E]
      * @author Tang Li
-     * @date 2023/10/23 14:49
+     * @date 2023/10/23 19:49
      * @since 1.0.0
      */
     public fun <E : PageResultLike<Map<String, Any?>>> mapPageResult(page: PageQueryLike<*>): E =
@@ -220,7 +220,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 注意： 只返回第一个字段的值.
      * @return [List<E?>]
      * @author Tang Li
-     * @date 2023/10/23 14:48
+     * @date 2023/10/23 19:48
      * @since 1.0.0
      */
     public fun <E> listObj(): List<E?> =
@@ -232,7 +232,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 注意： 只返回第一个字段的值.
      * @return [List<E?>]
      * @author Tang Li
-     * @date 2023/10/23 14:48
+     * @date 2023/10/23 19:48
      * @since 1.0.0
      */
     public fun <E> listObjThrowIfEmpty(): List<E?> =
@@ -245,7 +245,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @return [List<E?>]
      * @author Tang Li
-     * @date 2023/10/23 14:48
+     * @date 2023/10/23 19:48
      * @since 1.0.0
      */
     public fun <E> listObjThrowIfEmpty(message: String): List<E?> =
@@ -259,7 +259,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [ex] 异常类型
      * @return [List<E?>]
      * @author Tang Li
-     * @date 2023/10/23 14:48
+     * @date 2023/10/23 19:48
      * @since 1.0.0
      */
     public fun <E> listObjThrowIfEmpty(
@@ -276,7 +276,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 注意： 只返回第一个字段的值.
      * @return [E]?
      * @author Tang Li
-     * @date 2023/10/23 14:48
+     * @date 2023/10/23 19:48
      * @since 1.0.0
      */
     public fun <E> oneObj(): E? {
@@ -297,7 +297,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询单条记录.为 null 时抛错.
      * @return [E]
      * @author Tang Li
-     * @date 2023/10/23 14:47
+     * @date 2023/10/23 19:47
      * @since 1.0.0
      */
     public fun <E> oneObjNotNull(): E =
@@ -308,7 +308,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @return [E]
      * @author Tang Li
-     * @date 2023/10/23 14:46
+     * @date 2023/10/23 19:46
      * @since 1.0.0
      */
     public fun <E> oneObjNotNull(message: String): E =
@@ -320,7 +320,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [ex] 异常类型
      * @return [E]
      * @author Tang Li
-     * @date 2023/10/23 14:46
+     * @date 2023/10/23 19:46
      * @since 1.0.0
      */
     public fun <E> oneObjNotNull(
@@ -333,7 +333,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询全部记录.
      * @return [List]
      * @author Tang Li
-     * @date 2023/10/23 14:50
+     * @date 2023/10/23 19:50
      * @since 1.0.0
      */
     public fun listMap(): List<Map<String, Any?>> =
@@ -344,7 +344,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      *
      * @return [List]
      * @author Tang Li
-     * @date 2023/10/23 14:50
+     * @date 2023/10/23 19:50
      * @since 1.0.0
      */
     public fun listMapThrowIfEmpty(): List<Map<String, Any?>> =
@@ -355,7 +355,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @return [List]
      * @author Tang Li
-     * @date 2023/10/23 14:50
+     * @date 2023/10/23 19:50
      * @since 1.0.0
      */
     public fun listMapThrowIfEmpty(message: String): List<Map<String, Any?>> =
@@ -367,7 +367,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [ex] 异常类型
      * @return [List]
      * @author Tang Li
-     * @date 2023/10/23 14:50
+     * @date 2023/10/23 19:50
      * @since 1.0.0
      */
     public fun listMapThrowIfEmpty(
@@ -381,7 +381,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询一条记录，限制取一条记录, 注意：多条数据会报异常.
      * @return [Map<String, Any?>?]
      * @author Tang Li
-     * @date 2023/10/23 14:51
+     * @date 2023/10/23 19:51
      * @since 1.0.0
      */
     public fun oneMap(): Map<String, Any?>? {
@@ -402,7 +402,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * one map 不为空
      * @return [Map<String, Any?>]
      * @author Tang Li
-     * @date 2023/09/13 10:41
+     * @date 2023/09/13 19:41
      * @since 1.0.0
      */
     public fun oneMapNotNull(): Map<String, Any?> =
@@ -413,7 +413,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @return [Map<String, Any>]
      * @author Tang Li
-     * @date 2023/09/13 10:40
+     * @date 2023/09/13 19:40
      * @since 1.0.0
      */
     public fun oneMapNotNull(message: String): Map<String, Any?> =
@@ -425,7 +425,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [ex] 异常类型
      * @return [Map<String, Any>]
      * @author Tang Li
-     * @date 2023/09/13 10:40
+     * @date 2023/09/13 19:40
      * @since 1.0.0
      */
     public fun oneMapNotNull(

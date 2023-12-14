@@ -27,7 +27,7 @@
  * AlipayException
  *
  * @author Tang Li
- * @date 2021/10/22 15:31
+ * @date 2021/10/22 19:31
  */
 package com.tony.alipay.exception
 
@@ -37,7 +37,7 @@ import com.tony.exception.ApiException
 /**
  * 支付宝 异常
  * @author Tang Li
- * @date 2023/09/12 17:59
+ * @date 2023/09/12 19:59
  * @since 1.0.0
  */
 public class AlipayException(

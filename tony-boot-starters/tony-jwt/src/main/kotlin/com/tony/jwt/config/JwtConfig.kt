@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Configuration
 /**
  * JwtConfig
  * @author Tang Li
- * @date 2023/5/25 15:55
+ * @date 2023/05/25 19:55
  */
 @Configuration
 @ConditionalOnWebApplication
@@ -44,7 +44,7 @@ internal class JwtConfig
 /**
  * JwtProperties
  * @author Tang Li
- * @date 2023/5/25 15:56
+ * @date 2023/05/25 19:56
  */
 @ConfigurationProperties(prefix = "jwt")
 public data class JwtProperties

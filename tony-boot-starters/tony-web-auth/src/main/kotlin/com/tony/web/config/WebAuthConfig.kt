@@ -47,7 +47,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
  * WebAuthConfig
  *
  * @author Tang Li
- * @date 2023/5/25 15:13
+ * @date 2023/05/25 19:13
  */
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
@@ -91,7 +91,7 @@ internal class WebAuthConfig(
  * WebAuthConfig
  *
  * @author Tang Li
- * @date 2023/5/25 15:13
+ * @date 2023/05/25 19:13
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.auth")

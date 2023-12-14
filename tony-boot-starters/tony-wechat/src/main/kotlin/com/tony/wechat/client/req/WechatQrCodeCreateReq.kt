@@ -27,7 +27,7 @@
  * WechatQrCodeCreateReq
  *
  * @author Tang Li
- * @date 2021/9/26 13:22
+ * @date 2021/09/26 19:22
  */
 package com.tony.wechat.client.req
 

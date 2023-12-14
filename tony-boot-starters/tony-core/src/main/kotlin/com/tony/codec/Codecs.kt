@@ -28,7 +28,7 @@ package com.tony.codec
 /**
  * 二进制编码工具类
  * @author Tang Li
- * @date 2023/09/12 17:43
+ * @date 2023/09/12 19:43
  * @since 1.0.0
  */
 import com.tony.codec.enums.Encoding
@@ -38,7 +38,7 @@ import com.tony.codec.enums.Encoding
  * @param [encoding] 编码
  * @return [String]
  * @author Tang Li
- * @date 2023/09/12 17:43
+ * @date 2023/09/12 19:43
  * @since 1.0.0
  */
 public fun String.encodeToString(encoding: Encoding): String =
@@ -49,7 +49,7 @@ public fun String.encodeToString(encoding: Encoding): String =
  * @param [encoding] 编码
  * @return [ByteArray]
  * @author Tang Li
- * @date 2023/09/12 17:43
+ * @date 2023/09/12 19:43
  * @since 1.0.0
  */
 public fun String.encodeToByteArray(encoding: Encoding): ByteArray =
@@ -60,7 +60,7 @@ public fun String.encodeToByteArray(encoding: Encoding): ByteArray =
  * @param [encoding] 编码
  * @return [String]
  * @author Tang Li
- * @date 2023/09/12 17:44
+ * @date 2023/09/12 19:44
  * @since 1.0.0
  */
 public fun ByteArray.encodeToString(encoding: Encoding): String =
@@ -71,7 +71,7 @@ public fun ByteArray.encodeToString(encoding: Encoding): String =
  * @param [encoding] 编码
  * @return [ByteArray]
  * @author Tang Li
- * @date 2023/09/12 17:44
+ * @date 2023/09/12 19:44
  * @since 1.0.0
  */
 public fun ByteArray.encodeToByteArray(encoding: Encoding): ByteArray =
@@ -82,7 +82,7 @@ public fun ByteArray.encodeToByteArray(encoding: Encoding): ByteArray =
  * @param [encoding] 编码
  * @return [String]
  * @author Tang Li
- * @date 2023/09/12 17:44
+ * @date 2023/09/12 19:44
  * @since 1.0.0
  */
 public fun String.decodeToString(encoding: Encoding): String =
@@ -93,7 +93,7 @@ public fun String.decodeToString(encoding: Encoding): String =
  * @param [encoding] 编码
  * @return [ByteArray]
  * @author Tang Li
- * @date 2023/09/12 17:44
+ * @date 2023/09/12 19:44
  * @since 1.0.0
  */
 public fun String.decodeToByteArray(encoding: Encoding): ByteArray =
@@ -104,7 +104,7 @@ public fun String.decodeToByteArray(encoding: Encoding): ByteArray =
  * @param [encoding] 编码
  * @return [String]
  * @author Tang Li
- * @date 2023/09/12 17:44
+ * @date 2023/09/12 19:44
  * @since 1.0.0
  */
 public fun ByteArray.decodeToString(encoding: Encoding): String =
@@ -115,7 +115,7 @@ public fun ByteArray.decodeToString(encoding: Encoding): String =
  * @param [encoding] 编码
  * @return [ByteArray]
  * @author Tang Li
- * @date 2023/09/12 17:44
+ * @date 2023/09/12 19:44
  * @since 1.0.0
  */
 public fun ByteArray.decodeToByteArray(encoding: Encoding): ByteArray =

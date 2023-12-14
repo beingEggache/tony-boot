@@ -27,7 +27,7 @@ package com.tony.jackson
 /**
  * Jackson 注入
  * @author Tang Li
- * @date 2023/09/28 09:16
+ * @date 2023/09/28 19:16
  * @since 1.0.0
  */
 import com.fasterxml.jackson.databind.BeanProperty
@@ -48,7 +48,7 @@ import com.tony.utils.getLogger
  * 对 Kotlin 不 友好, 建议只在 Java  使用, Kotlin 环境下, 建议只在 可变修饰的可空类型的 setter上使用.
  *
  * @author Tang Li
- * @date 2023/09/28 09:16
+ * @date 2023/09/28 19:16
  * @since 1.0.0
  */
 public class InjectableValuesBySupplier(
@@ -74,7 +74,7 @@ public class InjectableValuesBySupplier(
 /**
  * Jackson 注入 Supplier.
  * @author Tang Li
- * @date 2023/09/13 10:17
+ * @date 2023/09/13 19:17
  * @since 1.0.0
  */
 public interface InjectableValueSupplier {
@@ -89,7 +89,7 @@ public interface InjectableValueSupplier {
 /**
  * 抽象Jackson 注入 Supplier.
  * @author Tang Li
- * @date 2023/09/13 10:18
+ * @date 2023/09/13 19:18
  * @since 1.0.0
  */
 public abstract class AbstractInjectableValueSupplier(

@@ -51,7 +51,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
  * 全局异常处理
  *
  * @author Tang Li
- * @date 2023/5/25 10:53
+ * @date 2023/05/25 19:53
  */
 @RestControllerAdvice
 internal class ExceptionHandler : ErrorController {
@@ -61,7 +61,7 @@ internal class ExceptionHandler : ErrorController {
      * 业务异常
      * @param [e] e
      * @author Tang Li
-     * @date 2023/09/13 10:45
+     * @date 2023/09/13 19:45
      * @since 1.0.0
      */
     @ExceptionHandler(BizException::class)
@@ -73,7 +73,7 @@ internal class ExceptionHandler : ErrorController {
      * 框架异常
      * @param [e] e
      * @author Tang Li
-     * @date 2023/09/13 10:45
+     * @date 2023/09/13 19:45
      * @since 1.0.0
      */
     @ExceptionHandler(ApiException::class)
@@ -91,7 +91,7 @@ internal class ExceptionHandler : ErrorController {
      * @param [e] e
      * @param [response] 响应
      * @author Tang Li
-     * @date 2023/09/13 10:46
+     * @date 2023/09/13 19:46
      * @since 1.0.0
      */
     @ExceptionHandler(Exception::class)
@@ -168,7 +168,7 @@ internal class ExceptionHandler : ErrorController {
      * @param [code] 默认为 [ApiProperty.errorCode]
      * @return [ApiResult<*>]
      * @author Tang Li
-     * @date 2023/10/24 14:27
+     * @date 2023/10/24 19:27
      * @since 1.0.0
      */
     private fun errorResponse(

@@ -34,7 +34,7 @@ import com.tony.utils.getLogger
  *
  * 可读取配置.
  * @author Tang Li
- * @date 2022/9/29 10:20
+ * @date 2022/09/29 19:20
  */
 public data object ApiProperty {
     private inline fun <reified T : Any> getPropertyAvoidInitError(

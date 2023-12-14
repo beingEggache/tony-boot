@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.fus.service
 
 import com.tony.fus.db.po.FusProcess
@@ -5,7 +29,7 @@ import com.tony.fus.db.po.FusProcess
 /**
  * 流程定义 Service
  * @author Tang Li
- * @date 2023/10/09 14:20
+ * @date 2023/10/09 19:20
  * @since 1.0.0
  */
 public interface ProcessService {
@@ -14,7 +38,7 @@ public interface ProcessService {
      * @param [processId] 流程id
      * @return [FusProcess] 流程定义对象
      * @author Tang Li
-     * @date 2023/10/09 14:23
+     * @date 2023/10/09 19:23
      * @since 1.0.0
      */
     public fun getById(processId: String): FusProcess
@@ -26,7 +50,7 @@ public interface ProcessService {
      * @param [repeat] 是否重复部署 true 存在版本+1新增一条记录 false 存在流程直接返回
      * @return [String] 流程id
      * @author Tang Li
-     * @date 2023/10/09 14:52
+     * @date 2023/10/09 19:52
      * @since 1.0.0
      */
     public fun deploy(
@@ -41,7 +65,7 @@ public interface ProcessService {
      * @param [modelContent] 流程定义json字符串
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/10/09 15:53
+     * @date 2023/10/09 19:53
      * @since 1.0.0
      */
     public fun redeploy(
@@ -56,7 +80,7 @@ public interface ProcessService {
      * 级联删除指定流程定义的所有数据
      * @param [processId] 流程id
      * @author Tang Li
-     * @date 2023/10/10 09:19
+     * @date 2023/10/10 19:19
      * @since 1.0.0
      */
     public fun cascadeRemove(processId: String)

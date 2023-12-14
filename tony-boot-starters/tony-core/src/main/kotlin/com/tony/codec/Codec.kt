@@ -29,7 +29,7 @@ import com.tony.utils.string
 /**
  * 编解码器
  * @author Tang Li
- * @date 2023/09/12 17:45
+ * @date 2023/09/12 19:45
  * @since 1.0.0
  */
 public sealed interface Codec {
@@ -38,7 +38,7 @@ public sealed interface Codec {
      * @param [src] src
      * @return [String]
      * @author Tang Li
-     * @date 2023/09/12 17:45
+     * @date 2023/09/12 19:45
      * @since 1.0.0
      */
     public fun encodeToString(src: String): String =
@@ -49,7 +49,7 @@ public sealed interface Codec {
      * @param [src] src
      * @return [String]
      * @author Tang Li
-     * @date 2023/09/12 17:45
+     * @date 2023/09/12 19:45
      * @since 1.0.0
      */
     public fun encodeToString(src: ByteArray): String =
@@ -60,7 +60,7 @@ public sealed interface Codec {
      * @param [src] src
      * @return [ByteArray]
      * @author Tang Li
-     * @date 2023/09/12 17:45
+     * @date 2023/09/12 19:45
      * @since 1.0.0
      */
     public fun encodeToByteArray(src: String): ByteArray =
@@ -71,7 +71,7 @@ public sealed interface Codec {
      * @param [src] src
      * @return [ByteArray]
      * @author Tang Li
-     * @date 2023/09/12 17:45
+     * @date 2023/09/12 19:45
      * @since 1.0.0
      */
     public fun encodeToByteArray(src: ByteArray): ByteArray
@@ -81,7 +81,7 @@ public sealed interface Codec {
      * @param [src] src
      * @return [String]
      * @author Tang Li
-     * @date 2023/09/12 17:45
+     * @date 2023/09/12 19:45
      * @since 1.0.0
      */
     public fun decodeToString(src: String): String =
@@ -92,7 +92,7 @@ public sealed interface Codec {
      * @param [src] src
      * @return [String]
      * @author Tang Li
-     * @date 2023/09/12 17:45
+     * @date 2023/09/12 19:45
      * @since 1.0.0
      */
     public fun decodeToString(src: ByteArray): String =
@@ -103,7 +103,7 @@ public sealed interface Codec {
      * @param [src] src
      * @return [ByteArray]
      * @author Tang Li
-     * @date 2023/09/12 17:45
+     * @date 2023/09/12 19:45
      * @since 1.0.0
      */
     public fun decodeToByteArray(src: String): ByteArray =
@@ -114,7 +114,7 @@ public sealed interface Codec {
      * @param [src] src
      * @return [ByteArray]
      * @author Tang Li
-     * @date 2023/09/12 17:45
+     * @date 2023/09/12 19:45
      * @since 1.0.0
      */
     public fun decodeToByteArray(src: ByteArray): ByteArray

@@ -35,7 +35,7 @@ import com.tony.utils.urlEncode
 /**
  * 支付宝 Manager
  * @author Tang Li
- * @date 2023/09/12 10:05
+ * @date 2023/09/12 19:05
  * @since 1.0.0
  */
 @Suppress("unused")
@@ -56,7 +56,7 @@ public class AlipayManager(
      * @param [params] params
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/09/12 10:05
+     * @date 2023/09/12 19:05
      * @since 1.0.0
      */
     public fun notifySignCheck(params: Map<String, String?>): Boolean {
@@ -82,7 +82,7 @@ public class AlipayManager(
      * @param [body] 请求体
      * @return [String]
      * @author Tang Li
-     * @date 2023/09/12 10:05
+     * @date 2023/09/12 19:05
      * @since 1.0.0
      */
     public fun appOrderAndPayGenParams(

@@ -28,7 +28,7 @@ package com.tony.wechat.client.req
  * WechatMiniProgramQrCodeCreateReq
  *
  * @author wyf
- * @date 2022/8/31 16:26
+ * @date 2022/08/31 19:26
  */
 public data class WechatMiniProgramQrCodeCreateReq(
     val scene: String,

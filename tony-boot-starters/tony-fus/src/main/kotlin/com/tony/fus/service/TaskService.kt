@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.fus.service
 
 import com.tony.fus.db.enums.PerformType
@@ -14,7 +38,7 @@ import com.tony.fus.model.enums.EventType
  * 任务业务类接口
  * 任务服务
  * @author Tang Li
- * @date 2023/10/10 11:05
+ * @date 2023/10/10 19:05
  * @since 1.0.0
  */
 public interface TaskService {
@@ -24,7 +48,7 @@ public interface TaskService {
      * @param [userId] 操作人id
      * @param [variable] 任务变量
      * @author Tang Li
-     * @date 2023/10/10 10:48
+     * @date 2023/10/10 19:48
      * @since 1.0.0
      */
     public fun complete(
@@ -46,7 +70,7 @@ public interface TaskService {
      * @param [userId] 操作人id
      * @return [FusTask]
      * @author Tang Li
-     * @date 2023/10/10 10:49
+     * @date 2023/10/10 19:49
      * @since 1.0.0
      */
     public fun complete(
@@ -64,7 +88,7 @@ public interface TaskService {
      * @param [variable] 变量
      * @return [FusTask]
      * @author Tang Li
-     * @date 2023/11/24 14:51
+     * @date 2023/11/24 19:51
      * @since 1.0.0
      */
     public fun execute(
@@ -81,7 +105,7 @@ public interface TaskService {
      * @param [userId] 操作人id
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/11/07 14:08
+     * @date 2023/11/07 19:08
      * @since 1.0.0
      */
     public fun completeActiveTasksByInstanceId(
@@ -93,7 +117,7 @@ public interface TaskService {
      * 按id更新任务
      * @param [task] 任务
      * @author Tang Li
-     * @date 2023/10/10 10:50
+     * @date 2023/10/10 19:50
      * @since 1.0.0
      */
     public fun updateTaskById(task: FusTask)
@@ -104,7 +128,7 @@ public interface TaskService {
      * @param [actorId] 参与者id
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/11/03 11:55
+     * @date 2023/11/03 19:55
      * @since 1.0.0
      */
     public fun viewTask(
@@ -120,7 +144,7 @@ public interface TaskService {
      * @param [actorId] 参与者id
      * @return [FusTask]
      * @author Tang Li
-     * @date 2023/10/10 11:12
+     * @date 2023/10/10 19:12
      * @since 1.0.0
      */
     public fun claimTask(
@@ -136,7 +160,7 @@ public interface TaskService {
      * @param [assignee] 受让人
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/10/10 11:15
+     * @date 2023/10/10 19:15
      * @since 1.0.0
      */
     public fun assignTask(
@@ -153,7 +177,7 @@ public interface TaskService {
      * @param [assignee] 受让人
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/10/10 11:17
+     * @date 2023/10/10 19:17
      * @since 1.0.0
      */
     public fun transferTask(
@@ -172,7 +196,7 @@ public interface TaskService {
      * @param [assignee] 受让人
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/10/10 11:19
+     * @date 2023/10/10 19:19
      * @since 1.0.0
      */
     public fun delegateTask(
@@ -189,7 +213,7 @@ public interface TaskService {
      * @param [userId] 操作人id
      * @return [FusTask]?
      * @author Tang Li
-     * @date 2023/10/10 11:20
+     * @date 2023/10/10 19:20
      * @since 1.0.0
      */
     public fun reclaimTask(
@@ -203,7 +227,7 @@ public interface TaskService {
      * @param [userId] 操作人id
      * @return [FusTask]?
      * @author Tang Li
-     * @date 2023/10/10 11:24
+     * @date 2023/10/10 19:24
      * @since 1.0.0
      */
     public fun withdrawTask(
@@ -220,7 +244,7 @@ public interface TaskService {
      * @param [variable] 变量
      * @return [FusTask]?
      * @author Tang Li
-     * @date 2023/10/10 11:31
+     * @date 2023/10/10 19:31
      * @since 1.0.0
      */
     public fun rejectTask(
@@ -237,7 +261,7 @@ public interface TaskService {
      * @param [userId] 操作人id
      * @return [FusTask]?
      * @author Tang Li
-     * @date 2023/10/10 11:31
+     * @date 2023/10/10 19:31
      * @since 1.0.0
      */
     public fun rejectTask(
@@ -254,7 +278,7 @@ public interface TaskService {
      * @param [userId] 操作人id
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/10/10 13:59
+     * @date 2023/10/10 19:59
      * @since 1.0.0
      */
     public fun hasPermission(
@@ -268,7 +292,7 @@ public interface TaskService {
      * @param [execution] 流程执行
      * @return [List<FusTask>]
      * @author Tang Li
-     * @date 2023/10/25 10:05
+     * @date 2023/10/25 19:05
      * @since 1.0.0
      */
     public fun createTask(
@@ -280,7 +304,7 @@ public interface TaskService {
      * 列出过期或提醒任务
      * @return [List<FusTask>]
      * @author Tang Li
-     * @date 2023/10/25 10:23
+     * @date 2023/10/25 19:23
      * @since 1.0.0
      */
     public fun listExpiredOrRemindTasks(): List<FusTask>
@@ -292,7 +316,7 @@ public interface TaskService {
      * @param [historyTaskActorList] 流历史任务参与者
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/10/25 10:25
+     * @date 2023/10/25 19:25
      * @since 1.0.0
      */
     public fun addTaskActor(
@@ -308,7 +332,7 @@ public interface TaskService {
      * @param [taskActor] 流历史任务参与者
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/10/25 10:25
+     * @date 2023/10/25 19:25
      * @since 1.0.0
      */
     public fun addTaskActor(
@@ -323,7 +347,7 @@ public interface TaskService {
      * @param [taskId] 任务id
      * @param [taskActorIdList] 任务参与者ID
      * @author Tang Li
-     * @date 2023/10/25 10:27
+     * @date 2023/10/25 19:27
      * @since 1.0.0
      */
     public fun removeTaskActor(
@@ -336,7 +360,7 @@ public interface TaskService {
      * @param [taskId] 任务id
      * @param [taskActorId] 任务参与者id
      * @author Tang Li
-     * @date 2023/10/25 10:25
+     * @date 2023/10/25 19:25
      * @since 1.0.0
      */
     public fun removeTaskActor(
@@ -351,7 +375,7 @@ public interface TaskService {
      * 级联删除 fus_history_task, fus_history_task_actor, fus_task, fus_task_actor.
      * @param [instanceId] 实例id
      * @author Tang Li
-     * @date 2023/10/25 10:28
+     * @date 2023/10/25 19:28
      * @since 1.0.0
      */
     public fun cascadeRemoveByInstanceId(instanceId: String)

@@ -30,7 +30,7 @@ import javax.crypto.Cipher
 /**
  * 对称 加密/解密
  * @author Tang Li
- * @date 2023/09/27 18:20
+ * @date 2023/09/27 19:20
  * @since 1.0.0
  */
 public sealed interface SymmetricCrypto {
@@ -41,7 +41,7 @@ public sealed interface SymmetricCrypto {
      * @param [encoding] 编码
      * @return [ByteArray]
      * @author Tang Li
-     * @date 2023/09/27 18:20
+     * @date 2023/09/27 19:20
      * @since 1.0.0
      */
     public fun decrypt(
@@ -59,7 +59,7 @@ public sealed interface SymmetricCrypto {
      * @param [secret] 秘钥
      * @return [ByteArray]
      * @author Tang Li
-     * @date 2023/09/27 18:20
+     * @date 2023/09/27 19:20
      * @since 1.0.0
      */
     public fun decrypt(
@@ -75,7 +75,7 @@ public sealed interface SymmetricCrypto {
      * @param [encoding] 编码
      * @return [ByteArray]
      * @author Tang Li
-     * @date 2023/09/27 18:20
+     * @date 2023/09/27 19:20
      * @since 1.0.0
      */
     public fun encrypt(
@@ -94,7 +94,7 @@ public sealed interface SymmetricCrypto {
      * @param [secret] 秘钥
      * @return [ByteArray]
      * @author Tang Li
-     * @date 2023/09/27 18:20
+     * @date 2023/09/27 19:20
      * @since 1.0.0
      */
     public fun encrypt(
@@ -110,7 +110,7 @@ public sealed interface SymmetricCrypto {
      * @param [mode] 加密/解密 [Cipher.ENCRYPT_MODE]/[Cipher.DECRYPT_MODE]
      * @return [ByteArray]
      * @author Tang Li
-     * @date 2023/09/27 18:20
+     * @date 2023/09/27 19:20
      * @since 1.0.0
      */
     public fun crypto(

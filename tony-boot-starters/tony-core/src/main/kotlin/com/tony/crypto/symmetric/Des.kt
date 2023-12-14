@@ -33,7 +33,7 @@ import javax.crypto.spec.DESKeySpec
  * Des对称加密单例类
  *
  * @author Tang Li
- * @date 2023/5/29 11:20
+ * @date 2023/05/29 19:20
  */
 public data object Des : SymmetricCrypto {
     private const val DES = "DES"

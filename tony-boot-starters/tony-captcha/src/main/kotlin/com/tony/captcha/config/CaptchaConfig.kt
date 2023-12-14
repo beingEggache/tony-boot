@@ -29,7 +29,7 @@ package com.tony.captcha.config
  * CaptchaConfig
  *
  * @author Tang Li
- * @date 2022/3/10 15:14
+ * @date 2022/03/10 19:14
  */
 import com.tony.captcha.CaptchaService
 import com.tony.captcha.DefaultCaptchaServiceImpl
@@ -44,7 +44,7 @@ import org.springframework.context.annotation.Configuration
  * 验证码配置
  *
  * @author Tang Li
- * @date 2023/5/25 15:41
+ * @date 2023/05/25 19:41
  */
 @Configuration
 @EnableConfigurationProperties(CaptchaProperties::class)
@@ -65,7 +65,7 @@ internal class CaptchaConfig(
  * CaptchaProperties
  *
  * @author Tang Li
- * @date 2023/5/25 15:42
+ * @date 2023/05/25 19:42
  */
 @ConfigurationProperties(prefix = "captcha")
 internal data class CaptchaProperties(

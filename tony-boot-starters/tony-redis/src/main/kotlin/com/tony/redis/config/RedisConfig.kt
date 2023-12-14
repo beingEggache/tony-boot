@@ -60,7 +60,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
  * RedisCacheConfig
  *
  * @author Tang Li
- * @date 2023/5/25 10:31
+ * @date 2023/05/25 19:31
  */
 @Configuration
 @EnableConfigurationProperties(RedisProperties::class)
@@ -162,7 +162,7 @@ internal class RedisConfig(
  * RedisCacheProperties
  *
  * @author Tang Li
- * @date 2023/5/25 10:31
+ * @date 2023/05/25 19:31
  */
 @ConfigurationProperties(prefix = "redis")
 internal data class RedisProperties

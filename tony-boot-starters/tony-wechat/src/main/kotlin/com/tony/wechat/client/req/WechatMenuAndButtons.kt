@@ -29,7 +29,7 @@ package com.tony.wechat.client.req
  * WechatMenuAndButtons
  *
  * @author Tang Li
- * @date 2021/9/26 12:49
+ * @date 2021/09/26 19:49
  */
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty

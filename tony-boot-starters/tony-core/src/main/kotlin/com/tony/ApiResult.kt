@@ -66,7 +66,7 @@ public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
  *
  * @return [ApiResultLike<T>]
  * @author Tang Li
- * @date 2023/09/13 10:31
+ * @date 2023/09/13 19:31
  * @since 1.0.0
  */
 public fun <T> T.flattenResult(): ApiResultLike<T> =

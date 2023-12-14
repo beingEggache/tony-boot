@@ -42,7 +42,7 @@ import org.springframework.web.servlet.HandlerInterceptor
  * 登录校验拦截器.
  *
  * @author Tang Li
- * @date 2023/5/25 15:14
+ * @date 2023/05/25 19:14
  */
 public interface LoginCheckInterceptor : HandlerInterceptor {
     override fun preHandle(
@@ -61,6 +61,6 @@ public interface LoginCheckInterceptor : HandlerInterceptor {
  * 登录校验拦截器. 默认实现.
  *
  * @author Tang Li
- * @date 2023/5/25 15:15
+ * @date 2023/05/25 19:15
  */
 internal class DefaultLoginCheckInterceptor : LoginCheckInterceptor

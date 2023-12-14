@@ -35,7 +35,7 @@ import com.tony.enums.StringEnumValue
 /**
  * 二进制编码
  * @author Tang Li
- * @date 2023/09/12 17:45
+ * @date 2023/09/12 19:45
  * @since 1.0.0
  */
 public enum class Encoding(

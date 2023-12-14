@@ -30,7 +30,7 @@ package com.tony.feign.interceptor.response
  * 用这个避免自动注册.
  *
  * @author Tang Li
- * @date 2023/08/02 21:00
+ * @date 2023/08/02 19:00
  */
 import com.tony.ApiProperty
 import com.tony.ApiResultLike
@@ -61,7 +61,7 @@ import org.springframework.http.MediaType
  * @param T
  * @property obj
  * @author Tang Li
- * @date 2023/08/02 21:00
+ * @date 2023/08/02 19:00
  */
 public class GlobalResponseInterceptorProvider<T : ResponseInterceptor>(
     private val obj: T,
@@ -98,7 +98,7 @@ internal class UnwrapResponseInterceptorProvider<T : UnwrapResponseInterceptor>(
 /**
  * 响应拦截器. 将全局统一响应的具体返回数据抽取出来
  * @author Tang Li
- * @date 2023/09/13 10:34
+ * @date 2023/09/13 19:34
  * @since 1.0.0
  */
 internal class DefaultUnwrapResponseInterceptor : UnwrapResponseInterceptor {

@@ -28,7 +28,7 @@ package com.tony.utils
 /**
  * 日志工具类
  * @author Tang Li
- * @date 2023/09/13 10:22
+ * @date 2023/09/13 19:22
  * @since 1.0.0
  */
 import org.slf4j.MDC
@@ -40,7 +40,7 @@ import org.slf4j.MDC
  * @param [source] 来源
  * @return [String]
  * @author Tang Li
- * @date 2023/09/27 18:02
+ * @date 2023/09/27 19:02
  * @since 1.0.0
  */
 public fun mdcPutOrGetDefault(

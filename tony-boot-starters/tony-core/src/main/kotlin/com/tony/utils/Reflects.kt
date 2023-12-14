@@ -28,7 +28,7 @@ package com.tony.utils
 /**
  * 反射工具类
  * @author Tang Li
- * @date 2023/07/12 11:19
+ * @date 2023/07/12 19:19
  */
 import java.beans.PropertyDescriptor
 import java.lang.reflect.AnnotatedElement
@@ -55,7 +55,7 @@ internal val logger: Logger = LoggerFactory.getLogger("com.tony.utils.Reflects")
  * PropertyDescriptor
  * @return [PropertyDescriptor]?
  * @author Tang Li
- * @date 2023/09/13 10:25
+ * @date 2023/09/13 19:25
  * @since 1.0.0
  */
 public fun AnnotatedElement.descriptor(): PropertyDescriptor? =
@@ -69,7 +69,7 @@ public fun AnnotatedElement.descriptor(): PropertyDescriptor? =
  * 获取 getter
  * @return [Method]?
  * @author Tang Li
- * @date 2023/09/13 10:26
+ * @date 2023/09/13 19:26
  * @since 1.0.0
  */
 public fun AnnotatedElement.getter(): Method? =
@@ -79,7 +79,7 @@ public fun AnnotatedElement.getter(): Method? =
  * 获取 setter
  * @return [Method]?
  * @author Tang Li
- * @date 2023/09/13 10:26
+ * @date 2023/09/13 19:26
  * @since 1.0.0
  */
 public fun AnnotatedElement.setter(): Method? =
@@ -89,7 +89,7 @@ public fun AnnotatedElement.setter(): Method? =
  * 获取字段
  * @return [Field]?
  * @author Tang Li
- * @date 2023/09/13 10:26
+ * @date 2023/09/13 19:26
  * @since 1.0.0
  */
 public fun AnnotatedElement.field(): Field? =
@@ -104,7 +104,7 @@ public fun AnnotatedElement.field(): Field? =
  * @param [instance] 例子
  * @param [value] 价值
  * @author Tang Li
- * @date 2023/09/13 10:26
+ * @date 2023/09/13 19:26
  * @since 1.0.0
  */
 public fun AnnotatedElement.setValueFirstUseSetter(
@@ -135,7 +135,7 @@ public fun AnnotatedElement.setValueFirstUseSetter(
  * @param [instance]
  * @return [Any]?
  * @author Tang Li
- * @date 2023/09/13 10:27
+ * @date 2023/09/13 19:27
  * @since 1.0.0
  */
 public fun AnnotatedElement.getValueFirstUseGetter(instance: Any?): Any? {

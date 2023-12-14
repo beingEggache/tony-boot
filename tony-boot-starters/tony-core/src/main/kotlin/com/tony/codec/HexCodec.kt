@@ -30,7 +30,7 @@ import java.util.HexFormat
 /**
  * 十六进制编解码器
  * @author Tang Li
- * @date 2023/09/12 17:43
+ * @date 2023/09/12 19:43
  * @since 1.0.0
  */
 public data object HexCodec : Codec {

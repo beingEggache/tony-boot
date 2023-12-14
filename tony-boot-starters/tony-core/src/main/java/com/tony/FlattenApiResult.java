@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
  * 压平的全局响应统一结构.
  *
  * @author Tang Li
- * @date 2023/09/27 18:06
+ * @date 2023/09/27 19:06
  */
 @SuppressWarnings("unused")
 class FlattenApiResult<T> implements ApiResultLike<T> {
@@ -45,7 +45,7 @@ class FlattenApiResult<T> implements ApiResultLike<T> {
     public FlattenApiResult() {
     }
 
-    public FlattenApiResult(T data, int code, CharSequence message) {
+    public FlattenApiResult(final T data, final int code, final CharSequence message) {
         this.data = data;
         this.code = code;
         this.message = message;
@@ -56,7 +56,7 @@ class FlattenApiResult<T> implements ApiResultLike<T> {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(final T data) {
         this.data = data;
     }
 
@@ -65,7 +65,7 @@ class FlattenApiResult<T> implements ApiResultLike<T> {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(final int code) {
         this.code = code;
     }
 
@@ -74,7 +74,7 @@ class FlattenApiResult<T> implements ApiResultLike<T> {
         return message;
     }
 
-    public void setMessage(CharSequence message) {
+    public void setMessage(final CharSequence message) {
         this.message = message;
     }
 }

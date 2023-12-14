@@ -33,7 +33,7 @@ import com.tony.utils.localIp
  * logback 获取本地ip
  *
  * @author Tang Li
- * @date 2023/5/25 11:01
+ * @date 2023/05/25 19:01
  */
 public class LogIpConversion : ClassicConverter() {
     private val ipFromNacosKey = "IP_FROM_NACOS"

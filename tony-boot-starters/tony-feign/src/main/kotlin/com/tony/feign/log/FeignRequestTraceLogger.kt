@@ -28,7 +28,7 @@ package com.tony.feign.log
  * Feign okhttp 请求日志拦截器
  *
  * @author Tang Li
- * @date 2023/5/25 15:48
+ * @date 2023/05/25 19:48
  */
 import com.tony.TRACE_ID_HEADER_NAME
 import com.tony.feign.isTextMediaTypes
@@ -54,7 +54,7 @@ import org.springframework.http.HttpStatus
  * Feign okhttp 请求日志拦截器
  *
  * @author Tang Li
- * @date 2023/5/25 15:48
+ * @date 2023/05/25 19:48
  */
 @Priority(Int.MAX_VALUE)
 internal class FeignLogInterceptor(
@@ -91,7 +91,7 @@ internal class FeignLogInterceptor(
 /**
  * 默认ok http 请求日志记录器
  * @author Tang Li
- * @date 2023/09/13 10:35
+ * @date 2023/09/13 19:35
  * @since 1.0.0
  */
 internal open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
@@ -106,7 +106,7 @@ internal open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
      * @param [response] 响应
      * @param [elapsedTime] 执行时间
      * @author Tony
-     * @date 2023/09/12 10:10
+     * @date 2023/09/12 19:10
      * @since 1.0.0
      */
     override fun log(
@@ -207,7 +207,7 @@ internal open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
 /**
  * Feign okhttp 请求日志记录接口.
  * @author Tang Li
- * @date 2023/09/13 10:35
+ * @date 2023/09/13 19:35
  * @since 1.0.0
  */
 public fun interface FeignRequestTraceLogger {

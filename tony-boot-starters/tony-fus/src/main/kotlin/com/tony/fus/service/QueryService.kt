@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.fus.service
 
 import com.tony.fus.db.po.FusHistoryInstance
@@ -11,7 +35,7 @@ import com.tony.fus.db.po.FusTaskActor
  * 流程相关的查询服务
  * 查询服务
  * @author Tang Li
- * @date 2023/10/20 16:29
+ * @date 2023/10/20 19:29
  * @since 1.0.0
  */
 public interface QueryService {
@@ -20,7 +44,7 @@ public interface QueryService {
      * @param [instanceId] 实例id
      * @return [FusInstance] 流程实例
      * @author Tang Li
-     * @date 2023/10/10 09:22
+     * @date 2023/10/10 19:22
      * @since 1.0.0
      */
     public fun instance(instanceId: String): FusInstance
@@ -30,7 +54,7 @@ public interface QueryService {
      * @param [instanceId] 实例id
      * @return [FusHistoryInstance] 历史流程实例
      * @author Tang Li
-     * @date 2023/10/10 09:23
+     * @date 2023/10/10 19:23
      * @since 1.0.0
      */
     public fun historyInstance(instanceId: String): FusHistoryInstance
@@ -40,7 +64,7 @@ public interface QueryService {
      * @param [taskId] 任务id
      * @return [FusTask] 任务对象
      * @author Tang Li
-     * @date 2023/10/10 09:24
+     * @date 2023/10/10 19:24
      * @since 1.0.0
      */
     public fun task(taskId: String): FusTask
@@ -50,7 +74,7 @@ public interface QueryService {
      * @param [taskId] 历史任务id
      * @return [FusTask] 历史任务对象
      * @author Tang Li
-     * @date 2023/10/10 09:24
+     * @date 2023/10/10 19:24
      * @since 1.0.0
      */
     public fun historyTask(taskId: String): FusHistoryTask
@@ -60,7 +84,7 @@ public interface QueryService {
      * @param [instanceId] 实例id
      * @param [actorId] 任务参与者id
      * @author Tang Li
-     * @date 2023/11/21 10:41
+     * @date 2023/11/21 19:41
      * @since 1.0.0
      */
     public fun taskByInstanceIdAndActorId(
@@ -73,7 +97,7 @@ public interface QueryService {
      * @param [instanceId] 实例id
      * @return [List<FusTask>]
      * @author Tang Li
-     * @date 2023/10/10 09:31
+     * @date 2023/10/10 19:31
      * @since 1.0.0
      */
     public fun listTaskByInstanceId(instanceId: String): List<FusTask>
@@ -84,7 +108,7 @@ public interface QueryService {
      * @param [taskName] 任务名称
      * @return [List<FusTask>]
      * @author Tang Li
-     * @date 2023/11/10 16:50
+     * @date 2023/11/10 19:50
      * @since 1.0.0
      */
     public fun listTaskByInstanceIdAndTaskName(
@@ -97,7 +121,7 @@ public interface QueryService {
      * @param [instanceId] 实例id
      * @return [List<FusHistoryTask>]
      * @author Tang Li
-     * @date 2023/10/10 09:39
+     * @date 2023/10/10 19:39
      * @since 1.0.0
      */
     public fun listHistoryTask(instanceId: String): List<FusHistoryTask>
@@ -107,7 +131,7 @@ public interface QueryService {
      * @param [instanceId] 实例id
      * @return [FusHistoryTask]
      * @author Tang Li
-     * @date 2023/10/10 09:39
+     * @date 2023/10/10 19:39
      * @since 1.0.0
      */
     public fun recentHistoryTask(instanceId: String): FusHistoryTask
@@ -117,7 +141,7 @@ public interface QueryService {
      * @param [taskId] 任务id
      * @return [List<FusTaskActor>]
      * @author Tang Li
-     * @date 2023/10/10 09:32
+     * @date 2023/10/10 19:32
      * @since 1.0.0
      */
     public fun listTaskActorByTaskId(taskId: String): List<FusTaskActor>
@@ -127,7 +151,7 @@ public interface QueryService {
      * @param [taskId] 历史任务ID
      * @return [List<FusTaskActor>]
      * @author Tang Li
-     * @date 2023/10/10 09:32
+     * @date 2023/10/10 19:32
      * @since 1.0.0
      */
     public fun listHistoryTaskActorByTaskId(taskId: String): List<FusHistoryTaskActor>
@@ -137,7 +161,7 @@ public interface QueryService {
      * @param [instanceId] 实例id
      * @return [List<FusTaskActor>]
      * @author Tang Li
-     * @date 2023/11/10 16:59
+     * @date 2023/11/10 19:59
      * @since 1.0.0
      */
     public fun listTaskActorsByInstanceId(instanceId: String): List<FusTaskActor>

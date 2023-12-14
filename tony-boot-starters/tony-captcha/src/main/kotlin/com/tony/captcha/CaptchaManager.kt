@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit
  * 验证码服务 单例类.
  *
  * @author Tang Li
- * @date 2023/5/25 15:38
+ * @date 2023/05/25 19:38
  */
 public object CaptchaManager {
     private val captchaService: CaptchaService by SpringContexts.getBeanByLazy()
@@ -49,7 +49,7 @@ public object CaptchaManager {
      * @param [timeUnit] 时间单位, 默认为 [TimeUnit.SECONDS]
      * @return [CaptchaVo]
      * @author Tang Li
-     * @date 2023/09/28 09:57
+     * @date 2023/09/28 19:57
      * @since 1.0.0
      */
     @JvmStatic
@@ -79,7 +79,7 @@ public object CaptchaManager {
      * @param [func] 回调
      * @return [R]
      * @author Tang Li
-     * @date 2023/09/28 09:57
+     * @date 2023/09/28 19:57
      * @since 1.0.0
      */
     @JvmStatic

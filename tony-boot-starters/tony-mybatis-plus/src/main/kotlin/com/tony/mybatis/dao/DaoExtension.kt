@@ -28,7 +28,7 @@
  * daoExtension
  *
  * @author Tang Li
- * @date 2022/7/13 10:10
+ * @date 2022/07/13 19:10
  */
 
 package com.tony.mybatis.dao
@@ -57,7 +57,7 @@ internal val LOG_MAP = ConcurrentHashMap<Class<*>, Log>()
 /**
  * 实际类别
  * @author Tang Li
- * @date 2023/09/28 10:54
+ * @date 2023/09/28 19:54
  * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.actualClass() =
@@ -78,7 +78,7 @@ internal fun <T : Any> BaseDao<T>.actualClass() =
  * @param [sqlMethod] 语句枚举
  * @return [String]
  * @author Tang Li
- * @date 2023/09/28 10:52
+ * @date 2023/09/28 19:52
  * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.getSqlStatement(sqlMethod: SqlMethod?): String =
@@ -88,7 +88,7 @@ internal fun <T : Any> BaseDao<T>.getSqlStatement(sqlMethod: SqlMethod?): String
  * 获取logger
  * @return [Log]
  * @author Tang Li
- * @date 2023/09/28 10:52
+ * @date 2023/09/28 19:52
  * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.getLog(): Log =
@@ -100,7 +100,7 @@ internal fun <T : Any> BaseDao<T>.getLog(): Log =
  * 获取entityClass
  * @return [Class<T>]
  * @author Tang Li
- * @date 2023/09/28 10:53
+ * @date 2023/09/28 19:53
  * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
@@ -113,7 +113,7 @@ internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
  * 获取mapper类型
  * @return [Class<out BaseDao<T>>]
  * @author Tang Li
- * @date 2023/09/28 10:53
+ * @date 2023/09/28 19:53
  * @since 1.0.0
  */
 internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
@@ -128,7 +128,7 @@ internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
  * @param [consumer] 回调
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/09/28 10:53
+ * @date 2023/09/28 19:53
  * @since 1.0.0
  */
 internal fun <T : Any, E> BaseDao<T>.executeBatch(

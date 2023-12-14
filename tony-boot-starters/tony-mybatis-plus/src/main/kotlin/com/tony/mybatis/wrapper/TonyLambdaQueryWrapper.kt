@@ -39,7 +39,7 @@ import java.util.function.Predicate
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
  * Lambda 语法使用 Wrapper
  * @author Tang Li
- * @date 2023/09/13 10:42
+ * @date 2023/09/13 19:42
  * @since 1.0.0
  */
 public class TonyLambdaQueryWrapper<T : Any> :

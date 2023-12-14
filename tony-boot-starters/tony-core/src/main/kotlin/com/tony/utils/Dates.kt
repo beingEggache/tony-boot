@@ -30,7 +30,7 @@ package com.tony.utils
  * 日期工具类
  *
  * @author Tang Li
- * @date 2022/9/29 10:20
+ * @date 2022/09/29 19:20
  */
 import com.tony.exception.ApiException
 import java.time.Instant
@@ -273,7 +273,7 @@ public fun secondOfTodayRest(): Long =
  * @param [timePeriod] 时间段
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/12/04 18:33
+ * @date 2023/12/04 19:33
  * @since 1.0.0
  */
 public infix fun <T : TemporalAccessor> Pair<T, T>.overlap(timePeriod: Pair<T, T>): Boolean =
@@ -284,7 +284,7 @@ public infix fun <T : TemporalAccessor> Pair<T, T>.overlap(timePeriod: Pair<T, T
  * @param [timePeriod] 时间段
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/12/04 18:33
+ * @date 2023/12/04 19:33
  * @since 1.0.0
  */
 public infix fun <T : Date> Pair<T, T>.dateOverlap(timePeriod: Pair<T, T>): Boolean =

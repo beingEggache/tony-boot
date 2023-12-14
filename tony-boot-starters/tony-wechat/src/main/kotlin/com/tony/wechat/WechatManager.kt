@@ -45,7 +45,7 @@ import org.springframework.validation.annotation.Validated
 /**
  * 微信 Manager
  * @author Tang Li
- * @date 2023/09/28 11:05
+ * @date 2023/09/28 19:05
  * @since 1.0.0
  */
 public object WechatManager {
@@ -61,7 +61,7 @@ public object WechatManager {
      * @param [app] 应用程序
      * @return [Boolean]
      * @author Tang Li
-     * @date 2023/09/28 11:05
+     * @date 2023/09/28 19:05
      * @since 1.0.0
      */
     @JvmOverloads

@@ -27,7 +27,7 @@ package com.tony.annotation.feign
  * Feign 相关注解.
  *
  * @author Tang Li
- * @date 2023/08/02 21:00
+ * @date 2023/08/02 19:00
  */
 import com.tony.feign.interceptor.request.BeanType
 import com.tony.feign.interceptor.request.RequestProcessor
@@ -42,7 +42,7 @@ import kotlin.reflect.KClass
  * Avoiding to auto register.
  *
  * @author Tang Li
- * @date 2023/08/02 21:00
+ * @date 2023/08/02 19:00
  */
 @Target(AnnotationTarget.CLASS, AnnotationTarget.ANNOTATION_CLASS)
 @Retention(AnnotationRetention.RUNTIME)
@@ -57,7 +57,7 @@ public annotation class FeignUseGlobalRequestInterceptor
  * Avoiding to auto register.
  *
  * @author Tang Li
- * @date 2023/08/02 21:00
+ * @date 2023/08/02 19:00
  */
 @Target(AnnotationTarget.CLASS, AnnotationTarget.ANNOTATION_CLASS)
 @Retention(AnnotationRetention.RUNTIME)
@@ -72,7 +72,7 @@ public annotation class FeignUseGlobalResponseInterceptor
  * Avoiding to auto register.
  *
  * @author Tang Li
- * @date 2023/08/02 21:00
+ * @date 2023/08/02 19:00
  */
 @Target(AnnotationTarget.CLASS, AnnotationTarget.ANNOTATION_CLASS)
 @Retention(AnnotationRetention.RUNTIME)
@@ -86,7 +86,7 @@ public annotation class FeignUnwrapResponse(
  *
  * with [FeignUseGlobalRequestInterceptor] and [FeignUseGlobalResponseInterceptor]
  * @author Tang Li
- * @date 2023/08/02 21:00
+ * @date 2023/08/02 19:00
  */
 @FeignUseGlobalResponseInterceptor
 @FeignUseGlobalRequestInterceptor

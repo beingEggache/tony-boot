@@ -31,7 +31,7 @@ import org.springframework.context.annotation.PropertySource
 /**
  * MybatisPlusConfig
  * @author Tang Li
- * @date 2023/5/25 15:55
+ * @date 2023/05/25 19:55
  */
 @Configuration
 @PropertySource("classpath:mybatis-plus.config.yml", factory = YamlPropertySourceFactory::class)

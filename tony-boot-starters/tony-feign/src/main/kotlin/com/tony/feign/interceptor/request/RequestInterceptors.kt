@@ -30,7 +30,7 @@ package com.tony.feign.interceptor.request
  * 用这个避免自动注册.
  *
  * @author Tang Li
- * @date 2023/08/02 21:00
+ * @date 2023/08/02 19:00
  */
 import com.tony.SpringContexts
 import com.tony.annotation.feign.RequestProcessors
@@ -49,7 +49,7 @@ import org.springframework.beans.factory.ObjectProvider
  * @param T
  * @property obj
  * @author Tang Li
- * @date 2023/08/02 21:00
+ * @date 2023/08/02 19:00
  */
 public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
     private val obj: T,
@@ -70,7 +70,7 @@ public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
 /**
  * 使用请求处理器请求拦截器
  * @author Tang Li
- * @date 2023/09/13 10:33
+ * @date 2023/09/13 19:33
  * @since 1.0.0
  */
 public class UseRequestProcessorsRequestInterceptor : RequestInterceptor {

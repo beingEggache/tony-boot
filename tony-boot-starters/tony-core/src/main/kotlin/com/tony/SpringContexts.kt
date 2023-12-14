@@ -44,7 +44,7 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
      * @param [T] bean类型
      * @return [Lazy]
      * @author Tang Li
-     * @date 2023/09/13 10:32
+     * @date 2023/09/13 19:32
      * @since 1.0.0
      * @see [ApplicationContext.getBean]
      */
@@ -59,7 +59,7 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
      * @param [name] bean名称
      * @return [Lazy]
      * @author Tang Li
-     * @date 2023/09/13 10:32
+     * @date 2023/09/13 19:32
      * @since 1.0.0
      * @see [ApplicationContext.getBean]
      */
@@ -90,7 +90,7 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
          * @param [defaultValue] 默认值
          * @return [Lazy]
          * @author Tang Li
-         * @date 2023/09/13 10:32
+         * @date 2023/09/13 19:32
          * @since 1.0.0
          * @see [Environment.getProperty]
          */

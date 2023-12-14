@@ -34,7 +34,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
  * Aes对称加密单例类
  *
  * @author Tang Li
- * @date 2023/5/25 16:16
+ * @date 2023/05/25 19:16
  */
 public data object Aes : SymmetricCrypto {
     /**

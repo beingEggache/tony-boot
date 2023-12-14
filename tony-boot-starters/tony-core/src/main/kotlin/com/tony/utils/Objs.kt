@@ -33,7 +33,7 @@ import org.springframework.beans.BeanUtils
 /**
  * ObjUtils is
  * @author Tang Li
- * @date 2023/06/13 17:10
+ * @date 2023/06/13 19:10
  */
 
 /**
@@ -88,7 +88,7 @@ public fun <T> T.getLogger(): Logger where T : Any =
  * @param [types] 类型
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/09/13 10:25
+ * @date 2023/09/13 19:25
  * @since 1.0.0
  */
 public fun Any.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
@@ -98,7 +98,7 @@ public fun Any.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
  * 复制属性
  * @return [T]
  * @author Tang Li
- * @date 2023/09/25 15:11
+ * @date 2023/09/25 19:11
  * @since 1.0.0
  * @see BeanUtils.copyProperties
  */
@@ -120,7 +120,7 @@ public inline fun <reified T> Any?.copyTo(): T =
  * @param [targetType] 目标类型
  * @return [T]
  * @author Tang Li
- * @date 2023/09/25 15:13
+ * @date 2023/09/25 19:13
  * @since 1.0.0
  */
 public fun <T> Any?.copyTo(targetType: Class<T>): T {
@@ -138,7 +138,7 @@ public fun <T> Any?.copyTo(targetType: Class<T>): T {
  * @param [target] 目标
  * @return [T]
  * @author Tang Li
- * @date 2023/09/25 15:13
+ * @date 2023/09/25 19:13
  * @since 1.0.0
  */
 public fun <T> Any?.copyTo(target: T?): T? {
@@ -155,7 +155,7 @@ public fun <T> Any?.copyTo(target: T?): T? {
  * @param [target] 目标
  * @return [T]
  * @author Tang Li
- * @date 2023/09/25 15:13
+ * @date 2023/09/25 19:13
  * @since 1.0.0
  */
 @JvmSynthetic

@@ -83,7 +83,7 @@ internal class WechatConfig {
  * 微信配置
  *
  * @author Tang Li
- * @date 2023/5/25 15:22
+ * @date 2023/05/25 19:22
  */
 @ConfigurationProperties(prefix = "wechat")
 public data class WechatProperties
@@ -107,7 +107,7 @@ public data class WechatProperties
  * 微信配置
  *
  * @author Tang Li
- * @date 2023/5/25 15:22
+ * @date 2023/05/25 19:22
  */
 public data class WechatAppProperties(
     val token: String?,

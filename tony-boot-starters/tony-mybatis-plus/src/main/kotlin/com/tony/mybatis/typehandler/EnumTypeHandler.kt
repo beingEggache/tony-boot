@@ -35,7 +35,7 @@ import org.apache.ibatis.type.JdbcType
 /**
  * mybatis 枚举 转换器.
  * @author Tang Li
- * @date 2023/09/13 10:40
+ * @date 2023/09/13 19:40
  * @since 1.0.0
  */
 public open class EnumTypeHandler<E, KEY>(

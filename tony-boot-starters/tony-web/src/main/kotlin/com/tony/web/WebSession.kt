@@ -36,7 +36,7 @@ import com.tony.web.exception.UnauthorizedException
  * 自定义实现 session.
  *
  * @author Tang Li
- * @date 2023/5/25 10:52
+ * @date 2023/05/25 19:52
  */
 public interface WebSession : ApiSession {
     override val userId: String

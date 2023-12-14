@@ -30,7 +30,7 @@ package com.tony.utils
  * 核心工具类
  *
  * @author Tang Li
- * @date 2022/9/29 10:20
+ * @date 2022/09/29 19:20
  */
 import com.tony.ApiProperty
 import com.tony.exception.BaseException
@@ -43,7 +43,7 @@ import com.tony.exception.BizException
  * @param [default] 默认值
  * @return [T]
  * @author Tang Li
- * @date 2023/11/07 11:38
+ * @date 2023/11/07 19:38
  * @since 1.0.0
  */
 public fun <T> T?.ifNull(default: T): T =
@@ -56,7 +56,7 @@ public fun <T> T?.ifNull(default: T): T =
  * @param [block] 回调
  * @return [T]
  * @author Tang Li
- * @date 2023/11/07 11:39
+ * @date 2023/11/07 19:39
  * @since 1.0.0
  */
 @JvmSynthetic
@@ -70,7 +70,7 @@ public inline fun <reified T> T?.ifNull(crossinline block: () -> T): T =
  * @param [block] 回调
  * @return [T]?
  * @author Tang Li
- * @date 2023/11/07 11:39
+ * @date 2023/11/07 19:39
  * @since 1.0.0
  */
 @JvmSynthetic
@@ -86,7 +86,7 @@ public inline fun <T> Boolean.runIf(crossinline block: () -> T?): T? =
  * @receiver [Boolean] 条件.
  * @param [block] 回调.
  * @author Tang Li
- * @date 2023/11/07 11:41
+ * @date 2023/11/07 19:41
  * @since 1.0.0
  */
 @JvmSynthetic
@@ -103,7 +103,7 @@ public inline fun Boolean.alsoIf(crossinline block: () -> Unit) {
  * @param [block] 块
  * @return [R]?
  * @author Tang Li
- * @date 2023/11/07 11:41
+ * @date 2023/11/07 19:41
  * @since 1.0.0
  */
 @JvmSynthetic
@@ -126,7 +126,7 @@ public inline fun <T, R> T.runIf(
  * @param [block] 块
  * @return [R]?
  * @author Tang Li
- * @date 2023/11/07 11:41
+ * @date 2023/11/07 19:41
  * @since 1.0.0
  */
 @JvmSynthetic
@@ -148,7 +148,7 @@ public inline fun <T, R> T.letIf(
  * @param [block] 块
  * @return [this]?
  * @author Tang Li
- * @date 2023/11/07 11:41
+ * @date 2023/11/07 19:41
  * @since 1.0.0
  */
 @JvmSynthetic
@@ -168,7 +168,7 @@ public inline fun <T> T.applyIf(
  * @param [block] 块
  * @return [this]?
  * @author Tang Li
- * @date 2023/11/07 11:41
+ * @date 2023/11/07 19:41
  * @since 1.0.0
  */
 @JvmSynthetic
@@ -237,7 +237,7 @@ public fun <T> T?.throwIfNull(
  * @param [ex] 异常类型构造函数
  * @return [C]
  * @author Tang Li
- * @date 2023/11/06 11:19
+ * @date 2023/11/06 19:19
  * @since 1.0.0
  */
 @JvmOverloads
@@ -263,7 +263,7 @@ public fun <C : Collection<T>, T : Any?> C?.throwIfEmpty(
  * @param [ex] 异常类型构造函数
  * @return [C]
  * @author Tang Li
- * @date 2023/11/06 11:19
+ * @date 2023/11/06 19:19
  * @since 1.0.0
  */
 @JvmOverloads
@@ -289,7 +289,7 @@ public fun <C : Map<*, *>> C?.throwIfEmpty(
  * @param [ex] 异常类型构造函数
  * @return [C]
  * @author Tang Li
- * @date 2023/11/06 11:19
+ * @date 2023/11/06 19:19
  * @since 1.0.0
  */
 @JvmOverloads

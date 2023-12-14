@@ -32,7 +32,7 @@ package com.tony.redis.serializer.wrapper
  *
  * 但经过特殊处理, 所有 [Number] 类型都直接原生处理, 没走 [com.tony.redis.serializer.ProtostuffSerializer.serialize].
  * @author Tang Li
- * @date 2023/5/24 18:12
+ * @date 2023/05/24 19:12
  */
 internal class ProtoWrapper
     internal constructor(

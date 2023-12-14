@@ -39,7 +39,7 @@ import java.util.function.Predicate
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
  *
  * @author Tang Li
- * @date 2023/5/25 15:32
+ * @date 2023/05/25 19:32
  */
 
 public open class TonyQueryWrapper<T : Any> :

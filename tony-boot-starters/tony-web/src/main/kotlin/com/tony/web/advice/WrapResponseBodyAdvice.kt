@@ -49,7 +49,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
  * 响应包装, 将直接返回的类型包装为全局结构 [ApiResult].
  *
  * @author Tang Li
- * @date 2023/5/25 10:51
+ * @date 2023/05/25 19:51
  */
 @RestControllerAdvice
 internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {

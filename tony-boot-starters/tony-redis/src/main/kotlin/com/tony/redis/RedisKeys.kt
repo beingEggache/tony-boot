@@ -30,7 +30,7 @@ import com.tony.SpringContexts.Env
  * redis key 操作静态单例.
  *
  * @author Tang Li
- * @date 2023/09/28 10:56
+ * @date 2023/09/28 19:56
  * @since 1.0.0
  */
 public object RedisKeys {
@@ -42,7 +42,7 @@ public object RedisKeys {
      * @param [args] args
      * @return [String]
      * @author Tang Li
-     * @date 2023/09/28 10:56
+     * @date 2023/09/28 19:56
      * @since 1.0.0
      */
     @JvmStatic

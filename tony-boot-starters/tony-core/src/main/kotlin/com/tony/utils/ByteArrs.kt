@@ -28,7 +28,7 @@ package com.tony.utils
 /**
  * ByteArray 工具类
  * @author Tang Li
- * @date 2023/09/12 10:53
+ * @date 2023/09/12 19:53
  * @since 1.0.0
  */
 import java.nio.charset.Charset
@@ -38,7 +38,7 @@ import java.nio.charset.Charset
  * @param [charset] 字符集
  * @return [String]
  * @author Tang Li
- * @date 2023/09/12 10:53
+ * @date 2023/09/12 19:53
  * @since 1.0.0
  */
 public fun ByteArray.string(charset: Charset = Charsets.UTF_8): String =

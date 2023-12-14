@@ -51,7 +51,7 @@ public fun interface RequestProcessor {
      *  [com.tony.annotation.feign.FeignUseGlobalResponseInterceptor] 使用.
      * @param [template] RequestTemplate
      * @author Tang Li
-     * @date 2023/09/28 10:46
+     * @date 2023/09/28 19:46
      * @since 1.0.0
      */
     public operator fun invoke(template: RequestTemplate)

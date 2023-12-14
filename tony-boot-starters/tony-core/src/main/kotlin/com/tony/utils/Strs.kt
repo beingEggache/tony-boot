@@ -30,7 +30,7 @@ package com.tony.utils
  * 字符串工具类
  *
  * @author Tang Li
- * @date 2022/9/29 10:20
+ * @date 2022/09/29 19:20
  */
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.module.kotlin.convertValue
@@ -48,7 +48,7 @@ import org.springframework.util.AntPathMatcher
  * 生成uuid并去掉横杠 “-”，并大写
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:27
+ * @date 2023/12/08 19:27
  * @since 1.0.0
  */
 public fun uuid(): String =
@@ -62,7 +62,7 @@ public fun uuid(): String =
  * 判断字符串是否是一个json
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/12/08 20:28
+ * @date 2023/12/08 19:28
  * @since 1.0.0
  */
 public fun CharSequence.isJson(): Boolean =
@@ -77,7 +77,7 @@ public fun CharSequence.isJson(): Boolean =
  * 转为 queryString表示， 如a=1&b=2&c=3
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:28
+ * @date 2023/12/08 19:28
  * @since 1.0.0
  */
 public fun <T> T.toQueryString(): String =
@@ -90,7 +90,7 @@ public fun <T> T.toQueryString(): String =
  * @param [str] str
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/12/08 20:28
+ * @date 2023/12/08 19:28
  * @since 1.0.0
  */
 public fun CharSequence?.equalsIgnoreNullOrEmpty(str: String?): Boolean =
@@ -104,7 +104,7 @@ public fun CharSequence?.equalsIgnoreNullOrEmpty(str: String?): Boolean =
  * 转为 queryString表示， 如a=1&b=2&c=3
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:28
+ * @date 2023/12/08 19:28
  * @since 1.0.0
  */
 public fun Map<String, Any?>.toQueryString(): String =
@@ -116,7 +116,7 @@ public fun Map<String, Any?>.toQueryString(): String =
  * 将queryString字符串转为map， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
  * @return [Map<String, String>]
  * @author Tang Li
- * @date 2023/12/08 20:28
+ * @date 2023/12/08 19:28
  * @since 1.0.0
  */
 public fun CharSequence.queryStringToMap(): Map<String, String> =
@@ -129,7 +129,7 @@ public fun CharSequence.queryStringToMap(): Map<String, String> =
  * 将queryString字符串转为对象， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
  * @return [T]
  * @author Tang Li
- * @date 2023/12/08 20:28
+ * @date 2023/12/08 19:28
  * @since 1.0.0
  */
 public inline fun <reified T> CharSequence.queryStringToObj(): T =
@@ -143,7 +143,7 @@ public inline fun <reified T> CharSequence.queryStringToObj(): T =
  * @param [default] 默认值
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:28
+ * @date 2023/12/08 19:28
  * @since 1.0.0
  */
 @JvmOverloads
@@ -159,7 +159,7 @@ public fun CharSequence?.ifNullOrBlank(default: String = ""): String =
  * @param [block] 默认值
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:29
+ * @date 2023/12/08 19:29
  * @since 1.0.0
  */
 @JvmSynthetic
@@ -176,7 +176,7 @@ private val mobileRegex = Regex("^1[3-9][0-9]{9}$")
  * 字符串是否手机号
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/12/08 20:29
+ * @date 2023/12/08 19:29
  * @since 1.0.0
  */
 public fun CharSequence.isMobileNumber(): Boolean =
@@ -186,7 +186,7 @@ public fun CharSequence.isMobileNumber(): Boolean =
  * 字符串是否一个整形
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/12/08 20:29
+ * @date 2023/12/08 19:29
  * @since 1.0.0
  */
 public fun CharSequence.isInt(): Boolean =
@@ -197,7 +197,7 @@ public fun CharSequence.isInt(): Boolean =
  * @param [numberType] 数字类型
  * @return [T]
  * @author Tang Li
- * @date 2023/12/08 20:29
+ * @date 2023/12/08 19:29
  * @since 1.0.0
  */
 public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
@@ -218,7 +218,7 @@ public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
  * @param [charset] 字符集
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:29
+ * @date 2023/12/08 19:29
  * @since 1.0.0
  */
 @JvmOverloads
@@ -231,7 +231,7 @@ public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
  * @param [charset] 字符集
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:29
+ * @date 2023/12/08 19:29
  * @since 1.0.0
  */
 @JvmOverloads
@@ -244,7 +244,7 @@ private val lineBreakRegex = Regex("[\\n\\r]+")
  * 去掉字符串的换行符, 比如 \n, \r
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:30
+ * @date 2023/12/08 19:30
  * @since 1.0.0
  */
 public fun CharSequence.removeLineBreak(): String =
@@ -257,7 +257,7 @@ private val antPathMatcher = AntPathMatcher()
  * @param [patterns] 图案
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/12/08 20:30
+ * @date 2023/12/08 19:30
  * @since 1.0.0
  * @see AntPathMatcher.match
  */
@@ -271,7 +271,7 @@ private val snakeRegex = "_[a-zA-Z]".toRegex()
  * 字符串驼峰转 snake
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:30
+ * @date 2023/12/08 19:30
  * @since 1.0.0
  */
 public fun CharSequence.camelToSnakeCase(): String =
@@ -284,7 +284,7 @@ public fun CharSequence.camelToSnakeCase(): String =
  * snake 字符串 转驼峰
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:30
+ * @date 2023/12/08 19:30
  * @since 1.0.0
  */
 public fun CharSequence.snakeToLowerCamelCase(): String =
@@ -300,7 +300,7 @@ public fun CharSequence.snakeToLowerCamelCase(): String =
  * snake 字符串 转驼峰
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:30
+ * @date 2023/12/08 19:30
  * @since 1.0.0
  */
 public fun CharSequence.snakeToUpperCamelCase(): String =
@@ -322,7 +322,7 @@ internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
  * @param [input] 输入
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:30
+ * @date 2023/12/08 19:30
  * @since 1.0.0
  */
 public fun sanitizedPath(input: CharSequence): String =
@@ -336,7 +336,7 @@ private val QUOTES_CHARS = arrayOf('\'', '\"')
  * 去掉引号
  * @return [String]
  * @author Tang Li
- * @date 2023/12/08 20:30
+ * @date 2023/12/08 19:30
  * @since 1.0.0
  */
 public fun String.trimQuotes(): String =

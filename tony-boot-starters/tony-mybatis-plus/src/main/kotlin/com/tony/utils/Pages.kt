@@ -28,7 +28,7 @@
  * PageUtils
  *
  * @author Tang Li
- * @date 2022/7/13 15:18
+ * @date 2022/07/13 19:18
  */
 
 package com.tony.utils
@@ -45,7 +45,7 @@ import java.util.Collections
  * Pageable对象转成mybatis的page对象
  * @return [IPage<T>]
  * @author Tang Li
- * @date 2023/09/28 10:55
+ * @date 2023/09/28 19:55
  * @since 1.0.0
  */
 public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
@@ -70,7 +70,7 @@ public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
  * 将 mybatis-plus 的分页对象改为全局统一分页结构
  * @return [E]
  * @author Tang Li
- * @date 2023/09/28 10:55
+ * @date 2023/09/28 19:55
  * @since 1.0.0
  */
 public fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =

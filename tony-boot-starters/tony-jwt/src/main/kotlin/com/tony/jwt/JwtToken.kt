@@ -36,7 +36,7 @@ import java.util.Date
 /**
  * jwt 单例类.
  * @author Tang Li
- * @date 2023/5/25 15:56
+ * @date 2023/05/25 19:56
  */
 public object JwtToken {
     @JvmStatic
@@ -56,7 +56,7 @@ public object JwtToken {
      * @param [params] claims 键值对.
      * @return [String]
      * @author Tang Li
-     * @date 2023/09/28 10:50
+     * @date 2023/09/28 19:50
      * @since 1.0.0
      */
     @JvmStatic
@@ -76,7 +76,7 @@ public object JwtToken {
      * @param [jwt] jwt
      * @return [DecodedJWT]
      * @author Tang Li
-     * @date 2023/09/28 10:50
+     * @date 2023/09/28 19:50
      * @since 1.0.0
      */
     @JvmStatic

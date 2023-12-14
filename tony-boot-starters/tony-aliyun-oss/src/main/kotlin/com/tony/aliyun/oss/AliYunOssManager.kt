@@ -35,7 +35,7 @@ import java.io.InputStream
 /**
  * 阿里云oss Manager
  * @author Tang Li
- * @date 2023/09/28 09:53
+ * @date 2023/09/28 19:53
  * @since 1.0.0
  */
 public object AliYunOssManager {
@@ -57,7 +57,7 @@ public object AliYunOssManager {
      * @param [metadata] 元数据
      * @return [String]
      * @author Tang Li
-     * @date 2023/09/28 09:53
+     * @date 2023/09/28 19:53
      * @since 1.0.0
      */
     @JvmStatic

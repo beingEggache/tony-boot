@@ -34,7 +34,7 @@ import org.springframework.core.annotation.AnnotationUtils
 /**
  * 注解工具类
  * @author Tang Li
- * @date 2023/07/06 16:00
+ * @date 2023/07/06 19:00
  */
 
 /**
@@ -45,7 +45,7 @@ import org.springframework.core.annotation.AnnotationUtils
  * @param [annotationType] 注解类型
  * @receiver [Field]
  * @author Tang Li
- * @date 2023/7/12 10:29
+ * @date 2023/07/12 19:29
  */
 public fun <A : Annotation> Field.selfOrGetterOrSetterHasAnnotation(annotationType: Class<A>): Boolean =
     annotationFromSelfOrGetterOrSetter(annotationType) != null
@@ -57,7 +57,7 @@ public fun <A : Annotation> Field.selfOrGetterOrSetterHasAnnotation(annotationTy
  * @param [annotationType] 注解类型
  * @return [A]?
  * @author Tang Li
- * @date 2023/09/12 10:12
+ * @date 2023/09/12 19:12
  * @since 1.0.0
  */
 public fun <A : Annotation> Field.annotationFromSelfOrGetterOrSetter(annotationType: Class<A>): A? =
@@ -72,7 +72,7 @@ public fun <A : Annotation> Field.annotationFromSelfOrGetterOrSetter(annotationT
  * @param [annotationType] 注解类型
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/09/12 10:13
+ * @date 2023/09/12 19:13
  * @since 1.0.0
  */
 public fun <A : Annotation> Method.hasAnnotation(annotationType: Class<A>): Boolean =
@@ -85,7 +85,7 @@ public fun <A : Annotation> Method.hasAnnotation(annotationType: Class<A>): Bool
  * @param [annotationType] 注解类型
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/09/12 10:17
+ * @date 2023/09/12 19:17
  * @since 1.0.0
  */
 public fun <A : Annotation> Class<*>.hasAnnotation(annotationType: Class<A>): Boolean =
@@ -98,7 +98,7 @@ public fun <A : Annotation> Class<*>.hasAnnotation(annotationType: Class<A>): Bo
  * @param [annotationType] 注解类型
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/09/12 10:17
+ * @date 2023/09/12 19:17
  * @since 1.0.0
  */
 public fun <A : Annotation> AnnotatedElement.hasAnnotation(annotationType: Class<A>): Boolean =
@@ -111,7 +111,7 @@ public fun <A : Annotation> AnnotatedElement.hasAnnotation(annotationType: Class
  * @param [annotationType] 注解类型
  * @return [A]?
  * @author Tang Li
- * @date 2023/09/12 10:18
+ * @date 2023/09/12 19:18
  * @since 1.0.0
  */
 public fun <A : Annotation> Method.annotation(annotationType: Class<A>): A? =
@@ -124,7 +124,7 @@ public fun <A : Annotation> Method.annotation(annotationType: Class<A>): A? =
  * @param [annotationType] 注解类型
  * @return [A]?
  * @author Tang Li
- * @date 2023/09/12 10:32
+ * @date 2023/09/12 19:32
  * @since 1.0.0
  */
 public fun <A : Annotation> Class<*>.annotation(annotationType: Class<A>): A? =
@@ -137,7 +137,7 @@ public fun <A : Annotation> Class<*>.annotation(annotationType: Class<A>): A? =
  * @param [annotationType] 注解类型
  * @return [A]?
  * @author Tang Li
- * @date 2023/09/12 10:33
+ * @date 2023/09/12 19:33
  * @since 1.0.0
  */
 public fun <A : Annotation> AnnotatedElement.annotation(annotationType: Class<A>): A? =

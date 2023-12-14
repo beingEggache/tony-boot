@@ -42,7 +42,7 @@ import com.tony.web.exception.UnauthorizedException
  * noop session. 获取用户标识永远抛出异常.
  *
  * @author Tang Li
- * @date 2023/5/25 15:15
+ * @date 2023/05/25 19:15
  */
 internal class NoopWebSession : WebSession {
     override val userId: String
@@ -57,7 +57,7 @@ internal class NoopWebSession : WebSession {
  * jwt 实现的session.
  *
  * @author Tang Li
- * @date 2023/5/25 15:17
+ * @date 2023/05/25 19:17
  */
 internal class JwtWebSession : WebSession {
     private val logger = getLogger()

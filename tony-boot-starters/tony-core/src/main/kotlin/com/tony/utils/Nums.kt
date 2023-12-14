@@ -45,7 +45,7 @@ import kotlin.math.pow
  * @param [decimal] 小数点后保留几位
  * @return [BigDecimal]
  * @author Tang Li
- * @date 2023/09/13 10:23
+ * @date 2023/09/13 19:23
  * @since 1.0.0
  */
 @JvmOverloads
@@ -70,7 +70,7 @@ public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
  * @param [numberType] 目标类型
  * @return [R]
  * @author Tang Li
- * @date 2023/09/13 10:24
+ * @date 2023/09/13 19:24
  * @since 1.0.0
  */
 public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
@@ -93,7 +93,7 @@ public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
  * @param [decimal] 保留几位小数
  * @return [BigDecimal]
  * @author Tang Li
- * @date 2023/09/13 10:24
+ * @date 2023/09/13 19:24
  * @since 1.0.0
  */
 @JvmOverloads
@@ -110,7 +110,7 @@ public fun Number?.truncToBigDecimal(
  * @param [decimal] 保留几位小数
  * @return [String]
  * @author Tang Li
- * @date 2023/09/13 10:24
+ * @date 2023/09/13 19:24
  * @since 1.0.0
  */
 @JvmOverloads
@@ -127,7 +127,7 @@ public fun Number?.truncToString(
  * @param [roundingMode] see [RoundingMode]
  * @return [String]
  * @author Tang Li
- * @date 2023/09/13 10:24
+ * @date 2023/09/13 19:24
  * @since 1.0.0
  */
 @JvmOverloads
@@ -144,7 +144,7 @@ public fun Float?.formatToPercent(
  * @param [roundingMode] see [RoundingMode]
  * @return [String]
  * @author Tang Li
- * @date 2023/09/13 10:25
+ * @date 2023/09/13 19:25
  * @since 1.0.0
  */
 @JvmOverloads
@@ -161,7 +161,7 @@ public fun Double?.formatToPercent(
  * @param [roundingMode] see [RoundingMode]
  * @return [String]
  * @author Tang Li
- * @date 2023/09/13 10:25
+ * @date 2023/09/13 19:25
  * @since 1.0.0
  */
 @JvmOverloads
@@ -178,7 +178,7 @@ public val secureRandom: SecureRandom = SecureRandom()
  * @param [digit] 位数
  * @return [Int]
  * @author Tang Li
- * @date 2023/09/13 10:25
+ * @date 2023/09/13 19:25
  * @since 1.0.0
  */
 public fun genRandomInt(digit: Int): Int {
@@ -204,7 +204,7 @@ public fun genRandomInt(digit: Int): Int {
  * @param [digit] 位数
  * @return [Long]
  * @author Tang Li
- * @date 2023/09/13 10:25
+ * @date 2023/09/13 19:25
  * @since 1.0.0
  */
 public fun genRandomLong(digit: Int): Long {

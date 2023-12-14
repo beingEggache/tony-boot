@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit
 /**
  * RedisListOp is
  * @author Tang Li
- * @date 2023/06/14 13:38
+ * @date 2023/06/14 19:38
  */
 public sealed interface RedisListOp :
     RedisListGetOp,

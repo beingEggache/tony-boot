@@ -42,7 +42,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 /**
  * WebCryptoConfig is
  * @author Tang Li
- * @date 2023/05/26 17:00
+ * @date 2023/05/26 19:00
  */
 @Configuration
 @ConditionalOnExpression("\${web.crypto.enabled:false}")

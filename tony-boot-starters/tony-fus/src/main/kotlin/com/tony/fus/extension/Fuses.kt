@@ -42,7 +42,7 @@ import java.io.Serializable
 /**
  * Utils is
  * @author tangli
- * @date 2023/10/26 15:50
+ * @date 2023/10/26 19:50
  * @since 1.0.0
  */
 
@@ -95,7 +95,7 @@ internal inline fun <T> T?.fusThrowIfNull(
  * @param [code] 异常代码
  * @return [C]
  * @author Tang Li
- * @date 2023/11/06 11:19
+ * @date 2023/11/06 19:19
  * @since 1.0.0
  */
 @JvmOverloads
@@ -117,7 +117,7 @@ internal inline fun <C : Collection<T>, T : Any?> C?.fusThrowIfEmpty(
  * @param [code] 异常代码
  * @return [C]
  * @author Tang Li
- * @date 2023/11/06 11:19
+ * @date 2023/11/06 19:19
  * @since 1.0.0
  */
 @JvmOverloads
@@ -139,7 +139,7 @@ internal inline fun <C : Map<*, *>> C?.fusThrowIfEmpty(
  * @param [code] 异常代码
  * @return [C]
  * @author Tang Li
- * @date 2023/11/06 11:19
+ * @date 2023/11/06 19:19
  * @since 1.0.0
  */
 @JvmOverloads
@@ -156,7 +156,7 @@ public inline fun <C : CharSequence> C?.fusThrowIfNullOrEmpty(
  * @param [code] 密码
  * @return [T]
  * @author Tang Li
- * @date 2023/09/13 10:38
+ * @date 2023/09/13 19:38
  * @since 1.0.0
  */
 internal inline fun <T : Any> BaseDao<T>.fusSelectByIdNotNull(
@@ -171,7 +171,7 @@ internal inline fun <T : Any> BaseDao<T>.fusSelectByIdNotNull(
  * @param [message] 默认为 [ApiProperty.notFoundMessage]
  * @return [T]
  * @author Tang Li
- * @date 2023/10/23 14:50
+ * @date 2023/10/23 19:50
  * @since 1.0.0
  */
 internal inline fun <T : Any> TonyChainQuery<T>.fusOneNotNull(message: String = ApiProperty.notFoundMessage): T =
@@ -186,7 +186,7 @@ internal inline fun <T : Any> TonyChainQuery<T>.fusOneNotNull(message: String = 
  * @param [message] 消息
  * @return [TonyChainQuery.list]
  * @author Tang Li
- * @date 2023/11/06 11:19
+ * @date 2023/11/06 19:19
  * @since 1.0.0
  */
 internal inline fun <T : Any> TonyChainQuery<T>.fusListThrowIfEmpty(
@@ -198,7 +198,7 @@ internal inline fun <T : Any> TonyChainQuery<T>.fusListThrowIfEmpty(
  * 多人审批时审批方式 转换 参与类型
  * @return [PerformType]
  * @author Tang Li
- * @date 2023/11/14 16:38
+ * @date 2023/11/14 19:38
  * @since 1.0.0
  */
 public fun MultiApproveMode?.ofPerformType(): PerformType =

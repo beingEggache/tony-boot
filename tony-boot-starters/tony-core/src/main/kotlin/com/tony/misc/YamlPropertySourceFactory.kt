@@ -35,7 +35,7 @@ import org.springframework.core.io.support.PropertySourceFactory
  * 可通过 @PropertySource 加载 yml格式的配置
  *
  * @author Tang Li
- * @date 2023/5/24 18:06
+ * @date 2023/05/24 19:06
  */
 public class YamlPropertySourceFactory : PropertySourceFactory {
     override fun createPropertySource(

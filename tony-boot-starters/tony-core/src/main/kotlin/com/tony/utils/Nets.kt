@@ -35,7 +35,7 @@ import java.net.UnknownHostException
 /**
  * NetUtils is
  * @author Tang Li
- * @date 2023/06/13 17:13
+ * @date 2023/06/13 19:13
  */
 
 /**
@@ -65,7 +65,7 @@ public val localIp: String =
  * @param [address] 地址
  * @return [Boolean]
  * @author Tang Li
- * @date 2023/09/13 10:23
+ * @date 2023/09/13 19:23
  * @since 1.0.0
  */
 public fun isPreferredAddress(address: InetAddress): Boolean {

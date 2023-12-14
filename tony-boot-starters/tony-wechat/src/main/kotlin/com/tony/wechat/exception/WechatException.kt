@@ -27,7 +27,7 @@
  * WechatException
  *
  * @author Tang Li
- * @date 2021/10/22 15:28
+ * @date 2021/10/22 19:28
  */
 package com.tony.wechat.exception
 

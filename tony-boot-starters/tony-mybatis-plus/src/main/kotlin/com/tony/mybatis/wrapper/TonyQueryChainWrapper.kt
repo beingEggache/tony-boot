@@ -36,7 +36,7 @@ import java.util.function.Predicate
  * 比如 [oneNotNull], [throwIfExists], [pageResult]
  *
  * @author Tang Li
- * @date 2023/5/25 15:26
+ * @date 2023/05/25 19:26
  */
 public open class TonyQueryChainWrapper<T : Any> internal constructor(
     private val baseMapper: BaseDao<T>,

@@ -31,7 +31,7 @@ import com.tony.id.config.IdProperties
 /**
  * id生成器
  * @author Tang Li
- * @date 2022/7/12 14:58
+ * @date 2022/07/12 19:58
  * @since 1.0.0
  */
 public object IdGenerator {
@@ -50,7 +50,7 @@ public object IdGenerator {
      * 获取 雪花 id
      * @return [String]
      * @author Tang Li
-     * @date 2023/09/28 10:59
+     * @date 2023/09/28 19:59
      * @since 1.0.0
      */
     @JvmStatic
@@ -61,7 +61,7 @@ public object IdGenerator {
      * 获取 雪花 id
      * @return [Number]
      * @author Tang Li
-     * @date 2023/09/28 10:59
+     * @date 2023/09/28 19:59
      * @since 1.0.0
      */
     @JvmStatic

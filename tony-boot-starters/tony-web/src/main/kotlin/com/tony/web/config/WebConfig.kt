@@ -28,7 +28,7 @@ package com.tony.web.config
  * WebConfig
  *
  * @author Tang Li
- * @date 2023/5/25 10:35
+ * @date 2023/05/25 19:35
  */
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.tony.ApiResult
@@ -78,7 +78,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
  * WebConfig
  *
  * @author Tang Li
- * @date 2023/5/25 10:35
+ * @date 2023/05/25 19:35
  */
 @Configuration
 @ConditionalOnWebApplication(
@@ -271,7 +271,7 @@ internal class WebConfig(
  * WebProperties
  *
  * @author Tang Li
- * @date 2023/5/25 10:35
+ * @date 2023/05/25 19:35
  */
 @ConditionalOnWebApplication(
     type =
@@ -317,7 +317,7 @@ internal data class WebProperties
  * WebCorsProperties
  *
  * @author Tang Li
- * @date 2023/5/25 10:35
+ * @date 2023/05/25 19:35
  */
 @ConditionalOnWebApplication(
     type =
@@ -344,7 +344,7 @@ public data class WebCorsProperties
  * ApiCorsProcessor
  *
  * @author Tang Li
- * @date 2023/5/25 10:35
+ * @date 2023/05/25 19:35
  */
 internal class ApiCorsProcessor : DefaultCorsProcessor() {
     private companion object {

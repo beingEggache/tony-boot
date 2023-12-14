@@ -26,7 +26,7 @@
  * XxlJobConfig
  *
  * @author Tang Li
- * @date 2022/6/13 14:15
+ * @date 2022/06/13 19:15
  */
 package com.tony.xxljob.config
 

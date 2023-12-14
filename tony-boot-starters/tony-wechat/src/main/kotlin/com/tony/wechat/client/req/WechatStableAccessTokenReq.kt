@@ -28,8 +28,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
  * ## 获取稳定版接口调用凭据 请求参数
- * @author tangli
- * @since 2023/09/25 15:49
+ * 微信稳定访问令牌req
+ * @author Tang Li
+ * @date 2023/09/25 19:49
+ * @since 1.0.0
  */
 public data class WechatStableAccessTokenReq(
     /**

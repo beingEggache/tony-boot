@@ -1,3 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tony.mybatis
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler
@@ -14,7 +38,7 @@ import org.apache.ibatis.reflection.MetaObject
 /**
  * mybatis-plus 属性填充注解
  * @author Tang Li
- * @date 2023/12/08 14:26
+ * @date 2023/12/08 19:26
  * @since 1.0.0
  */
 @Retention(AnnotationRetention.RUNTIME)
@@ -36,7 +60,7 @@ public enum class MetaColumn {
 /**
  * 元对象字段填充控制器抽接口，实现公共字段自动写入
  * @author Tang Li
- * @date 2023/12/14 09:44
+ * @date 2023/12/14 19:44
  * @since 1.0.0
  */
 public interface DbMetaObjectHandler : MetaObjectHandler {
@@ -64,7 +88,7 @@ public interface DbMetaObjectHandler : MetaObjectHandler {
      * @param [metaObject] 元对象
      * @param [withInsertFill] true 插入填充, false 更新填充,
      * @author Tang Li
-     * @date 2023/12/14 09:43
+     * @date 2023/12/14 19:43
      * @since 1.0.0
      */
     public fun fill(
@@ -76,7 +100,7 @@ public interface DbMetaObjectHandler : MetaObjectHandler {
 /**
  * 默认元对象处理程序
  * @author Tang Li
- * @date 2023/12/14 09:51
+ * @date 2023/12/14 19:51
  * @since 1.0.0
  */
 public open class DefaultMetaObjectHandler(

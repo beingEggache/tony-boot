@@ -30,10 +30,9 @@ import com.tony.exception.ApiException
 /**
  * 未经授权异常
  * @author Tang Li
- * @date 2023/10/24 10:08
+ * @date 2023/10/24 19:08
  * @since 1.0.0
  */
 public class UnauthorizedException(
     override val message: String?,
-    override val code: Int = ApiProperty.unauthorizedCode,
-) : ApiException(message, code)
+) : ApiException(message, ApiProperty.unauthorizedCode)
