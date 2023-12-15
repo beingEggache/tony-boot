@@ -25,7 +25,6 @@
 package com.tony.redis.aspect
 
 import com.fasterxml.jackson.databind.JavaType
-import com.fasterxml.jackson.databind.type.TypeFactory
 import com.tony.PROJECT_GROUP
 import com.tony.annotation.redis.RedisCacheEvict
 import com.tony.annotation.redis.RedisCacheable
@@ -46,6 +45,7 @@ import com.tony.utils.isShortType
 import com.tony.utils.isStringLikeType
 import com.tony.utils.jsonToObj
 import com.tony.utils.secondOfTodayRest
+import com.tony.utils.toJavaType
 import java.math.BigDecimal
 import java.math.BigInteger
 import org.aspectj.lang.JoinPoint
@@ -148,23 +148,18 @@ public class DefaultRedisCacheAspect {
         val timeout = if (annotation.expire == RedisCacheable.TODAY_END) secondOfTodayRest() else annotation.expire
 
         val javaType =
-            TypeFactory
-                .defaultInstance()
-                .constructType(
-                    methodSignature
-                        .method
-                        .genericReturnType
-                )
-
-        val cachedValue =
-            RedisManager
-                .values
-                .get<String>(cacheKey)
+            methodSignature
+                .method
+                .genericReturnType
+                .toJavaType()
 
         if (javaType.isDateTimeLikeType()) {
             throw ApiException("Not support dateTimeLike type.")
         }
-
+        val cachedValue =
+            RedisManager
+                .values
+                .get<String>(cacheKey)
         if (cachedValue == null) {
             val result = joinPoint.proceed()
             if (result == null) {
@@ -245,11 +240,6 @@ public class DefaultRedisCacheAspect {
             javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> cachedValue?.toBigDecimalOrNull()
             javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> cachedValue?.toBigIntegerOrNull()
             javaType.isBooleanType() -> cachedValue?.toBooleanStrictOrNull()
-            else ->
-                cachedValue?.jsonToObj(
-                    TypeFactory
-                        .defaultInstance()
-                        .constructType(javaType)
-                )
+            else -> cachedValue?.jsonToObj(javaType)
         }
 }
