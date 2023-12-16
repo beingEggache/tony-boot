@@ -25,13 +25,7 @@
 package com.tony.test.redis
 
 import com.tony.annotation.EnableTonyBoot
-import com.tony.annotation.redis.RedisCacheEvict
-import com.tony.annotation.redis.RedisCacheable
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.data.redis.connection.Message
-import org.springframework.data.redis.listener.KeyExpirationEventMessageListener
-import org.springframework.data.redis.listener.RedisMessageListenerContainer
-import org.springframework.stereotype.Service
 
 
 /**
@@ -55,32 +49,3 @@ class TestRedisApp {
 //        return RedisKeyExpirationListener(listenerContainer)
 //    }
 }
-
-class RedisKeyExpirationListener(listenerContainer: RedisMessageListenerContainer) :
-    KeyExpirationEventMessageListener(listenerContainer) {
-
-    override fun onMessage(message: Message, pattern: ByteArray?) {
-        println("${String(pattern ?: ByteArray(0))}:$message")
-    }
-}
-
-@Service
-class TestCacheService {
-
-    @RedisCacheable(cacheKey = "test1")
-    fun testCache1(): String {
-        return "test1"
-    }
-
-    @RedisCacheable(cacheKey = "test2")
-    fun testCache2(): String {
-        return "test2"
-    }
-
-    @RedisCacheEvict(cacheKey = "test1")
-    fun rTestCache() {
-        println("yeah")
-    }
-}
-
-

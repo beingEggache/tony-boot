@@ -53,10 +53,6 @@ public annotation class RedisCacheable(
      * 多久过期, 默认-3, 到今天结束
      */
     val expire: Long = TODAY_END,
-    /**
-     * 缓存空值
-     */
-    val cacheEmpty: Boolean = false,
 ) {
     public companion object {
         public const val TODAY_END: Long = -3L

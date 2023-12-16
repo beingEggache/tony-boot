@@ -24,12 +24,6 @@
 
 package com.tony.test.redis
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
-import com.tony.enums.IntEnumCreator
-import com.tony.enums.IntEnumValue
-import com.tony.enums.StringEnumCreator
-import com.tony.enums.StringEnumValue
 import com.tony.exception.BizException
 import com.tony.redis.RedisManager
 import org.junit.jupiter.api.Assertions
@@ -88,41 +82,5 @@ class RedisManagerTests {
                 throw BizException("")
             }
         }
-    }
-}
-
-class Person(val name: String, val age: Int)
-
-enum class MyIntEnum(
-    override val value: Int
-) : IntEnumValue {
-
-    @JsonEnumDefaultValue
-    ZERO(0),
-    ONE(1),
-    ;
-
-    companion object : IntEnumCreator(MyIntEnum::class.java) {
-        @JsonCreator
-        @JvmStatic
-        override fun create(value: Int) =
-            super.create(value)
-    }
-}
-
-enum class MyStringEnum(
-    override val value: String
-) : StringEnumValue {
-
-    @JsonEnumDefaultValue
-    YES("yes"),
-    NO("NO"),
-    ;
-
-    companion object : StringEnumCreator(MyStringEnum::class.java) {
-        @JsonCreator
-        @JvmStatic
-        override fun create(value: String) =
-            super.create(value)
     }
 }

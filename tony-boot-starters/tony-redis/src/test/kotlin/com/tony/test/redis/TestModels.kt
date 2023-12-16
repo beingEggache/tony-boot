@@ -22,8 +22,14 @@
  * SOFTWARE.
  */
 
-package com.tony.test.redis.model
+package com.tony.test.redis
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
+import com.tony.enums.IntEnumCreator
+import com.tony.enums.IntEnumValue
+import com.tony.enums.StringEnumCreator
+import com.tony.enums.StringEnumValue
 import java.math.BigDecimal
 import java.math.BigInteger
 
@@ -52,3 +58,37 @@ class ObjWithMap(val name: String, val map: Map<String, SimpleObj>)
 class ObjWithObjList(val name: String, val list: List<SimpleObj>)
 
 class ObjWithObjMap(val name: String, val list: Map<String, ObjWithObjList>)
+
+enum class RedisTestIntEnum(
+    override val value: Int
+) : IntEnumValue {
+
+    @JsonEnumDefaultValue
+    ZERO(0),
+    ONE(1),
+    ;
+
+    companion object : IntEnumCreator(RedisTestIntEnum::class.java) {
+        @JsonCreator
+        @JvmStatic
+        override fun create(value: Int) =
+            super.create(value)
+    }
+}
+
+enum class RedisTestStringEnum(
+    override val value: String
+) : StringEnumValue {
+
+    @JsonEnumDefaultValue
+    YES("yes"),
+    NO("NO"),
+    ;
+
+    companion object : StringEnumCreator(RedisTestStringEnum::class.java) {
+        @JsonCreator
+        @JvmStatic
+        override fun create(value: String) =
+            super.create(value)
+    }
+}

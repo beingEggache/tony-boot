@@ -26,9 +26,9 @@ package com.tony.test.redis.jackson
 
 import com.tony.redis.RedisKeys
 import com.tony.redis.RedisManager
-import com.tony.test.redis.MyIntEnum
-import com.tony.test.redis.MyStringEnum
-import com.tony.test.redis.Person
+import com.tony.test.redis.RedisTestIntEnum
+import com.tony.test.redis.RedisTestStringEnum
+import com.tony.test.redis.SimpleObj
 import com.tony.test.redis.TestRedisApp
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInfo
@@ -87,18 +87,18 @@ class JacksonRedisMapTests {
         logger.info("$testMapKey.$stringKey=$string")
 
         val objKey = RedisKeys.genKey("value_test_obj")
-        RedisManager.maps.put(testMapKey, objKey, Person("a", 20))
-        val obj = RedisManager.maps.get<Person>(testMapKey, objKey)
+        RedisManager.maps.put(testMapKey, objKey, SimpleObj("a", 20))
+        val obj = RedisManager.maps.get<SimpleObj>(testMapKey, objKey)
         logger.info("$testMapKey.$objKey=$obj")
 
         val intEnumKey = RedisKeys.genKey("value_test_int_enum")
-        RedisManager.maps.put(testMapKey, intEnumKey, MyIntEnum.ONE)
-        val intEnum = RedisManager.maps.get<MyIntEnum>(testMapKey, intEnumKey)
+        RedisManager.maps.put(testMapKey, intEnumKey, RedisTestIntEnum.ONE)
+        val intEnum = RedisManager.maps.get<RedisTestIntEnum>(testMapKey, intEnumKey)
         logger.info("$testMapKey.$intEnumKey=$intEnum")
 
         val stringEnumKey = RedisKeys.genKey("value_test_string_enum")
-        RedisManager.maps.put(testMapKey, stringEnumKey, MyStringEnum.YES)
-        val stringEnum = RedisManager.maps.get<MyStringEnum>(testMapKey, stringEnumKey)
+        RedisManager.maps.put(testMapKey, stringEnumKey, RedisTestStringEnum.YES)
+        val stringEnum = RedisManager.maps.get<RedisTestStringEnum>(testMapKey, stringEnumKey)
         logger.info("$testMapKey.$stringEnumKey=$stringEnum")
 
         val map = RedisManager.maps.entries(testMapKey)
@@ -122,13 +122,13 @@ class JacksonRedisMapTests {
         val string2 = RedisManager.maps.get<String>(testMapKey2, stringKey)
         logger.info("$testMapKey2.$string2=$string2")
 
-        val obj2 = RedisManager.maps.get<Person>(testMapKey2, objKey)
+        val obj2 = RedisManager.maps.get<SimpleObj>(testMapKey2, objKey)
         logger.info("$testMapKey2.$obj2=$obj2")
 
-        val intEnum2 = RedisManager.maps.get<MyIntEnum>(testMapKey2, intEnumKey)
+        val intEnum2 = RedisManager.maps.get<RedisTestIntEnum>(testMapKey2, intEnumKey)
         logger.info("$testMapKey2.$intEnum2=$intEnum2")
 
-        val stringEnum2 = RedisManager.maps.get<MyStringEnum>(testMapKey2, stringEnumKey)
+        val stringEnum2 = RedisManager.maps.get<RedisTestStringEnum>(testMapKey2, stringEnumKey)
         logger.info("$testMapKey2.$stringEnum2=$stringEnum2")
 
         val map2 = RedisManager.maps.entries(testMapKey2)

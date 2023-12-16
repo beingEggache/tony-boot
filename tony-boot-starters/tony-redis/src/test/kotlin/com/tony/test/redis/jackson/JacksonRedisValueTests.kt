@@ -25,15 +25,15 @@
 package com.tony.test.redis.jackson
 
 import com.tony.redis.RedisManager
-import com.tony.test.redis.MyIntEnum
-import com.tony.test.redis.MyStringEnum
+import com.tony.test.redis.ObjWithList
+import com.tony.test.redis.ObjWithMap
+import com.tony.test.redis.ObjWithNumberTypes
+import com.tony.test.redis.ObjWithObjList
+import com.tony.test.redis.ObjWithObjMap
+import com.tony.test.redis.RedisTestIntEnum
+import com.tony.test.redis.RedisTestStringEnum
+import com.tony.test.redis.SimpleObj
 import com.tony.test.redis.TestRedisApp
-import com.tony.test.redis.model.ObjWithList
-import com.tony.test.redis.model.ObjWithMap
-import com.tony.test.redis.model.ObjWithNumberTypes
-import com.tony.test.redis.model.ObjWithObjList
-import com.tony.test.redis.model.ObjWithObjMap
-import com.tony.test.redis.model.SimpleObj
 import com.tony.utils.toJsonString
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
@@ -111,10 +111,10 @@ class JacksonRedisValueTests {
     @Test
     fun testEnums() {
 //        Assertions.assertThrows(ApiException::class.java) {
-//            testRedisObj<EnumValue<*>>(MyIntEnum.ONE, MyStringEnum.YES)
+//            testRedisObj<EnumValue<*>>(RedisTestIntEnum.ONE, RedisTestStringEnum.YES)
 //        }
-        testRedisObj(MyIntEnum.ZERO, MyIntEnum.ONE)
-        testRedisObj(MyStringEnum.YES, MyStringEnum.NO)
+        testRedisObj(RedisTestIntEnum.ZERO, RedisTestIntEnum.ONE)
+        testRedisObj(RedisTestStringEnum.YES, RedisTestStringEnum.NO)
     }
 
     @Execution(ExecutionMode.CONCURRENT)
