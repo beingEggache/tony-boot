@@ -33,6 +33,7 @@ import com.tony.redis.RedisKeys
 import com.tony.redis.RedisManager
 import com.tony.redis.toNum
 import com.tony.utils.asToNotNull
+import com.tony.utils.getLogger
 import com.tony.utils.isBooleanType
 import com.tony.utils.isDateTimeLikeType
 import com.tony.utils.isNumberType
@@ -47,7 +48,7 @@ import org.aspectj.lang.annotation.After
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.reflect.MethodSignature
-import org.slf4j.LoggerFactory
+import org.slf4j.Logger
 import org.springframework.expression.EvaluationException
 import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.expression.spel.support.StandardEvaluationContext
@@ -61,42 +62,13 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
  * @since 1.0.0
  */
 @Aspect
-public class DefaultRedisCacheAspect {
-    private val logger = LoggerFactory.getLogger(DefaultRedisCacheAspect::class.java)
+public abstract class RedisCacheAspect {
+    private val logger: Logger = getLogger()
 
     /**
-     * 生成实际的缓存键名
-     * @param arguments 方法实际参数
-     * @param paramsNames 方法参数名数组
-     * @param cacheKey 缓存键名或缓存键模板
-     * @param expressions 注解上对应的SpEl表达式
+     * 表达式解析器
      */
-    private fun cacheKey(
-        arguments: Array<Any?>,
-        paramsNames: Array<String>,
-        expressions: Array<String>,
-        cacheKey: String,
-    ): String {
-        if (paramsNames.isEmpty() ||
-            expressions.isEmpty()
-        ) {
-            return RedisKeys.genKey(cacheKey)
-        }
-        val paramMap =
-            paramsNames.foldIndexed<String, MutableMap<String, Any?>>(mutableMapOf()) { index, paramMap, paramName ->
-                paramMap[paramName] = arguments[index]
-                paramMap
-            }
-        val paramsValues =
-            expressions.foldIndexed<String, Array<Any?>>(
-                Array(expressions.size) {}
-            ) { index, paramsValues, expression ->
-                paramsValues.apply {
-                    this[index] = getValueFromParam(expression, paramMap)
-                }
-            }
-        return RedisKeys.genKey(cacheKey, *paramsValues)
-    }
+    private val expressionParser = SpelExpressionParser()
 
     /**
      * 执行删除缓存
@@ -149,12 +121,8 @@ public class DefaultRedisCacheAspect {
         if (javaType.isDateTimeLikeType()) {
             throw ApiException("Not support dateTimeLike type.")
         }
-        val cachedValue =
-            RedisManager
-                .values
-                .get<String>(cacheKey)
 
-        return getCachedValueByType(cachedValue, javaType)
+        return getCachedValueByType(cacheKey, javaType)
             ?: joinPoint
                 .proceed()
                 ?.also { result ->
@@ -167,11 +135,6 @@ public class DefaultRedisCacheAspect {
                         )
                 }
     }
-
-    /**
-     * 表达式解析器
-     */
-    private val expressionParser = SpelExpressionParser()
 
     /**
      * 获取spel表达式后的结果
@@ -203,14 +166,86 @@ public class DefaultRedisCacheAspect {
         }
     }
 
-    private fun getCachedValueByType(
-        cachedValue: String?,
+    protected abstract fun getCachedValueByType(
+        cacheKey: String,
+        javaType: JavaType,
+    ): Any?
+
+    /**
+     * 生成实际的缓存键名
+     * @param arguments 方法实际参数
+     * @param paramsNames 方法参数名数组
+     * @param cacheKey 缓存键名或缓存键模板
+     * @param expressions 注解上对应的SpEl表达式
+     */
+    private fun cacheKey(
+        arguments: Array<Any?>,
+        paramsNames: Array<String>,
+        expressions: Array<String>,
+        cacheKey: String,
+    ): String {
+        if (paramsNames.isEmpty() ||
+            expressions.isEmpty()
+        ) {
+            return RedisKeys.genKey(cacheKey)
+        }
+        val paramMap =
+            paramsNames.foldIndexed<String, MutableMap<String, Any?>>(mutableMapOf()) { index, paramMap, paramName ->
+                paramMap[paramName] = arguments[index]
+                paramMap
+            }
+        val paramsValues =
+            expressions.foldIndexed<String, Array<Any?>>(
+                Array(expressions.size) {}
+            ) { index, paramsValues, expression ->
+                paramsValues.apply {
+                    this[index] = getValueFromParam(expression, paramMap)
+                }
+            }
+        return RedisKeys.genKey(cacheKey, *paramsValues)
+    }
+}
+
+/**
+ * jackson RedisCache实现.
+ *
+ * 给常规的 @Cacheable 加了过期时间.
+ * @author Tang Li
+ * @date 2023/09/28 19:55
+ * @since 1.0.0
+ */
+internal class JacksonRedisCacheAspect : RedisCacheAspect() {
+    override fun getCachedValueByType(
+        cacheKey: String,
         javaType: JavaType,
     ): Any? =
-        when {
-            javaType.isStringLikeType() -> cachedValue
-            javaType.isNumberType() -> cachedValue.toNum(javaType.rawClass<Number>())
-            javaType.isBooleanType() -> cachedValue?.toBooleanStrictOrNull()
-            else -> cachedValue?.jsonToObj(javaType)
-        }
+        RedisManager
+            .values
+            .get<String>(cacheKey)
+            ?.let { cachedValue ->
+                when {
+                    javaType.isStringLikeType() -> cachedValue
+                    javaType.isNumberType() -> cachedValue.toNum(javaType.rawClass<Number>())
+                    javaType.isBooleanType() -> cachedValue.toBooleanStrictOrNull()
+                    else -> cachedValue.jsonToObj(javaType)
+                }
+            }
+}
+
+/**
+ * Protostuff RedisCache实现.
+ *
+ * 给常规的 @Cacheable 加了过期时间.
+ * @author Tang Li
+ * @date 2023/09/28 19:55
+ * @since 1.0.0
+ */
+internal class ProtostuffRedisCacheAspect : RedisCacheAspect() {
+    override fun getCachedValueByType(
+        cacheKey: String,
+        javaType: JavaType,
+    ): Any? =
+        RedisManager
+            .values
+            .get(cacheKey, javaType.rawClass)
 }

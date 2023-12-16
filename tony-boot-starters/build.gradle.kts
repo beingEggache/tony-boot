@@ -135,6 +135,7 @@ configure(libraryProjects) {
         }
         jvmArgs =
             listOf(
+                "--add-opens=java.base/java.util=ALL-UNNAMED",
                 "-Dlogging.config=${rootProject.rootDir}/config/logback-spring.xml",
                 "-XX:+EnableDynamicAgentLoading"
             )

@@ -73,7 +73,10 @@ class RedisCacheAspectTests {
         testRedisCacheAnnoService.testCacheNameBigDecimal("BigDecimal").println()
         testRedisCacheAnnoService.testCacheNameBigInteger("BigInteger").println()
         testRedisCacheAnnoService.testCacheNameMap("Map").println()
+        testRedisCacheAnnoService.testCacheMapObj("mapobj").println()
         testRedisCacheAnnoService.testCacheNameObj("Obj").println()
+        testRedisCacheAnnoService.testCacheList("list").println()
+        testRedisCacheAnnoService.testCacheListObj("listobj").println()
     }
 
     @Test

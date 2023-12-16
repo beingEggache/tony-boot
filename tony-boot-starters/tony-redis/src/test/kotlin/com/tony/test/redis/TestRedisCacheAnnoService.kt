@@ -131,12 +131,27 @@ class TestRedisCacheAnnoService {
 
     @RedisCacheable(cacheKey = "test:map:%s", expressions = ["accountId"])
     fun testCacheNameMap(accountId: String): Map<String, String> {
-        return mutableMapOf("a" to "123")
+        return mapOf("a" to "123")
     }
 
     @RedisCacheable(cacheKey = "test:obj:%s", expressions = ["accountId"])
     fun testCacheNameObj(accountId: String): Person {
         return Person("tony", 33)
+    }
+
+    @RedisCacheable(cacheKey = "test:list:%s", expressions = ["accountId"])
+    fun testCacheList(accountId: String): List<String> {
+        return listOf("123")
+    }
+
+    @RedisCacheable(cacheKey = "test:listobj:%s", expressions = ["accountId"])
+    fun testCacheListObj(accountId: String): List<Person> {
+        return listOf(Person("tony", 33))
+    }
+
+    @RedisCacheable(cacheKey = "test:mapobj:%s", expressions = ["accountId"])
+    fun testCacheMapObj(accountId: String): Map<String,Person> {
+        return mapOf("123" to Person("tony", 33))
     }
 
     @RedisCacheEvict(cacheKey = "test1")

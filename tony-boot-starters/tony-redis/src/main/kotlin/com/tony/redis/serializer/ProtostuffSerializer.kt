@@ -90,13 +90,18 @@ internal class ProtostuffSerializer : RedisSerializer<Any?> {
 
     override fun canSerialize(type: Class<*>): Boolean =
         !type.isNumberTypes()
+
+    private companion object {
+        @JvmStatic
+        private val emptyByteArray =
+            ByteArray(0)
+
+        @JvmStatic
+        private val schema: Schema<ProtoWrapper> =
+            RuntimeSchema.getSchema(ProtoWrapper::class.java)
+
+        @JvmStatic
+        private val logger =
+            LoggerFactory.getLogger(ProtostuffSerializer::class.java)
+    }
 }
-
-private val emptyByteArray =
-    ByteArray(0)
-
-private val schema: Schema<ProtoWrapper> =
-    RuntimeSchema.getSchema(ProtoWrapper::class.java)
-
-private val logger =
-    LoggerFactory.getLogger(RedisSerializer::class.java)
