@@ -31,23 +31,16 @@ import com.tony.annotation.redis.RedisCacheable
 import com.tony.exception.ApiException
 import com.tony.redis.RedisKeys
 import com.tony.redis.RedisManager
+import com.tony.redis.toNum
 import com.tony.utils.asToNotNull
-import com.tony.utils.isArrayLikeType
 import com.tony.utils.isBooleanType
-import com.tony.utils.isByteType
 import com.tony.utils.isDateTimeLikeType
-import com.tony.utils.isDoubleType
-import com.tony.utils.isFloatType
-import com.tony.utils.isIntType
-import com.tony.utils.isLongType
 import com.tony.utils.isNumberType
-import com.tony.utils.isShortType
 import com.tony.utils.isStringLikeType
 import com.tony.utils.jsonToObj
+import com.tony.utils.rawClass
 import com.tony.utils.secondOfTodayRest
 import com.tony.utils.toJavaType
-import java.math.BigDecimal
-import java.math.BigInteger
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.After
@@ -160,25 +153,19 @@ public class DefaultRedisCacheAspect {
             RedisManager
                 .values
                 .get<String>(cacheKey)
-        if (cachedValue == null) {
-            val result = joinPoint.proceed()
-            if (result == null) {
-                if (annotation.cacheEmpty) {
-                    RedisManager.values.set(
-                        cacheKey,
-                        getCachedEmptyValueByType(javaType),
-                        timeout
-                    )
-                }
-            } else {
-                RedisManager
-                    .values
-                    .set(cacheKey, result, timeout)
-            }
-            return result
-        }
 
         return getCachedValueByType(cachedValue, javaType)
+            ?: joinPoint
+                .proceed()
+                ?.also { result ->
+                    RedisManager
+                        .values
+                        .set(
+                            cacheKey,
+                            result,
+                            timeout
+                        )
+                }
     }
 
     /**
@@ -216,29 +203,13 @@ public class DefaultRedisCacheAspect {
         }
     }
 
-    private fun getCachedEmptyValueByType(javaType: JavaType): String =
-        when {
-            javaType.isStringLikeType() -> ""
-            javaType.isNumberType() -> ""
-            javaType.isBooleanType() -> ""
-            javaType.isArrayLikeType() -> "[]"
-            else -> "{}"
-        }
-
     private fun getCachedValueByType(
         cachedValue: String?,
         javaType: JavaType,
     ): Any? =
         when {
             javaType.isStringLikeType() -> cachedValue
-            javaType.isByteType() -> cachedValue?.toByteOrNull()
-            javaType.isShortType() -> cachedValue?.toShortOrNull()
-            javaType.isIntType() -> cachedValue?.toIntOrNull()
-            javaType.isLongType() -> cachedValue?.toLongOrNull()
-            javaType.isFloatType() -> cachedValue?.toFloatOrNull()
-            javaType.isDoubleType() -> cachedValue?.toDoubleOrNull()
-            javaType.isTypeOrSubTypeOf(BigDecimal::class.java) -> cachedValue?.toBigDecimalOrNull()
-            javaType.isTypeOrSubTypeOf(BigInteger::class.java) -> cachedValue?.toBigIntegerOrNull()
+            javaType.isNumberType() -> cachedValue.toNum(javaType.rawClass<Number>())
             javaType.isBooleanType() -> cachedValue?.toBooleanStrictOrNull()
             else -> cachedValue?.jsonToObj(javaType)
         }

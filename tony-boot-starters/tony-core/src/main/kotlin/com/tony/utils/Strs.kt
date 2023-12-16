@@ -208,8 +208,8 @@ public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
         Byte::class.javaObjectType, Byte::class.javaPrimitiveType -> toString().toByte()
         Short::class.javaObjectType, Short::class.javaPrimitiveType -> toString().toShort()
         Float::class.javaObjectType, Float::class.javaPrimitiveType -> toString().toFloat()
-        BigInteger::class.java -> BigInteger.valueOf(toString().toLong())
-        BigDecimal::class.java -> BigDecimal(toString())
+        BigInteger::class.java -> toString().toBigInteger()
+        BigDecimal::class.java -> toString().toBigDecimal()
         else -> throw IllegalArgumentException("Not support input type: $numberType")
     }.asToNotNull()
 

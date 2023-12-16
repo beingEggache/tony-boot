@@ -43,9 +43,6 @@ class RedisCacheAspectTests {
     @Resource
     private lateinit var testRedisCacheAnnoService: TestRedisCacheAnnoService
 
-    @Resource
-    private lateinit var testRedisCacheAnnoWithEmptyService: TestRedisCacheAnnoWithEmptyService
-
     @Test
     fun testCacheAnno() {
         testRedisCacheAnnoService.testCache1()
@@ -77,28 +74,6 @@ class RedisCacheAspectTests {
         testRedisCacheAnnoService.testCacheNameBigInteger("BigInteger").println()
         testRedisCacheAnnoService.testCacheNameMap("Map").println()
         testRedisCacheAnnoService.testCacheNameObj("Obj").println()
-    }
-
-    @Test
-    fun testCacheNameAnnoKeyWithEmpty() {
-        testRedisCacheAnnoWithEmptyService.testCacheNameBoolean("boolean").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameBooleanOrNull("Boolean").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameByte("byte").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameByteOrNull("Byte").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameShort("short").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameShortOrNull("Short").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameInt("int").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameInteger("Integer").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameLong("long").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameLongOrNull("Long").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameFloat("float").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameFloatOrNull("Float").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameDouble("double").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameDoubleOrNull("Double").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameBigDecimal("BigDecimal").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameBigInteger("BigInteger").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameMap("Map").println()
-        testRedisCacheAnnoWithEmptyService.testCacheNameObj("Obj").println()
     }
 
     @Test
