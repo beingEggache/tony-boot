@@ -45,16 +45,16 @@ class JacksonRedisCacheAspectService {
     @RedisCacheable(cacheKey = cacheKeyTemplate, expressions = ["key", "value"])
     fun testString(key: String, value: String?): String? = value
 
-    @RedisCacheable(cacheKey = cacheKeyTemplate, expressions = ["key"])
+    @RedisCacheable(cacheKey = "$cacheKeyPrefix:%s", expressions = ["key"])
     fun testArray(key: String, value: Array<*>?): Array<*>? = value
 
-    @RedisCacheable(cacheKey = cacheKeyTemplate, expressions = ["key", "value"])
+    @RedisCacheable(cacheKey = "$cacheKeyPrefix:%s", expressions = ["key"])
     fun testList(key: String, value: List<*>?): List<*>? = value
 
-    @RedisCacheable(cacheKey = cacheKeyTemplate, expressions = ["key", "value"])
-    fun testMap(key: String, value: List<*>?): List<*>? = value
+    @RedisCacheable(cacheKey = "$cacheKeyPrefix:%s", expressions = ["key"])
+    fun testMap(key: String, value: Map<*, *>?): Map<*, *>? = value
 
-    @RedisCacheable(cacheKey = cacheKeyTemplate, expressions = ["key", "value"])
+    @RedisCacheable(cacheKey = "$cacheKeyPrefix:%s", expressions = ["key"])
     fun testObj(key: String, value: Any?): Any? = value
 
     @RedisCacheable(cacheKey = cacheKeyTemplate, expressions = ["key", "value"])

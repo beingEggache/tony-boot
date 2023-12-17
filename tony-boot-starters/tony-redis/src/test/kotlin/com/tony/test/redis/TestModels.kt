@@ -57,7 +57,7 @@ class ObjWithMap(val name: String, val map: Map<String, SimpleObj>)
 
 class ObjWithObjList(val name: String, val list: List<SimpleObj>)
 
-class ObjWithObjMap(val name: String, val list: Map<String, ObjWithObjList>)
+class ObjWithObjMap(val name: String, val map: Map<String, ObjWithObjList>)
 
 enum class RedisTestIntEnum(
     override val value: Int
