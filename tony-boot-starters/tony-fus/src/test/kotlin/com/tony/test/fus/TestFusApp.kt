@@ -32,7 +32,6 @@ import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
 import com.tony.fus.model.enums.ApproverType
 import com.tony.fus.model.enums.NodeType
-import com.tony.utils.getLogger
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.context.annotation.Bean
@@ -67,7 +66,10 @@ class TestFusSupervisorApp {
 
         return object : FusTaskActorProvider {
             override fun listTaskActors(node: FusNode?, execution: FusExecution): List<FusTaskActor> {
-                getLogger().info("supervisor-task-actor-provider")
+                if(node?.nodeType == NodeType.INITIATOR){
+                    return listOf(FusTaskActor().apply { actorId = execution.userId })
+                }
+
                 if (node?.nodeType == NodeType.APPROVER && node.approverType == ApproverType.MULTISTAGE_MANAGER) {
                     return listOf(
                         FusTaskActor().apply { actorId = user4Id; actorName = user4Name },
@@ -88,6 +90,9 @@ class TestFusSupervisorApp {
                 }
                 return emptyList()
             }
+
+            override fun hasPermission(node: FusNode, userId: String): Boolean =
+                true
         }
     }
 }

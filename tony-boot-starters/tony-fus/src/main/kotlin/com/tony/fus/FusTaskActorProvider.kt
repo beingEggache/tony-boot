@@ -26,6 +26,7 @@ package com.tony.fus
 
 import com.tony.fus.db.enums.ActorType
 import com.tony.fus.db.po.FusTaskActor
+import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
 
@@ -49,6 +50,22 @@ public fun interface FusTaskActorProvider {
         node: FusNode?,
         execution: FusExecution,
     ): List<FusTaskActor>
+
+    public fun hasPermission(
+        node: FusNode,
+        userId: String,
+    ): Boolean {
+        if (node.nodeUserList.isNotEmpty()) {
+            return node.nodeUserList.any { nodeAssignee ->
+                nodeAssignee.id == userId
+            }
+        }
+        fusThrowIf(
+            node.nodeRoleList.isNotEmpty(),
+            "Please implement the interface FusTaskActorProvider method hasPermission"
+        )
+        return true
+    }
 }
 
 internal class DefaultFusTaskActorProvider : FusTaskActorProvider {

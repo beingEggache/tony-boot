@@ -31,10 +31,12 @@ import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.fus.FusContext
+import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusProcessModel
 import java.time.LocalDateTime
+import java.util.function.Supplier
 
 /**
  * 流程定义表
@@ -144,11 +146,19 @@ public class FusProcess {
 
     public fun executeStart(
         context: FusContext,
-        execution: FusExecution,
-    ) {
-        val model = model()
-        val node = model.node
-        node.fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
-        context.createTask(execution, node)
-    }
+        userId: String,
+        executionSupplier: Supplier<FusExecution>,
+    ): FusInstance =
+        model()
+            .node
+            .fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
+            .let { node ->
+                fusThrowIf(
+                    !context.taskActorProvider.hasPermission(node, userId),
+                    "No permission to execute"
+                )
+                val execution = executionSupplier.get()
+                context.createTask(execution, node)
+                execution.instance
+            }
 }

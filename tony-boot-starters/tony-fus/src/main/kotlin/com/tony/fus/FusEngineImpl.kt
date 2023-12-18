@@ -91,19 +91,23 @@ public class FusEngineImpl(
         process: FusProcess,
         userId: String,
         args: Map<String, Any?>,
-    ): FusInstance {
-        val execution =
+    ): FusInstance =
+        process.executeStart(
+            context,
+            userId
+        ) {
             FusExecution(
                 this,
                 process,
                 userId,
-                runtimeService
-                    .createInstance(process.processId, userId, args),
+                runtimeService.createInstance(
+                    process.processId,
+                    userId,
+                    args
+                ),
                 args
             )
-        process.executeStart(context, execution)
-        return execution.instance
-    }
+        }
 
     private fun execute(
         taskId: String,
