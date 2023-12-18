@@ -34,4 +34,4 @@ $([ ${ENABLE_JVM_LOGS} == 'true' ] && echo -n '\
 -XX:+LogCompilation \
 -XX:+PrintCompilation \
 -XX:+PrintInlining') \
-org.springframework.boot.loader.JarLauncher"]
+org.springframework.boot.loader.launch.JarLauncher"]
