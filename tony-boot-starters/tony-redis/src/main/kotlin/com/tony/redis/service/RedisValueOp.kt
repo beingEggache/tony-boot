@@ -310,6 +310,24 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
             ?: listOf()
 
     /**
+     * Get multiple [keys] and transform to type [type]. Values are in the order of the requested keys Absent field values are represented using
+     * null in the resulting [List].
+     *
+     * @param keys must not be null.
+     * @param type component type
+     * @return null when used in pipeline / transaction.
+     * @see <a href="https://redis.io/commands/mget">Redis Documentation: MGET</a>
+     */
+    public fun <T> multiGet(
+        keys: Collection<String>,
+        type: TypeReference<T>,
+    ): List<T> =
+        valueOp
+            .multiGet(keys)
+            .outputTransformTo(type.type.toCollectionJavaType(List::class.java))
+            ?: listOf()
+
+    /**
      * Return the value at key and delete the key.
      *
      * @param T

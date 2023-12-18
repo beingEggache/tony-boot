@@ -179,4 +179,11 @@ public object RedisValues {
         type: JavaType,
     ): List<T> =
         redisService.multiGet(keys, type)
+
+    @JvmStatic
+    public fun <T> multiGet(
+        keys: Collection<String>,
+        type: TypeReference<T>,
+    ): List<T> =
+        redisService.multiGet(keys, type)
 }
