@@ -87,7 +87,7 @@ internal open class TaskServiceImpl(
 
         fusThrowIf(
             !hasPermission(task, userId),
-            "当前参与者 [$userId}]不允许执行任务[taskId=$taskId]"
+            "当前参与者 [$userId]不允许执行任务[taskId=$taskId]"
         )
 
         moveToHistoryTask(task, taskState, userId)
