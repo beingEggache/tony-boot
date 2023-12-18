@@ -26,6 +26,7 @@ package com.tony.test.redis
 
 import com.tony.exception.BizException
 import com.tony.redis.RedisManager
+import com.tony.utils.toJsonString
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.RepetitionInfo
@@ -65,7 +66,7 @@ class RedisManagerTests {
 
     @Execution(ExecutionMode.CONCURRENT)
     @RepeatedTest(100)
-    fun testMulti(testInfo: TestInfo, repetitionInfo: RepetitionInfo) {
+    fun testMultiSet(testInfo: TestInfo, repetitionInfo: RepetitionInfo) {
         val keyPrefix = testInfo.testMethod.get().name + repetitionInfo.currentRepetition
         Assertions.assertThrows(BizException::class.java) {
             val result = RedisManager.doInTransaction {
@@ -82,5 +83,48 @@ class RedisManagerTests {
                 throw BizException("")
             }
         }
+    }
+
+    @Test
+    fun testMultiGetWildcard(testInfo: TestInfo) {
+        val keyPrefix = testInfo.testMethod.get().name
+        val intRange = 1..5
+        internalTestMultiGet(intRange, keyPrefix) { it }
+        internalTestMultiGet(intRange, keyPrefix) { "string $it" }
+        internalTestMultiGet(intRange, keyPrefix) { SimpleObj("name $it", it) }
+
+        RedisManager.values.set("$keyPrefix:multi:mix:1", 1)
+        RedisManager.values.set("$keyPrefix:multi:mix:2", "1")
+        RedisManager.values.set("$keyPrefix:multi:mix:3", SimpleObj("name", 18))
+        RedisManager.values.set("$keyPrefix:multi:mix:4", listOf(1))
+        RedisManager.values.set("$keyPrefix:multi:mix:5", listOf("1"))
+        RedisManager.values.set("$keyPrefix:multi:mix:6", listOf(SimpleObj("name", 18)))
+
+        val multiGetMix = RedisManager.values.multiGet(
+            listOf(
+                "$keyPrefix:multi:mix:1",
+                "$keyPrefix:multi:mix:2",
+                "$keyPrefix:multi:mix:3",
+                "$keyPrefix:multi:mix:4",
+                "$keyPrefix:multi:mix:5",
+                "$keyPrefix:multi:mix:6"
+            )
+        )
+        logger.info(multiGetMix.toString())
+        logger.info(multiGetMix.toJsonString())
+    }
+
+    private inline fun <reified T : Any> internalTestMultiGet(intRange: IntRange, keyPrefix: String?, crossinline transformer: (Int) -> T) {
+        val typeName = T::class.java.simpleName
+        val keys = intRange.map {
+            val value = transformer(it)
+            val key = "$keyPrefix:multi:$typeName:$it"
+            RedisManager.values.set(key, value)
+            key
+        }
+        val multiGet = RedisManager.values.multiGet(keys, T::class.java)
+        logger.info(typeName)
+        logger.info(multiGet.toString())
+        logger.info(multiGet.toJsonString())
     }
 }

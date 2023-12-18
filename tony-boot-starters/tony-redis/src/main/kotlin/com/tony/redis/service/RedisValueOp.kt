@@ -27,6 +27,7 @@ package com.tony.redis.service
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.tony.redis.valueOp
+import com.tony.utils.toCollectionJavaType
 import java.util.concurrent.TimeUnit
 
 public sealed interface RedisValueOp :
@@ -103,6 +104,25 @@ public sealed interface RedisValueSetOp : RedisValueTransformer {
         } else {
             valueOp.setIfPresent(key, value.inputTransformTo(), timeout, timeUnit)
         }
+
+    /**
+     * Set multiple keys to multiple values using key-value pairs provided in {@code tuple}.
+     *
+     * @param keyValues must not be null.
+     * @see <a href="https://redis.io/commands/mset">Redis Documentation: MSET</a>
+     */
+    public fun multiSet(keyValues: Map<String, Any>): Unit =
+        valueOp.multiSet(keyValues)
+
+    /**
+     * Set multiple keys to multiple values using key-value pairs provided in tuple only if the provided key does not exist.
+     *
+     * @param keyValues must not be null.
+     * @return null when used in pipeline / transaction.
+     * @see <a href="https://redis.io/commands/mset">Redis Documentation: MSET</a>
+     */
+    public fun multiSetIfAbsent(keyValues: Map<String, Any>): Boolean? =
+        valueOp.multiSetIfAbsent(keyValues)
 
     /**
      * Set value of key and return its old value.
@@ -240,6 +260,54 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
         valueOp
             .get(key)
             .outputTransformTo(type)
+
+    /**
+     * Get multiple [keys]. Values are in the order of the requested keys Absent field values are represented using
+     * null in the resulting [List].
+     *
+     * @param keys must not be null.
+     * @return null when used in pipeline / transaction.
+     * @see <a href="https://redis.io/commands/mget">Redis Documentation: MGET</a>
+     */
+    public fun multiGet(keys: Collection<String>): List<*> =
+        valueOp
+            .multiGet(keys) ?: listOf<Any>()
+
+    /**
+     * Get multiple [keys] and transform to type [type]. Values are in the order of the requested keys Absent field values are represented using
+     * null in the resulting [List].
+     *
+     * @param keys must not be null.
+     * @param type component type
+     * @return null when used in pipeline / transaction.
+     * @see <a href="https://redis.io/commands/mget">Redis Documentation: MGET</a>
+     */
+    public fun <T> multiGet(
+        keys: Collection<String>,
+        type: Class<T>,
+    ): List<T> =
+        valueOp
+            .multiGet(keys)
+            .outputTransformTo(type.toCollectionJavaType(List::class.java))
+            ?: listOf()
+
+    /**
+     * Get multiple [keys] and transform to type [type]. Values are in the order of the requested keys Absent field values are represented using
+     * null in the resulting [List].
+     *
+     * @param keys must not be null.
+     * @param type component type
+     * @return null when used in pipeline / transaction.
+     * @see <a href="https://redis.io/commands/mget">Redis Documentation: MGET</a>
+     */
+    public fun <T> multiGet(
+        keys: Collection<String>,
+        type: JavaType,
+    ): List<T> =
+        valueOp
+            .multiGet(keys)
+            .outputTransformTo(type.toCollectionJavaType(List::class.java))
+            ?: listOf()
 
     /**
      * Return the value at key and delete the key.

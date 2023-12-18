@@ -25,6 +25,7 @@
 @file:JvmName("Types")
 
 package com.tony.utils
+
 /**
  * 泛型工具类
  * @author Tang Li
@@ -63,6 +64,19 @@ public fun Type.rawClass(): Class<*> =
  */
 public fun Type.toJavaType(): JavaType =
     TypeFactory.defaultInstance().constructType(this)
+
+/**
+ * Method for constructing a CollectionLikeType.
+ * @param [collectionType]
+ * @return [JavaType]
+ * @author Tang Li
+ * @date 2023/09/13 19:27
+ * @since 1.0.0
+ */
+public fun <T : Collection<*>> Type.toCollectionJavaType(collectionType: Class<T>): JavaType =
+    TypeFactory
+        .defaultInstance()
+        .constructCollectionLikeType(collectionType, this.toJavaType())
 
 /**
  * 返回范型参数的  [Type]
@@ -218,6 +232,19 @@ public fun <T> TypeReference<T>.isNumberTypes(): Boolean =
  */
 public fun <T> JavaType.rawClass(): Class<T> =
     rawClass.asToNotNull()
+
+/**
+ * Method for constructing a CollectionLikeType.
+ * @param [collectionType]
+ * @return [JavaType]
+ * @author Tang Li
+ * @date 2023/09/13 19:27
+ * @since 1.0.0
+ */
+public fun <T : Collection<*>> JavaType.toCollectionJavaType(collectionType: Class<T>): JavaType =
+    TypeFactory
+        .defaultInstance()
+        .constructCollectionLikeType(collectionType, this)
 
 /**
  * 是类似日期时间类型

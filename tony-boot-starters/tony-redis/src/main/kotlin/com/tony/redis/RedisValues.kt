@@ -130,6 +130,14 @@ public object RedisValues {
     ): Boolean? =
         redisService.setIfPresent(key, value, timeout, timeUnit)
 
+    @JvmStatic
+    public fun multiSet(keyValues: Map<String, Any>): Unit =
+        redisService.multiSet(keyValues)
+
+    @JvmStatic
+    public fun multiSetIfAbsent(keyValues: Map<String, Any>): Boolean? =
+        redisService.multiSetIfAbsent(keyValues)
+
     public inline fun <reified T : Any> get(key: String): T? =
         redisService.get(key, (object : TypeReference<T>() {}))
 
@@ -153,4 +161,22 @@ public object RedisValues {
         typeReference: TypeReference<T>,
     ): T? =
         redisService.get(key, typeReference)
+
+    @JvmStatic
+    public fun multiGet(keys: Collection<String>): List<*> =
+        redisService.multiGet(keys)
+
+    @JvmStatic
+    public fun <T> multiGet(
+        keys: Collection<String>,
+        type: Class<T>,
+    ): List<T> =
+        redisService.multiGet(keys, type)
+
+    @JvmStatic
+    public fun <T> multiGet(
+        keys: Collection<String>,
+        type: JavaType,
+    ): List<T> =
+        redisService.multiGet(keys, type)
 }
