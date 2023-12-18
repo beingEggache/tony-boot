@@ -47,16 +47,7 @@ class FusVoteSignProcessTests : FusTests() {
             processId,
             testOperator1Id,
         ).let { instance ->
-            // 发起
             val instanceId = instance.instanceId
-            val taskList1 =
-                engine
-                    .queryService
-                    .listTaskByInstanceId(instanceId)
-            taskList1
-                .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
-                }
 
             //test1 领导审批同意
             engine

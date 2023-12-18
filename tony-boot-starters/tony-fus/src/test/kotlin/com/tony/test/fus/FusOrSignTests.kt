@@ -47,17 +47,6 @@ class FusOrSignTests : FusTests() {
             processId,
             testOperator1Id,
         ).let { instance ->
-            // 发起
-            val taskList1 =
-                engine
-                    .queryService
-                    .listTaskByInstanceId(instance.instanceId)
-
-            taskList1
-                .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
-                }
-
             //驳回
             val taskList2 =
                 engine

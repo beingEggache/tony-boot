@@ -68,17 +68,6 @@ class FusProcessTests : FusTests() {
             testOperator1Id
         ).let { instance ->
             val instanceId = instance.instanceId
-
-            // 发起, 执行条件路由
-            val taskList1 =
-                engine
-                    .queryService
-                    .listTaskByInstanceId(instanceId)
-            taskList1
-                .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
-                }
-
             val taskList2 =
                 engine
                     .queryService

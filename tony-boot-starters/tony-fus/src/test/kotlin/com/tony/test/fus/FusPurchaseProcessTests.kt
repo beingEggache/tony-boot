@@ -47,18 +47,7 @@ class FusPurchaseProcessTests : FusTests() {
             processId,
             testOperator1Id,
         ).let { instance ->
-            // 发起
             val instanceId = instance.instanceId
-            val taskList1 =
-                engine
-                    .queryService
-                    .listTaskByInstanceId(instanceId)
-            taskList1
-                .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
-                }
-
-            Thread.sleep(1000)
 
             //领导审批
             val taskList2 =

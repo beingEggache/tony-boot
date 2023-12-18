@@ -302,7 +302,24 @@ internal open class TaskServiceImpl(
             }
 
         val taskActorList = execution.taskActorProvider.listTaskActors(node, execution)
-        if (nodeType == NodeType.INITIATOR || nodeType == NodeType.APPROVER) {
+        if (nodeType == NodeType.INITIATOR) {
+            return saveTask(
+                task,
+                PerformType.START,
+                taskActorList,
+                execution
+            ).also {
+                node
+                    .nextNode()
+                    ?.also { nextNode ->
+                        nextNode.execute(
+                            execution.engine.context,
+                            execution
+                        )
+                    }
+            }
+        }
+        if (nodeType == NodeType.APPROVER) {
             return saveTask(
                 task,
                 // ?
@@ -344,7 +361,13 @@ internal open class TaskServiceImpl(
         }
         val parentTaskId = execution.task?.parentTaskId
         nodeUserList
-            .map { nodeAssignee ->
+            .filter { nodeAssignee ->
+                !taskCcMapper
+                    .ktQuery()
+                    .eq(FusTaskCc::instanceId, execution.instance.instanceId)
+                    .eq(FusTaskCc::actorId, nodeAssignee.id)
+                    .exists()
+            }.map { nodeAssignee ->
                 FusTaskCc().apply {
                     this.creatorId = execution.userId
                     this.instanceId = execution.instance.instanceId
@@ -533,6 +556,31 @@ internal open class TaskServiceImpl(
         execution: FusExecution,
     ): List<FusTask> {
         task.performType = performType
+        if (performType == PerformType.START) {
+            val historyTask =
+                task
+                    .copyToNotNull(FusHistoryTask())
+                    .apply {
+                        taskState = TaskState.COMPLETED
+                        finishTime = LocalDateTime.now()
+                    }
+            historyTaskMapper.insert(historyTask)
+            execution.task = historyTask
+            taskActorList
+                .takeIf { actorList -> actorList.isNotEmpty() }
+                ?.map { taskActor ->
+                    taskActor
+                        .copyToNotNull(FusHistoryTaskActor())
+                        .apply {
+                            taskActorId = ""
+                            instanceId = task.instanceId
+                            taskId = historyTask.taskId
+                        }
+                }?.also { actorList ->
+                    historyTaskActorMapper.insertBatch(actorList)
+                }
+            return emptyList()
+        }
         if (performType == PerformType.UNKNOWN) {
             task.variable =
                 execution

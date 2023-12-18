@@ -43,23 +43,15 @@ class FusCcToConditionTests : FusTests() {
         val processService = engine.processService
         processService.getById(processId)
 
+        val args: MutableMap<String, Any?> = mutableMapOf(
+            "day" to 8
+        )
         engine.startInstanceById(
             processId,
             testOperator1Id,
+            args
         ).let { instance ->
-            // 发起
             val instanceId = instance.instanceId
-            val taskList1 =
-                engine
-                    .queryService
-                    .listTaskByInstanceId(instanceId)
-            taskList1
-                .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id, mutableMapOf(
-                        "day" to 8
-                    ))
-                }
-
             // 领导审批，自动抄送，流程结束
             val taskList2 =
                 engine

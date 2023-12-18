@@ -84,16 +84,7 @@ class FusSupervisorProcessTests {
             user4Id,
             args,
         ).let { instance ->
-            // 四级部门发起审批
             val instanceId = instance.instanceId
-            val taskList1 =
-                fusEngine
-                    .queryService
-                    .listTaskByInstanceId(instanceId)
-            taskList1
-                .forEach { task ->
-                    fusEngine.executeTask(task.taskId, user4Id)
-                }
 
             //四级部门审核
             val taskList2 =

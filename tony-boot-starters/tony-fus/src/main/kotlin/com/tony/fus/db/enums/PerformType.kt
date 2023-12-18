@@ -38,9 +38,14 @@ public enum class PerformType(
     override val value: Int,
 ) : IntEnumValue {
     /**
-     * 发起、其它
+     * 未知
      */
-    UNKNOWN(1),
+    UNKNOWN(0),
+
+    /**
+     * 发起
+     */
+    START(1),
 
     /**
      * 按顺序依次审批

@@ -53,17 +53,6 @@ class FusCounterSignTests : FusTests() {
             testOperator1Id,
             args
         ).let { instance ->
-            // 发起
-            val taskList1 =
-                engine
-                    .queryService
-                    .listTaskByInstanceId(instance.instanceId)
-
-            taskList1
-                .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
-                }
-
             //会签1
             engine
                 .queryService
