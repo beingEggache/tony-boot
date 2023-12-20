@@ -274,13 +274,8 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
             .multiGet(keys) ?: listOf<Any>()
 
     /**
-     * Get multiple [keys] and transform to type [type]. Values are in the order of the requested keys Absent field values are represented using
-     * null in the resulting [List].
-     *
-     * @param keys must not be null.
      * @param type component type
-     * @return null when used in pipeline / transaction.
-     * @see <a href="https://redis.io/commands/mget">Redis Documentation: MGET</a>
+     * @see [multiGet]
      */
     public fun <T> multiGet(
         keys: Collection<String>,
@@ -292,13 +287,8 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
             ?: listOf()
 
     /**
-     * Get multiple [keys] and transform to type [type]. Values are in the order of the requested keys Absent field values are represented using
-     * null in the resulting [List].
-     *
-     * @param keys must not be null.
      * @param type component type
-     * @return null when used in pipeline / transaction.
-     * @see <a href="https://redis.io/commands/mget">Redis Documentation: MGET</a>
+     * @see [multiGet]
      */
     public fun <T> multiGet(
         keys: Collection<String>,
@@ -310,13 +300,8 @@ public sealed interface RedisValueGetOp : RedisValueTransformer {
             ?: listOf()
 
     /**
-     * Get multiple [keys] and transform to type [type]. Values are in the order of the requested keys Absent field values are represented using
-     * null in the resulting [List].
-     *
-     * @param keys must not be null.
      * @param type component type
-     * @return null when used in pipeline / transaction.
-     * @see <a href="https://redis.io/commands/mget">Redis Documentation: MGET</a>
+     * @see [multiGet]
      */
     public fun <T> multiGet(
         keys: Collection<String>,

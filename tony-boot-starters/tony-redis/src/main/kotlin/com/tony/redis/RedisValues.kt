@@ -26,7 +26,6 @@ package com.tony.redis
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.redis.service.RedisService
 import com.tony.utils.asTo
 import java.util.concurrent.TimeUnit
 
@@ -97,6 +96,9 @@ public object RedisValues {
             }.last()
             .asTo()
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.set]
+     */
     @JvmStatic
     @JvmOverloads
     public fun <T : Any> set(
@@ -108,7 +110,7 @@ public object RedisValues {
         redisService.set(key, value, timeout, timeUnit)
 
     /**
-     * @see [RedisService.setIfAbsent]
+     * @see [com.tony.redis.service.RedisValueOp.setIfAbsent]
      */
     @JvmStatic
     @JvmOverloads
@@ -120,6 +122,9 @@ public object RedisValues {
     ): Boolean? =
         redisService.setIfAbsent(key, value, timeout, timeUnit)
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.setIfPresent]
+     */
     @JvmStatic
     @JvmOverloads
     public fun <T : Any> setIfPresent(
@@ -130,17 +135,29 @@ public object RedisValues {
     ): Boolean? =
         redisService.setIfPresent(key, value, timeout, timeUnit)
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.multiSet]
+     */
     @JvmStatic
     public fun multiSet(keyValues: Map<String, Any>): Unit =
         redisService.multiSet(keyValues)
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.multiSetIfAbsent]
+     */
     @JvmStatic
     public fun multiSetIfAbsent(keyValues: Map<String, Any>): Boolean? =
         redisService.multiSetIfAbsent(keyValues)
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.get]
+     */
     public inline fun <reified T : Any> get(key: String): T? =
         redisService.get(key, (object : TypeReference<T>() {}))
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.get]
+     */
     @JvmStatic
     public fun <T : Any> get(
         key: String,
@@ -148,24 +165,36 @@ public object RedisValues {
     ): T? =
         redisService.get(key, type)
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.get]
+     */
     @JvmStatic
     public fun <T : Any> get(
         key: String,
-        javaType: JavaType,
+        type: JavaType,
     ): T? =
-        redisService.get(key, javaType)
+        redisService.get(key, type)
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.get]
+     */
     @JvmStatic
     public fun <T : Any> get(
         key: String,
-        typeReference: TypeReference<T>,
+        type: TypeReference<T>,
     ): T? =
-        redisService.get(key, typeReference)
+        redisService.get(key, type)
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.multiGet]
+     */
     @JvmStatic
     public fun multiGet(keys: Collection<String>): List<*> =
         redisService.multiGet(keys)
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.multiGet]
+     */
     @JvmStatic
     public fun <T> multiGet(
         keys: Collection<String>,
@@ -173,6 +202,9 @@ public object RedisValues {
     ): List<T> =
         redisService.multiGet(keys, type)
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.multiGet]
+     */
     @JvmStatic
     public fun <T> multiGet(
         keys: Collection<String>,
@@ -180,6 +212,9 @@ public object RedisValues {
     ): List<T> =
         redisService.multiGet(keys, type)
 
+    /**
+     * @see [com.tony.redis.service.RedisValueOp.multiGet]
+     */
     @JvmStatic
     public fun <T> multiGet(
         keys: Collection<String>,

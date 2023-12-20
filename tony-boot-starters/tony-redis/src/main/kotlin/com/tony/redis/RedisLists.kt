@@ -26,7 +26,6 @@ package com.tony.redis
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.redis.service.RedisService
 import java.util.concurrent.TimeUnit
 
 /**
@@ -37,7 +36,7 @@ import java.util.concurrent.TimeUnit
  */
 public object RedisLists {
     /**
-     * @see [RedisService.leftPush]
+     * @see [com.tony.redis.service.RedisListSetOp.leftPush]
      */
     @JvmStatic
     public fun <T : Any> leftPush(
@@ -47,7 +46,7 @@ public object RedisLists {
         redisService.leftPush(key, value)
 
     /**
-     * @see [leftPush]
+     * @see [com.tony.redis.service.RedisListSetOp.leftPush]
      */
     @JvmStatic
     public fun <T : Any> leftPush(
@@ -58,7 +57,7 @@ public object RedisLists {
         redisService.leftPush(key, pivot, value)
 
     /**
-     * @see [RedisService.leftPushIfPresent]
+     * @see [com.tony.redis.service.RedisListSetOp.leftPushIfPresent]
      */
     @JvmStatic
     public fun <T : Any> leftPushIfPresent(
@@ -68,7 +67,7 @@ public object RedisLists {
         redisService.leftPushIfPresent(key, value)
 
     /**
-     * @see [RedisService.leftPushAll]
+     * @see [com.tony.redis.service.RedisListSetOp.leftPushAll]
      */
     @JvmStatic
     public fun <T : Any> leftPushAll(
@@ -78,7 +77,7 @@ public object RedisLists {
         redisService.leftPushAll(key, *value)
 
     /**
-     * @see [leftPushAll]
+     * @see [com.tony.redis.service.RedisListSetOp.leftPushAll]
      */
     @JvmStatic
     public fun <T : Any> leftPushAll(
@@ -88,7 +87,7 @@ public object RedisLists {
         redisService.leftPushAll(key, value)
 
     /**
-     * @see [RedisService.rightPush]
+     * @see [com.tony.redis.service.RedisListSetOp.rightPush]
      */
     @JvmStatic
     public fun <T : Any> rightPush(
@@ -98,7 +97,7 @@ public object RedisLists {
         redisService.rightPush(key, value)
 
     /**
-     * @see [rightPush]
+     * @see [com.tony.redis.service.RedisListSetOp.rightPush]
      */
     @JvmStatic
     public fun <T : Any> rightPush(
@@ -109,7 +108,7 @@ public object RedisLists {
         redisService.rightPush(key, pivot, value)
 
     /**
-     * @see [RedisService.rightPushIfPresent]
+     * @see [com.tony.redis.service.RedisListSetOp.rightPushIfPresent]
      */
     @JvmStatic
     public fun <T : Any> rightPushIfPresent(
@@ -119,7 +118,7 @@ public object RedisLists {
         redisService.rightPushIfPresent(key, value)
 
     /**
-     * @see [RedisService.rightPushAll]
+     * @see [com.tony.redis.service.RedisListSetOp.rightPushAll]
      */
     @JvmStatic
     public fun <T : Any> rightPushAll(
@@ -129,7 +128,7 @@ public object RedisLists {
         redisService.rightPushAll(key, *value)
 
     /**
-     * @see [rightPushAll]
+     * @see [com.tony.redis.service.RedisListSetOp.rightPushAll]
      */
     @JvmStatic
     public fun <T : Any> rightPushAll(
@@ -139,7 +138,7 @@ public object RedisLists {
         redisService.rightPushAll(key, value)
 
     /**
-     * @see [RedisService.leftPop]
+     * @see [com.tony.redis.service.RedisListGetOp.leftPop]
      */
     @JvmStatic
     public fun <T : Any> leftPop(
@@ -149,7 +148,7 @@ public object RedisLists {
         redisService.leftPop(key, type)
 
     /**
-     * @see [leftPop]
+     * @see [com.tony.redis.service.RedisListGetOp.leftPop]
      */
     @JvmStatic
     public fun <T : Any> leftPop(
@@ -159,7 +158,7 @@ public object RedisLists {
         redisService.leftPop(key, type)
 
     /**
-     * @see [leftPop]
+     * @see [com.tony.redis.service.RedisListGetOp.leftPop]
      */
     @JvmStatic
     public fun <T : Any> leftPop(
@@ -169,7 +168,7 @@ public object RedisLists {
         redisService.leftPop(key, type)
 
     /**
-     * @see [leftPop]
+     * @see [com.tony.redis.service.RedisListGetOp.leftPop]
      */
     @JvmStatic
     public fun <T : Any> leftPop(
@@ -179,7 +178,7 @@ public object RedisLists {
         redisService.leftPop<T>(key, count)
 
     /**
-     * @see [leftPop]
+     * @see [com.tony.redis.service.RedisListGetOp.leftPop]
      */
     @JvmSynthetic
     @JvmStatic
@@ -187,7 +186,7 @@ public object RedisLists {
         redisService.leftPop(key, T::class.java)
 
     /**
-     * @see [RedisService.rightPop]
+     * @see [com.tony.redis.service.RedisListGetOp.rightPop]
      */
     @JvmStatic
     public fun <T : Any> rightPop(
@@ -197,7 +196,7 @@ public object RedisLists {
         redisService.rightPop(key, type)
 
     /**
-     * @see [rightPop]
+     * @see [com.tony.redis.service.RedisListGetOp.rightPop]
      */
     @JvmStatic
     public fun <T : Any> rightPop(
@@ -207,7 +206,7 @@ public object RedisLists {
         redisService.rightPop(key, type)
 
     /**
-     * @see [rightPop]
+     * @see [com.tony.redis.service.RedisListGetOp.rightPop]
      */
     @JvmStatic
     public fun <T : Any> rightPop(
@@ -217,7 +216,7 @@ public object RedisLists {
         redisService.rightPop(key, type)
 
     /**
-     * @see [rightPop]
+     * @see [com.tony.redis.service.RedisListGetOp.rightPop]
      */
     @JvmStatic
     public fun <T : Any> rightPop(
@@ -227,7 +226,7 @@ public object RedisLists {
         redisService.rightPop<T>(key, count)
 
     /**
-     * @see [rightPop]
+     * @see [com.tony.redis.service.RedisListGetOp.rightPop]
      */
     @JvmSynthetic
     @JvmStatic
@@ -235,7 +234,7 @@ public object RedisLists {
         redisService.rightPop(key, T::class.java)
 
     /**
-     * @see [RedisService.index]
+     * @see [com.tony.redis.service.RedisListGetOp.index]
      */
     @JvmStatic
     public fun <T : Any> index(
@@ -246,7 +245,7 @@ public object RedisLists {
         redisService.index(key, index, type)
 
     /**
-     * @see [index]
+     * @see [com.tony.redis.service.RedisListGetOp.index]
      */
     @JvmStatic
     public fun <T : Any> index(
@@ -257,7 +256,7 @@ public object RedisLists {
         redisService.index(key, index, type)
 
     /**
-     * @see [index]
+     * @see [com.tony.redis.service.RedisListGetOp.index]
      */
     @JvmStatic
     public fun <T : Any> index(
@@ -268,7 +267,7 @@ public object RedisLists {
         redisService.index(key, index, type)
 
     /**
-     * @see [index]
+     * @see [com.tony.redis.service.RedisListGetOp.index]
      */
     @JvmSynthetic
     @JvmStatic
@@ -279,7 +278,7 @@ public object RedisLists {
         redisService.index(key, index, T::class.java)
 
     /**
-     * @see [RedisService.range]
+     * @see [com.tony.redis.service.RedisListGetOp.range]
      */
     @JvmStatic
     public fun <T : Any> range(
@@ -290,14 +289,14 @@ public object RedisLists {
         redisService.range(key, start, end)
 
     /**
-     * @see [RedisService.size]
+     * @see [com.tony.redis.service.RedisListGetOp.size]
      */
     @JvmStatic
     public fun size(key: String): Long? =
         redisService.size(key)
 
     /**
-     * @see [RedisService.rightPopAndLeftPush]
+     * @see [com.tony.redis.service.RedisListOp.rightPopAndLeftPush]
      */
     @JvmStatic
     public fun <T : Any> rightPopAndLeftPush(
@@ -310,7 +309,7 @@ public object RedisLists {
         redisService.rightPopAndLeftPush(sourceKey, destinationKey, type, timeout, timeUnit)
 
     /**
-     * @see [rightPopAndLeftPush]
+     * @see [com.tony.redis.service.RedisListOp.rightPopAndLeftPush]
      */
     @JvmStatic
     public fun <T : Any> rightPopAndLeftPush(
@@ -323,7 +322,7 @@ public object RedisLists {
         redisService.rightPopAndLeftPush(sourceKey, destinationKey, type, timeout, timeUnit)
 
     /**
-     * @see [rightPopAndLeftPush]
+     * @see [com.tony.redis.service.RedisListOp.rightPopAndLeftPush]
      */
     @JvmStatic
     public fun <T : Any> rightPopAndLeftPush(
@@ -336,7 +335,7 @@ public object RedisLists {
         redisService.rightPopAndLeftPush(sourceKey, destinationKey, type, timeout, timeUnit)
 
     /**
-     * @see [RedisService.trim]
+     * @see [com.tony.redis.service.RedisListOp.trim]
      */
     @JvmStatic
     public fun trim(

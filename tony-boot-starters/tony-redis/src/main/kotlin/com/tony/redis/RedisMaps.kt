@@ -123,12 +123,7 @@ public object RedisMaps {
             .asTo()
 
     /**
-     * 同 redisTemplate.boundHashOps(key).put(hashKey, value).
-     *
-     * @param T
-     * @param key
-     * @param hashKey
-     * @param value
+     * @see [com.tony.redis.service.RedisMapSetOp.put]
      */
     @JvmStatic
     public fun <T : Any> put(
@@ -139,12 +134,7 @@ public object RedisMaps {
         redisService.put(key, hashKey, value)
 
     /**
-     * 同 redisTemplate.boundHashOps(key).putIfAbsent(hashKey, value).
-     *
-     * @param T
-     * @param key
-     * @param hashKey
-     * @param value
+     * @see [com.tony.redis.service.RedisMapSetOp.putIfAbsent]
      */
     @JvmStatic
     public fun <T : Any> putIfAbsent(
@@ -155,14 +145,7 @@ public object RedisMaps {
         redisService.putIfAbsent(key, hashKey, value)
 
     /**
-     * 同 redisTemplate.boundHashOps(key).putAll(map).
-     *
-     * 同时可设置过期时间.
-     *
-     * @param key
-     * @param map
-     * @param timeout
-     * @param timeUnit 默认为秒 [TimeUnit.SECONDS]
+     * @see [com.tony.redis.service.RedisMapSetOp.putAll]
      */
     @JvmStatic
     @JvmOverloads
@@ -175,13 +158,7 @@ public object RedisMaps {
         redisService.putAll(key, map, timeout, timeUnit)
 
     /**
-     * 同 redisTemplate.boundHashOps(key).putAll(map).
-     *
-     * 同时可设置过期时间.
-     *
-     * @param key
-     * @param map
-     * @param date 过期时间
+     * @see [com.tony.redis.service.RedisMapSetOp.putAll]
      */
     @JvmStatic
     public fun putAll(
@@ -192,12 +169,7 @@ public object RedisMaps {
         redisService.putAll(key, map, date)
 
     /**
-     * 同 redisTemplate.boundHashOp(key).get(hashKey)
-     *
-     * @param T
-     * @param key
-     * @param hashKey
-     * @return
+     * @see [com.tony.redis.service.RedisMapGetOp.get]
      */
     @JvmStatic
     public inline fun <reified T : Any> get(
@@ -207,14 +179,7 @@ public object RedisMaps {
         get(key, hashKey, T::class.java)
 
     /**
-     * 同 redisTemplate.boundHashOp(key).get(hashKey)
-     *
-     * @param T
-     * @param key
-     * @param hashKey
-     * @param clazz
      * @see [com.tony.redis.service.RedisMapGetOp.get]
-     * @return
      */
     @JvmStatic
     public fun <T : Any> get(
@@ -225,14 +190,7 @@ public object RedisMaps {
         redisService.get(key, hashKey, clazz)
 
     /**
-     * 同 redisTemplate.boundHashOp(key).get(hashKey)
-     *
-     * @param T
-     * @param key
-     * @param hashKey
-     * @param javaType
      * @see [com.tony.redis.service.RedisMapGetOp.get]
-     * @return
      */
     @JvmStatic
     public fun <T : Any> get(
@@ -243,14 +201,7 @@ public object RedisMaps {
         redisService.get(key, hashKey, javaType)
 
     /**
-     * 同 redisTemplate.boundHashOp(key).get(hashKey)
-     *
-     * @param T
-     * @param key
-     * @param hashKey
-     * @param typeReference
      * @see [com.tony.redis.service.RedisMapGetOp.get]
-     * @return
      */
     @JvmStatic
     public fun <T : Any> get(
@@ -261,12 +212,52 @@ public object RedisMaps {
         redisService.get(key, hashKey, typeReference)
 
     /**
-     * 同 redisTemplate.opsForHash().entries(key).
-     *
-     * @param key
-     * @return
+     * @see [com.tony.redis.service.RedisMapGetOp.entries]
      */
     @JvmStatic
     public fun entries(key: String): Map<String, Any?> =
         redisService.entries(key)
+
+    /**
+     * @see [com.tony.redis.service.RedisMapGetOp.multiGet]
+     */
+    @JvmStatic
+    public fun multiGet(
+        key: String,
+        hashKeys: Collection<String>,
+    ): List<*> =
+        redisService.multiGet(key, hashKeys)
+
+    /**
+     * @see [com.tony.redis.service.RedisMapGetOp.multiGet]
+     */
+    @JvmStatic
+    public fun <T> multiGet(
+        key: String,
+        hashKeys: Collection<String>,
+        type: Class<T>,
+    ): List<T> =
+        redisService.multiGet(key, hashKeys, type)
+
+    /**
+     * @see [com.tony.redis.service.RedisMapGetOp.multiGet]
+     */
+    @JvmStatic
+    public fun <T> multiGet(
+        key: String,
+        hashKeys: Collection<String>,
+        type: JavaType,
+    ): List<T> =
+        redisService.multiGet(key, hashKeys, type)
+
+    /**
+     * @see [com.tony.redis.service.RedisMapGetOp.multiGet]
+     */
+    @JvmStatic
+    public fun <T> multiGet(
+        key: String,
+        hashKeys: Collection<String>,
+        type: TypeReference<T>,
+    ): List<T> =
+        redisService.multiGet(key, hashKeys, type)
 }

@@ -26,8 +26,10 @@ package com.tony.redis.service
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
+import com.tony.redis.RedisMaps.multiGet
 import com.tony.redis.hashOp
 import com.tony.redis.redisTemplate
+import com.tony.utils.toCollectionJavaType
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -88,6 +90,63 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
         hashOp
             .get(key, hashKey)
             .outputTransformTo(type)
+
+    /**
+     * Get values for given [hashKeys] from hash at [key]. Values are in the order of the requested keys
+     * Absent field values are represented using null in the resulting [List].
+     *
+     * @param key must not be null.
+     * @param hashKeys must not be null.
+     * @return null when used in pipeline / transaction.
+     */
+    public fun multiGet(
+        key: String,
+        hashKeys: Collection<String>,
+    ): List<*> =
+        hashOp
+            .multiGet(key, hashKeys)
+
+    /**
+     * @param type component type
+     * @see [multiGet]
+     */
+    public fun <T> multiGet(
+        key: String,
+        hashKeys: Collection<String>,
+        type: Class<T>,
+    ): List<T> =
+        hashOp
+            .multiGet(key, hashKeys)
+            .outputTransformTo(type.toCollectionJavaType(List::class.java))
+            ?: listOf()
+
+    /**
+     * @param type component type
+     * @see [multiGet]
+     */
+    public fun <T> multiGet(
+        key: String,
+        hashKeys: Collection<String>,
+        type: JavaType,
+    ): List<T> =
+        hashOp
+            .multiGet(key, hashKeys)
+            .outputTransformTo(type.toCollectionJavaType(List::class.java))
+            ?: listOf()
+
+    /**
+     * @param type component type
+     * @see [multiGet]
+     */
+    public fun <T> multiGet(
+        key: String,
+        hashKeys: Collection<String>,
+        type: TypeReference<T>,
+    ): List<T> =
+        hashOp
+            .multiGet(key, hashKeys)
+            .outputTransformTo(type.type.toCollectionJavaType(List::class.java))
+            ?: listOf()
 
     /**
      * 根据key值获取整个map
