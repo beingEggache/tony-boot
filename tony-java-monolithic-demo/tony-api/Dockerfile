@@ -9,6 +9,8 @@ RUN echo "Asia/Shanghai" > /etc/timezone
 WORKDIR app
 #-XX:+EnableDynamicAgentLoading hide "Java agent has been loaded dynamically" warning.
 # https://zhuanlan.zhihu.com/p/528949267
+# JVM 参数升级提示工具 https://jacoline.dev/inspect
+# JVM 参数词典：chriswhocodes.com
 ENV JAVA_OPTS="\
 -Xmx2g \
 -XX:+UseZGC \
