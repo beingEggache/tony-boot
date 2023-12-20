@@ -71,6 +71,7 @@ springCloudAlibaba = "2022.0.0.0"
 
 lombok = "8.4"
 ktlint = "1.0.1"
+graalvm = "0.9.28"
 
 [libraries]
 
@@ -251,6 +252,7 @@ kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotli
 kotlinNoarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin" }
 kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 lombok = { id="io.freefair.lombok", version.ref = "lombok" }
+graalvm = { id="org.graalvm.buildtools.native", version.ref = "graalvm" }
 
 tonyGradleBuild = { id = "com.tony.gradle.plugin.build", version.ref="template"}
 tonyDepConfigurations = { id = "com.tony.gradle.plugin.dep-configurations", version.ref="template"}
