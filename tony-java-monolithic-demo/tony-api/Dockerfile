@@ -8,7 +8,32 @@ FROM eclipse-temurin:21-jre-alpine
 RUN echo "Asia/Shanghai" > /etc/timezone
 WORKDIR app
 #-XX:+EnableDynamicAgentLoading hide "Java agent has been loaded dynamically" warning.
-ENV JAVA_OPTS="-Xmx2g -XX:+UseZGC -XX:+ZGenerational -XX:+EnableDynamicAgentLoading"
+# https://zhuanlan.zhihu.com/p/528949267
+ENV JAVA_OPTS="\
+-Xmx2g \
+-XX:+UseZGC \
+-XX:+ZGenerational \
+-XX:+EnableDynamicAgentLoading \
+-XX:+UnlockDiagnosticVMOptions \
+-XX:+UnlockExperimentalVMOptions \
+-XX:-OmitStackTraceInFastThrow \
+-XX:+AlwaysPreTouch \
+-XX:+DisableExplicitGC \
+-XX:GuaranteedSafepointInterval=0 \
+-XX:+UseCountedLoopSafepoints \
+-XX:+SafepointTimeout \
+-XX:SafepointTimeoutDelay=1000 \
+--add-opens java.base/java.lang=ALL-UNNAMED \
+--add-opens java.base/java.io=ALL-UNNAMED \
+--add-opens java.base/java.math=ALL-UNNAMED \
+--add-opens java.base/java.net=ALL-UNNAMED \
+--add-opens java.base/java.nio=ALL-UNNAMED \
+--add-opens java.base/java.security=ALL-UNNAMED \
+--add-opens java.base/java.text=ALL-UNNAMED \
+--add-opens java.base/java.time=ALL-UNNAMED \
+--add-opens java.base/java.util=ALL-UNNAMED \
+--add-opens java.base/jdk.internal.access=ALL-UNNAMED \
+--add-opens java.base/jdk.internal.misc=ALL-UNNAMED"
 ENV PROPS=""
 ENV ENABLE_GC_LOGS="false"
 ENV ENABLE_JVM_LOGS="false"
@@ -23,7 +48,10 @@ COPY --from=builder app/application/ ./
 
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} ${PROPS} \
 $([ ${ENABLE_GC_LOGS} == 'true' ] && echo -n '\
--Xlog:gc*=info:file=/logs/gc.log:time,tid,level,tags:filecount=5,filesize=10M \
+-Xlog:async \
+-Xlog:gc*=info:file=/logs/gc%t.log:utctime,level,tags:filecount=10,filesize=10M \
+-Xlog:jit+compilation=info:file=/logs/jit_compile%t.log:utctime,level,tags:filecount=10,filesize=10M \
+-Xlog:safepoint=info:file=/logs/safepoint%t.log:utctime,level,tags:filecount=10,filesize=10M \
 -XX:ErrorFile=/logs/hs_err_pid.log \
 -XX:HeapDumpPath=/logs/java_heapdump.hprof \
 -XX:+ExtensiveErrorReports \
