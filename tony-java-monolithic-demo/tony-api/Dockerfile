@@ -51,9 +51,9 @@ COPY --from=builder app/application/ ./
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} ${PROPS} \
 $([ ${ENABLE_GC_LOGS} == 'true' ] && echo -n '\
 -Xlog:async \
--Xlog:gc*=info:file=/logs/gc%t.log:utctime,level,tags:filecount=10,filesize=10M \
--Xlog:jit+compilation=info:file=/logs/jit_compile%t.log:utctime,level,tags:filecount=10,filesize=10M \
--Xlog:safepoint=info:file=/logs/safepoint%t.log:utctime,level,tags:filecount=10,filesize=10M \
+-Xlog:gc*=info:file=/logs/gc_%t.log:utctime,level,tags:filecount=10,filesize=10M \
+-Xlog:jit+compilation=info:file=/logs/jit_compile_%t.log:utctime,level,tags:filecount=10,filesize=10M \
+-Xlog:safepoint=info:file=/logs/safepoint_%t.log:utctime,level,tags:filecount=10,filesize=10M \
 -XX:ErrorFile=/logs/hs_err_pid.log \
 -XX:HeapDumpPath=/logs/java_heapdump.hprof \
 -XX:+ExtensiveErrorReports \
