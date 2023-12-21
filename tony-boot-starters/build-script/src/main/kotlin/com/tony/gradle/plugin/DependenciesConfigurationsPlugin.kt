@@ -74,7 +74,7 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
         val bouncycastleVersion = versionCatalog.findVersion("bouncycastle").get()
         val annotationApiVersion = versionCatalog.findVersion("annotationApi").get()
         val activationApiVersion = versionCatalog.findVersion("activationApi").get()
-        val elApiApiVersion = versionCatalog.findVersion("elApi").get()
+        val elApiVersion = versionCatalog.findVersion("elApi").get()
         val websocketApiVersion = versionCatalog.findVersion("websocketApi").get()
         val validationApiVersion = versionCatalog.findVersion("validationApi").get()
         val bindApiVersion = versionCatalog.findVersion("bindApi").get()
@@ -100,9 +100,9 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
             "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to "jakarta.annotation:jakarta.annotation-api:$annotationApiVersion",
             "javax.activation:javax.activation-api" to "jakarta.activation:jakarta.activation-api:$activationApiVersion",
 
-            "javax.el:el-api" to "jakarta.el:jakarta.el-api:$elApiApiVersion",
-            "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:$elApiApiVersion",
-            "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:10.1.16",
+            "javax.el:el-api" to "jakarta.el:jakarta.el-api:$elApiVersion",
+            "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:$elApiVersion",
+            "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:10.1.17",
 
             "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:$websocketApiVersion",
             "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:$validationApiVersion",
