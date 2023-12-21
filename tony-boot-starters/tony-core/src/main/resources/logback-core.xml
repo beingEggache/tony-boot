@@ -12,6 +12,7 @@
     java\.lang\.reflect\..*,
     kotlin\.reflect\..*,
     sun\.reflect\..*,
+    .*SpringCGLIB.*,
     jakarta\.servlet\..*,
     io\.undertow\..*,
     org\.jboss\.threads\..*,
