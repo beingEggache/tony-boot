@@ -171,7 +171,7 @@ internal open class RuntimeServiceImpl(
                     .eq(FusTask::instanceId, instanceId)
                     .list()
                     .forEach { task ->
-                        taskService.execute(
+                        taskService.executeTask(
                             task.taskId,
                             userId,
                             TaskState.of(instanceState),

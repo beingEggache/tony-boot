@@ -57,6 +57,7 @@ import com.tony.utils.runIf
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
 import java.util.function.Consumer
+import java.util.function.Function
 import org.springframework.transaction.annotation.Transactional
 
 /**
@@ -75,24 +76,69 @@ internal open class TaskServiceImpl(
     private val taskListener: TaskListener? = null,
 ) : TaskService {
     @Transactional(rollbackFor = [Throwable::class])
-    override fun execute(
+    override fun executeTask(
         taskId: String,
         userId: String,
         taskState: TaskState,
         eventType: EventType,
         variable: Map<String, Any?>?,
     ): FusTask {
-        val task = taskMapper.fusSelectByIdNotNull(taskId, "指定的任务不存在")
-        task.variable = variable.toJsonString().ifNullOrBlank("{}")
-
-        fusThrowIf(
-            !hasPermission(task, userId),
-            "当前参与者 [$userId]不允许执行任务[taskId=$taskId]"
-        )
-
+        val task = getHasPermissionTask(taskId, userId)
         moveToHistoryTask(task, taskState, userId)
         taskListener?.notify(eventType) { task }
         return task
+    }
+
+    @Transactional(rollbackFor = [Throwable::class])
+    override fun executeJumpTask(
+        taskId: String,
+        nodeName: String,
+        userId: String,
+        func: Function<FusTask, FusExecution>,
+    ) {
+        val task = getHasPermissionTask(taskId, userId)
+        val execution = func.apply(task)
+        val node =
+            execution
+                .process
+                .model()
+                .getNode(nodeName)
+                .fusThrowIfNull("无法找到节点[$nodeName]")
+
+        taskMapper
+            .ktQuery()
+            .eq(FusTask::instanceId, task.instanceId)
+            .list()
+            .forEach {
+                moveToHistoryTask(it, TaskState.JUMP, userId)
+            }
+
+        if (node.nodeType == NodeType.INITIATOR) {
+            val initTask =
+                FusTask()
+                    .apply {
+                        creatorId = execution.userId
+                        instanceId = execution.instance.instanceId
+                        taskName = node.nodeName.ifNullOrBlank()
+                        // ?
+                        taskType = TaskType.create(node.nodeType.value).fusThrowIfNull("nodeType null")
+                        parentTaskId = execution.task?.taskId.ifNullOrBlank()
+                        performType = PerformType.START
+                    }
+            taskMapper.insert(initTask)
+            taskActorMapper.insert(
+                FusTaskActor()
+                    .apply {
+                        this.actorId = execution.instance.creatorId
+                        this.actorType = ActorType.USER
+                        this.instanceId = execution.instance.instanceId
+                        this.taskId = initTask.taskId
+                    }
+            )
+        } else {
+            createTask(node, execution)
+        }
+        taskListener?.notify(EventType.JUMP) { task }
     }
 
     @Transactional(rollbackFor = [Throwable::class])
@@ -260,7 +306,7 @@ internal open class TaskServiceImpl(
         variable: Map<String, Any?>?,
     ): FusTask {
         fusThrowIf(task.atStartNode, "上一步任务ID为空，无法驳回至上一步处理")
-        execute(task.taskId, userId, TaskState.REJECTED, EventType.REJECTED, variable)
+        executeTask(task.taskId, userId, TaskState.REJECTED, EventType.REJECTED, variable)
         return undoHistoryTask(task.parentTaskId)
     }
 
@@ -467,6 +513,28 @@ internal open class TaskServiceImpl(
         // TODO 删除任务抄送
     }
 
+    private fun getHasPermissionTask(
+        taskId: String,
+        userId: String,
+        args: MutableMap<String, Any?>? = null,
+    ): FusTask {
+        val task =
+            taskMapper
+                .fusSelectByIdNotNull(
+                    taskId,
+                    "指定的任务不存在"
+                ).also {
+                    args?.apply {
+                        it.variable = args.toJsonString()
+                    }
+                }
+        fusThrowIf(
+            !hasPermission(task, userId),
+            "当前参与者[$userId]不允许执行任务[$taskId]"
+        )
+        return task
+    }
+
     private fun moveToHistoryTask(
         task: FusTask,
         taskState: TaskState,
@@ -568,16 +636,16 @@ internal open class TaskServiceImpl(
             execution.task = historyTask
             taskActorList
                 .takeIf { actorList -> actorList.isNotEmpty() }
-                ?.map { taskActor ->
-                    taskActor
-                        .copyToNotNull(FusHistoryTaskActor())
-                        .apply {
-                            taskActorId = ""
-                            instanceId = task.instanceId
-                            taskId = historyTask.taskId
-                        }
-                }?.also { actorList ->
-                    historyTaskActorMapper.insertBatch(actorList)
+                ?.forEach { taskActor ->
+                    val historyTaskActor =
+                        taskActor
+                            .copyToNotNull(FusHistoryTaskActor())
+                            .apply {
+                                taskActorId = ""
+                                instanceId = task.instanceId
+                                taskId = historyTask.taskId
+                            }
+                    historyTaskActorMapper.insert(historyTaskActor)
                 }
             return emptyList()
         }

@@ -31,7 +31,6 @@ import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusProcess
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.extension.fusThrowIf
-import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNodeAssignee
 import com.tony.utils.ifNull
@@ -69,21 +68,25 @@ public class FusEngineImpl(
         }
     }
 
-    override fun executeAndJumpTask(
+    override fun executeJumpTask(
         taskId: String,
         nodeName: String,
         userId: String,
-        args: MutableMap<String, Any?>?,
     ) {
-        execute(taskId, userId, args ?: mutableMapOf()) { execution ->
-            val node =
-                execution
-                    .process
-                    .model()
-                    .fusThrowIfNull("当前任务未找到流程定义模型")
-                    .getNode(nodeName)
-                    .fusThrowIfNull("根据节点名称[$nodeName]无法找到节点模型")
-            context.createTask(execution, node)
+        taskService.executeJumpTask(
+            taskId,
+            nodeName,
+            userId
+        ) { task ->
+            val instance =
+                queryService
+                    .instance(task.instanceId)
+                    .apply {
+                        updatorId = userId
+                    }
+            runtimeService.updateInstance(instance)
+            val process = processService.getById(instance.processId)
+            FusExecution(this, process, userId, instance, mutableMapOf())
         }
     }
 
@@ -119,7 +122,6 @@ public class FusEngineImpl(
         val instance =
             queryService
                 .instance(task.instanceId)
-                .fusThrowIfNull("指定的流程实例[id=${task.instanceId}]已完成或不存在.")
                 .apply {
                     updatorId = userId
                 }

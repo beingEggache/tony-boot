@@ -129,32 +129,13 @@ public interface FusEngine {
      * @param [taskId] 任务id
      * @param [nodeName] 节点名称
      * @param [userId] 操作人id
-     * @param [args] variable
      * @author Tang Li
      * @date 2023/10/20 19:33
      * @since 1.0.0
      */
-    public fun executeAndJumpTask(
+    public fun executeJumpTask(
         taskId: String,
         nodeName: String,
         userId: String,
-        args: MutableMap<String, Any?>?,
     )
-
-    /**
-     * 执行并跳转到节点
-     * @param [taskId] 任务id
-     * @param [nodeName] 节点名称
-     * @param [userId] 操作人id
-     * @author Tang Li
-     * @date 2023/10/20 19:33
-     * @since 1.0.0
-     */
-    public fun executeAndJumpTask(
-        taskId: String,
-        nodeName: String,
-        userId: String,
-    ) {
-        executeAndJumpTask(taskId, nodeName, userId, null)
-    }
 }

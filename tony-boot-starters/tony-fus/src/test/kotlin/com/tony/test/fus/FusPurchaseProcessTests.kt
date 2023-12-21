@@ -95,7 +95,7 @@ class FusPurchaseProcessTests : FusTests() {
             taskList4
                 .forEach { task ->
                     engine
-                        .executeAndJumpTask(
+                        .executeJumpTask(
                             task.taskId,
                             "经理确认",
                             testOperator1Id

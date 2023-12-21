@@ -56,7 +56,7 @@ public interface TaskService {
         userId: String,
         variable: Map<String, Any?>?,
     ): FusTask =
-        execute(
+        executeTask(
             taskId,
             userId,
             TaskState.COMPLETED,
@@ -91,13 +91,30 @@ public interface TaskService {
      * @date 2023/11/24 19:51
      * @since 1.0.0
      */
-    public fun execute(
+    public fun executeTask(
         taskId: String,
         userId: String,
         taskState: TaskState,
         eventType: EventType,
         variable: Map<String, Any?>?,
     ): FusTask
+
+    /**
+     * 执行节点跳转任务
+     * @param [taskId] 任务id
+     * @param [nodeName] 节点名称
+     * @param [userId] 用户id
+     * @param [func] 回调
+     * @author Tang Li
+     * @date 2023/12/21 14:24
+     * @since 1.0.0
+     */
+    public fun executeJumpTask(
+        taskId: String,
+        nodeName: String,
+        userId: String,
+        func: java.util.function.Function<FusTask, FusExecution>,
+    )
 
     /**
      * 完成指定实例ID活动任务

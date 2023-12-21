@@ -61,6 +61,11 @@ public enum class TaskState(
      * 终止
      */
     TERMINATED(5),
+
+    /**
+     * 跳转
+     */
+    JUMP(6),
     ;
 
     internal companion object : EnumCreator<TaskState, Int>(TaskState::class.java) {

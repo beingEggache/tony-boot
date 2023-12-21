@@ -81,6 +81,11 @@ public enum class EventType(
      * 超时.
      */
     EXPIRED(9),
+
+    /**
+     * 跳转.
+     */
+    JUMP(10),
     ;
 
     internal companion object : EnumCreator<EventType, Int>(EventType::class.java) {
