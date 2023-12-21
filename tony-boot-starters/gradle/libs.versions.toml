@@ -26,7 +26,10 @@ java = "21"
 kotlin = "1.9.21"
 spring = "6.1.2"
 springBoot = "3.2.0"
+
 slf4j = "2.0.9"
+logstashLogbackEncoder = "7.4"
+
 byteBuddy = "1.14.10"
 bouncycastle = "1.77"
 netty = "4.1.104.Final"
@@ -157,9 +160,12 @@ findbugsJsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2"
 javaJwt = { module = "com.auth0:java-jwt", version.ref = "javaJwt" }
 
 xxlJob = { module = "com.xuxueli:xxl-job-core", version.ref = "xxlJob" }
+
 slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 julToSlf4j = { module = "org.slf4j:jul-to-slf4j", version.ref = "slf4j" }
 jclOverSlf4j = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
+logstashLogbackEncoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstashLogbackEncoder" }
+
 byteBuddy = { module = "net.bytebuddy:byte-buddy", version.ref = "byteBuddy" }
 byteBuddyAgent = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "byteBuddy" }
 jasypt = { module = "org.jasypt:jasypt", version = "1.9.3" }

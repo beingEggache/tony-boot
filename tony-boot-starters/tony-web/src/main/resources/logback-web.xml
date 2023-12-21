@@ -5,7 +5,7 @@
     <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
     <springProperty scope="context" name="IP_FROM_NACOS" source="spring.cloud.nacos.discovery.ip" defaultValue=""/>
 
-    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${APP_NAME:-[null]} %-5level %logger Line:%-3L %X{X-B3-Trace-Id:-} - %msg%n"/>
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${APP_NAME:-[null]} %-5level %logger Line:%-3L %X{X-B3-Trace-Id:-} - %msg%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
     <property name="HTTP_TRACE_PATTERN" value="${HTTP_TRACE_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS}|${APP_NAME:-[null]}|%X{X-B3-Trace-Id:-[null]}|%msg|%ip%n}"/>
 
     <property name="LOG_FILE_PATH" value="${LOG_FILE_PATH:-../logs}"/>
@@ -38,7 +38,7 @@
             <!-- pattern节点，用来设置日志的输入格式 -->
             <pattern>${FILE_LOG_PATTERN}</pattern>
             <!-- 记录日志的编码:此处设置字符集 - -->
-            <charset>UTF-8</charset>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
     </appender>
 
@@ -57,7 +57,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
-            <charset>UTF-8</charset>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
     </appender>
 
@@ -74,7 +74,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
-            <charset>UTF-8</charset>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
     </appender>
 
@@ -93,7 +93,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>${HTTP_TRACE_PATTERN}</pattern>
-            <charset>UTF-8</charset>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
     </appender>
 
@@ -112,7 +112,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>${HTTP_TRACE_PATTERN}</pattern>
-            <charset>UTF-8</charset>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
     </appender>
 

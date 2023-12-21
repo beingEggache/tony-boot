@@ -238,17 +238,15 @@ public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
 public fun CharSequence?.urlDecode(charset: Charset = Charsets.UTF_8): String =
     URLDecoder.decode(ifNullOrBlank(), charset)
 
-private val lineBreakRegex = Regex("[\\n\\r]+")
-
 /**
- * 去掉字符串的换行符, 比如 \n, \r
+ * 去掉字符串的换行符[System.lineSeparator]
  * @return [String]
  * @author Tang Li
  * @date 2023/12/08 19:30
  * @since 1.0.0
  */
 public fun CharSequence.removeLineBreak(): String =
-    this.replace(lineBreakRegex, "")
+    this.replace("[${System.lineSeparator()}]".toRegex(), "")
 
 private val antPathMatcher = AntPathMatcher()
 
