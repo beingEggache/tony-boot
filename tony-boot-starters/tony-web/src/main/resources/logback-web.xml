@@ -5,7 +5,7 @@
     <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
     <springProperty scope="context" name="IP_FROM_NACOS" source="spring.cloud.nacos.discovery.ip" defaultValue=""/>
 
-    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${APP_NAME:-[null]} %-5level %logger Line:%-3L %X{X-B3-Trace-Id:-} - %msg%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${APP_NAME:-[null]} %-5level %logger %X{X-B3-Trace-Id:-[null]} - %msg%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
     <property name="HTTP_TRACE_PATTERN" value="${HTTP_TRACE_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS}|${APP_NAME:-[null]}|%X{X-B3-Trace-Id:-[null]}|%msg|%ip%n}"/>
 
     <property name="LOG_FILE_PATH" value="${LOG_FILE_PATH:-../logs}"/>
@@ -45,7 +45,7 @@
     <appender name="STDOUT_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="STDOUT" />
         <!-- 设置异步阻塞队列的大小，为了不丢失日志建议设置的大一些，单机压测时100000是没问题的，应该不用担心OOM -->
-        <queueSize>10000</queueSize>
+        <queueSize>1024</queueSize>
         <!-- 设置丢弃DEBUG、TRACE、INFO日志的阀值，不丢失 -->
         <discardingThreshold>0</discardingThreshold>
         <!-- 设置队列入队时非阻塞，当队列满时会直接丢弃日志，但是对性能提升极大 -->
@@ -73,7 +73,7 @@
 
     <appender name="WARN_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="WARN" />
-        <queueSize>10000</queueSize>
+        <queueSize>1024</queueSize>
         <discardingThreshold>0</discardingThreshold>
         <neverBlock>true</neverBlock>
     </appender>
@@ -97,7 +97,7 @@
 
     <appender name="ERROR_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="ERROR" />
-        <queueSize>10000</queueSize>
+        <queueSize>1024</queueSize>
         <discardingThreshold>0</discardingThreshold>
         <neverBlock>true</neverBlock>
     </appender>
@@ -123,7 +123,7 @@
 
     <appender name="TRACE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="TRACE" />
-        <queueSize>10000</queueSize>
+        <queueSize>1024</queueSize>
         <discardingThreshold>0</discardingThreshold>
         <neverBlock>true</neverBlock>
     </appender>
@@ -149,7 +149,7 @@
 
     <appender name="FEIGN_TRACE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="FEIGN_TRACE" />
-        <queueSize>10000</queueSize>
+        <queueSize>1024</queueSize>
         <discardingThreshold>0</discardingThreshold>
         <neverBlock>true</neverBlock>
     </appender>

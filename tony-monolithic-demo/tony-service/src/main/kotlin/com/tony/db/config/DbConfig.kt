@@ -1,6 +1,7 @@
 package com.tony.db.config
 
 import com.baomidou.mybatisplus.annotation.DbType
+import com.baomidou.mybatisplus.autoconfigure.DdlApplicationRunner
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor
@@ -35,4 +36,8 @@ class DbConfig {
     @Bean
     fun identifierGenerator(): IdentifierGenerator =
         IdentifierGenerator { IdGenerator.nextId() }
+
+    @Bean
+    fun ddlApplicationRunner(): DdlApplicationRunner =
+        object : DdlApplicationRunner(listOf()) {}
 }

@@ -5,7 +5,7 @@
     <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
     <springProperty scope="context" name="IP_FROM_NACOS" source="spring.cloud.nacos.discovery.ip" defaultValue=""/>
 
-    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${APP_NAME:-[null]} %-5level %logger Line:%-3L %X{X-B3-Trace-Id:-} - %msg%n"/>
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${APP_NAME:-[null]} %-5level %logger %X{X-B3-Trace-Id:-[null]} - %msg%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
     <property name="HTTP_TRACE_PATTERN" value="${HTTP_TRACE_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS}|${APP_NAME:-[null]}|%X{X-B3-Trace-Id:-[null]}|%msg|%ip%n}"/>
 
     <property name="LOG_FILE_PATH" value="${LOG_FILE_PATH:-../logs}"/>
@@ -38,8 +38,18 @@
             <!-- pattern节点，用来设置日志的输入格式 -->
             <pattern>${FILE_LOG_PATTERN}</pattern>
             <!-- 记录日志的编码:此处设置字符集 - -->
-            <charset>UTF-8</charset>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
+    </appender>
+
+    <appender name="STDOUT_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT" />
+        <!-- 设置异步阻塞队列的大小，为了不丢失日志建议设置的大一些，单机压测时100000是没问题的，应该不用担心OOM -->
+        <queueSize>1024</queueSize>
+        <!-- 设置丢弃DEBUG、TRACE、INFO日志的阀值，不丢失 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 设置队列入队时非阻塞，当队列满时会直接丢弃日志，但是对性能提升极大 -->
+        <neverBlock>true</neverBlock>
     </appender>
 
     <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -57,8 +67,15 @@
         </rollingPolicy>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
-            <charset>UTF-8</charset>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
+    </appender>
+
+    <appender name="WARN_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="WARN" />
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <neverBlock>true</neverBlock>
     </appender>
 
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -74,8 +91,15 @@
         </rollingPolicy>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
-            <charset>UTF-8</charset>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
+    </appender>
+
+    <appender name="ERROR_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="ERROR" />
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <neverBlock>true</neverBlock>
     </appender>
 
     <appender name="TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -93,8 +117,15 @@
         </rollingPolicy>
         <encoder>
             <pattern>${HTTP_TRACE_PATTERN}</pattern>
-            <charset>UTF-8</charset>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
+    </appender>
+
+    <appender name="TRACE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="TRACE" />
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <neverBlock>true</neverBlock>
     </appender>
 
     <appender name="FEIGN_TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -112,24 +143,31 @@
         </rollingPolicy>
         <encoder>
             <pattern>${HTTP_TRACE_PATTERN}</pattern>
-            <charset>UTF-8</charset>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
     </appender>
 
+    <appender name="FEIGN_TRACE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FEIGN_TRACE" />
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <neverBlock>true</neverBlock>
+    </appender>
+
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="WARN"/>
-        <appender-ref ref="ERROR"/>
+        <appender-ref ref="STDOUT_ASYNC"/>
+        <appender-ref ref="WARN_ASYNC"/>
+        <appender-ref ref="ERROR_ASYNC"/>
     </root>
 
     <!-- additivity 叠加。 是否向上级logger传递打印信息 -->
     <!-- 当 additivity="false" 时， 子logger会覆盖root logger的输出 -->
     <!-- 也就是只会在自己的logger输出，否则会输出两次。root logger一次，自己一次。 -->
     <logger name="trace-logger" level="TRACE" additivity="false">
-        <appender-ref ref="TRACE"/>
+        <appender-ref ref="TRACE_ASYNC"/>
     </logger>
 
     <logger name="request-logger" level="TRACE" additivity="false">
-        <appender-ref ref="FEIGN_TRACE"/>
+        <appender-ref ref="FEIGN_TRACE_ASYNC"/>
     </logger>
 </included>

@@ -30,7 +30,7 @@ springBoot = "3.2.1"
 slf4j = "2.0.9"
 logstashLogbackEncoder = "7.4"
 
-byteBuddy = "1.14.10"
+byteBuddy = "1.14.11"
 bouncycastle = "1.77"
 netty = "4.1.104.Final"
 reactor = "3.6.1"
