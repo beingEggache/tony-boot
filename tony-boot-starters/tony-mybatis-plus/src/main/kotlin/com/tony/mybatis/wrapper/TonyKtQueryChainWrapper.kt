@@ -41,16 +41,16 @@ import kotlin.reflect.KProperty1
  */
 public open class TonyKtQueryChainWrapper<T : Any> internal constructor(
     private val baseMapper: BaseDao<T>,
-) : AbstractChainWrapper<T, KProperty1<T, *>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
+) : AbstractChainWrapper<T, KProperty1<in T, *>, TonyKtQueryChainWrapper<T>, TonyKtQueryWrapper<T>>(),
     TonyChainQuery<T>,
-    Query<TonyKtQueryChainWrapper<T>, T, KProperty1<T, *>> {
+    Query<TonyKtQueryChainWrapper<T>, T, KProperty1<in T, *>> {
     init {
         wrapperChildren = TonyKtQueryWrapper(baseMapper.getEntityClass())
     }
 
     override fun select(
         condition: Boolean,
-        columns: MutableList<KProperty1<T, *>>,
+        columns: MutableList<KProperty1<in T, *>>,
     ): TonyKtQueryChainWrapper<T> {
         wrapperChildren.select(condition, columns)
         return typedThis

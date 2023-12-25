@@ -87,10 +87,10 @@ class MyBatisAppTest {
     fun testDaoInsert() {
         val user =
             User().apply {
-                val s = "lg1"
+                val s = "lg3"
                 userName = s
-                realName = "李赣1"
-                mobile = "13981842691"
+                realName = "李赣3"
+                mobile = "13981842693"
                 pwd = "123456$s".md5().uppercase()
             }
 
@@ -114,7 +114,7 @@ class MyBatisAppTest {
     fun testDaoOneMap() {
         val list = userDao
             .ktQuery()
-            .select("sum(states)")
+            .select("sum(enabled)")
             .oneMap()
         println(list)
     }

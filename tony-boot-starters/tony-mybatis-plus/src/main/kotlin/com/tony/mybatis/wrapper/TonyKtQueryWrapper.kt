@@ -31,6 +31,7 @@ import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache
+import com.baomidou.mybatisplus.extension.kotlin.AbstractKtWrapper
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Predicate
 import kotlin.reflect.KProperty1
@@ -42,8 +43,8 @@ import kotlin.reflect.KProperty1
  * @since 1.0.0
  */
 public open class TonyKtQueryWrapper<T : Any> :
-    TonyAbstractKtWrapper<T, TonyKtQueryWrapper<T>>,
-    Query<TonyKtQueryWrapper<T>, T, KProperty1<T, *>> {
+    AbstractKtWrapper<T, TonyKtQueryWrapper<T>>,
+    Query<TonyKtQueryWrapper<T>, T, KProperty1<in T, *>> {
     /**
      * 查询字段
      */
@@ -79,7 +80,7 @@ public open class TonyKtQueryWrapper<T : Any> :
 
     override fun select(
         condition: Boolean,
-        columns: MutableList<KProperty1<T, *>>,
+        columns: MutableList<KProperty1<in T, *>>,
     ): TonyKtQueryWrapper<T> {
         if (condition && columns.isNotEmpty()) {
             this.sqlSelect.stringValue = columnsToString(false, columns)
