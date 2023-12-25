@@ -15,6 +15,11 @@
     org\.jboss\.threads\..*,
     org\.xnio\..*
     }"/>
+<!--    <property name="LOG_EXCEPTION_CONVERSION_WORD" value="-->
+<!--    %stack{100,full,full,rootFirst,inlineHash,omitCommonFrames,-->
+<!--    ^(?:(?!com\.tony\..*).)*$,-->
+<!--    .*SpringCGLIB.*,-->
+<!--    }"/>-->
     <include resource="logback-core.xml"/>
     <springProfile name="dev">
         <logger name="trace-logger" level="TRACE" />
