@@ -254,7 +254,7 @@ private val jsonFactory = JsonFactory()
 /**
  * 流式获取Json 根节点的数据.
  * @receiver [CharSequence]
- * @param [field] 领域
+ * @param [field] 字段
  * @return [String]?
  * @throws [IOException]
  * @author Tang Li
