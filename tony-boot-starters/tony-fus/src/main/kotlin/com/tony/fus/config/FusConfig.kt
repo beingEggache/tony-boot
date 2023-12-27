@@ -25,13 +25,11 @@
 package com.tony.fus.config
 
 import com.tony.fus.DefaultFusTaskActorProvider
-import com.tony.fus.DefaultOperatorNameProvider
 import com.tony.fus.DefaultTaskPermission
 import com.tony.fus.FusContext
 import com.tony.fus.FusEngine
 import com.tony.fus.FusEngineImpl
 import com.tony.fus.FusInterceptor
-import com.tony.fus.FusOperatorNameProvider
 import com.tony.fus.FusTaskActorProvider
 import com.tony.fus.FusTaskPermission
 import com.tony.fus.db.mapper.FusHistoryInstanceMapper
@@ -147,11 +145,6 @@ internal class FusConfig {
     @Bean
     internal fun taskActorProvider(): FusTaskActorProvider =
         DefaultFusTaskActorProvider()
-
-    @ConditionalOnMissingBean
-    @Bean
-    internal fun operatorNameProvider(): FusOperatorNameProvider =
-        DefaultOperatorNameProvider()
 
     @ConditionalOnMissingBean
     @Bean
