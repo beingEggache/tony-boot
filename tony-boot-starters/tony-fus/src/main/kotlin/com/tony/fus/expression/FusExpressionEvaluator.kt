@@ -22,9 +22,10 @@
  * SOFTWARE.
  */
 
-package com.tony.fus.model
+package com.tony.fus.expression
 
 import com.tony.fus.extension.fusThrowIfNull
+import com.tony.fus.model.FusNodeExpression
 import org.springframework.expression.ExpressionParser
 import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.expression.spel.support.StandardEvaluationContext

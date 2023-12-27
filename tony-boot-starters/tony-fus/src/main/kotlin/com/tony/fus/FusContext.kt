@@ -24,9 +24,9 @@
 
 package com.tony.fus
 
+import com.tony.fus.expression.FusExpressionEvaluator
 import com.tony.fus.handler.impl.DefaultCreateTaskHandler
 import com.tony.fus.model.FusExecution
-import com.tony.fus.model.FusExpressionEvaluator
 import com.tony.fus.model.FusNode
 import com.tony.fus.model.FusProcessModel
 import com.tony.fus.service.ProcessService
@@ -41,14 +41,14 @@ import com.tony.fus.service.TaskService
  * @since 1.0.0
  */
 public class FusContext(
-    public val processService: ProcessService,
-    public val queryService: QueryService,
-    public val runtimeService: RuntimeService,
-    public val taskService: TaskService,
-    public val expressionEvaluator: FusExpressionEvaluator,
-    public val taskPermission: FusTaskPermission,
-    public val interceptors: List<FusInterceptor>,
-    public val taskActorProvider: FusTaskActorProvider,
+        public val processService: ProcessService,
+        public val queryService: QueryService,
+        public val runtimeService: RuntimeService,
+        public val taskService: TaskService,
+        public val expressionEvaluator: FusExpressionEvaluator,
+        public val taskPermission: FusTaskPermission,
+        public val interceptors: List<FusInterceptor>,
+        public val taskActorProvider: FusTaskActorProvider,
 ) {
     /**
      * 创建任务
