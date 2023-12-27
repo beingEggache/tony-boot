@@ -55,10 +55,10 @@ import com.tony.fus.service.impl.QueryServiceImpl
 import com.tony.fus.service.impl.RuntimeServiceImpl
 import com.tony.fus.service.impl.TaskServiceImpl
 import org.mybatis.spring.annotation.MapperScan
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.lang.Nullable
 
 /**
  * FusConfig is
@@ -78,7 +78,7 @@ internal class FusConfig {
         taskCcMapper: FusTaskCcMapper,
         historyTaskMapper: FusHistoryTaskMapper,
         historyTaskActorMapper: FusHistoryTaskActorMapper,
-        @Autowired(required = false)
+        @Nullable
         taskListener: TaskListener?,
     ): TaskService =
         TaskServiceImpl(
@@ -117,7 +117,7 @@ internal class FusConfig {
         historyInstanceMapper: FusHistoryInstanceMapper,
         taskMapper: FusTaskMapper,
         taskService: TaskService,
-        @Autowired(required = false)
+        @Nullable
         instanceListener: InstanceListener?,
     ): RuntimeService =
         RuntimeServiceImpl(
