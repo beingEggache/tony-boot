@@ -49,19 +49,6 @@ internal interface FusTaskActorMapper : BaseDao<FusTaskActor> {
 
     /**
      * 通过任务ID删除参与者
-     * @param [taskId] 任务ID
-     * @return [Boolean]
-     * @author Tang Li
-     * @date 2023/09/28 19:42
-     * @since 1.0.0
-     */
-    fun deleteByTaskId(taskId: String?): Boolean =
-        ktUpdate()
-            .eq(FusTaskActor::taskId, taskId)
-            .remove()
-
-    /**
-     * 通过任务ID删除参与者
      * @param [taskIds] 任务ID
      * @return [Boolean]
      * @author Tang Li

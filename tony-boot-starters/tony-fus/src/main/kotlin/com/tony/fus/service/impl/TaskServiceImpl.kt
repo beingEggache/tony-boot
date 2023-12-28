@@ -487,7 +487,10 @@ internal open class TaskServiceImpl(
             .filterNotNull()
             .takeIf { it.isNotEmpty() }
             ?.also { historyTaskIdList ->
-                historyTaskActorMapper.deleteByTaskIds(historyTaskIdList)
+                historyTaskActorMapper
+                    .ktUpdate()
+                    .`in`(FusHistoryTaskActor::taskId, historyTaskIdList)
+                    .remove()
                 historyTaskMapper
                     .ktUpdate()
                     .eq(FusHistoryTask::instanceId, instanceId)
@@ -556,7 +559,10 @@ internal open class TaskServiceImpl(
             .takeIf { it.isNotEmpty() }
             ?.apply {
                 fusThrowIf(
-                    !taskActorMapper.deleteByTaskId(task.taskId),
+                    !taskActorMapper
+                        .ktUpdate()
+                        .eq(FusTaskActor::taskId, task.taskId)
+                        .remove(),
                     "Delete FusTaskActor table failed"
                 )
             }?.forEach { taskActor ->

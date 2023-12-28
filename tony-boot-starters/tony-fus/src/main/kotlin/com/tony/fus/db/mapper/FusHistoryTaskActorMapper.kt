@@ -33,15 +33,4 @@ import com.tony.mybatis.dao.BaseDao
  * @date 2023/09/28 19:31
  * @since 1.0.0
  */
-internal interface FusHistoryTaskActorMapper : BaseDao<FusHistoryTaskActor> {
-    /**
-     * 通过任务ID删除参与者
-     * @param [taskIds] 任务ID
-     * @return [Boolean]
-     * @author Tang Li
-     * @date 2023/09/28 19:42
-     * @since 1.0.0
-     */
-    fun deleteByTaskIds(taskIds: Collection<String>): Boolean =
-        delete(ktQuery().`in`(FusHistoryTaskActor::taskId, taskIds)) > 0
-}
+internal interface FusHistoryTaskActorMapper : BaseDao<FusHistoryTaskActor>
