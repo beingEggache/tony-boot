@@ -24,6 +24,7 @@
 
 package com.tony.fus.service.impl
 
+import com.tony.fus.FusContext
 import com.tony.fus.db.enums.InstanceState
 import com.tony.fus.db.enums.TaskState
 import com.tony.fus.db.mapper.FusHistoryInstanceMapper
@@ -36,7 +37,6 @@ import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.listener.InstanceListener
 import com.tony.fus.model.enums.EventType
 import com.tony.fus.service.RuntimeService
-import com.tony.fus.service.TaskService
 import com.tony.utils.copyToNotNull
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
@@ -52,7 +52,6 @@ internal open class RuntimeServiceImpl(
     private val instanceMapper: FusInstanceMapper,
     private val historyInstanceMapper: FusHistoryInstanceMapper,
     private val taskMapper: FusTaskMapper,
-    private val taskService: TaskService,
     private val instanceListener: InstanceListener? = null,
 ) : RuntimeService {
     @Transactional(rollbackFor = [Throwable::class])
@@ -171,7 +170,7 @@ internal open class RuntimeServiceImpl(
                     .eq(FusTask::instanceId, instanceId)
                     .list()
                     .forEach { task ->
-                        taskService.executeTask(
+                        FusContext.taskService.executeTask(
                             task.taskId,
                             userId,
                             TaskState.of(instanceState),

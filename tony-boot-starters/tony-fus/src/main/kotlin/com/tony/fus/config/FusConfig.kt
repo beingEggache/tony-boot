@@ -110,7 +110,6 @@ internal class FusConfig {
         instanceMapper: FusInstanceMapper,
         historyInstanceMapper: FusHistoryInstanceMapper,
         taskMapper: FusTaskMapper,
-        taskService: TaskService,
         @Nullable
         instanceListener: InstanceListener?,
     ): RuntimeService =
@@ -118,7 +117,6 @@ internal class FusConfig {
             instanceMapper,
             historyInstanceMapper,
             taskMapper,
-            taskService,
             instanceListener
         )
 
