@@ -24,8 +24,7 @@
 
 package com.tony.fus.model
 
-import com.tony.fus.FusEngine
-import com.tony.fus.FusTaskActorProvider
+import com.tony.fus.FusContext
 import com.tony.fus.db.enums.TaskType
 import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusProcess
@@ -40,10 +39,9 @@ import com.tony.fus.extension.fusThrowIf
  * @since 1.0.0
  */
 public class FusExecution(
-    public val engine: FusEngine,
     public val process: FusProcess,
-    public val userId: String,
     public val instance: FusInstance,
+    public val userId: String,
     args: Map<String, Any?>,
 ) {
     public var nextTaskActor: FusTaskActor? = null
@@ -57,22 +55,16 @@ public class FusExecution(
             putAll(args)
         }
 
-    public val taskActorProvider: FusTaskActorProvider
-        get() =
-            engine
-                .context
-                .taskActorProvider
-
     public fun endInstance() {
         val instanceId = instance.instanceId
-        engine
+        FusContext
             .queryService
             .listTaskByInstanceId(instanceId)
             .forEach { task ->
                 fusThrowIf(task.taskType == TaskType.MAJOR, "存在未完成的主办任务")
-                engine.taskService.complete(task.taskId, "ADMIN")
+                FusContext.taskService.complete(task.taskId, "ADMIN")
             }
-        engine.runtimeService.complete(instanceId)
+        FusContext.runtimeService.complete(instanceId)
     }
 
     public fun addTasks(taskList: Collection<FusTask>) {

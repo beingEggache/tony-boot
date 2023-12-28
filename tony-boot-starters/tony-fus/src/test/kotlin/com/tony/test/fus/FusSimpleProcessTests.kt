@@ -24,6 +24,7 @@
 
 package com.tony.test.fus
 
+import com.tony.fus.FusContext
 import org.junit.jupiter.api.Test
 import org.springframework.transaction.annotation.Transactional
 
@@ -40,7 +41,7 @@ class FusSimpleProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = engine.processService
+        val processService = FusContext.processService
         processService.getById(processId)
 
         val args =
@@ -50,69 +51,69 @@ class FusSimpleProcessTests : FusTests() {
                 "assignee" to testOperator1Id,
             )
 
-        engine.startInstanceById(
+        FusContext.startInstanceById(
             processId,
             testOperator1Id,
             args,
         ).let { instance ->
             val instanceId = instance.instanceId
             // 测试会签审批人001【审批】
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
+                    FusContext.executeTask(task.taskId, testOperator1Id)
                 }
             Thread.sleep(2000)
 
             // 测试会签审批人003【审批】
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator3Id)
+                    FusContext.executeTask(task.taskId, testOperator3Id)
                 }
 
             //撤回任务(条件路由子审批) 回到测试会签审批人003【审批】任务
-            engine
+            FusContext
                 .queryService
                 .recentHistoryTask(instanceId)
                 .also { historyTask ->
-                    engine
+                    FusContext
                         .taskService
                         .withdrawTask(historyTask.taskId, testOperator1Id)
                 }
 
             // 测试会签审批人003【审批】
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator3Id)
+                    FusContext.executeTask(task.taskId, testOperator3Id)
                 }
 
             // 年龄审批【审批】
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
+                    FusContext.executeTask(task.taskId, testOperator1Id)
                 }
 
             // 条件内部审核【审批】
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
+                    FusContext.executeTask(task.taskId, testOperator1Id)
                 }
 
             // 条件路由子审批【审批】 抄送 结束
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
+                    FusContext.executeTask(task.taskId, testOperator1Id)
                 }
         }
     }

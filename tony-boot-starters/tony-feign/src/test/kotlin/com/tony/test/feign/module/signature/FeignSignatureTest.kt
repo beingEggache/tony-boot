@@ -26,7 +26,6 @@ package com.tony.test.feign.module.signature
 
 import com.tony.test.feign.dto.Person
 import com.tony.test.feign.module.signature.client.FeignSignatureTestClient
-import com.tony.utils.getLogger
 import com.tony.utils.println
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
@@ -47,9 +46,6 @@ class FeignSignatureTest {
 
     @Resource
     lateinit var openFeignSignatureTestClient: FeignSignatureTestClient
-
-
-    private val logger = getLogger()
 
     @Test
     fun test() {

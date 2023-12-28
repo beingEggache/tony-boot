@@ -136,17 +136,14 @@ public class FusNode : FusModel {
     public val isConditionNode: Boolean
         get() = NodeType.CONDITIONAL_APPROVE == nodeType || NodeType.CONDITIONAL_BRANCH == nodeType
 
-    override fun execute(
-        context: FusContext,
-        execution: FusExecution,
-    ) {
+    override fun execute(execution: FusExecution) {
         conditionNodes
             .applyIf(conditionNodes.isNotEmpty()) {
                 val conditionNode =
                     conditionNodes
                         .sortedBy { it.priority }
                         .firstOrNull {
-                            context
+                            FusContext
                                 .expressionEvaluator
                                 .eval(
                                     it.expressionList,
@@ -160,10 +157,10 @@ public class FusNode : FusModel {
                             }
                         }.fusThrowIfNull("Not found executable ConditionNode")
 
-                (conditionNode.childNode ?: childNode)?.execute(context, execution)
+                (conditionNode.childNode ?: childNode)?.execute(execution)
             }
         if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER) {
-            context.createTask(execution, this)
+            FusContext.createTaskHandler.handle(execution, this)
         }
 
         if (childNode == null &&

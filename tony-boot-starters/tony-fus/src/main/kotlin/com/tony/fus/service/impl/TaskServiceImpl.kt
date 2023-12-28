@@ -24,6 +24,7 @@
 
 package com.tony.fus.service.impl
 
+import com.tony.fus.FusContext
 import com.tony.fus.FusTaskPermission
 import com.tony.fus.db.enums.ActorType
 import com.tony.fus.db.enums.PerformType
@@ -347,7 +348,7 @@ internal open class TaskServiceImpl(
                 this.parentTaskId = execution.task?.taskId.ifNullOrBlank()
             }
 
-        val taskActorList = execution.taskActorProvider.listTaskActors(node, execution)
+        val taskActorList = FusContext.taskActorProvider.listTaskActors(node, execution)
         if (nodeType == NodeType.INITIATOR) {
             return saveTask(
                 task,
@@ -358,10 +359,7 @@ internal open class TaskServiceImpl(
                 node
                     .nextNode()
                     ?.also { nextNode ->
-                        nextNode.execute(
-                            execution.engine.context,
-                            execution
-                        )
+                        nextNode.execute(execution)
                     }
             }
         }
@@ -376,7 +374,7 @@ internal open class TaskServiceImpl(
         }
         if (nodeType == NodeType.CC) {
             saveTaskCc(node, execution)
-            node.nextNode()?.execute(execution.engine.context, execution)
+            node.nextNode()?.execute(execution)
             return emptyList()
         }
         if (nodeType == NodeType.CONDITIONAL_APPROVE) {

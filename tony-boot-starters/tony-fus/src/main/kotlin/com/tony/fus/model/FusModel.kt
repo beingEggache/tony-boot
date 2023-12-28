@@ -24,8 +24,6 @@
 
 package com.tony.fus.model
 
-import com.tony.fus.FusContext
-
 /**
  * 模型实例接口.
  * @author tangli
@@ -35,14 +33,10 @@ import com.tony.fus.FusContext
 public fun interface FusModel {
     /**
      * 执行流程元素.
-     * @param [context] 流上下文
      * @param [execution] 流程执行
      * @author Tang Li
      * @date 2023/10/24 19:48
      * @since 1.0.0
      */
-    public fun execute(
-        context: FusContext,
-        execution: FusExecution,
-    )
+    public fun execute(execution: FusExecution)
 }

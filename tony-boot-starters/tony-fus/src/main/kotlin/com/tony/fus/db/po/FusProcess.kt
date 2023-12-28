@@ -125,10 +125,9 @@ public class FusProcess {
     public var sort: Int = 0
 
     public fun model(): FusProcessModel =
-        FusContext.parse(modelContent, processId, false)
+        FusContext.processModelParser.parse(modelContent, processId, false)
 
     public fun execute(
-        context: FusContext,
         execution: FusExecution,
         nodeName: String?,
     ) {
@@ -139,13 +138,12 @@ public class FusProcess {
                     .fusThrowIfNull("流程模型中未发现，流程节点:$nodeName")
                     .nextNode()
                     ?.also { executeNode ->
-                        executeNode.execute(context, execution)
+                        executeNode.execute(execution)
                     } ?: execution.endInstance()
             }
     }
 
     public fun executeStart(
-        context: FusContext,
         userId: String,
         executionSupplier: Supplier<FusExecution>,
     ): FusInstance =
@@ -154,11 +152,11 @@ public class FusProcess {
             .fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
             .let { node ->
                 fusThrowIf(
-                    !context.taskActorProvider.hasPermission(node, userId),
+                    !FusContext.taskActorProvider.hasPermission(node, userId),
                     "No permission to execute"
                 )
                 val execution = executionSupplier.get()
-                context.createTask(execution, node)
+                FusContext.createTaskHandler.handle(execution, node)
                 execution.instance
             }
 }

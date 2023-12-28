@@ -37,14 +37,10 @@ public fun interface FusInterceptor {
     /**
      * 拦截处理方法.
      *
-     * @param [context] 上下文
      * @param [execution] 执行对象
      * @author Tang Li
      * @date 2023/10/19 19:58
      * @since 1.0.0
      */
-    public fun handle(
-        context: FusContext,
-        execution: FusExecution,
-    )
+    public fun handle(execution: FusExecution)
 }

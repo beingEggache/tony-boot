@@ -24,9 +24,8 @@
 
 package com.tony.test.fus
 
-import com.tony.fus.FusEngine
+import com.tony.fus.FusContext
 import com.tony.utils.string
-import jakarta.annotation.Resource
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
@@ -40,9 +39,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 @SpringBootTest(classes = [TestFusApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
 abstract class FusTests {
 
-    @Resource
-    protected lateinit var engine: FusEngine
-
     lateinit var processId: String
 
     abstract val processJson: String
@@ -55,7 +51,7 @@ abstract class FusTests {
     @BeforeEach
     fun before() {
         val processModelJson = getProcessModelJson()
-        processId = engine.processService.deploy(processModelJson, "ADMIN", false)
+        processId = FusContext.processService.deploy(processModelJson, "ADMIN", false)
     }
 
     private fun getProcessModelJson() = PathMatchingResourcePatternResolver()

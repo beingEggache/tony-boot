@@ -24,6 +24,7 @@
 
 package com.tony.test.fus
 
+import com.tony.fus.FusContext
 import org.junit.jupiter.api.Test
 import org.springframework.transaction.annotation.Transactional
 
@@ -56,29 +57,29 @@ class FusProcessTests : FusTests() {
     }
 
     fun test(reject: Boolean, day: Int) {
-        val processService = engine.processService
+        val processService = FusContext.processService
         processService.getById(processId)
 
         val args = mutableMapOf<String, Any?>(
             "day" to day,
             "assignee" to testOperator1Id
         )
-        engine.startInstanceById(
+        FusContext.startInstanceById(
             processId,
             testOperator1Id
         ).let { instance ->
             val instanceId = instance.instanceId
             val taskList2 =
-                engine
+                FusContext
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id, args)
+                    FusContext.executeTask(task.taskId, testOperator1Id, args)
                 }
 
             if (reject) {
-                engine.runtimeService.reject(instanceId, testOperator1Id)
+                FusContext.runtimeService.reject(instanceId, testOperator1Id)
                 return
             }
 

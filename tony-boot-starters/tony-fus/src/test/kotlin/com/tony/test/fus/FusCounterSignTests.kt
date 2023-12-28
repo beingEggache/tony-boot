@@ -24,6 +24,7 @@
 
 package com.tony.test.fus
 
+import com.tony.fus.FusContext
 import org.junit.jupiter.api.Test
 import org.springframework.transaction.annotation.Transactional
 
@@ -40,7 +41,7 @@ class FusCounterSignTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = engine.processService
+        val processService = FusContext.processService
         processService.getById(processId)
 
         val args = mapOf(
@@ -48,58 +49,58 @@ class FusCounterSignTests : FusTests() {
             "assignee" to testOperator1Id
         )
 
-        engine.startInstanceById(
+        FusContext.startInstanceById(
             processId,
             testOperator1Id,
             args
         ).let { instance ->
             // 测试会签审批人001【审批】
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instance.instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(
+                    FusContext.executeTask(
                         task.taskId,
                         testOperator1Id
                     )
                 }
 
             // 执行任务跳转任意节点
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instance.instanceId, testOperator3Id)
                 .also { task ->
-                    engine.executeJumpTask(task.taskId, "发起人", testOperator3Id)
+                    FusContext.executeJumpTask(task.taskId, "发起人", testOperator3Id)
                 }
 
             // 执行发起
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instance.instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(
+                    FusContext.executeTask(
                         task.taskId,
                         testOperator1Id
                     )
                 }
 
             // 测试会签审批人001【审批】
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instance.instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(
+                    FusContext.executeTask(
                         task.taskId,
                         testOperator1Id
                     )
                 }
 
             // 测试会签审批人003【审批】
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instance.instanceId, testOperator3Id)
                 .also { task ->
-                    engine.executeTask(
+                    FusContext.executeTask(
                         task.taskId,
                         testOperator3Id
                     )

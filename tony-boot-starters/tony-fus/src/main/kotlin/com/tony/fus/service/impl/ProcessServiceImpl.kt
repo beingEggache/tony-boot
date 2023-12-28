@@ -54,6 +54,7 @@ internal class ProcessServiceImpl(
         val compressedModelContent = modelContent.jsonNode().toString()
         val processModel =
             FusContext
+                .processModelParser
                 .parse(compressedModelContent, null, false)
 
         val process =
@@ -86,7 +87,7 @@ internal class ProcessServiceImpl(
         modelContent: String,
     ): Boolean {
         val process = processMapper.fusSelectByIdNotNull(processId)
-        val processModel = FusContext.parse(modelContent, processId, true)
+        val processModel = FusContext.processModelParser.parse(modelContent, processId, true)
         process.processName = processModel.name
         process.processKey = processModel.key
         process.modelContent = modelContent

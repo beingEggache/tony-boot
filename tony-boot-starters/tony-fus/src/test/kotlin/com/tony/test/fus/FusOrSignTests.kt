@@ -24,6 +24,7 @@
 
 package com.tony.test.fus
 
+import com.tony.fus.FusContext
 import org.junit.jupiter.api.Test
 import org.springframework.transaction.annotation.Transactional
 
@@ -40,21 +41,21 @@ class FusOrSignTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = engine.processService
+        val processService = FusContext.processService
         processService.getById(processId)
 
-        engine.startInstanceById(
+        FusContext.startInstanceById(
             processId,
             testOperator1Id,
         ).let { instance ->
             //驳回
             val taskList2 =
-                engine
+                FusContext
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
             taskList2
                 .forEach { task ->
-                    engine.taskService.rejectTask(
+                    FusContext.taskService.rejectTask(
                         task,
                         testOperator3Id,
                         mapOf("reason" to "不符合要求")
@@ -63,21 +64,21 @@ class FusOrSignTests : FusTests() {
 
             // 调整, 再发起
             val taskList3 =
-                engine
+                FusContext
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
             taskList3
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
+                    FusContext.executeTask(task.taskId, testOperator1Id)
                 }
 
             val taskList4 =
-                engine
+                FusContext
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
             taskList4
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator3Id)
+                    FusContext.executeTask(task.taskId, testOperator3Id)
                 }
         }
     }

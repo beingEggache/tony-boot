@@ -26,10 +26,6 @@ package com.tony.fus.config
 
 import com.tony.fus.DefaultFusTaskActorProvider
 import com.tony.fus.DefaultTaskPermission
-import com.tony.fus.FusContext
-import com.tony.fus.FusEngine
-import com.tony.fus.FusEngineImpl
-import com.tony.fus.FusInterceptor
 import com.tony.fus.FusTaskActorProvider
 import com.tony.fus.FusTaskPermission
 import com.tony.fus.db.mapper.FusHistoryInstanceMapper
@@ -67,7 +63,7 @@ import org.springframework.lang.Nullable
 @MapperScan("com.tony.fus.db.mapper")
 @Configuration
 internal class FusConfig {
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(TaskService::class)
     @Bean
     internal fun taskService(
         taskPermission: FusTaskPermission,
@@ -89,7 +85,7 @@ internal class FusConfig {
             taskListener
         )
 
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(QueryService::class)
     @Bean
     internal fun queryService(
         instanceMapper: FusInstanceMapper,
@@ -108,7 +104,7 @@ internal class FusConfig {
             historyTaskActorMapper
         )
 
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(RuntimeService::class)
     @Bean
     internal fun runtimeService(
         instanceMapper: FusInstanceMapper,
@@ -126,51 +122,23 @@ internal class FusConfig {
             instanceListener
         )
 
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(ProcessService::class)
     @Bean
     internal fun processService(processMapper: FusProcessMapper): ProcessService =
         ProcessServiceImpl(processMapper)
 
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(FusTaskPermission::class)
     @Bean
     internal fun taskPermission(): FusTaskPermission =
         DefaultTaskPermission()
 
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(FusExpressionEvaluator::class)
     @Bean
     internal fun expressionEvaluator(): FusExpressionEvaluator =
         SpelExpressionEvaluator()
 
-    @ConditionalOnMissingBean
-    @Bean
+    @ConditionalOnMissingBean(FusTaskActorProvider::class)
+    @Bean(autowireCandidate = false)
     internal fun taskActorProvider(): FusTaskActorProvider =
         DefaultFusTaskActorProvider()
-
-    @ConditionalOnMissingBean
-    @Bean
-    internal fun fusContext(
-        processService: ProcessService,
-        queryService: QueryService,
-        runtimeService: RuntimeService,
-        taskService: TaskService,
-        expressionEvaluator: FusExpressionEvaluator,
-        taskPermission: FusTaskPermission,
-        interceptors: List<FusInterceptor>,
-        taskActorProvider: FusTaskActorProvider,
-    ): FusContext =
-        FusContext(
-            processService,
-            queryService,
-            runtimeService,
-            taskService,
-            expressionEvaluator,
-            taskPermission,
-            interceptors,
-            taskActorProvider
-        )
-
-    @ConditionalOnMissingBean
-    @Bean
-    internal fun fusEngine(context: FusContext): FusEngine =
-        FusEngineImpl(context)
 }

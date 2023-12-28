@@ -24,7 +24,6 @@
 
 package com.tony.fus.handler
 
-import com.tony.fus.FusContext
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
 
@@ -36,7 +35,6 @@ import com.tony.fus.model.FusNode
  */
 public fun interface CreateTaskHandler {
     public fun handle(
-        context: FusContext,
         execution: FusExecution,
         node: FusNode?,
     )

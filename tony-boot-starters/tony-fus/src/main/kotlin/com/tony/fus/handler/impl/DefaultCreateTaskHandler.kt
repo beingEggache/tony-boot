@@ -37,34 +37,31 @@ import com.tony.utils.getLogger
  * @date 2023/10/25 19:02
  * @since 1.0.0
  */
-public object DefaultCreateTaskHandler : CreateTaskHandler {
+internal object DefaultCreateTaskHandler : CreateTaskHandler {
     private val logger = getLogger()
 
     /**
      * 根据任务模型、执行对象，创建下一个任务，并添加到execution对象的tasks集合中.
      *
-     * @param [context] 流上下文
      * @param [execution] 流程执行
      * @author Tang Li
      * @date 2023/10/25 19:03
      * @since 1.0.0
      */
     override fun handle(
-        context: FusContext,
         execution: FusExecution,
         node: FusNode?,
     ) {
         val taskList =
-            execution
-                .engine
+            FusContext
                 .taskService
                 .createTask(node, execution)
         execution.addTasks(taskList)
 
         try {
-            context
+            FusContext
                 .interceptors
-                .forEach { it.handle(context, execution) }
+                .forEach { it.handle(execution) }
         } catch (e: Exception) {
             logger.error("interceptor error", e)
             throw FusException(e.message, cause = e)

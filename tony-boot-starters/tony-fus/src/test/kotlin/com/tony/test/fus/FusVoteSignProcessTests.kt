@@ -24,6 +24,7 @@
 
 package com.tony.test.fus
 
+import com.tony.fus.FusContext
 import org.junit.jupiter.api.Test
 import org.springframework.transaction.annotation.Transactional
 
@@ -40,29 +41,29 @@ class FusVoteSignProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = engine.processService
+        val processService = FusContext.processService
         processService.getById(processId)
 
-        engine.startInstanceById(
+        FusContext.startInstanceById(
             processId,
             testOperator1Id,
         ).let { instance ->
             val instanceId = instance.instanceId
 
             //test1 领导审批同意
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
+                    FusContext.executeTask(task.taskId, testOperator1Id)
                 }
 
             //test3 领导审批同意
-            engine
+            FusContext
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    engine.executeTask(task.taskId, testOperator3Id)
+                    FusContext.executeTask(task.taskId, testOperator3Id)
                 }
         }
     }

@@ -54,6 +54,20 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
         lazy(LazyThreadSafetyMode.PUBLICATION) { getBean() }
 
     /**
+     * 惰性获取 根据 bean类型获取 bean List
+     * @param [T] bean类型
+     * @return [Lazy]
+     * @author Tang Li
+     * @date 2023/09/13 19:32
+     * @since 1.0.0
+     * @see [ApplicationContext.getBean]
+     */
+    @JvmSynthetic
+    @JvmStatic
+    public inline fun <reified T : Any> getBeanListByLazy(): Lazy<List<T>> =
+        lazy(LazyThreadSafetyMode.PUBLICATION) { getBeansOfType(T::class.java).values.toList() }
+
+    /**
      * 惰性 根据 bean 名称获取 bean
      * @param [T] bean类型
      * @param [name] bean名称

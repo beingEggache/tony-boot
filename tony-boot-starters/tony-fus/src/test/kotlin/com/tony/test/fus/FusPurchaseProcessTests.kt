@@ -24,6 +24,7 @@
 
 package com.tony.test.fus
 
+import com.tony.fus.FusContext
 import org.junit.jupiter.api.Test
 import org.springframework.transaction.annotation.Transactional
 
@@ -40,10 +41,10 @@ class FusPurchaseProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = engine.processService
+        val processService = FusContext.processService
         processService.getById(processId)
 
-        engine.startInstanceById(
+        FusContext.startInstanceById(
             processId,
             testOperator1Id,
         ).let { instance ->
@@ -51,32 +52,32 @@ class FusPurchaseProcessTests : FusTests() {
 
             //领导审批
             val taskList2 =
-                engine
+                FusContext
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
+                    FusContext.executeTask(task.taskId, testOperator1Id)
                 }
 
             //领导撤回
-            engine
+            FusContext
                 .queryService
                 .recentHistoryTask(instanceId)
                 .also { historyTask ->
-                    engine
+                    FusContext
                         .taskService
                         .withdrawTask(historyTask.taskId, testOperator1Id)
                 }
 
             //领导驳回
             val taskList3 =
-                engine
+                FusContext
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList3
                 .forEach { task ->
-                    engine
+                    FusContext
                         .taskService
                         .rejectTask(
                             task,
@@ -89,12 +90,12 @@ class FusPurchaseProcessTests : FusTests() {
 
             // 执行当前任务并跳到【经理确认】节点
             val taskList4 =
-                engine
+                FusContext
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList4
                 .forEach { task ->
-                    engine
+                    FusContext
                         .executeJumpTask(
                             task.taskId,
                             "经理确认",
@@ -104,12 +105,12 @@ class FusPurchaseProcessTests : FusTests() {
 
             // 经理确认，流程结束
             val taskList5 =
-                engine
+                FusContext
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList5
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
+                    FusContext.executeTask(task.taskId, testOperator1Id)
                 }
 
         }

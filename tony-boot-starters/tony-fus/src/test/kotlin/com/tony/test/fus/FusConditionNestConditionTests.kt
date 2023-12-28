@@ -24,6 +24,7 @@
 
 package com.tony.test.fus
 
+import com.tony.fus.FusContext
 import org.junit.jupiter.api.Test
 import org.springframework.transaction.annotation.Transactional
 
@@ -40,13 +41,13 @@ class FusConditionNestConditionTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = engine.processService
+        val processService = FusContext.processService
         processService.getById(processId)
 
         val args: MutableMap<String, Any?> = mutableMapOf(
             "day" to 11
         )
-        engine.startInstanceById(
+        FusContext.startInstanceById(
             processId,
             testOperator1Id,
             args,
@@ -55,22 +56,22 @@ class FusConditionNestConditionTests : FusTests() {
 
             // 人事审批
             val taskList2 =
-                engine
+                FusContext
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator1Id)
+                    FusContext.executeTask(task.taskId, testOperator1Id)
                 }
 
             // 领导审批，自动抄送，流程结束
             val taskList3 =
-                engine
+                FusContext
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList3
                 .forEach { task ->
-                    engine.executeTask(task.taskId, testOperator3Id)
+                    FusContext.executeTask(task.taskId, testOperator3Id)
                 }
 
         }
