@@ -59,7 +59,6 @@ import com.tony.utils.toJsonString
 import java.time.LocalDateTime
 import java.util.function.Consumer
 import java.util.function.Function
-import org.springframework.transaction.annotation.Transactional
 
 /**
  * TaskServiceImpl is
@@ -76,7 +75,7 @@ internal open class TaskServiceImpl(
     private val historyTaskActorMapper: FusHistoryTaskActorMapper,
     private val taskListener: TaskListener? = null,
 ) : TaskService {
-    @Transactional(rollbackFor = [Throwable::class])
+
     override fun executeTask(
         taskId: String,
         userId: String,
@@ -90,7 +89,6 @@ internal open class TaskServiceImpl(
         return task
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun executeJumpTask(
         taskId: String,
         nodeName: String,
@@ -142,7 +140,6 @@ internal open class TaskServiceImpl(
         taskListener?.notify(EventType.JUMP) { task }
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun completeActiveTasksByInstanceId(
         instanceId: String,
         userId: String,
@@ -193,7 +190,6 @@ internal open class TaskServiceImpl(
                 hasPermission(it, actorId)
             }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun assignTask(
         taskId: String,
         taskType: TaskType,
@@ -237,7 +233,6 @@ internal open class TaskServiceImpl(
         taskActorMapper.insert(taskActor)
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun reclaimTask(
         taskId: String,
         userId: String,
@@ -257,7 +252,6 @@ internal open class TaskServiceImpl(
                 }
         }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun withdrawTask(
         taskId: String,
         userId: String,
@@ -300,7 +294,6 @@ internal open class TaskServiceImpl(
             taskMapper.deleteBatchIds(taskIdList)
         }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun rejectTask(
         task: FusTask,
         userId: String,
@@ -332,7 +325,6 @@ internal open class TaskServiceImpl(
         return taskPermission.hasPermission(userId, taskActorList)
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun createTask(
         node: FusNode?,
         execution: FusExecution,
@@ -394,7 +386,6 @@ internal open class TaskServiceImpl(
         return emptyList()
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     open fun saveTaskCc(
         node: FusNode?,
         execution: FusExecution,
@@ -437,7 +428,6 @@ internal open class TaskServiceImpl(
                 .list()
         }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun addTaskActor(
         taskId: String,
         performType: PerformType,
@@ -460,7 +450,6 @@ internal open class TaskServiceImpl(
         return taskMapper.updateById(task.apply { this.performType = performType }) > 0
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun removeTaskActor(
         taskId: String,
         taskActorIdList: Collection<String>,
@@ -477,7 +466,6 @@ internal open class TaskServiceImpl(
             .remove()
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun cascadeRemoveByInstanceId(instanceId: String) {
         historyTaskMapper
             .ktQuery()

@@ -40,7 +40,6 @@ import com.tony.fus.service.RuntimeService
 import com.tony.utils.copyToNotNull
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
-import org.springframework.transaction.annotation.Transactional
 
 /**
  * RuntimeServiceImpl is
@@ -54,7 +53,6 @@ internal open class RuntimeServiceImpl(
     private val taskMapper: FusTaskMapper,
     private val instanceListener: InstanceListener? = null,
 ) : RuntimeService {
-    @Transactional(rollbackFor = [Throwable::class])
     override fun createInstance(
         processId: String,
         userId: String,
@@ -68,7 +66,6 @@ internal open class RuntimeServiceImpl(
             }
         )
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun complete(instanceId: String) {
         val historyInstance =
             historyInstanceMapper
@@ -85,7 +82,6 @@ internal open class RuntimeServiceImpl(
         }
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun saveInstance(instance: FusInstance): FusInstance {
         instanceMapper.insert(instance)
         val historyInstance =
@@ -97,7 +93,6 @@ internal open class RuntimeServiceImpl(
         return instance
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun reject(
         instanceId: String,
         userId: String,
@@ -110,7 +105,6 @@ internal open class RuntimeServiceImpl(
         )
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun terminate(
         instanceId: String,
         userId: String,
@@ -123,7 +117,6 @@ internal open class RuntimeServiceImpl(
         )
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun revoke(
         instanceId: String,
         userId: String,
@@ -136,7 +129,6 @@ internal open class RuntimeServiceImpl(
         )
     }
 
-    @Transactional(rollbackFor = [Throwable::class])
     override fun expire(instanceId: String) {
         forceComplete(
             instanceId,
