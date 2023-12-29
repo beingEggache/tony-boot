@@ -24,7 +24,12 @@
 
 package com.tony.fus.service
 
+import com.tony.fus.FusContext
+import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.po.FusProcess
+import com.tony.fus.extension.fusSelectByIdNotNull
+import com.tony.fus.extension.fusThrowIf
+import com.tony.utils.jsonNode
 
 /**
  * 流程定义 Service
@@ -32,7 +37,7 @@ import com.tony.fus.db.po.FusProcess
  * @date 2023/10/09 19:20
  * @since 1.0.0
  */
-public interface ProcessService {
+public sealed interface ProcessService {
     /**
      * 根据主键ID获取流程定义对象
      * @param [processId] 流程id
@@ -84,4 +89,71 @@ public interface ProcessService {
      * @since 1.0.0
      */
     public fun cascadeRemove(processId: String)
+}
+
+/**
+ * ProcessServiceImpl is
+ * @author tangli
+ * @date 2023/10/26 19:43
+ * @since 1.0.0
+ */
+internal class ProcessServiceImpl(
+    private val processMapper: FusProcessMapper,
+) : ProcessService {
+    override fun getById(processId: String): FusProcess =
+        processMapper.fusSelectByIdNotNull(processId, "流程[id=$processId]不存在")
+
+    override fun deploy(
+        modelContent: String,
+        userId: String,
+        repeat: Boolean,
+    ): String {
+        fusThrowIf(modelContent.isEmpty(), "modelContent can not be empty")
+
+        val compressedModelContent = modelContent.jsonNode().toString()
+        val processModel =
+            FusContext
+                .processModelParser
+                .parse(compressedModelContent, null, false)
+
+        val process =
+            processMapper
+                .ktQuery()
+                .select(FusProcess::processId, FusProcess::processVersion)
+                .eq(FusProcess::processKey, processModel.key)
+                .orderByDesc(FusProcess::processVersion)
+                .last("limit 1")
+                .one()
+
+        if (process != null && !repeat) {
+            return process.processId
+        }
+
+        val newProcess =
+            FusProcess().apply {
+                this.processVersion = (process?.processVersion ?: 0) + 1
+                this.processName = processModel.name
+                this.processKey = processModel.key
+                this.modelContent = compressedModelContent
+                this.creatorId = userId
+            }
+        processMapper.insert(newProcess)
+        return newProcess.processId
+    }
+
+    override fun redeploy(
+        processId: String,
+        modelContent: String,
+    ): Boolean {
+        val process = processMapper.fusSelectByIdNotNull(processId)
+        val processModel = FusContext.processModelParser.parse(modelContent, processId, true)
+        process.processName = processModel.name
+        process.processKey = processModel.key
+        process.modelContent = modelContent
+        return processMapper.updateById(process) > 0
+    }
+
+    override fun cascadeRemove(processId: String) {
+        TODO("Not yet implemented")
+    }
 }

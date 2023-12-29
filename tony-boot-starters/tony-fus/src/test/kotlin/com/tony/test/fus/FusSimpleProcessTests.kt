@@ -26,6 +26,7 @@ package com.tony.test.fus
 
 import com.tony.fus.FusContext
 import org.junit.jupiter.api.Test
+import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
 
 /**
@@ -38,6 +39,7 @@ class FusSimpleProcessTests : FusTests() {
 
     override val processJson = "json/simpleProcess.json"
 
+    @Rollback
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {

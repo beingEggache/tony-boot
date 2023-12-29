@@ -34,6 +34,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
+import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
 
 /**
@@ -65,6 +66,7 @@ class FusSupervisorProcessTests {
 
     private val processJson = "json/supervisor.json"
 
+    @Rollback
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {

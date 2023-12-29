@@ -41,13 +41,13 @@ import com.tony.fus.expression.SpelExpressionEvaluator
 import com.tony.fus.listener.InstanceListener
 import com.tony.fus.listener.TaskListener
 import com.tony.fus.service.ProcessService
+import com.tony.fus.service.ProcessServiceImpl
 import com.tony.fus.service.QueryService
+import com.tony.fus.service.QueryServiceImpl
 import com.tony.fus.service.RuntimeService
+import com.tony.fus.service.RuntimeServiceImpl
 import com.tony.fus.service.TaskService
-import com.tony.fus.service.impl.ProcessServiceImpl
-import com.tony.fus.service.impl.QueryServiceImpl
-import com.tony.fus.service.impl.RuntimeServiceImpl
-import com.tony.fus.service.impl.TaskServiceImpl
+import com.tony.fus.service.TaskServiceImpl
 import org.mybatis.spring.annotation.MapperScan
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
