@@ -32,6 +32,7 @@ import com.tony.fus.db.enums.TaskState
 import com.tony.fus.db.enums.TaskType
 import com.tony.fus.db.mapper.FusHistoryTaskActorMapper
 import com.tony.fus.db.mapper.FusHistoryTaskMapper
+import com.tony.fus.db.mapper.FusInstanceMapper
 import com.tony.fus.db.mapper.FusTaskActorMapper
 import com.tony.fus.db.mapper.FusTaskCcMapper
 import com.tony.fus.db.mapper.FusTaskMapper
@@ -54,6 +55,7 @@ import com.tony.fus.model.enums.NodeType
 import com.tony.utils.copyToNotNull
 import com.tony.utils.ifNullOrBlank
 import com.tony.utils.runIf
+import com.tony.utils.throwIf
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
 import java.util.function.Consumer
@@ -183,7 +185,7 @@ public sealed interface TaskService {
      *
      * 删除其它任务参与者
      * @param [taskId] 任务id
-     * @param [actorId] 参与者id
+     * @param [taskActor] 任务参与者
      * @return [FusTask]
      * @author Tang Li
      * @date 2023/10/10 19:12
@@ -191,7 +193,7 @@ public sealed interface TaskService {
      */
     public fun claimTask(
         taskId: String,
-        actorId: String,
+        taskActor: FusTaskActor,
     ): FusTask
 
     /**
@@ -243,8 +245,8 @@ public sealed interface TaskService {
      */
     public fun delegateTask(
         taskId: String,
-        taskActor: FusHistoryTaskActor,
-        assignee: FusHistoryTaskActor,
+        taskActor: FusTaskActor,
+        assignee: FusTaskActor,
     ): Boolean =
         assignTask(taskId, TaskType.DELEGATE, taskActor, assignee)
 
@@ -261,6 +263,21 @@ public sealed interface TaskService {
     public fun reclaimTask(
         taskId: String,
         userId: String,
+    ): FusTask
+
+
+    /**
+     * 唤醒历史任务
+     * @param [taskId] 任务id
+     * @param [taskActor] 任务参与者
+     * @return [FusTask]
+     * @author Tang Li
+     * @date 2024/01/02 10:20
+     * @since 1.0.0
+     */
+    public fun resumeTask(
+        taskId: String,
+        taskActor: FusTaskActor,
     ): FusTask
 
     /**
@@ -355,7 +372,7 @@ public sealed interface TaskService {
      * 添加任务参与者【加签】
      * @param [taskId] 任务id
      * @param [performType] 执行类型
-     * @param [historyTaskActorList] 流历史任务参与者
+     * @param [taskActorList] 流历史任务参与者
      * @return [Boolean]
      * @author Tang Li
      * @date 2023/10/25 19:25
@@ -364,7 +381,7 @@ public sealed interface TaskService {
     public fun addTaskActor(
         taskId: String,
         performType: PerformType,
-        historyTaskActorList: List<FusHistoryTaskActor>,
+        taskActorList: List<FusTaskActor>,
     ): Boolean
 
     /**
@@ -380,7 +397,7 @@ public sealed interface TaskService {
     public fun addTaskActor(
         taskId: String,
         performType: PerformType,
-        taskActor: FusHistoryTaskActor,
+        taskActor: FusTaskActor,
     ): Boolean =
         addTaskActor(taskId, performType, listOf(taskActor))
 
@@ -436,6 +453,7 @@ internal open class TaskServiceImpl(
     private val taskCcMapper: FusTaskCcMapper,
     private val historyTaskMapper: FusHistoryTaskMapper,
     private val historyTaskActorMapper: FusHistoryTaskActorMapper,
+    private val instanceMapper: FusInstanceMapper,
     private val taskListener: TaskListener? = null,
 ) : TaskService {
     override fun executeTask(
@@ -544,12 +562,14 @@ internal open class TaskServiceImpl(
 
     override fun claimTask(
         taskId: String,
-        actorId: String,
+        taskActor: FusTaskActor,
     ): FusTask =
         taskMapper
             .fusSelectByIdNotNull("任务不存在(id=$taskId)")
             .also {
-                hasPermission(it, actorId)
+                hasPermission(it, taskActor.actorId)
+                taskActorMapper.deleteByTaskIds(listOf(taskId))
+                taskActorMapper.insert(taskActor)
             }
 
     override fun assignTask(
@@ -613,6 +633,30 @@ internal open class TaskServiceImpl(
                     taskActorMapper.deleteByTaskIds(taskIdList)
                 }
         }
+
+    override fun resumeTask(
+        taskId: String,
+        taskActor: FusTaskActor,
+    ): FusTask =
+        historyTaskMapper
+            .fusSelectByIdNotNull(
+                taskId
+            ).let { historyTask ->
+                throwIf(
+                    historyTask.creatorId != taskActor.actorId,
+                    "当前参与者[${taskActor.actorId}]不允许唤醒历史任务[$taskId]"
+                )
+                val instanceId = historyTask.instanceId
+                instanceMapper
+                    .fusSelectByIdNotNull(
+                        instanceId,
+                        "已结束流程任务不支持唤醒"
+                    )
+                val task = historyTask.copyToNotNull(FusTask())
+                taskMapper.insert(task)
+                assignTask(instanceId, taskId, taskActor)
+                task
+            }
 
     override fun withdrawTask(
         taskId: String,
@@ -793,7 +837,7 @@ internal open class TaskServiceImpl(
     override fun addTaskActor(
         taskId: String,
         performType: PerformType,
-        historyTaskActorList: List<FusHistoryTaskActor>,
+        taskActorList: List<FusTaskActor>,
     ): Boolean {
         val task = taskMapper.fusSelectByIdNotNull(taskId)
         val actorIdSet =
@@ -803,7 +847,7 @@ internal open class TaskServiceImpl(
                 .map { it.actorId }
                 .toSet()
 
-        historyTaskActorList
+        taskActorList
             .filter {
                 !actorIdSet.contains(it.actorId)
             }.forEach {
@@ -920,7 +964,7 @@ internal open class TaskServiceImpl(
                     (
                         historyTaskActorMapper
                             .insert(taskActor.copyToNotNull(FusHistoryTaskActor())) <= 0
-                    ),
+                        ),
                     "Migration to FusHistoryTaskActor table failed"
                 )
             }

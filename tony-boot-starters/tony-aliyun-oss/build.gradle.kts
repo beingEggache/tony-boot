@@ -1,5 +1,5 @@
 dependencies {
     api(projects.tonyCore)
     implementation(tonyLibs.springBoot)
-    api("com.aliyun.oss:aliyun-sdk-oss:3.17.3")
+    api("com.aliyun.oss:aliyun-sdk-oss:3.17.4")
 }
