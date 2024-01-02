@@ -265,7 +265,6 @@ public sealed interface TaskService {
         userId: String,
     ): FusTask
 
-
     /**
      * 唤醒历史任务
      * @param [taskId] 任务id
@@ -964,7 +963,7 @@ internal open class TaskServiceImpl(
                     (
                         historyTaskActorMapper
                             .insert(taskActor.copyToNotNull(FusHistoryTaskActor())) <= 0
-                        ),
+                    ),
                     "Migration to FusHistoryTaskActor table failed"
                 )
             }

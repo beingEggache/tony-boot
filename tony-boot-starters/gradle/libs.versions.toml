@@ -157,6 +157,7 @@ commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.0"
 commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.14.0" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 findbugsJsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }
+findbugsAnnotations = { module = "com.google.code.findbugs:annotations", version = "3.0.1" }
 javaJwt = { module = "com.auth0:java-jwt", version.ref = "javaJwt" }
 
 xxlJob = { module = "com.xuxueli:xxl-job-core", version.ref = "xxlJob" }

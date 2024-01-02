@@ -72,6 +72,7 @@ internal class FusConfig {
         taskCcMapper: FusTaskCcMapper,
         historyTaskMapper: FusHistoryTaskMapper,
         historyTaskActorMapper: FusHistoryTaskActorMapper,
+        instanceMapper: FusInstanceMapper,
         @Nullable
         taskListener: TaskListener?,
     ): TaskService =
@@ -82,6 +83,7 @@ internal class FusConfig {
             taskCcMapper,
             historyTaskMapper,
             historyTaskActorMapper,
+            instanceMapper,
             taskListener
         )
 

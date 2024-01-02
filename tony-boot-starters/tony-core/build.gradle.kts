@@ -13,4 +13,5 @@ dependencies {
 
     implementation(tonyLibs.bcprovJdk18On)
     compileOnly(tonyLibs.findbugsJsr305)
+    compileOnly(tonyLibs.findbugsAnnotations)
 }
