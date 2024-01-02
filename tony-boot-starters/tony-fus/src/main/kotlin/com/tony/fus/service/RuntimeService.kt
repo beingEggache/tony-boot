@@ -183,6 +183,7 @@ internal open class RuntimeServiceImpl(
             FusInstance().apply {
                 this.creatorId = userId
                 this.processId = processId
+                this.businessKey = businessKey
                 this.variable = variable?.toJsonString() ?: "{}"
             }
         )
