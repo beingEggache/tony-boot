@@ -97,11 +97,13 @@ public object FusContext {
     public fun startInstanceById(
         processId: String,
         userId: String,
+        businessKey: String = "",
         args: Map<String, Any?> = mapOf(),
     ): FusInstance =
         startProcess(
             processService.getById(processId),
             userId,
+            businessKey,
             args
         )
 
@@ -161,6 +163,7 @@ public object FusContext {
     private fun startProcess(
         process: FusProcess,
         userId: String,
+        businessKey: String,
         args: Map<String, Any?>,
     ): FusInstance =
         process.executeStart(
@@ -171,6 +174,7 @@ public object FusContext {
                 runtimeService.createInstance(
                     process.processId,
                     userId,
+                    businessKey,
                     args
                 ),
                 userId,

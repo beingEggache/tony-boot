@@ -50,9 +50,9 @@ class FusConditionNestConditionTests : FusTests() {
             "day" to 11
         )
         FusContext.startInstanceById(
-            processId,
-            testOperator1Id,
-            args,
+                processId,
+                testOperator1Id,
+                args = args,
         ).let { instance ->
             val instanceId = instance.instanceId
 

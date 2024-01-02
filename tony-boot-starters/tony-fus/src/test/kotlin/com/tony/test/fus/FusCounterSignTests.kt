@@ -52,9 +52,9 @@ class FusCounterSignTests : FusTests() {
         )
 
         FusContext.startInstanceById(
-            processId,
-            testOperator1Id,
-            args
+                processId,
+                testOperator1Id,
+                args = args
         ).let { instance ->
             // 测试会签审批人001【审批】
             FusContext

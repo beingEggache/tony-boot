@@ -69,8 +69,8 @@ class FusProcessTests : FusTests() {
             "assignee" to testOperator1Id
         )
         FusContext.startInstanceById(
-            processId,
-            testOperator1Id
+                processId,
+                testOperator1Id
         ).let { instance ->
             val instanceId = instance.instanceId
             val taskList2 =

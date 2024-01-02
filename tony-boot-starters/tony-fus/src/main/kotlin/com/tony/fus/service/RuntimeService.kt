@@ -61,6 +61,7 @@ public sealed interface RuntimeService {
     public fun createInstance(
         processId: String,
         userId: String,
+        businessKey: String,
         variable: Map<String, Any?>?,
     ): FusInstance
 
@@ -175,6 +176,7 @@ internal open class RuntimeServiceImpl(
     override fun createInstance(
         processId: String,
         userId: String,
+        businessKey: String,
         variable: Map<String, Any?>?,
     ): FusInstance =
         saveInstance(

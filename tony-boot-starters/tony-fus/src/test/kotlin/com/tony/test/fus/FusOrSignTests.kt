@@ -47,8 +47,8 @@ class FusOrSignTests : FusTests() {
         processService.getById(processId)
 
         FusContext.startInstanceById(
-            processId,
-            testOperator1Id,
+                processId,
+                testOperator1Id,
         ).let { instance ->
             //驳回
             val taskList2 =

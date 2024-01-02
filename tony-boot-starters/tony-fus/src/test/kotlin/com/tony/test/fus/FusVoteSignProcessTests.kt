@@ -47,8 +47,8 @@ class FusVoteSignProcessTests : FusTests() {
         processService.getById(processId)
 
         FusContext.startInstanceById(
-            processId,
-            testOperator1Id,
+                processId,
+                testOperator1Id,
         ).let { instance ->
             val instanceId = instance.instanceId
 

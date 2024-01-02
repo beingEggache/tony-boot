@@ -54,9 +54,9 @@ class FusSimpleProcessTests : FusTests() {
             )
 
         FusContext.startInstanceById(
-            processId,
-            testOperator1Id,
-            args,
+                processId,
+                testOperator1Id,
+                args = args,
         ).let { instance ->
             val instanceId = instance.instanceId
             // 测试会签审批人001【审批】

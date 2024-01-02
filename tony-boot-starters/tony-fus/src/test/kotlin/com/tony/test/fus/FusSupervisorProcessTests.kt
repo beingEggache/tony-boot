@@ -81,7 +81,7 @@ class FusSupervisorProcessTests {
         FusContext.startInstanceById(
             processId,
             user4Id,
-            args,
+            args = args,
         ).let { instance ->
             val instanceId = instance.instanceId
 

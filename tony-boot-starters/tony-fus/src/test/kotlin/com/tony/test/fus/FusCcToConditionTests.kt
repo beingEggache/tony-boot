@@ -50,9 +50,9 @@ class FusCcToConditionTests : FusTests() {
             "day" to 8
         )
         FusContext.startInstanceById(
-            processId,
-            testOperator1Id,
-            args
+                processId,
+                testOperator1Id,
+                args = args
         ).let { instance ->
             val instanceId = instance.instanceId
             // 领导审批，自动抄送，流程结束
