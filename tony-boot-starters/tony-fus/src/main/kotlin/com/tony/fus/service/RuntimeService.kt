@@ -298,7 +298,9 @@ internal open class RuntimeServiceImpl(
                         .copyToNotNull(FusHistoryInstance())
                         .apply {
                             this.instanceState = instanceState
-                            this.endTime = LocalDateTime.now()
+                            if (instanceState != InstanceState.ACTIVE) {
+                                this.endTime = LocalDateTime.now()
+                            }
                         }
                 historyInstanceMapper.updateById(historyInstance)
                 instanceMapper.deleteById(instanceId)
