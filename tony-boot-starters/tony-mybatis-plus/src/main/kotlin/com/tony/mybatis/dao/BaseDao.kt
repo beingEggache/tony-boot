@@ -52,7 +52,6 @@ import java.io.Serializable
 import java.util.Objects
 import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.binding.MapperMethod.ParamMap
-import org.springframework.transaction.annotation.Transactional
 
 /**
  * mybatis plus [BaseMapper] 包装, 增加了一些方法.
@@ -251,7 +250,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
-    @Transactional(rollbackFor = [Throwable::class])
     public fun insertBatch(batchList: Collection<T>): Boolean =
         executeBatch(batchList) { sqlSession, entity ->
             sqlSession.insert(getSqlStatement(SqlMethod.INSERT_ONE), entity)
@@ -265,7 +263,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
-    @Transactional(rollbackFor = [Throwable::class])
     public fun upsertBatch(batchList: Collection<T>): Boolean {
         val entityClass = getEntityClass()
         val tableInfo =
@@ -303,7 +300,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
-    @Transactional(rollbackFor = [Throwable::class])
     public fun updateByIdBatch(batchList: Collection<T>): Boolean =
         executeBatch(batchList) { sqlSession, entity ->
             val param = ParamMap<T>()
@@ -319,7 +315,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
-    @Transactional(rollbackFor = [Throwable::class])
     public fun deleteByIdBatch(batchList: Collection<T>): Boolean {
         val sqlStatement = getSqlStatement(SqlMethod.DELETE_BY_ID)
         val entityClass = getEntityClass()
