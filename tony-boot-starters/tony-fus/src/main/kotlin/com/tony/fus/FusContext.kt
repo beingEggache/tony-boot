@@ -168,12 +168,13 @@ public object FusContext {
     ): FusInstance =
         process.executeStart(
             userId
-        ) {
+        ) { node ->
             FusExecution(
                 process,
                 runtimeService.createInstance(
                     process.processId,
                     userId,
+                    node.nodeName,
                     businessKey,
                     args
                 ),

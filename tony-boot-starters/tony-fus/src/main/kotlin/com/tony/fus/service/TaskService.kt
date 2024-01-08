@@ -30,14 +30,17 @@ import com.tony.fus.db.enums.ActorType
 import com.tony.fus.db.enums.PerformType
 import com.tony.fus.db.enums.TaskState
 import com.tony.fus.db.enums.TaskType
+import com.tony.fus.db.mapper.FusHistoryInstanceMapper
 import com.tony.fus.db.mapper.FusHistoryTaskActorMapper
 import com.tony.fus.db.mapper.FusHistoryTaskMapper
 import com.tony.fus.db.mapper.FusInstanceMapper
 import com.tony.fus.db.mapper.FusTaskActorMapper
 import com.tony.fus.db.mapper.FusTaskCcMapper
 import com.tony.fus.db.mapper.FusTaskMapper
+import com.tony.fus.db.po.FusHistoryInstance
 import com.tony.fus.db.po.FusHistoryTask
 import com.tony.fus.db.po.FusHistoryTaskActor
+import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.db.po.FusTaskCc
@@ -453,6 +456,7 @@ internal open class TaskServiceImpl(
     private val historyTaskMapper: FusHistoryTaskMapper,
     private val historyTaskActorMapper: FusHistoryTaskActorMapper,
     private val instanceMapper: FusInstanceMapper,
+    private val historyInstanceMapper: FusHistoryInstanceMapper,
     private val taskListener: TaskListener? = null,
 ) : TaskService {
     override fun executeTask(
@@ -599,7 +603,6 @@ internal open class TaskServiceImpl(
 
         taskActorMapper.deleteBatchIds(taskActorList.map { it.taskActorId })
         assignTask(taskActorList.first().instanceId, taskId, assignee)
-
         return true
     }
 
@@ -654,6 +657,7 @@ internal open class TaskServiceImpl(
                 val task = historyTask.copyToNotNull(FusTask())
                 taskMapper.insert(task)
                 assignTask(instanceId, taskId, taskActor)
+                updateCurrentNode(instanceId, task.taskName, task.creatorId)
                 task
             }
 
@@ -746,49 +750,58 @@ internal open class TaskServiceImpl(
             }
 
         val taskActorList = FusContext.taskActorProvider.listTaskActors(node, execution)
-        if (nodeType == NodeType.INITIATOR) {
-            return saveTask(
-                task,
-                PerformType.START,
-                taskActorList,
-                execution
-            ).also {
-                node
-                    .nextNode()
-                    ?.also { nextNode ->
-                        nextNode.execute(execution)
+        val taskList =
+            when (nodeType) {
+                NodeType.INITIATOR ->
+                    saveTask(
+                        task,
+                        PerformType.START,
+                        taskActorList,
+                        execution
+                    ).also {
+                        node
+                            .nextNode()
+                            ?.also { nextNode ->
+                                nextNode.execute(execution)
+                            }
                     }
+
+                NodeType.APPROVER ->
+                    saveTask(
+                        task,
+                        // ?
+                        node.multiApproveMode.ofPerformType(),
+                        taskActorList,
+                        execution
+                    )
+
+                NodeType.CC -> {
+                    saveTaskCc(node, execution)
+                    node.nextNode()?.execute(execution)
+                    emptyList()
+                }
+
+                NodeType.CONDITIONAL_APPROVE -> {
+                    val newTask =
+                        task
+                            .copyToNotNull(FusTask())
+                            .apply {
+                                taskId = ""
+                            }
+                    saveTask(
+                        newTask,
+                        node.multiApproveMode.ofPerformType(),
+                        taskActorList,
+                        execution
+                    )
+                }
+
+                else -> emptyList()
             }
+        if (nodeType != NodeType.CC) {
+            updateCurrentNode(task.instanceId, task.taskName, task.creatorId)
         }
-        if (nodeType == NodeType.APPROVER) {
-            return saveTask(
-                task,
-                // ?
-                node.multiApproveMode.ofPerformType(),
-                taskActorList,
-                execution
-            )
-        }
-        if (nodeType == NodeType.CC) {
-            saveTaskCc(node, execution)
-            node.nextNode()?.execute(execution)
-            return emptyList()
-        }
-        if (nodeType == NodeType.CONDITIONAL_APPROVE) {
-            val newTask =
-                task
-                    .copyToNotNull(FusTask())
-                    .apply {
-                        taskId = ""
-                    }
-            return saveTask(
-                newTask,
-                node.multiApproveMode.ofPerformType(),
-                taskActorList,
-                execution
-            )
-        }
-        return emptyList()
+        return taskList
     }
 
     open fun saveTaskCc(
@@ -960,10 +973,8 @@ internal open class TaskServiceImpl(
                 )
             }?.forEach { taskActor ->
                 fusThrowIf(
-                    (
-                        historyTaskActorMapper
-                            .insert(taskActor.copyToNotNull(FusHistoryTaskActor())) <= 0
-                    ),
+                    historyTaskActorMapper
+                        .insert(taskActor.copyToNotNull(FusHistoryTaskActor())) <= 0,
                     "Migration to FusHistoryTaskActor table failed"
                 )
             }
@@ -1011,7 +1022,27 @@ internal open class TaskServiceImpl(
                     taskActorMapper.insertBatch(taskActorList)
                 }
         }
+        updateCurrentNode(task.instanceId, task.taskName, task.creatorId)
         return task
+    }
+
+    private fun updateCurrentNode(
+        instanceId: String,
+        nodeName: String,
+        updatorId: String,
+    ) {
+        instanceMapper
+            .ktUpdate()
+            .eq(FusInstance::instanceId, instanceId)
+            .set(FusInstance::nodeName, nodeName)
+            .set(FusInstance::updatorId, updatorId)
+            .update()
+        historyInstanceMapper
+            .ktUpdate()
+            .eq(FusHistoryInstance::instanceId, instanceId)
+            .set(FusHistoryInstance::nodeName, nodeName)
+            .set(FusHistoryInstance::updatorId, updatorId)
+            .update()
     }
 
     private fun saveTask(

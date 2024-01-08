@@ -34,9 +34,10 @@ import com.tony.fus.FusContext
 import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.model.FusExecution
+import com.tony.fus.model.FusNode
 import com.tony.fus.model.FusProcessModel
 import java.time.LocalDateTime
-import java.util.function.Supplier
+import java.util.function.Function
 
 /**
  * 流程定义表
@@ -145,7 +146,7 @@ public class FusProcess {
 
     public fun executeStart(
         userId: String,
-        executionSupplier: Supplier<FusExecution>,
+        executionSupplier: Function<FusNode, FusExecution>,
     ): FusInstance =
         model()
             .node
@@ -155,7 +156,7 @@ public class FusProcess {
                     !FusContext.taskActorProvider.hasPermission(node, userId),
                     "No permission to execute"
                 )
-                val execution = executionSupplier.get()
+                val execution = executionSupplier.apply(node)
                 FusContext.createTaskHandler.handle(execution, node)
                 execution.instance
             }

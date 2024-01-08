@@ -52,6 +52,8 @@ public sealed interface RuntimeService {
      * 创建实例
      * @param [processId] 流程id
      * @param [userId] 操作人id
+     * @param [nodeName] 节点名称
+     * @param [businessKey] 业务key
      * @param [variable] 流程参数
      * @return [FusInstance]
      * @author Tang Li
@@ -61,6 +63,7 @@ public sealed interface RuntimeService {
     public fun createInstance(
         processId: String,
         userId: String,
+        nodeName: String,
         businessKey: String,
         variable: Map<String, Any?>?,
     ): FusInstance
@@ -176,6 +179,7 @@ internal open class RuntimeServiceImpl(
     override fun createInstance(
         processId: String,
         userId: String,
+        nodeName: String,
         businessKey: String,
         variable: Map<String, Any?>?,
     ): FusInstance =
@@ -183,6 +187,7 @@ internal open class RuntimeServiceImpl(
             FusInstance().apply {
                 this.creatorId = userId
                 this.processId = processId
+                this.nodeName = nodeName
                 this.businessKey = businessKey
                 this.variable = variable?.toJsonString() ?: "{}"
             }

@@ -105,6 +105,11 @@ public open class FusInstance {
     public var variable: String = "{}"
 
     /**
+     * 节点名称
+     */
+    public var nodeName: String = ""
+
+    /**
      * 期望完成时间
      */
     public var expireTime: LocalDateTime? = null
