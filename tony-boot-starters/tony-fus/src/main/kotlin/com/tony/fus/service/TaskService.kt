@@ -188,7 +188,7 @@ public sealed interface TaskService {
      *
      * 删除其它任务参与者
      * @param [taskId] 任务id
-     * @param [taskActor] 任务参与者
+     * @param [userId] 用户id
      * @return [FusTask]
      * @author Tang Li
      * @date 2023/10/10 19:12
@@ -196,7 +196,7 @@ public sealed interface TaskService {
      */
     public fun claimTask(
         taskId: String,
-        taskActor: FusTaskActor,
+        userId: String,
     ): FusTask
 
     /**
@@ -271,7 +271,7 @@ public sealed interface TaskService {
     /**
      * 唤醒历史任务
      * @param [taskId] 任务id
-     * @param [taskActor] 任务参与者
+     * @param [userId] 用户id
      * @return [FusTask]
      * @author Tang Li
      * @date 2024/01/02 10:20
@@ -279,7 +279,7 @@ public sealed interface TaskService {
      */
     public fun resumeTask(
         taskId: String,
-        taskActor: FusTaskActor,
+        userId: String,
     ): FusTask
 
     /**
@@ -434,12 +434,12 @@ public sealed interface TaskService {
      * 按实例id级联删除.
      *
      * 级联删除 fus_history_task, fus_history_task_actor, fus_task, fus_task_actor.
-     * @param [instanceId] 实例id
+     * @param [instanceIds] 实例id
      * @author Tang Li
      * @date 2023/10/25 19:28
      * @since 1.0.0
      */
-    public fun cascadeRemoveByInstanceId(instanceId: String)
+    public fun cascadeRemoveByInstanceIds(instanceIds: Collection<String>)
 }
 
 /**
@@ -565,14 +565,23 @@ internal open class TaskServiceImpl(
 
     override fun claimTask(
         taskId: String,
-        taskActor: FusTaskActor,
+        userId: String,
     ): FusTask =
         taskMapper
             .fusSelectByIdNotNull("任务不存在(id=$taskId)")
             .also {
-                hasPermission(it, taskActor.actorId)
+                hasPermission(it, userId)
                 taskActorMapper.deleteByTaskIds(listOf(taskId))
-                taskActorMapper.insert(taskActor)
+                taskActorMapper.insert(
+                    FusTaskActor()
+                        .apply {
+                            this.actorId = userId
+                            this.actorType = ActorType.USER
+                            this.taskId = taskId
+                            // TODO name provider
+                            // TODO actorName = nameProvider.get(userId)
+                        }
+                )
             }
 
     override fun assignTask(
@@ -638,15 +647,15 @@ internal open class TaskServiceImpl(
 
     override fun resumeTask(
         taskId: String,
-        taskActor: FusTaskActor,
+        userId: String,
     ): FusTask =
         historyTaskMapper
             .fusSelectByIdNotNull(
                 taskId
             ).let { historyTask ->
                 throwIf(
-                    historyTask.creatorId != taskActor.actorId,
-                    "当前参与者[${taskActor.actorId}]不允许唤醒历史任务[$taskId]"
+                    historyTask.creatorId != userId,
+                    "当前参与者[$userId]不允许唤醒历史任务[$taskId]"
                 )
                 val instanceId = historyTask.instanceId
                 instanceMapper
@@ -656,7 +665,18 @@ internal open class TaskServiceImpl(
                     )
                 val task = historyTask.copyToNotNull(FusTask())
                 taskMapper.insert(task)
-                assignTask(instanceId, taskId, taskActor)
+                assignTask(
+                    instanceId,
+                    taskId,
+                    FusTaskActor()
+                        .apply {
+                            this.actorId = userId
+                            this.actorType = ActorType.USER
+                            this.taskId = taskId
+                            // TODO name provider
+                            // TODO actorName = nameProvider.get(userId)
+                        }
+                )
                 updateCurrentNode(instanceId, task.taskName, task.creatorId)
                 task
             }
@@ -884,40 +904,27 @@ internal open class TaskServiceImpl(
             .remove()
     }
 
-    override fun cascadeRemoveByInstanceId(instanceId: String) {
+    override fun cascadeRemoveByInstanceIds(instanceIds: Collection<String>) {
+        historyTaskActorMapper
+            .ktUpdate()
+            .`in`(FusHistoryTaskActor::instanceId, instanceIds)
+            .remove()
         historyTaskMapper
-            .ktQuery()
-            .select(FusHistoryTask::taskId)
-            .eq(FusHistoryTask::instanceId, instanceId)
-            .listObj<String>()
-            .filterNotNull()
-            .takeIf { it.isNotEmpty() }
-            ?.also { historyTaskIdList ->
-                historyTaskActorMapper
-                    .ktUpdate()
-                    .`in`(FusHistoryTaskActor::taskId, historyTaskIdList)
-                    .remove()
-                historyTaskMapper
-                    .ktUpdate()
-                    .eq(FusHistoryTask::instanceId, instanceId)
-                    .remove()
-            }
-
+            .ktUpdate()
+            .`in`(FusTask::instanceId, instanceIds)
+            .remove()
+        taskActorMapper
+            .ktUpdate()
+            .`in`(FusTaskActor::instanceId, instanceIds)
+            .remove()
         taskMapper
-            .ktQuery()
-            .select(FusTask::taskId)
-            .eq(FusTask::instanceId, instanceId)
-            .listObj<String>()
-            .filterNotNull()
-            .takeIf { it.isNotEmpty() }
-            ?.also { taskIdList ->
-                taskActorMapper.deleteByTaskIds(taskIdList)
-                taskMapper
-                    .ktUpdate()
-                    .eq(FusTask::instanceId, instanceId)
-                    .remove()
-            }
-        // TODO 删除任务抄送
+            .ktUpdate()
+            .`in`(FusTask::instanceId, instanceIds)
+            .remove()
+        taskCcMapper
+            .ktUpdate()
+            .`in`(FusTaskCc::instanceId, instanceIds)
+            .remove()
     }
 
     private fun getHasPermissionTask(

@@ -47,7 +47,7 @@ class FusSimpleProcessTests : FusTests() {
         processService.getById(processId)
 
         val args =
-            mapOf(
+            mutableMapOf<String, Any?>(
                 "day" to 8,
                 "age" to 18,
                 "assignee" to testOperator1Id,
@@ -73,7 +73,7 @@ class FusSimpleProcessTests : FusTests() {
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    FusContext.executeTask(task.taskId, testOperator3Id)
+                    FusContext.executeTask(task.taskId, testOperator3Id, args)
                 }
 
             //撤回任务(条件路由子审批) 回到测试会签审批人003【审批】任务
@@ -91,7 +91,7 @@ class FusSimpleProcessTests : FusTests() {
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    FusContext.executeTask(task.taskId, testOperator3Id)
+                    FusContext.executeTask(task.taskId, testOperator3Id, args)
                 }
 
             // 年龄审批【审批】

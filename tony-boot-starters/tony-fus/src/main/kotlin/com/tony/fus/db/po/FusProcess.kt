@@ -36,6 +36,8 @@ import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
 import com.tony.fus.model.FusProcessModel
+import com.tony.mybatis.MetaColumn
+import com.tony.mybatis.MybatisPlusMetaProperty
 import java.time.LocalDateTime
 import java.util.function.Function
 
@@ -56,6 +58,7 @@ public class FusProcess {
     /**
      * 租户ID
      */
+    @MybatisPlusMetaProperty(MetaColumn.TENANT_ID)
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER
@@ -65,6 +68,7 @@ public class FusProcess {
     /**
      * 创建人ID
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_ID)
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER
@@ -74,6 +78,7 @@ public class FusProcess {
     /**
      * 创建人
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_NAME)
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER

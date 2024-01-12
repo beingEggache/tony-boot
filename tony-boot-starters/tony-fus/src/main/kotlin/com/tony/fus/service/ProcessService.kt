@@ -154,6 +154,7 @@ internal class ProcessServiceImpl(
     }
 
     override fun cascadeRemove(processId: String) {
-        TODO("Not yet implemented")
+        FusContext.runtimeService.cascadeRemoveByProcessId(processId)
+        processMapper.deleteById(processId)
     }
 }

@@ -121,7 +121,8 @@ internal class TraceLoggingFilter(
     override fun shouldNotFilter(request: HttpServletRequest) =
         request
             .requestURI
-            .antPathMatchAny(excludedUrls) || request.isCorsPreflightRequest
+            .antPathMatchAny(excludedUrls) ||
+            request.isCorsPreflightRequest
 
     override fun getOrder() =
         PriorityOrdered.HIGHEST_PRECEDENCE + 2

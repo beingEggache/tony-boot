@@ -32,6 +32,8 @@ import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.fus.db.enums.PerformType
 import com.tony.fus.db.enums.TaskType
+import com.tony.mybatis.MetaColumn
+import com.tony.mybatis.MybatisPlusMetaProperty
 import java.time.LocalDateTime
 
 /**
@@ -49,6 +51,7 @@ public open class FusTask {
     /**
      * 租户ID
      */
+    @MybatisPlusMetaProperty(MetaColumn.TENANT_ID)
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER
@@ -58,6 +61,7 @@ public open class FusTask {
     /**
      * 创建人ID
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_ID)
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER
@@ -67,6 +71,7 @@ public open class FusTask {
     /**
      * 创建人
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_NAME)
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER

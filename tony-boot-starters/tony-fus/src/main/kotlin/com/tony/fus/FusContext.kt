@@ -263,8 +263,12 @@ public object FusContext {
                                     }?.plus(1)
                             actorList
                                 .getOrNull(nextNodeAssigneeIndex ?: 1)
-                                ?.let {
-                                    FusNodeAssignee(it.actorId, it.actorName)
+                                ?.let { taskActor ->
+                                    FusNodeAssignee(
+                                        taskActor.actorId,
+                                        taskActor.actorName,
+                                        taskActor.weight
+                                    )
                                 }
                         } else {
                             val nextNodeAssigneeIndex =
@@ -280,8 +284,8 @@ public object FusContext {
                     execution.nextTaskActor =
                         FusTaskActor()
                             .apply {
-                                actorId = it.id
-                                actorName = it.name
+                                actorId = nextNodeAssignee.id
+                                actorName = nextNodeAssignee.name
                                 actorType = ActorType.USER
                             }
                     createTaskHandler.handle(execution, node)

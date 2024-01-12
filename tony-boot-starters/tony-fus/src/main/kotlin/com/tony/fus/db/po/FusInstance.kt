@@ -30,6 +30,8 @@ import com.baomidou.mybatisplus.annotation.OrderBy
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
+import com.tony.mybatis.MetaColumn
+import com.tony.mybatis.MybatisPlusMetaProperty
 import java.time.LocalDateTime
 
 /**
@@ -49,6 +51,7 @@ public open class FusInstance {
     /**
      * 租户ID
      */
+    @MybatisPlusMetaProperty(MetaColumn.TENANT_ID)
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER
@@ -58,6 +61,7 @@ public open class FusInstance {
     /**
      * 创建人ID
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_ID)
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER
@@ -67,6 +71,7 @@ public open class FusInstance {
     /**
      * 创建人
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_NAME)
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER
@@ -117,6 +122,7 @@ public open class FusInstance {
     /**
      * 更新人id
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_ID)
     @TableField(
         fill = FieldFill.UPDATE,
         insertStrategy = FieldStrategy.NEVER
@@ -126,6 +132,7 @@ public open class FusInstance {
     /**
      * 上次更新人
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_NAME)
     @TableField(
         fill = FieldFill.UPDATE,
         insertStrategy = FieldStrategy.NEVER

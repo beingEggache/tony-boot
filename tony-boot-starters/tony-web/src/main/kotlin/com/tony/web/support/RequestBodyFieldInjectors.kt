@@ -54,7 +54,8 @@ internal class IfNullRequestBodyFieldInjector : RequestBodyFieldInjector(DEFAULT
                 Temporal::class.java,
                 Boolean::class.java,
                 Boolean::class.javaPrimitiveType
-            ) && !fieldType.isNumberTypes() &&
+            ) &&
+                !fieldType.isNumberTypes() &&
                 fieldType != Any::class.java -> "{}".jsonToObj(fieldType)
 
             else -> {

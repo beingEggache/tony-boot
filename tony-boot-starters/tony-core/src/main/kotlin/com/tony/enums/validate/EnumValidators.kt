@@ -56,7 +56,8 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, IntEnum
         str: IntEnumValue?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean {
-        if (required && (
+        if (required &&
+            (
                 str?.value == null ||
                     str.value == DEFAULT_INT_VALUE
             )
@@ -91,7 +92,8 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
         str: IntEnumValue?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean {
-        if (required && (
+        if (required &&
+            (
                 str?.value == null ||
                     str.value == DEFAULT_INT_VALUE
             )
@@ -120,7 +122,8 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, S
         str: StringEnumValue?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean {
-        if (required && (
+        if (required &&
+            (
                 str?.value == null ||
                     str.value == DEFAULT_STRING_VALUE
             )
@@ -154,7 +157,8 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumVal
         str: StringEnumValue?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean {
-        if (required && (
+        if (required &&
+            (
                 str?.value == null ||
                     str.value == DEFAULT_STRING_VALUE
             )

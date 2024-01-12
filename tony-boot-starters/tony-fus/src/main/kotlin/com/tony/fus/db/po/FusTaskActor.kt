@@ -30,6 +30,8 @@ import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.fus.db.enums.ActorType
+import com.tony.mybatis.MetaColumn
+import com.tony.mybatis.MybatisPlusMetaProperty
 
 /**
  * 任务参与者表
@@ -48,6 +50,7 @@ public open class FusTaskActor {
     /**
      * 租户ID
      */
+    @MybatisPlusMetaProperty(MetaColumn.TENANT_ID)
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER

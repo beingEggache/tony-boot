@@ -46,15 +46,15 @@ class FusCounterSignTests : FusTests() {
         val processService = FusContext.processService
         processService.getById(processId)
 
-        val args = mapOf(
+        val args = mutableMapOf<String, Any?>(
             "day" to 8,
             "assignee" to testOperator1Id
         )
 
         FusContext.startInstanceById(
-                processId,
-                testOperator1Id,
-                args = args
+            processId,
+            testOperator1Id,
+            args = args
         ).let { instance ->
             // 测试会签审批人001【审批】
             FusContext
@@ -82,7 +82,8 @@ class FusCounterSignTests : FusTests() {
                 .also { task ->
                     FusContext.executeTask(
                         task.taskId,
-                        testOperator1Id
+                        testOperator1Id,
+                        args
                     )
                 }
 

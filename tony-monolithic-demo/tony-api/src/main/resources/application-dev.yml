@@ -13,3 +13,6 @@ web:
     enabled: true
 jwt:
   secret: 'dsfnn32SDFF&*&#bfds;;,.ks^&3@'
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

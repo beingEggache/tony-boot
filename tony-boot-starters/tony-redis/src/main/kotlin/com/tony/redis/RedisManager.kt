@@ -161,9 +161,8 @@ public object RedisManager {
         script: RedisScript<T>,
         keys: List<String>,
         args: List<Any?>,
-    ): T? {
-        return redisTemplate.execute(script, keys, *args.toTypedArray())
-    }
+    ): T? =
+        redisTemplate.execute(script, keys, *args.toTypedArray())
 
     /**
      * redis 分布式锁简单实现.

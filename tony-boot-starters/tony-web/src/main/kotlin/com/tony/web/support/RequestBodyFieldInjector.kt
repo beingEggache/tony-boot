@@ -80,7 +80,8 @@ public abstract class RequestBodyFieldInjector(
             }
 
         return try {
-            if (override && annotatedField
+            if (override &&
+                annotatedField
                     .getter()
                     ?.invoke(body) != null
             ) {

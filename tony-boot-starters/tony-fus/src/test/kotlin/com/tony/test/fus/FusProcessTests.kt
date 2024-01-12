@@ -60,6 +60,13 @@ class FusProcessTests : FusTests() {
         test(false, 3)
     }
 
+    @Rollback
+    @Transactional(rollbackFor = [Exception::class])
+    @Test
+    fun testCascadeRemove(){
+        FusContext.processService.cascadeRemove(processId)
+    }
+
     fun test(reject: Boolean, day: Int) {
         val processService = FusContext.processService
         processService.getById(processId)

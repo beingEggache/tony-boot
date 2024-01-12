@@ -36,6 +36,7 @@ import com.tony.fus.db.po.FusTask
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.listener.InstanceListener
 import com.tony.fus.model.enums.EventType
+import com.tony.utils.alsoIfNotEmpty
 import com.tony.utils.copyToNotNull
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
@@ -270,7 +271,28 @@ internal open class RuntimeServiceImpl(
     }
 
     override fun cascadeRemoveByProcessId(processId: String) {
-        TODO("Not yet implemented")
+        historyInstanceMapper
+            .ktQuery()
+            .eq(FusHistoryInstance::processId, processId)
+            .list()
+            .alsoIfNotEmpty { historyInstanceList ->
+                FusContext
+                    .taskService
+                    .cascadeRemoveByInstanceIds(
+                        historyInstanceList
+                            .map { it.instanceId }
+                    )
+
+                historyInstanceMapper
+                    .ktUpdate()
+                    .eq(FusHistoryInstance::processId, processId)
+                    .remove()
+
+                instanceMapper
+                    .ktUpdate()
+                    .eq(FusInstance::processId, processId)
+                    .remove()
+            }
     }
 
     private fun forceComplete(
