@@ -76,7 +76,6 @@ public sealed interface TaskService {
      * 完成任务
      * @param [taskId] 任务id
      * @param [userId] 操作人id
-     * @param [variable] 任务变量
      * @author Tang Li
      * @date 2023/10/10 19:48
      * @since 1.0.0
@@ -84,30 +83,13 @@ public sealed interface TaskService {
     public fun complete(
         taskId: String,
         userId: String,
-        variable: Map<String, Any?>?,
     ): FusTask =
         executeTask(
             taskId,
             userId,
             TaskState.COMPLETED,
-            EventType.COMPLETED,
-            variable
+            EventType.COMPLETED
         )
-
-    /**
-     * 完成任务
-     * @param [taskId] 任务id
-     * @param [userId] 操作人id
-     * @return [FusTask]
-     * @author Tang Li
-     * @date 2023/10/10 19:49
-     * @since 1.0.0
-     */
-    public fun complete(
-        taskId: String,
-        userId: String,
-    ): FusTask =
-        complete(taskId, userId, null)
 
     /**
      * 执行任务
@@ -115,7 +97,6 @@ public sealed interface TaskService {
      * @param [userId] 操作人id
      * @param [taskState] 任务状态
      * @param [eventType] 事件类型
-     * @param [variable] 变量
      * @return [FusTask]
      * @author Tang Li
      * @date 2023/11/24 19:51
@@ -126,7 +107,6 @@ public sealed interface TaskService {
         userId: String,
         taskState: TaskState,
         eventType: EventType,
-        variable: Map<String, Any?>?,
     ): FusTask
 
     /**
@@ -464,7 +444,6 @@ internal open class TaskServiceImpl(
         userId: String,
         taskState: TaskState,
         eventType: EventType,
-        variable: Map<String, Any?>?,
     ): FusTask {
         val task = getHasPermissionTask(taskId, userId)
         moveToHistoryTask(task, taskState, userId)
@@ -729,7 +708,7 @@ internal open class TaskServiceImpl(
         variable: Map<String, Any?>?,
     ): FusTask {
         fusThrowIf(task.atStartNode, "上一步任务ID为空，无法驳回至上一步处理")
-        executeTask(task.taskId, userId, TaskState.REJECTED, EventType.REJECTED, variable)
+        executeTask(task.taskId, userId, TaskState.REJECTED, EventType.REJECTED)
         return undoHistoryTask(task.parentTaskId)
     }
 
@@ -769,7 +748,11 @@ internal open class TaskServiceImpl(
                 this.parentTaskId = execution.task?.taskId.ifNullOrBlank()
             }
 
-        val taskActorList = FusContext.taskActorProvider.listTaskActors(node, execution)
+        val taskActorList =
+            FusContext
+                .taskActorProvider()
+                .listTaskActors(node, execution)
+
         val taskList =
             when (nodeType) {
                 NodeType.INITIATOR ->

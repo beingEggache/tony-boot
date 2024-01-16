@@ -25,6 +25,7 @@
 package com.tony.test.fus
 
 import com.tony.fus.FusContext
+import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
@@ -63,7 +64,7 @@ class FusProcessTests : FusTests() {
     @Rollback
     @Transactional(rollbackFor = [Exception::class])
     @Test
-    fun testCascadeRemove(){
+    fun testCascadeRemove() {
         FusContext.processService.cascadeRemove(processId)
     }
 
@@ -75,9 +76,10 @@ class FusProcessTests : FusTests() {
             "day" to day,
             "assignee" to testOperator1Id
         )
-        FusContext.startInstanceById(
-                processId,
-                testOperator1Id
+        FusContext.startProcess(
+            processId,
+            testOperator1Id,
+            "FusProcessTests.test${genRandomInt(6)}",
         ).let { instance ->
             val instanceId = instance.instanceId
             val taskList2 =

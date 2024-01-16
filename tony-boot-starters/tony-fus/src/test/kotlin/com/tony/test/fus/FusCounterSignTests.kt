@@ -25,6 +25,7 @@
 package com.tony.test.fus
 
 import com.tony.fus.FusContext
+import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
@@ -51,10 +52,11 @@ class FusCounterSignTests : FusTests() {
             "assignee" to testOperator1Id
         )
 
-        FusContext.startInstanceById(
+        FusContext.startProcess(
             processId,
             testOperator1Id,
-            args = args
+            "FusCounterSignTests.test${genRandomInt(6)}",
+            args
         ).let { instance ->
             // 测试会签审批人001【审批】
             FusContext

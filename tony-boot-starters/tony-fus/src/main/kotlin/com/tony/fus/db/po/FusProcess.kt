@@ -158,7 +158,7 @@ public class FusProcess {
             .fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
             .let { node ->
                 fusThrowIf(
-                    !FusContext.taskActorProvider.hasPermission(node, userId),
+                    !FusContext.taskActorProvider().hasPermission(node, userId),
                     "No permission to execute"
                 )
                 val execution = executionSupplier.apply(node)

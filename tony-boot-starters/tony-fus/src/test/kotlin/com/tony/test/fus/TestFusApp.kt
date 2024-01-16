@@ -24,6 +24,7 @@
 
 package com.tony.test.fus
 
+import com.tony.ApiSession
 import com.tony.annotation.EnableTonyBoot
 import com.tony.fus.FusTaskActorProvider
 import com.tony.fus.db.enums.ActorType
@@ -32,9 +33,12 @@ import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
 import com.tony.fus.model.enums.ApproverType
 import com.tony.fus.model.enums.NodeType
+import com.tony.mybatis.DefaultMetaObjectHandler
+import com.tony.mybatis.MetaColumn
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.context.annotation.Bean
+import java.util.function.Function
 
 /**
  * TestFusApp is
@@ -44,7 +48,26 @@ import org.springframework.context.annotation.Bean
  */
 @EnableTonyBoot
 @SpringBootApplication
-class TestFusApp
+class TestFusApp {
+
+    @Bean
+    fun metaObjectHandler() =
+        DefaultMetaObjectHandler(
+            NoopApiSession(),
+            mapOf(
+                MetaColumn.USER_NAME to Function<Any?, Any?> { "get name by $it" }
+            )
+        )
+}
+
+class NoopApiSession : ApiSession {
+    override val userId: String
+        get() = "1"
+    override val userName: String
+        get() = "aloha"
+    override val tenantId: String
+        get() = "1"
+}
 
 @EnableTonyBoot
 @SpringBootApplication
@@ -66,7 +89,7 @@ class TestFusSupervisorApp {
 
         return object : FusTaskActorProvider {
             override fun listTaskActors(node: FusNode?, execution: FusExecution): List<FusTaskActor> {
-                if(node?.nodeType == NodeType.INITIATOR){
+                if (node?.nodeType == NodeType.INITIATOR) {
                     return listOf(FusTaskActor().apply { actorId = execution.userId })
                 }
 

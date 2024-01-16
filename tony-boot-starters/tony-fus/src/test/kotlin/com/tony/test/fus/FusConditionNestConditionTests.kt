@@ -25,6 +25,7 @@
 package com.tony.test.fus
 
 import com.tony.fus.FusContext
+import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
@@ -49,10 +50,11 @@ class FusConditionNestConditionTests : FusTests() {
         val args: MutableMap<String, Any?> = mutableMapOf(
             "day" to 11
         )
-        FusContext.startInstanceById(
-                processId,
-                testOperator1Id,
-                args = args,
+        FusContext.startProcess(
+            processId,
+            testOperator1Id,
+            "FusConditionNestConditionTests.test${genRandomInt(6)}",
+            args,
         ).let { instance ->
             val instanceId = instance.instanceId
 

@@ -25,6 +25,7 @@
 package com.tony.test.fus
 
 import com.tony.fus.FusContext
+import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
@@ -46,9 +47,10 @@ class FusVoteSignProcessTests : FusTests() {
         val processService = FusContext.processService
         processService.getById(processId)
 
-        FusContext.startInstanceById(
-                processId,
-                testOperator1Id,
+        FusContext.startProcess(
+            processId,
+            testOperator1Id,
+            "FusVoteSignProcessTests.test${genRandomInt(6)}",
         ).let { instance ->
             val instanceId = instance.instanceId
 

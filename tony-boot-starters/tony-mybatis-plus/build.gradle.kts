@@ -1,7 +1,7 @@
 dependencies {
     api(projects.tonyCore)
     api(tonyLibs.mybatisPlusBootStarter3)
-    implementation(projects.tonyInterfaces)
+    api(projects.tonyInterfaces)
 
     implementation(tonyLibs.hikariCP)
     implementation(tonyLibs.mybatisTypehandlersJsr310)

@@ -29,6 +29,7 @@ import com.tony.test.fus.TestFusSupervisorApp.Companion.user1Id
 import com.tony.test.fus.TestFusSupervisorApp.Companion.user2Id
 import com.tony.test.fus.TestFusSupervisorApp.Companion.user3Id
 import com.tony.test.fus.TestFusSupervisorApp.Companion.user4Id
+import com.tony.utils.genRandomInt
 import com.tony.utils.string
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -78,9 +79,10 @@ class FusSupervisorProcessTests {
                 "day" to 4
             )
 
-        FusContext.startInstanceById(
+        FusContext.startProcess(
             processId,
             user4Id,
+            "FusSupervisorProcessTests.test${genRandomInt(6)}",
             args = args,
         ).let { instance ->
             val instanceId = instance.instanceId

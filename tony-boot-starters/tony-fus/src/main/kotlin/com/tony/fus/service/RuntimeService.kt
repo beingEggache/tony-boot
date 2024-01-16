@@ -315,8 +315,7 @@ internal open class RuntimeServiceImpl(
                             task.taskId,
                             userId,
                             TaskState.of(instanceState),
-                            eventType,
-                            null
+                            eventType
                         )
                     }
 

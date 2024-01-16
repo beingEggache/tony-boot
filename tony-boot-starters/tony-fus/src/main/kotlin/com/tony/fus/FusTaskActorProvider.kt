@@ -75,25 +75,23 @@ internal class DefaultFusTaskActorProvider : FusTaskActorProvider {
     ): List<FusTaskActor> =
         node
             ?.nodeUserList
-            ?.map {
+            ?.map { nodeAssignee ->
                 FusTaskActor().apply {
-                    actorId = it.id
-                    actorName = it.name
+                    actorId = nodeAssignee.id
+                    actorName = nodeAssignee.name
                     actorType = ActorType.USER
-                    weight = it.weight
+                    weight = nodeAssignee.weight
                 }
-            }?.let {
-                it.ifEmpty {
-                    node
-                        .nodeRoleList
-                        .map {
-                            FusTaskActor().apply {
-                                actorId = it.id
-                                actorName = it.name
-                                actorType = ActorType.ROLE
-                                weight = it.weight
-                            }
+            }?.ifEmpty {
+                node
+                    .nodeRoleList
+                    .map { nodeAssignee ->
+                        FusTaskActor().apply {
+                            actorId = nodeAssignee.id
+                            actorName = nodeAssignee.name
+                            actorType = ActorType.ROLE
+                            weight = nodeAssignee.weight
                         }
-                }
+                    }
             }.orEmpty()
 }

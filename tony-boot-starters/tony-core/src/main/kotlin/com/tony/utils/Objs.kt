@@ -166,3 +166,19 @@ public fun <T : Any> Any?.copyToNotNull(target: T): T {
     BeanUtils.copyProperties(this, target)
     return target
 }
+
+/**
+ * 普通对象非null, 字符串非blank
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2024/01/15 10:13
+ * @since 1.0.0
+ */
+public fun Any?.notBlank(): Boolean =
+    if (this == null) {
+        false
+    } else if (this is CharSequence) {
+        isNotBlank()
+    } else {
+        true
+    }

@@ -44,7 +44,9 @@ abstract class FusTests {
     abstract val processJson: String
 
     protected val testOperator1Id = "test001"
-    protected val testOperator1Name = "测试1"
+    protected val testOperator1Name = "测试001"
+    protected val testOperator2Id = "test002"
+    protected val testOperator2Name = "测试002"
     protected val testOperator3Id = "test003"
     protected val testOperator3Name = "测试003"
 

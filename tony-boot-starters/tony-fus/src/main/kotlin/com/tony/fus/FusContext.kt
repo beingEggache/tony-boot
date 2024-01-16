@@ -29,7 +29,6 @@ import com.tony.SpringContexts
 import com.tony.fus.db.enums.ActorType
 import com.tony.fus.db.enums.PerformType
 import com.tony.fus.db.po.FusInstance
-import com.tony.fus.db.po.FusProcess
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.expression.FusExpressionEvaluator
 import com.tony.fus.extension.fusThrowIf
@@ -74,13 +73,17 @@ public object FusContext {
     public val interceptors: List<FusInterceptor> by SpringContexts.getBeanListByLazy<FusInterceptor>()
 
     @JvmStatic
-    public val taskActorProvider: FusTaskActorProvider by SpringContexts.getBeanByLazy<FusTaskActorProvider>()
-
-    @JvmStatic
     public val createTaskHandler: CreateTaskHandler = DefaultCreateTaskHandler
 
     @JvmStatic
     public val processModelParser: FusProcessModelParser = DefaultFusProcessModelParser()
+
+    @JvmStatic
+    public fun taskActorProvider(): FusTaskActorProvider {
+        val map = SpringContexts.getBeansOfType(FusTaskActorProvider::class.java)
+        println(map)
+        return SpringContexts.getBean(FusTaskActorProvider::class.java)
+    }
 
     /**
      * 按id启动实例
@@ -94,18 +97,32 @@ public object FusContext {
      */
     @JvmStatic
     @JvmOverloads
-    public fun startInstanceById(
+    public fun startProcess(
         processId: String,
         userId: String,
-        businessKey: String = "",
+        businessKey: String,
         args: Map<String, Any?> = mapOf(),
     ): FusInstance =
-        startProcess(
-            processService.getById(processId),
-            userId,
-            businessKey,
-            args
-        )
+        processService
+            .getById(processId)
+            .let { process ->
+                process.executeStart(
+                    userId
+                ) { node ->
+                    FusExecution(
+                        process,
+                        runtimeService.createInstance(
+                            process.processId,
+                            userId,
+                            node.nodeName,
+                            businessKey,
+                            args
+                        ),
+                        userId,
+                        args
+                    )
+                }
+            }
 
     /**
      * 执行任务
@@ -121,9 +138,9 @@ public object FusContext {
     public fun executeTask(
         taskId: String,
         userId: String,
-        args: MutableMap<String, Any?>? = null,
+        args: MutableMap<String, Any?> = mutableMapOf(),
     ) {
-        execute(taskId, userId, args ?: mutableMapOf()) {
+        execute(taskId, userId, args) {
             it.process.execute(it, it.task?.taskName)
         }
     }
@@ -160,36 +177,13 @@ public object FusContext {
         }
     }
 
-    private fun startProcess(
-        process: FusProcess,
-        userId: String,
-        businessKey: String,
-        args: Map<String, Any?>,
-    ): FusInstance =
-        process.executeStart(
-            userId
-        ) { node ->
-            FusExecution(
-                process,
-                runtimeService.createInstance(
-                    process.processId,
-                    userId,
-                    node.nodeName,
-                    businessKey,
-                    args
-                ),
-                userId,
-                args
-            )
-        }
-
     private fun execute(
         taskId: String,
         userId: String,
         args: MutableMap<String, Any?>,
         callback: Consumer<FusExecution>,
     ) {
-        val task = taskService.complete(taskId, userId, args)
+        val task = taskService.complete(taskId, userId)
         val instance =
             queryService
                 .instance(task.instanceId)
@@ -252,7 +246,7 @@ public object FusContext {
                     .let { nodeAssigneeList ->
                         if (nodeAssigneeList.isNullOrEmpty()) {
                             val actorList =
-                                taskActorProvider
+                                taskActorProvider()
                                     .listTaskActors(node, execution)
                             val nextNodeAssigneeIndex =
                                 actorList
