@@ -34,14 +34,19 @@ import com.tony.fus.db.po.FusProcess
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.expression.FusExpressionEvaluator
 import com.tony.fus.extension.fusThrowIf
+import com.tony.fus.extension.fusThrowIfEmpty
+import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.handler.CreateTaskHandler
 import com.tony.fus.handler.impl.DefaultCreateTaskHandler
 import com.tony.fus.model.FusExecution
+import com.tony.fus.model.FusNode
 import com.tony.fus.model.FusNodeAssignee
+import com.tony.fus.model.enums.NodeType
 import com.tony.fus.service.ProcessService
 import com.tony.fus.service.QueryService
 import com.tony.fus.service.RuntimeService
 import com.tony.fus.service.TaskService
+import com.tony.utils.applyIf
 import com.tony.utils.ifNull
 import com.tony.utils.jsonToObj
 import java.util.function.Consumer
@@ -91,21 +96,29 @@ public object FusContext {
         instance: FusInstance,
     ): FusInstance =
         process
-            .executeStart(
-                userId
-            ) { node ->
-                FusExecution(
-                    process,
-                    runtimeService.createInstance(
-                        process.processId,
-                        userId,
-                        node.nodeName,
-                        args,
-                        instance
-                    ),
-                    userId,
-                    args
+            .model()
+            .node
+            .fusThrowIfNull("流程定义[processName=${process.processName}, processVersion=${process.processVersion}]没有开始节点")
+            .let { node ->
+                fusThrowIf(
+                    !taskActorProvider().hasPermission(node, userId),
+                    "No permission to execute"
                 )
+                val execution =
+                    FusExecution(
+                        process,
+                        runtimeService.createInstance(
+                            process.processId,
+                            userId,
+                            node.nodeName,
+                            args,
+                            instance
+                        ),
+                        userId,
+                        args
+                    )
+                createTaskHandler.handle(execution, node)
+                execution.instance
             }
 
     /**
@@ -192,7 +205,7 @@ public object FusContext {
                 node
                     .nextNode()
                     ?.also { nextNode ->
-                        nextNode.execute(execution)
+                        executeNode(nextNode, execution)
                     }
             }
     }
@@ -212,67 +225,6 @@ public object FusContext {
         taskId: String,
         userId: String,
         args: MutableMap<String, Any?> = mutableMapOf(),
-    ) {
-        execute(taskId, userId, args) { execution ->
-            execution.process.execute(execution, execution.task?.taskName)
-        }
-    }
-
-    /**
-     * 执行并跳转到节点
-     * @param [taskId] 任务id
-     * @param [nodeName] 节点名称
-     * @param [userId] 操作人id
-     * @author Tang Li
-     * @date 2023/10/20 19:33
-     * @since 1.0.0
-     */
-    @JvmStatic
-    public fun executeJumpTask(
-        taskId: String,
-        nodeName: String,
-        userId: String,
-    ) {
-        taskService.executeJumpTask(
-            taskId,
-            nodeName,
-            userId
-        ) { task ->
-            val instance =
-                queryService
-                    .instance(task.instanceId)
-                    .apply {
-                        updatorId = userId
-                    }
-            runtimeService.updateInstance(instance)
-            val process = processService.getById(instance.processId)
-            FusExecution(process, instance, userId, mutableMapOf())
-        }
-    }
-
-    /**
-     * 结束流程实例
-     * @param [execution] 执行对象
-     * @author Tang Li
-     * @date 2024/01/16 16:58
-     * @since 1.0.0
-     */
-    public fun endInstance(execution: FusExecution) {
-        val instanceId = execution.instance.instanceId
-        queryService
-            .listTaskByInstanceId(instanceId)
-            .forEach { task ->
-                fusThrowIf(task.taskType == TaskType.MAJOR, "存在未完成的主办任务")
-                taskService.complete(task.taskId, "ADMIN")
-            }
-        runtimeService.complete(execution)
-    }
-
-    private fun execute(
-        taskId: String,
-        userId: String,
-        args: MutableMap<String, Any?>,
-        callback: Consumer<FusExecution>,
     ) {
         val task = taskService.complete(taskId, userId)
         val instance =
@@ -377,6 +329,123 @@ public object FusContext {
                     return
                 }
         }
-        callback.accept(execution)
+        execution
+            .process
+            .model()
+            .also { model ->
+                model
+                    .getNode(execution.task?.taskName)
+                    .fusThrowIfNull("流程模型中未发现，流程节点:${execution.task?.taskName}")
+                    .nextNode()
+                    ?.also { executeNode ->
+                        executeNode(executeNode, execution)
+                    } ?: endInstance(execution)
+            }
+    }
+
+    /**
+     * 执行并跳转到节点
+     * @param [taskId] 任务id
+     * @param [nodeName] 节点名称
+     * @param [userId] 操作人id
+     * @author Tang Li
+     * @date 2023/10/20 19:33
+     * @since 1.0.0
+     */
+    @JvmStatic
+    public fun executeJumpTask(
+        taskId: String,
+        nodeName: String,
+        userId: String,
+    ) {
+        taskService.executeJumpTask(
+            taskId,
+            nodeName,
+            userId
+        ) { task ->
+            val instance =
+                queryService
+                    .instance(task.instanceId)
+                    .apply {
+                        updatorId = userId
+                    }
+            runtimeService.updateInstance(instance)
+            val process = processService.getById(instance.processId)
+            FusExecution(process, instance, userId, mutableMapOf())
+        }
+    }
+
+    /**
+     * 执行流程元素.
+     * @param [node] 流程模型
+     * @param [execution] 流程执行
+     * @author Tang Li
+     * @date 2023/10/24 19:48
+     * @since 1.0.0
+     */
+    public fun executeNode(
+        node: FusNode,
+        execution: FusExecution,
+    ) {
+        node
+            .conditionNodes
+            .applyIf(node.conditionNodes.isNotEmpty()) {
+                val conditionNode =
+                    node
+                        .conditionNodes
+                        .sortedBy { it.priority }
+                        .firstOrNull {
+                            expressionEvaluator
+                                .eval(
+                                    it.expressionList,
+                                    execution
+                                        .variable
+                                        .fusThrowIfEmpty("Execution parameter cannot be empty")
+                                )
+                        }.ifNull {
+                            node.conditionNodes.firstOrNull {
+                                it.expressionList.isEmpty()
+                            }
+                        }.fusThrowIfNull("Not found executable ConditionNode")
+
+                val nodeChildNode = conditionNode.childNode ?: node.childNode
+                if (nodeChildNode != null) {
+                    executeNode(nodeChildNode, execution)
+                } else {
+                    endInstance(execution)
+                }
+            }
+        if (node.nodeType == NodeType.CC ||
+            node.nodeType == NodeType.APPROVER ||
+            node.nodeType == NodeType.SUB_PROCESS
+        ) {
+            createTaskHandler.handle(execution, node)
+        }
+
+        if (node.childNode == null &&
+            node.conditionNodes.isEmpty() &&
+            node.nextNode() == null &&
+            node.nodeType != NodeType.APPROVER
+        ) {
+            endInstance(execution)
+        }
+    }
+
+    /**
+     * 结束流程实例
+     * @param [execution] 执行对象
+     * @author Tang Li
+     * @date 2024/01/16 16:58
+     * @since 1.0.0
+     */
+    public fun endInstance(execution: FusExecution) {
+        val instanceId = execution.instance.instanceId
+        queryService
+            .listTaskByInstanceId(instanceId)
+            .forEach { task ->
+                fusThrowIf(task.taskType == TaskType.MAJOR, "存在未完成的主办任务")
+                taskService.complete(task.taskId, "ADMIN")
+            }
+        runtimeService.complete(execution)
     }
 }

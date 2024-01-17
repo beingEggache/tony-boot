@@ -778,7 +778,7 @@ internal open class TaskServiceImpl(
                         node
                             .nextNode()
                             ?.also { nextNode ->
-                                nextNode.execute(execution)
+                                FusContext.executeNode(nextNode, execution)
                             }
                     }
 
@@ -793,7 +793,7 @@ internal open class TaskServiceImpl(
 
                 NodeType.CC -> {
                     saveTaskCc(node, execution)
-                    node.nextNode()?.execute(execution)
+                    node.nextNode()?.also { FusContext.executeNode(it, execution) }
                     emptyList()
                 }
 

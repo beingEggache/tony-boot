@@ -31,15 +31,10 @@ import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.fus.FusContext
-import com.tony.fus.extension.fusThrowIf
-import com.tony.fus.extension.fusThrowIfNull
-import com.tony.fus.model.FusExecution
-import com.tony.fus.model.FusNode
 import com.tony.fus.model.FusProcessModel
 import com.tony.mybatis.MetaColumn
 import com.tony.mybatis.MybatisPlusMetaProperty
 import java.time.LocalDateTime
-import java.util.function.Function
 
 /**
  * 流程定义表
@@ -132,37 +127,4 @@ public class FusProcess {
 
     public fun model(): FusProcessModel =
         FusContext.processModelParser.parse(modelContent, processId, false)
-
-    public fun execute(
-        execution: FusExecution,
-        nodeName: String?,
-    ) {
-        model()
-            .also { model ->
-                model
-                    .getNode(nodeName)
-                    .fusThrowIfNull("流程模型中未发现，流程节点:$nodeName")
-                    .nextNode()
-                    ?.also { executeNode ->
-                        executeNode.execute(execution)
-                    } ?: FusContext.endInstance(execution)
-            }
-    }
-
-    public fun executeStart(
-        userId: String,
-        executionSupplier: Function<FusNode, FusExecution>,
-    ): FusInstance =
-        model()
-            .node
-            .fusThrowIfNull("流程定义[processName=$processName, processVersion=$processVersion]没有开始节点")
-            .let { node ->
-                fusThrowIf(
-                    !FusContext.taskActorProvider().hasPermission(node, userId),
-                    "No permission to execute"
-                )
-                val execution = executionSupplier.apply(node)
-                FusContext.createTaskHandler.handle(execution, node)
-                execution.instance
-            }
 }

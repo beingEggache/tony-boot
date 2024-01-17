@@ -83,7 +83,6 @@ public open class FusTask {
      */
     @OrderBy
     @TableField(
-        insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
     public var createTime: LocalDateTime = LocalDateTime.now()

@@ -44,9 +44,6 @@ class FusPurchaseProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = FusContext.processService
-        processService.getById(processId)
-
         FusContext.startProcessById(
             processId,
             testOperator1Id,
@@ -116,7 +113,6 @@ class FusPurchaseProcessTests : FusTests() {
                 .forEach { task ->
                     FusContext.executeTask(task.taskId, testOperator1Id)
                 }
-
         }
     }
 }

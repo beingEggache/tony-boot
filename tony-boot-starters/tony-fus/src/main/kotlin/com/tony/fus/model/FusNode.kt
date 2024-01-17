@@ -24,16 +24,11 @@
 
 package com.tony.fus.model
 
-import com.tony.fus.FusContext
-import com.tony.fus.extension.fusThrowIfEmpty
-import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.model.enums.ApproverType
 import com.tony.fus.model.enums.InitiatorAssignMode
 import com.tony.fus.model.enums.MultiApproveMode
 import com.tony.fus.model.enums.MultiStageManagerMode
 import com.tony.fus.model.enums.NodeType
-import com.tony.utils.applyIf
-import com.tony.utils.ifNull
 
 /**
  * 节点.
@@ -41,7 +36,7 @@ import com.tony.utils.ifNull
  * @date 2023/10/19 19:08
  * @since 1.0.0
  */
-public class FusNode : FusModel {
+public class FusNode {
     /**
      * 节点名称
      */
@@ -140,47 +135,6 @@ public class FusNode : FusModel {
 
     public val isConditionNode: Boolean
         get() = NodeType.CONDITIONAL_APPROVE == nodeType || NodeType.CONDITIONAL_BRANCH == nodeType
-
-    override fun execute(execution: FusExecution) {
-        conditionNodes
-            .applyIf(conditionNodes.isNotEmpty()) {
-                val conditionNode =
-                    conditionNodes
-                        .sortedBy { it.priority }
-                        .firstOrNull {
-                            FusContext
-                                .expressionEvaluator
-                                .eval(
-                                    it.expressionList,
-                                    execution
-                                        .variable
-                                        .fusThrowIfEmpty("Execution parameter cannot be empty")
-                                )
-                        }.ifNull {
-                            conditionNodes.firstOrNull {
-                                it.expressionList.isEmpty()
-                            }
-                        }.fusThrowIfNull("Not found executable ConditionNode")
-
-                val node = conditionNode.childNode ?: childNode
-                if (node != null) {
-                    node.execute(execution)
-                } else {
-                    FusContext.endInstance(execution)
-                }
-            }
-        if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER || nodeType == NodeType.SUB_PROCESS) {
-            FusContext.createTaskHandler.handle(execution, this)
-        }
-
-        if (childNode == null &&
-            conditionNodes.isEmpty() &&
-            nextNode() == null &&
-            nodeType != NodeType.APPROVER
-        ) {
-            FusContext.endInstance(execution)
-        }
-    }
 
     /**
      * 获取节点
