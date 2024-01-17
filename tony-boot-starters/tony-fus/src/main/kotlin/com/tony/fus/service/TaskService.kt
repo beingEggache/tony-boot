@@ -872,8 +872,7 @@ internal open class TaskServiceImpl(
         node: FusNode?,
         execution: FusExecution,
     ) {
-        val taskList = createTask(node, execution)
-        execution.taskList.addAll(taskList)
+        createTask(node, execution)
         try {
             FusContext
                 .interceptors

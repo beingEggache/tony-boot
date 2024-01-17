@@ -45,8 +45,6 @@ public class FusExecution(
 
     public var task: FusTask? = null
 
-    public val taskList: MutableList<FusTask> = mutableListOf()
-
     public val variable: MutableMap<String, Any?> =
         HashMap<String, Any?>().apply {
             putAll(args)

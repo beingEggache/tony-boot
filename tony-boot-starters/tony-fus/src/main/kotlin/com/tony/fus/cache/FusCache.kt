@@ -34,7 +34,6 @@ import java.util.function.Supplier
  * @since 1.0.0
  */
 public interface FusCache {
-
     /**
      * 获取或设值
      * @param [key] 键
