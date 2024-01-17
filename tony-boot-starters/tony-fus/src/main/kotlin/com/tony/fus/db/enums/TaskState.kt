@@ -29,7 +29,7 @@ import com.tony.enums.EnumCreator
 import com.tony.enums.IntEnumValue
 
 /**
- * 任务状态: 0-活动, 1-完成, 2-拒绝, 3-超时, 4-终止
+ * 任务状态: 1.活动, 2.跳转, 3.完成, 4.拒绝, 5.超时, 6.终止
  * @author Tang Li
  * @date 2023/09/29 19:00
  * @since 1.0.0
@@ -43,29 +43,29 @@ public enum class TaskState(
     ACTIVE(1),
 
     /**
+     * 跳转
+     */
+    JUMP(2),
+
+    /**
      * 完成
      */
-    COMPLETED(2),
+    COMPLETED(3),
 
     /**
      * 拒绝
      */
-    REJECTED(3),
+    REJECTED(4),
 
     /**
      * 超时
      */
-    EXPIRED(4),
+    EXPIRED(5),
 
     /**
      * 终止
      */
-    TERMINATED(5),
-
-    /**
-     * 跳转
-     */
-    JUMP(6),
+    TERMINATED(6),
     ;
 
     internal companion object : EnumCreator<TaskState, Int>(TaskState::class.java) {

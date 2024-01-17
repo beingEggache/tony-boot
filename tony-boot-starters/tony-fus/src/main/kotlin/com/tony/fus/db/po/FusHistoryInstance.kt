@@ -38,7 +38,7 @@ import java.time.LocalDateTime
 @TableName
 public class FusHistoryInstance : FusInstance() {
     /**
-     * 流程实例状态: 1.审批中, 2.审批通过, 3.审批拒绝, 4.超时结束, 5.强制终止, 6.撤销审批
+     * 流程实例状态: 1.审批中, 2.审批通过, 3.审批拒绝, 4.撤销审批, 5.超时结束, 6.强制终止
      */
     public var instanceState: InstanceState = InstanceState.ACTIVE
 

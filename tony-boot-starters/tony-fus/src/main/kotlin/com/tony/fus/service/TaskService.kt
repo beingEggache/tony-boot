@@ -88,7 +88,8 @@ public sealed interface TaskService {
             taskId,
             userId,
             TaskState.COMPLETED,
-            EventType.COMPLETED
+            EventType.COMPLETED,
+            mapOf()
         )
 
     /**
@@ -107,6 +108,7 @@ public sealed interface TaskService {
         userId: String,
         taskState: TaskState,
         eventType: EventType,
+        args: Map<String, Any?>?,
     ): FusTask
 
     /**
@@ -457,8 +459,9 @@ internal open class TaskServiceImpl(
         userId: String,
         taskState: TaskState,
         eventType: EventType,
+        args: Map<String, Any?>?,
     ): FusTask {
-        val task = getHasPermissionTask(taskId, userId)
+        val task = getHasPermissionTask(taskId, userId, taskState, args)
         moveToHistoryTask(task, taskState, userId)
         taskListener?.notify(eventType) { task }
         return task
@@ -721,7 +724,7 @@ internal open class TaskServiceImpl(
         variable: Map<String, Any?>?,
     ): FusTask {
         fusThrowIf(task.atStartNode, "上一步任务ID为空，无法驳回至上一步处理")
-        executeTask(task.taskId, userId, TaskState.REJECTED, EventType.REJECTED)
+        executeTask(task.taskId, userId, TaskState.REJECTED, EventType.REJECTED, variable ?: mapOf())
         return undoHistoryTask(task.parentTaskId)
     }
 
@@ -976,7 +979,8 @@ internal open class TaskServiceImpl(
     private fun getHasPermissionTask(
         taskId: String,
         userId: String,
-        args: MutableMap<String, Any?>? = null,
+        taskState: TaskState? = null,
+        args: Map<String, Any?>? = null,
     ): FusTask {
         val task =
             taskMapper
@@ -988,10 +992,17 @@ internal open class TaskServiceImpl(
                         it.variable = args.toJsonString()
                     }
                 }
-        fusThrowIf(
-            !hasPermission(task, userId),
-            "当前参与者[$userId]不允许执行任务[$taskId]"
-        )
+        if (
+            taskState == null ||
+            taskState == TaskState.ACTIVE ||
+            taskState == TaskState.JUMP ||
+            taskState == TaskState.COMPLETED
+        ) {
+            fusThrowIf(
+                !hasPermission(task, userId),
+                "当前参与者[$userId]不允许执行任务[$taskId]"
+            )
+        }
         return task
     }
 

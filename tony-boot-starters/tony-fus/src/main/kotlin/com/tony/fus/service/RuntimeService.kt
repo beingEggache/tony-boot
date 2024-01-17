@@ -130,11 +130,15 @@ public sealed interface RuntimeService {
     /**
      * 流程实例超时（设定审批时间超时，自动结束）
      * @param [instanceId] 实例id
+     * @param [userId] 操作人id
      * @author Tang Li
      * @date 2023/11/24 19:42
      * @since 1.0.0
      */
-    public fun expire(instanceId: String)
+    public fun expire(
+        instanceId: String,
+        userId: String,
+    )
 
     /**
      * 流程实例强制终止
@@ -272,10 +276,13 @@ internal open class RuntimeServiceImpl(
         )
     }
 
-    override fun expire(instanceId: String) {
+    override fun expire(
+        instanceId: String,
+        userId: String,
+    ) {
         forceComplete(
             instanceId,
-            "ADMIN",
+            userId,
             InstanceState.EXPIRED,
             EventType.EXPIRED
         )
@@ -330,7 +337,8 @@ internal open class RuntimeServiceImpl(
                             task.taskId,
                             userId,
                             TaskState.of(instanceState),
-                            eventType
+                            eventType,
+                            null
                         )
                     }
 

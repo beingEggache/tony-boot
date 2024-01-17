@@ -444,7 +444,7 @@ public object FusContext {
             .listTaskByInstanceId(instanceId)
             .forEach { task ->
                 fusThrowIf(task.taskType == TaskType.MAJOR, "存在未完成的主办任务")
-                taskService.complete(task.taskId, "ADMIN")
+                taskService.complete(task.taskId, execution.userId)
             }
         runtimeService.complete(execution)
     }

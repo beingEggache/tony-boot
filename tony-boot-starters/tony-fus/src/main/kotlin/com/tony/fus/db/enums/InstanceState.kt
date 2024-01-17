@@ -54,20 +54,20 @@ public enum class InstanceState(
     REJECTED(3),
 
     /**
+     * 撤销审批
+     *
+     */
+    REVOKED(4),
+
+    /**
      * 超时结束
      */
-    EXPIRED(4),
+    EXPIRED(5),
 
     /**
      * 强制终止
      */
-    TERMINATED(5),
-
-    /**
-     * 撤销审批
-     *
-     */
-    REVOKED(6),
+    TERMINATED(6),
     ;
 
     internal companion object : EnumCreator<InstanceState, Int>(InstanceState::class.java) {
