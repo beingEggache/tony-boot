@@ -335,7 +335,6 @@ public sealed interface TaskService {
      * 创建任务
      * @param [node] 节点
      * @param [execution] 流程执行
-     * @return [List<FusTask>]
      * @author Tang Li
      * @date 2023/10/25 19:05
      * @since 1.0.0
@@ -343,7 +342,7 @@ public sealed interface TaskService {
     public fun createTask(
         node: FusNode?,
         execution: FusExecution,
-    ): List<FusTask>
+    )
 
     /**
      * 列出过期或提醒任务
@@ -770,7 +769,7 @@ internal open class TaskServiceImpl(
     override fun createTask(
         node: FusNode?,
         execution: FusExecution,
-    ): List<FusTask> {
+    ) {
         val nodeType = node?.nodeType
         val task =
             FusTask().apply {
@@ -787,85 +786,81 @@ internal open class TaskServiceImpl(
                 .taskActorProvider()
                 .listTaskActors(node, execution)
 
-        val taskList =
-            when (nodeType) {
-                NodeType.INITIATOR ->
-                    saveTask(
-                        task,
-                        PerformType.START,
-                        taskActorList,
-                        execution
-                    ).also {
-                        node
-                            .nextNode()
-                            ?.also { nextNode ->
-                                FusContext.executeNode(nextNode, execution)
-                            }
-                    }
-
-                NodeType.APPROVER ->
-                    saveTask(
-                        task,
-                        // ? 搞不清楚
-                        node.multiApproveMode.ofPerformType(),
-                        taskActorList,
-                        execution
-                    )
-
-                NodeType.CC -> {
-                    saveTaskCc(node, execution)
-                    node.nextNode()?.also { FusContext.executeNode(it, execution) }
-                    emptyList()
-                }
-
-                NodeType.CONDITIONAL_APPROVE -> {
-                    val newTask =
-                        task
-                            .copyToNotNull(FusTask())
-                            .apply {
-                                taskId = ""
-                            }
-                    saveTask(
-                        newTask,
-                        node.multiApproveMode.ofPerformType(),
-                        taskActorList,
-                        execution
-                    )
-                }
-
-                NodeType.SUB_PROCESS -> {
-                    execution.userId
-                    val subInstance =
-                        FusContext.startProcessByKey(
-                            node.outProcessKey,
-                            execution.userId
-                        ) { instance ->
-                            instance.parentInstanceId = task.instanceId
+        when (nodeType) {
+            NodeType.INITIATOR ->
+                saveTask(
+                    task,
+                    PerformType.START,
+                    taskActorList,
+                    execution
+                ).also {
+                    node
+                        .nextNode()
+                        ?.also { nextNode ->
+                            FusContext.executeNode(nextNode, execution)
                         }
-                    historyTaskMapper.insert(
-                        FusHistoryTask().apply {
-                            creatorId = subInstance.creatorId
-                            creatorName = subInstance.creatorName
-                            createTime = subInstance.createTime
-                            instanceId = subInstance.parentInstanceId
-                            taskName = node.nodeName
-                            outProcessId = subInstance.processId
-                            outInstanceId = subInstance.instanceId
-                            // ? 搞不清楚
-                            performType = PerformType.UNKNOWN
-                            // ? 搞不清楚
-                            taskType = TaskType.create(node.nodeType.value).fusThrowIfNull("nodeType null")
-                        }
-                    )
-                    emptyList()
                 }
 
-                else -> emptyList()
+            NodeType.APPROVER ->
+                saveTask(
+                    task,
+                    // ? 搞不清楚
+                    node.multiApproveMode.ofPerformType(),
+                    taskActorList,
+                    execution
+                )
+
+            NodeType.CC -> {
+                saveTaskCc(node, execution)
+                node.nextNode()?.also { FusContext.executeNode(it, execution) }
             }
+
+            NodeType.CONDITIONAL_APPROVE -> {
+                val newTask =
+                    task
+                        .copyToNotNull(FusTask())
+                        .apply {
+                            taskId = ""
+                        }
+                saveTask(
+                    newTask,
+                    node.multiApproveMode.ofPerformType(),
+                    taskActorList,
+                    execution
+                )
+            }
+
+            NodeType.SUB_PROCESS -> {
+                execution.userId
+                val subInstance =
+                    FusContext.startProcessByKey(
+                        node.outProcessKey,
+                        execution.userId
+                    ) { instance ->
+                        instance.parentInstanceId = task.instanceId
+                    }
+                historyTaskMapper.insert(
+                    FusHistoryTask().apply {
+                        creatorId = subInstance.creatorId
+                        creatorName = subInstance.creatorName
+                        createTime = subInstance.createTime
+                        instanceId = subInstance.parentInstanceId
+                        taskName = node.nodeName
+                        outProcessId = subInstance.processId
+                        outInstanceId = subInstance.instanceId
+                        // ? 搞不清楚
+                        performType = PerformType.UNKNOWN
+                        // ? 搞不清楚
+                        taskType = TaskType.create(node.nodeType.value).fusThrowIfNull("nodeType null")
+                    }
+                )
+            }
+
+            else -> {}
+        }
         if (nodeType != NodeType.CC) {
             updateCurrentNode(task.instanceId, task.taskName, task.creatorId)
         }
-        return taskList
     }
 
     override fun createNextTask(
@@ -1147,7 +1142,7 @@ internal open class TaskServiceImpl(
         performType: PerformType,
         taskActorList: Collection<FusTaskActor>,
         execution: FusExecution,
-    ): List<FusTask> {
+    ) {
         task.performType = performType
         if (performType == PerformType.START) {
             val historyTask =
@@ -1172,7 +1167,7 @@ internal open class TaskServiceImpl(
                             }
                     historyTaskActorMapper.insert(historyTaskActor)
                 }
-            return emptyList()
+            return
         }
         if (performType == PerformType.UNKNOWN) {
             task.variable =
@@ -1186,7 +1181,7 @@ internal open class TaskServiceImpl(
                 .forEach { taskActor ->
                     assignTask(task.instanceId, task.taskId, taskActor)
                 }
-            return listOf(task)
+            return
         }
 
         taskActorList.fusThrowIfEmpty("任务参与者不能为空")
@@ -1196,7 +1191,7 @@ internal open class TaskServiceImpl(
                 assignTask(task.instanceId, task.taskId, it)
             }
             taskListener?.notify(EventType.CREATE) { task }
-            return listOf(task)
+            return
         }
 
         if (performType == PerformType.SORT) {
@@ -1207,10 +1202,10 @@ internal open class TaskServiceImpl(
                 execution.nextTaskActor ?: taskActorList.first()
             )
             taskListener?.notify(EventType.CREATE) { task }
-            return listOf(task)
+            return
         }
 
-        return taskActorList.map {
+        taskActorList.map {
             val newTask = task.copyToNotNull(FusTask()).apply { taskId = "" }
             taskMapper.insert(newTask)
             assignTask(newTask.instanceId, newTask.taskId, it)
