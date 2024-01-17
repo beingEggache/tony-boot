@@ -192,6 +192,7 @@ public object FusContext {
      * @date 2024/01/16 17:05
      * @since 1.0.0
      */
+    @JvmStatic
     public fun restartProcess(
         processId: String,
         nodeName: String,
@@ -383,6 +384,7 @@ public object FusContext {
      * @date 2023/10/24 19:48
      * @since 1.0.0
      */
+    @JvmStatic
     public fun executeNode(
         node: FusNode,
         execution: FusExecution,
@@ -438,7 +440,7 @@ public object FusContext {
      * @date 2024/01/16 16:58
      * @since 1.0.0
      */
-    public fun endInstance(execution: FusExecution) {
+    private fun endInstance(execution: FusExecution) {
         val instanceId = execution.instance.instanceId
         queryService
             .listTaskByInstanceId(instanceId)
