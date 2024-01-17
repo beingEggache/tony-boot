@@ -478,7 +478,16 @@ internal open class TaskServiceImpl(
         eventType: EventType,
         args: Map<String, Any?>?,
     ): FusTask {
-        val task = getHasPermissionTask(taskId, userId, taskState, args)
+        val task =
+            getHasPermissionTask(
+                taskId,
+                userId,
+                taskState
+            ).also {
+                args?.apply {
+                    it.variable = args.toJsonString()
+                }
+            }
         moveToHistoryTask(task, taskState, userId)
         taskListener?.notify(eventType) { task }
         return task
@@ -1008,18 +1017,13 @@ internal open class TaskServiceImpl(
         taskId: String,
         userId: String,
         taskState: TaskState? = null,
-        args: Map<String, Any?>? = null,
     ): FusTask {
         val task =
             taskMapper
                 .fusSelectByIdNotNull(
                     taskId,
                     "指定的任务不存在"
-                ).also {
-                    args?.apply {
-                        it.variable = args.toJsonString()
-                    }
-                }
+                )
         if (
             taskState == null ||
             taskState == TaskState.ACTIVE ||
