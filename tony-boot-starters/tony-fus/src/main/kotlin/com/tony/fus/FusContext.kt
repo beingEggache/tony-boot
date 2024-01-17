@@ -112,7 +112,11 @@ public object FusContext {
                         userId,
                         args
                     )
-                taskService.createNextTask(node, execution)
+                taskService.createTask(node, execution)
+                interceptors
+                    .forEach { interceptor ->
+                        interceptor.handle(execution)
+                    }
                 execution.instance
             }
 
@@ -321,7 +325,11 @@ public object FusContext {
                                 actorName = nextNodeAssignee.name
                                 actorType = ActorType.USER
                             }
-                    taskService.createNextTask(node, execution)
+                    taskService.createTask(node, execution)
+                    interceptors
+                        .forEach { interceptor ->
+                            interceptor.handle(execution)
+                        }
                     return
                 }
         }
@@ -416,7 +424,11 @@ public object FusContext {
             node.nodeType == NodeType.APPROVER ||
             node.nodeType == NodeType.SUB_PROCESS
         ) {
-            taskService.createNextTask(node, execution)
+            taskService.createTask(node, execution)
+            interceptors
+                .forEach { interceptor ->
+                    interceptor.handle(execution)
+                }
         }
 
         if (node.childNode == null &&

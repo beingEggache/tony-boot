@@ -44,7 +44,6 @@ import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.db.po.FusTaskCc
-import com.tony.fus.exception.FusException
 import com.tony.fus.extension.fusListThrowIfEmpty
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.extension.fusThrowIf
@@ -64,7 +63,6 @@ import com.tony.utils.toJsonString
 import java.time.LocalDateTime
 import java.util.function.Consumer
 import java.util.function.Function
-import org.slf4j.LoggerFactory
 
 /**
  * 任务业务类接口
@@ -436,20 +434,6 @@ public sealed interface TaskService {
         outProcessId: String,
         outInstanceId: String,
     )
-
-    /**
-     * 根据任务模型、执行对象，创建下一个任务，并添加到execution对象的tasks集合中.
-     *
-     * @param [node] 流程模型
-     * @param [execution] 流程执行
-     * @author Tang Li
-     * @date 2023/10/25 19:03
-     * @since 1.0.0
-     */
-    public fun createNextTask(
-        node: FusNode?,
-        execution: FusExecution,
-    )
 }
 
 /**
@@ -469,8 +453,6 @@ internal open class TaskServiceImpl(
     private val historyInstanceMapper: FusHistoryInstanceMapper,
     private val taskListener: TaskListener? = null,
 ) : TaskService {
-    private val logger = LoggerFactory.getLogger(TaskServiceImpl::class.java)
-
     override fun executeTask(
         taskId: String,
         userId: String,
@@ -869,21 +851,6 @@ internal open class TaskServiceImpl(
         }
         if (nodeType != NodeType.CC) {
             updateCurrentNode(task.instanceId, task.taskName, task.creatorId)
-        }
-    }
-
-    override fun createNextTask(
-        node: FusNode?,
-        execution: FusExecution,
-    ) {
-        createTask(node, execution)
-        try {
-            FusContext
-                .interceptors
-                .forEach { it.handle(execution) }
-        } catch (e: Exception) {
-            logger.error("interceptor error", e)
-            throw FusException(e.message, cause = e)
         }
     }
 
