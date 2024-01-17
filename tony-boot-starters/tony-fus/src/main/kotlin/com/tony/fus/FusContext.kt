@@ -36,8 +36,6 @@ import com.tony.fus.expression.FusExpressionEvaluator
 import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.extension.fusThrowIfEmpty
 import com.tony.fus.extension.fusThrowIfNull
-import com.tony.fus.handler.CreateTaskHandler
-import com.tony.fus.handler.impl.DefaultCreateTaskHandler
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
 import com.tony.fus.model.FusNodeAssignee
@@ -80,9 +78,6 @@ public object FusContext {
     public val interceptors: List<FusInterceptor> by SpringContexts.getBeanListByLazy<FusInterceptor>()
 
     @JvmStatic
-    public val createTaskHandler: CreateTaskHandler = DefaultCreateTaskHandler
-
-    @JvmStatic
     public val processModelParser: FusProcessModelParser = DefaultFusProcessModelParser()
 
     @JvmStatic
@@ -117,7 +112,7 @@ public object FusContext {
                         userId,
                         args
                     )
-                createTaskHandler.handle(execution, node)
+                taskService.createNextTask(node, execution)
                 execution.instance
             }
 
@@ -326,7 +321,7 @@ public object FusContext {
                                 actorName = nextNodeAssignee.name
                                 actorType = ActorType.USER
                             }
-                    createTaskHandler.handle(execution, node)
+                    taskService.createNextTask(node, execution)
                     return
                 }
         }
@@ -421,7 +416,7 @@ public object FusContext {
             node.nodeType == NodeType.APPROVER ||
             node.nodeType == NodeType.SUB_PROCESS
         ) {
-            createTaskHandler.handle(execution, node)
+            taskService.createNextTask(node, execution)
         }
 
         if (node.childNode == null &&
