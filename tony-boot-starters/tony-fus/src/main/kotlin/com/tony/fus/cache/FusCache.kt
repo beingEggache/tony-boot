@@ -25,6 +25,7 @@
 package com.tony.fus.cache
 
 import com.fasterxml.jackson.core.type.TypeReference
+import java.util.function.Supplier
 
 /**
  * FusCache is
@@ -33,47 +34,20 @@ import com.fasterxml.jackson.core.type.TypeReference
  * @since 1.0.0
  */
 public interface FusCache {
-    /**
-     * 设值.
-     *
-     * @param [key] 键
-     * @param [value] 值
-     * @author Tang Li
-     * @date 2023/10/19 19:43
-     * @since 1.0.0
-     */
-    public fun <T : Any> set(
-        key: String,
-        value: T,
-    )
 
     /**
-     * 获值
+     * 获取或设值
      * @param [key] 键
      * @param [typeReference] 类型参考
-     * @return [T]?
+     * @param [defaultValue] 默认值
+     * @return [T]
      * @author Tang Li
-     * @date 2023/10/19 19:45
+     * @date 2024/01/17 16:20
      * @since 1.0.0
      */
-    public fun <T : Any> get(
-        key: String,
-        typeReference: TypeReference<T>,
-    ): T?
-
     public fun <T : Any> getOrPut(
         key: String,
         typeReference: TypeReference<T>,
-        defaultValue: java.util.function.Supplier<T>,
+        defaultValue: Supplier<T>,
     ): T
-
-    /**
-     * 删.
-     * @param [key] 键
-     * @return [Long]
-     * @author Tang Li
-     * @date 2023/10/19 19:45
-     * @since 1.0.0
-     */
-    public fun delete(key: String)
 }
