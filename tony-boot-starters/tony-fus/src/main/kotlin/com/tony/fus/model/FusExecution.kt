@@ -39,14 +39,9 @@ public class FusExecution(
     public val process: FusProcess,
     public var instance: FusInstance,
     public val userId: String,
-    args: Map<String, Any?>,
+    public val variable: Map<String, Any?>,
 ) {
     public var nextTaskActor: FusTaskActor? = null
 
     public var task: FusTask? = null
-
-    public val variable: MutableMap<String, Any?> =
-        HashMap<String, Any?>().apply {
-            putAll(args)
-        }
 }
