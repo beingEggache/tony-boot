@@ -27,6 +27,7 @@ package com.tony.fus.service
 import com.tony.fus.FusContext
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.po.FusProcess
+import com.tony.fus.extension.fusListThrowIfEmpty
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.extension.fusThrowIf
 import com.tony.utils.jsonNode
@@ -49,9 +50,33 @@ public sealed interface ProcessService {
     public fun getById(processId: String): FusProcess
 
     /**
+     * 根据[processKey]获取流程定义对象
+     * @param [processKey] 唯一标识
+     * @param [version] 流程版本
+     * @return [FusProcess]
+     * @author Tang Li
+     * @date 2024/01/17 10:17
+     * @since 1.0.0
+     */
+    public fun getByKey(
+        processKey: String,
+        version: Int?,
+    ): FusProcess
+
+    /**
+     * 根据[processKey]获取流程定义对象
+     * @param [processKey] 唯一标识
+     * @return [FusProcess]
+     * @author Tang Li
+     * @date 2024/01/17 10:17
+     * @since 1.0.0
+     */
+    public fun getByKey(processKey: String): FusProcess =
+        getByKey(processKey, null)
+
+    /**
      * 部署流程
      * @param [modelContent] 流程定义json字符串
-     * @param [userId] 操作人id
      * @param [repeat] 是否重复部署 true 存在版本+1新增一条记录 false 存在流程直接返回
      * @return [String] 流程id
      * @author Tang Li
@@ -60,7 +85,6 @@ public sealed interface ProcessService {
      */
     public fun deploy(
         modelContent: String,
-        userId: String,
         repeat: Boolean,
     ): String
 
@@ -103,9 +127,21 @@ internal class ProcessServiceImpl(
     override fun getById(processId: String): FusProcess =
         processMapper.fusSelectByIdNotNull(processId, "流程[id=$processId]不存在")
 
+    override fun getByKey(
+        processKey: String,
+        version: Int?,
+    ): FusProcess =
+        processMapper
+            .ktQuery()
+            .eq(FusProcess::processKey, processKey)
+            .eq(version != null, FusProcess::processVersion, version)
+            .last("limit 1")
+            .orderByDesc(FusProcess::processVersion)
+            .fusListThrowIfEmpty()
+            .first()
+
     override fun deploy(
         modelContent: String,
-        userId: String,
         repeat: Boolean,
     ): String {
         fusThrowIf(modelContent.isEmpty(), "modelContent can not be empty")
@@ -135,7 +171,6 @@ internal class ProcessServiceImpl(
                 this.processName = processModel.name
                 this.processKey = processModel.key
                 this.modelContent = compressedModelContent
-                this.creatorId = userId
             }
         processMapper.insert(newProcess)
         return newProcess.processId

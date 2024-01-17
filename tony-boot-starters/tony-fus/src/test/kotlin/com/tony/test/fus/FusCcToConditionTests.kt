@@ -50,11 +50,11 @@ class FusCcToConditionTests : FusTests() {
         val args: MutableMap<String, Any?> = mutableMapOf(
             "day" to 8
         )
-        FusContext.startProcess(
-                processId,
-                testOperator1Id,
-            "FusCcToConditionTests.test${genRandomInt(6)}",
-                args
+        FusContext.startProcessById(
+            processId,
+            testOperator1Id,
+            args,
+            "FusCcToConditionTests.test${genRandomInt(6)}"
         ).let { instance ->
             val instanceId = instance.instanceId
             // 领导审批，自动抄送，流程结束

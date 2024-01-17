@@ -47,10 +47,10 @@ class FusOrSignTests : FusTests() {
         val processService = FusContext.processService
         processService.getById(processId)
 
-        FusContext.startProcess(
-                processId,
-                testOperator1Id,
-            "FusOrSignTests.test${genRandomInt(6)}",
+        FusContext.startProcessById(
+            processId,
+            testOperator1Id,
+            businessKey = "FusOrSignTests.test${genRandomInt(6)}",
         ).let { instance ->
             //驳回
             val taskList2 =

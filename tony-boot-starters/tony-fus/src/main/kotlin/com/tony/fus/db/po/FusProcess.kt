@@ -145,7 +145,7 @@ public class FusProcess {
                     .nextNode()
                     ?.also { executeNode ->
                         executeNode.execute(execution)
-                    } ?: execution.endInstance()
+                    } ?: FusContext.endInstance(execution)
             }
     }
 

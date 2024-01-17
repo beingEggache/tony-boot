@@ -26,6 +26,7 @@ package com.tony.fus.db.po
 
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.fus.db.enums.InstanceState
+import com.tony.utils.toDate
 import java.time.LocalDateTime
 
 /**
@@ -45,4 +46,18 @@ public class FusHistoryInstance : FusInstance() {
      * 结束时间
      */
     public var endTime: LocalDateTime? = null
+
+    /**
+     * 处理耗时
+     */
+    public var duration: Long? = null
+
+    /**
+     * 设置结束时间及处理耗时
+     */
+    public fun setEndTimeAndDuration() {
+        val now = LocalDateTime.now()
+        this.endTime = now
+        this.duration = now.toDate().time - createTime.toDate().time
+    }
 }

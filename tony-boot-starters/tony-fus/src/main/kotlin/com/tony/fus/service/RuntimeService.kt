@@ -35,6 +35,7 @@ import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.listener.InstanceListener
+import com.tony.fus.model.FusExecution
 import com.tony.fus.model.enums.EventType
 import com.tony.utils.alsoIfNotEmpty
 import com.tony.utils.copyToNotNull
@@ -54,8 +55,8 @@ public sealed interface RuntimeService {
      * @param [processId] 流程id
      * @param [userId] 操作人id
      * @param [nodeName] 节点名称
-     * @param [businessKey] 业务key
      * @param [variable] 流程参数
+     * @param [instance] 流程实例
      * @return [FusInstance]
      * @author Tang Li
      * @date 2023/10/10 19:51
@@ -65,18 +66,18 @@ public sealed interface RuntimeService {
         processId: String,
         userId: String,
         nodeName: String,
-        businessKey: String,
-        variable: Map<String, Any?>?,
+        variable: Map<String, Any?>,
+        instance: FusInstance,
     ): FusInstance
 
     /**
      * 流程实例正常完成 （审批通过）
-     * @param [instanceId] 实例id
+     * @param [execution] 执行对象
      * @author Tang Li
      * @date 2023/10/10 19:02
      * @since 1.0.0
      */
-    public fun complete(instanceId: String)
+    public fun complete(execution: FusExecution)
 
     /**
      * 保存流程实例
@@ -181,33 +182,47 @@ internal open class RuntimeServiceImpl(
         processId: String,
         userId: String,
         nodeName: String,
-        businessKey: String,
-        variable: Map<String, Any?>?,
+        variable: Map<String, Any?>,
+        instance: FusInstance,
     ): FusInstance =
         saveInstance(
-            FusInstance().apply {
+            instance.apply {
                 this.creatorId = userId
                 this.processId = processId
                 this.nodeName = nodeName
-                this.businessKey = businessKey
-                this.variable = variable?.toJsonString() ?: "{}"
+                this.variable = variable.toJsonString()
             }
         )
 
-    override fun complete(instanceId: String) {
-        val historyInstance =
-            historyInstanceMapper
-                .fusSelectByIdNotNull(instanceId)
-                .apply {
-                    this.instanceId = instanceId
-                    this.instanceState = InstanceState.COMPLETED
-                    this.endTime = LocalDateTime.now()
+    override fun complete(execution: FusExecution) {
+        val instanceId = execution.instance.instanceId
+        instanceMapper
+            .fusSelectByIdNotNull(instanceId)
+            .also { instance ->
+                val historyInstance =
+                    FusHistoryInstance()
+                        .apply {
+                            this.instanceId = instanceId
+                            this.instanceState = InstanceState.COMPLETED
+                            this.nodeName = InstanceState.COMPLETED.name
+                            this.createTime = instance.createTime
+                            this.updatorId = instance.updatorId
+                            this.updateTime = instance.updateTime
+                            this.setEndTimeAndDuration()
+                        }
+                instanceMapper.deleteById(instanceId)
+                historyInstanceMapper.updateById(historyInstance)
+                instanceListener?.notify(EventType.COMPLETED) {
+                    historyInstanceMapper.selectById(instanceId)
                 }
-        instanceMapper.deleteById(instanceId)
-        historyInstanceMapper.updateById(historyInstance)
-        instanceListener?.notify(EventType.COMPLETED) {
-            historyInstanceMapper.selectById(instanceId)
-        }
+                val parentInstanceId = instance.parentInstanceId
+                if (parentInstanceId.isNotBlank()) {
+                    val parentInstance = instanceMapper.fusSelectByIdNotNull(parentInstanceId)
+                    execution.instance = parentInstance
+                    FusContext.restartProcess(parentInstance.processId, parentInstance.nodeName, execution)
+                    FusContext.taskService.endOutProcessTask(instance.processId, instanceId)
+                }
+            }
     }
 
     override fun saveInstance(instance: FusInstance): FusInstance {

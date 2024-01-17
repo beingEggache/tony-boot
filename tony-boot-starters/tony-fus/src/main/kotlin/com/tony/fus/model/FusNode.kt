@@ -48,6 +48,11 @@ public class FusNode : FusModel {
     public val nodeName: String = ""
 
     /**
+     * 外部流程定义 key
+     */
+    public val outProcessKey: String = ""
+
+    /**
      * 节点类型
      */
     public val nodeType: NodeType? = null
@@ -161,10 +166,10 @@ public class FusNode : FusModel {
                 if (node != null) {
                     node.execute(execution)
                 } else {
-                    execution.endInstance()
+                    FusContext.endInstance(execution)
                 }
             }
-        if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER) {
+        if (nodeType == NodeType.CC || nodeType == NodeType.APPROVER || nodeType == NodeType.SUB_PROCESS) {
             FusContext.createTaskHandler.handle(execution, this)
         }
 
@@ -173,7 +178,7 @@ public class FusNode : FusModel {
             nextNode() == null &&
             nodeType != NodeType.APPROVER
         ) {
-            execution.endInstance()
+            FusContext.endInstance(execution)
         }
     }
 

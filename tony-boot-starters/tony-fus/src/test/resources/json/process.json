@@ -73,15 +73,20 @@
           }
         ],
         "childNode": {
-          "nodeName": "抄送人",
-          "nodeType": 3,
-          "allowInitiatorAssignCc": true,
-          "nodeUserList": [
-            {
-              "id": "test002",
-              "name": "何秀英"
-            }
-          ]
+          "nodeName": "工作交接",
+          "nodeType": 6,
+          "outProcessKey": "workHandover",
+          "childNode": {
+            "nodeName": "抄送人",
+            "nodeType": 3,
+            "allowInitiatorAssignCc": true,
+            "nodeUserList": [
+              {
+                "id": "test002",
+                "name": "何秀英"
+              }
+            ]
+          }
         }
       }
     }

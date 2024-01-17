@@ -86,7 +86,7 @@ public open class FusTask {
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    public val createTime: LocalDateTime? = null
+    public var createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 流程实例ID
@@ -110,7 +110,7 @@ public open class FusTask {
     public var taskName: String = ""
 
     /**
-     * 任务类型: 1.主办, 2.转办, 3.委派, 4.会签
+     * 任务类型: 1.主办, 2.转办, 3.委派, 4.会签, 5.子流程
      */
     public var taskType: TaskType? = null
 
@@ -157,11 +157,6 @@ public open class FusTask {
      * 已阅: 0.否 1.是
      */
     public var viewed: Boolean? = null
-
-    /**
-     * 完成时间
-     */
-    public var finishTime: LocalDateTime? = null
 
     /**
      * 是否开始节点

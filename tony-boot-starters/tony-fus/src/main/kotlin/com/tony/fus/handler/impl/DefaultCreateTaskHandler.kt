@@ -56,7 +56,7 @@ internal object DefaultCreateTaskHandler : CreateTaskHandler {
             FusContext
                 .taskService
                 .createTask(node, execution)
-        execution.addTasks(taskList)
+        execution.taskList.addAll(taskList)
 
         try {
             FusContext

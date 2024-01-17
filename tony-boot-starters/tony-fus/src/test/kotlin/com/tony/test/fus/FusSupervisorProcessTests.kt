@@ -56,7 +56,7 @@ class FusSupervisorProcessTests {
     @BeforeEach
     fun before() {
         val processModelJson = getProcessModelJson()
-        processId = FusContext.processService.deploy(processModelJson, "ADMIN", false)
+        processId = FusContext.processService.deploy(processModelJson, false)
     }
 
     private fun getProcessModelJson() = PathMatchingResourcePatternResolver()
@@ -79,11 +79,11 @@ class FusSupervisorProcessTests {
                 "day" to 4
             )
 
-        FusContext.startProcess(
+        FusContext.startProcessById(
             processId,
             user4Id,
+            args,
             "FusSupervisorProcessTests.test${genRandomInt(6)}",
-            args = args,
         ).let { instance ->
             val instanceId = instance.instanceId
 

@@ -83,10 +83,9 @@ public open class FusInstance {
      */
     @OrderBy
     @TableField(
-        insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    public val createTime: LocalDateTime = LocalDateTime.now()
+    public var createTime: LocalDateTime = LocalDateTime.now()
 
     /**
      * 流程定义ID
@@ -95,6 +94,11 @@ public open class FusInstance {
         updateStrategy = FieldStrategy.NEVER
     )
     public var processId: String = ""
+
+    /**
+     * 父流程实例ID
+     */
+    public var parentInstanceId: String = ""
 
     /**
      * 业务KEY
@@ -124,8 +128,7 @@ public open class FusInstance {
      */
     @MybatisPlusMetaProperty(MetaColumn.USER_ID)
     @TableField(
-        fill = FieldFill.UPDATE,
-        insertStrategy = FieldStrategy.NEVER
+        fill = FieldFill.UPDATE
     )
     public var updatorId: String = ""
 
@@ -143,8 +146,7 @@ public open class FusInstance {
      * 上次更新时间
      */
     @TableField(
-        insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
-    public val updateTime: LocalDateTime = LocalDateTime.now()
+    public var updateTime: LocalDateTime = LocalDateTime.now()
 }

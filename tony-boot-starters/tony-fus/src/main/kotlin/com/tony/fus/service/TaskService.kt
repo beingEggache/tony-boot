@@ -420,6 +420,19 @@ public sealed interface TaskService {
      * @since 1.0.0
      */
     public fun cascadeRemoveByInstanceIds(instanceIds: Collection<String>)
+
+    /**
+     * 结束外部流程任务
+     * @param [outProcessId] 进程外id
+     * @param [outInstanceId] out实例id
+     * @author Tang Li
+     * @date 2024/01/16 18:00
+     * @since 1.0.0
+     */
+    public fun endOutProcessTask(
+        outProcessId: String,
+        outInstanceId: String,
+    )
 }
 
 /**
@@ -481,7 +494,7 @@ internal open class TaskServiceImpl(
                         creatorId = execution.userId
                         instanceId = execution.instance.instanceId
                         taskName = node.nodeName.ifNullOrBlank()
-                        // ?
+                        // ? 搞不清楚
                         taskType = TaskType.create(node.nodeType.value).fusThrowIfNull("nodeType null")
                         parentTaskId = execution.task?.taskId.ifNullOrBlank()
                         performType = PerformType.START
@@ -743,7 +756,7 @@ internal open class TaskServiceImpl(
                 this.creatorId = execution.userId
                 this.instanceId = execution.instance.instanceId
                 this.taskName = node?.nodeName.ifNullOrBlank()
-                // ?
+                // ? 搞不清楚
                 this.taskType = TaskType.create(nodeType?.value!!).fusThrowIfNull("nodeType null")
                 this.parentTaskId = execution.task?.taskId.ifNullOrBlank()
             }
@@ -772,7 +785,7 @@ internal open class TaskServiceImpl(
                 NodeType.APPROVER ->
                     saveTask(
                         task,
-                        // ?
+                        // ? 搞不清楚
                         node.multiApproveMode.ofPerformType(),
                         taskActorList,
                         execution
@@ -797,6 +810,33 @@ internal open class TaskServiceImpl(
                         taskActorList,
                         execution
                     )
+                }
+
+                NodeType.SUB_PROCESS -> {
+                    execution.userId
+                    val subInstance =
+                        FusContext.startProcessByKey(
+                            node.outProcessKey,
+                            execution.userId
+                        ) { instance ->
+                            instance.parentInstanceId = task.instanceId
+                        }
+                    historyTaskMapper.insert(
+                        FusHistoryTask().apply {
+                            creatorId = subInstance.creatorId
+                            creatorName = subInstance.creatorName
+                            createTime = subInstance.createTime
+                            instanceId = subInstance.parentInstanceId
+                            taskName = node.nodeName
+                            outProcessId = subInstance.processId
+                            outInstanceId = subInstance.instanceId
+                            // ? 搞不清楚
+                            performType = PerformType.UNKNOWN
+                            // ? 搞不清楚
+                            taskType = TaskType.create(node.nodeType.value).fusThrowIfNull("nodeType null")
+                        }
+                    )
+                    emptyList()
                 }
 
                 else -> emptyList()
@@ -871,6 +911,29 @@ internal open class TaskServiceImpl(
         return taskMapper.updateById(task.apply { this.performType = performType }) > 0
     }
 
+    override fun endOutProcessTask(
+        outProcessId: String,
+        outInstanceId: String,
+    ) {
+        historyTaskMapper
+            .ktQuery()
+            .eq(FusHistoryTask::outProcessId, outProcessId)
+            .eq(FusHistoryTask::outInstanceId, outInstanceId)
+            .last("limit 1")
+            .one()
+            ?.also { historyTask ->
+                historyTaskMapper.updateById(
+                    FusHistoryTask()
+                        .apply {
+                            this.taskId = historyTask.taskId
+                            this.createTime = historyTask.createTime
+                            this.taskState = TaskState.COMPLETED
+                            this.setEndTimeAndDuration()
+                        }
+                )
+            }
+    }
+
     override fun removeTaskActor(
         taskId: String,
         taskActorIdList: Collection<String>,
@@ -941,7 +1004,7 @@ internal open class TaskServiceImpl(
             task
                 .copyToNotNull(FusHistoryTask())
                 .apply {
-                    finishTime = LocalDateTime.now()
+                    this.setEndTimeAndDuration()
                     this.taskState = taskState
                     this.creatorId = userId
                 }
@@ -1048,7 +1111,7 @@ internal open class TaskServiceImpl(
                     .copyToNotNull(FusHistoryTask())
                     .apply {
                         taskState = TaskState.COMPLETED
-                        finishTime = LocalDateTime.now()
+                        this.setEndTimeAndDuration()
                     }
             historyTaskMapper.insert(historyTask)
             execution.task = historyTask

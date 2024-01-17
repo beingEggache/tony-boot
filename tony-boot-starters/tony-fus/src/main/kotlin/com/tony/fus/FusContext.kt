@@ -28,7 +28,9 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.tony.SpringContexts
 import com.tony.fus.db.enums.ActorType
 import com.tony.fus.db.enums.PerformType
+import com.tony.fus.db.enums.TaskType
 import com.tony.fus.db.po.FusInstance
+import com.tony.fus.db.po.FusProcess
 import com.tony.fus.db.po.FusTaskActor
 import com.tony.fus.expression.FusExpressionEvaluator
 import com.tony.fus.extension.fusThrowIf
@@ -79,50 +81,121 @@ public object FusContext {
     public val processModelParser: FusProcessModelParser = DefaultFusProcessModelParser()
 
     @JvmStatic
-    public fun taskActorProvider(): FusTaskActorProvider {
-        val map = SpringContexts.getBeansOfType(FusTaskActorProvider::class.java)
-        println(map)
-        return SpringContexts.getBean(FusTaskActorProvider::class.java)
-    }
+    public fun taskActorProvider(): FusTaskActorProvider =
+        SpringContexts.getBean(FusTaskActorProvider::class.java)
+
+    private fun startProcess(
+        process: FusProcess,
+        userId: String,
+        args: Map<String, Any?>,
+        instance: FusInstance,
+    ): FusInstance =
+        process
+            .executeStart(
+                userId
+            ) { node ->
+                FusExecution(
+                    process,
+                    runtimeService.createInstance(
+                        process.processId,
+                        userId,
+                        node.nodeName,
+                        args,
+                        instance
+                    ),
+                    userId,
+                    args
+                )
+            }
 
     /**
      * 按id启动实例
      * @param [processId] 流程id
      * @param [userId] 操作人id
+     * @param [businessKey] 业务KEY
      * @param [args] variable
      * @return [FusInstance]?
      * @author Tang Li
      * @date 2023/10/20 19:31
      * @since 1.0.0
      */
-    @JvmStatic
     @JvmOverloads
-    public fun startProcess(
+    @JvmStatic
+    public fun startProcessById(
         processId: String,
         userId: String,
-        businessKey: String,
         args: Map<String, Any?> = mapOf(),
+        businessKey: String = "",
+        consumer: Consumer<FusInstance>? = null,
     ): FusInstance =
+        startProcess(
+            processService.getById(processId),
+            userId,
+            args,
+            FusInstance().apply {
+                this.businessKey = businessKey
+                consumer?.accept(this)
+            }
+        )
+
+    /**
+     * 按唯一标识[processKey]启动进程
+     * @param [processKey] 唯一标识
+     * @param [userId] 用户id
+     * @param [businessKey] 业务KEY
+     * @param [args] variable
+     * @param [version] 流程版本
+     * @return [FusInstance]
+     * @author Tang Li
+     * @date 2024/01/17 10:40
+     * @since 1.0.0
+     */
+    @JvmOverloads
+    @JvmStatic
+    public fun startProcessByKey(
+        processKey: String,
+        userId: String,
+        args: Map<String, Any?> = mapOf(),
+        businessKey: String = "",
+        version: Int? = null,
+        consumer: Consumer<FusInstance>? = null,
+    ): FusInstance =
+        startProcess(
+            processService.getByKey(processKey, version),
+            userId,
+            args,
+            FusInstance().apply {
+                this.businessKey = businessKey
+                consumer?.accept(this)
+            }
+        )
+
+    /**
+     * 重启流程, 从[nodeName] 开始
+     * @param [processId] 流程id
+     * @param [nodeName] 节点名称
+     * @param [execution] 执行对象
+     * @author Tang Li
+     * @date 2024/01/16 17:05
+     * @since 1.0.0
+     */
+    public fun restartProcess(
+        processId: String,
+        nodeName: String,
+        execution: FusExecution,
+    ) {
         processService
             .getById(processId)
-            .let { process ->
-                process.executeStart(
-                    userId
-                ) { node ->
-                    FusExecution(
-                        process,
-                        runtimeService.createInstance(
-                            process.processId,
-                            userId,
-                            node.nodeName,
-                            businessKey,
-                            args
-                        ),
-                        userId,
-                        args
-                    )
-                }
+            .model()
+            .getNode(nodeName)
+            ?.also { node ->
+                node
+                    .nextNode()
+                    ?.also { nextNode ->
+                        nextNode.execute(execution)
+                    }
             }
+    }
 
     /**
      * 执行任务
@@ -140,8 +213,8 @@ public object FusContext {
         userId: String,
         args: MutableMap<String, Any?> = mutableMapOf(),
     ) {
-        execute(taskId, userId, args) {
-            it.process.execute(it, it.task?.taskName)
+        execute(taskId, userId, args) { execution ->
+            execution.process.execute(execution, execution.task?.taskName)
         }
     }
 
@@ -175,6 +248,24 @@ public object FusContext {
             val process = processService.getById(instance.processId)
             FusExecution(process, instance, userId, mutableMapOf())
         }
+    }
+
+    /**
+     * 结束流程实例
+     * @param [execution] 执行对象
+     * @author Tang Li
+     * @date 2024/01/16 16:58
+     * @since 1.0.0
+     */
+    public fun endInstance(execution: FusExecution) {
+        val instanceId = execution.instance.instanceId
+        queryService
+            .listTaskByInstanceId(instanceId)
+            .forEach { task ->
+                fusThrowIf(task.taskType == TaskType.MAJOR, "存在未完成的主办任务")
+                taskService.complete(task.taskId, "ADMIN")
+            }
+        runtimeService.complete(execution)
     }
 
     private fun execute(

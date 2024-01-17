@@ -26,6 +26,8 @@ package com.tony.fus.db.po
 
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.fus.db.enums.TaskState
+import com.tony.utils.toDate
+import java.time.LocalDateTime
 
 /**
  * 历史任务
@@ -37,7 +39,36 @@ import com.tony.fus.db.enums.TaskState
 @TableName
 public class FusHistoryTask : FusTask() {
     /**
+     * 外部流程定义ID
+     */
+    public var outProcessId: String = ""
+
+    /**
+     * 外部流程实例ID
+     */
+    public var outInstanceId: String = ""
+
+    /**
+     * 结束时间
+     */
+    public var endTime: LocalDateTime? = null
+
+    /**
      * 任务状态: 1.活动, 2.完成, 3.拒绝, 4.超时, 5.终止
      */
     public var taskState: TaskState = TaskState.ACTIVE
+
+    /**
+     * 处理耗时
+     */
+    public var duration: Long? = null
+
+    /**
+     * 设置结束时间及处理耗时
+     */
+    public fun setEndTimeAndDuration() {
+        val now = LocalDateTime.now()
+        this.endTime = now
+        this.duration = now.toDate().time - createTime.toDate().time
+    }
 }

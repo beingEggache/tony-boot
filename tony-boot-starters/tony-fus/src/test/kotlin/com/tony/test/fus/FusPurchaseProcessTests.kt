@@ -47,10 +47,10 @@ class FusPurchaseProcessTests : FusTests() {
         val processService = FusContext.processService
         processService.getById(processId)
 
-        FusContext.startProcess(
+        FusContext.startProcessById(
             processId,
             testOperator1Id,
-            "FusPurchaseProcessTests.test${genRandomInt(6)}",
+            businessKey = "FusPurchaseProcessTests.test${genRandomInt(6)}",
         ).let { instance ->
             val instanceId = instance.instanceId
 

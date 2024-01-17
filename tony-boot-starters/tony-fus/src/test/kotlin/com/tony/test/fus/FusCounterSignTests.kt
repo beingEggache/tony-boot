@@ -52,11 +52,11 @@ class FusCounterSignTests : FusTests() {
             "assignee" to testOperator1Id
         )
 
-        FusContext.startProcess(
+        FusContext.startProcessById(
             processId,
             testOperator1Id,
-            "FusCounterSignTests.test${genRandomInt(6)}",
-            args
+            args,
+            "FusCounterSignTests.test${genRandomInt(6)}"
         ).let { instance ->
             // 测试会签审批人001【审批】
             FusContext

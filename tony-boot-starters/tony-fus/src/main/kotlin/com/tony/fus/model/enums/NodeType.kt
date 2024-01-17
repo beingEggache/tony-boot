@@ -61,6 +61,11 @@ public enum class NodeType(
      * 条件分支
      */
     CONDITIONAL_BRANCH(5),
+
+    /**
+     * 子流程
+     */
+    SUB_PROCESS(6),
     ;
 
     internal companion object : EnumCreator<NodeType, Int>(NodeType::class.java) {

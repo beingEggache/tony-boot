@@ -56,6 +56,24 @@ public enum class TaskType(
      * 会签
      */
     COUNTERSIGN(4),
+
+    /**
+     * 子流程
+     *
+     */
+    SUB_PROCESS(5),
+
+    /**
+     * 定时器任务
+     *
+     */
+    TIMER(6),
+
+    /**
+     * 触发器任务
+     *
+     */
+    TRIGGER(7),
     ;
 
     internal companion object : EnumCreator<TaskType, Int>(TaskType::class.java) {

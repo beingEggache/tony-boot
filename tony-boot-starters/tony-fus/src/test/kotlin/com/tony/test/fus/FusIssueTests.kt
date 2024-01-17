@@ -21,10 +21,10 @@ class FusIssueTests : FusTests() {
     @Test
     fun testConditionEnd() {
         FusContext
-            .startProcess(
+            .startProcessById(
                 processId,
                 testOperator3Id,
-                "FusIssueTests.testConditionEnd${genRandomInt(6)}",
+                businessKey = "FusIssueTests.testConditionEnd${genRandomInt(6)}",
             )
             .let { instance ->
 
@@ -52,10 +52,10 @@ class FusIssueTests : FusTests() {
     @Test
     fun testTerminate() {
         FusContext
-            .startProcess(
+            .startProcessById(
                 processId,
                 testOperator3Id,
-                "FusIssueTests.testTerminate${genRandomInt(6)}",
+                businessKey = "FusIssueTests.testTerminate${genRandomInt(6)}",
             )
             .let { instance ->
                 FusContext.runtimeService.terminate(instance.instanceId, testOperator2Id)

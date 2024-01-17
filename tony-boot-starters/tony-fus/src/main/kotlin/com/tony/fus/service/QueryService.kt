@@ -239,14 +239,14 @@ internal class QueryServiceImpl(
         historyTaskMapper
             .ktQuery()
             .eq(FusHistoryTask::instanceId, instanceId)
-            .orderByDesc(FusHistoryTask::finishTime)
+            .orderByDesc(FusHistoryTask::endTime)
             .list()
 
     override fun recentHistoryTask(instanceId: String): FusHistoryTask =
         historyTaskMapper
             .ktQuery()
             .eq(FusHistoryTask::instanceId, instanceId)
-            .orderByDesc(FusHistoryTask::finishTime)
+            .orderByDesc(FusHistoryTask::endTime)
             .last("limit 1")
             .fusOneNotNull()
 

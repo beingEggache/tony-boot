@@ -26,6 +26,7 @@ package com.tony.test.fus
 
 import com.tony.fus.FusContext
 import com.tony.utils.genRandomInt
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
 import org.springframework.transaction.annotation.Transactional
@@ -39,6 +40,12 @@ import org.springframework.transaction.annotation.Transactional
 class FusProcessTests : FusTests() {
 
     override val processJson = "json/process.json"
+
+    @BeforeEach
+    override fun before() {
+        processId = FusContext.processService.deploy(getProcessModelJson(), false)
+        FusContext.processService.deploy(getProcessModelJson("json/workHandover.json"), false)
+    }
 
     @Rollback
     @Transactional(rollbackFor = [Exception::class])
@@ -76,10 +83,10 @@ class FusProcessTests : FusTests() {
             "day" to day,
             "assignee" to testOperator1Id
         )
-        FusContext.startProcess(
+        FusContext.startProcessById(
             processId,
             testOperator1Id,
-            "FusProcessTests.test${genRandomInt(6)}",
+            businessKey = "FusProcessTests.test${genRandomInt(6)}",
         ).let { instance ->
             val instanceId = instance.instanceId
             val taskList2 =
@@ -93,8 +100,29 @@ class FusProcessTests : FusTests() {
 
             if (reject) {
                 FusContext.runtimeService.reject(instanceId, testOperator1Id)
-                return
+            } else {
+                FusContext
+                    .queryService
+                    .listTaskByInstanceId(instanceId)
+                    .forEach { task ->
+                        FusContext.executeTask(task.taskId, testOperator1Id, args)
+                    }
             }
+
+            FusContext
+                .queryService
+                .listHistoryTask(instanceId)
+                .forEach {  historyTask ->
+                    val outInstanceId = historyTask.outInstanceId
+                    if(outInstanceId.isNotBlank()){
+                        FusContext
+                            .queryService
+                            .listTaskByInstanceId(outInstanceId)
+                            .forEach { task ->
+                                FusContext.executeTask(task.taskId, testOperator3Id)
+                            }
+                    }
+                }
 
         }
     }
