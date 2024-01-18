@@ -1,5 +1,4 @@
 -- mysql 8.0.13+ json default value supported
-DROP TABLE if exists `fus_task_cc` cascade;
 DROP TABLE if exists `fus_task_actor` cascade;
 DROP TABLE if exists `fus_task` cascade;
 DROP TABLE if exists `fus_instance` cascade;
@@ -7,27 +6,6 @@ DROP TABLE if exists `fus_history_task_actor` cascade;
 DROP TABLE if exists `fus_history_task` cascade;
 DROP TABLE if exists `fus_history_instance` cascade;
 DROP TABLE if exists `fus_process` cascade;
-
-CREATE TABLE `fus_task_cc`
-(
-    `task_cc_id`     varchar(32)  NOT NULL COMMENT '主键ID',
-    `tenant_id`      varchar(32)  NOT NULL DEFAULT '' COMMENT '租户ID',
-    `creator_id`     varchar(32)  NOT NULL DEFAULT '' COMMENT '创建人ID',
-    `creator_name`   varchar(50)  NOT NULL COMMENT '创建人',
-    `create_time`    timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `instance_id`    varchar(32)  NOT NULL DEFAULT '' COMMENT '流程实例ID',
-    `parent_task_id` varchar(32)  NOT NULL DEFAULT '' COMMENT '父任务ID',
-    `task_name`      varchar(100) NOT NULL DEFAULT '' COMMENT '任务名称',
-    `actor_id`       varchar(32)  NOT NULL DEFAULT '' COMMENT '参与者ID',
-    `actor_name`     varchar(300) NOT NULL DEFAULT '' COMMENT '参与者名称',
-    `actor_type`     int          NOT NULL COMMENT '参与者类型: 1.用户, 2.角色, 3.部门',
-    `task_state`     smallint     NOT NULL DEFAULT '1' COMMENT '任务状态: 1.活动, 2.结束',
-    `finish_time`    timestamp    NULL     DEFAULT NULL COMMENT '完成时间',
-    PRIMARY KEY (`task_cc_id`) USING BTREE
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = DYNAMIC COMMENT ='抄送任务表';
 
 CREATE TABLE `fus_process`
 (
@@ -85,7 +63,7 @@ CREATE TABLE `fus_task`
     `instance_id`    varchar(32)  NOT NULL DEFAULT '' COMMENT '流程实例ID',
     `parent_task_id` varchar(32)  NOT NULL DEFAULT '' COMMENT '父任务ID',
     `task_name`      varchar(100) NOT NULL DEFAULT '' COMMENT '任务名称',
-    `task_type`      smallint     NOT NULL COMMENT '任务类型: 1.主办, 2.转办, 3.委派, 4.会签',
+    `task_type`      smallint     NOT NULL COMMENT '任务类型: 1.主办, 2.转办, 3.委派, 4.会签, 5.抄送, 6.子流程, 7.定时器, 8.触发器',
     `perform_type`   smallint     NOT NULL COMMENT '参与类型: 1.发起、其它, 2.按顺序依次审批, 3.会签, 4.或签, 5.票签, 10.抄送',
     `variable`       json         NOT NULL DEFAULT ('{}') COMMENT '变量json',
     `assignor_id`    varchar(32)  NOT NULL DEFAULT '' COMMENT '委托人ID',
@@ -159,7 +137,7 @@ CREATE TABLE `fus_history_task`
     `out_process_id`  varchar(32)  NOT NULL DEFAULT '' COMMENT '外部流程定义ID',
     `out_instance_id` varchar(32)  NOT NULL DEFAULT '' COMMENT '外部流程实例ID',
     `task_name`       varchar(100) NOT NULL COMMENT '任务名称',
-    `task_type`       smallint     NOT NULL COMMENT '任务类型: 1.主办, 2.转办, 3.委派, 4.会签',
+    `task_type`       smallint     NOT NULL COMMENT '任务类型: 1.主办, 2.转办, 3.委派, 4.会签, 5.抄送, 6.子流程, 7.定时器, 8.触发器',
     `perform_type`    smallint     NOT NULL COMMENT '参与类型: 1.发起、其它, 2.按顺序依次审批, 3.会签, 4.或签, 5.票签, 10.抄送',
     `variable`        json         NOT NULL DEFAULT ('{}') COMMENT '变量json',
     `assignor_id`     varchar(32)  NOT NULL DEFAULT '' COMMENT '委托人ID',

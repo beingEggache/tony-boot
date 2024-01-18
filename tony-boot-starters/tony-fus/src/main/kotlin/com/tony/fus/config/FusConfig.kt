@@ -34,7 +34,6 @@ import com.tony.fus.db.mapper.FusHistoryTaskMapper
 import com.tony.fus.db.mapper.FusInstanceMapper
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.mapper.FusTaskActorMapper
-import com.tony.fus.db.mapper.FusTaskCcMapper
 import com.tony.fus.db.mapper.FusTaskMapper
 import com.tony.fus.expression.FusExpressionEvaluator
 import com.tony.fus.expression.SpelExpressionEvaluator
@@ -69,7 +68,6 @@ internal class FusConfig {
         taskPermission: FusTaskPermission,
         taskMapper: FusTaskMapper,
         taskActorMapper: FusTaskActorMapper,
-        taskCcMapper: FusTaskCcMapper,
         historyTaskMapper: FusHistoryTaskMapper,
         historyTaskActorMapper: FusHistoryTaskActorMapper,
         instanceMapper: FusInstanceMapper,
@@ -81,7 +79,6 @@ internal class FusConfig {
             taskPermission,
             taskMapper,
             taskActorMapper,
-            taskCcMapper,
             historyTaskMapper,
             historyTaskActorMapper,
             instanceMapper,

@@ -35,7 +35,6 @@ import com.tony.fus.db.mapper.FusHistoryTaskActorMapper
 import com.tony.fus.db.mapper.FusHistoryTaskMapper
 import com.tony.fus.db.mapper.FusInstanceMapper
 import com.tony.fus.db.mapper.FusTaskActorMapper
-import com.tony.fus.db.mapper.FusTaskCcMapper
 import com.tony.fus.db.mapper.FusTaskMapper
 import com.tony.fus.db.po.FusHistoryInstance
 import com.tony.fus.db.po.FusHistoryTask
@@ -43,7 +42,6 @@ import com.tony.fus.db.po.FusHistoryTaskActor
 import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.db.po.FusTaskActor
-import com.tony.fus.db.po.FusTaskCc
 import com.tony.fus.extension.fusListThrowIfEmpty
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.extension.fusThrowIf
@@ -446,7 +444,6 @@ internal open class TaskServiceImpl(
     private val taskPermission: FusTaskPermission,
     private val taskMapper: FusTaskMapper,
     private val taskActorMapper: FusTaskActorMapper,
-    private val taskCcMapper: FusTaskCcMapper,
     private val historyTaskMapper: FusHistoryTaskMapper,
     private val historyTaskActorMapper: FusHistoryTaskActorMapper,
     private val instanceMapper: FusInstanceMapper,
@@ -802,7 +799,7 @@ internal open class TaskServiceImpl(
                 )
 
             NodeType.CC -> {
-                saveTaskCc(node, execution)
+                saveTaskCc(node, task)
                 node.nextNode()?.also { FusContext.executeNode(it, execution) }
             }
 
@@ -856,33 +853,34 @@ internal open class TaskServiceImpl(
 
     open fun saveTaskCc(
         node: FusNode?,
-        execution: FusExecution,
+        task: FusTask,
     ) {
         val nodeUserList = node?.nodeUserList
         if (nodeUserList.isNullOrEmpty()) {
             return
         }
-        val parentTaskId = execution.task?.parentTaskId
-        nodeUserList
-            .filter { nodeAssignee ->
-                !taskCcMapper
-                    .ktQuery()
-                    .eq(FusTaskCc::instanceId, execution.instance.instanceId)
-                    .eq(FusTaskCc::actorId, nodeAssignee.id)
-                    .exists()
-            }.map { nodeAssignee ->
-                FusTaskCc().apply {
-                    this.creatorId = execution.userId
-                    this.instanceId = execution.instance.instanceId
-                    this.parentTaskId = parentTaskId.ifNullOrBlank()
-                    this.taskName = node.nodeName
-                    this.actorId = nodeAssignee.id
-                    this.actorName = nodeAssignee.name
-                    this.actorType = ActorType.USER
-                    this.taskState = TaskState.ACTIVE
+        val historyTask =
+            task
+                .copyToNotNull(FusHistoryTask())
+                .apply {
+                    taskType = TaskType.CC
+                    performType = PerformType.CC
+                    setEndTimeAndDuration()
                 }
-            }.also { taskCcList ->
-                taskCcMapper.insertBatch(taskCcList)
+        historyTaskMapper.insert(historyTask)
+        nodeUserList
+            .map { nodeAssignee ->
+                FusHistoryTaskActor().apply {
+                    actorId = nodeAssignee.id
+                    actorType = ActorType.USER
+                    weight = nodeAssignee.weight
+                    instanceId = historyTask.instanceId
+                    taskId = historyTask.taskId
+                    // TODO name provider
+                    // TODO actorName = nameProvider.get(userId)
+                }
+            }.also { historyTaskActors ->
+                historyTaskActorMapper.insertBatch(historyTaskActors)
             }
     }
 
@@ -973,10 +971,6 @@ internal open class TaskServiceImpl(
         taskMapper
             .ktUpdate()
             .`in`(FusTask::instanceId, instanceIds)
-            .remove()
-        taskCcMapper
-            .ktUpdate()
-            .`in`(FusTaskCc::instanceId, instanceIds)
             .remove()
     }
 

@@ -29,7 +29,7 @@ import com.tony.enums.EnumCreator
 import com.tony.enums.IntEnumValue
 
 /**
- * 任务类型: 0-主办, 1-转办, 2-委派, 3-会签
+ * 任务类型: 1.主办, 2.转办, 3.委派, 4.会签, 5.抄送, 6.子流程, 7.定时器, 8.触发器
  * @author Tang Li
  * @date 2023/09/29 19:00
  * @since 1.0.0
@@ -58,22 +58,28 @@ public enum class TaskType(
     COUNTERSIGN(4),
 
     /**
+     * 抄送
+     *
+     */
+    CC(5),
+
+    /**
      * 子流程
      *
      */
-    SUB_PROCESS(5),
+    SUB_PROCESS(6),
 
     /**
      * 定时器任务
      *
      */
-    TIMER(6),
+    TIMER(7),
 
     /**
      * 触发器任务
      *
      */
-    TRIGGER(7),
+    TRIGGER(8),
     ;
 
     internal companion object : EnumCreator<TaskType, Int>(TaskType::class.java) {

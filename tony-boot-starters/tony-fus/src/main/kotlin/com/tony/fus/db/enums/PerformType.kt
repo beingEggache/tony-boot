@@ -70,7 +70,7 @@ public enum class PerformType(
     /**
      * 抄送
      */
-    COPY(10),
+    CC(10),
     ;
 
     internal companion object : EnumCreator<PerformType, Int>(PerformType::class.java) {
