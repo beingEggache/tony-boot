@@ -110,23 +110,6 @@ public sealed interface TaskService {
     ): FusTask
 
     /**
-     * 执行节点跳转任务
-     * @param [taskId] 任务id
-     * @param [nodeName] 节点名称
-     * @param [userId] 用户id
-     * @param [func] 回调
-     * @author Tang Li
-     * @date 2023/12/21 14:24
-     * @since 1.0.0
-     */
-    public fun executeJumpTask(
-        taskId: String,
-        nodeName: String,
-        userId: String,
-        func: Function<FusTask, FusExecution>,
-    )
-
-    /**
      * 完成指定实例ID活动任务
      * @param [instanceId] 实例id
      * @param [userId] 操作人id
@@ -346,7 +329,7 @@ public sealed interface TaskService {
      * @date 2023/10/25 19:25
      * @since 1.0.0
      */
-    public fun addTaskActor(
+    public fun addTaskActors(
         taskId: String,
         performType: PerformType,
         taskActorList: List<FusTaskActor>,
@@ -362,12 +345,12 @@ public sealed interface TaskService {
      * @date 2023/10/25 19:25
      * @since 1.0.0
      */
-    public fun addTaskActor(
+    public fun addTaskActors(
         taskId: String,
         performType: PerformType,
         taskActor: FusTaskActor,
     ): Boolean =
-        addTaskActor(taskId, performType, listOf(taskActor))
+        addTaskActors(taskId, performType, listOf(taskActor))
 
     /**
      * 删除任务参与者【减签】
@@ -446,7 +429,17 @@ internal open class TaskServiceImpl(
         return task
     }
 
-    override fun executeJumpTask(
+    /**
+     * 执行节点跳转任务
+     * @param [taskId] 任务id
+     * @param [nodeName] 节点名称
+     * @param [userId] 用户id
+     * @param [func] 回调
+     * @author Tang Li
+     * @date 2023/12/21 14:24
+     * @since 1.0.0
+     */
+    fun executeJumpTask(
         taskId: String,
         nodeName: String,
         userId: String,
@@ -879,7 +872,7 @@ internal open class TaskServiceImpl(
                 .list()
         }
 
-    override fun addTaskActor(
+    override fun addTaskActors(
         taskId: String,
         performType: PerformType,
         taskActorList: List<FusTaskActor>,

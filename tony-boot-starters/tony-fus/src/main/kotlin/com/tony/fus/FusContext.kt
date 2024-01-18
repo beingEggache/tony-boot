@@ -371,21 +371,23 @@ public object FusContext {
         nodeName: String,
         userId: String,
     ) {
-        taskService.executeJumpTask(
-            taskId,
-            nodeName,
-            userId
-        ) { task ->
-            val instance =
-                queryService
-                    .instance(task.instanceId)
-                    .apply {
-                        updatorId = userId
-                    }
-            runtimeService.updateInstance(instance)
-            val process = processService.getById(instance.processId)
-            FusExecution(process, instance, userId, mutableMapOf())
-        }
+        SpringContexts
+            .getBean(TaskServiceImpl::class.java)
+            .executeJumpTask(
+                taskId,
+                nodeName,
+                userId
+            ) { task ->
+                val instance =
+                    queryService
+                        .instance(task.instanceId)
+                        .apply {
+                            updatorId = userId
+                        }
+                runtimeService.updateInstance(instance)
+                val process = processService.getById(instance.processId)
+                FusExecution(process, instance, userId, mutableMapOf())
+            }
     }
 
     /**
