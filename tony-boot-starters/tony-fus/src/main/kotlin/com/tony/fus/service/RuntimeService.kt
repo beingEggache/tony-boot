@@ -51,35 +51,6 @@ import java.time.LocalDateTime
  */
 public sealed interface RuntimeService {
     /**
-     * 创建实例
-     * @param [processId] 流程id
-     * @param [userId] 操作人id
-     * @param [nodeName] 节点名称
-     * @param [variable] 流程参数
-     * @param [instance] 流程实例
-     * @return [FusInstance]
-     * @author Tang Li
-     * @date 2023/10/10 19:51
-     * @since 1.0.0
-     */
-    public fun createInstance(
-        processId: String,
-        userId: String,
-        nodeName: String,
-        variable: Map<String, Any?>,
-        instance: FusInstance,
-    ): FusInstance
-
-    /**
-     * 流程实例正常完成 （审批通过）
-     * @param [execution] 执行对象
-     * @author Tang Li
-     * @date 2023/10/10 19:02
-     * @since 1.0.0
-     */
-    public fun complete(execution: FusExecution)
-
-    /**
      * 流程实例拒绝审批强制终止（用于后续审核人员认为该审批不再需要继续，拒绝审批强行终止）
      * @param [instanceId] 实例id
      * @param [userId] 操作人id
@@ -173,31 +144,50 @@ internal open class RuntimeServiceImpl(
     private val taskMapper: FusTaskMapper,
     private val instanceListener: InstanceListener? = null,
 ) : RuntimeService {
-
-    override fun createInstance(
+    /**
+     * 创建实例
+     * @param [processId] 流程id
+     * @param [userId] 操作人id
+     * @param [nodeName] 节点名称
+     * @param [variable] 流程参数
+     * @param [instance] 流程实例
+     * @return [FusInstance]
+     * @author Tang Li
+     * @date 2023/10/10 19:51
+     * @since 1.0.0
+     */
+    fun createInstance(
         processId: String,
         userId: String,
         nodeName: String,
         variable: Map<String, Any?>,
         instance: FusInstance,
     ): FusInstance {
-        val instance1 = instance.apply {
-            this.creatorId = userId
-            this.processId = processId
-            this.nodeName = nodeName
-            this.variable = variable.toJsonString()
-        }
+        val instance1 =
+            instance.apply {
+                this.creatorId = userId
+                this.processId = processId
+                this.nodeName = nodeName
+                this.variable = variable.toJsonString()
+            }
         instanceMapper.insert(instance1)
         val historyInstance =
-                instance1.copyToNotNull(FusHistoryInstance()).apply {
-                    instanceState = InstanceState.ACTIVE
-                }
+            instance1.copyToNotNull(FusHistoryInstance()).apply {
+                instanceState = InstanceState.ACTIVE
+            }
         historyInstanceMapper.insert(historyInstance)
         instanceListener?.notify(EventType.CREATE) { instance1 }
         return instance1
     }
 
-    override fun complete(execution: FusExecution) {
+    /**
+     * 流程实例正常完成 （审批通过）
+     * @param [execution] 执行对象
+     * @author Tang Li
+     * @date 2023/10/10 19:02
+     * @since 1.0.0
+     */
+    internal fun complete(execution: FusExecution) {
         val instanceId = execution.instance.instanceId
         instanceMapper
             .fusSelectByIdNotNull(instanceId)

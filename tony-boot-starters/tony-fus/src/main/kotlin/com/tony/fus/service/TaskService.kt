@@ -328,19 +328,6 @@ public sealed interface TaskService {
     ): Boolean
 
     /**
-     * 创建任务
-     * @param [node] 节点
-     * @param [execution] 流程执行
-     * @author Tang Li
-     * @date 2023/10/25 19:05
-     * @since 1.0.0
-     */
-    public fun createTask(
-        node: FusNode?,
-        execution: FusExecution,
-    )
-
-    /**
      * 列出过期或提醒任务
      * @return [List<FusTask>]
      * @author Tang Li
@@ -754,7 +741,15 @@ internal open class TaskServiceImpl(
         return taskPermission.hasPermission(userId, taskActorList)
     }
 
-    override fun createTask(
+    /**
+     * 创建任务
+     * @param [node] 节点
+     * @param [execution] 执行对象
+     * @author Tang Li
+     * @date 2023/10/25 19:05
+     * @since 1.0.0
+     */
+    internal fun createTask(
         node: FusNode?,
         execution: FusExecution,
     ) {

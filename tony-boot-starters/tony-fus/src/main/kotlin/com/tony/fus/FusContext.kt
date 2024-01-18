@@ -43,8 +43,11 @@ import com.tony.fus.model.enums.NodeType
 import com.tony.fus.service.ProcessService
 import com.tony.fus.service.QueryService
 import com.tony.fus.service.RuntimeService
+import com.tony.fus.service.RuntimeServiceImpl
 import com.tony.fus.service.TaskService
+import com.tony.fus.service.TaskServiceImpl
 import com.tony.utils.applyIf
+import com.tony.utils.asToNotNull
 import com.tony.utils.ifNull
 import com.tony.utils.jsonToObj
 import java.util.function.Consumer
@@ -102,17 +105,21 @@ public object FusContext {
                 val execution =
                     FusExecution(
                         process,
-                        runtimeService.createInstance(
-                            process.processId,
-                            userId,
-                            node.nodeName,
-                            args,
-                            instance
-                        ),
+                        runtimeService
+                            .asToNotNull<RuntimeServiceImpl>()
+                            .createInstance(
+                                process.processId,
+                                userId,
+                                node.nodeName,
+                                args,
+                                instance
+                            ),
                         userId,
                         args
                     )
-                taskService.createTask(node, execution)
+                taskService
+                    .asToNotNull<TaskServiceImpl>()
+                    .createTask(node, execution)
                 interceptors
                     .forEach { interceptor ->
                         interceptor.handle(execution)
@@ -325,7 +332,9 @@ public object FusContext {
                                 actorName = nextNodeAssignee.name
                                 actorType = ActorType.USER
                             }
-                    taskService.createTask(node, execution)
+                    taskService
+                        .asToNotNull<TaskServiceImpl>()
+                        .createTask(node, execution)
                     interceptors
                         .forEach { interceptor ->
                             interceptor.handle(execution)
@@ -424,7 +433,9 @@ public object FusContext {
             node.nodeType == NodeType.APPROVER ||
             node.nodeType == NodeType.SUB_PROCESS
         ) {
-            taskService.createTask(node, execution)
+            taskService
+                .asToNotNull<TaskServiceImpl>()
+                .createTask(node, execution)
             interceptors
                 .forEach { interceptor ->
                     interceptor.handle(execution)
@@ -455,6 +466,6 @@ public object FusContext {
                 fusThrowIf(task.taskType == TaskType.MAJOR, "存在未完成的主办任务")
                 taskService.complete(task.taskId, execution.userId)
             }
-        runtimeService.complete(execution)
+        runtimeService.asToNotNull<RuntimeServiceImpl>().complete(execution)
     }
 }
