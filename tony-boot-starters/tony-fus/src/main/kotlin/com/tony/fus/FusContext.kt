@@ -145,7 +145,6 @@ public object FusContext {
         userId: String,
         args: Map<String, Any?> = mapOf(),
         businessKey: String = "",
-        consumer: Consumer<FusInstance>? = null,
     ): FusInstance =
         startProcess(
             processService.getById(processId),
@@ -153,7 +152,6 @@ public object FusContext {
             args,
             FusInstance().apply {
                 this.businessKey = businessKey
-                consumer?.accept(this)
             }
         )
 
@@ -172,6 +170,36 @@ public object FusContext {
     @JvmOverloads
     @JvmStatic
     public fun startProcessByKey(
+        processKey: String,
+        userId: String,
+        args: Map<String, Any?> = mapOf(),
+        businessKey: String = "",
+        version: Int? = null,
+    ): FusInstance =
+        startProcess(
+            processService.getByKey(processKey, version),
+            userId,
+            args,
+            FusInstance().apply {
+                this.businessKey = businessKey
+            }
+        )
+
+    /**
+     * 按唯一标识[processKey]启动进程
+     * @param [processKey] 唯一标识
+     * @param [userId] 用户id
+     * @param [businessKey] 业务KEY
+     * @param [args] variable
+     * @param [version] 流程版本
+     * @return [FusInstance]
+     * @author Tang Li
+     * @date 2024/01/17 10:40
+     * @since 1.0.0
+     */
+    @JvmOverloads
+    @JvmStatic
+    internal fun internalStartProcessByKey(
         processKey: String,
         userId: String,
         args: Map<String, Any?> = mapOf(),

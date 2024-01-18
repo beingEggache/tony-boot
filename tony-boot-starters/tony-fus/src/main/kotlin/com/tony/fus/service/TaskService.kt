@@ -799,7 +799,7 @@ internal open class TaskServiceImpl(
             NodeType.SUB_PROCESS -> {
                 execution.userId
                 val subInstance =
-                    FusContext.startProcessByKey(
+                    FusContext.internalStartProcessByKey(
                         node.outProcessKey,
                         execution.userId
                     ) { instance ->
