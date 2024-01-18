@@ -33,15 +33,40 @@ package com.tony.utils
  * @since 1.0.0
  */
 
+/**
+ * 为null或为空
+ * @param [cols] cols
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2024/01/18 13:55
+ * @since 1.0.0
+ */
 public fun isNullOrEmpty(cols: Collection<*>?): Boolean =
     cols.isNullOrEmpty()
 
+/**
+ * 如果为空, 提供默认值
+ * @param [cols] cols
+ * @param [ifEmpty] 如果为空
+ * @return [C]
+ * @author Tang Li
+ * @date 2024/01/18 13:55
+ * @since 1.0.0
+ */
 public fun <C : Collection<T>, T : Any?> ifEmpty(
     cols: C?,
     ifEmpty: C,
 ): C =
     if (cols.isNullOrEmpty()) ifEmpty else cols
 
+/**
+ * 如果集合非空, 执行 [block] ([C])
+ * @param [block] 块
+ * @return [C]
+ * @author Tang Li
+ * @date 2024/01/18 13:58
+ * @since 1.0.0
+ */
 public inline fun <C : Collection<T>?, T : Any?> C.alsoIfNotEmpty(crossinline block: (C) -> Unit): C =
     if (!isNullOrEmpty()) {
         block(this)
@@ -50,8 +75,24 @@ public inline fun <C : Collection<T>?, T : Any?> C.alsoIfNotEmpty(crossinline bl
         this
     }
 
+/**
+ * 给集合一个空的默认值
+ * @param [cols] cols
+ * @return [C]
+ * @author Tang Li
+ * @date 2024/01/18 13:59
+ * @since 1.0.0
+ */
 public fun <C : MutableList<T>, T : Any?> orEmpty(cols: C?): C =
-    if (cols.isNullOrEmpty()) mutableListOf<T>().asToNotNull() else cols
+    ifEmpty(cols, mutableListOf<T>().asToNotNull())
 
+/**
+ * 给集合一个空的默认值
+ * @param [cols] cols
+ * @return [C]
+ * @author Tang Li
+ * @date 2024/01/18 13:59
+ * @since 1.0.0
+ */
 public fun <C : MutableSet<T>, T : Any?> orEmpty(cols: C?): C =
-    if (cols.isNullOrEmpty()) mutableSetOf<T>().asToNotNull() else cols
+    ifEmpty(cols, mutableSetOf<T>().asToNotNull())
