@@ -80,15 +80,6 @@ public sealed interface RuntimeService {
     public fun complete(execution: FusExecution)
 
     /**
-     * 保存流程实例
-     * @param [instance] 流程实例
-     * @author Tang Li
-     * @date 2023/10/10 19:03
-     * @since 1.0.0
-     */
-    public fun saveInstance(instance: FusInstance): FusInstance
-
-    /**
      * 流程实例拒绝审批强制终止（用于后续审核人员认为该审批不再需要继续，拒绝审批强行终止）
      * @param [instanceId] 实例id
      * @param [userId] 操作人id
@@ -182,21 +173,29 @@ internal open class RuntimeServiceImpl(
     private val taskMapper: FusTaskMapper,
     private val instanceListener: InstanceListener? = null,
 ) : RuntimeService {
+
     override fun createInstance(
         processId: String,
         userId: String,
         nodeName: String,
         variable: Map<String, Any?>,
         instance: FusInstance,
-    ): FusInstance =
-        saveInstance(
-            instance.apply {
-                this.creatorId = userId
-                this.processId = processId
-                this.nodeName = nodeName
-                this.variable = variable.toJsonString()
-            }
-        )
+    ): FusInstance {
+        val instance1 = instance.apply {
+            this.creatorId = userId
+            this.processId = processId
+            this.nodeName = nodeName
+            this.variable = variable.toJsonString()
+        }
+        instanceMapper.insert(instance1)
+        val historyInstance =
+                instance1.copyToNotNull(FusHistoryInstance()).apply {
+                    instanceState = InstanceState.ACTIVE
+                }
+        historyInstanceMapper.insert(historyInstance)
+        instanceListener?.notify(EventType.CREATE) { instance1 }
+        return instance1
+    }
 
     override fun complete(execution: FusExecution) {
         val instanceId = execution.instance.instanceId
@@ -227,17 +226,6 @@ internal open class RuntimeServiceImpl(
                     FusContext.taskService.endOutProcessTask(instance.processId, instanceId)
                 }
             }
-    }
-
-    override fun saveInstance(instance: FusInstance): FusInstance {
-        instanceMapper.insert(instance)
-        val historyInstance =
-            instance.copyToNotNull(FusHistoryInstance()).apply {
-                this.instanceState = InstanceState.ACTIVE
-            }
-        historyInstanceMapper.insert(historyInstance)
-        instanceListener?.notify(EventType.CREATE) { instance }
-        return instance
     }
 
     override fun reject(
