@@ -192,7 +192,7 @@ public object FusContext {
      * @since 1.0.0
      */
     @JvmStatic
-    public fun restartProcess(
+    internal fun restartProcess(
         processId: String,
         nodeName: String,
         execution: FusExecution,
@@ -388,7 +388,7 @@ public object FusContext {
      * @since 1.0.0
      */
     @JvmStatic
-    public fun executeNode(
+    internal fun executeNode(
         node: FusNode,
         execution: FusExecution,
     ) {
