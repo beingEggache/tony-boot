@@ -66,9 +66,11 @@ internal class DefaultFusProcessModelParser(
         if (processId == null) {
             return parse(content)
         }
-        val cacheKey = "FUS_PROCESS_MODEL:$processId"
         return cache
-            .getOrPut(cacheKey, object : TypeReference<FusProcessModel>() {}) {
+            .getOrPut(
+                "FUS_PROCESS_MODEL:$processId",
+                object : TypeReference<FusProcessModel>() {}
+            ) {
                 parse(content)
             }
     }

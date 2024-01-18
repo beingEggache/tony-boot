@@ -81,7 +81,7 @@ class FusPurchaseProcessTests : FusTests() {
                     FusContext
                         .taskService
                         .rejectTask(
-                            task,
+                            task.taskId,
                             testOperator1Id,
                             mapOf(
                                 "reason" to "不符合要求"

@@ -24,6 +24,7 @@
 
 package com.tony.fus.service
 
+import com.tony.SpringContexts
 import com.tony.fus.FusContext
 import com.tony.fus.db.enums.InstanceState
 import com.tony.fus.db.enums.TaskState
@@ -213,7 +214,9 @@ internal open class RuntimeServiceImpl(
                     val parentInstance = instanceMapper.fusSelectByIdNotNull(parentInstanceId)
                     execution.instance = parentInstance
                     FusContext.restartProcess(parentInstance.processId, parentInstance.nodeName, execution)
-                    FusContext.taskService.endOutProcessTask(instance.processId, instanceId)
+                    SpringContexts
+                        .getBean(TaskServiceImpl::class.java)
+                        .endOutProcessTask(instance.processId, instanceId)
                 }
             }
     }

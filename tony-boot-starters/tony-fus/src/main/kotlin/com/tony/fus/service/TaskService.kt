@@ -280,7 +280,7 @@ public sealed interface TaskService {
      * 驳回任务.
      *
      * 驳回至上一步处理
-     * @param [task] 任务
+     * @param [taskId] 任务id
      * @param [userId] 操作人id
      * @param [variable] 变量
      * @return [FusTask]?
@@ -289,7 +289,7 @@ public sealed interface TaskService {
      * @since 1.0.0
      */
     public fun rejectTask(
-        task: FusTask,
+        taskId: String,
         userId: String,
         variable: Map<String, Any?>?,
     ): FusTask
@@ -298,7 +298,7 @@ public sealed interface TaskService {
      * 驳回任务.
      *
      * 驳回至上一步处理
-     * @param [task] 任务
+     * @param [taskId] 任务id
      * @param [userId] 操作人id
      * @return [FusTask]?
      * @author Tang Li
@@ -306,16 +306,16 @@ public sealed interface TaskService {
      * @since 1.0.0
      */
     public fun rejectTask(
-        task: FusTask,
+        taskId: String,
         userId: String,
     ): FusTask =
-        rejectTask(task, userId, null)
+        rejectTask(taskId, userId, null)
 
     /**
      * 判断可否执行任务.
      *
      * 根据 taskId、userId 判断创建人creatorId是否允许执行任务
-     * @param [task] 任务
+     * @param [taskId] 任务id
      * @param [userId] 操作人id
      * @return [Boolean]
      * @author Tang Li
@@ -323,7 +323,7 @@ public sealed interface TaskService {
      * @since 1.0.0
      */
     public fun hasPermission(
-        task: FusTask,
+        taskId: String,
         userId: String,
     ): Boolean
 
@@ -406,19 +406,6 @@ public sealed interface TaskService {
      * @since 1.0.0
      */
     public fun cascadeRemoveByInstanceIds(instanceIds: Collection<String>)
-
-    /**
-     * 结束外部流程任务
-     * @param [outProcessId] 进程外id
-     * @param [outInstanceId] out实例id
-     * @author Tang Li
-     * @date 2024/01/16 18:00
-     * @since 1.0.0
-     */
-    public fun endOutProcessTask(
-        outProcessId: String,
-        outInstanceId: String,
-    )
 }
 
 /**
@@ -556,8 +543,8 @@ internal open class TaskServiceImpl(
     ): FusTask =
         taskMapper
             .fusSelectByIdNotNull("任务不存在(id=$taskId)")
-            .also {
-                hasPermission(it, userId)
+            .also { _ ->
+                hasPermission(taskId, userId)
                 taskActorMapper.deleteByTaskIds(listOf(taskId))
                 taskActorMapper.insert(
                     FusTaskActor()
@@ -711,19 +698,22 @@ internal open class TaskServiceImpl(
         }
 
     override fun rejectTask(
-        task: FusTask,
+        taskId: String,
         userId: String,
         variable: Map<String, Any?>?,
     ): FusTask {
+        val task = taskMapper.fusSelectByIdNotNull(taskId)
         fusThrowIf(task.atStartNode, "上一步任务ID为空，无法驳回至上一步处理")
-        executeTask(task.taskId, userId, TaskState.REJECTED, EventType.REJECTED, variable ?: mapOf())
+        executeTask(taskId, userId, TaskState.REJECTED, EventType.REJECTED, variable ?: mapOf())
         return undoHistoryTask(task.parentTaskId)
     }
 
     override fun hasPermission(
-        task: FusTask,
+        taskId: String,
         userId: String,
     ): Boolean {
+        val task = taskMapper.fusSelectByIdNotNull(taskId)
+
         if (task.creatorId.isEmpty()) {
             return true
         }
@@ -732,7 +722,7 @@ internal open class TaskServiceImpl(
             return true
         }
         val taskActorList =
-            taskActorMapper.selectListByTaskId(task.taskId)
+            taskActorMapper.selectListByTaskId(taskId)
 
         if (taskActorList.isEmpty()) {
             return true
@@ -911,7 +901,15 @@ internal open class TaskServiceImpl(
         return taskMapper.updateById(task.apply { this.performType = performType }) > 0
     }
 
-    override fun endOutProcessTask(
+    /**
+     * 结束外部流程任务
+     * @param [outProcessId] 进程外id
+     * @param [outInstanceId] out实例id
+     * @author Tang Li
+     * @date 2024/01/16 18:00
+     * @since 1.0.0
+     */
+    internal fun endOutProcessTask(
         outProcessId: String,
         outInstanceId: String,
     ) {
@@ -987,7 +985,7 @@ internal open class TaskServiceImpl(
             taskState == TaskState.COMPLETED
         ) {
             fusThrowIf(
-                !hasPermission(task, userId),
+                !hasPermission(taskId, userId),
                 "当前参与者[$userId]不允许执行任务[$taskId]"
             )
         }

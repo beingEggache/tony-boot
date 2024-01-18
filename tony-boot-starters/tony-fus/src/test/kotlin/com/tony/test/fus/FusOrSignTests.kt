@@ -60,7 +60,7 @@ class FusOrSignTests : FusTests() {
             taskList2
                 .forEach { task ->
                     FusContext.taskService.rejectTask(
-                        task,
+                        task.taskId,
                         testOperator3Id,
                         mapOf("reason" to "不符合要求")
                     )
