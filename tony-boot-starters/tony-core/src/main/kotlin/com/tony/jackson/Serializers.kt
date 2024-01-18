@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory
 /**
  * 掩模转换器
  */
-@JvmSynthetic
+@get:JvmSynthetic
 internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> =
     mutableMapOf(
         MobileMaskFun::class.java to MobileMaskFun(),

@@ -311,7 +311,7 @@ public fun CharSequence.snakeToUpperCamelCase(): String =
             }
         }
 
-@JvmSynthetic
+@get:JvmSynthetic
 internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
 
 /**

@@ -31,6 +31,7 @@ package com.tony.utils
  * @date 2023/09/13 19:22
  * @since 1.0.0
  */
+import java.util.function.Supplier
 import org.slf4j.MDC
 
 /**
@@ -46,9 +47,9 @@ import org.slf4j.MDC
 public fun mdcPutOrGetDefault(
     key: String,
     default: String = uuid(),
-    source: (() -> String?)? = null,
+    source: Supplier<String>? = null,
 ): String {
-    val value = source?.invoke().ifNullOrBlank(MDC.get(key).ifNullOrBlank(default))
+    val value = source?.get().ifNullOrBlank(MDC.get(key).ifNullOrBlank(default))
     MDC.put(key, value)
     return value
 }

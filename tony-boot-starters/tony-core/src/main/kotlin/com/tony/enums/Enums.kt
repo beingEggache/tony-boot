@@ -72,6 +72,7 @@ public const val DEFAULT_INT_VALUE: Int = -1
 
 public const val DEFAULT_STRING_VALUE: String = ""
 
+@get:JvmSynthetic
 internal val creators = HashMap<Class<*>, EnumCreator<*, *>>()
 
 private val logger: Logger = LoggerFactory.getLogger(EnumCreator::class.java)

@@ -1,5 +1,5 @@
 dependencies {
-    implementation(projects.tonyCore)
+    api(projects.tonyCore)
     api(projects.tonyInterfaces)
     implementation(tonyLibs.springBootStarterDataRedis)
     implementation(tonyLibs.springBootStarterAop)

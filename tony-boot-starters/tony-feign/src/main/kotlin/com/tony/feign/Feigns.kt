@@ -67,6 +67,7 @@ public fun RequestBody.jsonNode(): JsonNode =
 /**
  * Parsed media
  */
+@get:JvmSynthetic
 internal val ResponseBody.parsedMedia: MediaType?
     get() {
         val contentTypeStr = contentType()?.toString()
@@ -80,6 +81,7 @@ internal val ResponseBody.parsedMedia: MediaType?
 /**
  * Parsed media
  */
+@get:JvmSynthetic
 internal val RequestBody.parsedMedia: MediaType?
     get() {
         val contentTypeStr = contentType()?.toString()
@@ -94,6 +96,7 @@ internal val RequestBody.parsedMedia: MediaType?
  * 是否字符串mime类型
  * @param mediaType
  */
+@JvmSynthetic
 internal fun isTextMediaTypes(mediaType: MediaType?) =
     TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 

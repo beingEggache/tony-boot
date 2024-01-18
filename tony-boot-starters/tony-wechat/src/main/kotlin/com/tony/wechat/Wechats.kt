@@ -35,6 +35,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.UUID
 
+@JvmSynthetic
 internal fun genNonceStr() =
     UUID
         .randomUUID()
@@ -42,6 +43,7 @@ internal fun genNonceStr() =
         .replace("-", "")
         .uppercase()
 
+@JvmSynthetic
 internal fun genTimeStamp() =
     LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
 
@@ -60,6 +62,7 @@ public fun <T> T.toQueryString(
             "${it.first}=${it.second}"
         }
 
+@JvmSynthetic
 internal fun <T> genMd5UpperCaseSign(
     obj: T,
     vararg params: Pair<String, Any?>,

@@ -45,8 +45,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.WeakHashMap
 
-@JvmField
-@JvmSynthetic
+@get:JvmSynthetic
 internal val dateTimeFormatterMap: WeakHashMap<String, DateTimeFormatter> = WeakHashMap()
 
 @JvmSynthetic
@@ -77,6 +76,7 @@ public fun TemporalAccessor.toString(pattern: CharSequence): String =
  * @date 2023/12/08 19:42
  * @since 1.0.0
  */
+@JvmSynthetic
 internal fun TemporalAccessor.toDate(): Date =
     when (this) {
         is LocalDate -> toDate()

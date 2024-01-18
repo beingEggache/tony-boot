@@ -732,6 +732,7 @@ internal open class TaskServiceImpl(
      * @date 2023/10/25 19:05
      * @since 1.0.0
      */
+    @JvmSynthetic
     internal fun createTask(
         node: FusNode?,
         execution: FusExecution,
@@ -902,6 +903,7 @@ internal open class TaskServiceImpl(
      * @date 2024/01/16 18:00
      * @since 1.0.0
      */
+    @JvmSynthetic
     internal fun endOutProcessTask(
         outProcessId: String,
         outInstanceId: String,

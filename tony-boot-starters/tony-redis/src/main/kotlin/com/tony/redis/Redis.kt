@@ -43,37 +43,43 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.ValueOperations
 import org.springframework.data.redis.core.script.RedisScript
 
+@get:JvmSynthetic
 internal val redisTemplate: RedisTemplate<String, Any> by SpringContexts.getBeanByLazy("redisTemplate")
 
 /**
  * redis服务
  */
+@get:JvmSynthetic
 public val redisService: RedisService by SpringContexts.getBeanByLazy()
 
 /**
  * 值运算
  */
-public val valueOp: ValueOperations<String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+@get:JvmSynthetic
+internal val valueOp: ValueOperations<String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForValue()
 }
 
 /**
  * 列表操作
  */
-public val listOp: ListOperations<String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+@get:JvmSynthetic
+internal val listOp: ListOperations<String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForList()
 }
 
 /**
  * 散列运算
  */
-public val hashOp: HashOperations<String, String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+@get:JvmSynthetic
+internal val hashOp: HashOperations<String, String, Any> by lazy(LazyThreadSafetyMode.PUBLICATION) {
     redisTemplate.opsForHash()
 }
 
 /**
  * 简单锁脚本引用
  */
+@get:JvmSynthetic
 internal val lockScript: RedisScript<Long> =
     RedisScript.of(ClassPathResource("META-INF/scripts/lockKey.lua"), Long::class.java)
 
@@ -81,9 +87,11 @@ internal val lockScript: RedisScript<Long> =
  * 批量删除脚本
  * @date redis 3.2+
  */
+@get:JvmSynthetic
 internal val deleteKeyByPatternScript: RedisScript<Long?> =
     RedisScript.of(ClassPathResource("META-INF/scripts/deleteByKeyPatterns.lua"), Long::class.java)
 
+@JvmSynthetic
 internal fun <R : Number> Any?.toNum(type: Class<in R>): R? =
     when (this) {
         is String -> this.toNumber(type)

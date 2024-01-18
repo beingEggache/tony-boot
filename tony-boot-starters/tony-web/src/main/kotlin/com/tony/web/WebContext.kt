@@ -80,6 +80,7 @@ public object WebContext {
 
     @Suppress("MemberVisibilityCanBePrivate")
     internal val errorAttributes
+        @JvmSynthetic
         @JvmStatic
         get() =
             current

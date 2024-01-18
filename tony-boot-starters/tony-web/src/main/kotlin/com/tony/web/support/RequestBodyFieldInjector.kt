@@ -68,6 +68,7 @@ public abstract class RequestBodyFieldInjector(
         annotatedField.setValueFirstUseSetter(body, value(annotatedField.type))
     }
 
+    @JvmSynthetic
     internal fun internalInject(
         annotatedField: Field,
         body: Any,

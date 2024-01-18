@@ -42,13 +42,16 @@ import org.springframework.util.ConcurrentReferenceHashMap
 /**
  * getter缓存
  */
+@get:JvmSynthetic
 internal val getterCache: MutableMap<AnnotatedElement, Method?> = ConcurrentReferenceHashMap()
 
 /**
  * setter缓存
  */
+@get:JvmSynthetic
 internal val setterCache: MutableMap<AnnotatedElement, Method?> = ConcurrentReferenceHashMap()
 
+@get:JvmSynthetic
 internal val logger: Logger = LoggerFactory.getLogger("com.tony.utils.Reflects")
 
 /**

@@ -116,16 +116,7 @@ public fun Class<*>.typeParamOfSuperInterface(
     return matchedInterface.asToNotNull<ParameterizedType>().actualTypeArguments[index]
 }
 
-/**
- * Type name clear bounds
- * @see sun.reflect.generics.reflectiveObjects.WildcardTypeImpl.toString
- */
-public val Type.typeNameClearBounds: String
-    get() =
-        typeName
-            .replace("? super ", "")
-            .replace("? extends ", "")
-
+@JvmSynthetic
 internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
     (this == type) || type?.isAssignableFrom(this) == true
 

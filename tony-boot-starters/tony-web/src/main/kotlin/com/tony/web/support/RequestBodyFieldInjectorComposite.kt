@@ -54,20 +54,23 @@ internal class RequestBodyFieldInjectorComposite(
         @JvmStatic
         private val logger: Logger = LoggerFactory.getLogger(RequestBodyFieldInjectorComposite::class.java)
 
-        @JvmStatic
+        @get:JvmSynthetic
         internal val supportedClassesCache = ConcurrentHashMap<Class<*>, Boolean>()
 
         /**
          * <被注入的类, <注入器名, 被注入的类字段列表>>
          */
+        @get:JvmSynthetic
         @JvmStatic
         internal val supportedClassFieldsCache =
             ConcurrentHashMap<Class<*>, ConcurrentMap<String, MutableSet<Field>>>()
 
+        @get:JvmSynthetic
         @JvmStatic
         internal val classSupportedInjectorMap =
             ConcurrentHashMap<Class<*>, ConcurrentMap<String, RequestBodyFieldInjector>>()
 
+        @get:JvmSynthetic
         @JvmStatic
         internal val fieldOverrideMap =
             ConcurrentHashMap<Field, Boolean>()

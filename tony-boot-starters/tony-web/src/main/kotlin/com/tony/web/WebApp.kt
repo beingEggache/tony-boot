@@ -47,6 +47,7 @@ public object WebApp {
     private const val SPRINGDOC_API_DOCS_PATH: String = "springdoc.api-docs.path"
     private const val SPRINGDOC_API_DOCS_PATH_VALUE: String = "/v3/api-docs"
 
+    @get:JvmSynthetic
     internal val errorAttributes: ErrorAttributes by getBeanByLazy()
 
     private val webProperties: WebProperties by getBeanByLazy()
@@ -71,6 +72,7 @@ public object WebApp {
     @JvmStatic
     public val contextPath: String by Env.getPropertyByLazy("server.servlet.context-path", "")
 
+    @get:JvmSynthetic
     internal val responseWrapExcludePatterns by lazy(LazyThreadSafetyMode.PUBLICATION) {
         val set =
             setOf(

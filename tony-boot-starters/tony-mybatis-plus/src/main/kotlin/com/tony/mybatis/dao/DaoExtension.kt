@@ -48,10 +48,13 @@ import org.apache.ibatis.logging.LogFactory
 import org.apache.ibatis.session.SqlSession
 import org.apache.ibatis.session.SqlSessionFactory
 
+@get:JvmSynthetic
 internal val ENTITY_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
 
+@get:JvmSynthetic
 internal val MAPPER_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
 
+@get:JvmSynthetic
 internal val LOG_MAP = ConcurrentHashMap<Class<*>, Log>()
 
 /**
@@ -60,6 +63,7 @@ internal val LOG_MAP = ConcurrentHashMap<Class<*>, Log>()
  * @date 2023/09/28 19:54
  * @since 1.0.0
  */
+@JvmSynthetic
 internal fun <T : Any> BaseDao<T>.actualClass() =
     if (!Proxy.isProxyClass(this::class.java)) {
         this::class.java
@@ -81,6 +85,7 @@ internal fun <T : Any> BaseDao<T>.actualClass() =
  * @date 2023/09/28 19:52
  * @since 1.0.0
  */
+@JvmSynthetic
 internal fun <T : Any> BaseDao<T>.getSqlStatement(sqlMethod: SqlMethod?): String =
     SqlHelper.getSqlStatement(getMapperClass(), sqlMethod)
 
@@ -91,6 +96,7 @@ internal fun <T : Any> BaseDao<T>.getSqlStatement(sqlMethod: SqlMethod?): String
  * @date 2023/09/28 19:52
  * @since 1.0.0
  */
+@JvmSynthetic
 internal fun <T : Any> BaseDao<T>.getLog(): Log =
     LOG_MAP.getOrPut(this::class.java) {
         LogFactory.getLog(actualClass())
@@ -103,6 +109,7 @@ internal fun <T : Any> BaseDao<T>.getLog(): Log =
  * @date 2023/09/28 19:53
  * @since 1.0.0
  */
+@JvmSynthetic
 internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
     ENTITY_CLASS_MAP
         .getOrPut(this::class.java) {
@@ -116,6 +123,7 @@ internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
  * @date 2023/09/28 19:53
  * @since 1.0.0
  */
+@JvmSynthetic
 internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
     MAPPER_CLASS_MAP
         .getOrPut(this::class.java) {
@@ -131,6 +139,7 @@ internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
  * @date 2023/09/28 19:53
  * @since 1.0.0
  */
+@JvmSynthetic
 internal fun <T : Any, E> BaseDao<T>.executeBatch(
     batchList: Collection<E>,
     consumer: BiConsumer<SqlSession, E>,

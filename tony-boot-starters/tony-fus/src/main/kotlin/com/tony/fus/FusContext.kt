@@ -197,6 +197,7 @@ public object FusContext {
      * @date 2024/01/17 10:40
      * @since 1.0.0
      */
+    @JvmSynthetic
     @JvmOverloads
     @JvmStatic
     internal fun internalStartProcessByKey(
@@ -226,6 +227,7 @@ public object FusContext {
      * @date 2024/01/16 17:05
      * @since 1.0.0
      */
+    @JvmSynthetic
     @JvmStatic
     internal fun restartProcess(
         processId: String,
@@ -426,6 +428,7 @@ public object FusContext {
      * @date 2023/10/24 19:48
      * @since 1.0.0
      */
+    @JvmSynthetic
     @JvmStatic
     internal fun executeNode(
         node: FusNode,

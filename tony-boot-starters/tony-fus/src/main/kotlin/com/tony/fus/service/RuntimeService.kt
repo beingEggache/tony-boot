@@ -188,6 +188,7 @@ internal open class RuntimeServiceImpl(
      * @date 2023/10/10 19:02
      * @since 1.0.0
      */
+    @JvmSynthetic
     internal fun complete(execution: FusExecution) {
         val instanceId = execution.instance.instanceId
         instanceMapper

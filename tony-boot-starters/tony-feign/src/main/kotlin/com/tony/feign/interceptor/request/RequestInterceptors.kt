@@ -131,6 +131,7 @@ public class UseRequestProcessorsRequestInterceptor : RequestInterceptor {
     }
 
     internal companion object {
+        @get:JvmSynthetic
         internal val feignRequestProcessorMap: MutableMap<String, List<RequestProcessor>> =
             ConcurrentHashMap()
     }

@@ -67,7 +67,6 @@ public fun <C : Collection<T>, T : Any?> ifEmpty(
  * @date 2024/01/18 13:58
  * @since 1.0.0
  */
-@JvmSynthetic
 public inline fun <C : Collection<T>?, T : Any?> C.alsoIfNotEmpty(crossinline block: (C) -> Unit): C =
     if (!isNullOrEmpty()) {
         block(this)
