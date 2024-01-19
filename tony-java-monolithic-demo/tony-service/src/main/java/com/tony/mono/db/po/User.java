@@ -1,39 +1,86 @@
 package com.tony.mono.db.po;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * 用户
+ *
+ * @author Tang Li
+ * @date 2024/01/19 11:53
+ */
 @Getter
 @Setter
-@TableName("t_sys_user")
+@TableName("sys_user")
 public class User {
 
-    @TableId("user_id")
+    @TableId
     private String userId;
 
-    @TableField("user_name")
     private String userName;
 
-    @TableField("real_name")
     private String realName;
 
-    @TableField("mobile")
     private String mobile;
 
-    @TableField("pwd")
     private String pwd;
 
-    @TableField("create_time")
+    private String remark;
+
+    @OrderBy
+    @TableField(
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
     private LocalDateTime createTime;
 
-    @TableField("states")
-    private Integer states;
+    @TableField(
+        fill = FieldFill.INSERT,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    private String creatorId;
 
-    @TableField("remark")
-    private String remark;
+    @TableField(
+        fill = FieldFill.INSERT,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    private String creatorName;
+
+    @TableField(
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER,
+        update = "CURRENT_TIMESTAMP"
+    )
+    private LocalDateTime updateTime;
+
+    @TableField(
+        fill = FieldFill.UPDATE,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    private String updatorId;
+
+    @TableField(
+        fill = FieldFill.UPDATE,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    private String updatorName;
+
+
+    private Boolean enabled;
+
+    @TableLogic
+    private Boolean deleted;
+
+    @TableField(
+        fill = FieldFill.INSERT,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    private String tenantId;
 }

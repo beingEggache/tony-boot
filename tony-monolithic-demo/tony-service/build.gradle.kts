@@ -5,6 +5,7 @@ dependencies {
     api(Build.templateProject("core")) { isChanging = true }
     api(Build.templateProject("mybatis-plus")) { isChanging = true }
     api(Build.templateProject("redis")) { isChanging = true }
+    api(Build.templateProject("feign")) { isChanging = true }
     implementation(Build.templateProject("snowflake-id")) { isChanging = true }
     implementation(tonyLibs.mysql)
     api(project(":tony-dto"))

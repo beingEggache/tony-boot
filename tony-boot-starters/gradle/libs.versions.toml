@@ -32,7 +32,7 @@ logstashLogbackEncoder = "7.4"
 
 byteBuddy = "1.14.11"
 bouncycastle = "1.77"
-netty = "4.1.104.Final"
+netty = "4.1.105.Final"
 reactor = "3.6.2"
 reactorNetty = "1.1.15"
 reactorKotlinExtensions = "1.2.2"
@@ -45,7 +45,7 @@ gson = "2.10.1"
 fastjson = "2.0.45"
 
 postgresql = "42.7.1"
-mysql = "8.2.0"
+mysql = "8.3.0"
 
 hikariCP = "5.1.0"
 mybatis = "3.5.15"
@@ -75,6 +75,7 @@ springCloudAlibaba = "2022.0.0.0"
 lombok = "8.4"
 ktlint = "1.1.1"
 graalvm = "0.9.28"
+dokka = "1.9.10"
 
 [libraries]
 
@@ -258,6 +259,7 @@ kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 kotlinNoarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin" }
 kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 lombok = { id="io.freefair.lombok", version.ref = "lombok" }
 graalvm = { id="org.graalvm.buildtools.native", version.ref = "graalvm" }
 
