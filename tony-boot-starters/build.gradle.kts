@@ -34,6 +34,7 @@ plugins {
     alias(tonyLibs.plugins.kotlin) apply false
     alias(tonyLibs.plugins.kotlinSpring) apply false
     alias(tonyLibs.plugins.kotlinKapt) apply false
+    alias(tonyLibs.plugins.dokka)
 }
 
 val dependenciesProjects = setOf(project("${Build.PREFIX}-dependencies"))
@@ -43,7 +44,7 @@ val libraryProjects = subprojects - dependenciesProjects - dependenciesCatalogPr
 val javaVersion: String = rootProject.tonyLibs.versions.java.get()
 val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
 
-configure(subprojects) {
+configure(allprojects) {
     group = Build.GROUP
     version = Build.VERSION
     repositories {
@@ -88,6 +89,11 @@ configure(dependenciesCatalogProjects) {
     }
 }
 
+tasks.dokkaHtmlMultiModule {
+    moduleName.set(rootProject.name)
+    moduleVersion.set(rootProject.version.toString())
+}
+
 configure(libraryProjects) {
 
     apply {
@@ -97,6 +103,7 @@ configure(libraryProjects) {
         plugin("com.tony.gradle.plugin.ktlint")
         plugin("com.tony.gradle.plugin.dep-configurations")
         plugin("com.tony.gradle.plugin.maven-publish")
+        plugin("org.jetbrains.dokka")
     }
 
     tasks.withType<Javadoc> {
