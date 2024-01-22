@@ -1,6 +1,9 @@
 mybatis-plus:
   mapper-locations: classpath*:mappers/*.mapper.xml
   configuration:
+    return-instance-for-empty-row: true
+    default-executor-type: batch
     default-enum-type-handler: com.tony.mybatis.typehandler.EnumTypeHandler
   global-config:
     banner: off
+
