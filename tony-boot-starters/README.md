@@ -13,4 +13,3 @@
 ## tony-web 常用web封装. 统一异常处理, 响应结构及行为统一等.
 ## tony-web-auth web认证
 ## tony-wechat 微信接口 starter
-## tony-xxl-job xxl-job starter

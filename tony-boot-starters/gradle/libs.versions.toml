@@ -161,8 +161,6 @@ findbugsJsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2"
 findbugsAnnotations = { module = "com.google.code.findbugs:annotations", version = "3.0.1" }
 javaJwt = { module = "com.auth0:java-jwt", version.ref = "javaJwt" }
 
-xxlJob = { module = "com.xuxueli:xxl-job-core", version.ref = "xxlJob" }
-
 slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 julToSlf4j = { module = "org.slf4j:jul-to-slf4j", version.ref = "slf4j" }
 jclOverSlf4j = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
