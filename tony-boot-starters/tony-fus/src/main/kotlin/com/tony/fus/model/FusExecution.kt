@@ -25,7 +25,6 @@
 package com.tony.fus.model
 
 import com.tony.fus.db.po.FusInstance
-import com.tony.fus.db.po.FusProcess
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.db.po.FusTaskActor
 
@@ -36,7 +35,7 @@ import com.tony.fus.db.po.FusTaskActor
  * @since 1.0.0
  */
 public class FusExecution(
-    public val process: FusProcess,
+    public val processModel: FusProcessModel,
     public var instance: FusInstance,
     public val userId: String,
     public val variable: Map<String, Any?>,

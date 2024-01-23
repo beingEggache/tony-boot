@@ -89,6 +89,6 @@ internal class DefaultFusProcessModelParser(
     override fun parse(content: String): FusProcessModel =
         content
             .jsonToObj<FusProcessModel>()
-            .fusThrowIfNull("fus process model parse error")
+            .fusThrowIfNull("fus processModel model parse error")
             .buildParentNode()
 }

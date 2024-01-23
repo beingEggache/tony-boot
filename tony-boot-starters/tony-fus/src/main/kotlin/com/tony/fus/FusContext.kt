@@ -104,7 +104,7 @@ public object FusContext {
                 )
                 val execution =
                     FusExecution(
-                        process,
+                        process.model(),
                         runtimeService
                             .asToNotNull<RuntimeServiceImpl>()
                             .createInstance(
@@ -311,7 +311,7 @@ public object FusContext {
             }
         val execution =
             FusExecution(
-                process,
+                process.model(),
                 instance,
                 userId,
                 args
@@ -373,8 +373,7 @@ public object FusContext {
                 }
         }
         execution
-            .process
-            .model()
+            .processModel
             .also { model ->
                 model
                     .getNode(execution.task?.taskName)
@@ -416,7 +415,7 @@ public object FusContext {
                         }
                 runtimeService.updateInstance(instance)
                 val process = processService.getById(instance.processId)
-                FusExecution(process, instance, userId, mutableMapOf())
+                FusExecution(process.model(), instance, userId, mutableMapOf())
             }
     }
 

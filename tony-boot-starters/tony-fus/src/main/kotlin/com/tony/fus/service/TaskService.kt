@@ -449,8 +449,7 @@ internal open class TaskServiceImpl(
         val execution = func.apply(task)
         val node =
             execution
-                .process
-                .model()
+                .processModel
                 .getNode(nodeName)
                 .fusThrowIfNull("无法找到节点[$nodeName]")
 
