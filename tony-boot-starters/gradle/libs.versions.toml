@@ -67,7 +67,7 @@ knife4j = "4.5.0"
 springdoc = "1.7.0"
 springdocStarter = "2.3.0"
 
-xxlJob = "2.4.0"
+powerjob = "4.3.6"
 
 springCloud = "2023.0.0"
 springCloudAlibaba = "2022.0.0.0"
@@ -247,6 +247,10 @@ springBootStarterDataRedis = { module = "org.springframework.boot:spring-boot-st
 springBootStarterDataRedisReactive = { module = "org.springframework.boot:spring-boot-starter-data-redis-reactive", version.ref = "springBoot" }
 
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6.4" }
+
+powerjobWorkerSpringBootStarter = { module = "tech.powerjob:powerjob-worker-spring-boot-starter", version.ref ="powerjob" }
+powerjobWorker = { module = "tech.powerjob:powerjob-worker", version.ref ="powerjob" }
+powerjobOfficialProcessors = { module = "tech.powerjob:powerjob-official-processors", version.ref ="powerjob" }
 
 gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.35.0"}
 springBootGradlePlugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot"}

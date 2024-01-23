@@ -2,6 +2,7 @@ package com.tony.api
 
 import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
+import com.tony.config.PowerJobConfig
 import com.tony.db.config.DbConfig
 import com.tony.web.WebApp
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -30,7 +31,12 @@ fun main(args: Array<String>) {
 // }
 
 @EnableTonyBoot
-@Import(value = [DbConfig::class])
+@Import(
+    value = [
+        DbConfig::class,
+        PowerJobConfig::class
+    ]
+)
 @SpringBootApplication
 class MonoApiWebApp(
     private val permissionInterceptor: PermissionInterceptor,

@@ -17,5 +17,6 @@ dependencies {
     implementation(Build.templateProject("web")) { isChanging = true }
     implementation(Build.templateProject("web-auth")) { isChanging = true }
     implementation(project(":tony-service"))
+    implementation(project(":tony-job"))
 //    implementation(Deps.SpringBoot.starterActuator)
 }

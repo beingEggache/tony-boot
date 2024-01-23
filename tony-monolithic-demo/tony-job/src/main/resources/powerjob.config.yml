@@ -1,0 +1,6 @@
+powerjob:
+  worker:
+    app-name: ${spring.application.name}
+    server-address: "192.168.2.113:7700"
+    protocol: http
+    enabled: false

@@ -39,6 +39,7 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
             exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
             exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
             exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk7")
+            exclude(group = "tech.powerjob", module = "powerjob-remote-impl-akka")
 
             exclude(group = "org.springdoc", module = "springdoc-openapi-starter-webflux-ui")
             exclude(group = "org.webjars", module = "swagger-ui")
