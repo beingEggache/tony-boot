@@ -38,6 +38,11 @@ import java.util.function.Supplier
 public class DefaultFusCache : FusCache {
     private val cache = ConcurrentHashMap<String, Any?>()
 
+    override fun <T : Any> put(
+        key: String,
+        value: T
+    ): T = cache.put(key, value)!!.asToNotNull()
+
     override fun <T : Any> getOrPut(
         key: String,
         typeReference: TypeReference<T>,

@@ -150,7 +150,7 @@ internal class ProcessServiceImpl(
         val processModel =
             FusContext
                 .processModelParser
-                .parse(compressedModelContent, null, false)
+                .parse(compressedModelContent)
 
         val process =
             processMapper

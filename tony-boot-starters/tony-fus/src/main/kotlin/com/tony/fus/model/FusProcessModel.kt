@@ -38,16 +38,17 @@ public data class FusProcessModel(
     public fun getNode(nodeName: String?): FusNode? =
         node?.getNode(nodeName)
 
-    public fun buildParentNode(rootNode: FusNode?) {
+    public fun buildParentNode(rootNode: FusNode? = node): FusProcessModel {
         rootNode?.conditionNodes?.forEach { conditionNode ->
             conditionNode.childNode?.also { conditionChildNode ->
                 conditionChildNode.parentNode = rootNode
                 buildParentNode(conditionChildNode)
             }
         }
-        rootNode?.childNode?.also {
-            it.parentNode = rootNode
-            buildParentNode(it)
+        rootNode?.childNode?.also { childNode ->
+            childNode.parentNode = rootNode
+            buildParentNode(childNode)
         }
+        return this
     }
 }

@@ -37,7 +37,7 @@ import com.tony.utils.jsonToObj
  * @date 2023/11/02 19:15
  * @since 1.0.0
  */
-public fun interface FusProcessModelParser {
+public interface FusProcessModelParser {
     /**
      * 流程模型 JSON 解析
      * @param [content] 模型内容
@@ -50,9 +50,19 @@ public fun interface FusProcessModelParser {
      */
     public fun parse(
         content: String,
-        processId: String?,
+        processId: String,
         redeploy: Boolean,
     ): FusProcessModel
+
+    /**
+     * 流程模型 JSON 解析
+     * @param [content] 模型内容
+     * @return [FusProcessModel]
+     * @author Tang Li
+     * @date 2024/01/23 16:02
+     * @since 1.0.0
+     */
+    public fun parse(content: String): FusProcessModel
 }
 
 internal class DefaultFusProcessModelParser(
@@ -60,28 +70,26 @@ internal class DefaultFusProcessModelParser(
 ) : FusProcessModelParser {
     override fun parse(
         content: String,
-        processId: String?,
+        processId: String,
         redeploy: Boolean,
     ): FusProcessModel {
-        if (processId == null) {
-            return parse(content)
+        val key = "FUS_PROCESS_MODEL:$processId"
+        if(redeploy){
+            return cache.put(key, parse(content))
         }
         return cache
             .getOrPut(
-                "FUS_PROCESS_MODEL:$processId",
+                key,
                 object : TypeReference<FusProcessModel>() {}
             ) {
                 parse(content)
             }
     }
 
-    private fun parse(content: String): FusProcessModel {
-        val processModel =
-            content
-                .jsonToObj<FusProcessModel>()
-                .fusThrowIfNull("fus process model parse error")
+    override fun parse(content: String): FusProcessModel =
+        content
+            .jsonToObj<FusProcessModel>()
+            .fusThrowIfNull("fus process model parse error")
+            .buildParentNode()
 
-        processModel.buildParentNode(processModel.node)
-        return processModel
-    }
 }

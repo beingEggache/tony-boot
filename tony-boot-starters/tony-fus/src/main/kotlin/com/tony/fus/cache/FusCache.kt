@@ -34,6 +34,20 @@ import java.util.function.Supplier
  * @since 1.0.0
  */
 public interface FusCache {
+
+    /**
+     * 设值
+     * @param [key] 键
+     * @param [value] 值
+     * @return [T?]
+     * @author Tang Li
+     * @date 2024/01/23 16:42
+     * @since 1.0.0
+     */
+    public fun <T:Any> put(
+        key: String,
+        value: T
+    ): T
     /**
      * 获取或设值
      * @param [key] 键
