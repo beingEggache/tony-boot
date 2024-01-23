@@ -74,9 +74,10 @@ internal class DefaultFusProcessModelParser(
         redeploy: Boolean,
     ): FusProcessModel {
         val key = "FUS_PROCESS_MODEL:$processId"
-        if(redeploy){
-            return cache.put(key, parse(content))
-        }
+        if (redeploy)
+            {
+                return cache.put(key, parse(content))
+            }
         return cache
             .getOrPut(
                 key,
@@ -91,5 +92,4 @@ internal class DefaultFusProcessModelParser(
             .jsonToObj<FusProcessModel>()
             .fusThrowIfNull("fus process model parse error")
             .buildParentNode()
-
 }

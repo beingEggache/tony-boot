@@ -40,8 +40,9 @@ public class DefaultFusCache : FusCache {
 
     override fun <T : Any> put(
         key: String,
-        value: T
-    ): T = cache.put(key, value)!!.asToNotNull()
+        value: T,
+    ): T =
+        cache.put(key, value)!!.asToNotNull()
 
     override fun <T : Any> getOrPut(
         key: String,
