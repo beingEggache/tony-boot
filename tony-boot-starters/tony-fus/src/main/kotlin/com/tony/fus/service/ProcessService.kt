@@ -92,6 +92,7 @@ public sealed interface ProcessService {
      * 重新部署流程
      * @param [processId] 流程id
      * @param [modelContent] 流程定义json字符串
+     * @param [processVersion] 流程版本
      * @return [Boolean]
      * @author Tang Li
      * @date 2023/10/09 19:53
@@ -100,6 +101,7 @@ public sealed interface ProcessService {
     public fun redeploy(
         processId: String,
         modelContent: String,
+        processVersion: Int,
     ): Boolean
 
     /**
@@ -161,27 +163,41 @@ internal class ProcessServiceImpl(
                 .last("limit 1")
                 .one()
 
-        if (process != null && !repeat) {
-            return process.processId
+        if (process != null) {
+            return if (!repeat) {
+                process.processId
+            } else {
+                fusThrowIf(
+                    !redeploy(process.processId, modelContent, process.processVersion + 1),
+                    "Redeploy failed"
+                )
+                process.processId
+            }
         }
 
         val newProcess =
             FusProcess().apply {
-                this.processVersion = (process?.processVersion ?: 0) + 1
+                this.processVersion = 1
+                this.enabled = true
                 this.processName = processModel.name
                 this.processKey = processModel.key
                 this.modelContent = compressedModelContent
             }
-        processMapper.insert(newProcess)
+        fusThrowIf(
+            processMapper.insert(newProcess) < 1,
+            "Deploy failed"
+        )
         return newProcess.processId
     }
 
     override fun redeploy(
         processId: String,
         modelContent: String,
+        processVersion: Int,
     ): Boolean {
         val process = processMapper.fusSelectByIdNotNull(processId)
-        val processModel = FusContext.processModelParser.parse(modelContent, processId, true)
+        val processModel = FusContext.processModelParser.parse(modelContent, process.modelKey, true)
+        process.processVersion = processVersion
         process.processName = processModel.name
         process.processKey = processModel.key
         process.modelContent = modelContent

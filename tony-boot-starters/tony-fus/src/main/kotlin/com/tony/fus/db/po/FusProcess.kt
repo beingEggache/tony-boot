@@ -30,8 +30,7 @@ import com.baomidou.mybatisplus.annotation.OrderBy
 import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
-import com.tony.fus.FusContext
-import com.tony.fus.model.FusProcessModel
+import com.tony.fus.model.FusModel
 import com.tony.mybatis.MetaColumn
 import com.tony.mybatis.MybatisPlusMetaProperty
 import java.time.LocalDateTime
@@ -43,7 +42,7 @@ import java.time.LocalDateTime
  * @since 1.0.0
  */
 @TableName
-public class FusProcess {
+public class FusProcess : FusModel {
     /**
      * 主键ID
      */
@@ -118,13 +117,13 @@ public class FusProcess {
     /**
      * 流程模型定义JSON内容
      */
-    public var modelContent: String = "{}"
+    override var modelContent: String = "{}"
 
     /**
      * 排序
      */
     public var sort: Int = 0
 
-    public fun model(): FusProcessModel =
-        FusContext.processModelParser.parse(modelContent, processId, false)
+    override val modelKey: String
+        get() = "FUS_PROCESS_MODEL:$processId"
 }

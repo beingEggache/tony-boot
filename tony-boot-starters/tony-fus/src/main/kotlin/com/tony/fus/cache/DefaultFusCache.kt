@@ -44,6 +44,10 @@ public class DefaultFusCache : FusCache {
     ): T =
         cache.put(key, value)!!.asToNotNull()
 
+    override fun remove(key: String) {
+        cache.remove(key)
+    }
+
     override fun <T : Any> getOrPut(
         key: String,
         typeReference: TypeReference<T>,

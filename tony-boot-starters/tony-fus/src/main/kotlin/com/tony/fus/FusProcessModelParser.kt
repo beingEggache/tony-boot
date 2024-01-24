@@ -28,6 +28,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.tony.fus.cache.DefaultFusCache
 import com.tony.fus.cache.FusCache
 import com.tony.fus.extension.fusThrowIfNull
+import com.tony.fus.extension.fusThrowIfNullOrEmpty
 import com.tony.fus.model.FusProcessModel
 import com.tony.utils.jsonToObj
 
@@ -41,7 +42,7 @@ public interface FusProcessModelParser {
     /**
      * 流程模型 JSON 解析
      * @param [content] 模型内容
-     * @param [processId] 流程id
+     * @param [key] 键
      * @param [redeploy] 重新部署
      * @return [FusProcessModel]
      * @author Tang Li
@@ -50,7 +51,7 @@ public interface FusProcessModelParser {
      */
     public fun parse(
         content: String,
-        processId: String,
+        key: String,
         redeploy: Boolean,
     ): FusProcessModel
 
@@ -63,6 +64,15 @@ public interface FusProcessModelParser {
      * @since 1.0.0
      */
     public fun parse(content: String): FusProcessModel
+
+    /**
+     * 使缓存失效
+     * @param [key] 钥匙
+     * @author Tang Li
+     * @date 2024/01/24 11:00
+     * @since 1.0.0
+     */
+    public fun invalidate(key: String)
 }
 
 internal class DefaultFusProcessModelParser(
@@ -70,10 +80,9 @@ internal class DefaultFusProcessModelParser(
 ) : FusProcessModelParser {
     override fun parse(
         content: String,
-        processId: String,
+        key: String,
         redeploy: Boolean,
     ): FusProcessModel {
-        val key = "FUS_PROCESS_MODEL:$processId"
         if (redeploy) {
             return cache.put(key, parse(content))
         }
@@ -88,7 +97,12 @@ internal class DefaultFusProcessModelParser(
 
     override fun parse(content: String): FusProcessModel =
         content
+            .fusThrowIfNullOrEmpty("model content empty")
             .jsonToObj<FusProcessModel>()
             .fusThrowIfNull("fus processModel model parse error")
             .buildParentNode()
+
+    override fun invalidate(key: String) {
+        cache.remove(key)
+    }
 }

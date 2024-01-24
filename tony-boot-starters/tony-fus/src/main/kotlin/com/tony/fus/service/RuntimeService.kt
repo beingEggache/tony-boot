@@ -28,15 +28,19 @@ import com.tony.SpringContexts
 import com.tony.fus.FusContext
 import com.tony.fus.db.enums.InstanceState
 import com.tony.fus.db.enums.TaskState
+import com.tony.fus.db.mapper.FusExtInstanceMapper
 import com.tony.fus.db.mapper.FusHistoryInstanceMapper
 import com.tony.fus.db.mapper.FusInstanceMapper
 import com.tony.fus.db.mapper.FusTaskMapper
+import com.tony.fus.db.po.FusExtInstance
 import com.tony.fus.db.po.FusHistoryInstance
 import com.tony.fus.db.po.FusInstance
+import com.tony.fus.db.po.FusProcess
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.listener.InstanceListener
 import com.tony.fus.model.FusExecution
+import com.tony.fus.model.FusProcessModel
 import com.tony.fus.model.enums.EventType
 import com.tony.utils.alsoIfNotEmpty
 import com.tony.utils.copyToNotNull
@@ -143,11 +147,12 @@ internal open class RuntimeServiceImpl(
     private val instanceMapper: FusInstanceMapper,
     private val historyInstanceMapper: FusHistoryInstanceMapper,
     private val taskMapper: FusTaskMapper,
+    private val extInstanceMapper: FusExtInstanceMapper,
     private val instanceListener: InstanceListener? = null,
 ) : RuntimeService {
     /**
      * 创建实例
-     * @param [processId] 流程id
+     * @param [process] 流程
      * @param [userId] 操作人id
      * @param [nodeName] 节点名称
      * @param [variable] 流程参数
@@ -158,7 +163,7 @@ internal open class RuntimeServiceImpl(
      * @since 1.0.0
      */
     fun createInstance(
-        processId: String,
+        process: FusProcess,
         userId: String,
         nodeName: String,
         variable: Map<String, Any?>,
@@ -167,7 +172,7 @@ internal open class RuntimeServiceImpl(
         val instance1 =
             instance.apply {
                 this.creatorId = userId
-                this.processId = processId
+                this.processId = process.processId
                 this.nodeName = nodeName
                 this.variable = variable.toJsonString()
             }
@@ -177,9 +182,21 @@ internal open class RuntimeServiceImpl(
                 instanceState = InstanceState.ACTIVE
             }
         historyInstanceMapper.insert(historyInstance)
+        extInstanceMapper.insert(
+            FusExtInstance().apply {
+                this.instanceId = instance1.instanceId
+                this.processId = process.processId
+                this.modelContent = process.modelContent
+            }
+        )
         instanceListener?.notify(EventType.CREATE) { instance1 }
         return instance1
     }
+
+    fun processModelByInstanceId(instanceId: String): FusProcessModel =
+        extInstanceMapper
+            .fusSelectByIdNotNull(instanceId, "Process instance model does not exist")
+            .model()
 
     /**
      * 流程实例正常完成 （审批通过）
@@ -286,6 +303,11 @@ internal open class RuntimeServiceImpl(
                         historyInstanceList
                             .map { it.instanceId }
                     )
+
+                extInstanceMapper
+                    .ktUpdate()
+                    .eq(FusExtInstance::processId, processId)
+                    .remove()
 
                 historyInstanceMapper
                     .ktUpdate()

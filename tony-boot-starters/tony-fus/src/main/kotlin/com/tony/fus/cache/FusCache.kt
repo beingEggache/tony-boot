@@ -49,6 +49,15 @@ public interface FusCache {
     ): T
 
     /**
+     * 移除
+     * @param [key] 钥匙
+     * @author Tang Li
+     * @date 2024/01/24 11:01
+     * @since 1.0.0
+     */
+    public fun remove(key: String)
+
+    /**
      * 获取或设值
      * @param [key] 键
      * @param [typeReference] 类型参考

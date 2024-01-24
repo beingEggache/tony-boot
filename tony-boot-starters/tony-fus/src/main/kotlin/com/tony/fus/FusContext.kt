@@ -108,7 +108,7 @@ public object FusContext {
                         runtimeService
                             .asToNotNull<RuntimeServiceImpl>()
                             .createInstance(
-                                process.processId,
+                                process,
                                 userId,
                                 node.nodeName,
                                 args,
@@ -286,9 +286,12 @@ public object FusContext {
             }
         }
 
-        val process = processService.getById(instance.processId)
+        val processModel =
+            runtimeService
+                .asToNotNull<RuntimeServiceImpl>()
+                .processModelByInstanceId(instanceId)
 
-        val node = process.model().getNode(taskName)
+        val node = processModel.getNode(taskName)
         if (performType == PerformType.VOTE_SIGN) {
             val taskActors = queryService.listTaskActorsByInstanceId(instanceId)
             val passWeight = node?.passWeight.ifNull(50)
@@ -311,7 +314,7 @@ public object FusContext {
             }
         val execution =
             FusExecution(
-                process.model(),
+                processModel,
                 instance,
                 userId,
                 args
@@ -407,22 +410,26 @@ public object FusContext {
                 nodeName,
                 userId
             ) { task ->
+                val instanceId = task.instanceId
                 val instance =
                     queryService
-                        .instance(task.instanceId)
+                        .instance(instanceId)
                         .apply {
                             updatorId = userId
                         }
                 runtimeService.updateInstance(instance)
-                val process = processService.getById(instance.processId)
-                FusExecution(process.model(), instance, userId, mutableMapOf())
+                val processModel =
+                    runtimeService
+                        .asToNotNull<RuntimeServiceImpl>()
+                        .processModelByInstanceId(instanceId)
+                FusExecution(processModel, instance, userId, mutableMapOf())
             }
     }
 
     /**
-     * 执行流程元素.
-     * @param [node] 流程模型
-     * @param [execution] 流程执行
+     * 执行流程节点.
+     * @param [node] 流程节点
+     * @param [execution] 执行对象
      * @author Tang Li
      * @date 2023/10/24 19:48
      * @since 1.0.0
@@ -484,6 +491,34 @@ public object FusContext {
     }
 
     /**
+     * 执行流程节点
+     * @param [node] 流程节点
+     * @param [execution] 执行对象
+     * @param [nodeName] 节点名称
+     * @author Tang Li
+     * @date 2024/01/24 11:17
+     * @since 1.0.0
+     */
+    @JvmSynthetic
+    @JvmStatic
+    internal fun executeNode(
+        node: FusNode,
+        execution: FusExecution,
+        nodeName: String,
+    ) {
+        val nodeWithName =
+            node
+                .getNode(nodeName)
+                .fusThrowIfNull("未发现流程节点 $nodeName")
+        nodeWithName
+            .nextNode()
+            ?.also { nextNode ->
+                executeNode(nextNode, execution)
+            }
+        endInstance(execution)
+    }
+
+    /**
      * 结束流程实例
      * @param [execution] 执行对象
      * @author Tang Li
@@ -498,6 +533,7 @@ public object FusContext {
                 fusThrowIf(task.taskType == TaskType.MAJOR, "存在未完成的主办任务")
                 taskService.complete(task.taskId, execution.userId)
             }
+        processModelParser.invalidate("FUS_PROCESS_INSTANCE_MODEL:$instanceId")
         runtimeService.asToNotNull<RuntimeServiceImpl>().complete(execution)
     }
 }

@@ -28,6 +28,7 @@ import com.tony.fus.DefaultFusTaskActorProvider
 import com.tony.fus.DefaultTaskPermission
 import com.tony.fus.FusTaskActorProvider
 import com.tony.fus.FusTaskPermission
+import com.tony.fus.db.mapper.FusExtInstanceMapper
 import com.tony.fus.db.mapper.FusHistoryInstanceMapper
 import com.tony.fus.db.mapper.FusHistoryTaskActorMapper
 import com.tony.fus.db.mapper.FusHistoryTaskMapper
@@ -111,6 +112,7 @@ internal class FusConfig {
         instanceMapper: FusInstanceMapper,
         historyInstanceMapper: FusHistoryInstanceMapper,
         taskMapper: FusTaskMapper,
+        extInstanceMapper: FusExtInstanceMapper,
         @Nullable
         instanceListener: InstanceListener?,
     ): RuntimeService =
@@ -118,6 +120,7 @@ internal class FusConfig {
             instanceMapper,
             historyInstanceMapper,
             taskMapper,
+            extInstanceMapper,
             instanceListener
         )
 

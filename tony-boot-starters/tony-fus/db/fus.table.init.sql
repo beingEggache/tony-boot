@@ -1,11 +1,13 @@
 -- mysql 8.0.13+ json default value supported
-DROP TABLE if exists `fus_task_actor` cascade;
-DROP TABLE if exists `fus_task` cascade;
-DROP TABLE if exists `fus_instance` cascade;
-DROP TABLE if exists `fus_history_task_actor` cascade;
-DROP TABLE if exists `fus_history_task` cascade;
-DROP TABLE if exists `fus_history_instance` cascade;
-DROP TABLE if exists `fus_process` cascade;
+DROP TABLE IF EXISTS `fus_task_actor` CASCADE;
+DROP TABLE IF EXISTS `fus_task` CASCADE;
+DROP TABLE IF EXISTS `fus_instance` CASCADE;
+DROP TABLE IF EXISTS `fus_ext_instance` CASCADE;
+DROP TABLE IF EXISTS `fus_history_task_actor` CASCADE;
+DROP TABLE IF EXISTS `fus_history_task` CASCADE;
+DROP TABLE IF EXISTS `fus_ext_instance` CASCADE;
+DROP TABLE IF EXISTS `fus_history_instance` CASCADE;
+DROP TABLE IF EXISTS `fus_process` CASCADE;
 
 CREATE TABLE `fus_process`
 (
@@ -124,6 +126,19 @@ CREATE TABLE `fus_history_instance`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci
   ROW_FORMAT = DYNAMIC COMMENT ='历史流程实例表';
+
+CREATE TABLE `fus_ext_instance`
+(
+    `instance_id`   varchar(32) NOT NULL COMMENT '主键ID',
+    `tenant_id`     varchar(32) NOT NULL DEFAULT '' COMMENT '租户ID',
+    `process_id`    varchar(32) NOT NULL DEFAULT '' COMMENT '流程定义ID',
+    `model_content` json        NOT NULL DEFAULT ('{}') COMMENT '流程模型定义JSON内容',
+    PRIMARY KEY (`instance_id`) USING BTREE,
+    CONSTRAINT `fk_ext_instance_id` FOREIGN KEY (`instance_id`) REFERENCES `fus_history_instance` (`instance_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci
+  ROW_FORMAT = Dynamic COMMENT = '扩展流程实例表';
 
 CREATE TABLE `fus_history_task`
 (
