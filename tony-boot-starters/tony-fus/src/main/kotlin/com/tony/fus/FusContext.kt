@@ -491,34 +491,6 @@ public object FusContext {
     }
 
     /**
-     * 执行流程节点
-     * @param [node] 流程节点
-     * @param [execution] 执行对象
-     * @param [nodeName] 节点名称
-     * @author Tang Li
-     * @date 2024/01/24 11:17
-     * @since 1.0.0
-     */
-    @JvmSynthetic
-    @JvmStatic
-    internal fun executeNode(
-        node: FusNode,
-        execution: FusExecution,
-        nodeName: String,
-    ) {
-        val nodeWithName =
-            node
-                .getNode(nodeName)
-                .fusThrowIfNull("未发现流程节点 $nodeName")
-        nodeWithName
-            .nextNode()
-            ?.also { nextNode ->
-                executeNode(nextNode, execution)
-            }
-        endInstance(execution)
-    }
-
-    /**
      * 结束流程实例
      * @param [execution] 执行对象
      * @author Tang Li
