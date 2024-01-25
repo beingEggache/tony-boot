@@ -66,7 +66,7 @@ internal class ProtostuffSerializer : RedisSerializer<Any?> {
 
     @Throws(SerializationException::class)
     override fun deserialize(bytes: ByteArray?): Any? {
-        if (bytes == null || bytes.isEmpty()) {
+        if (bytes?.isNotEmpty() != true) {
             return null
         }
         val newMessage = schema.newMessage()

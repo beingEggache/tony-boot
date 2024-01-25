@@ -11,4 +11,5 @@ dependencies {
     testApi(tonyLibs.springBootStarterAop)
     testImplementation("io.protostuff:protostuff-core:1.8.0")
     testImplementation("io.protostuff:protostuff-runtime:1.8.0")
+    testImplementation(tonyLibs.furyCore)
 }

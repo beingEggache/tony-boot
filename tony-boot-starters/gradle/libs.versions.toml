@@ -67,6 +67,8 @@ knife4j = "4.5.0"
 springdoc = "1.7.0"
 springdocStarter = "2.3.0"
 
+fury = "0.4.1"
+
 powerjob = "4.3.6"
 
 springCloud = "2023.0.0"
@@ -245,6 +247,9 @@ springBootStarterWebsocket = { module = "org.springframework.boot:spring-boot-st
 
 springBootStarterDataRedis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version.ref = "springBoot" }
 springBootStarterDataRedisReactive = { module = "org.springframework.boot:spring-boot-starter-data-redis-reactive", version.ref = "springBoot" }
+
+furyCore = { module = "org.furyio:fury-core", version.ref = "fury" }
+furyFormat = { module = "org.furyio:fury-format", version.ref = "fury" }
 
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6.4" }
 
