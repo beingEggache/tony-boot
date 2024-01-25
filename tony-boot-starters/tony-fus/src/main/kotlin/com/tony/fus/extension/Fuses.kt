@@ -55,6 +55,7 @@ import java.io.Serializable
  * @param message 异常信息
  * @param code 异常代码
  */
+@JvmSynthetic
 internal inline fun fusThrowIf(
     condition: Boolean,
     message: String,
@@ -78,6 +79,7 @@ internal inline fun fusThrowIf(
  *
  * @see throwIf
  */
+@JvmSynthetic
 @JvmOverloads
 internal inline fun <T> T?.fusThrowIfNull(
     message: String = ApiProperty.notFoundMessage,
@@ -98,6 +100,7 @@ internal inline fun <T> T?.fusThrowIfNull(
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */
+@JvmSynthetic
 @JvmOverloads
 internal inline fun <C : Collection<T>, T : Any?> C?.fusThrowIfEmpty(
     message: String = ApiProperty.notFoundMessage,
@@ -120,6 +123,7 @@ internal inline fun <C : Collection<T>, T : Any?> C?.fusThrowIfEmpty(
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */
+@JvmSynthetic
 @JvmOverloads
 internal inline fun <C : Map<*, *>> C?.fusThrowIfEmpty(
     message: String = ApiProperty.notFoundMessage,
@@ -142,6 +146,7 @@ internal inline fun <C : Map<*, *>> C?.fusThrowIfEmpty(
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */
+@JvmSynthetic
 @JvmOverloads
 public inline fun <C : CharSequence> C?.fusThrowIfNullOrEmpty(
     message: String = ApiProperty.notFoundMessage,
@@ -159,6 +164,7 @@ public inline fun <C : CharSequence> C?.fusThrowIfNullOrEmpty(
  * @date 2023/09/13 19:38
  * @since 1.0.0
  */
+@JvmSynthetic
 internal inline fun <T : Any> BaseDao<T>.fusSelectByIdNotNull(
     id: Serializable,
     message: String = ApiProperty.notFoundMessage,
@@ -174,6 +180,7 @@ internal inline fun <T : Any> BaseDao<T>.fusSelectByIdNotNull(
  * @date 2023/10/23 19:50
  * @since 1.0.0
  */
+@JvmSynthetic
 internal inline fun <T : Any> TonyChainQuery<T>.fusOneNotNull(message: String = ApiProperty.notFoundMessage): T =
     baseMapper
         .selectOne(wrapper)
@@ -189,6 +196,7 @@ internal inline fun <T : Any> TonyChainQuery<T>.fusOneNotNull(message: String = 
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */
+@JvmSynthetic
 internal inline fun <T : Any> TonyChainQuery<T>.fusListThrowIfEmpty(
     message: String = ApiProperty.notFoundMessage,
 ): List<T> =
@@ -201,6 +209,7 @@ internal inline fun <T : Any> TonyChainQuery<T>.fusListThrowIfEmpty(
  * @date 2023/11/14 19:38
  * @since 1.0.0
  */
+@JvmSynthetic
 public fun MultiApproveMode?.ofPerformType(): PerformType =
     if (this?.value == null) {
         PerformType.UNKNOWN

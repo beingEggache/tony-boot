@@ -71,18 +71,23 @@ public object FusContext {
     @JvmStatic
     public val taskService: TaskService by SpringContexts.getBeanByLazy<TaskService>()
 
+    @get:JvmSynthetic
     @JvmStatic
     public val expressionEvaluator: FusExpressionEvaluator by SpringContexts.getBeanByLazy<FusExpressionEvaluator>()
 
+    @get:JvmSynthetic
     @JvmStatic
     public val taskPermission: FusTaskPermission by SpringContexts.getBeanByLazy<FusTaskPermission>()
 
+    @get:JvmSynthetic
     @JvmStatic
     public val interceptors: List<FusInterceptor> by SpringContexts.getBeanListByLazy<FusInterceptor>()
 
+    @get:JvmSynthetic
     @JvmStatic
     public val processModelParser: FusProcessModelParser = DefaultFusProcessModelParser()
 
+    @JvmSynthetic
     @JvmStatic
     public fun taskActorProvider(): FusTaskActorProvider =
         SpringContexts.getBean(FusTaskActorProvider::class.java)

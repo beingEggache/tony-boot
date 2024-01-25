@@ -439,7 +439,8 @@ internal open class TaskServiceImpl(
      * @date 2023/12/21 14:24
      * @since 1.0.0
      */
-    fun executeJumpTask(
+    @JvmSynthetic
+    internal fun executeJumpTask(
         taskId: String,
         nodeName: String,
         userId: String,
@@ -829,7 +830,8 @@ internal open class TaskServiceImpl(
         }
     }
 
-    open fun saveTaskCc(
+    @JvmSynthetic
+    internal fun saveTaskCc(
         node: FusNode?,
         task: FusTask,
     ) {

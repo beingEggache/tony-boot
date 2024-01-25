@@ -162,7 +162,8 @@ internal open class RuntimeServiceImpl(
      * @date 2023/10/10 19:51
      * @since 1.0.0
      */
-    fun createInstance(
+    @JvmSynthetic
+    internal fun createInstance(
         process: FusProcess,
         userId: String,
         nodeName: String,
