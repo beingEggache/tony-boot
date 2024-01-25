@@ -36,13 +36,13 @@ import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
 import com.tony.web.WebApp
 import com.tony.web.filter.RepeatReadRequestWrapper
-import com.tony.web.log.RequestTraceLogger.Const.BAD_REQUEST
-import com.tony.web.log.RequestTraceLogger.Const.INTERNAL_SERVER_ERROR
-import com.tony.web.log.RequestTraceLogger.Const.NULL
-import com.tony.web.log.RequestTraceLogger.Const.OK
-import com.tony.web.log.RequestTraceLogger.Const.PRECONDITION_FAILED
-import com.tony.web.log.RequestTraceLogger.Const.UNAUTHORIZED
-import com.tony.web.log.RequestTraceLogger.Const.logger
+import com.tony.web.log.`#Const`.BAD_REQUEST
+import com.tony.web.log.`#Const`.INTERNAL_SERVER_ERROR
+import com.tony.web.log.`#Const`.NULL
+import com.tony.web.log.`#Const`.OK
+import com.tony.web.log.`#Const`.PRECONDITION_FAILED
+import com.tony.web.log.`#Const`.UNAUTHORIZED
+import com.tony.web.log.`#Const`.logger
 import com.tony.web.utils.headers
 import com.tony.web.utils.isTextMediaTypes
 import com.tony.web.utils.parsedMedia
@@ -74,22 +74,31 @@ public fun interface RequestTraceLogger {
         response: ContentCachingResponseWrapper,
         elapsedTime: Long,
     )
+}
 
-    public companion object Const {
-        public const val OK: String = "OK"
+@Suppress("ClassName")
+internal object `#Const` {
+    @JvmSynthetic
+    internal const val OK: String = "OK"
 
-        public const val INTERNAL_SERVER_ERROR: String = "INTERNAL_SERVER_ERROR"
+    @JvmSynthetic
+    internal const val INTERNAL_SERVER_ERROR: String = "INTERNAL_SERVER_ERROR"
 
-        public const val PRECONDITION_FAILED: String = "PRECONDITION_FAILED"
+    @JvmSynthetic
+    internal const val PRECONDITION_FAILED: String = "PRECONDITION_FAILED"
 
-        public const val BAD_REQUEST: String = "BAD_REQUEST"
+    @JvmSynthetic
+    internal const val BAD_REQUEST: String = "BAD_REQUEST"
 
-        public const val UNAUTHORIZED: String = "UNAUTHORIZED"
+    @JvmSynthetic
+    internal const val UNAUTHORIZED: String = "UNAUTHORIZED"
 
-        public const val NULL: String = "[null]"
+    @JvmSynthetic
+    internal const val NULL: String = "[null]"
 
-        public val logger: Logger = getLogger("trace-logger")
-    }
+    @JvmSynthetic
+    @JvmField
+    internal val logger: Logger = getLogger("trace-logger")
 }
 
 /**
