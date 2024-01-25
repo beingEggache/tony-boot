@@ -192,35 +192,6 @@ public data class WechatPayNotifyReq(
     public companion object {
         private val logger = getLogger()
 
-        @JvmSynthetic
-        @JvmStatic
-        public fun process(
-            notifyRequest: WechatPayNotifyReq,
-            signValid: Boolean,
-            doOnSuccess: () -> Unit,
-            doOnFailed: (String) -> Unit,
-        ): String {
-            if (!signValid) {
-                logger.error(
-                    "wechat pay order ${notifyRequest.outTradeNo} " +
-                        "sign invalid,notify request:${notifyRequest.toXmlString()}"
-                )
-                return WechatPayNotifyResp().toXmlString()
-            }
-            try {
-                if (notifyRequest.returnCode == "SUCCESS" && notifyRequest.resultCode == "SUCCESS") {
-                    doOnSuccess()
-                } else {
-                    val errorDetail = "${notifyRequest.errCode}:${notifyRequest.errCodeDes}"
-                    doOnFailed(errorDetail)
-                    logger.error("Wechat pay order(${notifyRequest.outTradeNo}) error:$errorDetail")
-                }
-            } catch (e: BaseException) {
-                logger.error(e.message)
-            }
-            return WechatPayNotifyResp().toXmlString()
-        }
-
         @JvmStatic
         public fun process(
             notifyRequest: WechatPayNotifyReq,

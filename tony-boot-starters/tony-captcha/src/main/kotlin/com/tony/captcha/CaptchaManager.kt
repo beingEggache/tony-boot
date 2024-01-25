@@ -31,6 +31,7 @@ import com.tony.utils.throwIf
 import com.tony.utils.uuid
 import com.wf.captcha.SpecCaptcha
 import java.util.concurrent.TimeUnit
+import java.util.function.Supplier
 
 /**
  * 验证码服务 单例类.
@@ -87,10 +88,10 @@ public object CaptchaManager {
     public fun <R> verify(
         vo: CaptchaVo,
         message: String = "验证码错误",
-        func: () -> R,
+        func: Supplier<R>,
     ): R {
         throwIf(!captchaService.verify(vo), message)
-        val apply = func()
+        val apply = func.get()
         RedisManager.delete(vo.captchaKeyRule(vo))
         return apply
     }

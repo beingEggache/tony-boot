@@ -75,27 +75,6 @@ public class AlipayNotifyRequest(
 ) {
     private val logger = getLogger()
 
-    @JvmSynthetic
-    public fun process(
-        signValid: Boolean,
-        doOnTradeSuccess: () -> Unit,
-    ): String {
-        if (!signValid) {
-            logger.error("Alipay order($outTradeNo) sign invalid, notify request:${toQueryString()}")
-            return "success"
-        }
-        try {
-            if (tradeStatus == TRADE_SUCCESS) {
-                doOnTradeSuccess()
-            } else {
-                logger.info("Alipay order($outTradeNo) closed.")
-            }
-        } catch (e: BaseException) {
-            logger.error(e.message)
-        }
-        return "success"
-    }
-
     public fun process(
         signValid: Boolean,
         doOnTradeSuccess: Runnable,

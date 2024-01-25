@@ -59,36 +59,6 @@ public object RedisManager {
      * Redis 事务操作.
      * ## 注: 在事务中的redis 操作是获取不到值的. 只能在方法最终返回值中按顺序获取.
      *
-     * @param [callback] 回调
-     * @return [List<Any>]
-     * @author Tang Li
-     * @date 2023/09/28 19:58
-     * @since 1.0.0
-     */
-    @JvmSynthetic
-    @JvmStatic
-    public fun doInTransaction(callback: () -> Unit): List<Any> {
-        val redisConnection = RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
-        synchronized(redisConnection) {
-            redisConnection.multi()
-            try {
-                callback()
-                return redisConnection.exec()
-            } catch (e: Throwable) {
-                logger.error(e.message, e)
-                redisConnection
-                    .isQueueing
-                    .alsoIf { redisConnection.discard() }
-                throw e
-            } finally {
-                RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
-            }
-        }
-    }
-
-    /**
-     * Redis 事务操作.
-     *
      * @see `RedisTemplate.execute(SessionCallback<T> session)`
      * @param [callback] 回调
      * @return [List<Any?>]
