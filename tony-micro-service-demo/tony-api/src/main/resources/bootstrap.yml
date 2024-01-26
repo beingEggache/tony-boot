@@ -19,12 +19,3 @@ spring:
         namespace: ${spring.cloud.nacos.discovery.namespace}
         shared-configs:
           - data-id: db-and-redis.yaml
-mybatis-plus:
-  mapper-locations: classpath*:mappers/*.mapper.xml
-  configuration:
-    default-enum-type-handler: com.tony.mybatis.typehandler.EnumTypeHandler
-feign:
-  okhttp:
-    enabled: true
-  httpclient:
-    enabled: false
