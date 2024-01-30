@@ -32,12 +32,12 @@ logstashLogbackEncoder = "7.4"
 
 byteBuddy = "1.14.11"
 bouncycastle = "1.77"
-netty = "4.1.105.Final"
+netty = "4.1.106.Final"
 reactor = "3.6.2"
 reactorNetty = "1.1.15"
 reactorKotlinExtensions = "1.2.2"
 
-openFeign = "13.1"
+openFeign = "13.2"
 lettuce = "6.3.1.RELEASE"
 
 jackson = "2.16.1"

@@ -156,11 +156,10 @@ internal open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
         val responseBody =
             response
                 .peekBody(
-                    (
-                        response
-                            .body
-                            ?.contentLength() ?: 0
-                    ).coerceAtLeast(0)
+                    response
+                        .body
+                        .contentLength()
+                        .coerceAtLeast(0)
                 ).run {
                     if (isTextMediaTypes(parsedMedia)) {
                         string()
