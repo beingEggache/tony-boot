@@ -1,6 +1,5 @@
 spring:
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/tony-demo?serverTimezone=GMT%2B8&&characterEncoding=utf8&autoReconnect=true
     username: tony_api
     password: tony_api
@@ -10,9 +9,3 @@ spring:
     password: "123456"
     database: 8
     timeout: 3000
-springdoc:
-  swagger-ui:
-    disable-swagger-default-url: true
-    display-request-duration: true
-  paths-to-exclude:
-    - ${server.error.path:${error.path:/error}}
