@@ -24,6 +24,7 @@
 
 package com.tony;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.tony.utils.Cols;
 import com.tony.utils.Objs;
 
@@ -40,6 +41,7 @@ import java.util.function.Predicate;
  * @date 2021/12/6 10:51
  */
 @SuppressWarnings("unused")
+@JsonPropertyOrder(value = {"page", "size", "total", "pages", "hasNext", "rows"})
 public interface PageResultLike<T> {
 
     /**
@@ -92,8 +94,8 @@ public interface PageResultLike<T> {
      * @return this.
      * @see [List.map]
      */
-    default <R, E extends PageResultLike<R>> E map(Function<T, R> transform) {
-        Collection<T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
+    default <R, E extends PageResultLike<R>> E map(final Function<T, R> transform) {
+        final Collection<T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
         return Objs.asToNotNull(
             new PageResult<>(
                 rows.stream().map(transform).toList(),
@@ -113,8 +115,8 @@ public interface PageResultLike<T> {
      * @return this.
      * @see [List.onEach]
      */
-    default <E extends PageResultLike<T>> E onEach(Consumer<T> action) {
-        Collection<T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
+    default <E extends PageResultLike<T>> E onEach(final Consumer<T> action) {
+        final Collection<T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
         return Objs.asToNotNull(
             new PageResult<>(
                 rows.stream().peek(action).toList(),
@@ -133,8 +135,8 @@ public interface PageResultLike<T> {
      * @param predicate predicate.
      * @return first item.
      */
-    default T firstOrNull(Predicate<T> predicate) {
-        Collection<T> rows = getRows();
+    default T firstOrNull(final Predicate<T> predicate) {
+        final Collection<T> rows = getRows();
         if (Cols.isNullOrEmpty(rows)) {
             return null;
         }

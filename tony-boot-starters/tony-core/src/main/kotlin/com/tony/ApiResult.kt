@@ -33,7 +33,6 @@
 
 package com.tony
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.tony.MonoResult.Companion.ofMonoResult
 import com.tony.exception.ApiException
 import com.tony.exception.BaseException
@@ -254,7 +253,6 @@ public data class ListResult<T>(
  * @author Tang Li
  * @date 2021/12/6 10:51
  */
-@JsonPropertyOrder(value = ["page", "size", "total", "pages", "hasNext", "rows"])
 public data class PageResult<T>(
     private val rows: Collection<T>?,
     private val page: Long,

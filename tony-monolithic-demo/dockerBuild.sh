@@ -58,7 +58,7 @@ docker system prune -f
 docker run -d --name="${project_name}" \
 -p "${port}":"${port}" \
 -v "${dir}"/logs:/logs \
--e "JAVA_OPTS=-Dspring.profiles.active=${profile:=qa}" \
+-e "PROP=-Dspring.profiles.active=${profile:=qa}" \
 "${image_name}"
 
 run_status=$?

@@ -57,24 +57,24 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
     }
 
     public FlattenPageQuery(
-        long page
+            final long page
     ) {
         this.page = page;
     }
 
     public FlattenPageQuery(
-        long page,
-        long size
+            final long page,
+            final long size
     ) {
         this.page = page;
         this.size = size;
     }
 
     public FlattenPageQuery(
-        long page,
-        long size,
-        Collection<String> ascs,
-        Collection<String> descs
+            final long page,
+            final long size,
+            final Collection<String> ascs,
+            final Collection<String> descs
     ) {
         this.page = page;
         this.size = size;
@@ -83,16 +83,16 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
     }
 
     public FlattenPageQuery(
-        long page,
-        Collection<String> ascs,
-        Collection<String> descs
+            final long page,
+            final Collection<String> ascs,
+            final Collection<String> descs
     ) {
         this.page = page;
         this.ascs = ascs;
         this.descs = descs;
     }
 
-    public FlattenPageQuery(T query, long page, long size, Collection<String> ascs, Collection<String> descs) {
+    public FlattenPageQuery(final T query, final long page, final long size, final Collection<String> ascs, final Collection<String> descs) {
         this.query = query;
         this.page = page;
         this.size = size;
@@ -106,7 +106,7 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         return (T) query;
     }
 
-    public void setQuery(T query) {
+    public void setQuery(final T query) {
         this.query = query;
     }
 
@@ -115,7 +115,7 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         return page;
     }
 
-    public void setPage(long page) {
+    public void setPage(final long page) {
         this.page = page;
     }
 
@@ -124,7 +124,7 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         return size;
     }
 
-    public void setSize(long size) {
+    public void setSize(final long size) {
         this.size = size;
     }
 
@@ -134,7 +134,7 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         return ascs;
     }
 
-    public void setAscs(Collection<String> ascs) {
+    public void setAscs(final Collection<String> ascs) {
         this.ascs = ascs;
     }
 
@@ -144,7 +144,12 @@ public class FlattenPageQuery<T> implements PageQueryLike<T> {
         return descs;
     }
 
-    public void setDescs(Collection<String> descs) {
+    public void setDescs(final Collection<String> descs) {
         this.descs = descs;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("FlattenPageQuery(page=%s, size=%s, ascs=%s, descs=%s, query=%s)", page, size, ascs, descs, query);
     }
 }

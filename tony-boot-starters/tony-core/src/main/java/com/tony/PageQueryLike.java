@@ -24,6 +24,7 @@
 
 package com.tony;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import jakarta.validation.Valid;
@@ -38,6 +39,7 @@ import java.util.Collection;
  * @author Tang Li
  * @date 2021/12/6 10:51
  */
+@JsonPropertyOrder(value = {"page", "size", "query", "ascs", "descs"})
 public interface PageQueryLike<T> {
 
 

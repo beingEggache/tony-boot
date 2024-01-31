@@ -54,24 +54,24 @@ public class PageQuery<T> implements PageQueryLike<T> {
     }
 
     public PageQuery(
-            final long page
+        final long page
     ) {
         this.page = page;
     }
 
     public PageQuery(
-            final long page,
-            final long size
+        final long page,
+        final long size
     ) {
         this.page = page;
         this.size = size;
     }
 
     public PageQuery(
-            final long page,
-            final long size,
-            final Collection<String> ascs,
-            final Collection<String> descs
+        final long page,
+        final long size,
+        final Collection<String> ascs,
+        final Collection<String> descs
     ) {
         this.page = page;
         this.size = size;
@@ -80,9 +80,9 @@ public class PageQuery<T> implements PageQueryLike<T> {
     }
 
     public PageQuery(
-            final long page,
-            final Collection<String> ascs,
-            final Collection<String> descs
+        final long page,
+        final Collection<String> ascs,
+        final Collection<String> descs
     ) {
         this.page = page;
         this.ascs = ascs;
@@ -143,5 +143,10 @@ public class PageQuery<T> implements PageQueryLike<T> {
 
     public void setDescs(final Collection<String> descs) {
         this.descs = descs;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("PageQuery(page=%s, size=%s, ascs=%s, descs=%s, query=%s)", page, size, ascs, descs, query);
     }
 }
