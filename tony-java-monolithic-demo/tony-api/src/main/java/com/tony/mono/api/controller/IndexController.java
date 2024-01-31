@@ -18,6 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * IndexController
+ *
+ * @author Tang Li
+ * @date 2024/01/31 15:27
+ */
 @RequiredArgsConstructor
 @Validated
 @RestController
@@ -38,7 +44,6 @@ public class IndexController {
     public MonoResult<String> login(
         @Validated
         @RequestBody final UserLoginReq req) {
-        //noinspection unchecked
         return MonoResult.ofMonoResult(JwtToken.gen(new Pair<>("userId", userService.login(req))));
     }
 
@@ -46,6 +51,7 @@ public class IndexController {
     @NoLoginCheck
     @PostMapping("/info")
     public void info() {
+        // Yeah
     }
 
     @Operation(summary = "用户列表")
