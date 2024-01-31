@@ -56,8 +56,7 @@ configure(subprojects) {
         }
         options.compilerArgs = mutableListOf(
 //            "-Xlint:all,-serial,-processing,-classfile,-unchecked",
-            "-Xlint:all,-processing,-unchecked",
-            "-Xdoclint:all,-missing",
+            "-Xlint:all,-processing",
             "-Werror"
         )
     }

@@ -93,6 +93,7 @@ knife4jCore = { module = "com.github.xiaoymin:knife4j-core", version.ref = "knif
 knife4jOpenapi3SpringBootStarter = { module = "com.github.xiaoymin:knife4j-openapi3-spring-boot-starter", version.ref = "knife4j" }
 knife4jOpenapi3JakartaSpringBootStarter = { module = "com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter", version.ref = "knife4j" }
 knife4jOpenapi3Ui = { module = "com.github.xiaoymin:knife4j-openapi3-ui", version.ref = "knife4j" }
+knife4jGatewaySpringBootStarter = { module = "com.github.xiaoymin:knife4j-gateway-spring-boot-starter", version.ref = "knife4j" }
 
 kotlinBom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlinStdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }

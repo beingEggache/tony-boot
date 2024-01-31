@@ -59,6 +59,7 @@ public object JwtToken {
      * @date 2023/09/28 19:50
      * @since 1.0.0
      */
+    @SafeVarargs
     @JvmStatic
     public fun gen(vararg params: Pair<String, String?>): String =
         JWT
