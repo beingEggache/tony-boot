@@ -144,6 +144,7 @@ public data class ApiResult<T>
              * 用 [MonoResult] 包装 [Boolean]
              * @param value Boolean
              */
+            @JvmOverloads
             @JvmStatic
             public fun of(
                 value: Boolean,
@@ -155,6 +156,7 @@ public data class ApiResult<T>
              * 用 [MonoResult] 包装 [CharSequence]
              * @param value CharSequence
              */
+            @JvmOverloads
             @JvmStatic
             public fun <E : CharSequence> of(
                 value: E,
@@ -166,6 +168,7 @@ public data class ApiResult<T>
              * 用 [MonoResult] 包装 [Number]
              * @param value Number
              */
+            @JvmOverloads
             @JvmStatic
             public fun <E : Number> of(
                 value: E,
@@ -177,6 +180,7 @@ public data class ApiResult<T>
              * 用 [MonoResult] 包装 [Enum]
              * @param value Enum
              */
+            @JvmOverloads
             @JvmStatic
             public fun <E : Enum<*>> of(
                 value: E,
