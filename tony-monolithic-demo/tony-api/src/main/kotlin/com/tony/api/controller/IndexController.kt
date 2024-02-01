@@ -54,7 +54,7 @@ class IndexController(
         @RequestBody
         loginReq: UserLoginReq,
     ): UserLoginResp {
-        val token = JwtToken.gen("userId" to userService.login(loginReq).userId.toString())
+        val token = JwtToken.gen("userId" to userService.login(loginReq).userId)
         return UserLoginResp(token, token, LocalDateTime.now().minusMinutes(jwtProperties.expiredMinutes))
     }
 

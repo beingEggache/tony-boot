@@ -95,7 +95,6 @@ internal class FeignLogInterceptor(
  * @since 1.0.0
  */
 internal open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
-    @Suppress("MemberVisibilityCanBePrivate")
     protected val logger: Logger =
         getLogger("request-logger")
 

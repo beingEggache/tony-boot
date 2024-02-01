@@ -282,7 +282,6 @@ public object RedisManager {
      * @param keys  must not be null.
      * @return null when used in pipeline / transaction.
      */
-    @Suppress("MemberVisibilityCanBePrivate")
     public fun keys(vararg keys: String): Collection<String> =
         keys(keys.asList())
 

@@ -94,7 +94,7 @@ class ModuleService(
             .lambdaQuery()
             .eq(Module::appId, appId)
             .list()
-            .filter { !it.moduleGroup.isNullOrEmpty() }
+            .filter { it.moduleGroup.isNotEmpty() }
             .flatMap { it.moduleGroup.ifNullOrBlank().split(",") }
             .distinct()
 
