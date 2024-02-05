@@ -4,7 +4,3 @@ spring:
     username: tony_api
     password: tony_api
     driver-class-name: com.mysql.cj.jdbc.Driver
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    log-prefix: "mybatis"
