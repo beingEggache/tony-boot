@@ -328,6 +328,13 @@ public object FusContext {
             }
 
         if (performType == PerformType.SORT) {
+            val assigneeId =
+                if (task.taskType == TaskType.TRANSFER) {
+                    task.assignorId
+                } else {
+                    userId
+                }
+
             val nextNodeAssignee: FusNodeAssignee? =
                 node
                     ?.nodeUserList
@@ -341,7 +348,7 @@ public object FusContext {
                                     .takeIf {
                                         it.isNotEmpty()
                                     }?.indexOfFirst { taskActor ->
-                                        taskActor.actorId == userId
+                                        taskActor.actorId == assigneeId
                                     }?.plus(1)
                             actorList
                                 .getOrNull(nextNodeAssigneeIndex ?: 1)
@@ -356,7 +363,7 @@ public object FusContext {
                             val nextNodeAssigneeIndex =
                                 nodeAssigneeList
                                     .indexOfFirst {
-                                        it.id == userId
+                                        it.id == assigneeId
                                     }.plus(1)
                             nodeAssigneeList.getOrNull(nextNodeAssigneeIndex)
                         }
@@ -427,8 +434,36 @@ public object FusContext {
                     runtimeService
                         .asToNotNull<RuntimeServiceImpl>()
                         .processModelByInstanceId(instanceId)
-                FusExecution(processModel, instance, userId, mutableMapOf())
+                FusExecution(
+                    processModel,
+                    instance,
+                    userId,
+                    instance.variable.jsonToObj<Map<String, Any?>>()
+                )
             }
+    }
+
+    /**
+     * 执行插入节点
+     * @param [taskId] 任务id
+     * @param [node] 节点
+     * @param [userId] 用户id
+     * @param [prepend] 前插
+     * @author Tang Li
+     * @date 2024/02/01 17:25
+     * @since 1.0.0
+     */
+    @JvmStatic
+    public fun executeInsertNode(
+        taskId: String,
+        node: FusNode,
+        userId: String,
+        prepend: Boolean,
+    ) {
+        runtimeService.insertNode(taskId, node, prepend)
+        if (prepend) {
+            executeJumpTask(taskId, node.nodeName, userId)
+        }
     }
 
     /**

@@ -38,12 +38,15 @@ import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusProcess
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.extension.fusSelectByIdNotNull
+import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.listener.InstanceListener
 import com.tony.fus.model.FusExecution
+import com.tony.fus.model.FusNode
 import com.tony.fus.model.FusProcessModel
 import com.tony.fus.model.enums.EventType
 import com.tony.utils.alsoIfNotEmpty
 import com.tony.utils.copyToNotNull
+import com.tony.utils.jsonToObj
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
 
@@ -135,6 +138,21 @@ public sealed interface RuntimeService {
      * @since 1.0.0
      */
     public fun cascadeRemoveByProcessId(processId: String)
+
+    /**
+     * 插入节点
+     * @param [taskId] 任务id
+     * @param [node] 节点
+     * @param [prepend] 前插
+     * @author Tang Li
+     * @date 2024/02/01 17:15
+     * @since 1.0.0
+     */
+    public fun insertNode(
+        taskId: String,
+        node: FusNode,
+        prepend: Boolean,
+    )
 }
 
 /**
@@ -320,6 +338,57 @@ internal open class RuntimeServiceImpl(
                     .eq(FusInstance::processId, processId)
                     .remove()
             }
+    }
+
+    override fun insertNode(
+        taskId: String,
+        node: FusNode,
+        prepend: Boolean,
+    ) {
+        val task = taskMapper.fusSelectByIdNotNull(taskId, "task[taskId=$taskId] not exists")
+        val instanceId = task.instanceId
+        val extInstance =
+            extInstanceMapper.fusSelectByIdNotNull(
+                instanceId,
+                "extInstance[instanceId=$instanceId not exists]"
+            )
+
+        val processModel =
+            extInstance
+                .modelContent
+                .jsonToObj<FusProcessModel>()
+        val taskName = task.taskName
+
+        val selectedNode =
+            if (prepend) {
+                processModel.getNode(taskName)
+            } else {
+                processModel.getNode(taskName)?.parentNode
+            }
+
+        val conditionNodes = selectedNode?.conditionNodes
+        if (!conditionNodes.isNullOrEmpty()) {
+            conditionNodes
+                .firstOrNull { conditionNode ->
+                    conditionNode.childNode?.nodeName == taskName
+                }?.also { conditionNode ->
+                    node.childNode = conditionNode.childNode
+                    conditionNode.childNode = node
+                }
+        } else {
+            node.childNode = selectedNode?.childNode
+            selectedNode?.childNode = node
+        }
+
+        processModel.cleanParentNode(processModel.node)
+        val result =
+            extInstanceMapper
+                .ktUpdate()
+                .eq(FusExtInstance::instanceId, instanceId)
+                .set(FusExtInstance::modelContent, processModel.toJsonString())
+                .update()
+        fusThrowIf(!result, "update ext instance failed.")
+        FusContext.processModelParser.invalidate(extInstance.modelKey)
     }
 
     private fun forceComplete(

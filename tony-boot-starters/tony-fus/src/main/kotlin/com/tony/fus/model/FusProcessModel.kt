@@ -51,4 +51,31 @@ public data class FusProcessModel(
         }
         return this
     }
+
+    /**
+     * 清除父节点
+     * @param [rootNode] 根节点
+     * @author Tang Li
+     * @date 2024/02/05 10:09
+     * @since 1.0.0
+     */
+    public fun cleanParentNode(rootNode: FusNode? = node) {
+        rootNode?.parentNode = null
+        rootNode
+            ?.conditionNodes
+            ?.forEach { conditionNode ->
+                conditionNode
+                    .childNode
+                    .also { conditionChildNode ->
+                        cleanParentNode(conditionChildNode)
+                    }
+            }
+
+        rootNode
+            ?.childNode
+            ?.also { childNode ->
+                childNode.parentNode = null
+                cleanParentNode(childNode)
+            }
+    }
 }

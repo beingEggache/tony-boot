@@ -106,10 +106,14 @@ public open class FusTask {
     /**
      * 任务名称
      */
+    @TableField(
+        insertStrategy = FieldStrategy.NOT_EMPTY,
+        updateStrategy = FieldStrategy.NOT_EMPTY
+    )
     public var taskName: String = ""
 
     /**
-     * 任务类型: 1.主办, 2.转办, 3.委派, 4.会签, 5.抄送, 6.子流程, 7.定时器, 8.触发器
+     * 任务类型: 1.主办, 2.审批, 3.抄送, 4.条件审批, 5.条件分支, 6.子流程, 7.定时器, 8.触发器, 11.转办, 12.委派, 13.委派归还
      */
     public var taskType: TaskType? = null
 

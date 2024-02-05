@@ -169,8 +169,13 @@
           "childNode": {
             "nodeName": "默认主管审批",
             "nodeType": 2,
-            "approverType": 2,
-            "nodeUserList": [],
+            "approverType": 1,
+            "nodeUserList": [
+              {
+                "id": "test001",
+                "name": "测试会签审批人001"
+              }
+            ],
             "nodeRoleList": [],
             "managerLevel": 1,
             "multistageManagerLevel": 1,

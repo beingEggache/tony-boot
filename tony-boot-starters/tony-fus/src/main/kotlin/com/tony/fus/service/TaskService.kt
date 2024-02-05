@@ -42,7 +42,7 @@ import com.tony.fus.db.po.FusHistoryTaskActor
 import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.db.po.FusTaskActor
-import com.tony.fus.extension.fusListThrowIfEmpty
+import com.tony.fus.extension.fusOneNotNull
 import com.tony.fus.extension.fusSelectByIdNotNull
 import com.tony.fus.extension.fusThrowIf
 import com.tony.fus.extension.fusThrowIfEmpty
@@ -166,8 +166,8 @@ public sealed interface TaskService {
      * 分配任务
      * @param [taskId] 任务id
      * @param [taskType] 任务类型
-     * @param [taskActor] 任务参与者
-     * @param [assignee] 受让人
+     * @param [creatorId] 任务参与者id
+     * @param [assigneeId] 受让人id
      * @return [Boolean]
      * @author Tang Li
      * @date 2023/10/10 19:15
@@ -176,15 +176,28 @@ public sealed interface TaskService {
     public fun assignTask(
         taskId: String,
         taskType: TaskType,
-        taskActor: FusTaskActor,
-        assignee: FusTaskActor,
+        creatorId: String,
+        assigneeId: String,
     ): Boolean
+
+    /**
+     * 解决委派任务
+     * @param [taskId] 任务id
+     * @param [creatorId] 任务参与者id
+     * @author Tang Li
+     * @date 2024/02/01 17:35
+     * @since 1.0.0
+     */
+    public fun resolveTask(
+        taskId: String,
+        creatorId: String,
+    )
 
     /**
      * 转办任务
      * @param [taskId] 任务id
-     * @param [taskActor] 任务参与者
-     * @param [assignee] 受让人
+     * @param [creatorId] 任务参与者id
+     * @param [assigneeId] 受让人id
      * @return [Boolean]
      * @author Tang Li
      * @date 2023/10/10 19:17
@@ -192,18 +205,18 @@ public sealed interface TaskService {
      */
     public fun transferTask(
         taskId: String,
-        taskActor: FusTaskActor,
-        assignee: FusTaskActor,
+        creatorId: String,
+        assigneeId: String,
     ): Boolean =
-        assignTask(taskId, TaskType.TRANSFER, taskActor, assignee)
+        assignTask(taskId, TaskType.TRANSFER, creatorId, assigneeId)
 
     /**
      * 委派任务.
      *
      * 代理人办理完任务该任务重新归还给原处理人
      * @param [taskId] 任务id
-     * @param [taskActor] 任务参与者
-     * @param [assignee] 受让人
+     * @param [creatorId] 任务参与者id
+     * @param [assigneeId] 受让人id
      * @return [Boolean]
      * @author Tang Li
      * @date 2023/10/10 19:19
@@ -211,10 +224,10 @@ public sealed interface TaskService {
      */
     public fun delegateTask(
         taskId: String,
-        taskActor: FusTaskActor,
-        assignee: FusTaskActor,
+        creatorId: String,
+        assigneeId: String,
     ): Boolean =
-        assignTask(taskId, TaskType.DELEGATE, taskActor, assignee)
+        assignTask(taskId, TaskType.DELEGATE, creatorId, assigneeId)
 
     /**
      * 拿回任务.
@@ -554,32 +567,66 @@ internal open class TaskServiceImpl(
     override fun assignTask(
         taskId: String,
         taskType: TaskType,
-        taskActor: FusTaskActor,
-        assignee: FusTaskActor,
+        creatorId: String,
+        assigneeId: String,
     ): Boolean {
-        val taskActorList =
+        val taskActor =
             taskActorMapper
                 .ktQuery()
                 .eq(FusTaskActor::taskId, taskId)
-                .eq(FusTaskActor::actorId, taskActor.actorId)
-                .fusListThrowIfEmpty("无权转办该任务.")
+                .eq(FusTaskActor::actorId, creatorId)
+                .last("limit 1")
+                .fusOneNotNull("Not authorized to perform this task.")
 
-        val result =
-            taskMapper.updateById(
-                FusTask()
-                    .apply {
-                        this.taskId = taskId
-                        this.taskType = taskType
-                        this.assignorId = taskActor.actorId
-                        this.assignorName = taskActor.actorName
-                    }
-            ) > 0
-
-        fusThrowIf(!result, "update task assignor failed.")
-
-        taskActorMapper.deleteBatchIds(taskActorList.map { it.taskActorId })
-        assignTask(taskActorList.first().instanceId, taskId, assignee)
+        taskMapper.updateById(
+            FusTask()
+                .apply {
+                    this.taskId = taskId
+                    this.taskType = taskType
+                    this.assignorId = creatorId
+                    // TODO 获取名称 或者不获取
+                    // this.assignorName = creatorId.actorName
+                }
+        )
+        taskActorMapper.deleteById(taskActor.taskActorId)
+        assignTask(taskActor.instanceId, taskId, FusTaskActor().apply { actorId = assigneeId })
         return true
+    }
+
+    override fun resolveTask(
+        taskId: String,
+        creatorId: String,
+    ) {
+        val taskActor =
+            taskActorMapper
+                .ktQuery()
+                .eq(FusTaskActor::taskId, taskId)
+                .eq(FusTaskActor::actorId, creatorId)
+                .last("limit 1")
+                .fusOneNotNull("Not authorized to perform this task.")
+
+        val task =
+            taskMapper
+                .fusSelectByIdNotNull(taskId, "task[taskId=$taskId] not exists")
+
+        val assignorActor =
+            FusTaskActor().apply {
+                taskActorId = taskActor.taskActorId
+                actorId = task.assignorId
+                // TODO 获取名称 或者不获取
+                // actorName =
+            }
+        if (taskActorMapper.updateById(assignorActor) > 0) {
+            val delegateReturnTask =
+                FusTask().apply {
+                    this.taskId = taskId
+                    this.taskType = TaskType.DELEGATE_RETURN
+                    this.assignorId = creatorId
+                    // TODO 获取名称 或者不获取
+                    // assignorName =
+                }
+            throwIf(taskMapper.updateById(delegateReturnTask) < 1, "resolve task failed")
+        }
     }
 
     private fun assignTask(
@@ -587,10 +634,14 @@ internal open class TaskServiceImpl(
         taskId: String,
         taskActor: FusTaskActor,
     ) {
-        taskActor.taskActorId = ""
-        taskActor.instanceId = instanceId
-        taskActor.taskId = taskId
-        taskActorMapper.insert(taskActor)
+        taskActorMapper.insert(
+            taskActor.apply {
+                this.taskActorId = ""
+                this.instanceId = instanceId
+                this.taskId = taskId
+                this.actorId = taskActor.actorId
+            }
+        )
     }
 
     override fun reclaimTask(
@@ -635,14 +686,7 @@ internal open class TaskServiceImpl(
                 assignTask(
                     instanceId,
                     taskId,
-                    FusTaskActor()
-                        .apply {
-                            this.actorId = userId
-                            this.actorType = ActorType.USER
-                            this.taskId = taskId
-                            // TODO name provider
-                            // TODO actorName = nameProvider.get(userId)
-                        }
+                    FusTaskActor().apply { actorId = userId }
                 )
                 updateCurrentNode(instanceId, task.taskName, task.creatorId)
                 task
@@ -845,6 +889,7 @@ internal open class TaskServiceImpl(
                 .apply {
                     taskType = TaskType.CC
                     performType = PerformType.CC
+                    taskState = TaskState.COMPLETED
                     setEndTimeAndDuration()
                 }
         historyTaskMapper.insert(historyTask)
@@ -890,8 +935,8 @@ internal open class TaskServiceImpl(
         taskActorList
             .filter {
                 !actorIdSet.contains(it.actorId)
-            }.forEach {
-                assignTask(task.instanceId, taskId, it)
+            }.forEach { taskActor ->
+                assignTask(task.instanceId, taskId, taskActor)
             }
         return taskMapper.updateById(task.apply { this.performType = performType }) > 0
     }
@@ -1141,8 +1186,8 @@ internal open class TaskServiceImpl(
         taskActorList.fusThrowIfEmpty("任务参与者不能为空")
         if (performType == PerformType.OR_SIGN) {
             taskMapper.insert(task)
-            taskActorList.forEach {
-                assignTask(task.instanceId, task.taskId, it)
+            taskActorList.forEach { taskActor ->
+                assignTask(task.instanceId, task.taskId, taskActor)
             }
             taskListener?.notify(EventType.CREATE) { task }
             return
@@ -1159,12 +1204,11 @@ internal open class TaskServiceImpl(
             return
         }
 
-        taskActorList.map {
+        taskActorList.forEach { taskActor ->
             val newTask = task.copyToNotNull(FusTask()).apply { taskId = "" }
             taskMapper.insert(newTask)
-            assignTask(newTask.instanceId, newTask.taskId, it)
+            assignTask(newTask.instanceId, newTask.taskId, taskActor)
             taskListener?.notify(EventType.CREATE) { newTask }
-            newTask
         }
     }
 }

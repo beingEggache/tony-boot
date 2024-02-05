@@ -66,6 +66,18 @@ public enum class NodeType(
      * 子流程
      */
     SUB_PROCESS(6),
+
+    /**
+     * 定时器任务
+     *
+     */
+    TIMER(7),
+
+    /**
+     * 触发器任务
+     *
+     */
+    TRIGGER(8),
     ;
 
     internal companion object : EnumCreator<NodeType, Int>(NodeType::class.java) {

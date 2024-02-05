@@ -76,9 +76,6 @@ public open class FusTaskActor {
     /**
      * 参与者ID
      */
-    @TableField(
-        updateStrategy = FieldStrategy.NEVER
-    )
     public var actorId: String = ""
 
     /**

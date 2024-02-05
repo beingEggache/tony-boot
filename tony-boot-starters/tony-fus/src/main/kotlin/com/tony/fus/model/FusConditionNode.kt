@@ -41,5 +41,5 @@ public class FusConditionNode {
 
     public val expressionList: List<List<FusNodeExpression>> = emptyList()
 
-    public val childNode: FusNode? = null
+    public var childNode: FusNode? = null
 }

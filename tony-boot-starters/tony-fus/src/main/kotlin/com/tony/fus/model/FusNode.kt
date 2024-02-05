@@ -125,7 +125,7 @@ public class FusNode {
     /**
      * 子节点
      */
-    public val childNode: FusNode? = null
+    public var childNode: FusNode? = null
 
     /**
      * 父节点.

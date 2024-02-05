@@ -64,7 +64,7 @@ class FusPurchaseProcessTests : FusTests() {
             //领导撤回
             FusContext
                 .queryService
-                .recentHistoryTask(instanceId)
+                .recentHistoryTask(instanceId, "领导审批")
                 .also { historyTask ->
                     FusContext
                         .taskService

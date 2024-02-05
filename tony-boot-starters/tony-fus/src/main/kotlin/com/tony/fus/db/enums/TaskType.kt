@@ -29,7 +29,7 @@ import com.tony.enums.EnumCreator
 import com.tony.enums.IntEnumValue
 
 /**
- * 任务类型: 1.主办, 2.转办, 3.委派, 4.会签, 5.抄送, 6.子流程, 7.定时器, 8.触发器
+ * 任务类型: 1.主办, 2.审批, 3.抄送, 4.条件审批, 5.条件分支, 6.子流程, 7.定时器, 8.触发器, 11.转办, 12.委派, 13.委派归还
  * @author Tang Li
  * @date 2023/09/29 19:00
  * @since 1.0.0
@@ -43,25 +43,28 @@ public enum class TaskType(
     MAJOR(1),
 
     /**
-     * 转办、代理人办理完任务直接进入下一个节点
+     * 审批
+     *
      */
-    TRANSFER(2),
-
-    /**
-     * 委派、代理人办理完任务该任务重新归还给原处理人
-     */
-    DELEGATE(3),
-
-    /**
-     * 会签
-     */
-    COUNTERSIGN(4),
+    APPROVAL(2),
 
     /**
      * 抄送
      *
      */
-    CC(5),
+    CC(3),
+
+    /**
+     * 条件审批
+     *
+     */
+    CONDITION_NODE(4),
+
+    /**
+     * 条件分支
+     *
+     */
+    CONDITION_BRANCH(5),
 
     /**
      * 子流程
@@ -80,6 +83,21 @@ public enum class TaskType(
      *
      */
     TRIGGER(8),
+
+    /**
+     * 转办、代理人办理完任务直接进入下一个节点
+     */
+    TRANSFER(11),
+
+    /**
+     * 委派、代理人办理完任务该任务重新归还给原处理人
+     */
+    DELEGATE(12),
+
+    /**
+     * 委派归还任务
+     */
+    DELEGATE_RETURN(13),
     ;
 
     internal companion object : EnumCreator<TaskType, Int>(TaskType::class.java) {

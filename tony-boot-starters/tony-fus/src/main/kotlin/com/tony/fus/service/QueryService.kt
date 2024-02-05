@@ -146,6 +146,20 @@ public sealed interface QueryService {
     public fun recentHistoryTask(instanceId: String): FusHistoryTask
 
     /**
+     * 最近的历史任务
+     * @param [instanceId] 实例id
+     * @param [taskName] 任务名称
+     * @return [FusHistoryTask]
+     * @author Tang Li
+     * @date 2023/10/10 19:39
+     * @since 1.0.0
+     */
+    public fun recentHistoryTask(
+        instanceId: String,
+        taskName: String,
+    ): FusHistoryTask
+
+    /**
      * 按任务id列出任务参与者
      * @param [taskId] 任务id
      * @return [List<FusTaskActor>]
@@ -246,6 +260,18 @@ internal class QueryServiceImpl(
         historyTaskMapper
             .ktQuery()
             .eq(FusHistoryTask::instanceId, instanceId)
+            .orderByDesc(FusHistoryTask::endTime)
+            .last("limit 1")
+            .fusOneNotNull()
+
+    override fun recentHistoryTask(
+        instanceId: String,
+        taskName: String,
+    ): FusHistoryTask =
+        historyTaskMapper
+            .ktQuery()
+            .eq(FusHistoryTask::instanceId, instanceId)
+            .eq(FusHistoryTask::taskName, taskName)
             .orderByDesc(FusHistoryTask::endTime)
             .last("limit 1")
             .fusOneNotNull()

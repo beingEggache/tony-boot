@@ -16,4 +16,5 @@
     <!-- hide info end-->
 
     <logger name="com.tony.test" level="DEBUG"/>
+    <logger name="com.tony.fus" level="DEBUG"/>
 </configuration>
