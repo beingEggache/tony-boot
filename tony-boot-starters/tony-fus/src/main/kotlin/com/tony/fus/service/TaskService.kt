@@ -124,15 +124,6 @@ public sealed interface TaskService {
     ): Boolean
 
     /**
-     * 按id更新任务
-     * @param [task] 任务
-     * @author Tang Li
-     * @date 2023/10/10 19:50
-     * @since 1.0.0
-     */
-    public fun updateTaskById(task: FusTask)
-
-    /**
      * 查看任务 设置为已阅状态
      * @param [taskId] 任务id
      * @param [actorId] 参与者id
@@ -517,11 +508,6 @@ internal open class TaskServiceImpl(
                 }
             }
         return true
-    }
-
-    override fun updateTaskById(task: FusTask) {
-        taskMapper.updateById(task)
-        taskListener?.notify(EventType.UPDATE) { task }
     }
 
     override fun viewTask(
