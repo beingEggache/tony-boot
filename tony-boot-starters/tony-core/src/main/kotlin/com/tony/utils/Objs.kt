@@ -45,7 +45,11 @@ public fun <T> T?.println(): Unit =
 
 /**
  * 获取 logger.
- * @param name logger 名
+ * @param [name] logger 名
+ * @return [Logger]
+ * @author Tang Li
+ * @date 2024/02/06 13:55
+ * @since 1.0.0
  */
 public fun getLogger(name: String?): Logger =
     LoggerFactory.getLogger(name)
@@ -54,6 +58,10 @@ public fun getLogger(name: String?): Logger =
  * 将 [this] 自身 转为 [E] 类型
  * @receiver [Any]?
  * @param [E] 目标类型
+ * @return [E]?
+ * @author Tang Li
+ * @date 2024/02/06 13:56
+ * @since 1.0.0
  */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asTo(): E? where E : Any =
@@ -64,21 +72,38 @@ public fun <E> Any?.asTo(): E? where E : Any =
  * @receiver [Any]?
  * @param [E] 目标类型
  * @param default 默认值
+ * @return [E]
+ * @author Tang Li
+ * @date 2024/02/06 13:57
+ * @since 1.0.0
  */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asToDefault(default: E): E where E : Any =
     this as? E ?: default
 
 /**
- * 将 [this] 自身 转为 [E] 类型
+ * 将 [this] 自身 转为 [E] 非空类型
  *
  * @receiver [Any]
  * @param [E] 目标类型
+ * @author Tang Li
+ * @date 2024/02/06 13:57
+ * @since 1.0.0
  */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any.asToNotNull(): E where E : Any =
     this as E
 
+/**
+ * 获取 Logger
+ *
+ * LoggerFactory.getLogger(this::class.java)
+ *
+ * @return [Logger]
+ * @author Tang Li
+ * @date 2024/02/06 13:57
+ * @since 1.0.0
+ */
 @JvmSynthetic
 public fun <T> T.getLogger(): Logger where T : Any =
     LoggerFactory.getLogger(this::class.java)
