@@ -33,6 +33,7 @@ package com.tony.web.utils
  * @date 2023/05/25 19:42
  */
 import com.tony.utils.applyIf
+import com.tony.utils.ifNull
 import com.tony.web.WebContext
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -55,6 +56,8 @@ import org.springframework.web.cors.CorsUtils
  *
  * @receiver [HttpServletRequest]
  */
+@get:JvmSynthetic
+@get:JvmName("origin")
 public val HttpServletRequest.origin: String
     get() =
         run {
@@ -70,9 +73,26 @@ public val HttpServletRequest.origin: String
         }
 
 /**
+ * 获取请求根路径, 包含 [HttpServletRequest.getContextPath].
+ *
+ * 类似 http://www.whatever.com:8080/context-path.
+ *
+ * 当端口号为80或443时省略.
+ *
+ * @return [String]
+ * @author Tang Li
+ * @date 2024/02/06 15:10
+ * @since 1.0.0
+ */
+public fun origin(): String =
+    WebContext.request.origin
+
+/**
  * 请求头
  * @receiver [HttpServletRequest]
  */
+@get:JvmSynthetic
+@get:JvmName("headers")
 public val HttpServletRequest.headers: Map<String, String>
     get() =
         headerNames
@@ -84,9 +104,21 @@ public val HttpServletRequest.headers: Map<String, String>
             }
 
 /**
+ * 请求头
+ * @return [Map<String, String>]
+ * @author Tang Li
+ * @date 2024/02/06 15:11
+ * @since 1.0.0
+ */
+public fun requestHeaders(): Map<String, String> =
+    WebContext.request.headers
+
+/**
  * 响应头
  * @receiver [HttpServletRequest]
  */
+@get:JvmSynthetic
+@get:JvmName("headers")
 public val HttpServletResponse.headers: Map<String, String>
     get() =
         headerNames
@@ -98,11 +130,23 @@ public val HttpServletResponse.headers: Map<String, String>
             }
 
 /**
+ * 响应头
+ * @return [Map<String, String>]
+ * @author Tang Li
+ * @date 2024/02/06 15:11
+ * @since 1.0.0
+ */
+public fun responseHeaders(): Map<String, String> =
+    WebContext.response?.headers.ifNull(mapOf())
+
+/**
  * 获取请求ip.
  *
  * 针对反向代理的情况, 会依次从 X-Real-IP, X-Forwarded-For, ip 中获取.
  * @receiver [HttpServletRequest]
  */
+@get:JvmSynthetic
+@get:JvmName("remoteIp")
 public val HttpServletRequest.remoteIp: String
     get() {
         getHeader("X-Real-IP")?.run {
@@ -132,11 +176,35 @@ public val HttpServletRequest.remoteIp: String
     }
 
 /**
+ * 获取请求ip.
+ *
+ * 针对反向代理的情况, 会依次从 X-Real-IP, X-Forwarded-For, ip 中获取.
+ * @return [String]
+ * @author Tang Li
+ * @date 2024/02/06 15:14
+ * @since 1.0.0
+ */
+public fun remoteIp(): String =
+    WebContext.request.remoteIp
+
+/**
  * Url
  * @receiver [HttpServletRequest]
  */
+@get:JvmSynthetic
+@get:JvmName("url")
 public val HttpServletRequest.url: URL
     get() = URI(requestURL.toString()).toURL()
+
+/**
+ * url
+ * @return [URL]
+ * @author Tang Li
+ * @date 2024/02/06 15:14
+ * @since 1.0.0
+ */
+public fun url(): URL =
+    WebContext.request.url
 
 private val TEXT_MEDIA_TYPES =
     listOf(
@@ -159,14 +227,28 @@ public fun isTextMediaTypes(mediaType: MediaType?): Boolean =
  * Is cors request a preflight request.
  * @receiver [HttpServletRequest]
  */
+@get:JvmSynthetic
+@get:JvmName("isCorsPreflightRequest")
 public val HttpServletRequest.isCorsPreflightRequest: Boolean
     get() =
         CorsUtils.isPreFlightRequest(this)
 
 /**
+ * Is cors request a preflight request.
+ * @return [Boolean]
+ * @author Tang Li
+ * @date 2024/02/06 15:15
+ * @since 1.0.0
+ */
+public fun isCorsPreflightRequest(): Boolean =
+    WebContext.request.isCorsPreflightRequest
+
+/**
  * Parsed media
  * @receiver [HttpServletRequest]
  */
+@get:JvmSynthetic
+@get:JvmName("parsedMedia")
 public val HttpServletRequest.parsedMedia: MediaType?
     get() =
         if (contentType.isNullOrBlank()) {
@@ -177,8 +259,20 @@ public val HttpServletRequest.parsedMedia: MediaType?
 
 /**
  * Parsed media
+ * @return [MediaType]?
+ * @author Tang Li
+ * @date 2024/02/06 15:37
+ * @since 1.0.0
+ */
+public fun requestParsedMedia(): MediaType? =
+    WebContext.request.parsedMedia
+
+/**
+ * Parsed media
  * @receiver [HttpServletResponse]
  */
+@get:JvmSynthetic
+@get:JvmName("parsedMedia")
 public val HttpServletResponse.parsedMedia: MediaType?
     get() =
         if (contentType.isNullOrBlank()) {
@@ -188,9 +282,21 @@ public val HttpServletResponse.parsedMedia: MediaType?
         }
 
 /**
+ * Parsed media
+ * @return [MediaType]?
+ * @author Tang Li
+ * @date 2024/02/06 15:37
+ * @since 1.0.0
+ */
+public fun responseParsedMedia(): MediaType? =
+    WebContext.response?.parsedMedia
+
+/**
  * Status is 1xx informational
  * @receiver [HttpServletResponse]
  */
+@get:JvmSynthetic
+@get:JvmName("status1xxInformational")
 public val HttpServletResponse.status1xxInformational: Boolean
     get() =
         HttpStatus
@@ -201,6 +307,8 @@ public val HttpServletResponse.status1xxInformational: Boolean
  * Status is 2xx successful
  * @receiver [HttpServletResponse]
  */
+@get:JvmSynthetic
+@get:JvmName("status2xxSuccessful")
 public val HttpServletResponse.status2xxSuccessful: Boolean
     get() =
         HttpStatus
@@ -211,6 +319,8 @@ public val HttpServletResponse.status2xxSuccessful: Boolean
  * Status is 3xx redirection
  * @receiver [HttpServletResponse]
  */
+@get:JvmSynthetic
+@get:JvmName("status3xxRedirection")
 public val HttpServletResponse.status3xxRedirection: Boolean
     get() =
         HttpStatus

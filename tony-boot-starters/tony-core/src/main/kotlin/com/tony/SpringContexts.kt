@@ -83,9 +83,13 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
         lazy(LazyThreadSafetyMode.PUBLICATION) { getBean(name).asToNotNull() }
 
     internal object ApplicationContextHolder : ApplicationContextAware {
+        @get:JvmSynthetic
+        @set:JvmSynthetic
+        @field:JvmSynthetic
         @JvmStatic
         internal lateinit var springContext: ApplicationContext
 
+        @JvmSynthetic
         override fun setApplicationContext(applicationContext: ApplicationContext) {
             springContext = applicationContext
         }

@@ -50,6 +50,7 @@ import java.io.InputStream
  * 全局ObjectMapper
  * 先从spring 环境获取, 否则创建一个.
  */
+@get:JvmName("globalObjectMapper")
 public val globalObjectMapper: ObjectMapper by lazy(LazyThreadSafetyMode.PUBLICATION) {
     try {
         SpringContexts.getBean(ObjectMapper::class.java)

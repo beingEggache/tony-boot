@@ -42,6 +42,7 @@ import java.net.UnknownHostException
  * 获取本地ip.
  * 参考SpringCloud获取IP的代码.
  */
+@get:JvmName("localIp")
 public val localIp: String =
     NetworkInterface
         .getNetworkInterfaces()

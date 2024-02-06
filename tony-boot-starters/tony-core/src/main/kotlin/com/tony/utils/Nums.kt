@@ -171,6 +171,7 @@ public fun BigDecimal?.formatToPercent(
 ): String =
     formatToPercent(this, decimal, roundingMode)
 
+@get:JvmName("secureRandom")
 public val secureRandom: SecureRandom = SecureRandom()
 
 /**

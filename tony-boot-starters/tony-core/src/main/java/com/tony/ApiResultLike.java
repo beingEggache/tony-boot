@@ -64,6 +64,6 @@ public interface ApiResultLike<T> {
      * @return boolean
      */
     default boolean getSuccess() {
-        return Objects.equals(getCode(), ApiProperty.getOkCode());
+        return Objects.equals(getCode(), ApiProperty.okCode());
     }
 }

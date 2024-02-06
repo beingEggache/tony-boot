@@ -59,15 +59,19 @@ import java.util.function.Consumer
  * @since 1.0.0
  */
 public object FusContext {
+    @get:JvmName("processService")
     @JvmStatic
     public val processService: ProcessService by SpringContexts.getBeanByLazy<ProcessService>()
 
+    @get:JvmName("queryService")
     @JvmStatic
     public val queryService: QueryService by SpringContexts.getBeanByLazy<QueryService>()
 
+    @get:JvmName("runtimeService")
     @JvmStatic
     public val runtimeService: RuntimeService by SpringContexts.getBeanByLazy<RuntimeService>()
 
+    @get:JvmName("taskService")
     @JvmStatic
     public val taskService: TaskService by SpringContexts.getBeanByLazy<TaskService>()
 

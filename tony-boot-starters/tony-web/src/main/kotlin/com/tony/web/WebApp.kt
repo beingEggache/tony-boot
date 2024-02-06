@@ -57,18 +57,21 @@ public object WebApp {
     /**
      * spring.application.name
      */
+    @get:JvmName("appId")
     @JvmStatic
     public val appId: String by Env.getPropertyByLazy("spring.application.name", "")
 
     /**
      * server.port
      */
+    @get:JvmName("port")
     @JvmStatic
     public val port: String by Env.getPropertyByLazy("server.port", "8080")
 
     /**
      * server.servlet.context-path
      */
+    @get:JvmName("contextPath")
     @JvmStatic
     public val contextPath: String by Env.getPropertyByLazy("server.servlet.context-path", "")
 
@@ -91,6 +94,7 @@ public object WebApp {
      *
      * 一般默认包含 文档地址, 及对应的静态文件地址.
      */
+    @get:JvmName("whiteUrlPatterns")
     @JvmStatic
     public val whiteUrlPatterns: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
         whiteUrlPatterns()
@@ -103,6 +107,7 @@ public object WebApp {
      *
      * 将 [ HttpServletRequest.getContextPath] 包含进去.
      */
+    @get:JvmName("whiteUrlPatternsWithContextPath")
     @JvmStatic
     public val whiteUrlPatternsWithContextPath: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
         whiteUrlPatterns(contextPath)

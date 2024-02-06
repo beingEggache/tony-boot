@@ -9,14 +9,19 @@ import com.tony.mono.db.po.User;
 import com.tony.mono.db.service.UserService;
 import com.tony.mono.dto.req.UserLoginReq;
 import com.tony.web.WebApp;
+import com.tony.web.utils.Servlets;
 import io.swagger.v3.oas.annotations.Operation;
 import kotlin.Pair;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URL;
+import java.util.Map;
 
 /**
  * IndexController
@@ -35,7 +40,7 @@ public class IndexController {
     @NoLoginCheck
     @GetMapping("/")
     public String index() {
-        return WebApp.getAppId();
+        return WebApp.appId();
     }
 
     @Operation(summary = "登录")
@@ -62,5 +67,54 @@ public class IndexController {
         @RequestBody final PageQuery<String> req
     ) {
         return userService.list(req);
+    }
+
+    @Operation(summary = "requestHeaders")
+    @NoLoginCheck
+    @PostMapping("/request-headers")
+    public Map<String,?> requestHeaders(){
+        return Servlets.requestHeaders();
+    }
+
+    @Operation(summary = "responseHeaders")
+    @NoLoginCheck
+    @PostMapping("/response-headers")
+    public Map<String,?> responseHeaders(){
+        return Servlets.responseHeaders();
+    }
+
+    @Operation(summary = "origin")
+    @NoLoginCheck
+    @PostMapping("/origin")
+    public MonoResult<String> origin(){
+        return MonoResult.ofMonoResult(Servlets.origin());
+    }
+
+    @Operation(summary = "remoteIp")
+    @NoLoginCheck
+    @PostMapping("/remote-ip")
+    public MonoResult<String> remoteIp(){
+        return MonoResult.ofMonoResult(Servlets.remoteIp());
+    }
+
+    @Operation(summary = "url")
+    @NoLoginCheck
+    @PostMapping("/url")
+    public URL url(){
+        return Servlets.url();
+    }
+
+    @Operation(summary = "requestParsedMedia")
+    @NoLoginCheck
+    @PostMapping("/request-parsed-media")
+    public MediaType requestParsedMedia(){
+        return Servlets.requestParsedMedia();
+    }
+
+    @Operation(summary = "responseParsedMedia")
+    @NoLoginCheck
+    @PostMapping("/response-parsed-media")
+    public MediaType responseParsedMedia(){
+        return Servlets.responseParsedMedia();
     }
 }

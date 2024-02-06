@@ -55,6 +55,7 @@ public data object ApiProperty {
      *
      * 默认 20000.
      */
+    @get:JvmName("okCode")
     @JvmStatic
     public val okCode: Int
         get() = getPropertyAvoidInitError("core.ok-code", 20000)
@@ -66,6 +67,7 @@ public data object ApiProperty {
      *
      * 默认 "操作成功".
      */
+    @get:JvmName("defaultOkMessage")
     @JvmStatic
     public val defaultOkMessage: String
         get() = getPropertyAvoidInitError("core.ok-msg", "操作成功")
@@ -77,6 +79,7 @@ public data object ApiProperty {
      *
      * 默认 40100.
      */
+    @get:JvmName("unauthorizedCode")
     @JvmStatic
     public val unauthorizedCode: Int
         get() = getPropertyAvoidInitError("core.unauthorized-code", 40100)
@@ -88,6 +91,7 @@ public data object ApiProperty {
      *
      * 默认 50000.
      */
+    @get:JvmName("errorCode")
     @JvmStatic
     public val errorCode: Int
         get() = getPropertyAvoidInitError("core.internal-server-error-code", 50000)
@@ -99,6 +103,7 @@ public data object ApiProperty {
      *
      * 默认 "访客太多，请稍后重试".
      */
+    @get:JvmName("errorMsg")
     @JvmStatic
     public val errorMsg: String
         get() = getPropertyAvoidInitError("core.internal-server-error-msg", "访客太多，请稍后重试")
@@ -110,6 +115,7 @@ public data object ApiProperty {
      *
      * 默认 40000.
      */
+    @get:JvmName("badRequestCode")
     @JvmStatic
     public val badRequestCode: Int
         get() = getPropertyAvoidInitError("core.bad-request-code", 40000)
@@ -121,6 +127,7 @@ public data object ApiProperty {
      *
      * 默认 "请求有误，请检查后输入".
      */
+    @get:JvmName("badRequestMsg")
     @JvmStatic
     public val badRequestMsg: String
         get() = getPropertyAvoidInitError("core.bad-request-msg", "请求有误，请检查后输入")
@@ -132,6 +139,7 @@ public data object ApiProperty {
      *
      * 默认 40010.
      */
+    @get:JvmName("preconditionFailedCode")
     @JvmStatic
     public val preconditionFailedCode: Int
         get() = getPropertyAvoidInitError("core.precondition-failed-code", 40010)
@@ -141,6 +149,7 @@ public data object ApiProperty {
      *
      * 默认 40404.
      */
+    @get:JvmName("notFoundCode")
     @JvmStatic
     public val notFoundCode: Int = 40404
 
@@ -149,6 +158,7 @@ public data object ApiProperty {
      *
      * 默认 "该对象不存在".
      */
+    @get:JvmName("notFoundMessage")
     @JvmStatic
     public val notFoundMessage: String = "该对象不存在"
 }

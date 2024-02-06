@@ -47,14 +47,17 @@ public object WebContext {
     /**
      * ServletRequestAttributes
      */
+    @get:JvmName("current")
     @JvmStatic
     public val current: ServletRequestAttributes
         get() = RequestContextHolder.currentRequestAttributes().asToNotNull()
 
+    @get:JvmName("request")
     @JvmStatic
     public val request: HttpServletRequest
         get() = current.request
 
+    @get:JvmName("response")
     @JvmStatic
     public val response: HttpServletResponse?
         get() = current.response
