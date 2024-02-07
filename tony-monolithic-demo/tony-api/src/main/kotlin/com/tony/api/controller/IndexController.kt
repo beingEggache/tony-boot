@@ -8,7 +8,6 @@ import com.tony.dto.resp.UserLoginResp
 import com.tony.jwt.JwtToken
 import com.tony.jwt.config.JwtProperties
 import com.tony.utils.toString
-import com.tony.web.WebApp
 import io.swagger.v3.oas.annotations.Operation
 import java.time.LocalDateTime
 import java.util.Locale
@@ -29,7 +28,7 @@ class IndexController(
     @NoLoginCheck
     @NoPermissionCheck
     fun index(): String =
-        WebApp.appId
+        "index"
 
     @Operation(summary = "区域")
     @GetMapping("/locale")

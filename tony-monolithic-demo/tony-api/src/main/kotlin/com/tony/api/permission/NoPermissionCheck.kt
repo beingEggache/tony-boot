@@ -2,8 +2,8 @@ package com.tony.api.permission
 
 import com.tony.db.service.ModuleService
 import com.tony.exception.BizException
-import com.tony.web.WebApp
 import com.tony.web.WebContext
+import com.tony.web.WebContextExtensions.appId
 import com.tony.web.WebContextExtensions.userId
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -34,8 +34,8 @@ class DefaultPermissionInterceptor(
     ): Boolean {
         if (handler !is HandlerMethod) return true
         if (handler.method.getAnnotation(NoPermissionCheck::class.java) != null) return true
-        val apiModules = moduleService.listApiModules(WebContext.userId, WebApp.appId)
-        val moduleId = "${request.method.uppercase()} ${request.requestURI.removePrefix(WebApp.contextPath)}"
+        val apiModules = moduleService.listApiModules(WebContext.userId, WebContext.appId)
+        val moduleId = "${request.method.uppercase()} ${request.requestURI.removePrefix(WebContext.contextPath)}"
         if (!apiModules.any { it.moduleId == moduleId }) throw BizException("未经许可的访问", 40100)
         return true
     }

@@ -7,7 +7,8 @@ import com.tony.dto.enums.ModuleType
 import com.tony.dto.req.ListReq
 import com.tony.dto.req.internal.FrontEndModuleReq
 import com.tony.utils.copyTo
-import com.tony.web.WebApp
+import com.tony.web.WebContext
+import com.tony.web.WebContextExtensions.appId
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.context.annotation.Profile
@@ -39,6 +40,6 @@ class InternalController(
     ) = moduleService.saveModules(
         req.rows.map { it.copyTo() },
         listOf(ModuleType.ROUTE, ModuleType.COMPONENT),
-        WebApp.appId
+        WebContext.appId
     )
 }

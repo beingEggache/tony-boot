@@ -30,6 +30,7 @@
 package com.tony.web
 
 import com.tony.ApiSession
+import com.tony.SpringContexts
 import com.tony.web.exception.UnauthorizedException
 
 /**
@@ -39,6 +40,9 @@ import com.tony.web.exception.UnauthorizedException
  * @date 2023/05/25 19:52
  */
 public interface WebSession : ApiSession {
+    override val appId: String
+        get() = SpringContexts.Env.getProperty("spring.application.name", "")
+
     override val userId: String
 
     /**

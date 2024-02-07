@@ -2,18 +2,19 @@
 <configuration>
     <property name="LOG_EXCEPTION_CONVERSION_WORD" value="
     %stack{100,full,full,rootFirst,inlineHash,omitCommonFrames,
-    jdk\.internal\.reflect\..*,
-    java\.base\/jdk\.internal\.reflect\..*,
-    jdk\.proxy.*,
-    java\.lang\.reflect\..*,
-    kotlin\.reflect\..*,
-    sun\.reflect\..*,
+    ^jdk\.internal\.reflect,
+    ^java\.base\/jdk\.internal\.reflect,
+    ^jdk\.proxy,
+    ^java\.lang\.reflect,
+    ^java\.lang\.invoke,
+    ^kotlin\.reflect,
+    ^sun\.,
     .*SpringCGLIB.*,
-    org\.springframework\.aop\..*,
-    jakarta\.servlet\..*,
-    io\.undertow\..*,
-    org\.jboss\.threads\..*,
-    org\.xnio\..*
+    ^org\.springframework\.aop,
+    ^jakarta\.servlet,
+    ^io\.undertow,
+    ^org\.jboss\.threads,
+    ^org\.xnio
     }"/>
 <!--    <property name="LOG_EXCEPTION_CONVERSION_WORD" value="-->
 <!--    %stack{100,full,full,rootFirst,inlineHash,omitCommonFrames,-->

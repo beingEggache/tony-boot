@@ -39,6 +39,15 @@ public object WebContextExtensions {
     private val webSession: WebSession by getBeanByLazy()
 
     /**
+     * 应用标识
+     */
+    @get:JvmSynthetic
+    @JvmStatic
+    public val WebContext.appId: String
+        get() =
+            webSession.appId
+
+    /**
      * 用户标识
      */
     @get:JvmSynthetic
@@ -64,6 +73,14 @@ public object WebContextExtensions {
     @JvmStatic
     public fun apiSession(): WebSession =
         webSession
+
+    /**
+     * 应用标识
+     * @return 应用标识
+     */
+    @JvmStatic
+    public fun appId(): String =
+        webSession.appId
 
     /**
      * 用户标识

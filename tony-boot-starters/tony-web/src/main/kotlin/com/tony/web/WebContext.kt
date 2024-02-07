@@ -50,18 +50,26 @@ import org.springframework.web.context.request.ServletWebRequest
  */
 public object WebContext {
     /**
-     * ServletRequestAttributes
+     * 获取当前 [ServletRequestAttributes]
      */
     @get:JvmName("current")
     @JvmStatic
     public val current: ServletRequestAttributes
         get() = RequestContextHolder.currentRequestAttributes().asToNotNull()
 
+    /**
+     * 当前请求.
+     * @see [ServletRequestAttributes.getRequest]
+     */
     @get:JvmName("request")
     @JvmStatic
     public val request: HttpServletRequest
         get() = current.request
 
+    /**
+     * 当前响应.
+     * @see [ServletRequestAttributes.getResponse]
+     */
     @get:JvmName("response")
     @JvmStatic
     public val response: HttpServletResponse?
@@ -136,7 +144,7 @@ public object WebContext {
     internal val responseWrapExcludePatterns by lazy(LazyThreadSafetyMode.PUBLICATION) {
         val set =
             setOf(
-                *whiteUrlPatternsWithContextPath.toTypedArray(),
+                *excludePathPatterns(contextPath).toTypedArray(),
                 *webProperties
                     .wrapResponseExcludePatterns
                     .map { sanitizedPath("$contextPath/$it") }
@@ -144,30 +152,6 @@ public object WebContext {
             )
         logger.info("Response Wrap Exclude Pattern are: $set")
         set
-    }
-
-    /**
-     * 全局框架处理层面白名单, 比如不经过全局响应结构包装, 不记录请求日志的 url.
-     *
-     * 一般默认包含 文档地址, 及对应的静态文件地址.
-     */
-    @get:JvmName("whiteUrlPatterns")
-    @JvmStatic
-    public val whiteUrlPatterns: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
-        whiteUrlPatterns()
-    }
-
-    /**
-     * 全局框架处理层面白名单, 比如不经过全局响应结构包装, 不记录请求日志的 url.
-     *
-     * 一般默认包含 文档地址, 及对应的静态文件地址.
-     *
-     * 将 [ HttpServletRequest.getContextPath] 包含进去.
-     */
-    @get:JvmName("whiteUrlPatternsWithContextPath")
-    @JvmStatic
-    public val whiteUrlPatternsWithContextPath: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
-        whiteUrlPatterns(contextPath)
     }
 
     private const val SWAGGER_UI_PATH: String = "springdoc.swagger-ui.path"
@@ -182,8 +166,22 @@ public object WebContext {
     private const val SPRINGDOC_API_DOCS_PATH: String = "springdoc.api-docs.path"
     private const val SPRINGDOC_API_DOCS_PATH_VALUE: String = "/v3/api-docs"
 
+    /**
+     * 排除路径模式.
+     *
+     * 全局框架处理层面白名单, 比如不经过全局响应结构包装, 不记录请求日志的 url.
+     *
+     * 一般默认包含 文档地址, 及对应的静态文件地址.
+     *
+     * @param [prefix] 前缀
+     * @return [Set<String>]
+     * @author Tang Li
+     * @date 2024/02/07 09:27
+     * @since 1.0.0
+     */
+    @JvmOverloads
     @JvmStatic
-    private fun whiteUrlPatterns(prefix: String = ""): Set<String> {
+    public fun excludePathPatterns(prefix: String = ""): Set<String> {
         val actuatorBasePath = SpringContexts.Env.getProperty("management.endpoints.web.base-path", "/actuator")
         val actuatorPrefix = sanitizedPath("$prefix/$actuatorBasePath")
         val errorPath =

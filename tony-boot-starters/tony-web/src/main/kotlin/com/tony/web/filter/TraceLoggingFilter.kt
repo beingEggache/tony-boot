@@ -69,7 +69,7 @@ internal class TraceLoggingFilter(
         WebContext
             .responseWrapExcludePatterns
             .plus(traceLogExcludePatterns.map { sanitizedPath("${WebContext.contextPath}/$it") })
-            .plus(WebContext.whiteUrlPatternsWithContextPath)
+            .plus(WebContext.excludePathPatterns(WebContext.contextPath))
     }
 
     @Throws(IOException::class, ServletException::class)

@@ -32,6 +32,11 @@ package com.tony
  */
 public interface ApiSession {
     /**
+     * App id
+     */
+    public val appId: String
+
+    /**
      * 用户id
      */
     public val userId: String?

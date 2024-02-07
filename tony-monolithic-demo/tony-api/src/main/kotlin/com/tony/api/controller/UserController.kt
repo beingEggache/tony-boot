@@ -6,8 +6,8 @@ import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.UserService
 import com.tony.dto.req.UserAddReq
 import com.tony.dto.req.UserUpdateReq
-import com.tony.web.WebApp
 import com.tony.web.WebContext
+import com.tony.web.WebContextExtensions.appId
 import com.tony.web.WebContextExtensions.userId
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -47,7 +47,7 @@ class UserController(
     @NoPermissionCheck
     @GetMapping("/user/info")
     fun info() =
-        userService.info(WebContext.userId, WebApp.appId)
+        userService.info(WebContext.userId, WebContext.appId)
 
     @Operation(summary = "用户列表", description = "用户列表")
     @NoPermissionCheck

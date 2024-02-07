@@ -70,7 +70,7 @@ internal class RequestReplaceToRepeatReadFilter(
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
         traceLogExcludePatterns
             .map { sanitizedPath("${WebContext.contextPath}/$it") }
-            .plus(WebContext.whiteUrlPatternsWithContextPath)
+            .plus(WebContext.excludePathPatterns(WebContext.contextPath))
     }
 
     override fun doFilterInternal(

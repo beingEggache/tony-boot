@@ -80,7 +80,7 @@ internal class WebAuthConfig(
             .addInterceptor(loginCheckInterceptor())
             .excludePathPatterns(
                 *WebContext
-                    .whiteUrlPatterns
+                    .excludePathPatterns()
                     .plus(webAuthProperties.noLoginCheckUrl)
                     .toTypedArray()
             ).order(PriorityOrdered.HIGHEST_PRECEDENCE)

@@ -4,7 +4,7 @@ import com.tony.annotation.EnableTonyBoot
 import com.tony.api.permission.PermissionInterceptor
 import com.tony.config.PowerJobConfig
 import com.tony.db.config.DbConfig
-import com.tony.web.WebApp
+import com.tony.web.WebContext
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
@@ -44,7 +44,7 @@ class MonoApiWebApp(
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry
             .addInterceptor(permissionInterceptor)
-            .excludePathPatterns(*WebApp.whiteUrlPatternsWithContextPath.toTypedArray())
+            .excludePathPatterns(*WebContext.excludePathPatterns(WebContext.contextPath).toTypedArray())
             .order(PriorityOrdered.HIGHEST_PRECEDENCE + 1)
     }
 }
