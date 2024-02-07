@@ -15,6 +15,8 @@ import tech.powerjob.worker.core.processor.sdk.BasicProcessor
 class BasicProcessorDemo : BasicProcessor {
     override fun process(context: TaskContext): ProcessResult {
         context.omsLogger.info("power job start")
+        context.omsLogger.info(context.jobParams)
+        context.omsLogger.info(context.instanceParams)
         context.omsLogger.info("power job end")
         return ProcessResult(true, "power job result")
     }

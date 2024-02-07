@@ -70,6 +70,7 @@ springdocStarter = "2.3.0"
 fury = "0.4.1"
 
 powerjob = "4.3.6"
+vertx = "4.5.2"
 
 springCloud = "2023.0.0"
 springCloudAlibaba = "2022.0.0.0"
@@ -255,9 +256,15 @@ furyFormat = { module = "org.furyio:fury-format", version.ref = "fury" }
 
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6.4" }
 
-powerjobWorkerSpringBootStarter = { module = "tech.powerjob:powerjob-worker-spring-boot-starter", version.ref ="powerjob" }
-powerjobWorker = { module = "tech.powerjob:powerjob-worker", version.ref ="powerjob" }
-powerjobOfficialProcessors = { module = "tech.powerjob:powerjob-official-processors", version.ref ="powerjob" }
+powerjobWorkerSpringBootStarter = { module = "tech.powerjob:powerjob-worker-spring-boot-starter", version.ref = "powerjob" }
+powerjobWorker = { module = "tech.powerjob:powerjob-worker", version.ref = "powerjob" }
+powerjobOfficialProcessors = { module = "tech.powerjob:powerjob-official-processors", version.ref = "powerjob" }
+
+vertxCore = { module = "io.vertx:vertx-core", version.ref = "vertx" }
+vertxWeb = { module = "io.vertx:vertx-web", version.ref = "vertx" }
+vertxWebCommon = { module = "io.vertx:vertx-web-common", version.ref = "vertx" }
+vertxAuthCommon = { module = "io.vertx:vertx-auth-common", version.ref = "vertx" }
+vertxBridgeCommon = { module = "io.vertx:vertx-bridge-common", version.ref = "vertx" }
 
 gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.35.0"}
 springBootGradlePlugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot"}

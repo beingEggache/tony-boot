@@ -2,6 +2,7 @@ package com.tony.api.controller
 
 import com.alibaba.excel.EasyExcel
 import com.tony.annotation.web.auth.NoLoginCheck
+import com.tony.api.permission.NoPermissionCheck
 import com.tony.dto.resp.ExcelResp
 import com.tony.web.utils.responseEntity
 import io.swagger.v3.oas.annotations.Operation
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @Validated
 class ExcelController {
+    @NoPermissionCheck
     @NoLoginCheck
     @Operation(summary = "excel")
     @PostMapping("/excel/export")
