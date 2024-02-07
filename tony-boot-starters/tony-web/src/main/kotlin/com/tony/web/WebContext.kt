@@ -24,14 +24,19 @@
 
 package com.tony.web
 
+import com.tony.SpringContexts
 import com.tony.utils.asTo
 import com.tony.utils.asToDefault
 import com.tony.utils.asToNotNull
 import com.tony.utils.ifNull
+import com.tony.utils.sanitizedPath
+import com.tony.web.config.WebProperties
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.slf4j.LoggerFactory
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.error.ErrorAttributeOptions.Include
+import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
@@ -88,10 +93,11 @@ public object WebContext {
         get() =
             current
                 .getOrPut("errorAttribute") {
-                    WebApp
-                        .errorAttributes
-                        .getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
+                    errorAttributesBean.getErrorAttributes(ServletWebRequest(request), errorAttributeOptions)
                 }
+
+    @get:JvmSynthetic
+    internal val errorAttributesBean: ErrorAttributes by SpringContexts.getBeanByLazy()
 
     /**
      * ServletRequestAttributes [SCOPE_REQUEST]范围 存取变量.
@@ -114,4 +120,97 @@ public object WebContext {
                     setAttribute(key, this, SCOPE_REQUEST)
                 }
             )
+
+    /**
+     * server.servlet.context-path
+     */
+    @get:JvmName("contextPath")
+    @JvmStatic
+    public val contextPath: String by SpringContexts.Env.getPropertyByLazy("server.servlet.context-path", "")
+
+    private val webProperties: WebProperties by SpringContexts.getBeanByLazy()
+
+    private val logger = LoggerFactory.getLogger(WebContext::class.java)
+
+    @get:JvmSynthetic
+    internal val responseWrapExcludePatterns by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        val set =
+            setOf(
+                *whiteUrlPatternsWithContextPath.toTypedArray(),
+                *webProperties
+                    .wrapResponseExcludePatterns
+                    .map { sanitizedPath("$contextPath/$it") }
+                    .toTypedArray()
+            )
+        logger.info("Response Wrap Exclude Pattern are: $set")
+        set
+    }
+
+    /**
+     * 全局框架处理层面白名单, 比如不经过全局响应结构包装, 不记录请求日志的 url.
+     *
+     * 一般默认包含 文档地址, 及对应的静态文件地址.
+     */
+    @get:JvmName("whiteUrlPatterns")
+    @JvmStatic
+    public val whiteUrlPatterns: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        whiteUrlPatterns()
+    }
+
+    /**
+     * 全局框架处理层面白名单, 比如不经过全局响应结构包装, 不记录请求日志的 url.
+     *
+     * 一般默认包含 文档地址, 及对应的静态文件地址.
+     *
+     * 将 [ HttpServletRequest.getContextPath] 包含进去.
+     */
+    @get:JvmName("whiteUrlPatternsWithContextPath")
+    @JvmStatic
+    public val whiteUrlPatternsWithContextPath: Set<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        whiteUrlPatterns(contextPath)
+    }
+
+    private const val SWAGGER_UI_PATH: String = "springdoc.swagger-ui.path"
+    private const val SWAGGER_UI_PATH_VALUE: String = "/swagger-ui.html"
+
+    private const val SWAGGER_UI_CONFIG: String = "springdoc.swagger-ui.config-url"
+    private const val SWAGGER_UI_CONFIG_VALUE: String = "/v3/api-docs/swagger-config"
+
+    private const val SWAGGER_UI_OAUTH2_REDIRECT_URL: String = "springdoc.swagger-ui.oauth2-redirect-url"
+    private const val SWAGGER_UI_OAUTH2_REDIRECT_URL_VALUE: String = "/swagger-ui/oauth2-redirect.html"
+
+    private const val SPRINGDOC_API_DOCS_PATH: String = "springdoc.api-docs.path"
+    private const val SPRINGDOC_API_DOCS_PATH_VALUE: String = "/v3/api-docs"
+
+    @JvmStatic
+    private fun whiteUrlPatterns(prefix: String = ""): Set<String> {
+        val actuatorBasePath = SpringContexts.Env.getProperty("management.endpoints.web.base-path", "/actuator")
+        val actuatorPrefix = sanitizedPath("$prefix/$actuatorBasePath")
+        val errorPath =
+            SpringContexts.Env.getProperty(
+                "server.error.path",
+                SpringContexts.Env.getProperty("error.path", "/error")
+            )
+        return setOf(
+            sanitizedPath("$actuatorPrefix/**"),
+            sanitizedPath("$prefix/$errorPath"),
+            sanitizedPath("$prefix/swagger-resources/**"),
+            sanitizedPath("$prefix/v2/api-docs/**"),
+            sanitizedPath("$prefix/v3/api-docs/**"),
+            sanitizedPath("$prefix/webjars/**"),
+            sanitizedPath("$prefix/**/*.html"),
+            sanitizedPath("$prefix/**/*.ico"),
+            sanitizedPath("$prefix/**/*.png"),
+            sanitizedPath("$prefix/**/*.js"),
+            sanitizedPath("$prefix/**/*.js.map"),
+            sanitizedPath("$prefix/**/*.css"),
+            sanitizedPath("$prefix/**/*.css.map"),
+            sanitizedPath(SpringContexts.Env.getProperty(SWAGGER_UI_PATH, SWAGGER_UI_PATH_VALUE)),
+            sanitizedPath(SpringContexts.Env.getProperty(SWAGGER_UI_CONFIG, SWAGGER_UI_CONFIG_VALUE)),
+            sanitizedPath(
+                SpringContexts.Env.getProperty(SWAGGER_UI_OAUTH2_REDIRECT_URL, SWAGGER_UI_OAUTH2_REDIRECT_URL_VALUE)
+            ),
+            sanitizedPath(SpringContexts.Env.getProperty(SPRINGDOC_API_DOCS_PATH, SPRINGDOC_API_DOCS_PATH_VALUE))
+        )
+    }
 }

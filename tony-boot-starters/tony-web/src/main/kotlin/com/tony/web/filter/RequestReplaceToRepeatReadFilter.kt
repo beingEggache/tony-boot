@@ -33,7 +33,7 @@ package com.tony.web.filter
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.applyIf
 import com.tony.utils.sanitizedPath
-import com.tony.web.WebApp
+import com.tony.web.WebContext
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
 import com.tony.web.utils.isCorsPreflightRequest
 import jakarta.servlet.FilterChain
@@ -69,8 +69,8 @@ internal class RequestReplaceToRepeatReadFilter(
     PriorityOrdered {
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
         traceLogExcludePatterns
-            .map { sanitizedPath("${WebApp.contextPath}/$it") }
-            .plus(WebApp.whiteUrlPatternsWithContextPath)
+            .map { sanitizedPath("${WebContext.contextPath}/$it") }
+            .plus(WebContext.whiteUrlPatternsWithContextPath)
     }
 
     override fun doFilterInternal(

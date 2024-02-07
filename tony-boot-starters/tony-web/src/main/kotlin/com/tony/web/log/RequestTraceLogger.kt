@@ -34,7 +34,7 @@ import com.tony.ApiProperty
 import com.tony.utils.getFromRootAsString
 import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
-import com.tony.web.WebApp
+import com.tony.web.WebContext
 import com.tony.web.filter.RepeatReadRequestWrapper
 import com.tony.web.log.`#Const`.BAD_REQUEST
 import com.tony.web.log.`#Const`.INTERNAL_SERVER_ERROR
@@ -126,7 +126,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         val path =
             request
                 .requestURI
-                .removePrefix(WebApp.contextPath)
+                .removePrefix(WebContext.contextPath)
         val query = request.queryString ?: NULL
         val requestHeaders =
             request

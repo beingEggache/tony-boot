@@ -36,7 +36,7 @@ import com.tony.utils.mdcPutOrGetDefault
 import com.tony.utils.sanitizedPath
 import com.tony.utils.toInstant
 import com.tony.utils.uuid
-import com.tony.web.WebApp
+import com.tony.web.WebContext
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
 import com.tony.web.log.RequestTraceLogger
 import com.tony.web.utils.isCorsPreflightRequest
@@ -66,10 +66,10 @@ internal class TraceLoggingFilter(
 ) : OncePerRequestFilter(),
     PriorityOrdered {
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
-        WebApp
+        WebContext
             .responseWrapExcludePatterns
-            .plus(traceLogExcludePatterns.map { sanitizedPath("${WebApp.contextPath}/$it") })
-            .plus(WebApp.whiteUrlPatternsWithContextPath)
+            .plus(traceLogExcludePatterns.map { sanitizedPath("${WebContext.contextPath}/$it") })
+            .plus(WebContext.whiteUrlPatternsWithContextPath)
     }
 
     @Throws(IOException::class, ServletException::class)

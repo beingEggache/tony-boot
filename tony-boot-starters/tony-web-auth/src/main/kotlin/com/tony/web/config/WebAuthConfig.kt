@@ -28,7 +28,7 @@ import com.tony.jwt.config.JwtProperties
 import com.tony.utils.getLogger
 import com.tony.web.JwtWebSession
 import com.tony.web.NoopWebSession
-import com.tony.web.WebApp
+import com.tony.web.WebContext
 import com.tony.web.WebSession
 import com.tony.web.interceptor.DefaultLoginCheckInterceptor
 import com.tony.web.interceptor.LoginCheckInterceptor
@@ -79,7 +79,7 @@ internal class WebAuthConfig(
         registry
             .addInterceptor(loginCheckInterceptor())
             .excludePathPatterns(
-                *WebApp
+                *WebContext
                     .whiteUrlPatterns
                     .plus(webAuthProperties.noLoginCheckUrl)
                     .toTypedArray()

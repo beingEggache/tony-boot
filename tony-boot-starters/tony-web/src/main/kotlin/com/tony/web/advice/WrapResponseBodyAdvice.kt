@@ -32,7 +32,6 @@ import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
 import com.tony.utils.isArrayLikeType
 import com.tony.utils.isTypesOrSubTypesOf
-import com.tony.web.WebApp
 import com.tony.web.WebContext
 import com.tony.web.utils.url
 import java.util.Collections
@@ -82,7 +81,7 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         .request
         .url
         .path
-        .antPathMatchAny(WebApp.responseWrapExcludePatterns) &&
+        .antPathMatchAny(WebContext.responseWrapExcludePatterns) &&
         converterType.isTypesOrSubTypesOf(MappingJackson2HttpMessageConverter::class.java) &&
         !returnType
             .parameterType

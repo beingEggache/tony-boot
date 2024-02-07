@@ -8,7 +8,6 @@ import com.tony.jwt.JwtToken;
 import com.tony.mono.db.po.User;
 import com.tony.mono.db.service.UserService;
 import com.tony.mono.dto.req.UserLoginReq;
-import com.tony.web.WebApp;
 import com.tony.web.utils.Servlets;
 import io.swagger.v3.oas.annotations.Operation;
 import kotlin.Pair;
@@ -40,7 +39,7 @@ public class IndexController {
     @NoLoginCheck
     @GetMapping("/")
     public String index() {
-        return WebApp.appId();
+        return "index";
     }
 
     @Operation(summary = "登录")
