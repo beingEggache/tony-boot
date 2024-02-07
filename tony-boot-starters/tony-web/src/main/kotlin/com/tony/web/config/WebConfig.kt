@@ -46,8 +46,6 @@ import com.tony.web.converter.EnumStringValueConverterFactory
 import com.tony.web.filter.RequestReplaceToRepeatReadFilter
 import com.tony.web.filter.TraceIdFilter
 import com.tony.web.filter.TraceLoggingFilter
-import com.tony.web.listeners.ContextClosedListener
-import com.tony.web.listeners.DefaultContextClosedListener
 import com.tony.web.log.DefaultRequestTraceLogger
 import com.tony.web.log.RequestTraceLogger
 import com.tony.web.support.RequestBodyFieldInjector
@@ -145,11 +143,6 @@ internal class WebConfig(
     @Bean
     internal fun exceptionHandler() =
         ExceptionHandler()
-
-    @ConditionalOnMissingBean(ContextClosedListener::class)
-    @Bean
-    internal fun contextClosedListener() =
-        DefaultContextClosedListener()
 
     @ConditionalOnExpression("\${web.cors.enabled:true}")
     @Bean
