@@ -46,7 +46,6 @@ import com.tony.fus.model.FusProcessModel
 import com.tony.fus.model.enums.EventType
 import com.tony.utils.alsoIfNotEmpty
 import com.tony.utils.copyToNotNull
-import com.tony.utils.jsonToObj
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
 
@@ -353,17 +352,14 @@ internal open class RuntimeServiceImpl(
                 "extInstance[instanceId=$instanceId not exists]"
             )
 
-        val processModel =
-            extInstance
-                .modelContent
-                .jsonToObj<FusProcessModel>()
+        val processModel = extInstance.model()
         val taskName = task.taskName
 
         val selectedNode =
             if (prepend) {
-                processModel.getNode(taskName)
-            } else {
                 processModel.getNode(taskName)?.parentNode
+            } else {
+                processModel.getNode(taskName)
             }
 
         val conditionNodes = selectedNode?.conditionNodes

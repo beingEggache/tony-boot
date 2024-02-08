@@ -40,7 +40,7 @@ public class FusNode {
     /**
      * 节点名称
      */
-    public val nodeName: String = ""
+    public var nodeName: String = ""
 
     /**
      * 外部流程定义 key
@@ -50,22 +50,22 @@ public class FusNode {
     /**
      * 节点类型
      */
-    public val nodeType: NodeType? = null
+    public var nodeType: NodeType? = null
 
     /**
      * 审核人类型
      */
-    public val approverType: ApproverType? = null
+    public var approverType: ApproverType? = null
 
     /**
      * 审核人成员
      */
-    public val nodeUserList: List<FusNodeAssignee> = emptyList()
+    public val nodeUserList: MutableList<FusNodeAssignee> = mutableListOf()
 
     /**
      * 审核角色
      */
-    public val nodeRoleList: List<FusNodeAssignee> = emptyList()
+    public val nodeRoleList: MutableList<FusNodeAssignee> = mutableListOf()
 
     /**
      * 指定主管层级

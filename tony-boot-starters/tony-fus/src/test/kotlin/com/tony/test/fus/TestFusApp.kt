@@ -61,6 +61,8 @@ class TestFusApp {
 }
 
 class NoopApiSession : ApiSession {
+    override val appId: String
+        get() = "appId"
     override val userId: String
         get() = "1"
     override val userName: String

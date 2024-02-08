@@ -25,6 +25,10 @@
 package com.tony.test.fus
 
 import com.tony.fus.FusContext
+import com.tony.fus.model.FusNode
+import com.tony.fus.model.FusNodeAssignee
+import com.tony.fus.model.enums.ApproverType
+import com.tony.fus.model.enums.NodeType
 import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
@@ -39,6 +43,120 @@ import org.springframework.transaction.annotation.Transactional
 class FusSimpleProcessTests : FusTests() {
 
     override val processJson = "json/simpleProcess.json"
+
+    @Rollback
+    @Transactional(rollbackFor = [Exception::class])
+    @Test
+    fun testAddNode() {
+        val args = mapOf(
+            "day" to 8,
+            "age" to 18,
+            "assignee" to testOperator1Id
+        )
+        FusContext
+            .startProcessById(
+                processId,
+                testOperator1Id,
+                args
+            ).also { instance ->
+                val instanceId = instance.instanceId
+
+                // 测试会签审批人001【审批】，执行前置加签
+                FusContext
+                    .queryService
+                    .taskByInstanceIdAndActorId(
+                        instanceId,
+                        testOperator1Id
+                    ).also { task ->
+                        FusContext.executeInsertNode(
+                            task.taskId,
+                            node("前置加签", testOperator3Id),
+                            testOperator1Id,
+                            true
+                        )
+                    }
+
+                // 执行前加签
+                FusContext
+                    .queryService
+                    .taskByInstanceIdAndActorId(
+                        instanceId,
+                        testOperator3Id
+                    ).also {  task ->
+                        FusContext.executeTask(
+                            task.taskId,
+                            testOperator3Id
+                        )
+                    }
+
+                // 测试会签审批人003【审批】，执行后置加签
+                FusContext
+                    .queryService
+                    .taskByInstanceIdAndActorId(
+                        instanceId,
+                        testOperator3Id
+                    ).also { task ->
+                        FusContext.executeInsertNode(
+                            task.taskId,
+                            node("后置加签", testOperator2Id),
+                            testOperator3Id,
+                            false
+                        )
+                    }
+
+                // 会签审批人001【审批】
+                FusContext
+                    .queryService
+                    .taskByInstanceIdAndActorId(
+                        instanceId,
+                        testOperator1Id
+                    ).also { task ->
+                        FusContext.executeTask(
+                            task.taskId,
+                            testOperator1Id
+                        )
+                    }
+
+                // 会签审批人003【审批】
+                FusContext
+                    .queryService
+                    .taskByInstanceIdAndActorId(
+                        instanceId,
+                        testOperator3Id
+                    ).also { task ->
+                        FusContext.executeTask(
+                            task.taskId,
+                            testOperator3Id
+                        )
+                    }
+                // 执行后加签
+                FusContext
+                    .queryService
+                    .taskByInstanceIdAndActorId(
+                        instanceId,
+                        testOperator2Id
+                    ).also { task ->
+                        FusContext.executeTask(
+                            task.taskId,
+                            testOperator2Id
+                        )
+                    }
+            }
+    }
+
+    private fun node(nodeName: String, userId: String): FusNode {
+        return FusNode().apply {
+            this.nodeName = nodeName
+            this.nodeType = NodeType.APPROVER
+            this.approverType = ApproverType.ASSIGN
+            this.nodeUserList.add(
+                FusNodeAssignee(
+                    userId,
+                    ""
+                )
+            )
+        }
+    }
 
     @Rollback
     @Transactional(rollbackFor = [Exception::class])
@@ -59,7 +177,7 @@ class FusSimpleProcessTests : FusTests() {
             testOperator1Id,
             args,
             "FusSimpleProcessTests.test${genRandomInt(6)}",
-        ).let { instance ->
+        ).also { instance ->
             val instanceId = instance.instanceId
             // 测试会签审批人001【审批】
             FusContext

@@ -466,7 +466,8 @@ internal open class TaskServiceImpl(
                 moveToHistoryTask(it, TaskState.JUMP, userId)
             }
 
-        if (node.nodeType == NodeType.INITIATOR) {
+        val nodeType = node.nodeType
+        if (nodeType == NodeType.INITIATOR) {
             val initTask =
                 FusTask()
                     .apply {
@@ -474,7 +475,7 @@ internal open class TaskServiceImpl(
                         instanceId = execution.instance.instanceId
                         taskName = node.nodeName.ifNullOrBlank()
                         // ? 搞不清楚
-                        taskType = TaskType.create(node.nodeType.value).fusThrowIfNull("nodeType null")
+                        taskType = TaskType.create(nodeType.value).fusThrowIfNull("nodeType null")
                         parentTaskId = execution.task?.taskId.ifNullOrBlank()
                         performType = PerformType.START
                     }
@@ -848,7 +849,7 @@ internal open class TaskServiceImpl(
                         // ? 搞不清楚
                         performType = PerformType.UNKNOWN
                         // ? 搞不清楚
-                        taskType = TaskType.create(node.nodeType.value).fusThrowIfNull("nodeType null")
+                        taskType = TaskType.create(nodeType.value).fusThrowIfNull("nodeType null")
                     }
                 )
             }
