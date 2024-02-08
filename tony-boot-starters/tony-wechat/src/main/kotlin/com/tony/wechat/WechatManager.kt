@@ -73,7 +73,7 @@ public data object WechatManager {
         app: String = "",
     ): Boolean =
         DigestUtils.sha1Hex(
-            listOf(wechatPropProvider.getToken(app), timestamp, nonce)
+            listOf(wechatPropProvider.token(app), timestamp, nonce)
                 .sorted()
                 .joinToString("")
         ) == signature
@@ -99,8 +99,8 @@ public data object WechatManager {
     ): WechatJsCode2SessionResp =
         wechatClient
             .jsCode2Session(
-                wechatPropProvider.getAppId(app),
-                wechatPropProvider.getAppSecret(app),
+                wechatPropProvider.appId(app),
+                wechatPropProvider.appSecret(app),
                 "authorization_code",
                 jsCode
             ).check()
@@ -199,8 +199,8 @@ public data object WechatManager {
         app: String = "",
     ): WechatUserTokenResp =
         apiAccessTokenProvider.userAccessToken(
-            wechatPropProvider.getAppId(app),
-            wechatPropProvider.getAppSecret(app),
+            wechatPropProvider.appId(app),
+            wechatPropProvider.appSecret(app),
             code
         )
 
@@ -208,8 +208,8 @@ public data object WechatManager {
         app: String = "",
         forceRefresh: Boolean = false,
     ) = apiAccessTokenProvider.accessTokenStr(
-        wechatPropProvider.getAppId(app),
-        wechatPropProvider.getAppSecret(app),
+        wechatPropProvider.appId(app),
+        wechatPropProvider.appSecret(app),
         forceRefresh
     )
 
@@ -219,7 +219,7 @@ public data object WechatManager {
         app: String = "",
     ): String =
         "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-            "appid=${wechatPropProvider.getAppId(app)}" +
+            "appid=${wechatPropProvider.appId(app)}" +
             "&redirect_uri=${url.urlEncode()}" +
             "&response_type=code" +
             "&scope=snsapi_base" +

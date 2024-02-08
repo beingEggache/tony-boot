@@ -126,7 +126,7 @@ public data object WechatPayManager {
                 "total_fee=${notifyRequest.totalFee}&" +
                 "trade_type=${notifyRequest.tradeType}&" +
                 "transaction_id=${notifyRequest.transactionId}&" +
-                "key=${wechatPropProvider.getMchSecretKey(app.ifNullOrBlank())}"
+                "key=${wechatPropProvider.mchSecretKey(app.ifNullOrBlank())}"
 
         return deepLink.md5().uppercase() == notifyRequest.sign
     }
@@ -187,8 +187,8 @@ public data object WechatPayManager {
         timeStart: LocalDateTime? = LocalDateTime.now(),
         timeExpire: LocalDateTime? = timeStart?.plusMinutes(2),
     ): WechatPayReq {
-        val appId = wechatPropProvider.getAppId(app)
-        val mchId = wechatPropProvider.getMchId(app)
+        val appId = wechatPropProvider.appId(app)
+        val mchId = wechatPropProvider.mchId(app)
         val orderResponse =
             getPayOrderResponse(
                 WechatPayOrderReq(
@@ -208,7 +208,7 @@ public data object WechatPayManager {
                     tradeType = "APP",
                     openId = openId
                 ).apply {
-                    sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
+                    sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.mchSecretKey(app))
                 }
             )
 
@@ -221,7 +221,7 @@ public data object WechatPayManager {
             nonceStr = genNonceStr(),
             timestamp = genTimeStamp().toString()
         ).apply {
-            sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
+            sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.mchSecretKey(app))
         }
     }
 
@@ -240,8 +240,8 @@ public data object WechatPayManager {
         timeStart: LocalDateTime? = LocalDateTime.now(),
         timeExpire: LocalDateTime? = timeStart?.plusMinutes(2),
     ): WechatPayReq {
-        val appId = wechatPropProvider.getAppId(app)
-        val mchId = wechatPropProvider.getMchId(app)
+        val appId = wechatPropProvider.appId(app)
+        val mchId = wechatPropProvider.mchId(app)
         val orderResponse =
             getPayOrderResponse(
                 WechatPayOrderReq(
@@ -261,7 +261,7 @@ public data object WechatPayManager {
                     tradeType = "JSAPI",
                     openId = openId
                 ).apply {
-                    sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
+                    sign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.mchSecretKey(app))
                 }
             )
 
@@ -276,7 +276,7 @@ public data object WechatPayManager {
             `package` = "prepay_id=$prePayId",
             signType = signType
         ).apply {
-            paySign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.getMchSecretKey(app))
+            paySign = genMd5UpperCaseSign(this, "key" to wechatPropProvider.mchSecretKey(app))
         }
     }
 }
