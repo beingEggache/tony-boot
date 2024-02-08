@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit
  * @author Tang Li
  * @date 2023/5/25 9:57
  */
-public object RedisMaps {
+public data object RedisMaps {
     /**
      * Determine if given hash hashKey exists.
      *

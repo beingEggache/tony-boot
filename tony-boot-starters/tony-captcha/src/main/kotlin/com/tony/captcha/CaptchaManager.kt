@@ -39,7 +39,7 @@ import java.util.function.Supplier
  * @author Tang Li
  * @date 2023/05/25 19:38
  */
-public object CaptchaManager {
+public data object CaptchaManager {
     private val captchaService: CaptchaService by SpringContexts.getBeanByLazy()
 
     /**

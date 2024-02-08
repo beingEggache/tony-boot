@@ -46,7 +46,7 @@ import com.tony.wechat.xml.toXmlString
 import com.tony.wechat.xml.xmlToObj
 import java.time.LocalDateTime
 
-public object WechatPayManager {
+public data object WechatPayManager {
     @JvmStatic
     private val wechatProperties: WechatProperties by SpringContexts.getBeanByLazy()
 

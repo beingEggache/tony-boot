@@ -38,7 +38,7 @@ import java.util.Date
  * @author Tang Li
  * @date 2023/05/25 19:56
  */
-public object JwtToken {
+public data object JwtToken {
     @JvmStatic
     private val algorithm by lazy(LazyThreadSafetyMode.PUBLICATION) {
         Algorithm.HMAC256(jwtProperties.secret)

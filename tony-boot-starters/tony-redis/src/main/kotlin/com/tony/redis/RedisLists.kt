@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit
  * @author Tang Li
  * @date 2021-03-24 10:12
  */
-public object RedisLists {
+public data object RedisLists {
     /**
      * @see [com.tony.redis.service.RedisListSetOp.leftPush]
      */

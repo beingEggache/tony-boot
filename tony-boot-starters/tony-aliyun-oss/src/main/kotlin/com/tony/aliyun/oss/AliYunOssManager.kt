@@ -38,7 +38,7 @@ import java.io.InputStream
  * @date 2023/09/28 19:53
  * @since 1.0.0
  */
-public object AliYunOssManager {
+public data object AliYunOssManager {
     private val aliyunOssProperties: AliyunOssProperties by SpringContexts.getBeanByLazy()
 
     private val ossClient: OSS by lazy {

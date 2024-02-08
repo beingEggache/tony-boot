@@ -48,7 +48,7 @@ import org.springframework.web.context.request.ServletWebRequest
  * @author Tang Li
  * @date 2023/05/25 19:58
  */
-public object WebContext {
+public data object WebContext {
     /**
      * 获取当前 [ServletRequestAttributes]
      */

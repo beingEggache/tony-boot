@@ -40,7 +40,7 @@ import org.springframework.data.redis.core.script.RedisScript
  *
  * @constructor Create empty Redis manager
  */
-public object RedisManager {
+public data object RedisManager {
     private val logger = LoggerFactory.getLogger(RedisManager::class.java)
 
     @JvmField

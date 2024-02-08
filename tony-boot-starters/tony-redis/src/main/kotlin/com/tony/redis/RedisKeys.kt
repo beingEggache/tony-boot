@@ -33,7 +33,7 @@ import com.tony.SpringContexts.Env
  * @date 2023/09/28 19:56
  * @since 1.0.0
  */
-public object RedisKeys {
+public data object RedisKeys {
     private val keyPrefix: String by Env.getPropertyByLazy("cache.key-prefix", "")
 
     /**

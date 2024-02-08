@@ -34,7 +34,7 @@ import com.tony.SpringContexts.getBeanByLazy
  * @author Tang Li
  * @date 2023/05/25 19:18
  */
-public object WebContextExtensions {
+public data object WebContextExtensions {
     @JvmStatic
     private val webSession: WebSession by getBeanByLazy()
 

@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit
  * @author Tang Li
  * @date 2023/5/25 9:24
  */
-public object RedisValues {
+public data object RedisValues {
     /**
      * 同 RedisTemplate.boundValueOps.increment.
      *

@@ -38,7 +38,7 @@ import org.springframework.core.env.Environment
  * @author Tang Li
  * @date 2021/12/6 10:51
  */
-public object SpringContexts : ApplicationContext by ApplicationContextHolder.springContext {
+public data object SpringContexts : ApplicationContext by ApplicationContextHolder.springContext {
     /**
      * 惰性获取 根据 bean类型获取 bean
      * @param [T] bean类型
@@ -82,7 +82,7 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
     public inline fun <reified T : Any> getBeanByLazy(name: String): Lazy<T> =
         lazy(LazyThreadSafetyMode.PUBLICATION) { getBean(name).asToNotNull() }
 
-    internal object ApplicationContextHolder : ApplicationContextAware {
+    internal data object ApplicationContextHolder : ApplicationContextAware {
         @get:JvmSynthetic
         @set:JvmSynthetic
         @field:JvmSynthetic
@@ -100,7 +100,7 @@ public object SpringContexts : ApplicationContext by ApplicationContextHolder.sp
      *
      * 委托给 [ApplicationContext.getEnvironment].
      */
-    public object Env : Environment by SpringContexts.environment {
+    public data object Env : Environment by SpringContexts.environment {
         /**
          * 惰性 从[Environment]中获取属性
          * @param [T] 属性类型

@@ -48,7 +48,7 @@ import org.springframework.validation.annotation.Validated
  * @date 2023/09/28 19:05
  * @since 1.0.0
  */
-public object WechatManager {
+public data object WechatManager {
     private val wechatClient: WechatClient by SpringContexts.getBeanByLazy()
     private val wechatPropProvider: WechatPropProvider by SpringContexts.getBeanByLazy()
     private val apiAccessTokenProvider: WechatApiAccessTokenProvider by SpringContexts.getBeanByLazy()

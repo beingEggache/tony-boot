@@ -34,7 +34,7 @@ import com.tony.id.config.IdProperties
  * @date 2022/07/12 19:58
  * @since 1.0.0
  */
-public object IdGenerator {
+public data object IdGenerator {
     @JvmSynthetic
     internal fun init(idProperties: IdProperties) {
         val options = IdGeneratorOptions()
