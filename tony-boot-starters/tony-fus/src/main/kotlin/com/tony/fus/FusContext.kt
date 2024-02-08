@@ -279,7 +279,7 @@ public data object FusContext {
                 .apply {
                     updatorId = userId
                 }
-        runtimeService.updateInstance(instance)
+        runtimeService.asToNotNull<RuntimeServiceImpl>().updateInstance(instance)
         val instanceId = instance.instanceId
         val taskName = task.taskName
         val performType = task.performType
@@ -433,11 +433,9 @@ public data object FusContext {
                         .apply {
                             updatorId = userId
                         }
+                val runtimeService = runtimeService.asToNotNull<RuntimeServiceImpl>()
                 runtimeService.updateInstance(instance)
-                val processModel =
-                    runtimeService
-                        .asToNotNull<RuntimeServiceImpl>()
-                        .processModelByInstanceId(instanceId)
+                val processModel = runtimeService.processModelByInstanceId(instanceId)
                 FusExecution(
                     processModel,
                     instance,
@@ -464,7 +462,9 @@ public data object FusContext {
         userId: String,
         prepend: Boolean,
     ) {
-        runtimeService.insertNode(taskId, node, prepend)
+        runtimeService
+            .asToNotNull<RuntimeServiceImpl>()
+            .insertNode(taskId, node, prepend)
         if (prepend) {
             executeJumpTask(taskId, node.nodeName, userId)
         }

@@ -349,7 +349,7 @@ public sealed interface TaskService {
      * @date 2023/10/25 19:25
      * @since 1.0.0
      */
-    public fun addTaskActors(
+    public fun addTaskActor(
         taskId: String,
         performType: PerformType,
         taskActor: FusTaskActor,

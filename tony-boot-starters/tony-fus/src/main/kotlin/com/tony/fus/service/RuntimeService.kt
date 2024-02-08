@@ -121,15 +121,6 @@ public sealed interface RuntimeService {
     }
 
     /**
-     * 更新实例
-     * @param [instance] 流程实例
-     * @author Tang Li
-     * @date 2023/10/10 19:15
-     * @since 1.0.0
-     */
-    public fun updateInstance(instance: FusInstance)
-
-    /**
      * 级联删除指定流程实例的所有数据
      * @param [processId] 流程id
      * @author Tang Li
@@ -137,21 +128,6 @@ public sealed interface RuntimeService {
      * @since 1.0.0
      */
     public fun cascadeRemoveByProcessId(processId: String)
-
-    /**
-     * 插入节点
-     * @param [taskId] 任务id
-     * @param [node] 节点
-     * @param [prepend] 前插
-     * @author Tang Li
-     * @date 2024/02/01 17:15
-     * @since 1.0.0
-     */
-    public fun insertNode(
-        taskId: String,
-        node: FusNode,
-        prepend: Boolean,
-    )
 }
 
 /**
@@ -305,7 +281,14 @@ internal open class RuntimeServiceImpl(
         )
     }
 
-    override fun updateInstance(instance: FusInstance) {
+    /**
+     * 更新实例
+     * @param [instance] 流程实例
+     * @author Tang Li
+     * @date 2023/10/10 19:15
+     * @since 1.0.0
+     */
+    internal fun updateInstance(instance: FusInstance) {
         instanceMapper.updateById(instance)
     }
 
@@ -339,7 +322,16 @@ internal open class RuntimeServiceImpl(
             }
     }
 
-    override fun insertNode(
+    /**
+     * 插入节点
+     * @param [taskId] 任务id
+     * @param [node] 节点
+     * @param [prepend] 前插
+     * @author Tang Li
+     * @date 2024/02/01 17:15
+     * @since 1.0.0
+     */
+    internal fun insertNode(
         taskId: String,
         node: FusNode,
         prepend: Boolean,
