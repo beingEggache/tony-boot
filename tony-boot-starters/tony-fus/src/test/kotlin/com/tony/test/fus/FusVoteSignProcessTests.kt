@@ -56,19 +56,17 @@ class FusVoteSignProcessTests : FusTests() {
 
             //test1 领导审批同意
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
-                .also { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id)
-                }
+                .executeTaskByInstanceIdAndActorId(
+                    instanceId,
+                    testOperator1Id
+                )
 
             //test3 领导审批同意
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
-                .also { task ->
-                    FusContext.executeTask(task.taskId, testOperator3Id)
-                }
+                .executeTaskByInstanceIdAndActorId(
+                    instanceId,
+                    testOperator3Id
+                )
         }
     }
 }

@@ -58,17 +58,14 @@ class FusCounterSignTests : FusTests() {
             args,
             "FusCounterSignTests.test${genRandomInt(6)}"
         ).let { instance ->
-            // 测试会签审批人001【审批】
             val instanceId = instance.instanceId
+
+            // 测试会签审批人001【审批】
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
-                .also { task ->
-                    FusContext.executeTask(
-                        task.taskId,
-                        testOperator1Id
-                    )
-                }
+                .executeTaskByInstanceIdAndActorId(
+                    instanceId,
+                    testOperator1Id
+                )
 
             // 执行任务跳转任意节点
             FusContext
@@ -80,15 +77,10 @@ class FusCounterSignTests : FusTests() {
 
             // 执行发起
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
-                .also { task ->
-                    FusContext.executeTask(
-                        task.taskId,
-                        testOperator1Id,
-                        args
-                    )
-                }
+                .executeTaskByInstanceIdAndActorId(
+                    instanceId,
+                    testOperator1Id
+                )
 
             // 测试会签审批人003【转办，交给 002 审批】
             FusContext
@@ -102,14 +94,10 @@ class FusCounterSignTests : FusTests() {
 
             // 会签审批【转办 002 审批】
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator2Id)
-                .also { task ->
-                    FusContext.executeTask(
-                        task.taskId,
-                        testOperator2Id
-                    )
-                }
+                .executeTaskByInstanceIdAndActorId(
+                    instanceId,
+                    testOperator2Id
+                )
 
             // 测试会签审批人001【委派，交给 003 审批】
             FusContext
@@ -140,14 +128,10 @@ class FusCounterSignTests : FusTests() {
 
             // 委派人 001 确认审批
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
-                .also {  task ->
-                    FusContext.executeTask(
-                        task.taskId,
-                        testOperator1Id
-                    )
-                }
+                .executeTaskByInstanceIdAndActorId(
+                    instanceId,
+                    testOperator1Id
+                )
 
             // 任务进入抄送人，流程自动结束
         }

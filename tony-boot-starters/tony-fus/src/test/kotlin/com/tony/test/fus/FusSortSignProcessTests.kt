@@ -72,16 +72,10 @@ class FusSortSignProcessTests : FusTests() {
 
             // 被转办人 test2 审批
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(
+                .executeTaskByInstanceIdAndActorId(
                     instanceId,
                     testOperator2Id
-                ).also { task ->
-                    FusContext.executeTask(
-                        task.taskId,
-                        testOperator2Id
-                    )
-                }
+                )
 
             // test3 领导审批同意
             val taskList3 =

@@ -78,16 +78,10 @@ class FusSimpleProcessTests : FusTests() {
 
                 // 执行前加签
                 FusContext
-                    .queryService
-                    .taskByInstanceIdAndActorId(
+                    .executeTaskByInstanceIdAndActorId(
                         instanceId,
                         testOperator3Id
-                    ).also {  task ->
-                        FusContext.executeTask(
-                            task.taskId,
-                            testOperator3Id
-                        )
-                    }
+                    )
 
                 // 测试会签审批人003【审批】，执行后置加签
                 FusContext
@@ -122,16 +116,10 @@ class FusSimpleProcessTests : FusTests() {
 
                 // 被转办人 test2 审批
                 FusContext
-                    .queryService
-                    .taskByInstanceIdAndActorId(
+                    .executeTaskByInstanceIdAndActorId(
                         instanceId,
                         testOperator2Id
-                    ).also { task ->
-                        FusContext.executeTask(
-                            task.taskId,
-                            testOperator2Id
-                        )
-                    }
+                    )
 
                 // 会签审批人003【审批】，执行委派、任务委派给 test2 处理
                 FusContext
@@ -166,30 +154,17 @@ class FusSimpleProcessTests : FusTests() {
 
                 // 委派人 test3 执行完成任务
                 FusContext
-                    .queryService
-                    .taskByInstanceIdAndActorId(
+                    .executeTaskByInstanceIdAndActorId(
                         instanceId,
                         testOperator3Id
-                    ).also { task ->
-                        FusContext
-                            .executeTask(
-                                task.taskId,
-                                testOperator3Id
-                            )
-                    }
+                    )
 
                 // 执行后加签
                 FusContext
-                    .queryService
-                    .taskByInstanceIdAndActorId(
+                    .executeTaskByInstanceIdAndActorId(
                         instanceId,
                         testOperator2Id
-                    ).also { task ->
-                        FusContext.executeTask(
-                            task.taskId,
-                            testOperator2Id
-                        )
-                    }
+                    )
             }
     }
 

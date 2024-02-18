@@ -405,6 +405,35 @@ public data object FusContext {
     }
 
     /**
+     * 按任务实例id和参与者id执行任务
+     * @param [instanceId] 任务实例id
+     * @param [actorId] 参与者id
+     * @param [args] variable
+     * @author Tang Li
+     * @date 2024/02/18 16:46
+     * @since 1.0.0
+     */
+    @JvmStatic
+    @JvmOverloads
+    public fun executeTaskByInstanceIdAndActorId(
+        instanceId: String,
+        actorId: String,
+        args: MutableMap<String, Any?> = mutableMapOf(),
+    ) {
+        queryService
+            .taskByInstanceIdAndActorId(
+                instanceId,
+                actorId
+            ).also { task ->
+                executeTask(
+                    task.taskId,
+                    actorId,
+                    args
+                )
+            }
+    }
+
+    /**
      * 执行并跳转到节点
      * @param [taskId] 任务id
      * @param [nodeName] 节点名称
