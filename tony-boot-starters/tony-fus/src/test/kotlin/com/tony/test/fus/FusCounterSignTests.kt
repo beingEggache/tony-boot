@@ -62,7 +62,7 @@ class FusCounterSignTests : FusTests() {
 
             // 测试会签审批人001【审批】
             FusContext
-                .executeTaskByInstanceIdAndActorId(
+                .executeTaskByInstanceId(
                     instanceId,
                     testOperator1Id
                 )
@@ -77,58 +77,44 @@ class FusCounterSignTests : FusTests() {
 
             // 执行发起
             FusContext
-                .executeTaskByInstanceIdAndActorId(
+                .executeTaskByInstanceId(
                     instanceId,
                     testOperator1Id
                 )
 
             // 测试会签审批人003【转办，交给 002 审批】
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
-                .also { task ->
-                    FusContext
-                        .taskService
-                        .transferTask(task.taskId, testOperator3Id, testOperator2Id)
-                }
+                .transferTaskByInstanceId(
+                    instanceId,
+                    testOperator3Id,
+                    testOperator2Id
+                )
 
             // 会签审批【转办 002 审批】
             FusContext
-                .executeTaskByInstanceIdAndActorId(
+                .executeTaskByInstanceId(
                     instanceId,
                     testOperator2Id
                 )
 
             // 测试会签审批人001【委派，交给 003 审批】
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
-                .also { task ->
-                    FusContext
-                        .taskService
-                        .delegateTask(
-                            task.taskId,
-                            testOperator1Id,
-                            testOperator3Id
-                        )
-                }
+                .delegateTaskByInstanceId(
+                    instanceId,
+                    testOperator1Id,
+                    testOperator3Id
+                )
 
             // 会签审批【委派 003 审批】解决任务后回到 001 确认审批
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
-                .also { task ->
-                    FusContext
-                        .taskService
-                        .resolveTask(
-                            task.taskId,
-                            testOperator3Id
-                        )
-                }
+                .resolveTaskByInstanceId(
+                    instanceId,
+                    testOperator3Id
+                )
 
             // 委派人 001 确认审批
             FusContext
-                .executeTaskByInstanceIdAndActorId(
+                .executeTaskByInstanceId(
                     instanceId,
                     testOperator1Id
                 )

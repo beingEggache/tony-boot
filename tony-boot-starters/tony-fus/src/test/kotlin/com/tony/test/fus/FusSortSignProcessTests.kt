@@ -56,23 +56,15 @@ class FusSortSignProcessTests : FusTests() {
 
             // 会签审批人001【审批】，执行转办、任务交给 test2 处理
             FusContext
-                .queryService
-                .taskByInstanceIdAndActorId(
+                .transferTaskByInstanceId(
                     instanceId,
-                    testOperator1Id
-                ).also { task ->
-                    FusContext
-                        .taskService
-                        .transferTask(
-                            task.taskId,
-                            testOperator1Id,
-                            testOperator2Id
-                        )
-                }
+                    testOperator1Id,
+                    testOperator2Id
+                )
 
             // 被转办人 test2 审批
             FusContext
-                .executeTaskByInstanceIdAndActorId(
+                .executeTaskByInstanceId(
                     instanceId,
                     testOperator2Id
                 )

@@ -78,7 +78,7 @@ class FusSimpleProcessTests : FusTests() {
 
                 // 执行前加签
                 FusContext
-                    .executeTaskByInstanceIdAndActorId(
+                    .executeTaskByInstanceId(
                         instanceId,
                         testOperator3Id
                     )
@@ -100,68 +100,44 @@ class FusSimpleProcessTests : FusTests() {
 
                 // 会签审批人001【审批】，执行转办、任务交给 test2 处理
                 FusContext
-                    .queryService
-                    .taskByInstanceIdAndActorId(
+                    .transferTaskByInstanceId(
                         instanceId,
-                        testOperator1Id
-                    ).also { task ->
-                        FusContext
-                            .taskService
-                            .transferTask(
-                                task.taskId,
-                                testOperator1Id,
-                                testOperator2Id
-                            )
-                    }
+                        testOperator1Id,
+                        testOperator2Id
+                    )
 
                 // 被转办人 test2 审批
                 FusContext
-                    .executeTaskByInstanceIdAndActorId(
+                    .executeTaskByInstanceId(
                         instanceId,
                         testOperator2Id
                     )
 
                 // 会签审批人003【审批】，执行委派、任务委派给 test2 处理
                 FusContext
-                    .queryService
-                    .taskByInstanceIdAndActorId(
+                    .delegateTaskByInstanceId(
                         instanceId,
-                        testOperator3Id
-                    ).also { task ->
-                        FusContext
-                            .taskService
-                            .delegateTask(
-                                task.taskId,
-                                testOperator3Id,
-                                testOperator2Id
-                            )
-                    }
+                        testOperator3Id,
+                        testOperator2Id
+                    )
 
                 // 被委派人 test2 解决问题，后归还任务给委派人
                 FusContext
-                    .queryService
-                    .taskByInstanceIdAndActorId(
+                    .resolveTaskByInstanceId(
                         instanceId,
                         testOperator2Id
-                    ).also { task ->
-                        FusContext
-                            .taskService
-                            .resolveTask(
-                                task.taskId,
-                                testOperator2Id
-                            )
-                    }
+                    )
 
                 // 委派人 test3 执行完成任务
                 FusContext
-                    .executeTaskByInstanceIdAndActorId(
+                    .executeTaskByInstanceId(
                         instanceId,
                         testOperator3Id
                     )
 
                 // 执行后加签
                 FusContext
-                    .executeTaskByInstanceIdAndActorId(
+                    .executeTaskByInstanceId(
                         instanceId,
                         testOperator2Id
                     )

@@ -56,14 +56,14 @@ class FusVoteSignProcessTests : FusTests() {
 
             //test1 领导审批同意
             FusContext
-                .executeTaskByInstanceIdAndActorId(
+                .executeTaskByInstanceId(
                     instanceId,
                     testOperator1Id
                 )
 
             //test3 领导审批同意
             FusContext
-                .executeTaskByInstanceIdAndActorId(
+                .executeTaskByInstanceId(
                     instanceId,
                     testOperator3Id
                 )
