@@ -58,7 +58,7 @@ import java.util.function.Consumer
  * @date 2023/10/19 19:35
  * @since 1.0.0
  */
-public data object FusContext {
+public data object Fus {
     @get:JvmName("processService")
     @JvmStatic
     public val processService: ProcessService by SpringContexts.getBeanByLazy<ProcessService>()

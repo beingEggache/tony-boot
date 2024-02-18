@@ -24,7 +24,7 @@
 
 package com.tony.test.fus
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.test.fus.TestFusSupervisorApp.Companion.user1Id
 import com.tony.test.fus.TestFusSupervisorApp.Companion.user2Id
 import com.tony.test.fus.TestFusSupervisorApp.Companion.user3Id
@@ -56,7 +56,7 @@ class FusSupervisorProcessTests {
     @BeforeEach
     fun before() {
         val processModelJson = getProcessModelJson()
-        processId = FusContext.processService.deploy(processModelJson, false)
+        processId = Fus.processService.deploy(processModelJson, false)
     }
 
     private fun getProcessModelJson() = PathMatchingResourcePatternResolver()
@@ -71,7 +71,7 @@ class FusSupervisorProcessTests {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = FusContext.processService
+        val processService = Fus.processService
         processService.getById(processId)
 
         val args =
@@ -79,7 +79,7 @@ class FusSupervisorProcessTests {
                 "day" to 4
             )
 
-        FusContext.startProcessById(
+        Fus.startProcessById(
             processId,
             user4Id,
             args,
@@ -89,42 +89,42 @@ class FusSupervisorProcessTests {
 
             //四级部门审核
             val taskList2 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, user4Id)
+                    Fus.executeTask(task.taskId, user4Id)
                 }
 
             //三级部门审核
             val taskList3 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList3
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, user3Id)
+                    Fus.executeTask(task.taskId, user3Id)
                 }
 
             //二级部门审核
             val taskList4 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList4
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, user2Id)
+                    Fus.executeTask(task.taskId, user2Id)
                 }
 
             //一级部门审核
             val taskList5 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList5
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, user1Id)
+                    Fus.executeTask(task.taskId, user1Id)
                 }
         }
     }

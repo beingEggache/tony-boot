@@ -25,7 +25,7 @@
 package com.tony.fus.service
 
 import com.tony.SpringContexts
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.fus.db.enums.InstanceState
 import com.tony.fus.db.enums.TaskState
 import com.tony.fus.db.mapper.FusExtInstanceMapper
@@ -225,7 +225,7 @@ internal open class RuntimeServiceImpl(
                 if (parentInstanceId.isNotBlank()) {
                     val parentInstance = instanceMapper.fusSelectByIdNotNull(parentInstanceId)
                     execution.instance = parentInstance
-                    FusContext.restartProcess(parentInstance.processId, parentInstance.nodeName, execution)
+                    Fus.restartProcess(parentInstance.processId, parentInstance.nodeName, execution)
                     SpringContexts
                         .getBean(TaskServiceImpl::class.java)
                         .endOutProcessTask(instance.processId, instanceId)
@@ -298,7 +298,7 @@ internal open class RuntimeServiceImpl(
             .eq(FusHistoryInstance::processId, processId)
             .list()
             .alsoIfNotEmpty { historyInstanceList ->
-                FusContext
+                Fus
                     .taskService
                     .cascadeRemoveByInstanceIds(
                         historyInstanceList
@@ -376,7 +376,7 @@ internal open class RuntimeServiceImpl(
                 .set(FusExtInstance::modelContent, processModel.toJsonString())
                 .update()
         fusThrowIf(!result, "update ext instance failed.")
-        FusContext.processModelParser.invalidate(extInstance.modelKey)
+        Fus.processModelParser.invalidate(extInstance.modelKey)
     }
 
     private fun forceComplete(
@@ -395,7 +395,7 @@ internal open class RuntimeServiceImpl(
                     .eq(FusTask::instanceId, instanceId)
                     .list()
                     .forEach { task ->
-                        FusContext.taskService.executeTask(
+                        Fus.taskService.executeTask(
                             task.taskId,
                             userId,
                             TaskState.of(instanceState),

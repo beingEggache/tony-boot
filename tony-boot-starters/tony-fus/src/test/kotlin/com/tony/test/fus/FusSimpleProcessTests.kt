@@ -24,7 +24,7 @@
 
 package com.tony.test.fus
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.fus.model.FusNode
 import com.tony.fus.model.FusNodeAssignee
 import com.tony.fus.model.enums.ApproverType
@@ -53,7 +53,7 @@ class FusSimpleProcessTests : FusTests() {
             "age" to 18,
             "assignee" to testOperator1Id
         )
-        FusContext
+        Fus
             .startProcessById(
                 processId,
                 testOperator1Id,
@@ -62,13 +62,13 @@ class FusSimpleProcessTests : FusTests() {
                 val instanceId = instance.instanceId
 
                 // 测试会签审批人001【审批】，执行前置加签
-                FusContext
+                Fus
                     .queryService
                     .taskByInstanceIdAndActorId(
                         instanceId,
                         testOperator1Id
                     ).also { task ->
-                        FusContext.executeInsertNode(
+                        Fus.executeInsertNode(
                             task.taskId,
                             node("前置加签", testOperator3Id),
                             testOperator1Id,
@@ -77,20 +77,20 @@ class FusSimpleProcessTests : FusTests() {
                     }
 
                 // 执行前加签
-                FusContext
+                Fus
                     .executeTaskByInstanceId(
                         instanceId,
                         testOperator3Id
                     )
 
                 // 测试会签审批人003【审批】，执行后置加签
-                FusContext
+                Fus
                     .queryService
                     .taskByInstanceIdAndActorId(
                         instanceId,
                         testOperator3Id
                     ).also { task ->
-                        FusContext.executeInsertNode(
+                        Fus.executeInsertNode(
                             task.taskId,
                             node("后置加签", testOperator2Id),
                             testOperator3Id,
@@ -99,7 +99,7 @@ class FusSimpleProcessTests : FusTests() {
                     }
 
                 // 会签审批人001【审批】，执行转办、任务交给 test2 处理
-                FusContext
+                Fus
                     .transferTaskByInstanceId(
                         instanceId,
                         testOperator1Id,
@@ -107,14 +107,14 @@ class FusSimpleProcessTests : FusTests() {
                     )
 
                 // 被转办人 test2 审批
-                FusContext
+                Fus
                     .executeTaskByInstanceId(
                         instanceId,
                         testOperator2Id
                     )
 
                 // 会签审批人003【审批】，执行委派、任务委派给 test2 处理
-                FusContext
+                Fus
                     .delegateTaskByInstanceId(
                         instanceId,
                         testOperator3Id,
@@ -122,21 +122,21 @@ class FusSimpleProcessTests : FusTests() {
                     )
 
                 // 被委派人 test2 解决问题，后归还任务给委派人
-                FusContext
+                Fus
                     .resolveTaskByInstanceId(
                         instanceId,
                         testOperator2Id
                     )
 
                 // 委派人 test3 执行完成任务
-                FusContext
+                Fus
                     .executeTaskByInstanceId(
                         instanceId,
                         testOperator3Id
                     )
 
                 // 执行后加签
-                FusContext
+                Fus
                     .executeTaskByInstanceId(
                         instanceId,
                         testOperator2Id
@@ -162,7 +162,7 @@ class FusSimpleProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = FusContext.processService
+        val processService = Fus.processService
         processService.getById(processId)
 
         val args =
@@ -172,7 +172,7 @@ class FusSimpleProcessTests : FusTests() {
                 "assignee" to testOperator1Id,
             )
 
-        FusContext.startProcessById(
+        Fus.startProcessById(
             processId,
             testOperator1Id,
             args,
@@ -180,62 +180,62 @@ class FusSimpleProcessTests : FusTests() {
         ).also { instance ->
             val instanceId = instance.instanceId
             // 测试会签审批人001【审批】
-            FusContext
+            Fus
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id)
+                    Fus.executeTask(task.taskId, testOperator1Id)
                 }
             Thread.sleep(2000)
 
             // 测试会签审批人003【审批】
-            FusContext
+            Fus
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    FusContext.executeTask(task.taskId, testOperator3Id, args)
+                    Fus.executeTask(task.taskId, testOperator3Id, args)
                 }
 
             //撤回任务(条件路由子审批) 回到测试会签审批人003【审批】任务
-            FusContext
+            Fus
                 .queryService
                 .recentHistoryTask(instanceId)
                 .also { historyTask ->
-                    FusContext
+                    Fus
                         .taskService
                         .withdrawTask(historyTask.taskId, testOperator1Id)
                 }
 
             // 测试会签审批人003【审批】
-            FusContext
+            Fus
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    FusContext.executeTask(task.taskId, testOperator3Id, args)
+                    Fus.executeTask(task.taskId, testOperator3Id, args)
                 }
 
             // 年龄审批【审批】
-            FusContext
+            Fus
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id)
+                    Fus.executeTask(task.taskId, testOperator1Id)
                 }
 
             // 条件内部审核【审批】
-            FusContext
+            Fus
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id)
+                    Fus.executeTask(task.taskId, testOperator1Id)
                 }
 
             // 条件路由子审批【审批】 抄送 结束
-            FusContext
+            Fus
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
                 .also { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id)
+                    Fus.executeTask(task.taskId, testOperator1Id)
                 }
         }
     }

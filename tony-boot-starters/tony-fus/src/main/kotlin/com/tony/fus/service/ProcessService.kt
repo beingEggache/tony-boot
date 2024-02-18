@@ -24,7 +24,7 @@
 
 package com.tony.fus.service
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.po.FusProcess
 import com.tony.fus.extension.fusListThrowIfEmpty
@@ -150,7 +150,7 @@ internal class ProcessServiceImpl(
 
         val compressedModelContent = modelContent.jsonNode().toString()
         val processModel =
-            FusContext
+            Fus
                 .processModelParser
                 .parse(compressedModelContent)
 
@@ -196,7 +196,7 @@ internal class ProcessServiceImpl(
         processVersion: Int,
     ): Boolean {
         val process = processMapper.fusSelectByIdNotNull(processId)
-        val processModel = FusContext.processModelParser.parse(modelContent, process.modelKey, true)
+        val processModel = Fus.processModelParser.parse(modelContent, process.modelKey, true)
         process.processVersion = processVersion
         process.processName = processModel.name
         process.processKey = processModel.key
@@ -205,7 +205,7 @@ internal class ProcessServiceImpl(
     }
 
     override fun cascadeRemove(processId: String) {
-        FusContext.runtimeService.cascadeRemoveByProcessId(processId)
+        Fus.runtimeService.cascadeRemoveByProcessId(processId)
         processMapper.deleteById(processId)
     }
 }

@@ -24,7 +24,7 @@
 
 package com.tony.test.fus
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -43,8 +43,8 @@ class FusProcessTests : FusTests() {
 
     @BeforeEach
     override fun before() {
-        processId = FusContext.processService.deploy(getProcessModelJson(), false)
-        FusContext.processService.deploy(getProcessModelJson("json/workHandover.json"), false)
+        processId = Fus.processService.deploy(getProcessModelJson(), false)
+        Fus.processService.deploy(getProcessModelJson("json/workHandover.json"), false)
     }
 
     @Rollback
@@ -72,54 +72,54 @@ class FusProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun testCascadeRemove() {
-        FusContext.processService.cascadeRemove(processId)
+        Fus.processService.cascadeRemove(processId)
     }
 
     fun test(reject: Boolean, day: Int) {
-        val processService = FusContext.processService
+        val processService = Fus.processService
         processService.getById(processId)
 
         val args = mutableMapOf<String, Any?>(
             "day" to day,
             "assignee" to testOperator1Id
         )
-        FusContext.startProcessById(
+        Fus.startProcessById(
             processId,
             testOperator1Id,
             businessKey = "FusProcessTests.test${genRandomInt(6)}",
         ).let { instance ->
             val instanceId = instance.instanceId
             val taskList2 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id, args)
+                    Fus.executeTask(task.taskId, testOperator1Id, args)
                 }
 
             if (reject) {
-                FusContext.runtimeService.reject(instanceId, testOperator1Id)
+                Fus.runtimeService.reject(instanceId, testOperator1Id)
             } else {
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
                     .forEach { task ->
-                        FusContext.executeTask(task.taskId, testOperator1Id, args)
+                        Fus.executeTask(task.taskId, testOperator1Id, args)
                     }
             }
 
-            FusContext
+            Fus
                 .queryService
                 .listHistoryTask(instanceId)
                 .forEach {  historyTask ->
                     val outInstanceId = historyTask.outInstanceId
                     if(outInstanceId.isNotBlank()){
-                        FusContext
+                        Fus
                             .queryService
                             .listTaskByInstanceId(outInstanceId)
                             .forEach { task ->
-                                FusContext.executeTask(task.taskId, testOperator3Id)
+                                Fus.executeTask(task.taskId, testOperator3Id)
                             }
                     }
                 }

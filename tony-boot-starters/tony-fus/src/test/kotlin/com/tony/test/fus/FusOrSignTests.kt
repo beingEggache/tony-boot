@@ -24,7 +24,7 @@
 
 package com.tony.test.fus
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
@@ -44,22 +44,22 @@ class FusOrSignTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = FusContext.processService
+        val processService = Fus.processService
         processService.getById(processId)
 
-        FusContext.startProcessById(
+        Fus.startProcessById(
             processId,
             testOperator1Id,
             businessKey = "FusOrSignTests.test${genRandomInt(6)}",
         ).let { instance ->
             //驳回
             val taskList2 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
             taskList2
                 .forEach { task ->
-                    FusContext.taskService.rejectTask(
+                    Fus.taskService.rejectTask(
                         task.taskId,
                         testOperator3Id,
                         mapOf("reason" to "不符合要求")
@@ -68,21 +68,21 @@ class FusOrSignTests : FusTests() {
 
             // 调整, 再发起
             val taskList3 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
             taskList3
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id)
+                    Fus.executeTask(task.taskId, testOperator1Id)
                 }
 
             val taskList4 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instance.instanceId)
             taskList4
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, testOperator3Id)
+                    Fus.executeTask(task.taskId, testOperator3Id)
                 }
         }
     }

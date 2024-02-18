@@ -24,7 +24,7 @@
 
 package com.tony.test.fus
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
@@ -44,7 +44,7 @@ class FusCounterSignTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = FusContext.processService
+        val processService = Fus.processService
         processService.getById(processId)
 
         val args = mutableMapOf<String, Any?>(
@@ -52,7 +52,7 @@ class FusCounterSignTests : FusTests() {
             "assignee" to testOperator1Id
         )
 
-        FusContext.startProcessById(
+        Fus.startProcessById(
             processId,
             testOperator1Id,
             args,
@@ -61,29 +61,29 @@ class FusCounterSignTests : FusTests() {
             val instanceId = instance.instanceId
 
             // 测试会签审批人001【审批】
-            FusContext
+            Fus
                 .executeTaskByInstanceId(
                     instanceId,
                     testOperator1Id
                 )
 
             // 执行任务跳转任意节点
-            FusContext
+            Fus
                 .queryService
                 .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
                 .also { task ->
-                    FusContext.executeJumpTask(task.taskId, "发起人", testOperator3Id)
+                    Fus.executeJumpTask(task.taskId, "发起人", testOperator3Id)
                 }
 
             // 执行发起
-            FusContext
+            Fus
                 .executeTaskByInstanceId(
                     instanceId,
                     testOperator1Id
                 )
 
             // 测试会签审批人003【转办，交给 002 审批】
-            FusContext
+            Fus
                 .transferTaskByInstanceId(
                     instanceId,
                     testOperator3Id,
@@ -91,14 +91,14 @@ class FusCounterSignTests : FusTests() {
                 )
 
             // 会签审批【转办 002 审批】
-            FusContext
+            Fus
                 .executeTaskByInstanceId(
                     instanceId,
                     testOperator2Id
                 )
 
             // 测试会签审批人001【委派，交给 003 审批】
-            FusContext
+            Fus
                 .delegateTaskByInstanceId(
                     instanceId,
                     testOperator1Id,
@@ -106,14 +106,14 @@ class FusCounterSignTests : FusTests() {
                 )
 
             // 会签审批【委派 003 审批】解决任务后回到 001 确认审批
-            FusContext
+            Fus
                 .resolveTaskByInstanceId(
                     instanceId,
                     testOperator3Id
                 )
 
             // 委派人 001 确认审批
-            FusContext
+            Fus
                 .executeTaskByInstanceId(
                     instanceId,
                     testOperator1Id

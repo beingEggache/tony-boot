@@ -24,7 +24,7 @@
 
 package com.tony.test.fus
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.utils.string
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.boot.test.context.SpringBootTest
@@ -53,7 +53,7 @@ abstract class FusTests {
     @BeforeEach
     fun before() {
         val processModelJson = getProcessModelJson()
-        processId = FusContext.processService.deploy(processModelJson, false)
+        processId = Fus.processService.deploy(processModelJson, false)
     }
 
     protected fun getProcessModelJson(processJson: String = this.processJson) = PathMatchingResourcePatternResolver()

@@ -24,7 +24,7 @@
 
 package com.tony.test.fus
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
@@ -44,10 +44,10 @@ class FusSortSignProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = FusContext.processService
+        val processService = Fus.processService
         processService.getById(processId)
 
-        FusContext.startProcessById(
+        Fus.startProcessById(
             processId,
             testOperator1Id,
             businessKey = "FusSortSignProcessTests.test${genRandomInt(6)}",
@@ -55,7 +55,7 @@ class FusSortSignProcessTests : FusTests() {
             val instanceId = instance.instanceId
 
             // 会签审批人001【审批】，执行转办、任务交给 test2 处理
-            FusContext
+            Fus
                 .transferTaskByInstanceId(
                     instanceId,
                     testOperator1Id,
@@ -63,7 +63,7 @@ class FusSortSignProcessTests : FusTests() {
                 )
 
             // 被转办人 test2 审批
-            FusContext
+            Fus
                 .executeTaskByInstanceId(
                     instanceId,
                     testOperator2Id
@@ -71,12 +71,12 @@ class FusSortSignProcessTests : FusTests() {
 
             // test3 领导审批同意
             val taskList3 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList3
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, testOperator3Id)
+                    Fus.executeTask(task.taskId, testOperator3Id)
                 }
         }
     }

@@ -24,7 +24,7 @@
 
 package com.tony.test.fus
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
@@ -44,7 +44,7 @@ class FusPurchaseProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        FusContext.startProcessById(
+        Fus.startProcessById(
             processId,
             testOperator1Id,
             businessKey = "FusPurchaseProcessTests.test${genRandomInt(6)}",
@@ -53,32 +53,32 @@ class FusPurchaseProcessTests : FusTests() {
 
             //领导审批
             val taskList2 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id)
+                    Fus.executeTask(task.taskId, testOperator1Id)
                 }
 
             //领导撤回
-            FusContext
+            Fus
                 .queryService
                 .recentHistoryTask(instanceId, "领导审批")
                 .also { historyTask ->
-                    FusContext
+                    Fus
                         .taskService
                         .withdrawTask(historyTask.taskId, testOperator1Id)
                 }
 
             //领导驳回
             val taskList3 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList3
                 .forEach { task ->
-                    FusContext
+                    Fus
                         .taskService
                         .rejectTask(
                             task.taskId,
@@ -91,12 +91,12 @@ class FusPurchaseProcessTests : FusTests() {
 
             // 执行当前任务并跳到【经理确认】节点
             val taskList4 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList4
                 .forEach { task ->
-                    FusContext
+                    Fus
                         .executeJumpTask(
                             task.taskId,
                             "经理确认",
@@ -106,12 +106,12 @@ class FusPurchaseProcessTests : FusTests() {
 
             // 经理确认，流程结束
             val taskList5 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList5
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id)
+                    Fus.executeTask(task.taskId, testOperator1Id)
                 }
         }
     }

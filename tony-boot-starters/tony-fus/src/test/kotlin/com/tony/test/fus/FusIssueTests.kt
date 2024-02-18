@@ -1,6 +1,6 @@
 package com.tony.test.fus
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
@@ -20,7 +20,7 @@ class FusIssueTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun testConditionEnd() {
-        FusContext
+        Fus
             .startProcessById(
                 processId,
                 testOperator3Id,
@@ -30,13 +30,13 @@ class FusIssueTests : FusTests() {
 
                 val instanceId = instance.instanceId
                 val taskList2 =
-                    FusContext
+                    Fus
                         .queryService
                         .listTaskByInstanceId(instanceId)
 
                 taskList2
                     .forEach { task ->
-                        FusContext.executeTask(
+                        Fus.executeTask(
                             task.taskId,
                             testOperator2Id,
                             mutableMapOf(
@@ -51,14 +51,14 @@ class FusIssueTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun testTerminate() {
-        FusContext
+        Fus
             .startProcessById(
                 processId,
                 testOperator3Id,
                 businessKey = "FusIssueTests.testTerminate${genRandomInt(6)}",
             )
             .let { instance ->
-                FusContext.runtimeService.terminate(instance.instanceId, testOperator2Id)
+                Fus.runtimeService.terminate(instance.instanceId, testOperator2Id)
             }
 
     }

@@ -1,6 +1,6 @@
 package com.tony.fus.model
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 
 /**
  * 流程模型接口.
@@ -27,5 +27,5 @@ public interface FusModel {
      * @since 1.0.0
      */
     public fun model(): FusProcessModel =
-        FusContext.processModelParser.parse(modelContent, modelKey, false)
+        Fus.processModelParser.parse(modelContent, modelKey, false)
 }

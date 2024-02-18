@@ -24,7 +24,7 @@
 
 package com.tony.fus.service
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.fus.FusTaskPermission
 import com.tony.fus.db.enums.ActorType
 import com.tony.fus.db.enums.PerformType
@@ -786,7 +786,7 @@ internal open class TaskServiceImpl(
             }
 
         val taskActorList =
-            FusContext
+            Fus
                 .taskActorProvider()
                 .listTaskActors(node, execution)
 
@@ -801,7 +801,7 @@ internal open class TaskServiceImpl(
                     node
                         .nextNode()
                         ?.also { nextNode ->
-                            FusContext.executeNode(nextNode, execution)
+                            Fus.executeNode(nextNode, execution)
                         }
                 }
 
@@ -816,7 +816,7 @@ internal open class TaskServiceImpl(
 
             NodeType.CC -> {
                 saveTaskCc(node, task)
-                node.nextNode()?.also { FusContext.executeNode(it, execution) }
+                node.nextNode()?.also { Fus.executeNode(it, execution) }
             }
 
             NodeType.CONDITIONAL_APPROVE -> {
@@ -837,7 +837,7 @@ internal open class TaskServiceImpl(
             NodeType.SUB_PROCESS -> {
                 execution.userId
                 val subInstance =
-                    FusContext.internalStartProcessByKey(
+                    Fus.internalStartProcessByKey(
                         node.outProcessKey,
                         execution.userId
                     ) { instance ->

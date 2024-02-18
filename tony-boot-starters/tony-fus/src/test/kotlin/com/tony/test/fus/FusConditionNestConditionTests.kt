@@ -24,7 +24,7 @@
 
 package com.tony.test.fus
 
-import com.tony.fus.FusContext
+import com.tony.fus.Fus
 import com.tony.utils.genRandomInt
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Rollback
@@ -44,13 +44,13 @@ class FusConditionNestConditionTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = FusContext.processService
+        val processService = Fus.processService
         processService.getById(processId)
 
         val args: MutableMap<String, Any?> = mutableMapOf(
             "day" to 11
         )
-        FusContext.startProcessById(
+        Fus.startProcessById(
             processId,
             testOperator1Id,
             args,
@@ -60,22 +60,22 @@ class FusConditionNestConditionTests : FusTests() {
 
             // 人事审批
             val taskList2 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList2
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id)
+                    Fus.executeTask(task.taskId, testOperator1Id)
                 }
 
             // 领导审批，自动抄送，流程结束
             val taskList3 =
-                FusContext
+                Fus
                     .queryService
                     .listTaskByInstanceId(instanceId)
             taskList3
                 .forEach { task ->
-                    FusContext.executeTask(task.taskId, testOperator3Id)
+                    Fus.executeTask(task.taskId, testOperator3Id)
                 }
 
         }
