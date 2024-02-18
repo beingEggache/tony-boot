@@ -565,6 +565,12 @@ internal open class TaskServiceImpl(
                 .last("limit 1")
                 .fusOneNotNull("Not authorized to perform this task.")
 
+        taskMapper
+            .ktQuery()
+            .eq(FusTask::taskId, taskId)
+            .ne(FusTask::assignorId, "")
+            .throwIfExists("Do not allow duplicate assign, taskId = $taskId")
+
         taskMapper.updateById(
             FusTask()
                 .apply {

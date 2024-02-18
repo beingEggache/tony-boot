@@ -54,17 +54,36 @@ class FusSortSignProcessTests : FusTests() {
         ).let { instance ->
             val instanceId = instance.instanceId
 
-            //领导审批
-            val taskList2 =
-                FusContext
-                    .queryService
-                    .listTaskByInstanceId(instanceId)
-            taskList2
-                .forEach { task ->
-                    FusContext.executeTask(task.taskId, testOperator1Id)
+            // 会签审批人001【审批】，执行转办、任务交给 test2 处理
+            FusContext
+                .queryService
+                .taskByInstanceIdAndActorId(
+                    instanceId,
+                    testOperator1Id
+                ).also { task ->
+                    FusContext
+                        .taskService
+                        .transferTask(
+                            task.taskId,
+                            testOperator1Id,
+                            testOperator2Id
+                        )
                 }
 
-            //领导审批
+            // 被转办人 test2 审批
+            FusContext
+                .queryService
+                .taskByInstanceIdAndActorId(
+                    instanceId,
+                    testOperator2Id
+                ).also { task ->
+                    FusContext.executeTask(
+                        task.taskId,
+                        testOperator2Id
+                    )
+                }
+
+            // test3 领导审批同意
             val taskList3 =
                 FusContext
                     .queryService
