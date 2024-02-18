@@ -41,7 +41,7 @@ ENV PROPS=""
 ENV ENABLE_GC_LOGS="false"
 ENV ENABLE_JVM_LOGS="false"
 
-EXPOSE 8080
+EXPOSE 10100
 VOLUME ["/logs","/tmp"]
 
 COPY --from=builder app/dependencies/ ./

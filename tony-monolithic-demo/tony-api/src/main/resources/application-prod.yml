@@ -1,5 +1,3 @@
-server:
-  port: 10000
 spring:
   datasource:
     url: jdbc:mysql://mysql:3306/tony_api?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true&rewriteBatchedStatements=true
