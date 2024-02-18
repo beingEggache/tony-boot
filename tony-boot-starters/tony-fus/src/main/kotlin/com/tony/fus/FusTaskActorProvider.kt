@@ -51,13 +51,22 @@ public fun interface FusTaskActorProvider {
         execution: FusExecution,
     ): List<FusTaskActor>
 
+    /**
+     * 是否拥有权限
+     * @param [node] 节点
+     * @param [actorId] 参与者id
+     * @return [Boolean]
+     * @author Tang Li
+     * @date 2024/02/18 17:43
+     * @since 1.0.0
+     */
     public fun hasPermission(
         node: FusNode,
-        userId: String,
+        actorId: String,
     ): Boolean {
         if (node.nodeUserList.isNotEmpty()) {
             return node.nodeUserList.any { nodeAssignee ->
-                nodeAssignee.id == userId
+                nodeAssignee.id == actorId
             }
         }
         fusThrowIf(

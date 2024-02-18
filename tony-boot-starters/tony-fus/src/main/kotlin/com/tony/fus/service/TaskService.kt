@@ -142,7 +142,7 @@ public sealed interface TaskService {
      *
      * 删除其它任务参与者
      * @param [taskId] 任务id
-     * @param [userId] 用户id
+     * @param [actorId] 参与者id
      * @return [FusTask]
      * @author Tang Li
      * @date 2023/10/10 19:12
@@ -150,14 +150,14 @@ public sealed interface TaskService {
      */
     public fun claimTask(
         taskId: String,
-        userId: String,
+        actorId: String,
     ): FusTask
 
     /**
      * 分配任务
      * @param [taskId] 任务id
      * @param [taskType] 任务类型
-     * @param [creatorId] 任务参与者id
+     * @param [actorId] 任务参与者id
      * @param [assigneeId] 受让人id
      * @return [Boolean]
      * @author Tang Li
@@ -167,27 +167,27 @@ public sealed interface TaskService {
     public fun assignTask(
         taskId: String,
         taskType: TaskType,
-        creatorId: String,
+        actorId: String,
         assigneeId: String,
     ): Boolean
 
     /**
      * 解决委派任务
      * @param [taskId] 任务id
-     * @param [creatorId] 任务参与者id
+     * @param [actorId] 任务参与者id
      * @author Tang Li
      * @date 2024/02/01 17:35
      * @since 1.0.0
      */
     public fun resolveTask(
         taskId: String,
-        creatorId: String,
+        actorId: String,
     )
 
     /**
      * 转办任务
      * @param [taskId] 任务id
-     * @param [creatorId] 任务参与者id
+     * @param [actorId] 任务参与者id
      * @param [assigneeId] 受让人id
      * @return [Boolean]
      * @author Tang Li
@@ -196,17 +196,17 @@ public sealed interface TaskService {
      */
     public fun transferTask(
         taskId: String,
-        creatorId: String,
+        actorId: String,
         assigneeId: String,
     ): Boolean =
-        assignTask(taskId, TaskType.TRANSFER, creatorId, assigneeId)
+        assignTask(taskId, TaskType.TRANSFER, actorId, assigneeId)
 
     /**
      * 委派任务.
      *
      * 代理人办理完任务该任务重新归还给原处理人
      * @param [taskId] 任务id
-     * @param [creatorId] 任务参与者id
+     * @param [actorId] 任务参与者id
      * @param [assigneeId] 受让人id
      * @return [Boolean]
      * @author Tang Li
@@ -215,16 +215,16 @@ public sealed interface TaskService {
      */
     public fun delegateTask(
         taskId: String,
-        creatorId: String,
+        actorId: String,
         assigneeId: String,
     ): Boolean =
-        assignTask(taskId, TaskType.DELEGATE, creatorId, assigneeId)
+        assignTask(taskId, TaskType.DELEGATE, actorId, assigneeId)
 
     /**
      * 拿回任务.
      *
      * @param [taskId] 任务id
-     * @param [userId] 操作人id
+     * @param [actorId] 参与者id
      * @return [FusTask]?
      * @author Tang Li
      * @date 2023/10/10 19:20
@@ -232,7 +232,7 @@ public sealed interface TaskService {
      */
     public fun reclaimTask(
         taskId: String,
-        userId: String,
+        actorId: String,
     ): FusTask
 
     /**
@@ -532,21 +532,21 @@ internal open class TaskServiceImpl(
 
     override fun claimTask(
         taskId: String,
-        userId: String,
+        actorId: String,
     ): FusTask =
         taskMapper
             .fusSelectByIdNotNull("任务不存在(id=$taskId)")
             .also { _ ->
-                hasPermission(taskId, userId)
+                hasPermission(taskId, actorId)
                 taskActorMapper.deleteByTaskIds(listOf(taskId))
                 taskActorMapper.insert(
                     FusTaskActor()
                         .apply {
-                            this.actorId = userId
+                            this.actorId = actorId
                             this.actorType = ActorType.USER
                             this.taskId = taskId
                             // TODO name provider
-                            // TODO actorName = nameProvider.get(userId)
+                            // TODO actorName = nameProvider.get(actorId)
                         }
                 )
             }
@@ -554,14 +554,14 @@ internal open class TaskServiceImpl(
     override fun assignTask(
         taskId: String,
         taskType: TaskType,
-        creatorId: String,
+        actorId: String,
         assigneeId: String,
     ): Boolean {
         val taskActor =
             taskActorMapper
                 .ktQuery()
                 .eq(FusTaskActor::taskId, taskId)
-                .eq(FusTaskActor::actorId, creatorId)
+                .eq(FusTaskActor::actorId, actorId)
                 .last("limit 1")
                 .fusOneNotNull("Not authorized to perform this task.")
 
@@ -576,25 +576,25 @@ internal open class TaskServiceImpl(
                 .apply {
                     this.taskId = taskId
                     this.taskType = taskType
-                    this.assignorId = creatorId
+                    this.assignorId = actorId
                     // TODO 获取名称 或者不获取
-                    // this.assignorName = creatorId.actorName
+                    // this.assignorName = actorId.actorName
                 }
         )
         taskActorMapper.deleteById(taskActor.taskActorId)
-        assignTask(taskActor.instanceId, taskId, FusTaskActor().apply { actorId = assigneeId })
+        assignTask(taskActor.instanceId, taskId, FusTaskActor().apply { this.actorId = assigneeId })
         return true
     }
 
     override fun resolveTask(
         taskId: String,
-        creatorId: String,
+        actorId: String,
     ) {
         val taskActor =
             taskActorMapper
                 .ktQuery()
                 .eq(FusTaskActor::taskId, taskId)
-                .eq(FusTaskActor::actorId, creatorId)
+                .eq(FusTaskActor::actorId, actorId)
                 .last("limit 1")
                 .fusOneNotNull("Not authorized to perform this task.")
 
@@ -605,7 +605,7 @@ internal open class TaskServiceImpl(
         val assignorActor =
             FusTaskActor().apply {
                 taskActorId = taskActor.taskActorId
-                actorId = task.assignorId
+                this.actorId = task.assignorId
                 // TODO 获取名称 或者不获取
                 // actorName =
             }
@@ -614,7 +614,7 @@ internal open class TaskServiceImpl(
                 FusTask().apply {
                     this.taskId = taskId
                     this.taskType = TaskType.DELEGATE_RETURN
-                    this.assignorId = creatorId
+                    this.assignorId = actorId
                     // TODO 获取名称 或者不获取
                     // assignorName =
                 }
@@ -639,7 +639,7 @@ internal open class TaskServiceImpl(
 
     override fun reclaimTask(
         taskId: String,
-        userId: String,
+        actorId: String,
     ): FusTask =
         undoHistoryTask(
             taskId

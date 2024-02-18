@@ -71,9 +71,6 @@ class FusSupervisorProcessTests {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = Fus.processService
-        processService.getById(processId)
-
         val args =
             mapOf(
                 "day" to 4

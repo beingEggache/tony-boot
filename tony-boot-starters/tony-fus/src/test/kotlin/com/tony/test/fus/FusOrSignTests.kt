@@ -44,9 +44,6 @@ class FusOrSignTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = Fus.processService
-        processService.getById(processId)
-
         Fus.startProcessById(
             processId,
             testOperator1Id,

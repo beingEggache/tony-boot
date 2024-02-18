@@ -116,7 +116,7 @@ class TestFusSupervisorApp {
                 return emptyList()
             }
 
-            override fun hasPermission(node: FusNode, userId: String): Boolean =
+            override fun hasPermission(node: FusNode, actorId: String): Boolean =
                 true
         }
     }

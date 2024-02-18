@@ -39,7 +39,7 @@ public fun interface FusTaskPermission {
      * 是否拥有权限.
      *
      * 根据创建人ID、参与者集合判断是否允许访问所属任务
-     * @param [userId] 操作人id
+     * @param [actorId] 参与者id
      * @param [taskActorList] 任务参与者列表
      * @return [Boolean]
      * @author Tang Li
@@ -47,19 +47,19 @@ public fun interface FusTaskPermission {
      * @since 1.0.0
      */
     public fun hasPermission(
-        userId: String,
+        actorId: String,
         taskActorList: List<FusTaskActor>,
     ): Boolean
 }
 
 internal class DefaultTaskPermission : FusTaskPermission {
     override fun hasPermission(
-        userId: String,
+        actorId: String,
         taskActorList: List<FusTaskActor>,
     ): Boolean {
-        if (userId.isEmpty() || taskActorList.isEmpty()) {
+        if (actorId.isEmpty() || taskActorList.isEmpty()) {
             return false
         }
-        return taskActorList.any { it.actorId == userId }
+        return taskActorList.any { it.actorId == actorId }
     }
 }

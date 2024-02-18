@@ -44,9 +44,6 @@ class FusConditionNestConditionTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = Fus.processService
-        processService.getById(processId)
-
         val args: MutableMap<String, Any?> = mutableMapOf(
             "day" to 11
         )

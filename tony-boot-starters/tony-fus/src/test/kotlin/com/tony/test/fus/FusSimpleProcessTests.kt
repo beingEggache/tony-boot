@@ -77,11 +77,10 @@ class FusSimpleProcessTests : FusTests() {
                     }
 
                 // 执行前加签
-                Fus
-                    .executeTaskByInstanceId(
-                        instanceId,
-                        testOperator3Id
-                    )
+                Fus.executeTaskByInstanceId(
+                    instanceId,
+                    testOperator3Id
+                )
 
                 // 测试会签审批人003【审批】，执行后置加签
                 Fus
@@ -99,48 +98,42 @@ class FusSimpleProcessTests : FusTests() {
                     }
 
                 // 会签审批人001【审批】，执行转办、任务交给 test2 处理
-                Fus
-                    .transferTaskByInstanceId(
-                        instanceId,
-                        testOperator1Id,
-                        testOperator2Id
-                    )
+                Fus.transferTaskByInstanceId(
+                    instanceId,
+                    testOperator1Id,
+                    testOperator2Id
+                )
 
                 // 被转办人 test2 审批
-                Fus
-                    .executeTaskByInstanceId(
-                        instanceId,
-                        testOperator2Id
-                    )
+                Fus.executeTaskByInstanceId(
+                    instanceId,
+                    testOperator2Id
+                )
 
                 // 会签审批人003【审批】，执行委派、任务委派给 test2 处理
-                Fus
-                    .delegateTaskByInstanceId(
-                        instanceId,
-                        testOperator3Id,
-                        testOperator2Id
-                    )
+                Fus.delegateTaskByInstanceId(
+                    instanceId,
+                    testOperator3Id,
+                    testOperator2Id
+                )
 
                 // 被委派人 test2 解决问题，后归还任务给委派人
-                Fus
-                    .resolveTaskByInstanceId(
-                        instanceId,
-                        testOperator2Id
-                    )
+                Fus.resolveTaskByInstanceId(
+                    instanceId,
+                    testOperator2Id
+                )
 
                 // 委派人 test3 执行完成任务
-                Fus
-                    .executeTaskByInstanceId(
-                        instanceId,
-                        testOperator3Id
-                    )
+                Fus.executeTaskByInstanceId(
+                    instanceId,
+                    testOperator3Id
+                )
 
                 // 执行后加签
-                Fus
-                    .executeTaskByInstanceId(
-                        instanceId,
-                        testOperator2Id
-                    )
+                Fus.executeTaskByInstanceId(
+                    instanceId,
+                    testOperator2Id
+                )
             }
     }
 
@@ -162,9 +155,6 @@ class FusSimpleProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = Fus.processService
-        processService.getById(processId)
-
         val args =
             mutableMapOf<String, Any?>(
                 "day" to 8,
@@ -180,21 +170,18 @@ class FusSimpleProcessTests : FusTests() {
         ).also { instance ->
             val instanceId = instance.instanceId
             // 测试会签审批人001【审批】
-            Fus
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
-                .also { task ->
-                    Fus.executeTask(task.taskId, testOperator1Id)
-                }
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator1Id
+            )
             Thread.sleep(2000)
 
             // 测试会签审批人003【审批】
-            Fus
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
-                .also { task ->
-                    Fus.executeTask(task.taskId, testOperator3Id, args)
-                }
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator3Id,
+                args
+            )
 
             //撤回任务(条件路由子审批) 回到测试会签审批人003【审批】任务
             Fus
@@ -207,36 +194,29 @@ class FusSimpleProcessTests : FusTests() {
                 }
 
             // 测试会签审批人003【审批】
-            Fus
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator3Id)
-                .also { task ->
-                    Fus.executeTask(task.taskId, testOperator3Id, args)
-                }
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator3Id,
+                args
+            )
 
             // 年龄审批【审批】
-            Fus
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
-                .also { task ->
-                    Fus.executeTask(task.taskId, testOperator1Id)
-                }
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator1Id
+            )
 
             // 条件内部审核【审批】
-            Fus
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
-                .also { task ->
-                    Fus.executeTask(task.taskId, testOperator1Id)
-                }
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator1Id
+            )
 
             // 条件路由子审批【审批】 抄送 结束
-            Fus
-                .queryService
-                .taskByInstanceIdAndActorId(instanceId, testOperator1Id)
-                .also { task ->
-                    Fus.executeTask(task.taskId, testOperator1Id)
-                }
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator1Id
+            )
         }
     }
 }

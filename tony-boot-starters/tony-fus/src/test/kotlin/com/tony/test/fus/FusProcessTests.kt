@@ -76,9 +76,6 @@ class FusProcessTests : FusTests() {
     }
 
     fun test(reject: Boolean, day: Int) {
-        val processService = Fus.processService
-        processService.getById(processId)
-
         val args = mutableMapOf<String, Any?>(
             "day" to day,
             "assignee" to testOperator1Id

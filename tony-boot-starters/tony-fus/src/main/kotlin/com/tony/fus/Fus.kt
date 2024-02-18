@@ -167,7 +167,7 @@ public data object Fus {
     /**
      * 按唯一标识[processKey]启动进程
      * @param [processKey] 唯一标识
-     * @param [userId] 用户id
+     * @param [userId] 操作人id
      * @param [businessKey] 业务KEY
      * @param [args] variable
      * @param [version] 流程版本
@@ -197,7 +197,7 @@ public data object Fus {
     /**
      * 按唯一标识[processKey]启动进程
      * @param [processKey] 唯一标识
-     * @param [userId] 用户id
+     * @param [userId] 操作人id
      * @param [businessKey] 业务KEY
      * @param [args] variable
      * @param [version] 流程版本
@@ -438,7 +438,7 @@ public data object Fus {
      *
      * 代理人办理完任务该任务重新归还给原处理人
      * @param [instanceId] 任务实例id
-     * @param [creatorId] 任务参与者id
+     * @param [actorId] 任务参与者id
      * @param [assigneeId] 受让人id
      * @return [Boolean]
      * @author Tang Li
@@ -448,16 +448,16 @@ public data object Fus {
     @JvmStatic
     public fun delegateTaskByInstanceId(
         instanceId: String,
-        creatorId: String,
+        actorId: String,
         assigneeId: String,
     ) {
         queryService
-            .taskByInstanceIdAndActorId(instanceId, creatorId)
+            .taskByInstanceIdAndActorId(instanceId, actorId)
             .also { task ->
                 taskService
                     .delegateTask(
                         task.taskId,
-                        creatorId,
+                        actorId,
                         assigneeId
                     )
             }
@@ -466,7 +466,7 @@ public data object Fus {
     /**
      * 按任务实例id [instanceId] 转办任务
      * @param [instanceId] 任务实例id
-     * @param [creatorId] 任务参与者id
+     * @param [actorId] 任务参与者id
      * @param [assigneeId] 受让人id
      * @return [Boolean]
      * @author Tang Li
@@ -476,16 +476,16 @@ public data object Fus {
     @JvmStatic
     public fun transferTaskByInstanceId(
         instanceId: String,
-        creatorId: String,
+        actorId: String,
         assigneeId: String,
     ) {
         queryService
-            .taskByInstanceIdAndActorId(instanceId, creatorId)
+            .taskByInstanceIdAndActorId(instanceId, actorId)
             .also { task ->
                 taskService
                     .transferTask(
                         task.taskId,
-                        creatorId,
+                        actorId,
                         assigneeId
                     )
             }
@@ -494,7 +494,7 @@ public data object Fus {
     /**
      * 按任务实例id [instanceId] 解决委派任务
      * @param [instanceId] 任务实例id
-     * @param [creatorId] 任务参与者id
+     * @param [actorId] 任务参与者id
      * @author Tang Li
      * @date 2024/02/01 17:35
      * @since 1.0.0
@@ -502,17 +502,17 @@ public data object Fus {
     @JvmStatic
     public fun resolveTaskByInstanceId(
         instanceId: String,
-        creatorId: String,
+        actorId: String,
     ) {
         queryService
             .taskByInstanceIdAndActorId(
                 instanceId,
-                creatorId
+                actorId
             ).also { task ->
                 taskService
                     .resolveTask(
                         task.taskId,
-                        creatorId
+                        actorId
                     )
             }
     }
@@ -562,7 +562,7 @@ public data object Fus {
      * 执行插入节点
      * @param [taskId] 任务id
      * @param [node] 节点
-     * @param [userId] 用户id
+     * @param [userId] 操作人id
      * @param [prepend] 前插
      * @author Tang Li
      * @date 2024/02/01 17:25

@@ -44,9 +44,6 @@ class FusVoteSignProcessTests : FusTests() {
     @Transactional(rollbackFor = [Exception::class])
     @Test
     fun test() {
-        val processService = Fus.processService
-        processService.getById(processId)
-
         Fus.startProcessById(
             processId,
             testOperator1Id,
@@ -55,18 +52,16 @@ class FusVoteSignProcessTests : FusTests() {
             val instanceId = instance.instanceId
 
             //test1 领导审批同意
-            Fus
-                .executeTaskByInstanceId(
-                    instanceId,
-                    testOperator1Id
-                )
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator1Id
+            )
 
             //test3 领导审批同意
-            Fus
-                .executeTaskByInstanceId(
-                    instanceId,
-                    testOperator3Id
-                )
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator3Id
+            )
         }
     }
 }
