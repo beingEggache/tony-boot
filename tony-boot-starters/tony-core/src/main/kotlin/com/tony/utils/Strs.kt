@@ -93,7 +93,7 @@ public fun <T> T.toQueryString(): String =
  * @date 2023/12/08 19:28
  * @since 1.0.0
  */
-public fun CharSequence?.equalsIgnoreNullOrEmpty(str: String?): Boolean =
+public fun CharSequence?.equalsIgnoreNullOrEmpty(str: CharSequence?): Boolean =
     if (this.isNullOrEmpty()) {
         str.isNullOrEmpty()
     } else {
