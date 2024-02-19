@@ -147,9 +147,9 @@ public inline fun <reified T> CharSequence.queryStringToObj(): T =
  * @since 1.0.0
  */
 @JvmOverloads
-public fun CharSequence?.ifNullOrBlank(default: String = ""): String =
+public fun CharSequence?.ifNullOrBlank(default: CharSequence = ""): String =
     if (this.isNullOrBlank()) {
-        default
+        default.toString()
     } else {
         this.toString()
     }

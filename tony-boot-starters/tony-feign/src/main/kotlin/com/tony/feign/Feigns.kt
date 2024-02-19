@@ -138,7 +138,7 @@ public fun CharSequence.genSign(
  * @param timestampStr
  * @return
  */
-public fun JsonNode.sortRequestBody(timestampStr: String): String =
+public fun JsonNode.sortRequestBody(timestampStr: CharSequence): String =
     fieldNames()
         .asSequence()
         .sorted()
