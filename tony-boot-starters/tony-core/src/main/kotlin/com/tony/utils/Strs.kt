@@ -337,9 +337,9 @@ private val QUOTES_CHARS = arrayOf('\'', '\"')
  * @date 2023/12/08 19:30
  * @since 1.0.0
  */
-public fun String.trimQuotes(): String =
+public fun CharSequence.trimQuotes(): String =
     when {
-        this.length < 2 -> this
+        this.length < 2 -> this.toString()
         first() in QUOTES_CHARS && last() in QUOTES_CHARS -> substring(1, this.length - 1)
-        else -> this
+        else -> this.toString()
     }

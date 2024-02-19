@@ -102,8 +102,8 @@ public inline fun <reified T> T?.toXmlString(): String =
         xStream(T::class.java).toXML(this)
     }
 
-/**
+/**.
  * 针对微信的xml转换
  */
-public inline fun <reified T> String.xmlToObj(): T =
-    xStream(T::class.java).fromXML(this).asToNotNull()
+public inline fun <reified T> CharSequence.xmlToObj(): T =
+    xStream(T::class.java).fromXML(this.toString()).asToNotNull()

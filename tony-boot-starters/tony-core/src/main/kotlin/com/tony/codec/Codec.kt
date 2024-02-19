@@ -41,7 +41,7 @@ public sealed interface Codec {
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
-    public fun encodeToString(src: String): String =
+    public fun encodeToString(src: CharSequence): String =
         encodeToByteArray(src).string()
 
     /**
@@ -63,8 +63,8 @@ public sealed interface Codec {
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
-    public fun encodeToByteArray(src: String): ByteArray =
-        encodeToByteArray(src.toByteArray())
+    public fun encodeToByteArray(src: CharSequence): ByteArray =
+        encodeToByteArray(src.toString().toByteArray())
 
     /**
      * 编码到字节数组
@@ -84,7 +84,7 @@ public sealed interface Codec {
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
-    public fun decodeToString(src: String): String =
+    public fun decodeToString(src: CharSequence): String =
         decodeToByteArray(src).string()
 
     /**
@@ -106,8 +106,8 @@ public sealed interface Codec {
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
-    public fun decodeToByteArray(src: String): ByteArray =
-        decodeToByteArray(src.toByteArray())
+    public fun decodeToByteArray(src: CharSequence): ByteArray =
+        decodeToByteArray(src.toString().toByteArray())
 
     /**
      * 解码为字节数组

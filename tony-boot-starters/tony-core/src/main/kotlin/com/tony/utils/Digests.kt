@@ -47,7 +47,7 @@ import java.security.MessageDigest
  * @date 2023/09/27 19:21
  * @since 1.0.0
  */
-public fun String.md5(): String =
+public fun CharSequence.md5(): String =
     DigestAlgorithm.MD5.digest(this)
 
 /**
@@ -57,7 +57,7 @@ public fun String.md5(): String =
  * @date 2023/09/27 19:21
  * @since 1.0.0
  */
-public fun String.sha1(): String =
+public fun CharSequence.sha1(): String =
     DigestAlgorithm.SHA1.digest(this)
 
 /**
@@ -67,7 +67,7 @@ public fun String.sha1(): String =
  * @date 2023/09/27 19:21
  * @since 1.0.0
  */
-public fun String.sha256(): String =
+public fun CharSequence.sha256(): String =
     DigestAlgorithm.SHA256.digest(this)
 
 /**
@@ -93,10 +93,10 @@ public enum class DigestAlgorithm(
      * @date 2023/09/27 19:21
      * @since 1.0.0
      */
-    public fun digest(src: String): String =
+    public fun digest(src: CharSequence): String =
         MessageDigest
             .getInstance(this.name)
-            .digest(src.toByteArray())
+            .digest(src.toString().toByteArray())
             .encodeToString(Encoding.HEX)
 
     public companion object : StringEnumCreator(DigestAlgorithm::class.java) {

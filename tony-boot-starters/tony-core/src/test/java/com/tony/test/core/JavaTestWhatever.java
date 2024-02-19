@@ -24,11 +24,6 @@
 
 package com.tony.test.core;
 
-import com.tony.utils.Cols;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * JavaTestWhatever is
  *
@@ -38,11 +33,5 @@ import java.util.List;
 public class JavaTestWhatever {
 
     public static void main(final String[] args) {
-        final var list = new ArrayList<String>();
-        final List<String> nullList = null;
-        final var list1 = Cols.orEmpty(list);
-        final var list2 = Cols.orEmpty(nullList);
-        System.out.println(list1);
-        System.out.println(list2);
     }
 }

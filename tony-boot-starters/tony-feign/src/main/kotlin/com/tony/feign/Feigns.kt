@@ -114,10 +114,10 @@ private val TEXT_MEDIA_TYPES =
  * @param timestampStr
  * @return
  */
-public fun String.sortRequestBody(timestampStr: String): String =
+public fun CharSequence.sortRequestBody(timestampStr: CharSequence): String =
     globalObjectMapper
-        .readTree(this)
-        .sortRequestBody(timestampStr)
+        .readTree(this.toString())
+        .sortRequestBody(timestampStr.toString())
 
 /**
  * 生成简单签名.
@@ -125,9 +125,9 @@ public fun String.sortRequestBody(timestampStr: String): String =
  * @param secret
  * @return
  */
-public fun String.genSign(
-    appId: String,
-    secret: String,
+public fun CharSequence.genSign(
+    appId: CharSequence,
+    secret: CharSequence,
 ): String =
     ("$appId|$secret|$this".md5().uppercase())
         .md5()

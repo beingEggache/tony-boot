@@ -42,15 +42,15 @@ public data object HexCodec : Codec {
             .of()
             .formatHex(src)
 
-    override fun encodeToString(src: String): String =
+    override fun encodeToString(src: CharSequence): String =
         HexFormat
             .of()
-            .formatHex(src.toByteArray())
+            .formatHex(src.toString().toByteArray())
 
-    override fun decodeToByteArray(src: String): ByteArray =
+    override fun decodeToByteArray(src: CharSequence): ByteArray =
         HexFormat.of().parseHex(src)
 
-    override fun decodeToString(src: String): String =
+    override fun decodeToString(src: CharSequence): String =
         decodeToByteArray(src).string()
 
     override fun decodeToString(src: ByteArray): String =

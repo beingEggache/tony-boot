@@ -41,7 +41,7 @@ import com.tony.codec.enums.Encoding
  * @date 2023/09/12 19:43
  * @since 1.0.0
  */
-public fun String.encodeToString(encoding: Encoding): String =
+public fun CharSequence.encodeToString(encoding: Encoding): String =
     encoding.codec.encodeToString(this)
 
 /**
@@ -52,7 +52,7 @@ public fun String.encodeToString(encoding: Encoding): String =
  * @date 2023/09/12 19:43
  * @since 1.0.0
  */
-public fun String.encodeToByteArray(encoding: Encoding): ByteArray =
+public fun CharSequence.encodeToByteArray(encoding: Encoding): ByteArray =
     encoding.codec.encodeToByteArray(this)
 
 /**
@@ -85,7 +85,7 @@ public fun ByteArray.encodeToByteArray(encoding: Encoding): ByteArray =
  * @date 2023/09/12 19:44
  * @since 1.0.0
  */
-public fun String.decodeToString(encoding: Encoding): String =
+public fun CharSequence.decodeToString(encoding: Encoding): String =
     encoding.codec.decodeToString(this)
 
 /**
@@ -96,7 +96,7 @@ public fun String.decodeToString(encoding: Encoding): String =
  * @date 2023/09/12 19:44
  * @since 1.0.0
  */
-public fun String.decodeToByteArray(encoding: Encoding): ByteArray =
+public fun CharSequence.decodeToByteArray(encoding: Encoding): ByteArray =
     encoding.codec.decodeToByteArray(this)
 
 /**
