@@ -22,6 +22,8 @@ ENV JAVA_OPTS="\
 -XX:-OmitStackTraceInFastThrow \
 -XX:+AlwaysPreTouch \
 -XX:+DisableExplicitGC \
+-XX:+UseCompressedOops \
+-XX:+UseStringDeduplication \
 -XX:GuaranteedSafepointInterval=0 \
 -XX:+UseCountedLoopSafepoints \
 -XX:+SafepointTimeout \
@@ -38,6 +40,7 @@ ENV JAVA_OPTS="\
 --add-opens java.base/jdk.internal.access=ALL-UNNAMED \
 --add-opens java.base/jdk.internal.misc=ALL-UNNAMED"
 ENV PROPS=""
+ENV ENABLE_ERROR_LOGS="true"
 ENV ENABLE_GC_LOGS="false"
 ENV ENABLE_JVM_LOGS="false"
 
@@ -50,15 +53,16 @@ COPY --from=builder app/snapshot-dependencies/ ./
 COPY --from=builder app/application/ ./
 
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} ${PROPS} \
-$([ ${ENABLE_GC_LOGS} == 'true' ] && echo -n '\
--Xlog:async \
--Xlog:gc*=info:file=/logs/gc_%t.log:utctime,level,tags:filecount=10,filesize=10M \
--Xlog:jit+compilation=info:file=/logs/jit_compile_%t.log:utctime,level,tags:filecount=10,filesize=10M \
--Xlog:safepoint=info:file=/logs/safepoint_%t.log:utctime,level,tags:filecount=10,filesize=10M \
+$([ ${ENABLE_ERROR_LOGS} == 'true' ] && echo -n '\
 -XX:ErrorFile=/logs/hs_err_pid.log \
 -XX:HeapDumpPath=/logs/java_heapdump.hprof \
 -XX:+ExtensiveErrorReports \
 -XX:+HeapDumpOnOutOfMemoryError') \
+$([ ${ENABLE_GC_LOGS} == 'true' ] && echo -n '\
+-Xlog:async \
+-Xlog:gc*=info:file=/logs/gc_%t.log:utctime,level,tags:filecount=10,filesize=10M \
+-Xlog:jit+compilation=info:file=/logs/jit_compile_%t.log:utctime,level,tags:filecount=10,filesize=10M \
+-Xlog:safepoint=info:file=/logs/safepoint_%t.log:utctime,level,tags:filecount=10,filesize=10M') \
 $([ ${ENABLE_JVM_LOGS} == 'true' ] && echo -n '\
 -XX:+UnlockDiagnosticVMOptions \
 -XX:LogFile=/logs/hotspot.log \
