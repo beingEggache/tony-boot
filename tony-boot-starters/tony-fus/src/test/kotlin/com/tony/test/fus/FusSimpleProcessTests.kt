@@ -53,88 +53,87 @@ class FusSimpleProcessTests : FusTests() {
             "age" to 18,
             "assignee" to testOperator1Id
         )
-        Fus
-            .startProcessById(
-                processId,
+        Fus.startProcessById(
+            processId,
+            testOperator1Id,
+            args
+        ).also { instance ->
+            val instanceId = instance.instanceId
+
+            // 测试会签审批人001【审批】，执行前置加签
+            Fus
+                .queryService
+                .taskByInstanceIdAndActorId(
+                    instanceId,
+                    testOperator1Id
+                ).also { task ->
+                    Fus.executeInsertNode(
+                        task.taskId,
+                        node("前置加签", testOperator3Id),
+                        testOperator1Id,
+                        true
+                    )
+                }
+
+            // 执行前加签
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator3Id
+            )
+
+            // 测试会签审批人003【审批】，执行后置加签
+            Fus
+                .queryService
+                .taskByInstanceIdAndActorId(
+                    instanceId,
+                    testOperator3Id
+                ).also { task ->
+                    Fus.executeInsertNode(
+                        task.taskId,
+                        node("后置加签", testOperator2Id),
+                        testOperator3Id,
+                        false
+                    )
+                }
+
+            // 会签审批人001【审批】，执行转办、任务交给 test2 处理
+            Fus.transferTaskByInstanceId(
+                instanceId,
                 testOperator1Id,
-                args
-            ).also { instance ->
-                val instanceId = instance.instanceId
+                testOperator2Id
+            )
 
-                // 测试会签审批人001【审批】，执行前置加签
-                Fus
-                    .queryService
-                    .taskByInstanceIdAndActorId(
-                        instanceId,
-                        testOperator1Id
-                    ).also { task ->
-                        Fus.executeInsertNode(
-                            task.taskId,
-                            node("前置加签", testOperator3Id),
-                            testOperator1Id,
-                            true
-                        )
-                    }
+            // 被转办人 test2 审批
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator2Id
+            )
 
-                // 执行前加签
-                Fus.executeTaskByInstanceId(
-                    instanceId,
-                    testOperator3Id
-                )
+            // 会签审批人003【审批】，执行委派、任务委派给 test2 处理
+            Fus.delegateTaskByInstanceId(
+                instanceId,
+                testOperator3Id,
+                testOperator2Id
+            )
 
-                // 测试会签审批人003【审批】，执行后置加签
-                Fus
-                    .queryService
-                    .taskByInstanceIdAndActorId(
-                        instanceId,
-                        testOperator3Id
-                    ).also { task ->
-                        Fus.executeInsertNode(
-                            task.taskId,
-                            node("后置加签", testOperator2Id),
-                            testOperator3Id,
-                            false
-                        )
-                    }
+            // 被委派人 test2 解决问题，后归还任务给委派人
+            Fus.resolveTaskByInstanceId(
+                instanceId,
+                testOperator2Id
+            )
 
-                // 会签审批人001【审批】，执行转办、任务交给 test2 处理
-                Fus.transferTaskByInstanceId(
-                    instanceId,
-                    testOperator1Id,
-                    testOperator2Id
-                )
+            // 委派人 test3 执行完成任务
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator3Id
+            )
 
-                // 被转办人 test2 审批
-                Fus.executeTaskByInstanceId(
-                    instanceId,
-                    testOperator2Id
-                )
-
-                // 会签审批人003【审批】，执行委派、任务委派给 test2 处理
-                Fus.delegateTaskByInstanceId(
-                    instanceId,
-                    testOperator3Id,
-                    testOperator2Id
-                )
-
-                // 被委派人 test2 解决问题，后归还任务给委派人
-                Fus.resolveTaskByInstanceId(
-                    instanceId,
-                    testOperator2Id
-                )
-
-                // 委派人 test3 执行完成任务
-                Fus.executeTaskByInstanceId(
-                    instanceId,
-                    testOperator3Id
-                )
-
-                // 执行后加签
-                Fus.executeTaskByInstanceId(
-                    instanceId,
-                    testOperator2Id
-                )
-            }
+            // 执行后加签
+            Fus.executeTaskByInstanceId(
+                instanceId,
+                testOperator2Id
+            )
+        }
     }
 
     private fun node(nodeName: String, userId: String): FusNode {
