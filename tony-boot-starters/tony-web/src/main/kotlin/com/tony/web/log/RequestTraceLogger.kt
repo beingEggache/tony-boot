@@ -53,6 +53,7 @@ import com.tony.web.utils.status3xxRedirection
 import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.Logger
 import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
 import org.springframework.web.util.ContentCachingResponseWrapper
 
 /**
@@ -214,11 +215,11 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
 
     private fun resultStatus(resultCode: Int): String =
         when (resultCode) {
-            ApiProperty.okCode -> OK
-            ApiProperty.badRequestCode -> BAD_REQUEST
+            ApiProperty.okCode, HttpStatus.OK.value() -> OK
+            ApiProperty.badRequestCode, HttpStatus.BAD_REQUEST.value() -> BAD_REQUEST
             ApiProperty.preconditionFailedCode -> PRECONDITION_FAILED
             ApiProperty.unauthorizedCode -> UNAUTHORIZED
-            in 400 * 100..499 * 100 -> BAD_REQUEST
+            in 400 * 100..499 * 100, in 400..499 -> BAD_REQUEST
             in 100 * 100..199 * 100 -> OK
             else -> INTERNAL_SERVER_ERROR
         }

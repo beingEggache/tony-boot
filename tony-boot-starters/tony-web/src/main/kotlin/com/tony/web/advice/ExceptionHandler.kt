@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.servlet.resource.NoResourceFoundException
 
 /**
  * 全局异常处理
@@ -134,32 +135,54 @@ internal class ExceptionHandler : ErrorController {
     @ExceptionHandler(
         value = [
             MissingRequestValueException::class,
-            HttpMessageNotReadableException::class,
-            HttpRequestMethodNotSupportedException::class
+            HttpMessageNotReadableException::class
         ]
     )
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     fun badRequestException(e: Exception) =
         run {
             logger.warn(e.localizedMessage)
             errorResponse(
                 ApiProperty.badRequestMsg,
-                ApiProperty.badRequestCode
+                HttpStatus.BAD_REQUEST.value()
             )
         }
 
+    @ExceptionHandler(HttpRequestMethodNotSupportedException::class)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    @ResponseBody
+    fun methodNotSupportException(e: HttpRequestMethodNotSupportedException) =
+        run {
+            errorResponse(
+                e.localizedMessage,
+                HttpStatus.METHOD_NOT_ALLOWED.value()
+            )
+        }
+
+    @ExceptionHandler(NoResourceFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    fun notFoundException(e: NoResourceFoundException) =
+        errorResponse(
+            "${e.resourcePath} not found.",
+            HttpStatus.NOT_FOUND.value()
+        )
+
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
-    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     fun error() =
-        when {
-            WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
-            WebContext.httpStatus >= 500 -> {
-                logger.error(WebContext.errorMessage)
-                errorResponse(ApiProperty.errorMsg)
-            }
+        run {
+            WebContext.response?.status = HttpStatus.OK.value()
+            when {
+                WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
+                WebContext.httpStatus >= 500 -> {
+                    logger.error(WebContext.errorMessage)
+                    errorResponse(ApiProperty.errorMsg)
+                }
 
-            else -> errorResponse(WebContext.error, WebContext.httpStatus * 100)
+                else -> errorResponse(WebContext.error, WebContext.httpStatus)
+            }
         }
 
     /**
