@@ -16,6 +16,7 @@ ENV JAVA_OPTS="\
 -XX:+UseZGC \
 -XX:+ZGenerational \
 -XX:+EnableDynamicAgentLoading \
+-XX:+SegmentedCodeCache \
 -XX:+UseStringDeduplication \
 -XX:+UnlockDiagnosticVMOptions \
 -XX:+UnlockExperimentalVMOptions \
