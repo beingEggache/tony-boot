@@ -25,7 +25,7 @@ template = "0.1-SNAPSHOT"
 java = "21"
 kotlin = "1.9.22"
 spring = "6.1.4"
-springBoot = "3.2.2"
+springBoot = "3.2.3"
 
 slf4j = "2.0.12"
 logstashLogbackEncoder = "7.4"
@@ -42,9 +42,9 @@ lettuce = "6.3.1.RELEASE"
 
 jackson = "2.16.1"
 gson = "2.10.1"
-fastjson = "2.0.45"
+fastjson = "2.0.46"
 
-postgresql = "42.7.1"
+postgresql = "42.7.2"
 mysql = "8.3.0"
 
 hikariCP = "5.1.0"
@@ -69,8 +69,8 @@ springdocStarter = "2.3.0"
 
 fury = "0.4.1"
 
-powerjob = "4.3.6"
-vertx = "4.5.2"
+powerjob = "4.3.7"
+vertx = "4.5.4"
 
 springCloud = "2023.0.0"
 springCloudAlibaba = "2022.0.0.0"
@@ -158,7 +158,7 @@ okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.8.0" }
 commonFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.5" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.16.1" }
 commonsIo = { module = "commons-io:commons-io", version = "2.15.1" }
-commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.25.0" }
+commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.26.0" }
 commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.0" }
 commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.14.0" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
