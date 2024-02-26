@@ -24,6 +24,7 @@
 
 package com.tony.codec
 
+import com.tony.utils.string
 import java.util.Base64
 
 /**
@@ -35,11 +36,32 @@ import java.util.Base64
 public data object Base64Codec : Codec {
     override fun encodeToByteArray(src: ByteArray): ByteArray =
         Base64
-            .getUrlEncoder()
+            .getEncoder()
             .encode(src)
+
+    override fun encodeToString(src: ByteArray): String =
+        Base64
+            .getEncoder()
+            .encodeToString(src)
 
     override fun decodeToByteArray(src: ByteArray): ByteArray =
         Base64
+            .getDecoder()
+            .decode(src)
+
+    override fun decodeToByteArray(src: CharSequence): ByteArray =
+        Base64
+            .getDecoder()
+            .decode(src.toString())
+
+    public fun encodeToStringUrlSafe(src: String): String =
+        Base64
+            .getUrlEncoder()
+            .encodeToString(src.toByteArray())
+
+    public fun decodeToStringUrlSafe(src: String): String =
+        Base64
             .getUrlDecoder()
             .decode(src)
+            .string()
 }

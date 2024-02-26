@@ -25,8 +25,8 @@
 package com.tony.wechat
 
 import com.tony.SpringContexts
+import com.tony.codec.Base64Codec
 import com.tony.utils.sha1
-import com.tony.utils.string
 import com.tony.utils.urlEncode
 import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu
@@ -39,7 +39,6 @@ import com.tony.wechat.client.resp.WechatQrCodeResp
 import com.tony.wechat.client.resp.WechatResp
 import com.tony.wechat.client.resp.WechatUserInfoResp
 import com.tony.wechat.client.resp.WechatUserTokenResp
-import java.util.Base64
 import org.springframework.validation.annotation.Validated
 
 /**
@@ -234,10 +233,7 @@ public data object WechatManager {
             .body()
             .asInputStream()
             .use {
-                Base64
-                    .getEncoder()
-                    .encode(it.readAllBytes())
-                    .string()
+                Base64Codec.encodeToString(it.readAllBytes())
             }
 
     @JvmOverloads
