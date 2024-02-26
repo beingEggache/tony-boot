@@ -25,6 +25,7 @@
 package com.tony.wechat
 
 import com.tony.SpringContexts
+import com.tony.utils.sha1
 import com.tony.utils.string
 import com.tony.utils.urlEncode
 import com.tony.wechat.client.WechatClient
@@ -39,7 +40,6 @@ import com.tony.wechat.client.resp.WechatResp
 import com.tony.wechat.client.resp.WechatUserInfoResp
 import com.tony.wechat.client.resp.WechatUserTokenResp
 import java.util.Base64
-import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.validation.annotation.Validated
 
 /**
@@ -72,11 +72,10 @@ public data object WechatManager {
         timestamp: String,
         app: String = "",
     ): Boolean =
-        DigestUtils.sha1Hex(
-            listOf(wechatPropProvider.token(app), timestamp, nonce)
-                .sorted()
-                .joinToString("")
-        ) == signature
+        listOf(wechatPropProvider.token(app), timestamp, nonce)
+            .sorted()
+            .joinToString("")
+            .sha1() == signature
 
     @JvmStatic
     public fun checkSignatureDirect(
@@ -85,11 +84,10 @@ public data object WechatManager {
         timestamp: String,
         token: String,
     ): Boolean =
-        DigestUtils.sha1Hex(
-            listOf(token, timestamp, nonce)
-                .sorted()
-                .joinToString("")
-        ) == signature
+        listOf(token, timestamp, nonce)
+            .sorted()
+            .joinToString("")
+            .sha1() == signature
 
     @JvmOverloads
     @JvmStatic
@@ -159,16 +157,14 @@ public data object WechatManager {
         url: String,
         app: String,
     ): String =
-        DigestUtils.sha1Hex(
-            listOf(
-                "jsapi_ticket" to getTicket(app),
-                "noncestr" to nonceStr,
-                "timestamp" to timestamp,
-                "url" to url
-            ).joinToString("&") {
-                "${it.first}=${it.second}"
-            }
-        )
+        listOf(
+            "jsapi_ticket" to getTicket(app),
+            "noncestr" to nonceStr,
+            "timestamp" to timestamp,
+            "url" to url
+        ).joinToString("&") {
+            "${it.first}=${it.second}"
+        }.sha1()
 
     @JvmOverloads
     @JvmStatic

@@ -15,6 +15,7 @@ dependencies {
     }
     implementation(Build.templateProject("web")) { isChanging = true }
     implementation(Build.templateProject("web-auth")) { isChanging = true }
-    testImplementation(Build.templateProject("fus")) { isChanging = true }
     implementation(project(":tony-service"))
+
+    testImplementation(Build.templateProject("fus")) { isChanging = true }
 }
