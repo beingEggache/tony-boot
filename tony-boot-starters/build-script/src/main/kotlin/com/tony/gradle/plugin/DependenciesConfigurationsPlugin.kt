@@ -25,6 +25,7 @@
 package com.tony.gradle.plugin
 
 import java.util.concurrent.TimeUnit
+import org.gradle.api.InvalidUserDataException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -63,13 +64,18 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
         }
     }
 
-    private fun canReplacedDependencies(target: Project):Map<String,String> {
+    private fun canReplacedDependencies(target: Project): Map<String, String> {
         val versionCatalog =
-            target
-                .rootProject
-                .extensions
-                .getByType<VersionCatalogsExtension>()
-                .named("tonyLibs")
+            try {
+                target
+                    .rootProject
+                    .extensions
+                    .getByType<VersionCatalogsExtension>()
+                    .named("tonyLibs")
+            } catch (e: InvalidUserDataException) {
+                target.logger.warn(e.message)
+                return mapOf()
+            }
 
         val kotlinVersion = versionCatalog.findVersion("kotlin").get()
         val bouncycastleVersion = versionCatalog.findVersion("bouncycastle").get()

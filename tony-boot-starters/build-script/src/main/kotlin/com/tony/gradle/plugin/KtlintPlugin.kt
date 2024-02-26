@@ -24,6 +24,7 @@
 
 package com.tony.gradle.plugin
 
+import org.gradle.api.InvalidUserDataException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
@@ -41,11 +42,16 @@ class KtlintPlugin : Plugin<Project> {
         val ktlint: Configuration by target.configurations.creating
 
         val versionCatalog =
-            target
-                .rootProject
-                .extensions
-                .getByType<VersionCatalogsExtension>()
-                .named("tonyLibs")
+            try {
+                target
+                    .rootProject
+                    .extensions
+                    .getByType<VersionCatalogsExtension>()
+                    .named("tonyLibs")
+            } catch (e: InvalidUserDataException) {
+                target.logger.warn(e.message)
+                return
+            }
 
         target.dependencies {
             ktlint(versionCatalog.findLibrary("ktlint").get())
