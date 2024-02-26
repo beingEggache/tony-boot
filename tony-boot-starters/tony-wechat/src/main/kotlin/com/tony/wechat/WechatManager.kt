@@ -231,9 +231,10 @@ public data object WechatManager {
         wechatClient
             .createMiniProgramQrcode(req, accessToken)
             .body()
-            .asInputStream()
-            .use {
-                Base64Codec.encodeToString(it.readAllBytes())
+            .use { body ->
+                body.asInputStream().use { inputStream ->
+                    Base64Codec.encodeToString(inputStream.readAllBytes())
+                }
             }
 
     @JvmOverloads
