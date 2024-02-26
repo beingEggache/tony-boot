@@ -36,7 +36,10 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
  * @date 2023/11/09 19:39
  * @since 1.0.0
  */
-public interface FusExpressionEvaluator {
+internal data object FusExpressionEvaluator {
+    @JvmStatic
+    private val expressionParser: ExpressionParser = SpelExpressionParser()
+
     /**
      * 根据表达式串、参数解析表达式并返回指定类型
      * @param [conditionList] 条件组列表
@@ -45,12 +48,24 @@ public interface FusExpressionEvaluator {
      * @date 2023/11/09 19:39
      * @since 1.0.0
      */
-    public fun eval(
+    @JvmSynthetic
+    @JvmStatic
+    internal fun eval(
         conditionList: List<List<FusNodeExpression>>,
         args: Map<String, Any?>,
-    ): Boolean
+    ): Boolean =
+        eval(conditionList) { expr ->
+            StandardEvaluationContext().run {
+                setVariables(args)
+                expressionParser
+                    .parseExpression(expr)
+                    .getValue(this, Boolean::class.java)
+                    .fusThrowIfNull()
+            }
+        }
 
-    public fun eval(
+    @JvmStatic
+    private fun eval(
         conditionList: List<List<FusNodeExpression>>,
         func: java.util.function.Function<String, Boolean>,
     ): Boolean {
@@ -66,22 +81,4 @@ public interface FusExpressionEvaluator {
 
         return func.apply(expr)
     }
-}
-
-internal class SpelExpressionEvaluator(
-    private val expressionParser: ExpressionParser = SpelExpressionParser(),
-) : FusExpressionEvaluator {
-    override fun eval(
-        conditionList: List<List<FusNodeExpression>>,
-        args: Map<String, Any?>,
-    ): Boolean =
-        eval(conditionList) { expr ->
-            StandardEvaluationContext().run {
-                setVariables(args)
-                expressionParser
-                    .parseExpression(expr)
-                    .getValue(this, Boolean::class.java)
-                    .fusThrowIfNull()
-            }
-        }
 }
