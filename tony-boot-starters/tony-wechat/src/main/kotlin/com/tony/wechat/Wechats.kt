@@ -78,7 +78,8 @@ internal fun <T> genMd5UpperCaseSign(
     return deepLink.md5().uppercase()
 }
 
-public fun <T : WechatResp> T.check(): T {
+@JvmSynthetic
+internal fun <T : WechatResp> T.check(): T {
     if (!success) {
         throw WechatException("errcode: $errCode, errmsg: $errMsg")
     }
