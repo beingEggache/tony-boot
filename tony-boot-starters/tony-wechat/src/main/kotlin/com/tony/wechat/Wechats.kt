@@ -47,7 +47,8 @@ internal fun genNonceStr() =
 internal fun genTimeStamp() =
     LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
 
-public fun <T> T.toQueryString(
+@JvmSynthetic
+internal fun <T> T.toQueryString(
     vararg params: Pair<String, Any?>,
     filter: ((Map.Entry<String, Any>) -> Boolean),
 ): String =
@@ -66,17 +67,15 @@ public fun <T> T.toQueryString(
 internal fun <T> genMd5UpperCaseSign(
     obj: T,
     vararg params: Pair<String, Any?>,
-): String {
-    val deepLink =
-        obj.toQueryString(*params) {
+): String =
+    obj
+        .toQueryString(*params) {
             it.value !is String &&
                 it
                     .value
                     .toString()
                     .isNotBlank()
-        }
-    return deepLink.md5().uppercase()
-}
+        }.md5().uppercase()
 
 @JvmSynthetic
 internal fun <T : WechatResp> T.check(): T {
