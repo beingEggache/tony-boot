@@ -77,23 +77,11 @@ public data object Fus {
 
     @get:JvmSynthetic
     @JvmStatic
-    public val expressionEvaluator: FusExpressionEvaluator by SpringContexts.getBeanByLazy<FusExpressionEvaluator>()
-
-    @get:JvmSynthetic
-    @JvmStatic
-    public val taskPermission: FusTaskPermission by SpringContexts.getBeanByLazy<FusTaskPermission>()
-
-    @get:JvmSynthetic
-    @JvmStatic
-    public val interceptors: List<FusInterceptor> by SpringContexts.getBeanListByLazy<FusInterceptor>()
-
-    @get:JvmSynthetic
-    @JvmStatic
-    public val processModelParser: FusProcessModelParser = DefaultFusProcessModelParser()
+    internal val interceptors: List<FusInterceptor> by SpringContexts.getBeanListByLazy<FusInterceptor>()
 
     @JvmSynthetic
     @JvmStatic
-    public fun taskActorProvider(): FusTaskActorProvider =
+    internal fun taskActorProvider(): FusTaskActorProvider =
         SpringContexts.getBean(FusTaskActorProvider::class.java)
 
     private fun startProcess(
@@ -605,7 +593,7 @@ public data object Fus {
                         .conditionNodes
                         .sortedBy { it.priority }
                         .firstOrNull {
-                            expressionEvaluator
+                            FusExpressionEvaluator
                                 .eval(
                                     it.expressionList,
                                     execution
@@ -662,7 +650,7 @@ public data object Fus {
                 fusThrowIf(task.taskType == TaskType.MAJOR, "存在未完成的主办任务")
                 taskService.complete(task.taskId, execution.userId)
             }
-        processModelParser.invalidate("FUS_PROCESS_INSTANCE_MODEL:$instanceId")
+        FusProcessModelParser.invalidate("FUS_PROCESS_INSTANCE_MODEL:$instanceId")
         runtimeService.asToNotNull<RuntimeServiceImpl>().complete(execution)
     }
 }

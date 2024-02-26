@@ -36,8 +36,6 @@ import com.tony.fus.db.mapper.FusInstanceMapper
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.mapper.FusTaskActorMapper
 import com.tony.fus.db.mapper.FusTaskMapper
-import com.tony.fus.expression.FusExpressionEvaluator
-import com.tony.fus.expression.SpelExpressionEvaluator
 import com.tony.fus.listener.InstanceListener
 import com.tony.fus.listener.TaskListener
 import com.tony.fus.service.ProcessService
@@ -133,11 +131,6 @@ internal class FusConfig {
     @Bean
     internal fun taskPermission(): FusTaskPermission =
         DefaultTaskPermission()
-
-    @ConditionalOnMissingBean(FusExpressionEvaluator::class)
-    @Bean
-    internal fun expressionEvaluator(): FusExpressionEvaluator =
-        SpelExpressionEvaluator()
 
     @ConditionalOnMissingBean(FusTaskActorProvider::class)
     @Bean(autowireCandidate = false)

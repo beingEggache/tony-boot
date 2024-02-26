@@ -25,6 +25,7 @@
 package com.tony.fus.service
 
 import com.tony.fus.Fus
+import com.tony.fus.FusProcessModelParser
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.po.FusProcess
 import com.tony.fus.extension.fusListThrowIfEmpty
@@ -149,10 +150,7 @@ internal class ProcessServiceImpl(
         fusThrowIf(modelContent.isEmpty(), "modelContent can not be empty")
 
         val compressedModelContent = modelContent.jsonNode().toString()
-        val processModel =
-            Fus
-                .processModelParser
-                .parse(compressedModelContent)
+        val processModel = FusProcessModelParser.parse(compressedModelContent)
 
         val process =
             processMapper
@@ -196,7 +194,7 @@ internal class ProcessServiceImpl(
         processVersion: Int,
     ): Boolean {
         val process = processMapper.fusSelectByIdNotNull(processId)
-        val processModel = Fus.processModelParser.parse(modelContent, process.modelKey, true)
+        val processModel = FusProcessModelParser.parse(modelContent, process.modelKey, true)
         process.processVersion = processVersion
         process.processName = processModel.name
         process.processKey = processModel.key

@@ -26,6 +26,7 @@ package com.tony.fus.service
 
 import com.tony.SpringContexts
 import com.tony.fus.Fus
+import com.tony.fus.FusProcessModelParser
 import com.tony.fus.db.enums.InstanceState
 import com.tony.fus.db.enums.TaskState
 import com.tony.fus.db.mapper.FusExtInstanceMapper
@@ -376,7 +377,7 @@ internal open class RuntimeServiceImpl(
                 .set(FusExtInstance::modelContent, processModel.toJsonString())
                 .update()
         fusThrowIf(!result, "update ext instance failed.")
-        Fus.processModelParser.invalidate(extInstance.modelKey)
+        FusProcessModelParser.invalidate(extInstance.modelKey)
     }
 
     private fun forceComplete(

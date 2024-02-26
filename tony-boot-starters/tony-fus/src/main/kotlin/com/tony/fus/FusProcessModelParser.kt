@@ -38,7 +38,10 @@ import com.tony.utils.jsonToObj
  * @date 2023/11/02 19:15
  * @since 1.0.0
  */
-public interface FusProcessModelParser {
+internal data object FusProcessModelParser {
+    @JvmStatic
+    private val cache: FusCache = DefaultFusCache()
+
     /**
      * 流程模型 JSON 解析
      * @param [content] 模型内容
@@ -49,36 +52,9 @@ public interface FusProcessModelParser {
      * @date 2023/11/02 19:16
      * @since 1.0.0
      */
-    public fun parse(
-        content: String,
-        key: String,
-        redeploy: Boolean,
-    ): FusProcessModel
-
-    /**
-     * 流程模型 JSON 解析
-     * @param [content] 模型内容
-     * @return [FusProcessModel]
-     * @author Tang Li
-     * @date 2024/01/23 16:02
-     * @since 1.0.0
-     */
-    public fun parse(content: String): FusProcessModel
-
-    /**
-     * 使缓存失效
-     * @param [key] 钥匙
-     * @author Tang Li
-     * @date 2024/01/24 11:00
-     * @since 1.0.0
-     */
-    public fun invalidate(key: String)
-}
-
-internal class DefaultFusProcessModelParser(
-    private val cache: FusCache = DefaultFusCache(),
-) : FusProcessModelParser {
-    override fun parse(
+    @JvmSynthetic
+    @JvmStatic
+    internal fun parse(
         content: String,
         key: String,
         redeploy: Boolean,
@@ -95,14 +71,33 @@ internal class DefaultFusProcessModelParser(
             }
     }
 
-    override fun parse(content: String): FusProcessModel =
+    /**
+     * 流程模型 JSON 解析
+     * @param [content] 模型内容
+     * @return [FusProcessModel]
+     * @author Tang Li
+     * @date 2024/01/23 16:02
+     * @since 1.0.0
+     */
+    @JvmSynthetic
+    @JvmStatic
+    internal fun parse(content: String): FusProcessModel =
         content
             .fusThrowIfNullOrEmpty("model content empty")
             .jsonToObj<FusProcessModel>()
             .fusThrowIfNull("fus processModel model parse error")
             .buildParentNode()
 
-    override fun invalidate(key: String) {
+    /**
+     * 使缓存失效
+     * @param [key] 钥匙
+     * @author Tang Li
+     * @date 2024/01/24 11:00
+     * @since 1.0.0
+     */
+    @JvmSynthetic
+    @JvmStatic
+    internal fun invalidate(key: String) {
         cache.remove(key)
     }
 }
