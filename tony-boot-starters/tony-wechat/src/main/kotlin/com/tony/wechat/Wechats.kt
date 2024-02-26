@@ -75,7 +75,8 @@ internal fun <T> genMd5UpperCaseSign(
                     .value
                     .toString()
                     .isNotBlank()
-        }.md5().uppercase()
+        }.md5()
+        .uppercase()
 
 @JvmSynthetic
 internal fun <T : WechatResp> T.check(): T {
