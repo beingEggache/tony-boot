@@ -26,7 +26,9 @@ package com.tony.wechat
 
 import com.tony.SpringContexts
 import com.tony.codec.Base64Codec
+import com.tony.utils.jsonToObj
 import com.tony.utils.sha1
+import com.tony.utils.string
 import com.tony.utils.urlEncode
 import com.tony.wechat.client.WechatClient
 import com.tony.wechat.client.req.WechatMenu
@@ -39,6 +41,7 @@ import com.tony.wechat.client.resp.WechatQrCodeResp
 import com.tony.wechat.client.resp.WechatResp
 import com.tony.wechat.client.resp.WechatUserInfoResp
 import com.tony.wechat.client.resp.WechatUserTokenResp
+import org.springframework.http.MediaType
 import org.springframework.validation.annotation.Validated
 
 /**
@@ -230,11 +233,24 @@ public data object WechatManager {
     ): String =
         wechatClient
             .createMiniProgramQrcode(req, accessToken)
-            .body()
-            .use { body ->
-                body.asInputStream().use { inputStream ->
-                    Base64Codec.encodeToString(inputStream.readAllBytes())
-                }
+            .let { response ->
+                response
+                    .body()
+                    .use { body ->
+                        body.asInputStream().use { inputStream ->
+                            val contentType =
+                                response
+                                    .headers()
+                                    .get("Content-Type")
+                                    .orEmpty()
+                                    .first()
+                            val bytes = inputStream.readAllBytes()
+                            if (MediaType.parseMediaType(contentType).includes(MediaType.APPLICATION_JSON)) {
+                                bytes.string().jsonToObj<WechatResp>().check()
+                            }
+                            Base64Codec.encodeToString(bytes)
+                        }
+                    }
             }
 
     @JvmOverloads
