@@ -30,10 +30,12 @@ package com.tony.wechat.client.req
  * @author wyf
  * @date 2022/08/31 19:26
  */
-public data class WechatMiniProgramQrCodeCreateReq(
-    val scene: String,
-    val page: String,
-)
+public data class WechatMiniProgramQrCodeCreateReq
+    @JvmOverloads
+    constructor(
+        val scene: String,
+        val page: String = "",
+    )
 
 public data class WechatMiniProgramUserPhoneReq(
     val code: String,
