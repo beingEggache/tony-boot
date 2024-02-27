@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tony.fus.expression
+package com.tony.fus
 
 import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.model.FusNodeExpression
