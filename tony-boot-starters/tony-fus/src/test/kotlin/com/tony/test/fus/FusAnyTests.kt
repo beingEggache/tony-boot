@@ -25,7 +25,6 @@
 package com.tony.test.fus
 
 import com.tony.PageQuery
-import com.tony.PageResult
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.po.FusProcess
 import com.tony.utils.getLogger
@@ -53,7 +52,7 @@ class FusAnyTests {
         val pageResult = processMapper
             .ktQuery()
             .orderByDesc(FusProcess::sort)
-            .pageResult<PageResult<FusProcess>>(PageQuery<String>(1,3))
+            .pageResult(PageQuery<String>(1,3))
 
         logger.info(pageResult.toJsonString())
     }

@@ -38,7 +38,6 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.tony.PageQueryLike
 import com.tony.PageResult
-import com.tony.PageResultLike
 import java.util.Collections
 
 /**
@@ -68,12 +67,12 @@ public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
 
 /**
  * 将 mybatis-plus 的分页对象改为全局统一分页结构
- * @return [E]
+ * @return [T]
  * @author Tang Li
  * @date 2023/09/28 19:55
  * @since 1.0.0
  */
-public fun <T, E : PageResultLike<T>> IPage<T>?.toPageResult(): E =
+public fun <T> IPage<T>?.toPageResult(): PageResult<T> =
     if (this == null) {
         EMPTY_PAGE_RESULT
     } else {

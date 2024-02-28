@@ -195,23 +195,23 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     /**
      * 分页查询出全局统一结构.
      * @param [page] 全局统一请求分页结构.
-     * @return [E]
+     * @return [PageResultLike<T>]
      * @author Tang Li
      * @date 2023/10/23 19:49
      * @since 1.0.0
      */
-    public fun <E : PageResultLike<T>> pageResult(page: PageQueryLike<*>): E =
+    public fun pageResult(page: PageQueryLike<*>): PageResultLike<T> =
         baseMapper.selectPageResult(page, wrapper)
 
     /**
      * 查询全局统一分页结构.
      * @param [page] 全局统一请求分页结构.
-     * @return [E]
+     * @return [PageResultLike<Map<String, Any?>>]
      * @author Tang Li
      * @date 2023/10/23 19:49
      * @since 1.0.0
      */
-    public fun <E : PageResultLike<Map<String, Any?>>> mapPageResult(page: PageQueryLike<*>): E =
+    public fun mapPageResult(page: PageQueryLike<*>): PageResultLike<Map<String, Any?>> =
         baseMapper.selectMapPageResult(page, wrapper)
 
     /**

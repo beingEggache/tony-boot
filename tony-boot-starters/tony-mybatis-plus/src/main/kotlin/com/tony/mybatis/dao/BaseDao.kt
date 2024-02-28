@@ -338,30 +338,30 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 分页查询出全局统一结构.
      * @param [page] 页
      * @param [queryWrapper] 查询包装器
-     * @return [E]
+     * @return [PageResultLike]
      * @author Tang Li
      * @date 2023/09/13 19:39
      * @since 1.0.0
      */
-    public fun <E : PageResultLike<T>> selectPageResult(
+    public fun selectPageResult(
         page: PageQueryLike<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
-    ): E =
+    ): PageResultLike<T> =
         selectPage(page.toPage(), queryWrapper).toPageResult()
 
     /**
      * 分页查询出全局统一结构.
      * @param [page] 页
      * @param [queryWrapper] 查询包装器
-     * @return [E]
+     * @return [PageResultLike<Map<String, Any?>>]
      * @author Tang Li
      * @date 2023/10/23 19:42
      * @since 1.0.0
      */
-    public fun <E : PageResultLike<Map<String, Any?>>> selectMapPageResult(
+    public fun selectMapPageResult(
         page: PageQueryLike<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
-    ): E =
+    ): PageResultLike<Map<String, Any?>> =
         selectMapsPage(page.toPage(), queryWrapper).toPageResult()
 
     /**
