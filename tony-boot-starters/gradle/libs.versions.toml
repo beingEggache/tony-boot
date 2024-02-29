@@ -69,7 +69,7 @@ springdocStarter = "2.3.0"
 
 fury = "0.4.1"
 
-powerjob = "4.3.7"
+powerjob = "4.3.8"
 vertx = "4.5.4"
 
 springCloud = "2023.0.0"
