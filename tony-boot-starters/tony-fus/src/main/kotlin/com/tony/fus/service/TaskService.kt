@@ -790,6 +790,10 @@ internal open class TaskServiceImpl(
                 .taskActorProvider()
                 .listTaskActors(node, execution)
 
+        if (nodeType != NodeType.CC) {
+            updateCurrentNode(task.instanceId, task.taskName, task.creatorId)
+        }
+
         when (nodeType) {
             NodeType.INITIATOR ->
                 saveTask(
@@ -861,9 +865,6 @@ internal open class TaskServiceImpl(
             }
 
             else -> {}
-        }
-        if (nodeType != NodeType.CC) {
-            updateCurrentNode(task.instanceId, task.taskName, task.creatorId)
         }
     }
 
