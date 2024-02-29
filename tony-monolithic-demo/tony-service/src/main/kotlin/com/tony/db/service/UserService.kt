@@ -57,7 +57,7 @@ class UserService(
                 req.query
             ).or(!req.query.isNullOrBlank()) {
                 it.like(User::realName, req.query)
-            }.pageResult<PageResult<User>>(req)
+            }.pageResult(req)
             .map { it.copyTo<UserResp>() }
 
     @Transactional

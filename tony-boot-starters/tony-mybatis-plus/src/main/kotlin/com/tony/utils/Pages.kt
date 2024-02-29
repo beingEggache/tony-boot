@@ -67,7 +67,7 @@ public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
 
 /**
  * 将 mybatis-plus 的分页对象改为全局统一分页结构
- * @return [T]
+ * @return [PageResult]
  * @author Tang Li
  * @date 2023/09/28 19:55
  * @since 1.0.0
