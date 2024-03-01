@@ -75,9 +75,9 @@ vertx = "4.5.4"
 springCloud = "2023.0.0"
 springCloudAlibaba = "2022.0.0.0"
 
-lombok = "8.4"
+lombok = "8.6"
 ktlint = "1.2.1"
-graalvm = "0.9.28"
+graalvm = "0.10.1"
 dokka = "1.9.10"
 
 [libraries]
