@@ -76,7 +76,7 @@ springCloud = "2023.0.0"
 springCloudAlibaba = "2022.0.0.0"
 
 lombok = "8.4"
-ktlint = "1.1.1"
+ktlint = "1.2.1"
 graalvm = "0.9.28"
 dokka = "1.9.10"
 

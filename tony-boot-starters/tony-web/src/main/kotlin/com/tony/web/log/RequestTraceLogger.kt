@@ -205,6 +205,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
                 ?.toInt()
         return when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
+
             response.status2xxSuccessful ||
                 response.status3xxRedirection ||
                 response.status1xxInformational -> ApiProperty.okCode

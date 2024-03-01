@@ -62,8 +62,10 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
     ): ApiResult<*> =
         when {
             body == null -> ApiResult(Unit, ApiProperty.okCode)
+
             !body::class.java
                 .isArrayLikeType() -> ApiResult(body, ApiProperty.okCode)
+
             else ->
                 if (body::class.java
                         .isArray

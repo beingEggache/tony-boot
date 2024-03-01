@@ -18,6 +18,7 @@ ktlint_code_style = ktlint_official
 # ktlint_standard_some-experimental-rule = enabled # Enables the (experimental) `some-experimental-rule` in the `standard` rule set provided by KtLint
 # ktlint_custom-rule-set_custom-rule = disabled # Disables the `custom-rule` rule in the `custom-rule-set` rule set (not provided by KtLint)
 ktlint_experimental=enabled
+ktlint_standard_kdoc = disabled
 ktlint_standard_no-consecutive-comments = disabled
 
 annotation = true

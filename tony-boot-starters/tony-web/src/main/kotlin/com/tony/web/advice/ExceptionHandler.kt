@@ -176,6 +176,7 @@ internal class ExceptionHandler : ErrorController {
             WebContext.response?.status = HttpStatus.OK.value()
             when {
                 WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
+
                 WebContext.httpStatus >= 500 -> {
                     logger.error(WebContext.errorMessage)
                     errorResponse(ApiProperty.errorMsg)

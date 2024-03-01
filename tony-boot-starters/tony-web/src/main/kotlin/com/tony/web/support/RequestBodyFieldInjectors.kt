@@ -47,7 +47,9 @@ internal class IfNullRequestBodyFieldInjector : RequestBodyFieldInjector(DEFAULT
     override fun value(fieldType: Class<*>): Any? =
         when {
             fieldType.isStringLikeType() -> ""
+
             fieldType.isArrayLikeType() -> "[]".jsonToObj(fieldType)
+
             !fieldType.isTypesOrSubTypesOf(
                 Enum::class.java,
                 Date::class.java,

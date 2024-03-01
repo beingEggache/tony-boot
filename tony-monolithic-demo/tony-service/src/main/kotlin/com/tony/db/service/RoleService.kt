@@ -81,8 +81,8 @@ class RoleService(
             req.roleIdList.forEach { roleId ->
                 roleDao.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
                 roleDao.insertUserRole(userId, roleId)
-                ModuleDao.clearModuleCache(userId)
             }
+            moduleDao.clearModuleCache(userId)
         }
     }
 
@@ -100,8 +100,8 @@ class RoleService(
             moduleIdList.forEach { moduleId ->
                 roleDao.selectById(roleId) ?: throw BizException("不存在的模块:$moduleId")
                 roleDao.insertRoleModule(roleId, moduleId)
-                ModuleDao.clearModuleCache()
             }
         }
+        moduleDao.clearModuleCache()
     }
 }

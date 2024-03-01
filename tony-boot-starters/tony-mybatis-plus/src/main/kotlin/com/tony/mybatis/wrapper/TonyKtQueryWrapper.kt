@@ -114,8 +114,15 @@ public open class TonyKtQueryWrapper<T : Any> :
      */
     override fun instance(): TonyKtQueryWrapper<T> =
         TonyKtQueryWrapper(
-            entity, entityClass, sqlSelect, paramNameSeq, paramNameValuePairs, columnMap,
-            SharedString.emptyString(), SharedString.emptyString(), SharedString.emptyString()
+            entity,
+            entityClass,
+            sqlSelect,
+            paramNameSeq,
+            paramNameValuePairs,
+            columnMap,
+            SharedString.emptyString(),
+            SharedString.emptyString(),
+            SharedString.emptyString()
         )
 
     override fun clear() {

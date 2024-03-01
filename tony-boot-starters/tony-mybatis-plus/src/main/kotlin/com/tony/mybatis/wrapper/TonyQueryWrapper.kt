@@ -129,8 +129,16 @@ public open class TonyQueryWrapper<T : Any> :
      */
     public fun lambda(): TonyLambdaQueryWrapper<T> =
         TonyLambdaQueryWrapper(
-            entity, entityClass, sqlSelect, paramNameSeq, paramNameValuePairs,
-            expression, paramAlias, lastSql, sqlComment, sqlFirst
+            entity,
+            entityClass,
+            sqlSelect,
+            paramNameSeq,
+            paramNameValuePairs,
+            expression,
+            paramAlias,
+            lastSql,
+            sqlComment,
+            sqlFirst
         )
 
     /**
@@ -142,8 +150,15 @@ public open class TonyQueryWrapper<T : Any> :
      */
     override fun instance(): TonyQueryWrapper<T> =
         TonyQueryWrapper(
-            entity, entityClass, paramNameSeq, paramNameValuePairs, MergeSegments(),
-            paramAlias, SharedString.emptyString(), SharedString.emptyString(), SharedString.emptyString()
+            entity,
+            entityClass,
+            paramNameSeq,
+            paramNameValuePairs,
+            MergeSegments(),
+            paramAlias,
+            SharedString.emptyString(),
+            SharedString.emptyString(),
+            SharedString.emptyString()
         )
 
     override fun clear() {

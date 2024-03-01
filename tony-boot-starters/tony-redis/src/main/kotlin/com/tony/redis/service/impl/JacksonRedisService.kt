@@ -87,8 +87,11 @@ internal class JacksonRedisService : RedisService {
         }
         return when {
             type.isNumberTypes() -> toNum(type)
+
             type.isStringLikeType() -> toString().trimQuotes()
+
             type == EnumValue::class.java && this is EnumValue<*> -> this
+
             type.isTypesOrSubTypesOf(StringEnumValue::class.java) -> {
                 StringEnumCreator
                     .getCreator(type)
@@ -102,6 +105,7 @@ internal class JacksonRedisService : RedisService {
             }
 
             this.isTypesOrSubTypesOf(type) -> this
+
             else -> func(toString())
         }.asTo()
     }

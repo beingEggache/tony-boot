@@ -133,12 +133,18 @@ public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
 
 private val NUMBER_TYPES: Array<Class<*>?> =
     arrayOf(
-        Long::class.javaObjectType, Long::class.javaPrimitiveType,
-        Int::class.javaObjectType, Int::class.javaPrimitiveType,
-        Double::class.javaObjectType, Double::class.javaPrimitiveType,
-        Byte::class.javaObjectType, Byte::class.javaPrimitiveType,
-        Short::class.javaObjectType, Short::class.javaPrimitiveType,
-        Float::class.javaObjectType, Float::class.javaPrimitiveType,
+        Long::class.javaObjectType,
+        Long::class.javaPrimitiveType,
+        Int::class.javaObjectType,
+        Int::class.javaPrimitiveType,
+        Double::class.javaObjectType,
+        Double::class.javaPrimitiveType,
+        Byte::class.javaObjectType,
+        Byte::class.javaPrimitiveType,
+        Short::class.javaObjectType,
+        Short::class.javaPrimitiveType,
+        Float::class.javaObjectType,
+        Float::class.javaPrimitiveType,
         BigInteger::class.java,
         BigDecimal::class.java
     )
