@@ -27,7 +27,7 @@
 package com.tony.utils
 /**
  * ByteArray 工具类
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:53
  * @since 1.0.0
  */
@@ -37,7 +37,7 @@ import java.nio.charset.Charset
  * [ByteArray] 转字符串
  * @param [charset] 字符集
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:53
  * @since 1.0.0
  */

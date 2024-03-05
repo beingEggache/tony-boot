@@ -15,7 +15,7 @@ import java.time.LocalDateTime
  * 模块/权限表
  * </p>
  *
- * @author Tang Li
+ * @author tangli
  * @date 2020-11-15
  */
 @TableName("sys_module")

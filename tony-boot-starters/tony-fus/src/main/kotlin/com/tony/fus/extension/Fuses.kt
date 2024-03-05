@@ -96,7 +96,7 @@ internal inline fun <T> T?.fusThrowIfNull(
  * @param [message] 异常信息
  * @param [code] 异常代码
  * @return [C]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */
@@ -119,7 +119,7 @@ internal inline fun <C : Collection<T>, T : Any?> C?.fusThrowIfEmpty(
  * @param [message] 异常信息
  * @param [code] 异常代码
  * @return [C]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */
@@ -142,7 +142,7 @@ internal inline fun <C : Map<*, *>> C?.fusThrowIfEmpty(
  * @param [message] 异常信息
  * @param [code] 异常代码
  * @return [C]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */
@@ -160,7 +160,7 @@ public inline fun <C : CharSequence> C?.fusThrowIfNullOrEmpty(
  * @param [message] 消息
  * @param [code] 密码
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:38
  * @since 1.0.0
  */
@@ -176,7 +176,7 @@ internal inline fun <T : Any> BaseDao<T>.fusSelectByIdNotNull(
  * 查询单条记录.为 null 时抛出[FusException].
  * @param [message] 默认为 [ApiProperty.notFoundMessage]
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/10/23 19:50
  * @since 1.0.0
  */
@@ -192,7 +192,7 @@ internal inline fun <T : Any> TonyChainQuery<T>.fusOneNotNull(message: String = 
  * 异常信息为 [message]
  * @param [message] 消息
  * @return [TonyChainQuery.list]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */
@@ -205,7 +205,7 @@ internal inline fun <T : Any> TonyChainQuery<T>.fusListThrowIfEmpty(
 /**
  * 多人审批时审批方式 转换 参与类型
  * @return [PerformType]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/14 19:38
  * @since 1.0.0
  */

@@ -29,7 +29,7 @@ import com.tony.SpringContexts.Env
 /**
  * redis key 操作静态单例.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:56
  * @since 1.0.0
  */
@@ -41,7 +41,7 @@ public data object RedisKeys {
      * @param [template] 样板
      * @param [args] args
      * @return [String]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/28 19:56
      * @since 1.0.0
      */

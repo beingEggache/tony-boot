@@ -26,7 +26,7 @@
  * tony-boot-starters
  * WechatQrCodeCreateReq
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/09/26 19:22
  */
 package com.tony.wechat.client.req

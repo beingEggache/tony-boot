@@ -26,7 +26,7 @@ package com.tony.web
 
 /**
  * 默认ApiSession实现.
- * @author Tang Li
+ * @author tangli
  * @date 2021-04-20 11:12
  */
 import com.auth0.jwt.exceptions.JWTVerificationException
@@ -41,7 +41,7 @@ import com.tony.web.exception.UnauthorizedException
 /**
  * noop session. 获取用户标识永远抛出异常.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:15
  */
 internal class NoopWebSession : WebSession {
@@ -56,7 +56,7 @@ internal class NoopWebSession : WebSession {
 /**
  * jwt 实现的session.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:17
  */
 internal class JwtWebSession : WebSession {

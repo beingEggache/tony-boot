@@ -42,7 +42,7 @@ public fun interface FusTaskActorProvider {
      * @param [node] 节点模型
      * @param [execution] 执行对象
      * @return [List<FusTaskActor>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/24 19:01
      * @since 1.0.0
      */
@@ -56,7 +56,7 @@ public fun interface FusTaskActorProvider {
      * @param [node] 节点
      * @param [actorId] 参与者id
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2024/02/18 17:43
      * @since 1.0.0
      */

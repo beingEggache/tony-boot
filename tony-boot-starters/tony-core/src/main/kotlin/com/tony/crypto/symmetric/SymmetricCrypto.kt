@@ -29,7 +29,7 @@ import javax.crypto.Cipher
 
 /**
  * 对称 加密/解密
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:20
  * @since 1.0.0
  */
@@ -40,7 +40,7 @@ public sealed interface SymmetricCrypto {
      * @param [secret] 秘钥
      * @param [encoding] 编码
      * @return [ByteArray]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/27 19:20
      * @since 1.0.0
      */
@@ -58,7 +58,7 @@ public sealed interface SymmetricCrypto {
      * @param [src] 待解密
      * @param [secret] 秘钥
      * @return [ByteArray]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/27 19:20
      * @since 1.0.0
      */
@@ -74,7 +74,7 @@ public sealed interface SymmetricCrypto {
      * @param [secret] 秘钥
      * @param [encoding] 编码
      * @return [ByteArray]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/27 19:20
      * @since 1.0.0
      */
@@ -93,7 +93,7 @@ public sealed interface SymmetricCrypto {
      * @param [src] 待加密
      * @param [secret] 秘钥
      * @return [ByteArray]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/27 19:20
      * @since 1.0.0
      */
@@ -109,7 +109,7 @@ public sealed interface SymmetricCrypto {
      * @param [secret] 秘钥
      * @param [mode] 加密/解密 [Cipher.ENCRYPT_MODE]/[Cipher.DECRYPT_MODE]
      * @return [ByteArray]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/27 19:20
      * @since 1.0.0
      */

@@ -33,7 +33,7 @@ import java.util.Collections;
  * Java Query请求包装
  *
  * @param <T>
- * @author Tang Li
+ * @author tangli
  * @date 2023/07/11 19:21
  * @see PageQueryLike
  */

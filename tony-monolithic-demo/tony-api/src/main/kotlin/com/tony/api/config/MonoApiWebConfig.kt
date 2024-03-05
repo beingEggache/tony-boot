@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration
 
 /**
  * MonoApiWebConfig is
- * @author Tang Li
+ * @author tangli
  * @date 2023/07/06 19:23
  */
 @Configuration

@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Configuration
 
 /**
  * JwtConfig
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:55
  */
 @Configuration
@@ -43,7 +43,7 @@ internal class JwtConfig
 
 /**
  * JwtProperties
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:56
  */
 @ConfigurationProperties(prefix = "jwt")

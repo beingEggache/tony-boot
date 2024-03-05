@@ -39,7 +39,7 @@ public sealed interface RedisMapOp :
 
 /**
  * redis map 值获取操作
- * @author Tang Li
+ * @author tangli
  * @date 2023/06/09 19:20
  */
 public sealed interface RedisMapGetOp : RedisValueTransformer {
@@ -160,7 +160,7 @@ public sealed interface RedisMapGetOp : RedisValueTransformer {
 
 /**
  * redis map 值保存操作
- * @author Tang Li
+ * @author tangli
  * @date 2023/06/09 19:20
  */
 public sealed interface RedisMapSetOp : RedisValueTransformer {

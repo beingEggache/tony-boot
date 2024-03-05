@@ -27,7 +27,7 @@
 /**
  * 全局响应统一结构.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 
@@ -64,7 +64,7 @@ public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
  * ```
  *
  * @return [ApiResultLike<T>]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:31
  * @since 1.0.0
  */
@@ -76,7 +76,7 @@ public fun <T> T.flattenResult(): ApiResultLike<T> =
  *
  * @param T 响应体对象类型. 不支持 [Boolean] ,[CharSequence], [Number], [Enum].
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public data class ApiResult<T>
@@ -193,7 +193,7 @@ public data class ApiResult<T>
 /**
  * 包装 [Boolean] ,[CharSequence], [Number], [Enum]
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public data class MonoResult<T> internal constructor(
@@ -224,7 +224,7 @@ public data class MonoResult<T> internal constructor(
  * @param T
  * @param rows 列表
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public data class ListResult<T>(
@@ -254,7 +254,7 @@ public data class ListResult<T>(
  * @param total 总个数
  * @param hasNext 是否有下页
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public data class PageResult<T>(

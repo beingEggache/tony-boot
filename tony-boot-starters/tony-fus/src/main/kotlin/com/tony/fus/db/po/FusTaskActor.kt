@@ -35,7 +35,7 @@ import com.tony.mybatis.MybatisPlusMetaProperty
 
 /**
  * 任务参与者表
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/29 19:14
  * @since 1.0.0
  */

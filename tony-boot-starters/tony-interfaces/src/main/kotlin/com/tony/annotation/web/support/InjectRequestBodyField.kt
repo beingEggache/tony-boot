@@ -25,14 +25,14 @@
 package com.tony.annotation.web.support
 /**
  * RequestBody 字段值注入相关.
- * @author Tang Li
+ * @author tangli
  * @date 2023/06/08 19:26
  */
 import com.tony.annotation.web.support.InjectEmptyIfNull.Companion.DEFAULT_EMPTY
 
 /**
  * RequestBody 字段值注入.
- * @author Tang Li
+ * @author tangli
  * @date 2023/06/08 19:26
  */
 @Target(
@@ -58,7 +58,7 @@ public annotation class InjectRequestBodyField(
  *
  * ### 请自行控制反射安全, 做好空构造函数. ###
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/7/6 15:07
  */
 @Target(

@@ -36,7 +36,7 @@ import java.util.Collection;
 /**
  * Global page request structure.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 @JsonPropertyOrder(value = {"page", "size", "query", "ascs", "descs"})

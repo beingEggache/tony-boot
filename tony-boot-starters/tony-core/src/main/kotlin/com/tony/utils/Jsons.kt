@@ -29,7 +29,7 @@ package com.tony.utils
 /**
  * Json工具类
  *
- * @author Tang Li
+ * @author tangli
  * @date 2022/09/29 19:20
  */
 import com.fasterxml.jackson.core.JsonFactory
@@ -64,7 +64,7 @@ public val globalObjectMapper: ObjectMapper by lazy(LazyThreadSafetyMode.PUBLICA
 /**
  * 创建全局统一行为 jackson object mapper.
  * @return [ObjectMapper]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:19
  * @since 1.0.0
  */
@@ -77,7 +77,7 @@ public fun createObjectMapper(): ObjectMapper =
  * @param [T] 返回类型
  * @return [T]
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:20
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
@@ -93,7 +93,7 @@ public inline fun <reified T> CharSequence.jsonToObj(): T =
  * @param [clazz] clazz
  * @return [T]
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:20
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
@@ -109,7 +109,7 @@ public fun <T> CharSequence.jsonToObj(clazz: Class<T>): T =
  * @param [typeReference] 类型参考
  * @return [T]
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:20
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
@@ -125,7 +125,7 @@ public fun <T> CharSequence.jsonToObj(typeReference: TypeReference<T>): T =
  * @param [javaType] java类型
  * @return [T]
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:20
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
@@ -138,7 +138,7 @@ public fun <T> CharSequence.jsonToObj(javaType: JavaType): T =
  * 转换为 [T]
  * @param [T]
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/23 19:36
  * @since 1.0.0
  */
@@ -149,7 +149,7 @@ public inline fun <reified T> JsonNode.convertTo(): T =
  * 转换为 [T]
  * @param [clazz] clazz
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/23 19:36
  * @since 1.0.0
  */
@@ -160,7 +160,7 @@ public fun <T> JsonNode.convertTo(clazz: Class<T>): T =
  * 转换为 [T]
  * @param [typeReference] TypeReference
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/23 19:36
  * @since 1.0.0
  */
@@ -171,7 +171,7 @@ public fun <T> JsonNode.convertTo(typeReference: TypeReference<T>): T =
  * 转换为 [T]
  * @param [javaType] JavaType
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/23 19:36
  * @since 1.0.0
  */
@@ -183,7 +183,7 @@ public fun <T> JsonNode.convertTo(javaType: JavaType): T =
  * @receiver [CharSequence]
  * @return [JsonNode]
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:21
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
@@ -197,7 +197,7 @@ public fun CharSequence.jsonNode(): JsonNode =
  * @receiver [ByteArray]
  * @return [JsonNode]
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:21
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
@@ -211,7 +211,7 @@ public fun ByteArray.jsonNode(): JsonNode =
  * @receiver [InputStream]
  * @return [JsonNode]
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:21
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
@@ -226,7 +226,7 @@ public fun InputStream.jsonNode(): JsonNode =
  * @param [T] 自身类型
  * @return [String]
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:22
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString
@@ -258,7 +258,7 @@ private val jsonFactory = JsonFactory()
  * @param [field] 字段
  * @return [String]?
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:22
  * @since 1.0.0
  */
@@ -297,7 +297,7 @@ public fun CharSequence.getFromRootAsString(field: String): String? {
  * @param [T] 返回类型
  * @return [T]
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:22
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
@@ -312,7 +312,7 @@ public inline fun <reified T> ByteArray.jsonToObj(): T =
  * @param [T] 返回类型
  * @return [T]
  * @throws [IOException]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:22
  * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue

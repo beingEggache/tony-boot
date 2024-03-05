@@ -26,7 +26,7 @@
  * tony-boot-starters
  * WechatException
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/10/22 19:28
  */
 package com.tony.wechat.exception

@@ -28,7 +28,7 @@ package com.tony.enums
 
 /**
  * 全局枚举
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:16
  * @since 1.0.0
  */
@@ -36,14 +36,14 @@ import com.fasterxml.jackson.annotation.JsonValue
 import com.tony.utils.asToNotNull
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.throwIfNull
-import java.io.Serializable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.Serializable
 
 /**
  * 全局枚举接口.
  * 已和 jackson 和 mybatis-plus 结合.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:16
  * @since 1.0.0
  */
@@ -54,7 +54,7 @@ public sealed interface EnumValue<T : Serializable> {
 
 /**
  * 全局整形枚举接口.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:16
  * @since 1.0.0
  */
@@ -62,7 +62,7 @@ public interface IntEnumValue : EnumValue<Int>
 
 /**
  * 全局字符串枚举接口.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:16
  * @since 1.0.0
  */
@@ -114,7 +114,7 @@ internal sealed interface EnumCreatorFactory {
 
 /**
  * 枚举 构建器.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:16
  * @since 1.0.0
  */
@@ -137,7 +137,7 @@ public abstract class EnumCreator<out E, KEY>(
 
 /**
  * 字符串枚举 构建器.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:15
  * @since 1.0.0
  */
@@ -156,7 +156,7 @@ public abstract class StringEnumCreator(
 
 /**
  * int枚举 构建器.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:16
  * @since 1.0.0
  */

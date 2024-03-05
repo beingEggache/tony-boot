@@ -35,7 +35,7 @@ import java.util.function.Predicate
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
  * 比如 [oneNotNull], [throwIfExists], [pageResult]
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:26
  */
 public open class TonyQueryChainWrapper<T : Any> internal constructor(

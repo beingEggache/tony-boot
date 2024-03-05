@@ -34,7 +34,7 @@ import com.tony.enums.StringEnumValue
 
 /**
  * 对称加密算法
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:46
  * @since 1.0.0
  */

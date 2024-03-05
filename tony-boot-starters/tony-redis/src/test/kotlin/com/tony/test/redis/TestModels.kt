@@ -35,7 +35,7 @@ import java.math.BigInteger
 
 /**
  * TestModels is
- * @author Tang Li
+ * @author tangli
  * @date 2023/06/05 19:14
  */
 class SimpleObj(val name: String, val age: Int)

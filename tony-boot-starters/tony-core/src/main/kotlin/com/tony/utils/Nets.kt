@@ -34,7 +34,7 @@ import java.net.UnknownHostException
 
 /**
  * NetUtils is
- * @author Tang Li
+ * @author tangli
  * @date 2023/06/13 19:13
  */
 
@@ -65,7 +65,7 @@ public val localIp: String =
  * 判断地址是否是期望的域.
  * @param [address] 地址
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:23
  * @since 1.0.0
  */

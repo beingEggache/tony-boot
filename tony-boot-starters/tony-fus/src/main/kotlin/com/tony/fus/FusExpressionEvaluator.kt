@@ -32,7 +32,7 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
 
 /**
  * 表达式计算器
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/09 19:39
  * @since 1.0.0
  */
@@ -44,7 +44,7 @@ internal data object FusExpressionEvaluator {
      * 根据表达式串、参数解析表达式并返回指定类型
      * @param [conditionList] 条件组列表
      * @param [args] 参数列表
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/09 19:39
      * @since 1.0.0
      */

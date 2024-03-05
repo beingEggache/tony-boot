@@ -26,7 +26,7 @@
 
 /**
  * jackson Serializers
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:18
  * @since 1.0.0
  */
@@ -39,8 +39,8 @@ import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.tony.exception.ApiException
-import kotlin.reflect.KClass
 import org.slf4j.LoggerFactory
+import kotlin.reflect.KClass
 
 /**
  * 掩模转换器
@@ -55,7 +55,7 @@ internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> =
 /**
  * jackson 序列化字段遮蔽转换.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 @Retention(AnnotationRetention.RUNTIME)
@@ -74,7 +74,7 @@ public annotation class MaskConverter(
 /**
  * jackson 字段转换
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public fun interface MaskConvertFunc {
@@ -84,7 +84,7 @@ public fun interface MaskConvertFunc {
 /**
  * 将字符串除开头及结尾部分保留, 其余都用 * 表示
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public class NameMaskFun : MaskConvertFunc {
@@ -99,7 +99,7 @@ public class NameMaskFun : MaskConvertFunc {
 /**
  * 将手机号除开头 2 位及后 4 位保留,中间用 * 表示
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public class MobileMaskFun : MaskConvertFunc {
@@ -114,7 +114,7 @@ public class MobileMaskFun : MaskConvertFunc {
 /**
  * jackson 字段遮蔽转换 JsonSerializer
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public class MaskSerializer : JsonSerializer<Any>() {

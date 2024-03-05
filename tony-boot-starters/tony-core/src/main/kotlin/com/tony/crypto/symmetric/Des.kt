@@ -32,7 +32,7 @@ import javax.crypto.spec.DESKeySpec
 /**
  * Des对称加密单例类
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/29 19:20
  */
 public data object Des : SymmetricCrypto {

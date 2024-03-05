@@ -26,7 +26,7 @@ package com.tony.web.filter
 
 /**
  * 跟踪日志过滤器
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:48
  * @since 1.0.0
  */
@@ -53,7 +53,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper
 
 /**
  * 跟踪日志过滤器
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:48
  * @since 1.0.0
  */
@@ -131,7 +131,7 @@ internal class TraceLoggingFilter(
 /**
  * TraceIdFilter
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:37
  */
 internal class TraceIdFilter :

@@ -33,7 +33,7 @@ import com.tony.utils.getLogger
  * 比如成功返回码, 失败返回码等.
  *
  * 可读取配置.
- * @author Tang Li
+ * @author tangli
  * @date 2022/09/29 19:20
  */
 public data object ApiProperty {

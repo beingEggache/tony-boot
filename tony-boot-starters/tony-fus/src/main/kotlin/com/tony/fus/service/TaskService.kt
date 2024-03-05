@@ -65,7 +65,7 @@ import java.util.function.Function
 /**
  * 任务业务类接口
  * 任务服务
- * @author Tang Li
+ * @author tangli
  * @date 2023/10/10 19:05
  * @since 1.0.0
  */
@@ -74,7 +74,7 @@ public sealed interface TaskService {
      * 完成任务
      * @param [taskId] 任务id
      * @param [userId] 操作人id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:48
      * @since 1.0.0
      */
@@ -97,7 +97,7 @@ public sealed interface TaskService {
      * @param [taskState] 任务状态
      * @param [eventType] 事件类型
      * @return [FusTask]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/24 19:51
      * @since 1.0.0
      */
@@ -114,7 +114,7 @@ public sealed interface TaskService {
      * @param [instanceId] 实例id
      * @param [userId] 操作人id
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/07 19:08
      * @since 1.0.0
      */
@@ -128,7 +128,7 @@ public sealed interface TaskService {
      * @param [taskId] 任务id
      * @param [actorId] 参与者id
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/03 19:55
      * @since 1.0.0
      */
@@ -144,7 +144,7 @@ public sealed interface TaskService {
      * @param [taskId] 任务id
      * @param [actorId] 参与者id
      * @return [FusTask]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:12
      * @since 1.0.0
      */
@@ -160,7 +160,7 @@ public sealed interface TaskService {
      * @param [actorId] 任务参与者id
      * @param [assigneeId] 受让人id
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:15
      * @since 1.0.0
      */
@@ -175,7 +175,7 @@ public sealed interface TaskService {
      * 解决委派任务
      * @param [taskId] 任务id
      * @param [actorId] 任务参与者id
-     * @author Tang Li
+     * @author tangli
      * @date 2024/02/01 17:35
      * @since 1.0.0
      */
@@ -190,7 +190,7 @@ public sealed interface TaskService {
      * @param [actorId] 任务参与者id
      * @param [assigneeId] 受让人id
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:17
      * @since 1.0.0
      */
@@ -209,7 +209,7 @@ public sealed interface TaskService {
      * @param [actorId] 任务参与者id
      * @param [assigneeId] 受让人id
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:19
      * @since 1.0.0
      */
@@ -226,7 +226,7 @@ public sealed interface TaskService {
      * @param [taskId] 任务id
      * @param [actorId] 参与者id
      * @return [FusTask]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:20
      * @since 1.0.0
      */
@@ -240,7 +240,7 @@ public sealed interface TaskService {
      * @param [taskId] 任务id
      * @param [userId] 用户id
      * @return [FusTask]
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/02 10:20
      * @since 1.0.0
      */
@@ -254,7 +254,7 @@ public sealed interface TaskService {
      * @param [taskId] 任务id
      * @param [userId] 操作人id
      * @return [FusTask]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:24
      * @since 1.0.0
      */
@@ -271,7 +271,7 @@ public sealed interface TaskService {
      * @param [userId] 操作人id
      * @param [variable] 变量
      * @return [FusTask]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:31
      * @since 1.0.0
      */
@@ -288,7 +288,7 @@ public sealed interface TaskService {
      * @param [taskId] 任务id
      * @param [userId] 操作人id
      * @return [FusTask]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:31
      * @since 1.0.0
      */
@@ -305,7 +305,7 @@ public sealed interface TaskService {
      * @param [taskId] 任务id
      * @param [userId] 操作人id
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:59
      * @since 1.0.0
      */
@@ -317,7 +317,7 @@ public sealed interface TaskService {
     /**
      * 列出过期或提醒任务
      * @return [List<FusTask>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/25 19:23
      * @since 1.0.0
      */
@@ -329,7 +329,7 @@ public sealed interface TaskService {
      * @param [performType] 执行类型
      * @param [taskActorList] 流历史任务参与者
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/25 19:25
      * @since 1.0.0
      */
@@ -345,7 +345,7 @@ public sealed interface TaskService {
      * @param [performType] 执行类型
      * @param [taskActor] 流历史任务参与者
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/25 19:25
      * @since 1.0.0
      */
@@ -360,7 +360,7 @@ public sealed interface TaskService {
      * 删除任务参与者【减签】
      * @param [taskId] 任务id
      * @param [taskActorIdList] 任务参与者ID
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/25 19:27
      * @since 1.0.0
      */
@@ -373,7 +373,7 @@ public sealed interface TaskService {
      * 删除任务参与者【减签】
      * @param [taskId] 任务id
      * @param [taskActorId] 任务参与者id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/25 19:25
      * @since 1.0.0
      */
@@ -388,7 +388,7 @@ public sealed interface TaskService {
      *
      * 级联删除 fus_history_task, fus_history_task_actor, fus_task, fus_task_actor.
      * @param [instanceIds] 实例id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/25 19:28
      * @since 1.0.0
      */
@@ -439,7 +439,7 @@ internal open class TaskServiceImpl(
      * @param [nodeName] 节点名称
      * @param [userId] 用户id
      * @param [func] 回调
-     * @author Tang Li
+     * @author tangli
      * @date 2023/12/21 14:24
      * @since 1.0.0
      */
@@ -765,7 +765,7 @@ internal open class TaskServiceImpl(
      * 创建任务
      * @param [node] 节点
      * @param [execution] 执行对象
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/25 19:05
      * @since 1.0.0
      */
@@ -939,7 +939,7 @@ internal open class TaskServiceImpl(
      * 结束外部流程任务
      * @param [outProcessId] 进程外id
      * @param [outInstanceId] out实例id
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/16 18:00
      * @since 1.0.0
      */

@@ -25,21 +25,21 @@
 /**
  * ByteArrayMultipartFile
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/8 9:06
  */
 package com.tony.feign.multipart
 
+import org.springframework.web.multipart.MultipartFile
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-import org.springframework.web.multipart.MultipartFile
 
 /**
  * 二进制 MultipartFile.
  * 可用来 feign 上传二进制.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:36
  * @since 1.0.0
  */

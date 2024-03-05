@@ -34,7 +34,7 @@ import com.tony.utils.rawClass
 
 /**
  * RedisService is
- * @author Tang Li
+ * @author tangli
  * @date 2023/06/09 19:30
  */
 public interface RedisService :
@@ -52,7 +52,7 @@ public sealed interface RedisValueTransformer {
      * 输出转换为
      * @param [type] 类型
      * @return [T]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:44
      * @since 1.0.0
      */
@@ -67,7 +67,7 @@ public sealed interface RedisValueTransformer {
      * 输出转换为
      * @param [type] 类型
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:44
      * @since 1.0.0
      */
@@ -78,7 +78,7 @@ public sealed interface RedisValueTransformer {
      * 输出转换为
      * @param [type] 类型
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:44
      * @since 1.0.0
      */
@@ -88,7 +88,7 @@ public sealed interface RedisValueTransformer {
     /**
      * 输入转换为
      * @return [Any]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:44
      * @since 1.0.0
      */

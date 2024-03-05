@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit
 /**
  * redis 列表操作单例.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021-03-24 10:12
  */
 public data object RedisLists {

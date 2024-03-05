@@ -36,7 +36,7 @@ import org.springframework.core.type.AnnotationMetadata
 /**
  * 启用 [PROJECT_GROUP] 的 starter
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/24 19:04
  */
 @Retention(AnnotationRetention.RUNTIME)

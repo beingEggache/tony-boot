@@ -22,9 +22,7 @@
         <logger name="org.springframework.web" level="DEBUG"/>
     </springProfile>
 
-    <springProfile name="qa,prod">
-        <include resource="logback-web.xml"/>
-    </springProfile>
+    <include resource="logback-web.xml"/>
 
     <!-- hide some startup info -->
     <logger name="io.undertow" level="ERROR" additivity="false"/>

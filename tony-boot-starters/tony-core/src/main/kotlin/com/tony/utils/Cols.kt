@@ -28,7 +28,7 @@ package com.tony.utils
 
 /**
  * 集合 工具类, 只提供给Java.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:53
  * @since 1.0.0
  */
@@ -37,7 +37,7 @@ package com.tony.utils
  * 为null或为空
  * @param [cols] cols
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2024/01/18 13:55
  * @since 1.0.0
  */
@@ -49,7 +49,7 @@ public fun isNullOrEmpty(cols: Collection<*>?): Boolean =
  * @param [cols] cols
  * @param [ifEmpty] 如果为空
  * @return [C]
- * @author Tang Li
+ * @author tangli
  * @date 2024/01/18 13:55
  * @since 1.0.0
  */
@@ -63,7 +63,7 @@ public fun <C : Collection<T>, T : Any?> ifEmpty(
  * 如果集合非空, 执行 [block] ([C])
  * @param [block] 块
  * @return [C]
- * @author Tang Li
+ * @author tangli
  * @date 2024/01/18 13:58
  * @since 1.0.0
  */
@@ -80,7 +80,7 @@ public inline fun <C : Collection<T>?, T : Any?> C.alsoIfNotEmpty(crossinline bl
  * 给集合一个空的默认值
  * @param [cols] cols
  * @return [C]
- * @author Tang Li
+ * @author tangli
  * @date 2024/01/18 13:59
  * @since 1.0.0
  */
@@ -91,7 +91,7 @@ public fun <C : MutableList<T>, T : Any?> orEmpty(cols: C?): C =
  * 给集合一个空的默认值
  * @param [cols] cols
  * @return [C]
- * @author Tang Li
+ * @author tangli
  * @date 2024/01/18 13:59
  * @since 1.0.0
  */

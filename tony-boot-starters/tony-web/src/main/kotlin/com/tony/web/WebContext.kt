@@ -45,7 +45,7 @@ import org.springframework.web.context.request.ServletWebRequest
 /**
  * 全局 Web 上下文单例
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:58
  */
 public data object WebContext {
@@ -112,7 +112,7 @@ public data object WebContext {
      * @param [key] 键
      * @param [callback] 回调
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/24 19:28
      * @since 1.0.0
      */
@@ -175,7 +175,7 @@ public data object WebContext {
      *
      * @param [prefix] 前缀
      * @return [Set<String>]
-     * @author Tang Li
+     * @author tangli
      * @date 2024/02/07 09:27
      * @since 1.0.0
      */

@@ -26,7 +26,7 @@ package com.tony.feign.interceptor.request
 /**
  * Feign 请求处理 相关.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/8/15 9:53
  */
 
@@ -40,7 +40,7 @@ import feign.RequestTemplate
  *
  * 不用 [feign.RequestInterceptor] 是为了避免自动注册.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/8/15 9:53
  */
 public fun interface RequestProcessor {
@@ -50,7 +50,7 @@ public fun interface RequestProcessor {
      * [com.tony.annotation.feign.FeignUseGlobalRequestInterceptor]
      *  [com.tony.annotation.feign.FeignUseGlobalResponseInterceptor] 使用.
      * @param [template] RequestTemplate
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/28 19:46
      * @since 1.0.0
      */
@@ -60,7 +60,7 @@ public fun interface RequestProcessor {
 /**
  * 获取 [RequestProcessor] 的方式.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/8/15 9:54
  */
 public enum class BeanType {

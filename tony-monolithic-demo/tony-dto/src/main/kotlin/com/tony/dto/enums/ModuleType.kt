@@ -8,7 +8,7 @@ import com.tony.enums.IntEnumValue
 
 /**
  *
- * @author Tang Li
+ * @author tangli
  * @date 2020-11-04 14:54
  */
 enum class ModuleType(

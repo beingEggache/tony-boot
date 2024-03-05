@@ -28,7 +28,7 @@ import com.baomidou.mybatisplus.annotation.TableName
 
 /**
  * 历史任务参与者
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/29 19:13
  * @since 1.0.0
  */

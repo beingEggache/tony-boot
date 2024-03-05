@@ -28,7 +28,7 @@ package com.tony.utils
 
 /**
  * 数字工具类
- * @author Tang Li
+ * @author tangli
  * @date 2020-12-14 13:49
  */
 import com.tony.exception.ApiException
@@ -44,7 +44,7 @@ import kotlin.math.pow
  * @receiver [Number]?
  * @param [decimal] 小数点后保留几位
  * @return [BigDecimal]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:23
  * @since 1.0.0
  */
@@ -69,7 +69,7 @@ public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
  * @param [R] 返回数值类型
  * @param [numberType] 目标类型
  * @return [R]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:24
  * @since 1.0.0
  */
@@ -92,7 +92,7 @@ public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
  * @param [digit] 截断位数
  * @param [decimal] 保留几位小数
  * @return [BigDecimal]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:24
  * @since 1.0.0
  */
@@ -109,7 +109,7 @@ public fun Number?.truncToBigDecimal(
  * @param [digit] 截断位数
  * @param [decimal] 保留几位小数
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:24
  * @since 1.0.0
  */
@@ -126,7 +126,7 @@ public fun Number?.truncToString(
  * @param [decimal] 保留几位小数
  * @param [roundingMode] see [RoundingMode]
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:24
  * @since 1.0.0
  */
@@ -143,7 +143,7 @@ public fun Float?.formatToPercent(
  * @param [decimal] 保留几位小数
  * @param [roundingMode] see [RoundingMode]
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:25
  * @since 1.0.0
  */
@@ -160,7 +160,7 @@ public fun Double?.formatToPercent(
  * @param [decimal] 保留几位小数
  * @param [roundingMode] see [RoundingMode]
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:25
  * @since 1.0.0
  */
@@ -178,7 +178,7 @@ public val secureRandom: SecureRandom = SecureRandom()
  * 生成指定位数随机数
  * @param [digit] 位数
  * @return [Int]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:25
  * @since 1.0.0
  */
@@ -204,7 +204,7 @@ public fun genRandomInt(digit: Int): Int {
  * 生成指定位数随机数
  * @param [digit] 位数
  * @return [Long]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:25
  * @since 1.0.0
  */

@@ -29,7 +29,7 @@ import java.util.HexFormat
 
 /**
  * 十六进制编解码器
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:43
  * @since 1.0.0
  */

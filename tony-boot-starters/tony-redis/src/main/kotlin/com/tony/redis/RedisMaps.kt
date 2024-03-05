@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit
 /**
  * redis hash操作单例.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/5/25 9:57
  */
 public data object RedisMaps {

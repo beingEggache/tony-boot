@@ -30,7 +30,7 @@ import org.springframework.context.annotation.PropertySource
 
 /**
  * MybatisPlusConfig
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:55
  */
 @Configuration

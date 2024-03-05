@@ -35,7 +35,7 @@ import org.springframework.core.env.Environment
  *
  * 新增了一些 kotlin 的 lazy方法. 其余的委托到 [ApplicationContext] 实现.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public data object SpringContexts : ApplicationContext by ApplicationContextHolder.springContext {
@@ -43,7 +43,7 @@ public data object SpringContexts : ApplicationContext by ApplicationContextHold
      * 惰性获取 根据 bean类型获取 bean
      * @param [T] bean类型
      * @return [Lazy]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:32
      * @since 1.0.0
      * @see [ApplicationContext.getBean]
@@ -57,7 +57,7 @@ public data object SpringContexts : ApplicationContext by ApplicationContextHold
      * 惰性获取 根据 bean类型获取 bean List
      * @param [T] bean类型
      * @return [Lazy]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:32
      * @since 1.0.0
      * @see [ApplicationContext.getBean]
@@ -72,7 +72,7 @@ public data object SpringContexts : ApplicationContext by ApplicationContextHold
      * @param [T] bean类型
      * @param [name] bean名称
      * @return [Lazy]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:32
      * @since 1.0.0
      * @see [ApplicationContext.getBean]
@@ -107,7 +107,7 @@ public data object SpringContexts : ApplicationContext by ApplicationContextHold
          * @param [key] 属性名
          * @param [defaultValue] 默认值
          * @return [Lazy]
-         * @author Tang Li
+         * @author tangli
          * @date 2023/09/13 19:32
          * @since 1.0.0
          * @see [Environment.getProperty]

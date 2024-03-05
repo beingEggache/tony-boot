@@ -31,7 +31,7 @@ import com.tony.SpringContexts.getBeanByLazy
  *
  * 增加了获取用户标识和session对象的方法.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:18
  */
 public data object WebContextExtensions {

@@ -29,7 +29,7 @@ import com.tony.ApiResultLike
 /**
  * 加密请求响应结构
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/08/08 19:30
  */
 internal data class EncryptApiResult(

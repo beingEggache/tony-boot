@@ -34,7 +34,7 @@ import com.tony.utils.urlEncode
 
 /**
  * 支付宝 Manager
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:05
  * @since 1.0.0
  */
@@ -55,7 +55,7 @@ public class AlipayManager(
      * 通知 签名 检查
      * @param [params] params
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/12 19:05
      * @since 1.0.0
      */
@@ -81,7 +81,7 @@ public class AlipayManager(
      * @param [passBackParams] 传回参数
      * @param [body] 请求体
      * @return [String]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/12 19:05
      * @since 1.0.0
      */

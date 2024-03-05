@@ -29,7 +29,7 @@ package com.tony.web.utils
 /**
  * ServletUtils
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:42
  */
 import com.tony.utils.applyIf
@@ -80,7 +80,7 @@ public val HttpServletRequest.origin: String
  * 当端口号为80或443时省略.
  *
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 15:10
  * @since 1.0.0
  */
@@ -106,7 +106,7 @@ public val HttpServletRequest.headers: Map<String, String>
 /**
  * 请求头
  * @return [Map<String, String>]
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 15:11
  * @since 1.0.0
  */
@@ -132,7 +132,7 @@ public val HttpServletResponse.headers: Map<String, String>
 /**
  * 响应头
  * @return [Map<String, String>]
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 15:11
  * @since 1.0.0
  */
@@ -180,7 +180,7 @@ public val HttpServletRequest.remoteIp: String
  *
  * 针对反向代理的情况, 会依次从 X-Real-IP, X-Forwarded-For, ip 中获取.
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 15:14
  * @since 1.0.0
  */
@@ -199,7 +199,7 @@ public val HttpServletRequest.url: URL
 /**
  * url
  * @return [URL]
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 15:14
  * @since 1.0.0
  */
@@ -236,7 +236,7 @@ public val HttpServletRequest.isCorsPreflightRequest: Boolean
 /**
  * Is cors request a preflight request.
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 15:15
  * @since 1.0.0
  */
@@ -260,7 +260,7 @@ public val HttpServletRequest.parsedMedia: MediaType?
 /**
  * Parsed media
  * @return [MediaType]?
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 15:37
  * @since 1.0.0
  */
@@ -284,7 +284,7 @@ public val HttpServletResponse.parsedMedia: MediaType?
 /**
  * Parsed media
  * @return [MediaType]?
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 15:37
  * @since 1.0.0
  */

@@ -29,7 +29,7 @@ package com.tony.redis.serializer
 /**
  * redis 序列化/反序列化 方式
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/6/5 18:10
  */
 public enum class SerializerMode {

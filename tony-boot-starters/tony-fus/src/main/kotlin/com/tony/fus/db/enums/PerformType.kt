@@ -30,7 +30,7 @@ import com.tony.enums.IntEnumValue
 
 /**
  * 参与类型: 1.发起、其它, 2.按顺序依次审批, 3.会签, 4.或签, 5.票签, 10.抄送
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/29 19:19
  * @since 1.0.0
  */

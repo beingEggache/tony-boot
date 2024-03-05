@@ -29,7 +29,7 @@ package com.tony.feign.interceptor.response
  *
  * 用这个避免自动注册.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/08/02 19:00
  */
 import com.tony.ApiProperty
@@ -48,10 +48,10 @@ import com.tony.utils.rawClass
 import com.tony.utils.toJavaType
 import feign.InvocationContext
 import feign.ResponseInterceptor
-import java.util.Locale
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.MediaType
+import java.util.Locale
 
 /**
  * Global response interceptor provider.
@@ -60,7 +60,7 @@ import org.springframework.http.MediaType
  *
  * @param T
  * @property obj
- * @author Tang Li
+ * @author tangli
  * @date 2023/08/02 19:00
  */
 public class GlobalResponseInterceptorProvider<T : ResponseInterceptor>(
@@ -97,7 +97,7 @@ internal class UnwrapResponseInterceptorProvider<T : UnwrapResponseInterceptor>(
 
 /**
  * 响应拦截器. 将全局统一响应的具体返回数据抽取出来
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:34
  * @since 1.0.0
  */

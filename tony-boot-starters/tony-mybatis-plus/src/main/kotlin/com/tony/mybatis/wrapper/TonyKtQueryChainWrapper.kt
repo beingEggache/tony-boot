@@ -35,7 +35,7 @@ import kotlin.reflect.KProperty1
 /**
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
  * 比如 [oneNotNull], [throwIfExists], [pageResult]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:41
  * @since 1.0.0
  */

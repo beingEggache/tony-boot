@@ -26,7 +26,7 @@ package com.tony.web.crpto
 
 /**
  * 响应体加密
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:53
  */
 import com.tony.ApiResultLike
@@ -50,7 +50,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 
 /**
  * 响应体加密
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:53
  */
 public interface EncryptResponseBodyAdvice :

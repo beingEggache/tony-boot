@@ -53,7 +53,7 @@ import org.springframework.cloud.openfeign.Targeter
  *
  * @property globalRequestInterceptors
  * @property globalResponseInterceptors
- * @author Tang Li
+ * @author tangli
  * @date 2023/08/02 19:00
  */
 internal class FeignTargeter(

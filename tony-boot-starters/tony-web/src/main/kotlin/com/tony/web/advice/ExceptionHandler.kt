@@ -51,7 +51,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException
 /**
  * 全局异常处理
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:53
  */
 @RestControllerAdvice
@@ -61,7 +61,7 @@ internal class ExceptionHandler : ErrorController {
     /**
      * 业务异常
      * @param [e] e
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:45
      * @since 1.0.0
      */
@@ -73,7 +73,7 @@ internal class ExceptionHandler : ErrorController {
     /**
      * 框架异常
      * @param [e] e
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:45
      * @since 1.0.0
      */
@@ -91,7 +91,7 @@ internal class ExceptionHandler : ErrorController {
      * 异常
      * @param [e] e
      * @param [response] 响应
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:46
      * @since 1.0.0
      */
@@ -191,7 +191,7 @@ internal class ExceptionHandler : ErrorController {
      * @param [msg] 消息
      * @param [code] 默认为 [ApiProperty.errorCode]
      * @return [ApiResult<*>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/24 19:27
      * @since 1.0.0
      */

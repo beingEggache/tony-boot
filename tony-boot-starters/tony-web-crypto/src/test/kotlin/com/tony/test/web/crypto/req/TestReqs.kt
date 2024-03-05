@@ -30,7 +30,7 @@ import jakarta.validation.constraints.NotNull
 
 /**
  * TestReqs is
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:14
  */
 data class TestReq(

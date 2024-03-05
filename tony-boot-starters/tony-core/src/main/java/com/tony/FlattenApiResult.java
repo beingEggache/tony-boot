@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 /**
  * 压平的全局响应统一结构.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:06
  */
 @SuppressWarnings("unused")

@@ -26,7 +26,7 @@
  * tony-boot-starters
  * AlipayException
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/10/22 19:31
  */
 package com.tony.alipay.exception
@@ -36,7 +36,7 @@ import com.tony.exception.ApiException
 
 /**
  * 支付宝 异常
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:59
  * @since 1.0.0
  */

@@ -26,7 +26,7 @@ package com.tony.web.interceptor
 
 /**
  * 登录校验拦截器 等.
- * @author Tang Li
+ * @author tangli
  * @date 2020-11-04 13:33
  */
 import com.tony.annotation.web.auth.NoLoginCheck
@@ -41,7 +41,7 @@ import org.springframework.web.servlet.HandlerInterceptor
 /**
  * 登录校验拦截器.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:14
  */
 public interface LoginCheckInterceptor : HandlerInterceptor {
@@ -60,7 +60,7 @@ public interface LoginCheckInterceptor : HandlerInterceptor {
 /**
  * 登录校验拦截器. 默认实现.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:15
  */
 internal class DefaultLoginCheckInterceptor : LoginCheckInterceptor

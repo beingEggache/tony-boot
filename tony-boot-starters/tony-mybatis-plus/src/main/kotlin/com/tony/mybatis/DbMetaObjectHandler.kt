@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory
 
 /**
  * mybatis-plus 属性填充注解
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:26
  * @since 1.0.0
  */
@@ -63,7 +63,7 @@ public enum class MetaColumn {
 
 /**
  * 元对象字段填充控制器抽接口，实现公共字段自动写入
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/14 19:44
  * @since 1.0.0
  */
@@ -91,7 +91,7 @@ public interface DbMetaObjectHandler : MetaObjectHandler {
      * 填充数据
      * @param [metaObject] 元对象
      * @param [withInsertFill] true 插入填充, false 更新填充,
-     * @author Tang Li
+     * @author tangli
      * @date 2023/12/14 19:43
      * @since 1.0.0
      */
@@ -103,7 +103,7 @@ public interface DbMetaObjectHandler : MetaObjectHandler {
 
 /**
  * 默认元对象处理程序
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/14 19:51
  * @since 1.0.0
  */

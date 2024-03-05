@@ -26,7 +26,7 @@ package com.tony.web.crpto
 
 /**
  * 请求体解密, 目前只支持 RequestBody
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:53
  */
 import com.tony.annotation.web.crypto.DecryptRequestBody
@@ -46,7 +46,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice
 
 /**
  * 将请求体解密, 目前只支持 RequestBody
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:53
  */
 public interface DecryptRequestBodyAdvice :

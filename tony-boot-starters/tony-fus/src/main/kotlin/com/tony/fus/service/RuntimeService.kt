@@ -53,7 +53,7 @@ import java.time.LocalDateTime
 /**
  * 流程实例运行业务类
  * 运行时服务
- * @author Tang Li
+ * @author tangli
  * @date 2023/10/10 19:49
  * @since 1.0.0
  */
@@ -62,7 +62,7 @@ public sealed interface RuntimeService {
      * 流程实例拒绝审批强制终止（用于后续审核人员认为该审批不再需要继续，拒绝审批强行终止）
      * @param [instanceId] 实例id
      * @param [userId] 操作人id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/24 19:47
      * @since 1.0.0
      */
@@ -75,7 +75,7 @@ public sealed interface RuntimeService {
      * 流程实例强制终止
      * @param [instanceId] 实例id
      * @param [userId] 操作人id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:06
      * @since 1.0.0
      */
@@ -88,7 +88,7 @@ public sealed interface RuntimeService {
      * 流程实例撤销（用于错误发起审批申请，发起人主动撤销）
      * @param [instanceId] 实例id
      * @param [userId] 操作人id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/24 19:41
      * @since 1.0.0
      */
@@ -101,7 +101,7 @@ public sealed interface RuntimeService {
      * 流程实例超时（设定审批时间超时，自动结束）
      * @param [instanceId] 实例id
      * @param [userId] 操作人id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/24 19:42
      * @since 1.0.0
      */
@@ -113,7 +113,7 @@ public sealed interface RuntimeService {
     /**
      * 流程实例强制终止
      * @param [instanceId] 实例id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:10
      * @since 1.0.0
      */
@@ -124,7 +124,7 @@ public sealed interface RuntimeService {
     /**
      * 级联删除指定流程实例的所有数据
      * @param [processId] 流程id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:15
      * @since 1.0.0
      */
@@ -152,7 +152,7 @@ internal open class RuntimeServiceImpl(
      * @param [variable] 流程参数
      * @param [instance] 流程实例
      * @return [FusInstance]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:51
      * @since 1.0.0
      */
@@ -196,7 +196,7 @@ internal open class RuntimeServiceImpl(
     /**
      * 流程实例正常完成 （审批通过）
      * @param [execution] 执行对象
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:02
      * @since 1.0.0
      */
@@ -285,7 +285,7 @@ internal open class RuntimeServiceImpl(
     /**
      * 更新实例
      * @param [instance] 流程实例
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:15
      * @since 1.0.0
      */
@@ -328,7 +328,7 @@ internal open class RuntimeServiceImpl(
      * @param [taskId] 任务id
      * @param [node] 节点
      * @param [prepend] 前插
-     * @author Tang Li
+     * @author tangli
      * @date 2024/02/01 17:15
      * @since 1.0.0
      */

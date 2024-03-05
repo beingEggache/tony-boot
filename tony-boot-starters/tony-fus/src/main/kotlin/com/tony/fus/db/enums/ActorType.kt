@@ -30,7 +30,7 @@ import com.tony.enums.IntEnumValue
 
 /**
  * 参与者类型 0，用户 1，角色 2，部门
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/29 19:00
  * @since 1.0.0
  */

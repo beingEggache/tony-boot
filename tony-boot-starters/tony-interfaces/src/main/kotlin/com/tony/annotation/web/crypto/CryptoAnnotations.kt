@@ -25,13 +25,13 @@
 package com.tony.annotation.web.crypto
 /**
  * 加解密注解
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:55
  */
 
 /**
  * 配合 DecryptRequestBodyAdvice 将 RequestBody 解密
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:55
  */
 @Target(AnnotationTarget.FUNCTION)
@@ -41,7 +41,7 @@ public annotation class DecryptRequestBody
 
 /**
  * 配合 EncryptResponseBodyAdvice 将 ResponseBody 加密
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:55
  */
 @Target(AnnotationTarget.FUNCTION)

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 
 /**
  *
- * @author Tang Li
+ * @author tangli
  * @date 2020-11-04 14:48
  */
 @Service
@@ -78,7 +78,7 @@ class ModuleService(
             it.appId = appId
             moduleDao.insert(it)
         }
-        ModuleDao.clearModuleCache()
+        moduleDao.clearModuleCache()
     }
 
     fun tree(moduleTypes: List<ModuleType>) =

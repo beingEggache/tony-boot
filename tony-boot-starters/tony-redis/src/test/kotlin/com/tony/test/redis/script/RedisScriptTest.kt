@@ -36,7 +36,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 /**
  * RedisScriptTest is
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/31 19:00
  */
 @SpringBootTest(classes = [TestRedisApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)

@@ -40,7 +40,7 @@ import org.springframework.data.redis.serializer.RedisSerializer
 
 /**
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-12 16:44
  */
 @EnableTonyBoot

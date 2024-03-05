@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController
 
 /**
  * TestInjectController is
- * @author Tang Li
+ * @author tangli
  * @date 2023/07/06 19:31
  */
 @Tag(name = "测试注入")

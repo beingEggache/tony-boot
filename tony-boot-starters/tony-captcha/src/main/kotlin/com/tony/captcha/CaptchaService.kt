@@ -27,7 +27,7 @@ package com.tony.captcha
 /**
  * 验证码服务相关
  *
- * @author Tang Li
+ * @author tangli
  * @date 2022/07/12 19:39
  */
 import com.fasterxml.jackson.annotation.JsonIgnore
@@ -35,7 +35,7 @@ import com.tony.redis.RedisManager
 
 /**
  * 验证码 服务
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:58
  * @since 1.0.0
  */
@@ -44,7 +44,7 @@ public fun interface CaptchaService {
      * 验证
      * @param [vo] 验证码
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/28 19:58
      * @since 1.0.0
      */
@@ -54,7 +54,7 @@ public fun interface CaptchaService {
 /**
  * 验证码 vo
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:35
  * @param captchaId
  * @param captcha
@@ -70,7 +70,7 @@ public open class CaptchaVo(
 
 /**
  * 验证码服务默认实现
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:58
  * @since 1.0.0
  */
@@ -81,7 +81,7 @@ public class DefaultCaptchaServiceImpl : CaptchaService {
 
 /**
  * 验证码服务空实现.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:58
  * @since 1.0.0
  */

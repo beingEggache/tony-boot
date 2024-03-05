@@ -28,7 +28,7 @@ package com.tony.utils
 
 /**
  * 泛型工具类
- * @author Tang Li
+ * @author tangli
  * @date 2023/06/07 19:53
  */
 import com.fasterxml.jackson.core.type.TypeReference
@@ -44,7 +44,7 @@ import java.util.Date
 /**
  * Returns the Type object representing the class or interface that declared this type.
  * @return [Class]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:27
  * @since 1.0.0
  */
@@ -58,7 +58,7 @@ public fun Type.rawClass(): Class<*> =
 /**
  * JavaType
  * @return [JavaType]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:27
  * @since 1.0.0
  */
@@ -69,7 +69,7 @@ public fun Type.toJavaType(): JavaType =
  * Method for constructing a CollectionLikeType.
  * @param [collectionType]
  * @return [JavaType]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:27
  * @since 1.0.0
  */
@@ -82,7 +82,7 @@ public fun <T : Collection<*>> Type.toCollectionJavaType(collectionType: Class<T
  * 返回范型参数的  [Type]
  * @param [index] 范型参数索引, 默认为第一个,也就是 0.
  * @return [Type]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:28
  * @since 1.0.0
  */
@@ -98,7 +98,7 @@ public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
  * @param [type] 类型
  * @param [index] 类型位置, 默认第一个
  * @return [Type]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:28
  * @since 1.0.0
  */
@@ -124,7 +124,7 @@ internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
  * 检查 是否 是某些类型 或某些类型的子类
  * @param [types] 类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:29
  * @since 1.0.0
  */
@@ -152,7 +152,7 @@ private val NUMBER_TYPES: Array<Class<*>?> =
 /**
  * 是否数字类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:29
  * @since 1.0.0
  */
@@ -162,7 +162,7 @@ public fun Class<*>.isNumberTypes(): Boolean =
 /**
  * 是否字符串类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:29
  * @since 1.0.0
  */
@@ -174,7 +174,7 @@ public fun Class<*>.isStringLikeType(): Boolean =
 /**
  * 是否列表或数组类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -186,7 +186,7 @@ public fun Class<*>.isArrayLikeType(): Boolean =
 /**
  * 原始类
  * @return [Class<T>]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -199,7 +199,7 @@ public fun <T> TypeReference<T>.rawClass(): Class<T> =
 /**
  * 是类似字符串类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -213,7 +213,7 @@ public fun <T> TypeReference<T>.isStringLikeType(): Boolean =
 /**
  * 是数字类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -223,7 +223,7 @@ public fun <T> TypeReference<T>.isNumberTypes(): Boolean =
 /**
  * rawClass
  * @return [Class<T>]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -234,7 +234,7 @@ public fun <T> JavaType.rawClass(): Class<T> =
  * Method for constructing a CollectionLikeType.
  * @param [collectionType]
  * @return [JavaType]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:27
  * @since 1.0.0
  */
@@ -246,7 +246,7 @@ public fun <T : Collection<*>> JavaType.toCollectionJavaType(collectionType: Cla
 /**
  * 是类似日期时间类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -256,7 +256,7 @@ public fun JavaType.isDateTimeLikeType(): Boolean =
 /**
  * 是类似数组类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -266,7 +266,7 @@ public fun JavaType.isArrayLikeType(): Boolean =
 /**
  * 是布尔类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -276,7 +276,7 @@ public fun JavaType.isBooleanType(): Boolean =
 /**
  * 是数字类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -286,7 +286,7 @@ public fun JavaType.isNumberType(): Boolean =
 /**
  * 是字节类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -296,7 +296,7 @@ public fun JavaType.isByteType(): Boolean =
 /**
  * 是短型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -306,7 +306,7 @@ public fun JavaType.isShortType(): Boolean =
 /**
  * 是int类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -316,7 +316,7 @@ public fun JavaType.isIntType(): Boolean =
 /**
  * 是长型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -326,7 +326,7 @@ public fun JavaType.isLongType(): Boolean =
 /**
  * 是浮点型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -336,7 +336,7 @@ public fun JavaType.isFloatType(): Boolean =
 /**
  * 是双浮点类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
  */
@@ -346,7 +346,7 @@ public fun JavaType.isDoubleType(): Boolean =
 /**
  * 是类似obj类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:31
  * @since 1.0.0
  */
@@ -358,7 +358,7 @@ public fun JavaType.isObjLikeType(): Boolean =
 /**
  * 是类似字符串类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:31
  * @since 1.0.0
  */

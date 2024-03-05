@@ -26,7 +26,7 @@ package com.tony.enums.validate
 
 /**
  * 枚举校验器
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 import com.tony.enums.DEFAULT_INT_VALUE
@@ -40,7 +40,7 @@ import jakarta.validation.ConstraintValidatorContext
 
 /**
  * 简单整形枚举校验
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, IntEnumValue?> {
@@ -71,7 +71,7 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, IntEnum
 
 /**
  * 整形枚举强类型校验
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
@@ -106,7 +106,7 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
 
 /**
  * 字符串枚举简单校验
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, StringEnumValue?> {
@@ -136,7 +136,7 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, S
 
 /**
  * 字符串枚举强类型校验
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumValue?> {
@@ -171,7 +171,7 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumVal
 
 /**
  * 简单字符串枚举校验
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 public class SimpleEnumValidator : ConstraintValidator<SimpleEnum, Any?> {

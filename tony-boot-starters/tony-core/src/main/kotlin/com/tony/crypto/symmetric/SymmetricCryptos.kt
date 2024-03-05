@@ -28,7 +28,7 @@ package com.tony.crypto.symmetric
 
 /**
  * 对称加密/解密 工具
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:58
  */
 import com.tony.codec.enums.Encoding
@@ -41,7 +41,7 @@ import com.tony.utils.string
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [CharSequence]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:19
  * @since 1.0.0
  */
@@ -58,7 +58,7 @@ public fun CharSequence.decryptToString(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [CharSequence]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:19
  * @since 1.0.0
  */
@@ -75,7 +75,7 @@ public fun CharSequence.decryptToString(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:19
  * @since 1.0.0
  */
@@ -96,7 +96,7 @@ public fun CharSequence.decryptToBytes(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:18
  * @since 1.0.0
  */
@@ -117,7 +117,7 @@ public fun CharSequence.decryptToBytes(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [CharSequence]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:17
  * @since 1.0.0
  */
@@ -134,7 +134,7 @@ public fun ByteArray.decryptToString(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [CharSequence]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:17
  * @since 1.0.0
  */
@@ -151,7 +151,7 @@ public fun ByteArray.decryptToString(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:17
  * @since 1.0.0
  */
@@ -168,7 +168,7 @@ public fun ByteArray.decryptToBytes(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:17
  * @since 1.0.0
  */
@@ -189,7 +189,7 @@ public fun ByteArray.decryptToBytes(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:16
  * @since 1.0.0
  */
@@ -206,7 +206,7 @@ public fun CharSequence.encryptToString(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [CharSequence]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:16
  * @since 1.0.0
  */
@@ -223,7 +223,7 @@ public fun CharSequence.encryptToString(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:16
  * @since 1.0.0
  */
@@ -244,7 +244,7 @@ public fun CharSequence.encryptToBytes(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:17
  * @since 1.0.0
  */
@@ -265,7 +265,7 @@ public fun CharSequence.encryptToBytes(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [CharSequence]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:17
  * @since 1.0.0
  */
@@ -282,7 +282,7 @@ public fun ByteArray.encryptToString(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [CharSequence]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:17
  * @since 1.0.0
  */
@@ -299,7 +299,7 @@ public fun ByteArray.encryptToString(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:17
  * @since 1.0.0
  */
@@ -316,7 +316,7 @@ public fun ByteArray.encryptToBytes(
  * @param [secret] 秘钥
  * @param [encoding] 二进制编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:17
  * @since 1.0.0
  */

@@ -34,7 +34,7 @@ import java.util.Collections;
  * 将 query 放到根节点.
  *
  * @param <T>
- * @author Tang Li
+ * @author tangli
  * @see PageQueryLike
  * @date 2023/07/11 19:21
  */

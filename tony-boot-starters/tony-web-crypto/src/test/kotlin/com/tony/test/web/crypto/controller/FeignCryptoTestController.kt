@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController
 
 /**
  * 方法注解加密解密
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:14
  */
 @Tag(name = "方法加密解密测试")

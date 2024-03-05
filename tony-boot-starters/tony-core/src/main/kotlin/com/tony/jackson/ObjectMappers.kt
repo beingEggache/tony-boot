@@ -25,7 +25,7 @@
 @file:JvmName("ObjectMappers")
 /**
  * ObjectMapper 相关
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:18
  * @since 1.0.0
  */
@@ -55,7 +55,7 @@ import java.util.TimeZone
 /**
  * ObjectMapper 初始化
  * @return [ObjectMapper]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:18
  * @since 1.0.0
  */

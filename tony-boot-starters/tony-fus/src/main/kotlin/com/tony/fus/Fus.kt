@@ -130,7 +130,7 @@ public data object Fus {
      * @param [businessKey] 业务KEY
      * @param [args] variable
      * @return [FusInstance]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/20 19:31
      * @since 1.0.0
      */
@@ -159,7 +159,7 @@ public data object Fus {
      * @param [args] variable
      * @param [version] 流程版本
      * @return [FusInstance]
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/17 10:40
      * @since 1.0.0
      */
@@ -189,7 +189,7 @@ public data object Fus {
      * @param [args] variable
      * @param [version] 流程版本
      * @return [FusInstance]
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/17 10:40
      * @since 1.0.0
      */
@@ -219,7 +219,7 @@ public data object Fus {
      * @param [processId] 流程id
      * @param [nodeName] 节点名称
      * @param [execution] 执行对象
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/16 17:05
      * @since 1.0.0
      */
@@ -248,7 +248,7 @@ public data object Fus {
      * @param [taskId] 任务id
      * @param [userId] 操作人id
      * @param [args] variable
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/20 19:32
      * @since 1.0.0
      */
@@ -396,7 +396,7 @@ public data object Fus {
      * @param [instanceId] 任务实例id
      * @param [userId] 操作人id
      * @param [args] variable
-     * @author Tang Li
+     * @author tangli
      * @date 2024/02/18 16:46
      * @since 1.0.0
      */
@@ -428,7 +428,7 @@ public data object Fus {
      * @param [actorId] 任务参与者id
      * @param [assigneeId] 受让人id
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:19
      * @since 1.0.0
      */
@@ -456,7 +456,7 @@ public data object Fus {
      * @param [actorId] 任务参与者id
      * @param [assigneeId] 受让人id
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:17
      * @since 1.0.0
      */
@@ -482,7 +482,7 @@ public data object Fus {
      * 按任务实例id [instanceId] 解决委派任务
      * @param [instanceId] 任务实例id
      * @param [actorId] 任务参与者id
-     * @author Tang Li
+     * @author tangli
      * @date 2024/02/01 17:35
      * @since 1.0.0
      */
@@ -509,7 +509,7 @@ public data object Fus {
      * @param [taskId] 任务id
      * @param [nodeName] 节点名称
      * @param [userId] 操作人id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/20 19:33
      * @since 1.0.0
      */
@@ -551,7 +551,7 @@ public data object Fus {
      * @param [node] 节点
      * @param [userId] 操作人id
      * @param [prepend] 前插
-     * @author Tang Li
+     * @author tangli
      * @date 2024/02/01 17:25
      * @since 1.0.0
      */
@@ -574,7 +574,7 @@ public data object Fus {
      * 执行流程节点.
      * @param [node] 流程节点
      * @param [execution] 执行对象
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/24 19:48
      * @since 1.0.0
      */
@@ -637,7 +637,7 @@ public data object Fus {
     /**
      * 结束流程实例
      * @param [execution] 执行对象
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/16 16:58
      * @since 1.0.0
      */

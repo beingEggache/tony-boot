@@ -48,7 +48,7 @@ import org.springframework.web.bind.annotation.RequestParam
 /**
  * 微信 http client
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:21
  */
 @FeignClient("wechatClient", url = "https://api.weixin.qq.com")
@@ -81,7 +81,7 @@ public interface WechatClient {
      * - 如使用云托管，也可以通过微信令牌/开放接口服务免维护 access_token 调用；
      * @param [req] 请求
      * @return [WechatApiTokenResp]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/26 19:15
      * @since 1.0.0
      */

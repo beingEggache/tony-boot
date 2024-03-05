@@ -26,7 +26,7 @@ package com.tony.web.converter
 
 /**
  * Enum 转换器
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:01
  * @since 1.0.0
  */
@@ -47,7 +47,7 @@ private val converters =
 
 /**
  * enum-int值转换器工厂
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:01
  * @since 1.0.0
  */
@@ -61,7 +61,7 @@ internal class EnumIntValueConverterFactory : ConverterFactory<String, IntEnumVa
 
 /**
  * 枚举 - 字符串 转换器工厂
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:02
  * @since 1.0.0
  */
@@ -76,7 +76,7 @@ internal class EnumStringValueConverterFactory : ConverterFactory<String, String
 /**
  * EnumValueConverter
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:59
  */
 internal sealed class EnumValueConverter<out E, K>(
@@ -96,7 +96,7 @@ internal sealed class EnumValueConverter<out E, K>(
 /**
  * EnumIntValueConverter
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:59
  */
 internal class EnumIntValueConverter(
@@ -117,7 +117,7 @@ internal class EnumIntValueConverter(
 /**
  * EnumStringValueConverter
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:59
  */
 internal class EnumStringValueConverter(

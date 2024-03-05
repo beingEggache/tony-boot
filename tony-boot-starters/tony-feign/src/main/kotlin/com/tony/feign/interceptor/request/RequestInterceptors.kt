@@ -29,7 +29,7 @@ package com.tony.feign.interceptor.request
  *
  * 用这个避免自动注册.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/08/02 19:00
  */
 import com.tony.SpringContexts
@@ -38,8 +38,8 @@ import com.tony.utils.annotation
 import com.tony.utils.getLogger
 import feign.RequestInterceptor
 import feign.RequestTemplate
-import java.util.concurrent.ConcurrentHashMap
 import org.springframework.beans.factory.ObjectProvider
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Global request interceptor provider.
@@ -48,7 +48,7 @@ import org.springframework.beans.factory.ObjectProvider
  *
  * @param T
  * @property obj
- * @author Tang Li
+ * @author tangli
  * @date 2023/08/02 19:00
  */
 public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
@@ -69,7 +69,7 @@ public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
 
 /**
  * 使用请求处理器请求拦截器
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:33
  * @since 1.0.0
  */

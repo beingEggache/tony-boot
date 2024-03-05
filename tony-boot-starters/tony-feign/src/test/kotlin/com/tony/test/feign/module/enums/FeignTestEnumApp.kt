@@ -27,7 +27,7 @@
  *
  * TODO
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/27 19:39
  */
 package com.tony.test.feign.module.enums

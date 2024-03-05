@@ -42,7 +42,7 @@ public fun interface FusTaskPermission {
      * @param [actorId] 参与者id
      * @param [taskActorList] 任务参与者列表
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/19 19:21
      * @since 1.0.0
      */

@@ -29,7 +29,7 @@ package com.tony.utils
 /**
  * 日期工具类
  *
- * @author Tang Li
+ * @author tangli
  * @date 2022/09/29 19:20
  */
 import com.tony.exception.ApiException
@@ -59,7 +59,7 @@ internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =
  * 日期转为字符串表示
  * @param [pattern] 字符串格式
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:42
  * @since 1.0.0
  */
@@ -72,7 +72,7 @@ public fun TemporalAccessor.toString(pattern: CharSequence): String =
 /**
  * LocalDate 或 LocalDatetime 转 Date
  * @return [Date]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:42
  * @since 1.0.0
  */
@@ -88,7 +88,7 @@ internal fun TemporalAccessor.toDate(): Date =
  * 字符串转 Date
  * @param [pattern] 字符串格式
  * @return [Date]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:42
  * @since 1.0.0
  */
@@ -103,7 +103,7 @@ public fun CharSequence.toDate(pattern: CharSequence): Date =
  * 字符串转 LocalDate
  * @param [pattern] 字符串格式
  * @return [LocalDate]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -120,7 +120,7 @@ public fun CharSequence.toLocalDate(pattern: CharSequence): LocalDate =
  * 字符串转 LocalDateTime
  * @param [pattern] 字符串格式
  * @return [LocalDateTime]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -136,7 +136,7 @@ public fun CharSequence.toLocalDateTime(pattern: CharSequence): LocalDateTime =
 /**
  * LocalDateTime 转 Instant
  * @return [Instant]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -146,7 +146,7 @@ public fun LocalDateTime.toInstant(): Instant =
 /**
  * LocalDateTime 转 Date
  * @return [Date]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -158,7 +158,7 @@ public fun LocalDateTime.toDate(): Date =
  * @param [start] 开始
  * @param [end] 终止
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -175,7 +175,7 @@ public fun LocalDateTime.isBetween(
 /**
  * LocalDate 转 Date
  * @return [Instant]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -185,7 +185,7 @@ public fun LocalDate.toInstant(): Instant =
 /**
  * LocalDate 转 Date
  * @return [Date]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -197,7 +197,7 @@ public fun LocalDate.toDate(): Date =
  * @param [start] 开始
  * @param [end] 终止
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -214,7 +214,7 @@ public fun LocalDate.isBetween(
 /**
  * 获取某天的23:59:59
  * @return [LocalDateTime]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -225,7 +225,7 @@ public fun LocalDate.atEndOfDay(): LocalDateTime =
  * date 转 字符串
  * @param [pattern] 图案
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:40
  * @since 1.0.0
  */
@@ -238,7 +238,7 @@ public fun Date.toString(pattern: CharSequence): String =
 /**
  * Date 转 LocalDate
  * @return [LocalDate]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -248,7 +248,7 @@ public fun Date.toLocalDate(): LocalDate =
 /**
  * Date 转 LocalDateTime
  * @return [LocalDateTime]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -258,7 +258,7 @@ public fun Date.toLocalDateTime(): LocalDateTime =
 /**
  * 获取今天所剩秒数
  * @return [Long]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:43
  * @since 1.0.0
  */
@@ -272,7 +272,7 @@ public fun secondOfTodayRest(): Long =
  * 是否与另一时间段重叠
  * @param [timePeriod] 时间段
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/04 19:33
  * @since 1.0.0
  */
@@ -283,7 +283,7 @@ public infix fun <T : TemporalAccessor> Pair<T, T>.overlap(timePeriod: Pair<T, T
  * 是否与另一时间段重叠
  * @param [timePeriod] 时间段
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/04 19:33
  * @since 1.0.0
  */
@@ -292,7 +292,7 @@ public infix fun <T : Date> Pair<T, T>.dateOverlap(timePeriod: Pair<T, T>): Bool
 
 /**
  * 时间段
- * @author Tang Li
+ * @author tangli
  * @date 2023/12/08 19:44
  * @since 1.0.0
  */

@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory
 
 /**
  * 阿里云短信 Manager
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:55
  * @since 1.0.0
  */
@@ -69,7 +69,7 @@ public class AliyunSmsManager(
      * @param [templateCode] 阿里云短信模板code
      * @param [templateParam] 模板参数
      * @return [SendSmsResponse]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/28 19:55
      * @since 1.0.0
      */

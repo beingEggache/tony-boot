@@ -27,7 +27,7 @@ package com.tony
 /**
  * 自定义实现 session.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/12 19:52
  */
 public interface ApiSession {

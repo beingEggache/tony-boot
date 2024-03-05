@@ -38,7 +38,7 @@ public fun interface FusInterceptor {
      * 拦截处理方法.
      *
      * @param [execution] 执行对象
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/19 19:58
      * @since 1.0.0
      */

@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * ## 获取稳定版接口调用凭据 请求参数
  * 微信稳定访问令牌req
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/25 19:49
  * @since 1.0.0
  */

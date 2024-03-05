@@ -28,7 +28,7 @@ import feign.ResponseInterceptor
 
 /**
  * 响应抽取拦截器
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/30 19:41
  * @since 1.0.0
  */

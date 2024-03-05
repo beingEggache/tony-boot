@@ -29,7 +29,7 @@ package com.tony.utils
 /**
  * 摘要工具类
  *
- * @author Tang Li
+ * @author tangli
  * @date 2022/09/29 19:20
  */
 import com.fasterxml.jackson.annotation.JsonCreator
@@ -43,7 +43,7 @@ import java.security.MessageDigest
 /**
  * 字符串转为MD5
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:21
  * @since 1.0.0
  */
@@ -53,7 +53,7 @@ public fun CharSequence.md5(): String =
 /**
  * 字符串转为 sha1
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:21
  * @since 1.0.0
  */
@@ -63,7 +63,7 @@ public fun CharSequence.sha1(): String =
 /**
  * 字符串转为 sha256
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:21
  * @since 1.0.0
  */
@@ -72,7 +72,7 @@ public fun CharSequence.sha256(): String =
 
 /**
  * 摘要算法
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:47
  * @since 1.0.0
  */
@@ -89,7 +89,7 @@ public enum class DigestAlgorithm(
      * 生成摘要
      * @param [src] src
      * @return [String]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/27 19:21
      * @since 1.0.0
      */

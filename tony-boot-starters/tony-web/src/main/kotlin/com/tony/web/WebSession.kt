@@ -24,7 +24,7 @@
 
 /**
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021-04-20 11:12
  */
 package com.tony.web
@@ -36,7 +36,7 @@ import com.tony.web.exception.UnauthorizedException
 /**
  * 自定义实现 session.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:52
  */
 public interface WebSession : ApiSession {

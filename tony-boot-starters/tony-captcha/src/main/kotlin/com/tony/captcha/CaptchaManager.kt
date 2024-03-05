@@ -36,7 +36,7 @@ import java.util.function.Supplier
 /**
  * 验证码服务 单例类.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:38
  */
 public data object CaptchaManager {
@@ -49,7 +49,7 @@ public data object CaptchaManager {
      * @param [timeout] 过期时间
      * @param [timeUnit] 时间单位, 默认为 [TimeUnit.SECONDS]
      * @return [CaptchaVo]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/28 19:57
      * @since 1.0.0
      */
@@ -79,7 +79,7 @@ public data object CaptchaManager {
      * @param [message] 错误信息
      * @param [func] 回调
      * @return [R]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/28 19:57
      * @since 1.0.0
      */

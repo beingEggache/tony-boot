@@ -27,12 +27,12 @@
 package com.tony.utils
 /**
  * 日志工具类
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:22
  * @since 1.0.0
  */
-import java.util.function.Supplier
 import org.slf4j.MDC
+import java.util.function.Supplier
 
 /**
  * mdc放入或获取默认值
@@ -40,7 +40,7 @@ import org.slf4j.MDC
  * @param [default] 违约
  * @param [source] 来源
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/27 19:02
  * @since 1.0.0
  */

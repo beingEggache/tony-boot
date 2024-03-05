@@ -38,7 +38,7 @@ private const val TRADE_CLOSED = "TRADE_CLOSED"
 
 /**
  * 支付宝通知请求
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:07
  * @since 1.0.0
  */

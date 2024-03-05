@@ -29,7 +29,7 @@ package com.tony.utils
 /**
  * 核心工具类
  *
- * @author Tang Li
+ * @author tangli
  * @date 2022/09/29 19:20
  */
 import com.tony.ApiProperty
@@ -42,7 +42,7 @@ import com.tony.exception.BizException
  * @param [T] 自身类型
  * @param [default] 默认值
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/07 19:38
  * @since 1.0.0
  */
@@ -55,7 +55,7 @@ public fun <T> T?.ifNull(default: T): T =
  * @param [T] 自身类型
  * @param [block] 回调
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/07 19:39
  * @since 1.0.0
  */
@@ -69,7 +69,7 @@ public inline fun <reified T> T?.ifNull(crossinline block: () -> T): T =
  * @param [T] 返回类型
  * @param [block] 回调
  * @return [T]?
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/07 19:39
  * @since 1.0.0
  */
@@ -85,7 +85,7 @@ public inline fun <T> Boolean.runIf(crossinline block: () -> T?): T? =
  * 如果条件为真,  执行回调[block].
  * @receiver [Boolean] 条件.
  * @param [block] 回调.
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/07 19:41
  * @since 1.0.0
  */
@@ -102,7 +102,7 @@ public inline fun Boolean.alsoIf(crossinline block: () -> Unit) {
  * @param [condition] 条件
  * @param [block] 块
  * @return [R]?
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/07 19:41
  * @since 1.0.0
  */
@@ -125,7 +125,7 @@ public inline fun <T, R> T.runIf(
  * @param [condition] 条件
  * @param [block] 块
  * @return [R]?
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/07 19:41
  * @since 1.0.0
  */
@@ -147,7 +147,7 @@ public inline fun <T, R> T.letIf(
  * @param [condition] 条件
  * @param [block] 块
  * @return [this]?
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/07 19:41
  * @since 1.0.0
  */
@@ -167,7 +167,7 @@ public inline fun <T> T.applyIf(
  * @param [condition] 条件
  * @param [block] 块
  * @return [this]?
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/07 19:41
  * @since 1.0.0
  */
@@ -236,7 +236,7 @@ public fun <T> T?.throwIfNull(
  * @param [code] 异常代码
  * @param [ex] 异常类型构造函数
  * @return [C]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */
@@ -262,7 +262,7 @@ public fun <C : Collection<T>, T : Any?> C?.throwIfEmpty(
  * @param [code] 异常代码
  * @param [ex] 异常类型构造函数
  * @return [C]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */
@@ -288,7 +288,7 @@ public fun <C : Map<*, *>> C?.throwIfEmpty(
  * @param [code] 异常代码
  * @param [ex] 异常类型构造函数
  * @return [C]
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/06 19:19
  * @since 1.0.0
  */

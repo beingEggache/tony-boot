@@ -29,7 +29,7 @@ import java.lang.annotation.Inherited
 /**
  * 不需要登录检验 注解.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:14
  */
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)

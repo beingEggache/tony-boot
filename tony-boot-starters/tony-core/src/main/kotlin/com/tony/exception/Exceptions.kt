@@ -26,7 +26,7 @@ package com.tony.exception
 
 /**
  * 全局异常类型
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 import com.tony.ApiProperty
@@ -38,7 +38,7 @@ import com.tony.ApiProperty
  * @param code 错误码.
  * @param cause 引用异常.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public open class BaseException
@@ -56,7 +56,7 @@ public open class BaseException
  * @param code 错误码. 默认 [ApiProperty.errorCode]
  * @param cause 引用异常.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public open class ApiException
@@ -74,7 +74,7 @@ public open class ApiException
  * @param message 异常消息.
  * @param code 错误码. 默认 [ApiProperty.preconditionFailedCode]
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 public open class BizException

@@ -61,7 +61,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 /**
  * RedisCacheConfig
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:31
  */
 @Configuration
@@ -164,7 +164,7 @@ internal class RedisConfig(
 /**
  * RedisCacheProperties
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:31
  */
 @ConfigurationProperties(prefix = "redis")

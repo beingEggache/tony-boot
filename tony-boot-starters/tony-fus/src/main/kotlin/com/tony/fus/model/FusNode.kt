@@ -140,7 +140,7 @@ public class FusNode {
      * 获取节点
      * @param [nodeName] 节点名称
      * @return [FusNode]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/25 19:36
      * @since 1.0.0
      */
@@ -155,7 +155,7 @@ public class FusNode {
      * 从条件节点获取节点
      * @param [nodeName] 节点名称
      * @return [FusNode]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/25 19:36
      * @since 1.0.0
      */
@@ -169,7 +169,7 @@ public class FusNode {
     /**
      * 下一个节点
      * @return [FusNode]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/29 19:14
      * @since 1.0.0
      */

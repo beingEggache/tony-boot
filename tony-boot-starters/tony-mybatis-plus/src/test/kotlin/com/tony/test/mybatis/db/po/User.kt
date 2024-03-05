@@ -40,7 +40,7 @@ import java.time.LocalDateTime
  * 用户
  * </p>
  *
- * @author Tang Li
+ * @author tangli
  * @date 2020-11-15
  */
 @TableName("sys_user")

@@ -28,7 +28,7 @@ import com.tony.utils.string
 
 /**
  * 编解码器
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:45
  * @since 1.0.0
  */
@@ -37,7 +37,7 @@ public sealed interface Codec {
      * 编码为字符串
      * @param [src] src
      * @return [String]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
@@ -48,7 +48,7 @@ public sealed interface Codec {
      * 编码为字符串
      * @param [src] src
      * @return [String]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
@@ -59,7 +59,7 @@ public sealed interface Codec {
      * 编码到字节数组
      * @param [src] src
      * @return [ByteArray]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
@@ -70,7 +70,7 @@ public sealed interface Codec {
      * 编码到字节数组
      * @param [src] src
      * @return [ByteArray]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
@@ -80,7 +80,7 @@ public sealed interface Codec {
      * 解码为字符串
      * @param [src] src
      * @return [String]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
@@ -91,7 +91,7 @@ public sealed interface Codec {
      * 解码为字符串
      * @param [src] src
      * @return [String]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
@@ -102,7 +102,7 @@ public sealed interface Codec {
      * 解码为字节数组
      * @param [src] src
      * @return [ByteArray]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */
@@ -113,7 +113,7 @@ public sealed interface Codec {
      * 解码为字节数组
      * @param [src] src
      * @return [ByteArray]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/12 19:45
      * @since 1.0.0
      */

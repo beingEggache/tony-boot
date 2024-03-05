@@ -27,13 +27,13 @@ package com.tony.redis
 import com.tony.exception.ApiException
 import com.tony.utils.alsoIf
 import com.tony.utils.secureRandom
-import java.util.Collections
-import java.util.Date
-import java.util.concurrent.TimeUnit
 import org.slf4j.LoggerFactory
 import org.springframework.data.redis.core.RedisConnectionUtils
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.script.RedisScript
+import java.util.Collections
+import java.util.Date
+import java.util.concurrent.TimeUnit
 
 /**
  * Redis 操作聚合类单例.
@@ -62,7 +62,7 @@ public data object RedisManager {
      * @see `RedisTemplate.execute(SessionCallback<T> session)`
      * @param [callback] 回调
      * @return [List<Any?>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/28 19:58
      * @since 1.0.0
      */
@@ -100,7 +100,7 @@ public data object RedisManager {
      * @param [key] 钥匙
      * @param [timeout] 超时
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/28 19:59
      * @since 1.0.0
      */

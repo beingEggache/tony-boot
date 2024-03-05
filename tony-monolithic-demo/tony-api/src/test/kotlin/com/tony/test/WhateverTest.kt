@@ -4,7 +4,7 @@ import com.tony.utils.secureRandom
 
 /**
  *
- * @author Tang Li
+ * @author tangli
  * @date 2020-11-05 11:31
  */
 fun main() {

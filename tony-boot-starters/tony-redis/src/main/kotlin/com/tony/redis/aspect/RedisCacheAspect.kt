@@ -57,7 +57,7 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
  * 默认RedisCache实现.
  *
  * 给常规的 @Cacheable 加了过期时间.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:55
  * @since 1.0.0
  */
@@ -73,7 +73,7 @@ public abstract class RedisCacheAspect {
     /**
      * 执行删除缓存
      * @param [joinPoint] 连接点
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:43
      * @since 1.0.0
      */
@@ -97,7 +97,7 @@ public abstract class RedisCacheAspect {
      * @param [joinPoint] 连接点
      * @param [annotation] 注解
      * @return [Any]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:43
      * @since 1.0.0
      */
@@ -210,7 +210,7 @@ public abstract class RedisCacheAspect {
  * jackson RedisCache实现.
  *
  * 给常规的 @Cacheable 加了过期时间.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:55
  * @since 1.0.0
  */
@@ -245,7 +245,7 @@ internal class JacksonRedisCacheAspect : RedisCacheAspect() {
  * Protostuff RedisCache实现.
  *
  * 给常规的 @Cacheable 加了过期时间.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/28 19:55
  * @since 1.0.0
  */

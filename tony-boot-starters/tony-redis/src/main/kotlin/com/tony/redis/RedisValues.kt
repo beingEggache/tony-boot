@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit
 /**
  * redis value 操作单例.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/5/25 9:24
  */
 public data object RedisValues {

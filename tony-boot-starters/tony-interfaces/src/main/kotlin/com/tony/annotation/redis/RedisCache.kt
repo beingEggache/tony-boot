@@ -26,7 +26,7 @@ package com.tony.annotation.redis
 /**
  * redis 相关注解
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/24 19:10
  */
 
@@ -35,7 +35,7 @@ package com.tony.annotation.redis
  *
  * 给常规的 @Cacheable 加了过期时间
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/24 19:10
  */
 @Target(AnnotationTarget.FUNCTION)
@@ -64,7 +64,7 @@ public annotation class RedisCacheable(
  *
  * 可重复注解.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/24 19:11
  */
 @Target(AnnotationTarget.FUNCTION)

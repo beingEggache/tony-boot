@@ -41,7 +41,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 
 /**
  * WebCryptoConfig is
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/26 19:00
  */
 @Configuration

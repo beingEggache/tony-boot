@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 
 
 /**
- * @author Tang Li
+ * @author tangli
  */
 @Import(DbConfig.class)
 @EnableTonyBoot

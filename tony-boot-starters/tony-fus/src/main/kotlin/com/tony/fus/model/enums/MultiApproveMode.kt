@@ -30,7 +30,7 @@ import com.tony.enums.IntEnumValue
 
 /**
  * 多人审批时审批方式
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/29 19:19
  * @since 1.0.0
  */

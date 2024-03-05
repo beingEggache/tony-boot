@@ -28,7 +28,7 @@ package com.tony.wechat.client.resp
  * tony-boot-starters
  * WechatResp
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/09/26 19:23
  */
 import com.fasterxml.jackson.annotation.JsonInclude

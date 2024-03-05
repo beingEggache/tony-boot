@@ -34,7 +34,7 @@ import com.tony.utils.jsonToObj
 
 /**
  * 流程模型解析器
- * @author Tang Li
+ * @author tangli
  * @date 2023/11/02 19:15
  * @since 1.0.0
  */
@@ -48,7 +48,7 @@ internal data object FusProcessModelParser {
      * @param [key] 键
      * @param [redeploy] 重新部署
      * @return [FusProcessModel]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/02 19:16
      * @since 1.0.0
      */
@@ -75,7 +75,7 @@ internal data object FusProcessModelParser {
      * 流程模型 JSON 解析
      * @param [content] 模型内容
      * @return [FusProcessModel]
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/23 16:02
      * @since 1.0.0
      */
@@ -91,7 +91,7 @@ internal data object FusProcessModelParser {
     /**
      * 使缓存失效
      * @param [key] 钥匙
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/24 11:00
      * @since 1.0.0
      */

@@ -42,7 +42,7 @@ lettuce = "6.3.1.RELEASE"
 
 jackson = "2.16.1"
 gson = "2.10.1"
-fastjson = "2.0.46"
+fastjson = "2.0.47"
 
 postgresql = "42.7.2"
 mysql = "8.3.0"

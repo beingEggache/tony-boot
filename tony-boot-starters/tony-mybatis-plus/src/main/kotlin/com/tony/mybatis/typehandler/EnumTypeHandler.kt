@@ -34,7 +34,7 @@ import org.apache.ibatis.type.JdbcType
 
 /**
  * mybatis 枚举 转换器.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:40
  * @since 1.0.0
  */

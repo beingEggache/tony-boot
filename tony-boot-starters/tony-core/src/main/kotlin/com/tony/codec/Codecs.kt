@@ -27,7 +27,7 @@
 package com.tony.codec
 /**
  * 二进制编码工具类
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:43
  * @since 1.0.0
  */
@@ -37,7 +37,7 @@ import com.tony.codec.enums.Encoding
  * 编码为字符串
  * @param [encoding] 编码
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:43
  * @since 1.0.0
  */
@@ -48,7 +48,7 @@ public fun CharSequence.encodeToString(encoding: Encoding): String =
  * 编码到字节数组
  * @param [encoding] 编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:43
  * @since 1.0.0
  */
@@ -59,7 +59,7 @@ public fun CharSequence.encodeToByteArray(encoding: Encoding): ByteArray =
  * 编码为字符串
  * @param [encoding] 编码
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:44
  * @since 1.0.0
  */
@@ -70,7 +70,7 @@ public fun ByteArray.encodeToString(encoding: Encoding): String =
  * 编码到字节数组
  * @param [encoding] 编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:44
  * @since 1.0.0
  */
@@ -81,7 +81,7 @@ public fun ByteArray.encodeToByteArray(encoding: Encoding): ByteArray =
  * 解码为字符串
  * @param [encoding] 编码
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:44
  * @since 1.0.0
  */
@@ -92,7 +92,7 @@ public fun CharSequence.decodeToString(encoding: Encoding): String =
  * 解码为字节数组
  * @param [encoding] 编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:44
  * @since 1.0.0
  */
@@ -103,7 +103,7 @@ public fun CharSequence.decodeToByteArray(encoding: Encoding): ByteArray =
  * 解码为字符串
  * @param [encoding] 编码
  * @return [String]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:44
  * @since 1.0.0
  */
@@ -114,7 +114,7 @@ public fun ByteArray.decodeToString(encoding: Encoding): String =
  * 解码为字节数组
  * @param [encoding] 编码
  * @return [ByteArray]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/12 19:44
  * @since 1.0.0
  */

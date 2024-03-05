@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.Nulls;
 /**
  * javaTestPojo is
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/07/14 19:02
  */
 public class JavaTestPojo {
@@ -44,7 +44,7 @@ public class JavaTestPojo {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(final Integer age) {
         this.age = age;
     }
 
@@ -52,7 +52,7 @@ public class JavaTestPojo {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 }

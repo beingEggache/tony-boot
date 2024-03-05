@@ -55,7 +55,7 @@ public data class FusProcessModel(
     /**
      * 清除父节点
      * @param [rootNode] 根节点
-     * @author Tang Li
+     * @author tangli
      * @date 2024/02/05 10:09
      * @since 1.0.0
      */

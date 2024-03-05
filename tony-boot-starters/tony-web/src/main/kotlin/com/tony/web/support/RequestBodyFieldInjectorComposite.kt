@@ -27,16 +27,16 @@ package com.tony.web.support
 import com.tony.annotation.web.support.InjectRequestBodyField
 import com.tony.utils.annotationFromSelfOrGetterOrSetter
 import com.tony.utils.selfOrGetterOrSetterHasAnnotation
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 /**
  * RequestBody 注入
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/7/6 14:59
  */
 internal class RequestBodyFieldInjectorComposite(

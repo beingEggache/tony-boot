@@ -30,7 +30,7 @@ import com.tony.enums.IntEnumValue
 
 /**
  * 任务类型: 1.主办, 2.审批, 3.抄送, 4.条件审批, 5.条件分支, 6.子流程, 7.定时器, 8.触发器, 11.转办, 12.委派, 13.委派归还
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/29 19:00
  * @since 1.0.0
  */

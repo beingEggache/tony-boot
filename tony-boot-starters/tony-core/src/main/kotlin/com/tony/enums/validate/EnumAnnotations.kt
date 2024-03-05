@@ -26,7 +26,7 @@ package com.tony.enums.validate
 
 /**
  * 枚举转换注解
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 import jakarta.validation.Constraint
@@ -37,7 +37,7 @@ import kotlin.reflect.KClass
  * 简单枚举校验
  * @param enums 枚举值
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 @MustBeDocumented
@@ -62,7 +62,7 @@ public annotation class SimpleEnum(
  * @param enums 枚举值
  * @param required 是否必须
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 @MustBeDocumented
@@ -88,7 +88,7 @@ public annotation class SimpleIntEnum(
  * @param enumClass 枚举类
  * @param required 是否必须
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 @MustBeDocumented
@@ -114,7 +114,7 @@ public annotation class IntEnum(
  * @param enums 枚举值
  * @param required 是否必须
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 @MustBeDocumented
@@ -140,7 +140,7 @@ public annotation class SimpleStringEnum(
  * @param enumClass 枚举类
  * @param required 是否必须
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021-05-19 10:58
  */
 @MustBeDocumented

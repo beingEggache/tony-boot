@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotEmpty
 
 /**
  *
- * @author Tang Li
+ * @author tangli
  * @date 2020-11-14 13:50
  */
 @Schema(description = "分配角色请求")

@@ -29,7 +29,7 @@ import java.util.Collection;
 /**
  * Global collection wrapper.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 @SuppressWarnings("unused")

@@ -39,7 +39,7 @@ public interface FusCache {
      * @param [key] 键
      * @param [value] 值
      * @return [T?]
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/23 16:42
      * @since 1.0.0
      */
@@ -51,7 +51,7 @@ public interface FusCache {
     /**
      * 移除
      * @param [key] 钥匙
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/24 11:01
      * @since 1.0.0
      */
@@ -63,7 +63,7 @@ public interface FusCache {
      * @param [typeReference] 类型参考
      * @param [defaultValue] 默认值
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/17 16:20
      * @since 1.0.0
      */

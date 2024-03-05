@@ -27,7 +27,7 @@
  *
  * TODO
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/20 19:22
  */
 package com.tony.test.feign.exception

@@ -22,7 +22,7 @@ public interface FusModel {
     /**
      * 模型对象
      * @return [FusProcessModel]
-     * @author Tang Li
+     * @author tangli
      * @date 2024/01/24 10:15
      * @since 1.0.0
      */

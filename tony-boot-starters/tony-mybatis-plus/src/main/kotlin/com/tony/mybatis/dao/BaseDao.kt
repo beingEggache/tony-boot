@@ -55,7 +55,7 @@ import org.apache.ibatis.binding.MapperMethod.ParamMap
 
 /**
  * mybatis plus [BaseMapper] 包装, 增加了一些方法.
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:37
  * @since 1.0.0
  */
@@ -64,7 +64,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 根据id查询，为null 将会抛错
      * @param [id] id
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
@@ -76,7 +76,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [id] id
      * @param [message] 消息
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
@@ -92,7 +92,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [message] 消息
      * @param [ex] 异常类型
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
@@ -109,7 +109,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [message] 消息
      * @param [code] 密码
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
@@ -127,7 +127,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [code] 密码
      * @param [ex] 异常类型
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
@@ -147,7 +147,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [code] 密码
      * @param [ex] ex
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/06 19:03
      * @since 1.0.0
      */
@@ -181,7 +181,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [code] 密码
      * @param [ex] ex
      * @return [List]List<E>
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/06 19:12
      * @since 1.0.0
      */
@@ -202,7 +202,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [code] 密码
      * @param [ex] ex
      * @return [List] List<Map<String, Any?>>
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/06 19:12
      * @since 1.0.0
      */
@@ -218,7 +218,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * TableId 注解存在更新记录，否插入一条记录
      * @param [entity] 实体对象
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
@@ -246,7 +246,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 批量插入
      * @param [batchList] 实体列表
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
@@ -259,7 +259,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 批量保存更新
      * @param [batchList] 实体列表
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
@@ -296,7 +296,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 批量更新
      * @param [batchList] 实体列表
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
@@ -311,7 +311,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 批量删除,如果使用了逻辑删除，就是批量逻辑删除.
      * @param [batchList] 实体列表
      * @return [Boolean]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:38
      * @since 1.0.0
      */
@@ -339,7 +339,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [page] 页
      * @param [queryWrapper] 查询包装器
      * @return [PageResultLike]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:39
      * @since 1.0.0
      */
@@ -354,7 +354,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [page] 页
      * @param [queryWrapper] 查询包装器
      * @return [PageResultLike<Map<String, Any?>>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:42
      * @since 1.0.0
      */
@@ -384,7 +384,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     /**
      * 链式查询 普通
      * @return [TonyQueryChainWrapper]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:39
      * @since 1.0.0
      */
@@ -395,7 +395,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 链式查询 lambda 式
      * <p>注意：不支持 Kotlin </p>
      * @return [TonyLambdaQueryChainWrapper]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:39
      * @since 1.0.0
      */
@@ -406,7 +406,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 链式查询 普通.
      * 仅支持 Kotlin.
      * @return [TonyKtQueryChainWrapper]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:39
      * @since 1.0.0
      */
@@ -418,7 +418,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 链式更改 lambda 式.
      * 仅支持 Kotlin.
      * @return [KtUpdateChainWrapper]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:39
      * @since 1.0.0
      */
@@ -429,7 +429,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     /**
      * 链式更改 普通.
      * @return [UpdateChainWrapper]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:40
      * @since 1.0.0
      */
@@ -440,7 +440,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 链式更改 lambda 式.
      * <p>注意：不支持 Kotlin </p>
      * @return [LambdaUpdateChainWrapper]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:40
      * @since 1.0.0
      */

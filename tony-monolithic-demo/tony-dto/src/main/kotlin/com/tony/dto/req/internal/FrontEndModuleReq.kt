@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull
 
 /**
  *
- * @author Tang Li
+ * @author tangli
  * @date 2020-11-06 9:50
  */
 @Schema(description = "前端 模块/权限 请求")

@@ -31,7 +31,7 @@ import java.util.Objects;
 /**
  * 全局响应统一结构.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2021/12/6 10:51
  */
 @JsonPropertyOrder(value = {"success", "code", "message", "data"})

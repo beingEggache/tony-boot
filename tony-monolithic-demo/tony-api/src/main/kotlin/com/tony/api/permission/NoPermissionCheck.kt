@@ -14,7 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor
 
 /**
  *
- * @author Tang Li
+ * @author tangli
  * @date 2020-11-05 10:06
  */
 @Target(AnnotationTarget.FUNCTION)

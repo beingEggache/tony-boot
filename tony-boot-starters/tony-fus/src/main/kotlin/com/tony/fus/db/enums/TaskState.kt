@@ -30,7 +30,7 @@ import com.tony.enums.IntEnumValue
 
 /**
  * 任务状态: 1.活动, 2.跳转, 3.完成, 4.拒绝, 5.超时, 6.终止
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/29 19:00
  * @since 1.0.0
  */

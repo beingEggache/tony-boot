@@ -27,7 +27,7 @@ package com.tony.test.core;
 /**
  * JavaTestWhatever is
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/07/20 19:06
  */
 public class JavaTestWhatever {

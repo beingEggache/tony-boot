@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
 /**
  * 指定范围内校验.
  *
- * @author Tang Li
+ * @author tangli
  * @date 2018/7/11
  */
 @MustBeDocumented

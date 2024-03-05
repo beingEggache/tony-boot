@@ -43,7 +43,7 @@ import com.tony.fus.extension.fusSelectByIdNotNull
 /**
  * 流程相关的查询服务
  * 查询服务
- * @author Tang Li
+ * @author tangli
  * @date 2023/10/20 19:29
  * @since 1.0.0
  */
@@ -52,7 +52,7 @@ public sealed interface QueryService {
      * 获取流程实例
      * @param [instanceId] 实例id
      * @return [FusInstance] 流程实例
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:22
      * @since 1.0.0
      */
@@ -62,7 +62,7 @@ public sealed interface QueryService {
      * 获取历史流程实例
      * @param [instanceId] 实例id
      * @return [FusHistoryInstance] 历史流程实例
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:23
      * @since 1.0.0
      */
@@ -72,7 +72,7 @@ public sealed interface QueryService {
      * 获取任务
      * @param [taskId] 任务id
      * @return [FusTask] 任务对象
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:24
      * @since 1.0.0
      */
@@ -82,7 +82,7 @@ public sealed interface QueryService {
      * 获取历史任务
      * @param [taskId] 历史任务id
      * @return [FusTask] 历史任务对象
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:24
      * @since 1.0.0
      */
@@ -92,7 +92,7 @@ public sealed interface QueryService {
      * 按实例id和参与者id查找任务
      * @param [instanceId] 实例id
      * @param [actorId] 任务参与者id
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/21 19:41
      * @since 1.0.0
      */
@@ -105,7 +105,7 @@ public sealed interface QueryService {
      * 按实例id列出任务
      * @param [instanceId] 实例id
      * @return [List<FusTask>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:31
      * @since 1.0.0
      */
@@ -116,7 +116,7 @@ public sealed interface QueryService {
      * @param [instanceId] 实例id
      * @param [taskName] 任务名称
      * @return [List<FusTask>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/10 19:50
      * @since 1.0.0
      */
@@ -129,7 +129,7 @@ public sealed interface QueryService {
      * 列出历史任务
      * @param [instanceId] 实例id
      * @return [List<FusHistoryTask>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:39
      * @since 1.0.0
      */
@@ -139,7 +139,7 @@ public sealed interface QueryService {
      * 最近的历史任务
      * @param [instanceId] 实例id
      * @return [FusHistoryTask]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:39
      * @since 1.0.0
      */
@@ -150,7 +150,7 @@ public sealed interface QueryService {
      * @param [instanceId] 实例id
      * @param [taskName] 任务名称
      * @return [FusHistoryTask]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:39
      * @since 1.0.0
      */
@@ -163,7 +163,7 @@ public sealed interface QueryService {
      * 按任务id列出任务参与者
      * @param [taskId] 任务id
      * @return [List<FusTaskActor>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:32
      * @since 1.0.0
      */
@@ -173,7 +173,7 @@ public sealed interface QueryService {
      * 按任务id列出任务参与者
      * @param [taskId] 历史任务ID
      * @return [List<FusTaskActor>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/10 19:32
      * @since 1.0.0
      */
@@ -183,7 +183,7 @@ public sealed interface QueryService {
      * 按实例id列出任务参与者
      * @param [instanceId] 实例id
      * @return [List<FusTaskActor>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/10 19:59
      * @since 1.0.0
      */

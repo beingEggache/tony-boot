@@ -30,7 +30,7 @@ package com.tony.jackson
  * jackson 相关类
  *
  *
- * @author Tang Li
+ * @author tangli
  * @date 2022/04/24 19:44
  */
 import com.fasterxml.jackson.core.JsonGenerator
@@ -49,7 +49,7 @@ import com.tony.utils.isStringLikeType
 /**
  * 数组或列表类型为 null 时输出 "[]"
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:37
  */
 internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
@@ -67,7 +67,7 @@ internal class NullArrayJsonSerializer : JsonSerializer<Any?>() {
 /**
  * 对象或 map 类型 为null 时, 输出 "{}"
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:39
  */
 internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
@@ -85,7 +85,7 @@ internal class NullObjJsonSerializer : JsonSerializer<Any?>() {
 /**
  * 字符串为null时输出空字符串
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:40
  */
 internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
@@ -107,7 +107,7 @@ internal class NullStrJsonSerializer : JsonSerializer<Any?>() {
  *
  * 数组或列表类型为 null 时输出 "[]".
  *
- * @author Tang Li
+ * @author tangli
  * @date 2023/05/25 19:40
  */
 public class NullValueBeanSerializerModifier : BeanSerializerModifier() {

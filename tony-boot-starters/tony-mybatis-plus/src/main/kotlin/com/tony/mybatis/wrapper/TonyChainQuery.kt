@@ -37,7 +37,7 @@ import org.apache.ibatis.exceptions.TooManyResultsException
 
 /**
  * 链式查询.
- * @author Tang Li
+ * @author tangli
  * @date 2023/08/11 19:18
  */
 public interface TonyChainQuery<T : Any> : ChainQuery<T> {
@@ -46,7 +46,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     /**
      * 查询单条记录.为 null 时抛错.
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:50
      * @since 1.0.0
      */
@@ -57,7 +57,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询单条记录.为 null 时抛错.
      * @param [message] 默认为 [ApiProperty.notFoundMessage]
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:50
      * @since 1.0.0
      */
@@ -68,7 +68,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询单条记录.为 null 时抛错.
      * @param [message] 默认为 [ApiProperty.notFoundMessage]
      * @return [T]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:50
      * @since 1.0.0
      */
@@ -81,7 +81,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     /**
      * 查询某个条件是否存在, 存在就抛错.
      * @param [message] 消息
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:49
      * @since 1.0.0
      */
@@ -93,7 +93,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询某个条件是否存在, 存在就抛错.
      * @param [message] 消息
      * @param [ex] 异常类型
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:49
      * @since 1.0.0
      */
@@ -107,7 +107,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     /**
      * 查询某个条件是否不存在, 不存在就抛错.
      * @param [message] 消息
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:49
      * @since 1.0.0
      */
@@ -119,7 +119,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询某个条件是否不存在, 不存在就抛错.
      * @param [message] 消息
      * @param [ex] 异常类型
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:49
      * @since 1.0.0
      */
@@ -134,7 +134,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 列表查询, 再根据[transformer] 对 [T] 转换成 [R]
      * @param [transformer] 转换器
      * @return [List<R?>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/22 19:23
      * @since 1.0.0
      */
@@ -155,7 +155,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 当 [list] 为 null 或者 空时, 抛出异常.
      *
      * @return [list]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/06 19:19
      * @since 1.0.0
      */
@@ -168,7 +168,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 异常信息为 [message]
      * @param [message] 消息
      * @return [list]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/06 19:19
      * @since 1.0.0
      */
@@ -182,7 +182,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @param [ex] 异常类型
      * @return [list]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/11/06 19:19
      * @since 1.0.0
      */
@@ -196,7 +196,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 分页查询出全局统一结构.
      * @param [page] 全局统一请求分页结构.
      * @return [PageResultLike<T>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:49
      * @since 1.0.0
      */
@@ -207,7 +207,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询全局统一分页结构.
      * @param [page] 全局统一请求分页结构.
      * @return [PageResultLike<Map<String, Any?>>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:49
      * @since 1.0.0
      */
@@ -219,7 +219,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      *
      * 注意： 只返回第一个字段的值.
      * @return [List<E?>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:48
      * @since 1.0.0
      */
@@ -231,7 +231,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      *
      * 注意： 只返回第一个字段的值.
      * @return [List<E?>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:48
      * @since 1.0.0
      */
@@ -244,7 +244,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 注意： 只返回第一个字段的值.
      * @param [message] 消息
      * @return [List<E?>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:48
      * @since 1.0.0
      */
@@ -258,7 +258,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @param [ex] 异常类型
      * @return [List<E?>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:48
      * @since 1.0.0
      */
@@ -275,7 +275,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      *
      * 注意： 只返回第一个字段的值.
      * @return [E]?
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:48
      * @since 1.0.0
      */
@@ -296,7 +296,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     /**
      * 查询单条记录.为 null 时抛错.
      * @return [E]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:47
      * @since 1.0.0
      */
@@ -307,7 +307,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询单条记录.为 null 时抛错.
      * @param [message] 消息
      * @return [E]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:46
      * @since 1.0.0
      */
@@ -319,7 +319,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @param [ex] 异常类型
      * @return [E]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:46
      * @since 1.0.0
      */
@@ -332,7 +332,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     /**
      * 查询全部记录.
      * @return [List]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:50
      * @since 1.0.0
      */
@@ -343,7 +343,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 当 [listMap] 为 null 或者 空时, 抛出异常.
      *
      * @return [List]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:50
      * @since 1.0.0
      */
@@ -354,7 +354,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 当 [listMap] 为 null 或者 空时, 抛出异常.
      * @param [message] 消息
      * @return [List]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:50
      * @since 1.0.0
      */
@@ -366,7 +366,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @param [ex] 异常类型
      * @return [List]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:50
      * @since 1.0.0
      */
@@ -380,7 +380,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * 查询单条记录.
      * 查询一条记录，限制取一条记录, 注意：多条数据会报异常.
      * @return [Map<String, Any?>?]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/10/23 19:51
      * @since 1.0.0
      */
@@ -401,7 +401,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     /**
      * one map 不为空
      * @return [Map<String, Any?>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:41
      * @since 1.0.0
      */
@@ -412,7 +412,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * one map 不为空
      * @param [message] 消息
      * @return [Map<String, Any>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:40
      * @since 1.0.0
      */
@@ -424,7 +424,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @param [ex] 异常类型
      * @return [Map<String, Any>]
-     * @author Tang Li
+     * @author tangli
      * @date 2023/09/13 19:40
      * @since 1.0.0
      */

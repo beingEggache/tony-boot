@@ -32,7 +32,7 @@ import org.springframework.beans.BeanUtils
 
 /**
  * ObjUtils is
- * @author Tang Li
+ * @author tangli
  * @date 2023/06/13 19:10
  */
 
@@ -47,7 +47,7 @@ public fun <T> T?.println(): Unit =
  * 获取 logger.
  * @param [name] logger 名
  * @return [Logger]
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 13:55
  * @since 1.0.0
  */
@@ -59,7 +59,7 @@ public fun getLogger(name: String?): Logger =
  * @receiver [Any]?
  * @param [E] 目标类型
  * @return [E]?
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 13:56
  * @since 1.0.0
  */
@@ -73,7 +73,7 @@ public fun <E> Any?.asTo(): E? where E : Any =
  * @param [E] 目标类型
  * @param default 默认值
  * @return [E]
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 13:57
  * @since 1.0.0
  */
@@ -86,7 +86,7 @@ public fun <E> Any?.asToDefault(default: E): E where E : Any =
  *
  * @receiver [Any]
  * @param [E] 目标类型
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 13:57
  * @since 1.0.0
  */
@@ -100,7 +100,7 @@ public fun <E> Any.asToNotNull(): E where E : Any =
  * LoggerFactory.getLogger(this::class.java)
  *
  * @return [Logger]
- * @author Tang Li
+ * @author tangli
  * @date 2024/02/06 13:57
  * @since 1.0.0
  */
@@ -112,7 +112,7 @@ public fun <T> T.getLogger(): Logger where T : Any =
  * 是类型或子类型
  * @param [types] 类型
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/13 19:25
  * @since 1.0.0
  */
@@ -122,7 +122,7 @@ public fun Any.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
 /**
  * 复制属性
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/25 19:11
  * @since 1.0.0
  * @see BeanUtils.copyProperties
@@ -144,7 +144,7 @@ public inline fun <reified T> Any?.copyTo(): T =
  * @receiver 来源
  * @param [targetType] 目标类型
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/25 19:13
  * @since 1.0.0
  */
@@ -162,7 +162,7 @@ public fun <T> Any?.copyTo(targetType: Class<T>): T {
  * @receiver 来源
  * @param [target] 目标
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/25 19:13
  * @since 1.0.0
  */
@@ -179,7 +179,7 @@ public fun <T> Any?.copyTo(target: T?): T? {
  * @receiver 来源
  * @param [target] 目标
  * @return [T]
- * @author Tang Li
+ * @author tangli
  * @date 2023/09/25 19:13
  * @since 1.0.0
  */
@@ -195,7 +195,7 @@ public fun <T : Any> Any?.copyToNotNull(target: T): T {
 /**
  * 普通对象非null, 字符串非blank
  * @return [Boolean]
- * @author Tang Li
+ * @author tangli
  * @date 2024/01/15 10:13
  * @since 1.0.0
  */
