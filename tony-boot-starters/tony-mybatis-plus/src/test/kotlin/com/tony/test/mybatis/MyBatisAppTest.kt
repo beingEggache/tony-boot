@@ -27,7 +27,6 @@ package com.tony.test.mybatis
 import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.tony.ApiSession
 import com.tony.PageQuery
-import com.tony.PageResult
 import com.tony.annotation.EnableTonyBoot
 import com.tony.mybatis.DbMetaObjectHandler
 import com.tony.mybatis.DefaultMetaObjectHandler
@@ -65,7 +64,7 @@ class MyBatisAppTest {
         val oneObj = userDao.ktQuery().eq(User::userId, userId).oneObj<String>()
         logger.info(oneObj!!::class.java.name)
         logger.info(oneObj.toJsonString())
-        val pageResult = userDao.ktQuery().pageResult<PageResult<User>>(PageQuery<String>())
+        val pageResult = userDao.ktQuery().pageResult(PageQuery<String>())
         logger.info(pageResult.toJsonString())
     }
 
@@ -130,7 +129,7 @@ class MyBatisAppTest {
                 )
             }
         logger.info(mapList.toJsonString())
-        val pageResult1 = userDao.selectPageResult<PageResult<User>>(PageQuery<String>(), Wrappers.emptyWrapper())
+        val pageResult1 = userDao.selectPageResult(PageQuery<String>(), Wrappers.emptyWrapper())
         logger.info(pageResult1.toJsonString())
     }
 }
