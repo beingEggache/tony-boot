@@ -36,9 +36,9 @@ import com.fasterxml.jackson.annotation.JsonValue
 import com.tony.utils.asToNotNull
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.throwIfNull
+import java.io.Serializable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.Serializable
 
 /**
  * 全局枚举接口.

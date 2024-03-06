@@ -41,14 +41,14 @@ import com.tony.utils.mdcPutOrGetDefault
 import com.tony.utils.removeLineBreak
 import com.tony.utils.toInstant
 import jakarta.annotation.Priority
+import java.net.URL
+import java.time.LocalDateTime
 import okhttp3.Connection
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import org.slf4j.Logger
 import org.springframework.http.HttpStatus
-import java.net.URL
-import java.time.LocalDateTime
 
 /**
  * Feign okhttp 请求日志拦截器

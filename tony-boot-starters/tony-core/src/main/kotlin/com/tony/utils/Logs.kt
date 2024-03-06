@@ -31,8 +31,8 @@ package com.tony.utils
  * @date 2023/09/13 19:22
  * @since 1.0.0
  */
-import org.slf4j.MDC
 import java.util.function.Supplier
+import org.slf4j.MDC
 
 /**
  * mdc放入或获取默认值

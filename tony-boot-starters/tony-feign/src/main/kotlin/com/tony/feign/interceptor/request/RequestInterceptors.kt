@@ -38,8 +38,8 @@ import com.tony.utils.annotation
 import com.tony.utils.getLogger
 import feign.RequestInterceptor
 import feign.RequestTemplate
-import org.springframework.beans.factory.ObjectProvider
 import java.util.concurrent.ConcurrentHashMap
+import org.springframework.beans.factory.ObjectProvider
 
 /**
  * Global request interceptor provider.

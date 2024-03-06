@@ -48,10 +48,10 @@ import com.tony.utils.rawClass
 import com.tony.utils.toJavaType
 import feign.InvocationContext
 import feign.ResponseInterceptor
+import java.util.Locale
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.MediaType
-import java.util.Locale
 
 /**
  * Global response interceptor provider.

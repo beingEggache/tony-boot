@@ -30,6 +30,7 @@ import com.tony.wechat.WechatApiAccessTokenProvider
 import com.tony.wechat.WechatPropProvider
 import com.tony.wechat.client.WechatClient
 import jakarta.annotation.Resource
+import kotlin.reflect.full.findAnnotation
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -41,7 +42,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
-import kotlin.reflect.full.findAnnotation
 
 @Configuration
 @EnableConfigurationProperties(WechatProperties::class)

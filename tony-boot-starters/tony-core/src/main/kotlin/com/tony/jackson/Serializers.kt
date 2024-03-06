@@ -39,8 +39,8 @@ import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.tony.exception.ApiException
-import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
+import org.slf4j.LoggerFactory
 
 /**
  * 掩模转换器
