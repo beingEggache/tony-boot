@@ -22,13 +22,13 @@ import reactor.core.publisher.Mono
 @Configuration
 class GatewayConfig {
     /**
-     * 根据IP做限流 , 在配置文件filter处加
+     * 根据IP做限流, 在配置文件filter处加
      *
      *     name: RequestRateLimiter
      *     args:
      *      key-resolver: "#{@ipKeyResolver}"
-     *      redis-rate-limiter.replenishRate: 1  #令牌桶每秒填充平均速率
-     *      redis-rate-limiter.burstCapacity: 1  #令牌桶总容量
+     *      redis-rate-limiter.replenishRate: 1 #令牌桶每秒填充平均速率
+     *      redis-rate-limiter.burstCapacity: 1 #令牌桶总容量
      */
     @Bean
     fun ipKeyResolver() =
