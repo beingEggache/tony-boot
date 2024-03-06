@@ -1,7 +1,7 @@
 package com.tony.mono.db.service;
 
 import com.tony.PageQueryLike;
-import com.tony.PageResult;
+import com.tony.PageResultLike;
 import com.tony.mono.db.dao.UserDao;
 import com.tony.mono.db.po.User;
 import com.tony.mono.dto.req.UserLoginReq;
@@ -19,7 +19,7 @@ public class UserService {
         return req.getUserName();
     }
 
-    public PageResult<User> list(PageQueryLike<String> req) {
+    public PageResultLike<User> list(final PageQueryLike<String> req) {
         return userDao
             .lambdaQuery()
             .like(

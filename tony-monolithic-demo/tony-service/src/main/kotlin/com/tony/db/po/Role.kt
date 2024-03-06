@@ -113,9 +113,6 @@ class Role {
     /**
      * 租户id
      */
-    /**
-     * 租户id
-     */
     @TableField(
         fill = FieldFill.INSERT,
         updateStrategy = FieldStrategy.NEVER

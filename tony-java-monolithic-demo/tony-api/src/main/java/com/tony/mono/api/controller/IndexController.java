@@ -2,7 +2,7 @@ package com.tony.mono.api.controller;
 
 import com.tony.MonoResult;
 import com.tony.PageQuery;
-import com.tony.PageResult;
+import com.tony.PageResultLike;
 import com.tony.annotation.web.auth.NoLoginCheck;
 import com.tony.jwt.JwtToken;
 import com.tony.mono.db.po.User;
@@ -61,7 +61,7 @@ public class IndexController {
     @Operation(summary = "用户列表")
     @NoLoginCheck
     @PostMapping("/user/list")
-    public PageResult<User> list(
+    public PageResultLike<User> list(
         @Validated
         @RequestBody final PageQuery<String> req
     ) {
