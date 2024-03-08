@@ -23,7 +23,7 @@
 [versions]
 template = "0.1-SNAPSHOT"
 java = "21"
-kotlin = "1.9.22"
+kotlin = "1.9.23"
 spring = "6.1.4"
 springBoot = "3.2.3"
 
@@ -78,7 +78,7 @@ springCloudAlibaba = "2022.0.0.0"
 lombok = "8.6"
 ktlint = "1.2.1"
 graalvm = "0.10.1"
-dokka = "1.9.10"
+dokka = "1.9.20"
 
 [libraries]
 
