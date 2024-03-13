@@ -80,9 +80,6 @@ dokka = "1.9.20"
 
 [libraries]
 jacksonBom = { module = "com.fasterxml.jackson:jackson-bom", version.ref = "jackson" }
-jacksonAnnotations = { module = "com.fasterxml.jackson.core:jackson-annotations" }
-jacksonCore = { module = "com.fasterxml.jackson.core:jackson-core" }
-jacksonDatabind = { module = "com.fasterxml.jackson.core:jackson-databind" }
 jacksonDatatypeJdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8" }
 jacksonDatatypeJsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }
 jacksonModuleKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
@@ -179,53 +176,35 @@ snakeYaml = { module = "org.yaml:snakeyaml", version = "2.2" }
 yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version = "1.0.6" }
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
 
-springAop = { module = "org.springframework:spring-aop", version.ref = "spring" }
-springAspects = { module = "org.springframework:spring-aspects", version.ref = "spring" }
-springBeans = { module = "org.springframework:spring-beans", version.ref = "spring" }
-springContext = { module = "org.springframework:spring-context", version.ref = "spring" }
-springContextSupport = { module = "org.springframework:spring-context-support", version.ref = "spring" }
+springBom = { module = "org.springframework:spring-framework-bom", version.ref = "spring" }
+springContext = { module = "org.springframework:spring-context" }
 springContextIndexer = { module = "org.springframework:spring-context-indexer", version.ref = "spring" }
-springCore = { module = "org.springframework:spring-core", version.ref = "spring" }
-springExpression = { module = "org.springframework:spring-expression", version.ref = "spring" }
-springJcl = { module = "org.springframework:spring-jcl", version.ref = "spring" }
-springJdbc = { module = "org.springframework:spring-jdbc", version.ref = "spring" }
-springOrm = { module = "org.springframework:spring-orm", version.ref = "spring" }
-springOxm = { module = "org.springframework:spring-oxm", version.ref = "spring" }
-springTest = { module = "org.springframework:spring-test", version.ref = "spring" }
-springTx = { module = "org.springframework:spring-tx", version.ref = "spring" }
-springWeb = { module = "org.springframework:spring-web", version.ref = "spring" }
-springWebmvc = { module = "org.springframework:spring-webmvc", version.ref = "spring" }
-springWebflux = { module = "org.springframework:spring-webflux", version.ref = "spring" }
+springWeb = { module = "org.springframework:spring-web" }
 
 springCloudAlibabaDenpendencies = { module = "com.alibaba.cloud:spring-cloud-alibaba-dependencies", version.ref = "springCloudAlibaba" }
 springCloudDependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "springCloud" }
 reactorBom = { module = "io.projectreactor:reactor-bom", version.ref = "reactor" }
 nettyBom = { module = "io.netty:netty-bom", version.ref = "netty" }
 
-springBoot = { module = "org.springframework.boot:spring-boot", version.ref = "springBoot" }
-springBootStarter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "springBoot" }
+springBootDependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "springBoot" }
+springBoot = { module = "org.springframework.boot:spring-boot" }
+springBootStarter = { module = "org.springframework.boot:spring-boot-starter" }
+springBootStarterActuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+springBootStarterAmqp = { module = "org.springframework.boot:spring-boot-starter-amqp" }
+springBootStarterAop = { module = "org.springframework.boot:spring-boot-starter-aop" }
+springBootStarterJson = { module = "org.springframework.boot:spring-boot-starter-json" }
+springBootStarterLogging = { module = "org.springframework.boot:spring-boot-starter-logging" }
+springBootDevtools = { module = "org.springframework.boot:spring-boot-devtools" }
+springBootStarterUndertow = { module = "org.springframework.boot:spring-boot-starter-undertow" }
+springBootStarterValidation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+springBootStarterWeb = { module = "org.springframework.boot:spring-boot-starter-web" }
+springBootStarterDataRedis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
+springBootStarterDataRedisReactive = { module = "org.springframework.boot:spring-boot-starter-data-redis-reactive" }
+
 springBootAutoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "springBoot" }
 springBootConfigurationProcessor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "springBoot" }
 springBootAutoconfigureProcessor = { module = "org.springframework.boot:spring-boot-autoconfigure-processor", version.ref = "springBoot" }
-springBootDevtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "springBoot" }
-springBootStarterActuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "springBoot" }
-springBootStarterAmqp = { module = "org.springframework.boot:spring-boot-starter-amqp", version.ref = "springBoot" }
-springBootStarterAop = { module = "org.springframework.boot:spring-boot-starter-aop", version.ref = "springBoot" }
-springBootStarterCache = { module = "org.springframework.boot:spring-boot-starter-cache", version.ref = "springBoot" }
-springBootStarterJdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc", version.ref = "springBoot" }
-springBootStarterJson = { module = "org.springframework.boot:spring-boot-starter-json", version.ref = "springBoot" }
-springBootStarterLogging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "springBoot" }
-springBootStarterReactorNetty = { module = "org.springframework.boot:spring-boot-starter-reactor-netty", version.ref = "springBoot" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
-springBootStarterTomcat = { module = "org.springframework.boot:spring-boot-starter-tomcat", version.ref = "springBoot" }
-springBootStarterUndertow = { module = "org.springframework.boot:spring-boot-starter-undertow", version.ref = "springBoot" }
-springBootStarterValidation = { module = "org.springframework.boot:spring-boot-starter-validation", version.ref = "springBoot" }
-springBootStarterWeb = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBoot" }
-springBootStarterWebflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "springBoot" }
-springBootStarterWebsocket = { module = "org.springframework.boot:spring-boot-starter-websocket", version.ref = "springBoot" }
-
-springBootStarterDataRedis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version.ref = "springBoot" }
-springBootStarterDataRedisReactive = { module = "org.springframework.boot:spring-boot-starter-data-redis-reactive", version.ref = "springBoot" }
 
 furyCore = { module = "org.furyio:fury-core", version.ref = "fury" }
 furyFormat = { module = "org.furyio:fury-format", version.ref = "fury" }
