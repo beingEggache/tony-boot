@@ -32,15 +32,11 @@ logstashLogbackEncoder = "7.4"
 
 byteBuddy = "1.14.12"
 bouncycastle = "1.77"
-netty = "4.1.107.Final"
-reactor = "3.6.3"
-reactorNetty = "1.1.16"
-reactorKotlinExtensions = "1.2.2"
 
 openFeign = "13.2.1"
 lettuce = "6.3.1.RELEASE"
 
-jackson = "2.16.1"
+jackson = "2.16.2"
 gson = "2.10.1"
 fastjson = "2.0.47"
 
@@ -74,6 +70,8 @@ vertx = "4.5.4"
 
 springCloud = "2023.0.0"
 springCloudAlibaba = "2022.0.0.0"
+reactor = "2023.0.4"
+netty = "4.1.107.Final"
 
 lombok = "8.6"
 ktlint = "1.2.1"
@@ -81,14 +79,14 @@ graalvm = "0.10.1"
 dokka = "1.9.20"
 
 [libraries]
-
-jacksonAnnotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson" }
-jacksonCore = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
-jacksonDatabind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
-jacksonDatatypeJdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jackson" }
-jacksonDatatypeJsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
-jacksonModuleKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
-jacksonModuleParameterNames = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names", version.ref = "jackson" }
+jacksonBom = { module = "com.fasterxml.jackson:jackson-bom", version.ref = "jackson" }
+jacksonAnnotations = { module = "com.fasterxml.jackson.core:jackson-annotations" }
+jacksonCore = { module = "com.fasterxml.jackson.core:jackson-core" }
+jacksonDatabind = { module = "com.fasterxml.jackson.core:jackson-databind" }
+jacksonDatatypeJdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8" }
+jacksonDatatypeJsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }
+jacksonModuleKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
+jacksonModuleParameterNames = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names" }
 
 knife4jCore = { module = "com.github.xiaoymin:knife4j-core", version.ref = "knife4j" }
 knife4jOpenapi3SpringBootStarter = { module = "com.github.xiaoymin:knife4j-openapi3-spring-boot-starter", version.ref = "knife4j" }
@@ -97,27 +95,7 @@ knife4jOpenapi3Ui = { module = "com.github.xiaoymin:knife4j-openapi3-ui", versio
 knife4jGatewaySpringBootStarter = { module = "com.github.xiaoymin:knife4j-gateway-spring-boot-starter", version.ref = "knife4j" }
 
 kotlinBom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
-kotlinStdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
-kotlinStdlibCommon = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
-kotlinReflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
-kotlinTest = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlinTestJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
-
-nettyAll = { module = "io.netty:netty-all", version.ref = "netty" }
-nettyBuffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
-nettyCommon = { module = "io.netty:netty-common", version.ref = "netty" }
-nettyResolver = { module = "io.netty:netty-resolver", version.ref = "netty" }
-nettyResolverDns = { module = "io.netty:netty-resolver-dns", version.ref = "netty" }
-nettyResolverDnsMacOs = { module = "io.netty:netty-resolver-dns-native-macos", version.ref = "netty" }
-nettyTransport = { module = "io.netty:netty-transport", version.ref = "netty" }
-nettyTransportNativeUnixCommon = { module = "io.netty:netty-transport-native-unix-common", version.ref = "netty" }
-nettyTransportNativeEpoll = { module = "io.netty:netty-transport-native-epoll", version.ref = "netty" }
-nettyHandler = { module = "io.netty:netty-handler", version.ref = "netty" }
-nettyHandlerProxy = { module = "io.netty:netty-handler-proxy", version.ref = "netty" }
-nettyCodec = { module = "io.netty:netty-codec", version.ref = "netty" }
-nettyCodecHttp = { module = "io.netty:netty-codec-http", version.ref = "netty" }
-nettyCodecHttp2 = { module = "io.netty:netty-codec-http2", version.ref = "netty" }
-nettyCodecSocks = { module = "io.netty:netty-codec-socks", version.ref = "netty" }
+kotlinStdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib" }
 
 openFeignCore = { module = "io.github.openfeign:feign-core", version.ref = "openFeign" }
 openFeignSl4j = { module = "io.github.openfeign:feign-slf4j", version.ref = "openFeign" }
@@ -158,7 +136,7 @@ okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.8.0" }
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.5" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.16.1" }
 commonsIo = { module = "commons-io:commons-io", version = "2.15.1" }
-commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.26.0" }
+commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.26.1" }
 commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.0" }
 commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.14.0" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
@@ -181,11 +159,7 @@ bcmailJdk18On = { module = "org.bouncycastle:bcmail-jdk18on", version.ref = "bou
 bctspJdk15On = { module = "org.bouncycastle:bctsp-jdk15on", version = "1.46" }
 classmate = { module = "com.fasterxml:classmate", version = "1.7.0" }
 
-reactor = { module = "io.projectreactor:reactor-core", version.ref = "reactor" }
-reactorKotlinExtensions = { module = "io.projectreactor.kotlin:reactor-kotlin-extensions", version.ref = "reactorKotlinExtensions" }
-reactorNetty = { module = "io.projectreactor.netty:reactor-netty", version.ref = "reactorNetty" }
-reactorNettyCore = { module = "io.projectreactor.netty:reactor-netty-core", version.ref = "reactorNetty" }
-reactorNettyHttp = { module = "io.projectreactor.netty:reactor-netty-http", version.ref = "reactorNetty" }
+reactorKotlinExtensions = { module = "io.projectreactor.kotlin:reactor-kotlin-extensions", version = "1.2.2" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.1.8" }
 
 swaggerV3Annotaion = { module = "io.swagger.core.v3:swagger-annotations", version.ref = "swagger" }
@@ -225,6 +199,8 @@ springWebflux = { module = "org.springframework:spring-webflux", version.ref = "
 
 springCloudAlibabaDenpendencies = { module = "com.alibaba.cloud:spring-cloud-alibaba-dependencies", version.ref = "springCloudAlibaba" }
 springCloudDependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "springCloud" }
+reactorBom = { module = "io.projectreactor:reactor-bom", version.ref = "reactor" }
+nettyBom = { module = "io.netty:netty-bom", version.ref = "netty" }
 
 springBoot = { module = "org.springframework.boot:spring-boot", version.ref = "springBoot" }
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "springBoot" }
@@ -286,6 +262,5 @@ tonyMavenPublish = { id = "com.tony.gradle.plugin.maven-publish", version.ref="t
 tonyDocker = { id = "com.tony.gradle.plugin.docker", version.ref="template"}
 
 [bundles]
-#test = ["kotlinTest","kotlinTestJunit","springBootStarterTest"]
 test = ["springBootStarterTest"]
 springBootProcessors = ["springBootConfigurationProcessor", "springBootAutoconfigureProcessor", "springContextIndexer"]

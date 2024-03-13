@@ -12,5 +12,9 @@ dependencies {
             add("api", it)
         }
     }
+    add("api", platform(tonyLibs.kotlinBom))
     add("api", platform(tonyLibs.springCloudDependencies))
+    add("api", platform(tonyLibs.reactorBom))
+    add("api", platform(tonyLibs.nettyBom))
+    add("api", platform(tonyLibs.jacksonBom))
 }
