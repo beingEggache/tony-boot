@@ -188,6 +188,7 @@ nettyBom = { module = "io.netty:netty-bom", version.ref = "netty" }
 
 springBootDependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "springBoot" }
 springBoot = { module = "org.springframework.boot:spring-boot" }
+springBootAutoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure" }
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter" }
 springBootStarterActuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 springBootStarterAmqp = { module = "org.springframework.boot:spring-boot-starter-amqp" }
@@ -201,7 +202,6 @@ springBootStarterWeb = { module = "org.springframework.boot:spring-boot-starter-
 springBootStarterDataRedis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
 springBootStarterDataRedisReactive = { module = "org.springframework.boot:spring-boot-starter-data-redis-reactive" }
 
-springBootAutoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "springBoot" }
 springBootConfigurationProcessor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "springBoot" }
 springBootAutoconfigureProcessor = { module = "org.springframework.boot:spring-boot-autoconfigure-processor", version.ref = "springBoot" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
