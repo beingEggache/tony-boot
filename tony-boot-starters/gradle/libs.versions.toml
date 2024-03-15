@@ -70,6 +70,7 @@ vertx = "4.5.4"
 
 springCloud = "2023.0.0"
 springCloudAlibaba = "2022.0.0.0"
+springCloudTencent = "1.13.1-2023.0.0"
 reactor = "2023.0.4"
 netty = "4.1.107.Final"
 
@@ -181,6 +182,7 @@ springContext = { module = "org.springframework:spring-context" }
 springContextIndexer = { module = "org.springframework:spring-context-indexer", version.ref = "spring" }
 springWeb = { module = "org.springframework:spring-web" }
 
+springCloudTencentDependencies = { module = "com.tencent.cloud:spring-cloud-tencent-dependencies", version.ref = "springCloudTencent" }
 springCloudAlibabaDenpendencies = { module = "com.alibaba.cloud:spring-cloud-alibaba-dependencies", version.ref = "springCloudAlibaba" }
 springCloudDependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "springCloud" }
 reactorBom = { module = "io.projectreactor:reactor-bom", version.ref = "reactor" }
