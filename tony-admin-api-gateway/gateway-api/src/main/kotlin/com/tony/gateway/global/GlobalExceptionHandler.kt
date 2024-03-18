@@ -32,11 +32,11 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
         }
         return if (ex is ResponseStatusException) {
             val httpStatus = ex.statusCode
-
+            response.statusCode = httpStatus
             response.jsonBody(
                 ApiResult(
                     Unit,
-                    httpStatus.value() * 100,
+                    httpStatus.value(),
                     ex.reason ?: ""
                 )
             )

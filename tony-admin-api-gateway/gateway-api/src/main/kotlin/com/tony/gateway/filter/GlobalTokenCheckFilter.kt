@@ -41,7 +41,7 @@ class GlobalTokenCheckFilter(
                 JwtToken.parse(request.headers.getFirst(TOKEN_HEADER_NAME).ifNullOrBlank())
             } catch (e: JWTVerificationException) {
                 null
-            } ?: return exchange.response.jsonBody(ApiResult("请登录", ApiProperty.unauthorizedCode))
+            } ?: return exchange.response.jsonBody(ApiResult(Unit, ApiProperty.unauthorizedCode, "请登录"))
         val mutReq = request.mutate().header(USER_ID_HEADER_NAME, token.getClaim("userId").asString()).build()
         return chain.filter(exchange.mutate().request(mutReq).build())
     }

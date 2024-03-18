@@ -14,8 +14,8 @@ dependencies {
         implementation(tonyLibs.knife4jOpenapi3Ui)
     }
 
-    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
-    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
+    implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-discovery")
+    implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-config")
 
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation(Build.templateProject("web")) { isChanging = true }
