@@ -124,7 +124,7 @@ public class MaskSerializer : JsonSerializer<Any>() {
         serializers: SerializerProvider,
     ) {
         val annotation =
-            gen.currentValue::class.java
+            gen.currentValue()::class.java
                 .getDeclaredField(gen.outputContext.currentName)
                 .getAnnotation(MaskConverter::class.java)
 

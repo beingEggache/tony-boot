@@ -273,7 +273,7 @@ public fun CharSequence.getFromRootAsString(field: String): String? {
             } != null
         ) {
             if (it.currentToken == JsonToken.FIELD_NAME &&
-                it.currentName == field &&
+                it.currentName() == field &&
                 it
                     .parsingContext
                     .parent
