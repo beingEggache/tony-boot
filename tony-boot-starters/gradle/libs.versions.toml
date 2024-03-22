@@ -61,7 +61,7 @@ bindApi = "4.0.2"
 swagger = "2.2.21"
 knife4j = "4.5.0"
 springdoc = "1.8.0"
-springdocStarter = "2.4.0"
+springdocStarter = "2.3.0"
 
 fury = "0.4.1"
 
@@ -169,8 +169,10 @@ swaggerV3ModelsJarkarta = { module = "io.swagger.core.v3:swagger-models-jarkarta
 
 springdocUi = { module = "org.springdoc:springdoc-openapi-ui", version.ref = "springdoc" }
 springdocCommon = { module = "org.springdoc:springdoc-openapi-common", version.ref = "springdoc" }
-springdocStarterCommon = { module = "org.springdoc:springdoc-openapi-starter-common", version.ref = "springdocStarter" }
 springdocKotlin = { module = "org.springdoc:springdoc-openapi-kotlin", version.ref = "springdoc" }
+springdocStarterCommon = { module = "org.springdoc:springdoc-openapi-starter-common", version.ref = "springdocStarter" }
+springdocStarterWebmvcApi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-api", version.ref = "springdocStarter" }
+springdocStarterWebmvcUi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdocStarter" }
 
 snakeYaml = { module = "org.yaml:snakeyaml", version = "2.2" }
 
