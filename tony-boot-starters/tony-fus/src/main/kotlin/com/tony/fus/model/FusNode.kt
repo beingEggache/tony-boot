@@ -133,8 +133,17 @@ public class FusNode {
      */
     public var parentNode: FusNode? = null
 
+    /**
+     * 条件节点
+     */
     public val isConditionNode: Boolean
         get() = NodeType.CONDITIONAL_APPROVE == nodeType || NodeType.CONDITIONAL_BRANCH == nodeType
+
+    /**
+     * 抄送节点
+     */
+    public val isCcNode: Boolean
+        get() = NodeType.CC == nodeType
 
     /**
      * 获取节点
@@ -177,6 +186,8 @@ public class FusNode {
         childNode ?: nextNode(this)
 
     public companion object {
+
+        @JvmStatic
         public tailrec fun nextNode(node: FusNode): FusNode? {
             val parentNode = node.parentNode
             if (parentNode == null || parentNode.nodeType == NodeType.INITIATOR) {
@@ -191,5 +202,34 @@ public class FusNode {
             }
             return nextNode(parentNode)
         }
+
+        @JvmStatic
+        internal fun conditionNodeNames(node: FusNode): List<String> =
+            node.conditionNodes.fold(mutableListOf()) { list, conditionNode ->
+                val childNode = conditionNode.childNode
+                if (childNode != null) {
+                    if (childNode.isConditionNode) {
+                        list.apply { this.addAll(conditionNodeNames(childNode)) }
+                    } else {
+                        list.apply { this.addAll(nextNodeNames(childNode)) }
+                    }
+                }
+                list
+            }
+
+        @JvmStatic
+        public fun nextNodeNames(node: FusNode): List<String> =
+            mutableListOf<String>().also { list ->
+                if (node.isConditionNode) {
+                    list.addAll(conditionNodeNames(node))
+                } else {
+                    if (!node.isCcNode) {
+                        list.add(node.nodeName)
+                    }
+                    node.childNode?.also { childNode ->
+                        list.addAll(nextNodeNames(childNode))
+                    }
+                }
+            }
     }
 }
