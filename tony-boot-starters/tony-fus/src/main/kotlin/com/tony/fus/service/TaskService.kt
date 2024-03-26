@@ -648,11 +648,8 @@ internal open class TaskServiceImpl(
                 .ktQuery()
                 .eq(FusTask::instanceId, historyTask.instanceId)
                 .list()
-                .map {
-                    it.taskId
-                }.also { taskIdList ->
-                    taskMapper.deleteBatchIds(taskIdList)
-                    taskActorMapper.deleteByTaskIds(taskIdList)
+                .forEach { task ->
+                    moveToHistoryTask(task, TaskState.REVOKE, actorId)
                 }
         }
 

@@ -58,14 +58,19 @@ public enum class TaskState(
     REJECTED(4),
 
     /**
+     * 撤销
+     */
+    REVOKE(5),
+
+    /**
      * 超时
      */
-    EXPIRED(5),
+    EXPIRED(6),
 
     /**
      * 终止
      */
-    TERMINATED(6),
+    TERMINATED(7),
     ;
 
     internal companion object : EnumCreator<TaskState, Int>(TaskState::class.java) {
