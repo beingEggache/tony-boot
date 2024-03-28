@@ -68,7 +68,7 @@ fury = "0.4.1"
 powerjob = "4.3.9"
 vertx = "4.5.4"
 
-springCloud = "2023.0.0"
+springCloud = "2023.0.1"
 springCloudAlibaba = "2022.0.0.0"
 springCloudTencent = "1.13.1-2023.0.0"
 reactor = "2023.0.4"

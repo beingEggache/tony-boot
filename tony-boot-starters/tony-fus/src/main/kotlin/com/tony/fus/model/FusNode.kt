@@ -186,7 +186,6 @@ public class FusNode {
         childNode ?: nextNode(this)
 
     public companion object {
-
         @JvmStatic
         public tailrec fun nextNode(node: FusNode): FusNode? {
             val parentNode = node.parentNode
