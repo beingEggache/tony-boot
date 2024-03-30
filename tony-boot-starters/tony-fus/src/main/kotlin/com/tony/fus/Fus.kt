@@ -37,6 +37,7 @@ import com.tony.fus.extension.fusThrowIfEmpty
 import com.tony.fus.extension.fusThrowIfNull
 import com.tony.fus.model.FusExecution
 import com.tony.fus.model.FusNode
+import com.tony.fus.model.FusNode.Companion.hasDuplicateNodeNames
 import com.tony.fus.model.FusNodeAssignee
 import com.tony.fus.model.enums.NodeType
 import com.tony.fus.service.ProcessService
@@ -98,6 +99,11 @@ public data object Fus {
                     !taskActorProvider().hasPermission(node, userId),
                     "No permission to execute"
                 )
+                fusThrowIf(
+                    node.hasDuplicateNodeNames(),
+                    "There are duplicate node names present"
+                )
+
                 val execution =
                     FusExecution(
                         process.model(),

@@ -184,7 +184,7 @@ internal open class RuntimeServiceImpl(
                 this.modelContent = process.modelContent
             }
         )
-        instanceListener?.notify(EventType.CREATE) { instance1 }
+        instanceListener?.notify(userId, EventType.CREATE) { instance1 }
         return instance1
     }
 
@@ -219,7 +219,7 @@ internal open class RuntimeServiceImpl(
                         }
                 instanceMapper.deleteById(instanceId)
                 historyInstanceMapper.updateById(historyInstance)
-                instanceListener?.notify(EventType.COMPLETED) {
+                instanceListener?.notify(execution.userId, EventType.COMPLETED) {
                     historyInstanceMapper.selectById(instanceId)
                 }
                 val parentInstanceId = instance.parentInstanceId
@@ -416,7 +416,7 @@ internal open class RuntimeServiceImpl(
                         }
                 historyInstanceMapper.updateById(historyInstance)
                 instanceMapper.deleteById(instanceId)
-                instanceListener?.notify(eventType) { historyInstance }
+                instanceListener?.notify(userId, eventType) { historyInstance }
             }
     }
 }

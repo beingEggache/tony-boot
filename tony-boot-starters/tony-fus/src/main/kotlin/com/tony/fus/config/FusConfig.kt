@@ -36,6 +36,7 @@ import com.tony.fus.db.mapper.FusInstanceMapper
 import com.tony.fus.db.mapper.FusProcessMapper
 import com.tony.fus.db.mapper.FusTaskActorMapper
 import com.tony.fus.db.mapper.FusTaskMapper
+import com.tony.fus.listener.EventInstanceListener
 import com.tony.fus.listener.InstanceListener
 import com.tony.fus.listener.TaskListener
 import com.tony.fus.service.ProcessService
@@ -48,6 +49,8 @@ import com.tony.fus.service.TaskService
 import com.tony.fus.service.TaskServiceImpl
 import org.mybatis.spring.annotation.MapperScan
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.lang.Nullable
@@ -136,4 +139,10 @@ internal class FusConfig {
     @Bean(autowireCandidate = false)
     internal fun taskActorProvider(): FusTaskActorProvider =
         DefaultFusTaskActorProvider()
+
+    @ConditionalOnProperty(prefix = "fus", name = ["eventing.instance"], havingValue = "true")
+    @ConditionalOnMissingBean
+    @Bean
+    internal fun eventInstanceListener(applicationEventPublisher: ApplicationEventPublisher): EventInstanceListener =
+        EventInstanceListener(applicationEventPublisher)
 }

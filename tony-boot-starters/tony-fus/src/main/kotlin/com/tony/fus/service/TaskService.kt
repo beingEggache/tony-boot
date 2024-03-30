@@ -429,7 +429,7 @@ internal open class TaskServiceImpl(
                 }
             }
         moveToHistoryTask(task, taskState, userId)
-        taskListener?.notify(eventType) { task }
+        taskListener?.notify(userId, eventType) { task }
         return task
     }
 
@@ -492,7 +492,7 @@ internal open class TaskServiceImpl(
         } else {
             createTask(node, execution)
         }
-        taskListener?.notify(EventType.JUMP) { task }
+        taskListener?.notify(userId, EventType.JUMP) { task }
     }
 
     override fun completeActiveTasksByInstanceId(
@@ -644,13 +644,20 @@ internal open class TaskServiceImpl(
         undoHistoryTask(
             taskId
         ) { historyTask ->
-            taskMapper
-                .ktQuery()
-                .eq(FusTask::instanceId, historyTask.instanceId)
-                .list()
+            val taskList =
+                taskMapper
+                    .ktQuery()
+                    .eq(FusTask::instanceId, historyTask.instanceId)
+                    .list()
+            fusThrowIf(
+                taskList.first()?.parentTaskId != taskId,
+                "Do not allow cross level reclaim task"
+            )
+            taskList
                 .forEach { task ->
                     moveToHistoryTask(task, TaskState.REVOKE, actorId)
                 }
+            taskListener?.notify(actorId, EventType.RECLAIM) { historyTask }
         }
 
     override fun resumeTask(
@@ -679,6 +686,7 @@ internal open class TaskServiceImpl(
                     FusTaskActor().apply { actorId = userId }
                 )
                 updateCurrentNode(instanceId, task.taskName, task.creatorId)
+                taskListener?.notify(userId, EventType.RESUME) { task }
                 task
             }
 
@@ -816,7 +824,7 @@ internal open class TaskServiceImpl(
                 )
 
             NodeType.CC -> {
-                saveTaskCc(node, task)
+                saveTaskCc(node, task, execution.userId)
                 node.nextNode()?.also { Fus.executeNode(it, execution) }
             }
 
@@ -869,6 +877,7 @@ internal open class TaskServiceImpl(
     internal fun saveTaskCc(
         node: FusNode?,
         task: FusTask,
+        userId: String,
     ) {
         val nodeUserList = node?.nodeUserList
         if (nodeUserList.isNullOrEmpty()) {
@@ -884,6 +893,7 @@ internal open class TaskServiceImpl(
                     setEndTimeAndDuration()
                 }
         historyTaskMapper.insert(historyTask)
+        taskListener?.notify(userId, EventType.CC) { task }
         nodeUserList
             .map { nodeAssignee ->
                 FusHistoryTaskActor().apply {
@@ -1175,12 +1185,13 @@ internal open class TaskServiceImpl(
         }
 
         taskActorList.fusThrowIfEmpty("任务参与者不能为空")
+        val userId = execution.userId
         if (performType == PerformType.OR_SIGN) {
             taskMapper.insert(task)
             taskActorList.forEach { taskActor ->
                 assignTask(task.instanceId, task.taskId, taskActor)
             }
-            taskListener?.notify(EventType.CREATE) { task }
+            taskListener?.notify(userId, EventType.CREATE) { task }
             return
         }
 
@@ -1191,7 +1202,7 @@ internal open class TaskServiceImpl(
                 task.taskId,
                 execution.nextTaskActor ?: taskActorList.first()
             )
-            taskListener?.notify(EventType.CREATE) { task }
+            taskListener?.notify(userId, EventType.CREATE) { task }
             return
         }
 
@@ -1199,7 +1210,7 @@ internal open class TaskServiceImpl(
             val newTask = task.copyToNotNull(FusTask()).apply { taskId = "" }
             taskMapper.insert(newTask)
             assignTask(newTask.instanceId, newTask.taskId, taskActor)
-            taskListener?.notify(EventType.CREATE) { newTask }
+            taskListener?.notify(userId, EventType.CREATE) { newTask }
         }
     }
 }

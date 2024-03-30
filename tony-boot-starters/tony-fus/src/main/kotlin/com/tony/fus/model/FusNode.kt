@@ -186,8 +186,18 @@ public class FusNode {
         childNode ?: nextNode(this)
 
     public companion object {
+        public fun FusNode.hasDuplicateNodeNames(): Boolean {
+            nextNodeNames().fold(mutableSetOf<String>()) { set, nodeName ->
+                if (!set.add(nodeName)) {
+                    return true
+                }
+                set
+            }
+            return false
+        }
+
         @JvmStatic
-        public tailrec fun nextNode(node: FusNode): FusNode? {
+        public tailrec fun FusNode.nextNode(node: FusNode): FusNode? {
             val parentNode = node.parentNode
             if (parentNode == null || parentNode.nodeType == NodeType.INITIATOR) {
                 return null
@@ -210,23 +220,23 @@ public class FusNode {
                     if (childNode.isConditionNode) {
                         list.apply { this.addAll(conditionNodeNames(childNode)) }
                     } else {
-                        list.apply { this.addAll(nextNodeNames(childNode)) }
+                        list.apply { this.addAll(childNode.nextNodeNames()) }
                     }
                 }
                 list
             }
 
         @JvmStatic
-        public fun nextNodeNames(node: FusNode): List<String> =
+        public fun FusNode.nextNodeNames(): List<String> =
             mutableListOf<String>().also { list ->
-                if (node.isConditionNode) {
-                    list.addAll(conditionNodeNames(node))
+                if (isConditionNode) {
+                    list.addAll(conditionNodeNames(this))
                 } else {
-                    if (!node.isCcNode) {
-                        list.add(node.nodeName)
+                    if (!isCcNode) {
+                        list.add(nodeName)
                     }
-                    node.childNode?.also { childNode ->
-                        list.addAll(nextNodeNames(childNode))
+                    childNode?.also { childNode ->
+                        list.addAll(childNode.nextNodeNames())
                     }
                 }
             }

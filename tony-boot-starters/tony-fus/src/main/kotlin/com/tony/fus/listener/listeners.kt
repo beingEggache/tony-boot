@@ -28,6 +28,7 @@ import com.tony.fus.db.po.FusInstance
 import com.tony.fus.db.po.FusTask
 import com.tony.fus.model.enums.EventType
 import java.util.function.Supplier
+import org.springframework.context.ApplicationEventPublisher
 
 /**
  * FUS Listener
@@ -38,6 +39,7 @@ import java.util.function.Supplier
 public fun interface FusListener<T> {
     /**
      * 通知
+     * @param [userId] 操作人
      * @param [eventType] 事件类型
      * @param [supplier] 数据
      * @author tangli
@@ -45,6 +47,7 @@ public fun interface FusListener<T> {
      * @since 1.0.0
      */
     public fun notify(
+        userId: String,
         eventType: EventType,
         supplier: Supplier<T>,
     )
@@ -65,3 +68,37 @@ public interface TaskListener : FusListener<FusTask>
  * @since 1.0.0
  */
 public interface InstanceListener : FusListener<FusInstance>
+
+/**
+ * 异步 实例监听器
+ * @author tangli
+ * @date 2024/03/30 09:49
+ * @since 1.0.0
+ */
+public class EventInstanceListener(
+    private val applicationEventPublisher: ApplicationEventPublisher,
+) : InstanceListener {
+    override fun notify(
+        userId: String,
+        eventType: EventType,
+        supplier: Supplier<FusInstance>,
+    ) {
+        applicationEventPublisher.publishEvent(
+            InstanceEvent(
+                eventType,
+                supplier.get()
+            )
+        )
+    }
+}
+
+/**
+ * 实例事件
+ * @author tangli
+ * @date 2024/03/30 09:51
+ * @since 1.0.0
+ */
+public data class InstanceEvent(
+    val eventType: EventType,
+    val instance: FusInstance,
+)
