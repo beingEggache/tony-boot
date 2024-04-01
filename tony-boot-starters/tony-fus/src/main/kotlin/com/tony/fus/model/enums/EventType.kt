@@ -48,64 +48,69 @@ public enum class EventType(
     CC(2),
 
     /**
-     * 分配.
+     * 分配
      */
     ASSIGNMENT(3),
 
     /**
+     * 驳回
+     */
+    REJECTED(4),
+
+    /**
      * 认领
      */
-    CLAIM(4),
+    CLAIM(5),
 
     /**
      * 拿回
      */
-    RECLAIM(5),
+    RECLAIM(6),
+
+    /**
+     * 撤回
+     */
+    WITHDRAW(7),
 
     /**
      * 唤醒
      */
-    RESUME(6),
+    RESUME(8),
 
     /**
      * 完成.
      */
-    COMPLETED(7),
+    COMPLETED(9),
 
     /**
      * 撤销.
      */
-    REVOKED(8),
+    REVOKED(10),
 
     /**
      * 终止.
      */
-    TERMINATED(9),
+    TERMINATED(11),
 
     /**
      * 更新.
      */
-    UPDATE(10),
+    UPDATE(12),
 
     /**
      * 删除.
      */
-    DELETE(11),
-
-    /**
-     * 驳回.
-     */
-    REJECTED(12),
+    DELETE(13),
 
     /**
      * 超时.
      */
-    EXPIRED(13),
+    EXPIRED(14),
 
     /**
      * 跳转.
      */
-    JUMP(14),
+    JUMP(15),
     ;
 
     internal companion object : EnumCreator<EventType, Int>(EventType::class.java) {

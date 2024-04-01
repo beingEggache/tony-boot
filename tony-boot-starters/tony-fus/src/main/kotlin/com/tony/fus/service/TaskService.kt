@@ -326,6 +326,7 @@ public sealed interface TaskService {
     /**
      * 添加任务参与者【加签】
      * @param [taskId] 任务id
+     * @param [userId] 操作人id
      * @param [performType] 执行类型
      * @param [taskActorList] 流历史任务参与者
      * @return [Boolean]
@@ -335,6 +336,7 @@ public sealed interface TaskService {
      */
     public fun addTaskActors(
         taskId: String,
+        userId: String,
         performType: PerformType,
         taskActorList: List<FusTaskActor>,
     ): Boolean
@@ -342,6 +344,7 @@ public sealed interface TaskService {
     /**
      * 添加任务参与者【加签】
      * @param [taskId] 任务id
+     * @param [userId] 操作人id
      * @param [performType] 执行类型
      * @param [taskActor] 流历史任务参与者
      * @return [Boolean]
@@ -351,14 +354,16 @@ public sealed interface TaskService {
      */
     public fun addTaskActor(
         taskId: String,
+        userId: String,
         performType: PerformType,
         taskActor: FusTaskActor,
     ): Boolean =
-        addTaskActors(taskId, performType, listOf(taskActor))
+        addTaskActors(taskId, userId, performType, listOf(taskActor))
 
     /**
      * 删除任务参与者【减签】
      * @param [taskId] 任务id
+     * @param [userId] 操作人id
      * @param [taskActorIdList] 任务参与者ID
      * @author tangli
      * @date 2023/10/25 19:27
@@ -366,6 +371,7 @@ public sealed interface TaskService {
      */
     public fun removeTaskActor(
         taskId: String,
+        userId: String,
         taskActorIdList: Collection<String>,
     )
 
@@ -379,9 +385,10 @@ public sealed interface TaskService {
      */
     public fun removeTaskActor(
         taskId: String,
+        userId: String,
         taskActorId: String,
     ): Unit =
-        removeTaskActor(taskId, setOf(taskActorId))
+        removeTaskActor(taskId, userId, setOf(taskActorId))
 
     /**
      * 按实例id级联删除.
@@ -565,11 +572,12 @@ internal open class TaskServiceImpl(
                 .last("limit 1")
                 .fusOneNotNull("Not authorized to perform this task.")
 
-        taskMapper
-            .ktQuery()
-            .eq(FusTask::taskId, taskId)
-            .ne(FusTask::assignorId, "")
-            .throwIfExists("Do not allow duplicate assign, taskId = $taskId")
+        val task = taskMapper.fusSelectByIdNotNull(taskId)
+
+        fusThrowIf(
+            task.assignorId.isNotBlank(),
+            "Do not allow duplicate assign, taskId = $taskId"
+        )
 
         taskMapper.updateById(
             FusTask()
@@ -583,6 +591,14 @@ internal open class TaskServiceImpl(
         )
         taskActorMapper.deleteById(taskActor.taskActorId)
         assignTask(taskActor.instanceId, taskId, FusTaskActor().apply { this.actorId = assigneeId })
+        taskListener?.notify(
+            actorId,
+            EventType.ASSIGNMENT
+        ) {
+            task.taskType = taskType
+            task.assignorId = actorId
+            task
+        }
         return true
     }
 
@@ -730,6 +746,13 @@ internal open class TaskServiceImpl(
                 ?.also { taskActorMapper.deleteBatchIds(it) }
 
             taskMapper.deleteBatchIds(taskIdList)
+
+            taskListener?.notify(
+                userId,
+                EventType.WITHDRAW
+            ) {
+                historyTask
+            }
         }
 
     override fun rejectTask(
@@ -740,7 +763,14 @@ internal open class TaskServiceImpl(
         val task = taskMapper.fusSelectByIdNotNull(taskId)
         fusThrowIf(task.atStartNode, "上一步任务ID为空，无法驳回至上一步处理")
         executeTask(taskId, userId, TaskState.REJECTED, EventType.REJECTED, variable ?: mapOf())
-        return undoHistoryTask(task.parentTaskId)
+        val historyTask = undoHistoryTask(task.parentTaskId)
+        taskListener?.notify(
+            userId,
+            EventType.CLAIM
+        ) {
+            historyTask
+        }
+        return historyTask
     }
 
     override fun hasPermission(
@@ -922,6 +952,7 @@ internal open class TaskServiceImpl(
 
     override fun addTaskActors(
         taskId: String,
+        userId: String,
         performType: PerformType,
         taskActorList: List<FusTaskActor>,
     ): Boolean {
@@ -939,7 +970,13 @@ internal open class TaskServiceImpl(
             }.forEach { taskActor ->
                 assignTask(task.instanceId, taskId, taskActor)
             }
-        return taskMapper.updateById(task.apply { this.performType = performType }) > 0
+        val result = taskMapper.updateById(task.apply { this.performType = performType }) > 0
+        if (result) {
+            taskListener?.notify(userId, EventType.ASSIGNMENT) {
+                task
+            }
+        }
+        return result
     }
 
     /**
@@ -976,6 +1013,7 @@ internal open class TaskServiceImpl(
 
     override fun removeTaskActor(
         taskId: String,
+        userId: String,
         taskActorIdList: Collection<String>,
     ) {
         val taskActorList =
@@ -988,6 +1026,9 @@ internal open class TaskServiceImpl(
             .eq(FusTaskActor::taskId, taskId)
             .`in`(FusTaskActor::actorId, taskActorIdList)
             .remove()
+        taskListener?.notify(userId, EventType.ASSIGNMENT) {
+            taskMapper.fusSelectByIdNotNull(taskId)
+        }
     }
 
     override fun cascadeRemoveByInstanceIds(instanceIds: Collection<String>) {
