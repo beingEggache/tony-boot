@@ -22,25 +22,38 @@
  * SOFTWARE.
  */
 
-package com.tony.fus.model
+package com.tony.fus
 
-import com.tony.fus.db.po.FusInstance
-import com.tony.fus.db.po.FusTask
-import com.tony.fus.db.po.FusTaskActor
+import com.tony.fus.model.FusExecution
+import com.tony.fus.model.FusNode
 
 /**
- * 流程执行对象
+ * 流程执行条件参数处理
  * @author tangli
- * @date 2023/10/19 19:16
+ * @date 2024/04/03 19:16
  * @since 1.0.0
  */
-public class FusExecution(
-    public val processModel: FusProcessModel,
-    public var instance: FusInstance,
-    public val userId: String,
-    public val variable: Map<String, Any?>,
-) {
-    public var nextTaskActor: FusTaskActor? = null
+public fun interface FusConditionVariableHandler {
 
-    public var task: FusTask? = null
+    /**
+     * 获取流程变量, 可以加一些自定义的处理.
+     * @param [node] 流程节点
+     * @param [execution] 执行对象
+     * @author tangli
+     * @date 2023/10/24 19:48
+     * @since 1.0.0
+     */
+    public fun handle(
+        node: FusNode,
+        execution: FusExecution,
+    ): Map<String, Any?>
+}
+
+internal class DefaultConditionVariableHandler : FusConditionVariableHandler {
+    override fun handle(
+        node: FusNode,
+        execution: FusExecution,
+    ): Map<String, Any?> =
+        execution.variable
+
 }

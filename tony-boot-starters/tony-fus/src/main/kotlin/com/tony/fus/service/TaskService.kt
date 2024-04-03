@@ -822,7 +822,7 @@ internal open class TaskServiceImpl(
 
         val taskActorList =
             Fus
-                .taskActorProvider()
+                .taskActorProvider
                 .listTaskActors(node, execution)
 
         if (nodeType != NodeType.CC) {

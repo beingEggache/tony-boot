@@ -24,8 +24,10 @@
 
 package com.tony.fus.config
 
+import com.tony.fus.DefaultConditionVariableHandler
 import com.tony.fus.DefaultFusTaskActorProvider
 import com.tony.fus.DefaultTaskPermission
+import com.tony.fus.FusConditionVariableHandler
 import com.tony.fus.FusTaskActorProvider
 import com.tony.fus.FusTaskPermission
 import com.tony.fus.db.mapper.FusExtInstanceMapper
@@ -139,6 +141,11 @@ internal class FusConfig {
     @Bean(autowireCandidate = false)
     internal fun taskActorProvider(): FusTaskActorProvider =
         DefaultFusTaskActorProvider()
+
+    @ConditionalOnMissingBean(FusConditionVariableHandler::class)
+    @Bean(autowireCandidate = false)
+    internal fun conditionVariableHandler(): FusConditionVariableHandler =
+        DefaultConditionVariableHandler()
 
     @ConditionalOnProperty(prefix = "fus", name = ["eventing.instance"], havingValue = "true")
     @ConditionalOnMissingBean

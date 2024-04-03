@@ -79,10 +79,13 @@ public data object Fus {
     @JvmStatic
     internal val interceptors: List<FusInterceptor> by SpringContexts.getBeanListByLazy<FusInterceptor>()
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     @JvmStatic
-    internal fun taskActorProvider(): FusTaskActorProvider =
-        SpringContexts.getBean(FusTaskActorProvider::class.java)
+    internal val taskActorProvider: FusTaskActorProvider by SpringContexts.getBeanByLazy<FusTaskActorProvider>()
+
+    @get:JvmSynthetic
+    @JvmStatic
+    internal val conditionVariableHandler: FusConditionVariableHandler by SpringContexts.getBeanByLazy<FusConditionVariableHandler>()
 
     private fun startProcess(
         process: FusProcess,
@@ -96,7 +99,7 @@ public data object Fus {
             .fusThrowIfNull("流程定义[processName=${process.processName}, processVersion=${process.processVersion}]没有开始节点")
             .let { node ->
                 fusThrowIf(
-                    !taskActorProvider().hasPermission(node, userId),
+                    !taskActorProvider.hasPermission(node, userId),
                     "No permission to execute"
                 )
                 fusThrowIf(
@@ -338,7 +341,7 @@ public data object Fus {
                     .let { nodeAssigneeList ->
                         if (nodeAssigneeList.isNullOrEmpty()) {
                             val actorList =
-                                taskActorProvider()
+                                taskActorProvider
                                     .listTaskActors(node, execution)
                             val nextNodeAssigneeIndex =
                                 actorList
@@ -597,12 +600,11 @@ public data object Fus {
                     node
                         .conditionNodes
                         .sortedBy { it.priority }
-                        .firstOrNull {
+                        .firstOrNull { conditionNode ->
                             FusExpressionEvaluator
                                 .eval(
-                                    it.expressionList,
-                                    execution
-                                        .variable
+                                    conditionNode.expressionList,
+                                    conditionVariableHandler.handle(node, execution)
                                         .fusThrowIfEmpty("Execution parameter cannot be empty")
                                 )
                         }.ifNull {
