@@ -31,7 +31,7 @@ slf4j = "2.0.12"
 logstashLogbackEncoder = "7.4"
 
 byteBuddy = "1.14.12"
-bouncycastle = "1.77"
+bouncycastle = "1.78"
 
 openFeign = "13.2.1"
 lettuce = "6.3.2.RELEASE"
