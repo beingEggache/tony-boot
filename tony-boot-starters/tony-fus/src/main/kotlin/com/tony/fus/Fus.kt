@@ -85,7 +85,8 @@ public data object Fus {
 
     @get:JvmSynthetic
     @JvmStatic
-    internal val conditionVariableHandler: FusConditionVariableHandler by SpringContexts.getBeanByLazy<FusConditionVariableHandler>()
+    internal val conditionVariableHandler: FusConditionVariableHandler by SpringContexts
+        .getBeanByLazy<FusConditionVariableHandler>()
 
     private fun startProcess(
         process: FusProcess,
@@ -604,7 +605,8 @@ public data object Fus {
                             FusExpressionEvaluator
                                 .eval(
                                     conditionNode.expressionList,
-                                    conditionVariableHandler.handle(node, execution)
+                                    conditionVariableHandler
+                                        .handle(node, execution)
                                         .fusThrowIfEmpty("Execution parameter cannot be empty")
                                 )
                         }.ifNull {

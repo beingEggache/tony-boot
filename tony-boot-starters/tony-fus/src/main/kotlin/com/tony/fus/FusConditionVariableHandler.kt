@@ -34,7 +34,6 @@ import com.tony.fus.model.FusNode
  * @since 1.0.0
  */
 public fun interface FusConditionVariableHandler {
-
     /**
      * 获取流程变量, 可以加一些自定义的处理.
      * @param [node] 流程节点
@@ -55,5 +54,4 @@ internal class DefaultConditionVariableHandler : FusConditionVariableHandler {
         execution: FusExecution,
     ): Map<String, Any?> =
         execution.variable
-
 }
