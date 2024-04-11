@@ -48,6 +48,19 @@ internal interface FusTaskActorMapper : BaseDao<FusTaskActor> {
             .list()
 
     /**
+     * 通过流程实例ID获取参与者列表
+     * @param [instanceId] 流程实例ID
+     * @return [List<FusTaskActor>]
+     * @author tangli
+     * @date 2023/09/28 19:48
+     * @since 1.0.0
+     */
+    fun selectListByInstanceId(instanceId: String?): List<FusTaskActor> =
+        ktQuery()
+            .eq(FusTaskActor::instanceId, instanceId)
+            .list()
+
+    /**
      * 通过任务ID删除参与者
      * @param [taskIds] 任务ID
      * @return [Boolean]

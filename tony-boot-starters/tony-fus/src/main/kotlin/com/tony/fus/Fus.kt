@@ -391,13 +391,15 @@ public data object Fus {
         execution
             .processModel
             .also { model ->
-                model
-                    .getNode(execution.task?.taskName)
-                    .fusThrowIfNull("流程模型中未发现，流程节点:${execution.task?.taskName}")
+                val node1 =
+                    model
+                        .getNode(execution.task?.taskName)
+                        .fusThrowIfNull("流程模型中未发现，流程节点:${execution.task?.taskName}")
+                node1
                     .nextNode()
                     ?.also { executeNode ->
                         executeNode(executeNode, execution)
-                    } ?: endInstance(execution)
+                    } ?: endInstance(execution, node1.nodeName)
             }
     }
 
@@ -619,7 +621,7 @@ public data object Fus {
                 if (nodeChildNode != null) {
                     executeNode(nodeChildNode, execution)
                 } else {
-                    endInstance(execution)
+                    endInstance(execution, node.nodeName)
                 }
             }
         if (node.nodeType == NodeType.CC ||
@@ -635,12 +637,17 @@ public data object Fus {
                 }
         }
 
+        if (node.nodeType == NodeType.END)
+            {
+                endInstance(execution, node.nodeName)
+            }
+
         if (node.childNode == null &&
             node.conditionNodes.isEmpty() &&
             node.nextNode() == null &&
             node.nodeType != NodeType.APPROVER
         ) {
-            endInstance(execution)
+            endInstance(execution, node.nodeName)
         }
     }
 
@@ -651,7 +658,10 @@ public data object Fus {
      * @date 2024/01/16 16:58
      * @since 1.0.0
      */
-    private fun endInstance(execution: FusExecution) {
+    private fun endInstance(
+        execution: FusExecution,
+        nodeName: String,
+    ) {
         val instanceId = execution.instance.instanceId
         queryService
             .listTaskByInstanceId(instanceId)
@@ -660,6 +670,6 @@ public data object Fus {
                 taskService.complete(task.taskId, execution.userId)
             }
         FusProcessModelParser.invalidate("FUS_PROCESS_INSTANCE_MODEL:$instanceId")
-        runtimeService.asToNotNull<RuntimeServiceImpl>().complete(execution)
+        runtimeService.asToNotNull<RuntimeServiceImpl>().complete(execution, nodeName)
     }
 }

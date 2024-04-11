@@ -968,11 +968,22 @@ internal open class TaskServiceImpl(
             .filter {
                 !actorIdSet.contains(it.actorId)
             }.forEach { taskActor ->
-                assignTask(task.instanceId, taskId, taskActor)
+                if (PerformType.COUNTERSIGN == task.performType) {
+                    val newTask =
+                        task.copyToNotNull(
+                            FusTask().apply {
+                                creatorId = task.creatorId
+                            }
+                        )
+                    taskMapper.insert(newTask)
+                    assignTask(task.instanceId, newTask.taskId, taskActor)
+                } else {
+                    assignTask(task.instanceId, taskId, taskActor)
+                }
             }
         val result = taskMapper.updateById(task.apply { this.performType = performType }) > 0
         if (result) {
-            taskListener?.notify(userId, EventType.ASSIGNMENT) {
+            taskListener?.notify(userId, EventType.ADD_TASK_ACTOR) {
                 task
             }
         }
@@ -1016,17 +1027,46 @@ internal open class TaskServiceImpl(
         userId: String,
         taskActorIdList: Collection<String>,
     ) {
-        val taskActorList =
+        val task =
+            taskMapper
+                .fusSelectByIdNotNull(taskId)
+
+        taskActorIdList
+            .fusThrowIfEmpty(
+                "taskActorIdList cannot be empty"
+            )
+
+        if (PerformType.COUNTERSIGN == task.performType) {
+            val taskActorList =
+                taskActorMapper
+                    .selectListByInstanceId(task.instanceId)
+                    .fusThrowIfEmpty()
+            fusThrowIf(
+                taskActorList.size >= taskActorIdList.size,
+                "cannot all be deleted"
+            )
+            taskActorList.forEach { actor ->
+                if (taskActorIdList.contains(actor.actorId)) {
+                    taskActorMapper.deleteById(actor.taskActorId)
+                    taskMapper.deleteById(actor.taskId)
+                }
+            }
+        } else {
+            val taskActorList =
+                taskActorMapper
+                    .selectListByTaskId(taskId)
+                    .fusThrowIfEmpty()
+            fusThrowIf(
+                taskActorList.size >= taskActorIdList.size,
+                "cannot all be deleted"
+            )
             taskActorMapper
-                .selectListByTaskId(taskId)
-                .fusThrowIfEmpty()
-        fusThrowIf(taskActorList.size == taskActorIdList.size, "illegal")
-        taskActorMapper
-            .ktUpdate()
-            .eq(FusTaskActor::taskId, taskId)
-            .`in`(FusTaskActor::actorId, taskActorIdList)
-            .remove()
-        taskListener?.notify(userId, EventType.ASSIGNMENT) {
+                .ktUpdate()
+                .eq(FusTaskActor::taskId, taskId)
+                .`in`(FusTaskActor::actorId, taskActorIdList)
+                .remove()
+        }
+        taskListener?.notify(userId, EventType.REMOVE_TASK_ACTOR) {
             taskMapper.fusSelectByIdNotNull(taskId)
         }
     }

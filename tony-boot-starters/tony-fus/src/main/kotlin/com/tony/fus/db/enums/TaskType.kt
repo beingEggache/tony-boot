@@ -38,6 +38,11 @@ public enum class TaskType(
     override val value: Int,
 ) : IntEnumValue {
     /**
+     * 结束
+     */
+    END(-1),
+
+    /**
      * 主办
      */
     MAJOR(1),

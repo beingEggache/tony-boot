@@ -29,101 +29,37 @@ import com.tony.enums.EnumCreator
 import com.tony.enums.IntEnumValue
 
 /**
- * 流程引擎监听类型.
+ * 审批人与提交人为同一人时.
+ *
  * @author tangli
  * @date 2023/10/25 19:59
  * @since 1.0.0
  */
-public enum class EventType(
+public enum class ApproveSelfMode(
     override val value: Int,
 ) : IntEnumValue {
     /**
-     * 创建.
+     * 跳过
      */
-    CREATE(1),
+    SKIP(1),
 
     /**
-     * 抄送
+     * 由发起人对自己审批
      */
-    CC(2),
+    SELF(2),
 
     /**
-     * 分配
+     * 直接上级
      */
-    ASSIGNMENT(3),
+    DIRECT_LEADER(3),
 
     /**
-     * 任务加签
+     * 部门负责人
      */
-    ADD_TASK_ACTOR(4),
-
-    /**
-     * 任务减签
-     */
-    REMOVE_TASK_ACTOR(5),
-
-    /**
-     * 驳回
-     */
-    REJECTED(6),
-
-    /**
-     * 认领
-     */
-    CLAIM(7),
-
-    /**
-     * 拿回
-     */
-    RECLAIM(8),
-
-    /**
-     * 撤回
-     */
-    WITHDRAW(9),
-
-    /**
-     * 唤醒
-     */
-    RESUME(10),
-
-    /**
-     * 完成.
-     */
-    COMPLETED(11),
-
-    /**
-     * 撤销.
-     */
-    REVOKED(12),
-
-    /**
-     * 终止.
-     */
-    TERMINATED(13),
-
-    /**
-     * 更新.
-     */
-    UPDATE(14),
-
-    /**
-     * 删除.
-     */
-    DELETE(15),
-
-    /**
-     * 超时.
-     */
-    EXPIRED(16),
-
-    /**
-     * 跳转.
-     */
-    JUMP(17),
+    DEPT_MANGER(4),
     ;
 
-    internal companion object : EnumCreator<EventType, Int>(EventType::class.java) {
+    internal companion object : EnumCreator<ApproveSelfMode, Int>(ApproveSelfMode::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: Int) =

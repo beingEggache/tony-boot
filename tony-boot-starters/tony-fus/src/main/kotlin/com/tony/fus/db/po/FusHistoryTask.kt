@@ -54,7 +54,7 @@ public class FusHistoryTask : FusTask() {
     public var endTime: LocalDateTime? = null
 
     /**
-     * 任务状态: 1.活动, 2.跳转, 3.完成, 4.拒绝, 5.超时, 6.终止
+     * 任务状态: 1.活动, 2.跳转, 3.完成, 4.拒绝, 5.撤销, 6.超时, 7.终止, 8.驳回终止
      */
     public var taskState: TaskState = TaskState.ACTIVE
 

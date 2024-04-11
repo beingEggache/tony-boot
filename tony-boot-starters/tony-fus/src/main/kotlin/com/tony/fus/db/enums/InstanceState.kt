@@ -48,7 +48,7 @@ public enum class InstanceState(
     COMPLETED(2),
 
     /**
-     * 审批拒绝
+     * 审批拒绝【 驳回结束流程 】
      *
      */
     REJECTED(3),

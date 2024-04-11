@@ -47,6 +47,7 @@ import com.tony.fus.model.FusProcessModel
 import com.tony.fus.model.enums.EventType
 import com.tony.utils.alsoIfNotEmpty
 import com.tony.utils.copyToNotNull
+import com.tony.utils.ifNullOrBlank
 import com.tony.utils.toJsonString
 import java.time.LocalDateTime
 
@@ -201,7 +202,10 @@ internal open class RuntimeServiceImpl(
      * @since 1.0.0
      */
     @JvmSynthetic
-    internal fun complete(execution: FusExecution) {
+    internal fun complete(
+        execution: FusExecution,
+        nodeName: String?,
+    ) {
         val instanceId = execution.instance.instanceId
         instanceMapper
             .fusSelectByIdNotNull(instanceId)
@@ -211,7 +215,7 @@ internal open class RuntimeServiceImpl(
                         .apply {
                             this.instanceId = instanceId
                             this.instanceState = InstanceState.COMPLETED
-                            this.nodeName = InstanceState.COMPLETED.name
+                            this.nodeName = nodeName.ifNullOrBlank(InstanceState.COMPLETED.name)
                             this.createTime = instance.createTime
                             this.updatorId = instance.updatorId
                             this.updateTime = instance.updateTime

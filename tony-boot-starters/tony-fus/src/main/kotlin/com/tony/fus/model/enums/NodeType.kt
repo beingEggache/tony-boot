@@ -38,6 +38,11 @@ public enum class NodeType(
     override val value: Int,
 ) : IntEnumValue {
     /**
+     * 结束
+     */
+    END(-1),
+
+    /**
      * 发起人
      */
     INITIATOR(1),

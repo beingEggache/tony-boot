@@ -162,7 +162,7 @@ CREATE TABLE `fus_history_task`
     `remind_repeat`   smallint     NOT NULL DEFAULT '0' COMMENT '提醒次数',
     `viewed`          tinyint      NOT NULL DEFAULT '0' COMMENT '已阅: 0.否, 1.是',
     `end_time`        timestamp    NULL     DEFAULT NULL COMMENT '任务结束时间',
-    `task_state`      smallint     NOT NULL DEFAULT '1' COMMENT '任务状态: 1.活动, 2.跳转, 3.完成, 4.拒绝, 5.超时, 6.终止',
+    `task_state`      smallint     NOT NULL DEFAULT '1' COMMENT '任务状态: 1.活动, 2.跳转, 3.完成, 4.拒绝, 5.撤销, 6.超时, 7.终止, 8.驳回终止',
     `duration`        bigint       NULL COMMENT '处理耗时',
     PRIMARY KEY (`task_id`) USING BTREE,
     KEY `idx_his_task_instance_id` (`instance_id`) USING BTREE,

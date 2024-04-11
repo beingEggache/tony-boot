@@ -29,7 +29,7 @@ import com.tony.enums.EnumCreator
 import com.tony.enums.IntEnumValue
 
 /**
- * 任务状态: 1.活动, 2.跳转, 3.完成, 4.拒绝, 5.超时, 6.终止
+ * 任务状态: 任务状态: 1.活动, 2.跳转, 3.完成, 4.拒绝, 5.撤销, 6.超时, 7.终止, 8.驳回终止
  * @author tangli
  * @date 2023/09/29 19:00
  * @since 1.0.0
@@ -71,6 +71,11 @@ public enum class TaskState(
      * 终止
      */
     TERMINATED(7),
+
+    /**
+     * 驳回终止
+     */
+    REJECT_END(8),
     ;
 
     internal companion object : EnumCreator<TaskState, Int>(TaskState::class.java) {
@@ -81,7 +86,7 @@ public enum class TaskState(
 
         fun of(instanceState: InstanceState): TaskState {
             if (instanceState == InstanceState.REJECTED) {
-                return REJECTED
+                return REJECT_END
             }
             if (instanceState == InstanceState.EXPIRED) {
                 return EXPIRED

@@ -30,7 +30,6 @@ import com.tony.enums.IntEnumValue
 
 /**
  * 审核人类型.
- * 批准人类型
  * @author tangli
  * @date 2023/10/25 19:59
  * @since 1.0.0

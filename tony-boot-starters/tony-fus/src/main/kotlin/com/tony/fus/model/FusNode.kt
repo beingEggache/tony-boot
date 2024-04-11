@@ -24,6 +24,7 @@
 
 package com.tony.fus.model
 
+import com.tony.fus.model.enums.ApproveSelfMode
 import com.tony.fus.model.enums.ApproverType
 import com.tony.fus.model.enums.InitiatorAssignMode
 import com.tony.fus.model.enums.MultiApproveMode
@@ -121,6 +122,26 @@ public class FusNode {
      * 允许发起人自选抄送人
      */
     public val allowInitiatorAssignCc: Boolean? = null
+
+    /**
+     * 允许转交
+     */
+    public val allowTransfer: Boolean? = null
+
+    /**
+     * 允许加签/减签
+     */
+    public val allowInsertNode: Boolean? = null
+
+    /**
+     * 允许回退
+     */
+    public val allowRollback: Boolean? = null
+
+    /**
+     * 审批人与提交人为同一人时, 审批模式
+     */
+    public val approveSelfMode: ApproveSelfMode? = null
 
     /**
      * 子节点
