@@ -30,7 +30,7 @@ springBoot = "3.2.4"
 slf4j = "2.0.12"
 logstashLogbackEncoder = "7.4"
 
-byteBuddy = "1.14.12"
+byteBuddy = "1.14.13"
 bouncycastle = "1.78"
 
 openFeign = "13.2.1"
@@ -156,8 +156,6 @@ bctlsJdk18On = { module = "org.bouncycastle:bctls-jdk18on", version.ref = "bounc
 bcmailJdk18On = { module = "org.bouncycastle:bcmail-jdk18on", version.ref = "bouncycastle" }
 bctspJdk15On = { module = "org.bouncycastle:bctsp-jdk15on", version = "1.46" }
 classmate = { module = "com.fasterxml:classmate", version = "1.7.0" }
-
-reactorKotlinExtensions = { module = "io.projectreactor.kotlin:reactor-kotlin-extensions", version = "1.2.2" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.1.8" }
 
 swaggerV3Annotaion = { module = "io.swagger.core.v3:swagger-annotations", version.ref = "swagger" }
