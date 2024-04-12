@@ -637,10 +637,9 @@ public data object Fus {
                 }
         }
 
-        if (node.nodeType == NodeType.END)
-            {
-                endInstance(execution, node.nodeName)
-            }
+        if (node.nodeType == NodeType.END) {
+            endInstance(execution, node.nodeName)
+        }
 
         if (node.childNode == null &&
             node.conditionNodes.isEmpty() &&
