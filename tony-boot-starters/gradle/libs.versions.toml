@@ -27,7 +27,7 @@ kotlin = "1.9.23"
 spring = "6.1.6"
 springBoot = "3.2.4"
 
-slf4j = "2.0.12"
+slf4j = "2.0.13"
 logstashLogbackEncoder = "7.4"
 
 byteBuddy = "1.14.13"
@@ -38,7 +38,7 @@ lettuce = "6.3.2.RELEASE"
 
 jackson = "2.17.0"
 gson = "2.10.1"
-fastjson = "2.0.47"
+fastjson = "2.0.49"
 
 postgresql = "42.7.2"
 mysql = "8.3.0"
