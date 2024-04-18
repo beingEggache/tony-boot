@@ -72,7 +72,7 @@ springCloud = "2023.0.1"
 springCloudAlibaba = "2022.0.0.0"
 springCloudTencent = "1.13.1-2023.0.0"
 reactor = "2023.0.5"
-netty = "4.1.108.Final"
+netty = "4.1.109.Final"
 
 lombok = "8.6"
 ktlint = "1.2.1"
