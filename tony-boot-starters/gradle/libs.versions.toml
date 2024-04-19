@@ -25,13 +25,13 @@ template = "0.1-SNAPSHOT"
 java = "21"
 kotlin = "1.9.23"
 spring = "6.1.6"
-springBoot = "3.2.4"
+springBoot = "3.2.5"
 
 slf4j = "2.0.13"
 logstashLogbackEncoder = "7.4"
 
 byteBuddy = "1.14.13"
-bouncycastle = "1.78"
+bouncycastle = "1.78.1"
 
 openFeign = "13.2.1"
 lettuce = "6.3.2.RELEASE"
