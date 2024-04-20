@@ -53,13 +53,14 @@ abstract class FusTests {
     @BeforeEach
     fun before() {
         val processModelJson = getProcessModelJson()
-        processId = Fus.processService.deploy(processModelJson, false)
+        processId = Fus.processService.deploy(processModelJson, true)
     }
 
-    protected fun getProcessModelJson(processJson: String = this.processJson) = PathMatchingResourcePatternResolver()
-        .getResource(processJson)
-        .inputStream
-        .readAllBytes()
-        .string()
+    protected fun getProcessModelJson(processJson: String = this.processJson) =
+        PathMatchingResourcePatternResolver()
+            .getResource(processJson)
+            .inputStream
+            .readAllBytes()
+            .string()
 
 }

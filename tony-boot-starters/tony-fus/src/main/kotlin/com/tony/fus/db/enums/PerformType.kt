@@ -38,11 +38,6 @@ public enum class PerformType(
     override val value: Int,
 ) : IntEnumValue {
     /**
-     * 未知
-     */
-    UNKNOWN(0),
-
-    /**
      * 发起
      */
     START(1),

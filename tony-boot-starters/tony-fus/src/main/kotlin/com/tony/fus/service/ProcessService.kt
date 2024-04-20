@@ -166,7 +166,7 @@ internal class ProcessServiceImpl(
                 process.processId
             } else {
                 fusThrowIf(
-                    !redeploy(process.processId, modelContent, process.processVersion + 1),
+                    !redeploy(process.processId, compressedModelContent, process.processVersion + 1),
                     "Redeploy failed"
                 )
                 process.processId

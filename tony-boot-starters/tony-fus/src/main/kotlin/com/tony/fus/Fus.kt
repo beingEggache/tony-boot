@@ -553,7 +553,9 @@ public data object Fus {
                     instance,
                     userId,
                     instance.variable.jsonToObj<Map<String, Any?>>()
-                )
+                ).apply {
+                    this.task = task
+                }
             }
     }
 

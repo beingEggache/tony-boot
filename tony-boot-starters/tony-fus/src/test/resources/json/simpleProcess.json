@@ -86,7 +86,7 @@
                     "multiApproveMode": 2,
                     "multiStageManagerMode": 1,
                     "childNode": {
-                        "nodeName": "抄送人",
+                        "nodeName": "抄送人1",
                         "nodeType": 3,
                         "userSelectFlag": true,
                         "nodeUserList": [
@@ -127,7 +127,7 @@
                 }
               ],
               "childNode": {
-                "nodeName": "抄送人",
+                "nodeName": "抄送人2",
                 "nodeType": 3,
                 "userSelectFlag": true,
                 "nodeUserList": [
@@ -189,7 +189,7 @@
         }
       ],
       "childNode": {
-        "nodeName": "抄送人",
+        "nodeName": "抄送人3",
         "nodeType": 3,
         "userSelectFlag": true,
         "nodeUserList": [

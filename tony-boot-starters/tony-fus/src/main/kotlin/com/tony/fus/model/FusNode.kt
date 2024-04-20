@@ -207,16 +207,6 @@ public class FusNode {
         childNode ?: nextNode(this)
 
     public companion object {
-        public fun FusNode.hasDuplicateNodeNames(): Boolean {
-            nextNodeNames().fold(mutableSetOf<String>()) { set, nodeName ->
-                if (!set.add(nodeName)) {
-                    return true
-                }
-                set
-            }
-            return false
-        }
-
         @JvmStatic
         public tailrec fun FusNode.nextNode(node: FusNode): FusNode? {
             val parentNode = node.parentNode
@@ -234,32 +224,172 @@ public class FusNode {
         }
 
         @JvmStatic
-        internal fun conditionNodeNames(node: FusNode): List<String> =
-            node.conditionNodes.fold(mutableListOf()) { list, conditionNode ->
-                val childNode = conditionNode.childNode
-                if (childNode != null) {
-                    if (childNode.isConditionNode) {
-                        list.apply { this.addAll(conditionNodeNames(childNode)) }
+        public fun FusNode?.parentNodeNames(nodeName: String): List<String> =
+            mutableListOf<String>()
+                .let { nodeNames ->
+                    if (this == null) {
+                        nodeNames
                     } else {
-                        list.apply { this.addAll(childNode.nextNodeNames()) }
+                        if (!isCcNode) {
+                            if (isConditionNode) {
+                                nodeNames.addAll(conditionNodeNames(nodeName))
+                            } else {
+                                nodeNames.add(nodeName)
+                            }
+                        }
+                        nodeNames.addAll(parentNode.parentNodeNames(nodeName))
+                        nodeNames
                     }
                 }
-                list
-            }
 
         @JvmStatic
-        public fun FusNode.nextNodeNames(): List<String> =
-            mutableListOf<String>().also { list ->
-                if (isConditionNode) {
-                    list.addAll(conditionNodeNames(this))
-                } else {
-                    if (!isCcNode) {
-                        list.add(nodeName)
-                    }
-                    childNode?.also { childNode ->
-                        list.addAll(childNode.nextNodeNames())
+        private fun FusNode?.conditionNodeNames(nodeName: String): List<String> =
+            mutableListOf<String>()
+                .let { nodeNames ->
+                    if (this == null) {
+                        nodeNames
+                    } else {
+                        conditionNodes.fold(nodeNames) { list, conditionNode ->
+                            val conditionNodeChildNode = conditionNode.childNode
+                            if (conditionNodeChildNode == null) {
+                                list
+                            } else {
+                                if (conditionNodeChildNode.isConditionNode) {
+                                    list.addAll(conditionNodeChildNode.conditionNodeNames(nodeName))
+                                    list
+                                } else {
+                                    val nextConditionNodeNames = conditionNodeChildNode.nextConditionNodeNames()
+                                    if (nextConditionNodeNames.contains(nodeName)) {
+                                        val legalNodeNames = mutableListOf<String>()
+                                        nextConditionNodeNames.forEach { nextConditionNodeName ->
+                                            if (nodeName == nextConditionNodeName) {
+                                                return@forEach
+                                            }
+                                            legalNodeNames.add(nextConditionNodeName)
+                                        }
+                                        nodeNames.addAll(legalNodeNames)
+                                    }
+                                    list
+                                }
+                            }
+                        }
                     }
                 }
+
+        @JvmStatic
+        private fun FusNode?.nextConditionNodeNames(): List<String> =
+            mutableListOf<String>()
+                .let { nodeNames ->
+                    if (this == null) {
+                        nodeNames
+                    } else {
+                        if (isConditionNode) {
+                            conditionNodes.fold(nodeNames) { list, conditionNode ->
+                                list.addAll(conditionNode.childNode.nextConditionNodeNames())
+                                list
+                            }
+                            nodeNames.addAll(childNode.nextConditionNodeNames())
+                        } else {
+                            if (!isCcNode) {
+                                nodeNames.add(nodeName)
+                            }
+                            childNode?.also { nodeNames.addAll(it.nextConditionNodeNames()) }
+                        }
+                        nodeNames
+                    }
+                }
+
+        /**
+         * 递归获取所有上一个节点名称
+         * @return [List<String>]
+         * @author tangli
+         * @date 2024/04/19 23:17
+         * @since 1.0.0
+         */
+        @JvmStatic
+        public fun FusNode.previousNodeNames(): List<String> =
+            parentNode
+                .parentNodeNames(nodeName)
+                .distinct()
+
+        /**
+         * 获取根节点下的所有节点名称【 注意，只对根节点查找有效！】
+         * @return [List<String>]
+         * @author tangli
+         * @date 2024/04/19 23:17
+         * @since 1.0.0
+         */
+        @JvmStatic
+        private fun FusNode.rootNodeChildNodeNames(): List<String> =
+            mutableListOf<String>()
+                .also { list ->
+                    if (isConditionNode) {
+                        conditionNodes.fold(list) { nodeNameList, conditionNode ->
+                            conditionNode
+                                .childNode
+                                ?.takeIf { childNode != null }
+                                ?.also {
+                                    nodeNameList.addAll(it.rootNodeChildNodeNames())
+                                }
+                            nodeNameList
+                        }
+                        childNode?.also {
+                            list.addAll(it.rootNodeChildNodeNames())
+                        }
+                    } else {
+                        list.add(nodeName)
+                        childNode?.also { childNode ->
+                            list.addAll(childNode.rootNodeChildNodeNames())
+                        }
+                    }
+                }
+
+        /**
+         * 是否存在重复节点名称
+         * @return [Boolean]
+         * @author tangli
+         * @date 2024/04/20 10:37
+         * @since 1.0.0
+         */
+        @JvmStatic
+        public fun FusNode.hasDuplicateNodeNames(): Boolean {
+            rootNodeChildNodeNames().fold(mutableSetOf<String>()) { set, nodeName ->
+                if (!set.add(nodeName)) {
+                    return true
+                }
+                set
             }
+            return false
+        }
+
+        /**
+         * 检查条件节点
+         * @return [Int] 0，合法情况 1，存在多个条件表达式为空 2，存在多个子节点为空
+         * @author tangli
+         * @date 2024/04/20 10:48
+         * @since 1.0.0
+         */
+        @JvmStatic
+        public fun FusNode?.checkConditionNode(): Int {
+            if (this == null) {
+                return 0
+            }
+            if (conditionNodes.isEmpty()) {
+                return childNode.checkConditionNode()
+            }
+
+            for (conditionNode in conditionNodes) {
+                if (conditionNode.expressionList.isEmpty()) {
+                    return 1
+                }
+                if (conditionNode.childNode == null) {
+                    return 2
+                }
+
+                return conditionNode.childNode.checkConditionNode()
+            }
+
+            return 0
+        }
     }
 }

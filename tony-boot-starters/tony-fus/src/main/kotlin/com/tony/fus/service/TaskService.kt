@@ -892,7 +892,7 @@ internal open class TaskServiceImpl(
                         outProcessId = subInstance.processId
                         outInstanceId = subInstance.instanceId
                         // ? 搞不清楚
-                        performType = PerformType.UNKNOWN
+                        performType = PerformType.SORT
                         // ? 搞不清楚
                         taskType = TaskType.create(nodeType.value).fusThrowIfNull("nodeType null")
                     }
@@ -1225,6 +1225,7 @@ internal open class TaskServiceImpl(
         execution: FusExecution,
     ) {
         task.performType = performType
+        val userId = execution.userId
         if (performType == PerformType.START) {
             val historyTask =
                 task
@@ -1248,25 +1249,12 @@ internal open class TaskServiceImpl(
                             }
                     historyTaskActorMapper.insert(historyTaskActor)
                 }
-            return
-        }
-        if (performType == PerformType.UNKNOWN) {
-            task.variable =
-                execution
-                    .variable
-                    .toJsonString()
-                    .ifNullOrBlank("{}")
-            taskMapper.insert(task)
-
-            taskActorList
-                .forEach { taskActor ->
-                    assignTask(task.instanceId, task.taskId, taskActor)
-                }
+            taskListener?.notify(userId, EventType.CREATE) { task }
             return
         }
 
         taskActorList.fusThrowIfEmpty("任务参与者不能为空")
-        val userId = execution.userId
+
         if (performType == PerformType.OR_SIGN) {
             taskMapper.insert(task)
             taskActorList.forEach { taskActor ->

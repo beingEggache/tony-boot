@@ -42,7 +42,11 @@ public class DefaultFusCache : FusCache {
         key: String,
         value: T,
     ): T =
-        cache.put(key, value)!!.asToNotNull()
+        cache
+            .put(key, value)
+            .run {
+                value
+            }
 
     override fun remove(key: String) {
         cache.remove(key)

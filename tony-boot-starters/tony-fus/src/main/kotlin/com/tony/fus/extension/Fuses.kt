@@ -212,7 +212,7 @@ internal inline fun <T : Any> TonyChainQuery<T>.fusListThrowIfEmpty(
 @JvmSynthetic
 public fun MultiApproveMode?.ofPerformType(): PerformType =
     if (this?.value == null) {
-        PerformType.UNKNOWN
+        PerformType.SORT
     } else {
-        PerformType.create(value) ?: PerformType.UNKNOWN
+        PerformType.create(value) ?: PerformType.SORT
     }
