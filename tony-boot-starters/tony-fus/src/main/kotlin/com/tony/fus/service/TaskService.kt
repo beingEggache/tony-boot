@@ -1249,7 +1249,7 @@ internal open class TaskServiceImpl(
                             }
                     historyTaskActorMapper.insert(historyTaskActor)
                 }
-            taskListener?.notify(userId, EventType.CREATE) { task }
+            taskListener?.notify(userId, EventType.LAUNCH) { task }
             return
         }
 

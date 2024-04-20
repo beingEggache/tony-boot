@@ -37,90 +37,95 @@ import com.tony.enums.IntEnumValue
 public enum class EventType(
     override val value: Int,
 ) : IntEnumValue {
+
+    /**
+     * 发起
+     */
+    LAUNCH(1),
     /**
      * 创建.
      */
-    CREATE(1),
+    CREATE(2),
 
     /**
      * 抄送
      */
-    CC(2),
+    CC(3),
 
     /**
      * 分配
      */
-    ASSIGNMENT(3),
+    ASSIGNMENT(4),
 
     /**
      * 任务加签
      */
-    ADD_TASK_ACTOR(4),
+    ADD_TASK_ACTOR(5),
 
     /**
      * 任务减签
      */
-    REMOVE_TASK_ACTOR(5),
+    REMOVE_TASK_ACTOR(6),
 
     /**
      * 驳回
      */
-    REJECTED(6),
+    REJECTED(7),
 
     /**
      * 认领
      */
-    CLAIM(7),
+    CLAIM(8),
 
     /**
      * 拿回
      */
-    RECLAIM(8),
+    RECLAIM(9),
 
     /**
      * 撤回
      */
-    WITHDRAW(9),
+    WITHDRAW(10),
 
     /**
      * 唤醒
      */
-    RESUME(10),
+    RESUME(11),
 
     /**
      * 完成.
      */
-    COMPLETED(11),
+    COMPLETED(12),
 
     /**
      * 撤销.
      */
-    REVOKED(12),
+    REVOKED(13),
 
     /**
      * 终止.
      */
-    TERMINATED(13),
+    TERMINATED(14),
 
     /**
      * 更新.
      */
-    UPDATE(14),
+    UPDATE(15),
 
     /**
      * 删除.
      */
-    DELETE(15),
+    DELETE(16),
 
     /**
      * 超时.
      */
-    EXPIRED(16),
+    EXPIRED(17),
 
     /**
      * 跳转.
      */
-    JUMP(17),
+    JUMP(18),
     ;
 
     internal companion object : EnumCreator<EventType, Int>(EventType::class.java) {
