@@ -37,11 +37,11 @@ import com.tony.enums.IntEnumValue
 public enum class EventType(
     override val value: Int,
 ) : IntEnumValue {
-
     /**
      * 发起
      */
     LAUNCH(1),
+
     /**
      * 创建.
      */
