@@ -54,7 +54,7 @@ internal data object FusExpressionEvaluator {
         conditionList: List<List<FusNodeExpression>>,
         args: Map<String, Any?>,
     ): Boolean =
-        eval(conditionList) { expr ->
+        eval(conditionList, args) { expr ->
             StandardEvaluationContext().run {
                 setVariables(args)
                 expressionParser
@@ -67,6 +67,7 @@ internal data object FusExpressionEvaluator {
     @JvmStatic
     private fun eval(
         conditionList: List<List<FusNodeExpression>>,
+        args: Map<String, Any?>,
         func: java.util.function.Function<String, Boolean>,
     ): Boolean {
         if (conditionList.isEmpty()) {
@@ -75,10 +76,28 @@ internal data object FusExpressionEvaluator {
 
         val expr =
             conditionList
-                .joinToString(" || ") { clist ->
-                    clist.joinToString(" && ") { "#${it.field}${it.operator}${it.value}" }
+                .joinToString(" || ") { expressionList ->
+                    expressionList.joinToString(" && ") { expression ->
+                        exprOfArgs(expression, args)
+                    }
                 }
 
         return func.apply(expr)
+    }
+
+    private fun exprOfArgs(
+        expression: FusNodeExpression,
+        args: Map<String, Any?>,
+    ): String {
+        val expressionField = expression.field
+        val value =
+            if (args[expressionField] is String) {
+                """'${expression.value}'"""
+            } else {
+                expression.value
+            }
+        return kotlin.run {
+            """#$expressionField${expression.operator}$value"""
+        }
     }
 }

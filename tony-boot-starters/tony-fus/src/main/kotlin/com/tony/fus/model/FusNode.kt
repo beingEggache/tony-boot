@@ -258,6 +258,7 @@ public class FusNode {
                                     list.addAll(conditionNodeChildNode.conditionNodeNames(nodeName))
                                     list
                                 } else {
+                                    // TODO 迷惑的写法, 后续需要优化
                                     val nextConditionNodeNames = conditionNodeChildNode.nextConditionNodeNames()
                                     if (nextConditionNodeNames.contains(nodeName)) {
                                         val legalNodeNames = mutableListOf<String>()
