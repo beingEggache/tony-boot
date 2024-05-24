@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tony.web.log
+package com.tony.log
 
 import ch.qos.logback.classic.pattern.ClassicConverter
 import ch.qos.logback.classic.spi.ILoggingEvent

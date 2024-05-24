@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
 
-    <conversionRule conversionWord="ip" converterClass="com.tony.web.log.LogIpConversion" />
+    <conversionRule conversionWord="ip" converterClass="com.tony.log.LogIpConversion" />
     <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
     <springProperty scope="context" name="IP_FROM_NACOS" source="spring.cloud.nacos.discovery.ip" defaultValue=""/>
 

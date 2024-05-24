@@ -25,7 +25,7 @@ template = "0.1-SNAPSHOT"
 java = "21"
 kotlin = "1.9.24"
 spring = "6.1.8"
-springBoot = "3.2.6"
+springBoot = "3.3.0"
 
 slf4j = "2.0.13"
 logstashLogbackEncoder = "7.4"
@@ -76,7 +76,7 @@ netty = "4.1.110.Final"
 
 lombok = "8.6"
 ktlint = "1.2.1"
-graalvm = "0.10.1"
+graalvm = "0.10.2"
 dokka = "1.9.20"
 
 [libraries]
