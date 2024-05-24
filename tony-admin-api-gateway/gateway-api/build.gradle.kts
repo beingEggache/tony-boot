@@ -10,6 +10,9 @@ dependencies {
     implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-discovery")
     implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-config")
 
+    implementation("com.tencent.cloud:spring-cloud-tencent-gateway-plugin")
+    implementation("com.tencent.cloud:spring-cloud-starter-tencent-metadata-transfer")
+
     // gateway 限流用
     implementation(tonyLibs.commonsPool2)
     implementation(tonyLibs.springBootStarterDataRedisReactive)
