@@ -39,7 +39,6 @@ import com.tony.utils.createObjectMapper
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
 import com.tony.web.advice.ExceptionHandler
-import com.tony.web.advice.InjectRequestBodyAdvice
 import com.tony.web.advice.WrapResponseBodyAdvice
 import com.tony.web.converter.EnumIntValueConverterFactory
 import com.tony.web.converter.EnumStringValueConverterFactory
@@ -48,8 +47,6 @@ import com.tony.web.filter.TraceIdFilter
 import com.tony.web.filter.TraceLoggingFilter
 import com.tony.web.log.DefaultRequestTraceLogger
 import com.tony.web.log.RequestTraceLogger
-import com.tony.web.support.RequestBodyFieldInjector
-import com.tony.web.support.RequestBodyFieldInjectorComposite
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
@@ -238,26 +235,6 @@ internal class WebConfig(
         }
         return ""
     }
-
-    @ConditionalOnExpression("\${web.inject-request-body-enabled:true}")
-    @Bean
-    internal fun requestBodyFieldInjectorComposite(
-        requestBodyFieldInjectors: List<RequestBodyFieldInjector>,
-    ): RequestBodyFieldInjectorComposite =
-        RequestBodyFieldInjectorComposite(requestBodyFieldInjectors)
-
-    @ConditionalOnExpression("\${web.inject-request-body-enabled:true}")
-    @Bean
-    internal fun injectRequestBodyAdvice(
-        requestBodyFieldInjectorComposite: RequestBodyFieldInjectorComposite,
-    ): InjectRequestBodyAdvice =
-        InjectRequestBodyAdvice(requestBodyFieldInjectorComposite)
-            .apply {
-                getLogger(
-                    RequestBodyFieldInjectorComposite::class.java
-                        .name
-                ).info("Request body inject is enabled")
-            }
 }
 
 /**

@@ -45,9 +45,7 @@ import java.math.BigInteger
 
 @Suppress("SpringBootApplicationProperties")
 @SpringBootTest(
-    properties = [
-        "redis.serializerMode=PROTOSTUFF",
-    ],
+    properties = ["redis.serializerMode=PROTOSTUFF"],
     classes = [TestRedisApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )

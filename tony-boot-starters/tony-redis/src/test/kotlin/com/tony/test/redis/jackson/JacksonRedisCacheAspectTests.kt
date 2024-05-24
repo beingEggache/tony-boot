@@ -23,9 +23,7 @@ import java.util.Locale
 
 
 @SpringBootTest(
-    properties = [
-        "redis.serializerMode=JACKSON",
-    ],
+    properties = ["redis.serializerMode=JACKSON"],
     classes = [TestRedisApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
@@ -96,6 +94,7 @@ class JacksonRedisCacheAspectTests {
             jacksonRedisCacheAspectService.testString(key, "aloha")
         }
     }
+
     @Test
     fun testEnum() {
         testInternal<RedisTestIntEnum> { key ->

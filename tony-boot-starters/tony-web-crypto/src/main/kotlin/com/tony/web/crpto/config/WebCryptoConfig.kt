@@ -24,8 +24,8 @@
 
 package com.tony.web.crpto.config
 
+import com.tony.crypto.CryptoProvider
 import com.tony.utils.getLogger
-import com.tony.web.crpto.CryptoProvider
 import com.tony.web.crpto.DecryptRequestBodyAdvice
 import com.tony.web.crpto.DefaultDecryptRequestBodyAdvice
 import com.tony.web.crpto.DefaultEncryptResponseBodyAdvice

@@ -24,6 +24,7 @@
 
 package com.tony.feign.config
 
+import com.tony.crypto.CryptoProvider
 import com.tony.feign.FeignTargeter
 import com.tony.feign.codec.DefaultErrorDecoder
 import com.tony.feign.interceptor.request.GlobalRequestInterceptorProvider
@@ -42,6 +43,7 @@ import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
 import feign.form.spring.SpringFormEncoder
+import jakarta.annotation.Nullable
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.ObjectFactory
@@ -103,8 +105,10 @@ public class FeignConfig {
         GlobalRequestInterceptorProvider(UseRequestProcessorsRequestInterceptor())
 
     @Bean
-    internal fun unwrapResponseInterceptorProvider() =
-        UnwrapResponseInterceptorProvider(DefaultUnwrapResponseInterceptor())
+    internal fun unwrapResponseInterceptorProvider(
+        @Nullable
+        cryptoProvider: CryptoProvider?,
+    ) = UnwrapResponseInterceptorProvider(DefaultUnwrapResponseInterceptor(cryptoProvider))
 
     @Bean
     internal fun feignTargeter(

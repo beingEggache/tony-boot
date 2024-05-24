@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tony.test.redis.protostuff
+package com.tony.test.redis.fury
 
 import com.tony.redis.RedisKeys
 import com.tony.redis.RedisManager
@@ -43,15 +43,13 @@ import java.math.BigInteger
  */
 @Suppress("SpringBootApplicationProperties")
 @SpringBootTest(
-    properties = [
-        "redis.serializerMode=PROTOSTUFF",
-    ],
+    properties = ["redis.serializerMode=FURY"],
     classes = [TestRedisApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
-class ProtostuffRedisListTests {
+class FuryRedisListTests {
 
-    private val logger = LoggerFactory.getLogger(ProtostuffRedisListTests::class.java)
+    private val logger = LoggerFactory.getLogger(FuryRedisListTests::class.java)
 
 
     @Execution(ExecutionMode.CONCURRENT)

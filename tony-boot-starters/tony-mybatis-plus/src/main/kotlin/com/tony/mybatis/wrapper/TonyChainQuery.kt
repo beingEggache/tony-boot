@@ -33,6 +33,7 @@ import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
 import com.tony.utils.throwIf
 import com.tony.utils.throwIfNull
+import java.util.Collections
 import org.apache.ibatis.exceptions.TooManyResultsException
 
 /**
@@ -139,7 +140,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @since 1.0.0
      */
     public fun <R> list(transformer: java.util.function.Function<T, R>): List<R> {
-        lateinit var list: MutableList<R>
+        var list: MutableList<R> = Collections.emptyList()
         var initList = false
         baseMapper.selectList(wrapper) {
             if (!initList) {

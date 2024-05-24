@@ -37,6 +37,8 @@ import com.tony.ApiResultLike
 import com.tony.ENCRYPTED_HEADER_NAME
 import com.tony.ERROR_CODE_HEADER_NAME
 import com.tony.ListResult
+import com.tony.crypto.CryptoProvider
+import com.tony.crypto.symmetric.decryptToString
 import com.tony.exception.ApiException
 import com.tony.misc.notSupportResponseWrapClasses
 import com.tony.utils.convertTo
@@ -44,8 +46,10 @@ import com.tony.utils.getLogger
 import com.tony.utils.isArrayLikeType
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.jsonNode
+import com.tony.utils.jsonToObj
 import com.tony.utils.rawClass
 import com.tony.utils.toJavaType
+import com.tony.utils.trimQuotes
 import feign.InvocationContext
 import feign.ResponseInterceptor
 import java.util.Locale
@@ -101,7 +105,9 @@ internal class UnwrapResponseInterceptorProvider<T : UnwrapResponseInterceptor>(
  * @date 2023/09/13 19:34
  * @since 1.0.0
  */
-internal class DefaultUnwrapResponseInterceptor : UnwrapResponseInterceptor {
+internal class DefaultUnwrapResponseInterceptor(
+    private val cryptoProvider: CryptoProvider?,
+) : UnwrapResponseInterceptor {
     private val logger = getLogger()
 
     override fun intercept(
@@ -123,9 +129,9 @@ internal class DefaultUnwrapResponseInterceptor : UnwrapResponseInterceptor {
             return chain.next(invocationContext)
         }
         val hasEncrypted = !responseHeaders[ENCRYPTED_HEADER_NAME].isNullOrEmpty()
-        if (hasEncrypted) {
-            logger.warn("Not support encrypted response")
-            throw ApiException("Not support encrypted response", ApiProperty.badRequestCode)
+        if (hasEncrypted && cryptoProvider == null) {
+            logger.warn("Not support unwrap encrypted response")
+            throw ApiException("Not support unwrap encrypted response", ApiProperty.badRequestCode)
         }
 
         val jsonNode =
@@ -149,7 +155,17 @@ internal class DefaultUnwrapResponseInterceptor : UnwrapResponseInterceptor {
         }
 
         val dataJsonNode = jsonNode.get(dataFieldName)
-        return if (returnRawClass.isArrayLikeType()) {
+        return if (hasEncrypted && this.cryptoProvider != null) {
+            val cryptoProvider = this.cryptoProvider
+            dataJsonNode
+                .toString()
+                .trimQuotes()
+                .decryptToString(
+                    cryptoProvider.algorithm,
+                    cryptoProvider.secret,
+                    cryptoProvider.encoding
+                ).jsonToObj(returnJavaType)
+        } else if (returnRawClass.isArrayLikeType()) {
             dataJsonNode
                 .get(rowsFieldName)
                 .convertTo(returnJavaType)

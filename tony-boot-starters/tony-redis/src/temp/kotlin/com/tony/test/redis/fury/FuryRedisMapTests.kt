@@ -44,9 +44,7 @@ import org.springframework.boot.test.context.SpringBootTest
  */
 @Suppress("SpringBootApplicationProperties")
 @SpringBootTest(
-    properties = [
-        "redis.serializerMode=FURY",
-    ],
+    properties = ["redis.serializerMode=FURY"],
     classes = [TestRedisApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )

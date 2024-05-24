@@ -32,6 +32,7 @@ package com.tony.web.crpto
 import com.tony.ApiResultLike
 import com.tony.ENCRYPTED_HEADER_NAME
 import com.tony.annotation.web.crypto.EncryptResponseBody
+import com.tony.crypto.CryptoProvider
 import com.tony.crypto.symmetric.encryptToString
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.toJsonString

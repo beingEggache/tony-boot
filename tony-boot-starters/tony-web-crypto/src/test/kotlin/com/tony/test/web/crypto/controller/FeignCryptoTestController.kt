@@ -46,7 +46,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class FeignCryptoTestController : FeignCryptoTestApi {
 
-    @DecryptRequestBody
     @EncryptResponseBody
     @Operation(description = "crypto-body")
     override fun body(@Validated @RequestBody req: TestReq) =
@@ -60,12 +59,12 @@ class FeignCryptoTestController : FeignCryptoTestApi {
     }
 
     @EncryptResponseBody
-    @Operation(description = "crypto-exception")
+    @Operation(description = "mono")
     override fun mono() = "hello world".ofMonoResult()
 
     @DecryptRequestBody
     @EncryptResponseBody
-    @Operation(description = "crypto-exception")
+    @Operation(description = "string")
     override fun string() = "hello world"
 
 }

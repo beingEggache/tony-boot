@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tony.web.crpto
+package com.tony.crypto
 
 import com.tony.codec.enums.Encoding
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm

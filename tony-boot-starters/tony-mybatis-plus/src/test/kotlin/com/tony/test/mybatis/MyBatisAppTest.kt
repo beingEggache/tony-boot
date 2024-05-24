@@ -37,37 +37,53 @@ import com.tony.utils.getLogger
 import com.tony.utils.md5
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 
 
 @SpringBootTest(
     classes = [TestMyBatisApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MyBatisAppTest {
 
     @Resource
     lateinit var userDao: UserDao
 
+    @Resource
+    lateinit var namedParameterJdbcTemplate: NamedParameterJdbcTemplate
+
     private val logger = getLogger()
 
-    @Test
-    fun testDaoQuery() {
-
-        val userId = userDao.ktQuery().list().first().userId
-        val oneMap = userDao.ktQuery().eq(User::userId, userId).oneMap()
-        logger.info(oneMap.toJsonString())
-        val oneObj = userDao.ktQuery().eq(User::userId, userId).oneObj<String>()
-        logger.info(oneObj!!::class.java.name)
-        logger.info(oneObj.toJsonString())
-        val pageResult = userDao.ktQuery().pageResult(PageQuery<String>())
-        logger.info(pageResult.toJsonString())
+    @BeforeAll
+    fun beforeAll(){
+        namedParameterJdbcTemplate.execute("delete from sys_user"){ it.execute() }
     }
 
+    @Order(1)
+    @Test
+    fun testDaoInsert() {
+        val user =
+            User().apply {
+                val s = "lg3"
+                userName = s
+                realName = "李赣3"
+                mobile = "13981842693"
+                pwd = "123456$s".md5().uppercase()
+            }
+
+        userDao.insert(user)
+    }
+
+    @Order(2)
     @Test
     fun testDaoInsertBatch() {
         val users = (1..9).map {
@@ -83,24 +99,10 @@ class MyBatisAppTest {
     }
 
     @Test
-    fun testDaoInsert() {
-        val user =
-            User().apply {
-                val s = "lg3"
-                userName = s
-                realName = "李赣3"
-                mobile = "13981842693"
-                pwd = "123456$s".md5().uppercase()
-            }
-
-        userDao.insert(user)
-    }
-
-    @Test
     fun testDaoUpdate() {
         val one = userDao
             .ktQuery()
-            .eq(User::userName, "lg2")
+            .eq(User::mobile, "13981842693")
             .one()
         one.userName = "lg1"
 
@@ -131,6 +133,19 @@ class MyBatisAppTest {
         logger.info(mapList.toJsonString())
         val pageResult1 = userDao.selectPageResult(PageQuery<String>(), Wrappers.emptyWrapper())
         logger.info(pageResult1.toJsonString())
+    }
+
+    @Order(3)
+    @Test
+    fun testDaoQuery() {
+        val userId = userDao.ktQuery().list().first().userId
+        val oneMap = userDao.ktQuery().eq(User::userId, userId).oneMap()
+        logger.info(oneMap.toJsonString())
+        val oneObj = userDao.ktQuery().eq(User::userId, userId).oneObj<String>()
+        logger.info(oneObj!!::class.java.name)
+        logger.info(oneObj.toJsonString())
+        val pageResult = userDao.ktQuery().pageResult(PageQuery<String>())
+        logger.info(pageResult.toJsonString())
     }
 }
 

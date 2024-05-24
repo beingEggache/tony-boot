@@ -25,17 +25,7 @@
 package com.tony.test.redis
 
 import com.tony.annotation.EnableTonyBoot
-import com.tony.redis.aspect.ProtostuffRedisCacheAspect
-import com.tony.redis.aspect.RedisCacheAspect
-import com.tony.redis.service.RedisService
-import com.tony.test.redis.fury.serializer.FurySerializer
-import com.tony.test.redis.fury.service.FuryRedisService
-import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.data.redis.serializer.RedisSerializer
 
 
 /**
@@ -47,29 +37,28 @@ import org.springframework.data.redis.serializer.RedisSerializer
 @SpringBootApplication
 class TestRedisApp {
 
-
-    @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "FURY")
-    @Configuration
-    internal class FuryRedisConfig {
-        private val logger = LoggerFactory.getLogger(FuryRedisConfig::class.java)
-
-        @Bean
-        internal fun redisCacheAspect(): RedisCacheAspect {
-            logger.info("Annotation based redis cache with fury enabled")
-            return ProtostuffRedisCacheAspect()
-        }
-
-        @Bean
-        internal fun furySerializer(): RedisSerializer<Any?> =
-            FurySerializer()
-                .also {
-                    logger.info("Redis serializer mode is Protostuff")
-                }
-
-        @Bean
-        internal fun furyRedisService(): RedisService =
-            FuryRedisService()
-    }
+//    @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "FURY")
+//    @Configuration
+//    internal class FuryRedisConfig {
+//        private val logger = LoggerFactory.getLogger(FuryRedisConfig::class.java)
+//
+//        @Bean
+//        internal fun redisCacheAspect(): RedisCacheAspect {
+//            logger.info("Annotation based redis cache with fury enabled")
+//            return ProtostuffRedisCacheAspect()
+//        }
+//
+//        @Bean
+//        internal fun furySerializer(): RedisSerializer<Any?> =
+//            FurySerializer()
+//                .also {
+//                    logger.info("Redis serializer mode is Protostuff")
+//                }
+//
+//        @Bean
+//        internal fun furyRedisService(): RedisService =
+//            FuryRedisService()
+//    }
 
 
 

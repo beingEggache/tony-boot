@@ -24,9 +24,7 @@ import java.util.Locale
 
 
 @SpringBootTest(
-    properties = [
-        "redis.serializerMode=FURY",
-    ],
+    properties = ["redis.serializerMode=FURY"],
     classes = [TestRedisApp::class],
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )

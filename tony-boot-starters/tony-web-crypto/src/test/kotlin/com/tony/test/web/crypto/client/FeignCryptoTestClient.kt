@@ -35,5 +35,5 @@ import org.springframework.cloud.openfeign.FeignClient
  * @since 1.0.0
  */
 @FeignUnwrapResponse
-@FeignClient(name = "methodCryptoClient", url = "http://localhost:8080")
+@FeignClient(name = "methodCryptoClient", url = "http://localhost:10000")
 interface FeignCryptoTestClient : FeignCryptoTestApi

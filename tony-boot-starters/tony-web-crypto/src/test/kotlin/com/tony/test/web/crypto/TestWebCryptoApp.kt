@@ -26,8 +26,8 @@ package com.tony.test.web.crypto
 
 import com.tony.annotation.EnableTonyBoot
 import com.tony.codec.enums.Encoding
+import com.tony.crypto.CryptoProvider
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
-import com.tony.web.crpto.CryptoProvider
 import com.tony.web.crpto.config.WebCryptoConfig
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
