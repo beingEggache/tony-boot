@@ -38,9 +38,11 @@ import com.tony.utils.md5
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Bean
@@ -53,6 +55,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class MyBatisAppTest {
 
     @Resource
@@ -64,8 +67,8 @@ class MyBatisAppTest {
     private val logger = getLogger()
 
     @BeforeAll
-    fun beforeAll(){
-        namedParameterJdbcTemplate.execute("delete from sys_user"){ it.execute() }
+    fun beforeAll() {
+        namedParameterJdbcTemplate.execute("delete from sys_user") { it.execute() }
     }
 
     @Order(1)
@@ -98,6 +101,7 @@ class MyBatisAppTest {
         userDao.insertBatch(users)
     }
 
+    @Order(3)
     @Test
     fun testDaoUpdate() {
         val one = userDao
@@ -111,6 +115,7 @@ class MyBatisAppTest {
 
     }
 
+    @Order(4)
     @Test
     fun testDaoOneMap() {
         val list = userDao
@@ -120,6 +125,7 @@ class MyBatisAppTest {
         println(list)
     }
 
+    @Order(5)
     @Test
     fun testDaoTransform() {
         val mapList = userDao
@@ -135,7 +141,7 @@ class MyBatisAppTest {
         logger.info(pageResult1.toJsonString())
     }
 
-    @Order(3)
+    @Order(6)
     @Test
     fun testDaoQuery() {
         val userId = userDao.ktQuery().list().first().userId
@@ -148,7 +154,6 @@ class MyBatisAppTest {
         logger.info(pageResult.toJsonString())
     }
 }
-
 
 @Import(DbConfig::class)
 @EnableTonyBoot
