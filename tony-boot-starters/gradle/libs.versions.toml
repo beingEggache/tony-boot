@@ -58,7 +58,7 @@ elApi = "6.0.0"
 websocketApi = "2.1.1"
 bindApi = "4.0.2"
 
-swagger = "2.2.21"
+swagger = "2.2.22"
 knife4j = "4.5.0"
 springdoc = "1.8.0"
 springdocStarter = "2.3.0"
