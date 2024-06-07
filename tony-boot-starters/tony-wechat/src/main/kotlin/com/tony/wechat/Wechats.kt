@@ -59,8 +59,8 @@ internal fun <T> T.toQueryString(
         .sortedBy { it.key }
         .map { Pair(it.key, it.value) }
         .plus(params)
-        .joinToString("&") {
-            "${it.first}=${it.second}"
+        .joinToString("&") { pair ->
+            "${pair.first}=${pair.second}"
         }
 
 @JvmSynthetic

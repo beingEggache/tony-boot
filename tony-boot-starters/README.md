@@ -5,6 +5,8 @@
 ## tony-cache redis缓存封装, 及注解式redis缓存,实现了参数化过期
 ## tony-captcha 简易验证码 starter
 ## tony-core 常用工具封装
+## tony-dependencies 依赖pom
+## tony-dependencies-catalog libs.versions.toml 依赖
 ## tony-feign open-feign starter
 ## tony-jwt jwt starter
 ## tony-knife4j-api knife4j 接口文档starter

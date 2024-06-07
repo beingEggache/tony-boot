@@ -2,7 +2,7 @@ FROM eclipse-temurin:21-jre-alpine AS builder
 WORKDIR app
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
-RUN java -Djarmode=layertools -jar app.jar extract
+RUN java -Djarmode=tools -jar app.jar extract --layers --destination extracted
 
 FROM eclipse-temurin:21-jre-alpine
 RUN echo "Asia/Shanghai" > /etc/timezone
@@ -48,10 +48,9 @@ ENV ENABLE_JVM_LOGS="false"
 EXPOSE 10000
 VOLUME ["/logs","/tmp"]
 
-COPY --from=builder app/dependencies/ ./
-COPY --from=builder app/spring-boot-loader/ ./
-COPY --from=builder app/snapshot-dependencies/ ./
-COPY --from=builder app/application/ ./
+COPY --from=builder app/extracted/dependencies/ ./
+COPY --from=builder app/extracted/snapshot-dependencies/ ./
+COPY --from=builder app/extracted/application/ ./
 
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} ${PROPS} \
 $([ ${ENABLE_ERROR_LOGS} == 'true' ] && echo -n '\
@@ -70,4 +69,4 @@ $([ ${ENABLE_JVM_LOGS} == 'true' ] && echo -n '\
 -XX:+LogCompilation \
 -XX:+PrintCompilation \
 -XX:+PrintInlining') \
-org.springframework.boot.loader.launch.JarLauncher"]
+-jar app.jar"]
