@@ -26,7 +26,6 @@ ENV JAVA_OPTS="\
 -XX:+UseCompressedOops \
 -XX:+UseStringDeduplication \
 -XX:GuaranteedSafepointInterval=0 \
--XX:+UseCountedLoopSafepoints \
 -XX:+SafepointTimeout \
 -XX:SafepointTimeoutDelay=1000 \
 --add-opens java.base/java.lang=ALL-UNNAMED \
