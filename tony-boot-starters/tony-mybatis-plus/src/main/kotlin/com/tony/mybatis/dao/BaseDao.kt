@@ -25,12 +25,8 @@
 package com.tony.mybatis.dao
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper
-import com.baomidou.mybatisplus.core.enums.SqlMethod
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
-import com.baomidou.mybatisplus.core.metadata.TableInfo
-import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
 import com.baomidou.mybatisplus.core.toolkit.Constants
-import com.baomidou.mybatisplus.core.toolkit.StringUtils
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper
 import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateChainWrapper
@@ -42,16 +38,12 @@ import com.tony.exception.BizException
 import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyQueryChainWrapper
-import com.tony.utils.asTo
-import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.throwIfEmpty
 import com.tony.utils.throwIfNull
 import com.tony.utils.toPage
 import com.tony.utils.toPageResult
 import java.io.Serializable
-import java.util.Objects
 import org.apache.ibatis.annotations.Param
-import org.apache.ibatis.binding.MapperMethod.ParamMap
 
 /**
  * mybatis plus [BaseMapper] 包装, 增加了一些方法.
@@ -213,126 +205,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
         ex: (message: String, code: Int) -> BaseException = ::BizException,
     ): List<Map<String, Any?>> =
         selectMaps(queryWrapper).throwIfEmpty(message, code, ex)
-
-    /**
-     * TableId 注解存在更新记录，否插入一条记录
-     * @param [entity] 实体对象
-     * @return [Boolean]
-     * @author tangli
-     * @date 2023/09/13 19:38
-     * @since 1.0.0
-     */
-    public fun upsert(entity: T?): Boolean {
-        if (null != entity) {
-            val tableInfo: TableInfo =
-                TableInfoHelper
-                    .getTableInfo(getEntityClass())
-                    .throwIfNull("error: can not execute. because can not find cache of TableInfo for entity!")
-            val keyProperty =
-                tableInfo
-                    .keyProperty
-                    .throwIfNull("error: can not execute. because can not find column for id from entity!")
-            val idVal = tableInfo.getPropertyValue(entity, keyProperty)
-            return if (StringUtils.checkValNull(idVal) || Objects.isNull(selectById(idVal.asTo()))) {
-                insert(entity) > 0
-            } else {
-                updateById(entity) > 0
-            }
-        }
-        return false
-    }
-
-    /**
-     * 批量插入
-     * @param [batchList] 实体列表
-     * @return [Boolean]
-     * @author tangli
-     * @date 2023/09/13 19:38
-     * @since 1.0.0
-     */
-    public fun insertBatch(batchList: Collection<T>): Boolean =
-        executeBatch(batchList) { sqlSession, entity ->
-            sqlSession.insert(getSqlStatement(SqlMethod.INSERT_ONE), entity)
-        }
-
-    /**
-     * 批量保存更新
-     * @param [batchList] 实体列表
-     * @return [Boolean]
-     * @author tangli
-     * @date 2023/09/13 19:38
-     * @since 1.0.0
-     */
-    public fun upsertBatch(batchList: Collection<T>): Boolean {
-        val entityClass = getEntityClass()
-        val tableInfo =
-            TableInfoHelper
-                .getTableInfo(entityClass)
-                .throwIfNull("error: can not execute. because can not find cache of TableInfo for entity!")
-        val keyProperty =
-            tableInfo
-                .keyProperty
-                .throwIfNull("error: can not execute. because can not find column for id from entity!")
-        val sqlStatement = getSqlStatement(SqlMethod.INSERT_ONE)
-        return executeBatch(batchList) { sqlSession, entity ->
-            val isInsert =
-                StringUtils.checkValNull(tableInfo.getPropertyValue(entity, keyProperty)) ||
-                    sqlSession
-                        .selectList<T>(
-                            getSqlStatement(SqlMethod.SELECT_BY_ID),
-                            entity
-                        ).isNullOrEmpty()
-            if (isInsert) {
-                sqlSession.insert(sqlStatement, entity)
-            } else {
-                val param = ParamMap<T>()
-                param[Constants.ENTITY] = entity
-                sqlSession.update(getSqlStatement(SqlMethod.UPDATE_BY_ID), param)
-            }
-        }
-    }
-
-    /**
-     * 批量更新
-     * @param [batchList] 实体列表
-     * @return [Boolean]
-     * @author tangli
-     * @date 2023/09/13 19:38
-     * @since 1.0.0
-     */
-    public fun updateByIdBatch(batchList: Collection<T>): Boolean =
-        executeBatch(batchList) { sqlSession, entity ->
-            val param = ParamMap<T>()
-            param[Constants.ENTITY] = entity
-            sqlSession.update(getSqlStatement(SqlMethod.UPDATE_BY_ID), param)
-        }
-
-    /**
-     * 批量删除,如果使用了逻辑删除，就是批量逻辑删除.
-     * @param [batchList] 实体列表
-     * @return [Boolean]
-     * @author tangli
-     * @date 2023/09/13 19:38
-     * @since 1.0.0
-     */
-    public fun deleteByIdBatch(batchList: Collection<T>): Boolean {
-        val sqlStatement = getSqlStatement(SqlMethod.DELETE_BY_ID)
-        val entityClass = getEntityClass()
-        val tableInfo = TableInfoHelper.getTableInfo(entityClass)
-        return executeBatch(batchList) { sqlSession, e ->
-            if (tableInfo.isWithUpdateFill && tableInfo.isWithLogicDelete) {
-                if (e.isTypesOrSubTypesOf(entityClass)) {
-                    sqlSession.update(sqlStatement, e)
-                } else {
-                    val instance = tableInfo.newInstance<T>()
-                    tableInfo.setPropertyValue(instance, tableInfo.keyProperty, e)
-                    sqlSession.update(sqlStatement, instance)
-                }
-            } else {
-                sqlSession.update(sqlStatement, e)
-            }
-        }
-    }
 
     /**
      * 分页查询出全局统一结构.

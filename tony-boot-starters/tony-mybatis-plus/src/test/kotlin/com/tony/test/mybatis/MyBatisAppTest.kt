@@ -98,7 +98,7 @@ class MyBatisAppTest {
                 pwd = "123456$s".md5().uppercase()
             }
         }
-        userDao.insertBatch(users)
+        userDao.insert(users)
     }
 
     @Order(3)

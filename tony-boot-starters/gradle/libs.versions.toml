@@ -30,7 +30,7 @@ springBoot = "3.3.0"
 slf4j = "2.0.13"
 logstashLogbackEncoder = "7.4"
 
-byteBuddy = "1.14.16"
+byteBuddy = "1.14.17"
 bouncycastle = "1.78.1"
 
 openFeign = "13.2.1"
@@ -38,7 +38,7 @@ lettuce = "6.3.2.RELEASE"
 
 jackson = "2.17.1"
 gson = "2.11.0"
-fastjson = "2.0.50"
+fastjson = "2.0.51"
 
 postgresql = "42.7.3"
 mysql = "8.4.0"
@@ -46,16 +46,16 @@ mysql = "8.4.0"
 hikariCP = "5.1.0"
 mybatis = "3.5.16"
 mybatisSpring = "3.0.3"
-mybatisPlus = "3.5.6"
+mybatisPlus = "3.5.7"
 
 javaJwt = "4.4.0"
-guava = "33.2.0-jre"
+guava = "33.2.1-jre"
 
 validationApi = "3.1.0"
 annotationApi = "3.0.0"
 activationApi = "2.1.3"
 elApi = "6.0.0"
-websocketApi = "2.1.1"
+websocketApi = "2.2.0"
 bindApi = "4.0.2"
 
 swagger = "2.2.22"
@@ -66,13 +66,13 @@ springdocStarter = "2.3.0"
 fury = "0.4.1"
 
 powerjob = "4.3.9"
-vertx = "4.5.7"
+vertx = "4.5.8"
 
 springCloud = "2023.0.1"
 springCloudAlibaba = "2023.0.1.0"
 springCloudTencent = "1.13.2-2023.0.0"
-reactor = "2023.0.6"
-netty = "4.1.110.Final"
+reactor = "2023.0.7"
+netty = "4.1.111.Final"
 
 lombok = "8.6"
 ktlint = "1.2.1"
@@ -134,7 +134,7 @@ okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.9.0" }
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.5" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.17.0" }
 commonsIo = { module = "commons-io:commons-io", version = "2.16.1" }
-commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.26.1" }
+commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.26.2" }
 commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.0" }
 commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.14.0" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }

@@ -33,29 +33,15 @@
 
 package com.tony.mybatis.dao
 
-import com.baomidou.mybatisplus.core.enums.SqlMethod
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper
-import com.tony.SpringContexts
 import com.tony.utils.asToNotNull
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.rawClass
 import com.tony.utils.typeParamOfSuperInterface
 import java.lang.reflect.Proxy
 import java.util.concurrent.ConcurrentHashMap
-import java.util.function.BiConsumer
-import org.apache.ibatis.logging.Log
-import org.apache.ibatis.logging.LogFactory
-import org.apache.ibatis.session.SqlSession
-import org.apache.ibatis.session.SqlSessionFactory
 
 @get:JvmSynthetic
 internal val ENTITY_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
-
-@get:JvmSynthetic
-internal val MAPPER_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
-
-@get:JvmSynthetic
-internal val LOG_MAP = ConcurrentHashMap<Class<*>, Log>()
 
 /**
  * 实际类别
@@ -78,31 +64,6 @@ internal fun <T : Any> BaseDao<T>.actualClass() =
     }
 
 /**
- * 获取mybatis-plus 语句
- * @param [sqlMethod] 语句枚举
- * @return [String]
- * @author tangli
- * @date 2023/09/28 19:52
- * @since 1.0.0
- */
-@JvmSynthetic
-internal fun <T : Any> BaseDao<T>.getSqlStatement(sqlMethod: SqlMethod?): String =
-    SqlHelper.getSqlStatement(getMapperClass(), sqlMethod)
-
-/**
- * 获取logger
- * @return [Log]
- * @author tangli
- * @date 2023/09/28 19:52
- * @since 1.0.0
- */
-@JvmSynthetic
-internal fun <T : Any> BaseDao<T>.getLog(): Log =
-    LOG_MAP.getOrPut(this::class.java) {
-        LogFactory.getLog(actualClass())
-    }
-
-/**
  * 获取entityClass
  * @return [Class<T>]
  * @author tangli
@@ -115,39 +76,3 @@ internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
         .getOrPut(this::class.java) {
             actualClass().typeParamOfSuperInterface(BaseDao::class.java).rawClass()
         }.asToNotNull()
-
-/**
- * 获取mapper类型
- * @return [Class<out BaseDao<T>>]
- * @author tangli
- * @date 2023/09/28 19:53
- * @since 1.0.0
- */
-@JvmSynthetic
-internal fun <T : Any> BaseDao<T>.getMapperClass(): Class<out BaseDao<T>> =
-    MAPPER_CLASS_MAP
-        .getOrPut(this::class.java) {
-            actualClass()
-        }.asToNotNull()
-
-/**
- * 批量执行
- * @param [batchList] 对象列表
- * @param [consumer] 回调
- * @return [Boolean]
- * @author tangli
- * @date 2023/09/28 19:53
- * @since 1.0.0
- */
-@JvmSynthetic
-internal fun <T : Any, E> BaseDao<T>.executeBatch(
-    batchList: Collection<E>,
-    consumer: BiConsumer<SqlSession, E>,
-): Boolean =
-    SqlHelper.executeBatch(
-        SpringContexts.getBean(SqlSessionFactory::class.java),
-        getLog(),
-        batchList,
-        batchList.size + 1,
-        consumer
-    )
