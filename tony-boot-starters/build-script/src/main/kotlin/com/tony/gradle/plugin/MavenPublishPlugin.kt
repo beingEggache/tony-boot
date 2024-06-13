@@ -71,7 +71,10 @@ class MavenPublishPlugin : Plugin<Project> {
             }
             publications {
                 if (isPom) {
+
                     register("pom", MavenPublication::class) {
+                        suppressPomMetadataWarningsFor("apiElements")
+                        suppressPomMetadataWarningsFor("runtimeElements")
                         from(project.components["javaPlatform"])
                     }
 

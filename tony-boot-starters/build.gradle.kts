@@ -129,8 +129,8 @@ configure(libraryProjects) {
                 "-Xjspecify-annotations=strict",
                 "-Xtype-enhancement-improvements-strict-mode",
                 "-Xenhance-type-parameter-types-to-def-not-null",
-                "-Xuse-fast-jar-file-system",
                 "-Xextended-compiler-checks",
+                // "-Xuse-fast-jar-file-system",
             )
         }
         explicitApi()
