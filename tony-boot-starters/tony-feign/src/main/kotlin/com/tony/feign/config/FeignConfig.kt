@@ -104,6 +104,7 @@ public class FeignConfig {
     internal fun useRequestProcessorsRequestInterceptor(): GlobalRequestInterceptorProvider<RequestInterceptor> =
         GlobalRequestInterceptorProvider(UseRequestProcessorsRequestInterceptor())
 
+    @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     internal fun unwrapResponseInterceptorProvider(
         @Nullable
