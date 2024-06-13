@@ -8,7 +8,7 @@ for index, keyPattern in pairs(KEYS) do
         for i = 1, #keys do
             local key = keys[i];
             redis.call("DEL", key);
-    		num = num + 1;
+            num = num + 1;
         end;
         cursor = scanResult[1];
     until cursor == "0";

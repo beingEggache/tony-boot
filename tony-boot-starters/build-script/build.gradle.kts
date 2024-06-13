@@ -52,9 +52,17 @@ kotlin {
         languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
         verbose.set(true)
         progressiveMode.set(true)
+        // use kotlinc -X get more info.
         freeCompilerArgs.addAll(
             "-Xjsr305=strict",
             "-Xjvm-default=all",
+            "-Xlambdas=indy",
+            "-Xsam-conversions=indy",
+            "-Xjspecify-annotations=strict",
+            "-Xtype-enhancement-improvements-strict-mode",
+            "-Xenhance-type-parameter-types-to-def-not-null",
+            "-Xuse-fast-jar-file-system",
+            "-Xextended-compiler-checks",
         )
     }
 }

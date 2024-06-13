@@ -28,6 +28,7 @@ class DbConfig {
         return interceptor
     }
 
+    @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     internal fun metaObjectHandler(apiSession: ApiSession): MetaObjectHandler =
         DefaultMetaObjectHandler(apiSession)
