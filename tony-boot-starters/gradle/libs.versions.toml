@@ -223,7 +223,7 @@ vertxWebCommon = { module = "io.vertx:vertx-web-common", version.ref = "vertx" }
 vertxAuthCommon = { module = "io.vertx:vertx-auth-common", version.ref = "vertx" }
 vertxBridgeCommon = { module = "io.vertx:vertx-bridge-common", version.ref = "vertx" }
 
-gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.35.0"}
+gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.36.0"}
 springBootGradlePlugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot"}
 ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref="ktlint"}
 

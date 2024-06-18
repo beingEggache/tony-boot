@@ -40,6 +40,7 @@ class DockerPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.apply {
             plugin("com.palantir.docker")
+            plugin("com.palantir.docker-compose")
             plugin("org.springframework.boot")
         }
 
