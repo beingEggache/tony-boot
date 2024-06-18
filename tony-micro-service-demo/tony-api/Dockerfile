@@ -24,7 +24,6 @@ ENV JAVA_OPTS="\
 -XX:+AlwaysPreTouch \
 -XX:+DisableExplicitGC \
 -XX:+UseCompressedOops \
--XX:+UseStringDeduplication \
 -XX:GuaranteedSafepointInterval=0 \
 -XX:+SafepointTimeout \
 -XX:SafepointTimeoutDelay=1000 \
