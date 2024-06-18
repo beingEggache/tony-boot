@@ -14,7 +14,6 @@ WORKDIR app
 ENV JAVA_OPTS="\
 -Xmx2g \
 -XX:+UseZGC \
--XX:+ZGenerational \
 -XX:+EnableDynamicAgentLoading \
 -XX:+SegmentedCodeCache \
 -XX:+UseStringDeduplication \
