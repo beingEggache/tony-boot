@@ -14,6 +14,11 @@ indent_size = 2
 # noinspection EditorConfigKeyCorrectness
 [/*/src/main/**.{kt,kts}]
 ktlint_code_style = ktlint_official
+
+#  Disable wildcard imports entirely
+ij_kotlin_name_count_to_use_star_import = 2147483647
+ij_kotlin_name_count_to_use_star_import_for_members = 2147483647
+ij_kotlin_packages_to_use_import_on_demand = unset
 # ktlint_standard_final-newline = disabled # Disables the `final-newline` rule provided by KtLint
 # ktlint_standard_some-experimental-rule = enabled # Enables the (experimental) `some-experimental-rule` in the `standard` rule set provided by KtLint
 # ktlint_custom-rule-set_custom-rule = disabled # Disables the `custom-rule` rule in the `custom-rule-set` rule set (not provided by KtLint)
