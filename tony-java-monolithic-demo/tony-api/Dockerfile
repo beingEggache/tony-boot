@@ -11,9 +11,8 @@ WORKDIR app
 # https://zhuanlan.zhihu.com/p/528949267
 # JVM 参数升级提示工具 https://jacoline.dev/inspect
 # JVM 参数词典：https://chriswhocodes.com
-ENV JAVA_OPTS="\
--Xmx2g \
--XX:+UseZGC \
+ENV JVM_OPTS=""
+ENV JVM_DEFAULT_OPTS="\
 -XX:+EnableDynamicAgentLoading \
 -XX:+SegmentedCodeCache \
 -XX:+UseStringDeduplication \
@@ -49,7 +48,7 @@ COPY --from=builder app/extracted/dependencies/ ./
 COPY --from=builder app/extracted/snapshot-dependencies/ ./
 COPY --from=builder app/extracted/application/ ./
 
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} ${PROPS} \
+ENTRYPOINT ["sh", "-c", "java ${JVM_DEFAULT_OPTS} ${PROPS} ${JVM_OPTS} \
 $([ ${ENABLE_ERROR_LOGS} == 'true' ] && echo -n '\
 -XX:ErrorFile=/logs/hs_err_pid.log \
 -XX:HeapDumpPath=/logs/java_heapdump.hprof \
