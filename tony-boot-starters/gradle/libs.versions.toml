@@ -25,7 +25,7 @@ template = "0.1-SNAPSHOT"
 java = "21"
 kotlin = "1.9.24"
 spring = "6.1.10"
-springBoot = "3.3.0"
+springBoot = "3.3.1"
 
 slf4j = "2.0.13"
 logstashLogbackEncoder = "7.4"
