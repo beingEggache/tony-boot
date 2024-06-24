@@ -114,7 +114,7 @@ public fun Map<String, Any?>.toQueryString(): String =
 
 /**
  * 将queryString字符串转为map， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
- * @return [Map<String, String>]
+ * @return [Map]<[String], [String]>
  * @author tangli
  * @date 2023/12/08 19:28
  * @since 1.0.0

@@ -66,7 +66,7 @@ public sealed interface RedisValueTransformer {
     /**
      * 输出转换为
      * @param [type] 类型
-     * @return [T]
+     * @return [T]?
      * @author tangli
      * @date 2023/09/13 19:44
      * @since 1.0.0
@@ -77,7 +77,7 @@ public sealed interface RedisValueTransformer {
     /**
      * 输出转换为
      * @param [type] 类型
-     * @return [T]
+     * @return [T]?
      * @author tangli
      * @date 2023/09/13 19:44
      * @since 1.0.0

@@ -61,7 +61,7 @@ public data object RedisManager {
      *
      * @see `RedisTemplate.execute(SessionCallback<T> session)`
      * @param [callback] 回调
-     * @return [List<Any?>]
+     * @return [List]<[Any]?>
      * @author tangli
      * @date 2023/09/28 19:58
      * @since 1.0.0

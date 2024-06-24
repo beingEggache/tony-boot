@@ -105,7 +105,7 @@ public val HttpServletRequest.headers: Map<String, String>
 
 /**
  * 请求头
- * @return [Map<String, String>]
+ * @return [Map]<[String], [String]>
  * @author tangli
  * @date 2024/02/06 15:11
  * @since 1.0.0
@@ -131,7 +131,7 @@ public val HttpServletResponse.headers: Map<String, String>
 
 /**
  * 响应头
- * @return [Map<String, String>]
+ * @return [Map]<[String], [String]>
  * @author tangli
  * @date 2024/02/06 15:11
  * @since 1.0.0
