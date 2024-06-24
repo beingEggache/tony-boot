@@ -190,7 +190,7 @@ internal class ExceptionHandler : ErrorController {
      * 错误响应
      * @param [msg] 消息
      * @param [code] 默认为 [ApiProperty.errorCode]
-     * @return [ApiResult<*>]
+     * @return [ApiResult]<*>
      * @author tangli
      * @date 2023/10/24 19:27
      * @since 1.0.0

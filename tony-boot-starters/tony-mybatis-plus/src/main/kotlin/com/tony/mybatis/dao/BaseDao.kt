@@ -172,7 +172,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [message] 消息
      * @param [code] 密码
      * @param [ex] ex
-     * @return [List]List<E>
+     * @return [List]<[E]>
      * @author tangli
      * @date 2023/11/06 19:12
      * @since 1.0.0
@@ -193,7 +193,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @param [message] 消息
      * @param [code] 密码
      * @param [ex] ex
-     * @return [List] List<Map<String, Any?>>
+     * @return [List]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/11/06 19:12
      * @since 1.0.0
@@ -210,7 +210,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 分页查询出全局统一结构.
      * @param [page] 页
      * @param [queryWrapper] 查询包装器
-     * @return [PageResultLike]
+     * @return [PageResultLike]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
      * @since 1.0.0
@@ -225,7 +225,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 分页查询出全局统一结构.
      * @param [page] 页
      * @param [queryWrapper] 查询包装器
-     * @return [PageResultLike<Map<String, Any?>>]
+     * @return [PageResultLike]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/10/23 19:42
      * @since 1.0.0
@@ -255,7 +255,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 链式查询 普通
-     * @return [TonyQueryChainWrapper]
+     * @return [TonyQueryChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
      * @since 1.0.0
@@ -266,7 +266,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     /**
      * 链式查询 lambda 式
      * <p>注意：不支持 Kotlin </p>
-     * @return [TonyLambdaQueryChainWrapper]
+     * @return [TonyLambdaQueryChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
      * @since 1.0.0
@@ -277,7 +277,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     /**
      * 链式查询 普通.
      * 仅支持 Kotlin.
-     * @return [TonyKtQueryChainWrapper]
+     * @return [TonyKtQueryChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
      * @since 1.0.0
@@ -289,7 +289,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     /**
      * 链式更改 lambda 式.
      * 仅支持 Kotlin.
-     * @return [KtUpdateChainWrapper]
+     * @return [KtUpdateChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
      * @since 1.0.0
@@ -300,7 +300,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
 
     /**
      * 链式更改 普通.
-     * @return [UpdateChainWrapper]
+     * @return [UpdateChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:40
      * @since 1.0.0
@@ -311,7 +311,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
     /**
      * 链式更改 lambda 式.
      * <p>注意：不支持 Kotlin </p>
-     * @return [LambdaUpdateChainWrapper]
+     * @return [LambdaUpdateChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:40
      * @since 1.0.0

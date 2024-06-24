@@ -65,7 +65,7 @@ internal fun <T : Any> BaseDao<T>.actualClass() =
 
 /**
  * 获取entityClass
- * @return [Class<T>]
+ * @return [Class]<[T]>
  * @author tangli
  * @date 2023/09/28 19:53
  * @since 1.0.0

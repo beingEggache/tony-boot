@@ -56,7 +56,7 @@ internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =
         .withZone(ZoneId.systemDefault())
 
 /**
- * 日期转为字符串表示
+ * 日期[TemporalAccessor]转为[String]表示
  * @param [pattern] 字符串格式
  * @return [String]
  * @author tangli
@@ -70,7 +70,7 @@ public fun TemporalAccessor.toString(pattern: CharSequence): String =
         }.format(this)
 
 /**
- * LocalDate 或 LocalDatetime 转 Date
+ * [LocalDate] 或 [LocalDateTime] 转 [Date]
  * @return [Date]
  * @author tangli
  * @date 2023/12/08 19:42
@@ -85,7 +85,7 @@ internal fun TemporalAccessor.toDate(): Date =
     }
 
 /**
- * 字符串转 Date
+ * [String]转 [Date]
  * @param [pattern] 字符串格式
  * @return [Date]
  * @author tangli
@@ -100,7 +100,7 @@ public fun CharSequence.toDate(pattern: CharSequence): Date =
         .toDate()
 
 /**
- * 字符串转 LocalDate
+ * [String]转 [LocalDate]
  * @param [pattern] 字符串格式
  * @return [LocalDate]
  * @author tangli
@@ -117,7 +117,7 @@ public fun CharSequence.toLocalDate(pattern: CharSequence): LocalDate =
         }
 
 /**
- * 字符串转 LocalDateTime
+ * [String]转 [LocalDateTime]
  * @param [pattern] 字符串格式
  * @return [LocalDateTime]
  * @author tangli
@@ -134,7 +134,7 @@ public fun CharSequence.toLocalDateTime(pattern: CharSequence): LocalDateTime =
         }
 
 /**
- * LocalDateTime 转 Instant
+ * [LocalDateTime] 转 [Instant]
  * @return [Instant]
  * @author tangli
  * @date 2023/12/08 19:43
@@ -144,7 +144,7 @@ public fun LocalDateTime.toInstant(): Instant =
     Instant.from(atZone(ZoneId.systemDefault()))
 
 /**
- * LocalDateTime 转 Date
+ * [LocalDateTime] 转 [Date]
  * @return [Date]
  * @author tangli
  * @date 2023/12/08 19:43
@@ -154,7 +154,7 @@ public fun LocalDateTime.toDate(): Date =
     Date.from(toInstant())
 
 /**
- * 判断 一个 LocalDateTime 是否在 start 和 end 之间
+ * 判断 一个 [LocalDateTime] 是否在 [start] 和 [end] 之间
  * @param [start] 开始
  * @param [end] 终止
  * @return [Boolean]
@@ -173,7 +173,7 @@ public fun LocalDateTime.isBetween(
     }
 
 /**
- * LocalDate 转 Date
+ * [LocalDate] 转 [Date]
  * @return [Instant]
  * @author tangli
  * @date 2023/12/08 19:43
@@ -183,7 +183,7 @@ public fun LocalDate.toInstant(): Instant =
     atStartOfDay(ZoneId.systemDefault()).toInstant()
 
 /**
- * LocalDate 转 Date
+ * [LocalDate] 转 [Date]
  * @return [Date]
  * @author tangli
  * @date 2023/12/08 19:43
@@ -193,7 +193,7 @@ public fun LocalDate.toDate(): Date =
     Date.from(toInstant())
 
 /**
- * 判断 一个 LocalDate 是否在 start 和 end 之间
+ * 判断 一个 [LocalDate] 是否在 [start] 和 [end] 之间
  * @param [start] 开始
  * @param [end] 终止
  * @return [Boolean]
@@ -222,7 +222,7 @@ public fun LocalDate.atEndOfDay(): LocalDateTime =
     LocalDateTime.of(this, LocalTime.MAX)
 
 /**
- * date 转 字符串
+ * [Date] 转 [String]
  * @param [pattern] 图案
  * @return [String]
  * @author tangli
@@ -236,7 +236,7 @@ public fun Date.toString(pattern: CharSequence): String =
         }.format(toInstant())
 
 /**
- * Date 转 LocalDate
+ * [Date] 转 [LocalDate]
  * @return [LocalDate]
  * @author tangli
  * @date 2023/12/08 19:43
@@ -246,7 +246,7 @@ public fun Date.toLocalDate(): LocalDate =
     LocalDate.ofInstant(toInstant(), ZoneId.systemDefault())
 
 /**
- * Date 转 LocalDateTime
+ * [Date] 转 [LocalDateTime]
  * @return [LocalDateTime]
  * @author tangli
  * @date 2023/12/08 19:43

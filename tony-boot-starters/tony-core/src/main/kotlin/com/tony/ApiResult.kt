@@ -63,7 +63,7 @@ public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
  * }
  * ```
  *
- * @return [ApiResultLike<T>]
+ * @return [ApiResultLike]<[T]>
  * @author tangli
  * @date 2023/09/13 19:31
  * @since 1.0.0

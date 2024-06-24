@@ -185,7 +185,7 @@ public fun Class<*>.isArrayLikeType(): Boolean =
 
 /**
  * 原始类
- * @return [Class<T>]
+ * @return [Class]<[T]>
  * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0
@@ -222,7 +222,7 @@ public fun <T> TypeReference<T>.isNumberTypes(): Boolean =
 
 /**
  * rawClass
- * @return [Class<T>]
+ * @return [Class]<[T]>
  * @author tangli
  * @date 2023/09/13 19:30
  * @since 1.0.0

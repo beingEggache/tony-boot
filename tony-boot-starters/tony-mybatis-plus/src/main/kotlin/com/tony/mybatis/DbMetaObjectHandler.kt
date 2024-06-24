@@ -25,6 +25,8 @@
 package com.tony.mybatis
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler
+import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
+import com.baomidou.mybatisplus.core.metadata.TableInfo
 import com.tony.ApiSession
 import com.tony.utils.annotation
 import com.tony.utils.asTo
@@ -109,24 +111,29 @@ public interface DbMetaObjectHandler : MetaObjectHandler {
  */
 public open class DefaultMetaObjectHandler(
     private val apiSession: ApiSession,
-    private val metaPropProviders: Map<MetaColumn, Function<Any?, Any?>> = mapOf(),
+    private val metaPropProviders: Map<MetaColumn, Function<in Any?, out Any?>> = mapOf(),
 ) : DbMetaObjectHandler {
     private val logger = LoggerFactory.getLogger(DbMetaObjectHandler::class.java)
-    private val metaPropertyMap: ConcurrentMap<Field, MybatisPlusMetaProperty> = ConcurrentHashMap()
+    private val metaPropertyCache: ConcurrentMap<Field, MybatisPlusMetaProperty> = ConcurrentHashMap()
+    private val tableFieldInfoCache: ConcurrentMap<TableInfo, List<TableFieldInfo>> = ConcurrentHashMap()
 
     override fun fill(
         metaObject: MetaObject,
         withInsertFill: Boolean,
     ) {
-        findTableInfo(metaObject)
-            .fieldList
-            .filter {
-                (if (withInsertFill) it.isWithInsertFill else it.isWithUpdateFill) &&
-                    it.field.hasAnnotation(MybatisPlusMetaProperty::class.java)
-            }.forEach {
-                val field = it.field
+        val tableInfo = findTableInfo(metaObject)
+        tableFieldInfoCache
+            .getOrPut(tableInfo) {
+                tableInfo
+                    .fieldList
+                    .filter { tableFieldInfo ->
+                        (if (withInsertFill) tableFieldInfo.isWithInsertFill else tableFieldInfo.isWithUpdateFill) &&
+                            tableFieldInfo.field.hasAnnotation(MybatisPlusMetaProperty::class.java)
+                    }
+            }.forEach { tableFieldInfo ->
+                val field = tableFieldInfo.field
                 val metaProperty =
-                    metaPropertyMap.getOrPut(field) {
+                    metaPropertyCache.getOrPut(field) {
                         field.annotation(MybatisPlusMetaProperty::class.java).throwIfNull()
                     }
                 val metaValue =
