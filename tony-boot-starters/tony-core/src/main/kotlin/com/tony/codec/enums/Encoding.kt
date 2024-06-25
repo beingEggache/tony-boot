@@ -40,6 +40,7 @@ import com.tony.enums.StringEnumValue
  */
 public enum class Encoding(
     override val value: String,
+    @JvmField
     public val codec: Codec,
 ) : StringEnumValue {
     @JsonEnumDefaultValue

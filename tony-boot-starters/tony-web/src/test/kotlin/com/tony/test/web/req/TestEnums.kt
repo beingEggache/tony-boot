@@ -31,25 +31,6 @@ import com.tony.enums.EnumCreator
 import com.tony.enums.IntEnumValue
 import com.tony.enums.StringEnumValue
 
-enum class TestStringEnum(
-    override val value: String
-) : StringEnumValue {
-    TEST_1("1"),
-    TEST_2("2"),
-    ;
-    init {
-        Companion
-    }
-
-    companion object : EnumCreator<TestStringEnum, String>(TestStringEnum::class.java) {
-        @JsonCreator
-        @JvmStatic
-        override fun create(value: String): TestStringEnum? {
-            return super.create(value)
-        }
-    }
-}
-
 enum class TestIntEnum(
     override val value: Int
 ) : IntEnumValue {

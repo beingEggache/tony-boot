@@ -24,17 +24,17 @@
 
 package com.tony.test.web.controller
 
+import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import com.tony.enums.validate.SimpleIntEnum
-import com.tony.enums.validate.SimpleStringEnum
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
 import com.tony.test.web.req.TestDateTimesReq
 import com.tony.test.web.req.TestIntEnum
 import com.tony.test.web.req.TestNullValues
 import com.tony.test.web.req.TestReq
-import com.tony.test.web.req.TestStringEnum
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springdoc.core.annotations.ParameterObject
 import org.springframework.http.MediaType
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -172,19 +172,11 @@ class TestController {
 
     @Operation(description = "string-enum")
     @PostMapping("/string-enum")
-    fun stringEnum(@RequestParam testStringEnum: TestStringEnum): TestStringEnum = TestStringEnum.TEST_1
+    fun stringEnum(@RequestParam testStringEnum: SymmetricCryptoAlgorithm): SymmetricCryptoAlgorithm = SymmetricCryptoAlgorithm.DES
 
     @Operation(description = "int-enum")
     @PostMapping("/int-enum")
     fun intEnum(@RequestParam testIntEnum: TestIntEnum): TestIntEnum = TestIntEnum.TEST_2
-
-    @Operation(description = "string-enum-validate")
-    @PostMapping("/string-enum-validate")
-    fun stringEnumValidate(
-        @RequestParam
-        @SimpleStringEnum(enums = ["2"], message = "不对", required = true)
-        testStringEnum: TestStringEnum
-    ): TestStringEnum = TestStringEnum.TEST_1
 
     @Operation(description = "int-enum-validate")
     @PostMapping("/int-enum-validate")
@@ -197,6 +189,7 @@ class TestController {
     @Operation(description = "form")
     @PostMapping("/form")
     fun form(
+        @ParameterObject
         testReq: TestReq
     ): TestReq = testReq
 

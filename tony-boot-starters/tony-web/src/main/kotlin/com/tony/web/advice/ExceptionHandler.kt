@@ -39,6 +39,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindException
 import org.springframework.validation.BindingResult
+import org.springframework.validation.method.MethodValidationException
+import org.springframework.validation.method.MethodValidationResult
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MissingRequestValueException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -46,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.method.annotation.HandlerMethodValidationException
 import org.springframework.web.servlet.resource.NoResourceFoundException
 
 /**
@@ -122,6 +125,11 @@ internal class ExceptionHandler : ErrorController {
             ApiProperty.badRequestCode
         )
 
+    /**
+     * 常规Service方法验证会抛此异常
+     *
+     * @param e
+     */
     @ExceptionHandler(ConstraintViolationException::class)
     @ResponseBody
     fun constraintViolationException(e: ConstraintViolationException) =
@@ -129,6 +137,24 @@ internal class ExceptionHandler : ErrorController {
             e
                 .constraintViolations
                 .joinToString(System.lineSeparator()) { it.message },
+            ApiProperty.badRequestCode
+        )
+
+    /**
+     * spring6后, controller方法参数验证(非json)都会抛以下异常了, 而不是[ConstraintViolationException].
+     *
+     * @param e
+     */
+    @ExceptionHandler(
+        value = [
+            MethodValidationException::class,
+            HandlerMethodValidationException::class
+        ]
+    )
+    @ResponseBody
+    fun handlerMethodValidationException(e: MethodValidationResult) =
+        errorResponse(
+            e.allErrors.joinToString(System.lineSeparator()) { it.defaultMessage.ifNullOrBlank() },
             ApiProperty.badRequestCode
         )
 

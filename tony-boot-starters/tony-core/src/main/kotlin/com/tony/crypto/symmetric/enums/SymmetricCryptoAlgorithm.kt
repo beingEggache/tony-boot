@@ -40,6 +40,7 @@ import com.tony.enums.StringEnumValue
  */
 public enum class SymmetricCryptoAlgorithm(
     override val value: String,
+    @JvmField
     public val algorithm: SymmetricCrypto,
 ) : StringEnumValue {
     @JsonEnumDefaultValue

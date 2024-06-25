@@ -25,6 +25,7 @@
 package com.tony.test.web.req
 
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.tony.codec.enums.Encoding
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.nio.CharBuffer
@@ -73,7 +74,7 @@ data class TestNullValues(
     val collection: Collection<*>? = null,
 
     val intEnum: TestIntEnum? = null,
-    val stringEnum: TestStringEnum? = null,
+    val stringEnum: Encoding? = null,
     val enum: SerializationFeature? = null,
     val obj: Any? = null,
     )

@@ -25,19 +25,28 @@
 package com.tony.test.web.controller
 
 import com.tony.PageQuery
+import com.tony.codec.enums.Encoding
+import com.tony.enums.validate.SimpleStringEnum
 import com.tony.test.web.req.TestPatternReq
 import com.tony.test.web.req.TestQuery
+import com.tony.test.web.req.TestReq
+import com.tony.test.web.service.TestValidateService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.Positive
+import org.springdoc.core.annotations.ParameterObject
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "测试验证")
-@Validated
 @RestController
-class TestValidateController {
+class TestValidateController(
+    private val testValidateService: TestValidateService,
+) {
 
     @Operation(summary = "pattern验证", description = "pattern验证")
     @PostMapping("/pattern-validate")
@@ -49,4 +58,46 @@ class TestValidateController {
         @Validated @RequestBody req: PageQuery<TestQuery>
     ) = "req.query"
 
+    @Operation(description = "string-enum-validate")
+    @PostMapping("/string-enum-validate")
+    fun stringEnumValidate(
+        @RequestParam
+        @SimpleStringEnum(enums = ["BASE64"], message = "不对", required = true)
+        testStringEnum: Encoding
+    ): Encoding = Encoding.BASE64
+
+    @Operation(description = "validate-form")
+    @PostMapping("/validate-form")
+    fun validateForm(
+        @Validated
+        @ParameterObject
+        testReq: TestReq
+    ): TestReq = testReq
+
+    @Operation(description = "validate-request-params")
+    @PostMapping("/validate-request-params")
+    fun validateRequestParams(
+        @Positive(message = "自然数")
+        age: Int?,
+        @NotBlank(message = "不能为空")
+        name: String?,
+    ) = Unit
+
+    @Operation(description = "validate-service-method-parameter")
+    @PostMapping("/validate-service-method-parameter")
+    fun validateServiceMethodParameter(
+        list: Array<String>?,
+        age: Int?
+    ) {
+        testValidateService.validateServiceMethodParameter(list, age)
+    }
+
+    @Operation(description = "validate-service-method-obj-parameter")
+    @PostMapping("/validate-service-method-obj-parameter")
+    fun validateServiceMethodObjParameter(
+        @RequestBody
+        testReq: TestReq
+    ) {
+        testValidateService.validateServiceMethodObjParameter(testReq)
+    }
 }
