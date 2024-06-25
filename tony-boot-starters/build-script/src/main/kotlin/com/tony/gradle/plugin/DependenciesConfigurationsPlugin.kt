@@ -92,11 +92,9 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
 
             "bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:$bouncycastleVersion",
             "bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:$bouncycastleVersion",
-            "bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
 
             "org.bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:$bouncycastleVersion",
             "org.bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:$bouncycastleVersion",
-            "org.bouncycastle:bctsp-jdk14" to "org.bouncycastle:bctsp-jdk15on:1.46",
 
             "org.bouncycastle:bcprov-jdk15on" to "org.bouncycastle:bcprov-jdk18on:$bouncycastleVersion",
             "org.bouncycastle:bcmail-jdk15on" to "org.bouncycastle:bcmail-jdk18on:$bouncycastleVersion",

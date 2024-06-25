@@ -153,7 +153,6 @@ bcprovJdk18On = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bou
 bcpkixJdk18On = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncycastle" }
 bctlsJdk18On = { module = "org.bouncycastle:bctls-jdk18on", version.ref = "bouncycastle" }
 bcmailJdk18On = { module = "org.bouncycastle:bcmail-jdk18on", version.ref = "bouncycastle" }
-bctspJdk15On = { module = "org.bouncycastle:bctsp-jdk15on", version = "1.46" }
 classmate = { module = "com.fasterxml:classmate", version = "1.7.0" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.1.8" }
 

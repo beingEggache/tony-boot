@@ -43,7 +43,6 @@ import feign.codec.Decoder
 import feign.codec.Encoder
 import feign.codec.ErrorDecoder
 import feign.form.spring.SpringFormEncoder
-import jakarta.annotation.Nullable
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.ObjectFactory
@@ -61,6 +60,7 @@ import org.springframework.cloud.openfeign.support.SpringEncoder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
+import org.springframework.lang.Nullable
 
 /**
  * FeignConfig
@@ -104,7 +104,6 @@ public class FeignConfig {
     internal fun useRequestProcessorsRequestInterceptor(): GlobalRequestInterceptorProvider<RequestInterceptor> =
         GlobalRequestInterceptorProvider(UseRequestProcessorsRequestInterceptor())
 
-    @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     internal fun unwrapResponseInterceptorProvider(
         @Nullable
