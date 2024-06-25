@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
 
 @Tag(name = "测试验证")
 @RestController
@@ -83,13 +84,23 @@ class TestValidateController(
         name: String?,
     ) = Unit
 
-    @Operation(description = "validate-service-method-parameter")
-    @PostMapping("/validate-service-method-parameter")
-    fun validateServiceMethodParameter(
-        list: Array<String>?,
+    @Operation(description = "validate-service-method-parameter1")
+    @PostMapping("/validate-service-method-parameter1")
+    fun validateServiceMethodParameter1(
+        @RequestParam
+        list: List<String>?,
         age: Int?
     ) {
         testValidateService.validateServiceMethodParameter(list, age)
+    }
+
+    @Operation(description = "validate-service-method-parameter2")
+    @PostMapping("/validate-service-method-parameter2")
+    fun validateServiceMethodParameter2(
+        array: Array<String>?,
+        future: LocalDate?
+    ) {
+        testValidateService.validateServiceMethodParameter(array, future)
     }
 
     @Operation(description = "validate-service-method-obj-parameter")

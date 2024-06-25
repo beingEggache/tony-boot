@@ -33,7 +33,7 @@ logstashLogbackEncoder = "7.4"
 byteBuddy = "1.14.17"
 bouncycastle = "1.78.1"
 
-openFeign = "13.2.1"
+openFeign = "13.3"
 lettuce = "6.3.2.RELEASE"
 
 jackson = "2.17.1"
