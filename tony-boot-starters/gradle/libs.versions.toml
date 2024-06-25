@@ -60,7 +60,6 @@ bindApi = "4.0.2"
 
 swagger = "2.2.22"
 knife4j = "4.5.0"
-springdoc = "1.8.0"
 springdocStarter = "2.3.0"
 
 fury = "0.4.1"
@@ -158,16 +157,10 @@ bctspJdk15On = { module = "org.bouncycastle:bctsp-jdk15on", version = "1.46" }
 classmate = { module = "com.fasterxml:classmate", version = "1.7.0" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.1.8" }
 
-swaggerV3Annotaion = { module = "io.swagger.core.v3:swagger-annotations", version.ref = "swagger" }
-swaggerV3Core = { module = "io.swagger.core.v3:swagger-core", version.ref = "swagger" }
-swaggerV3Models = { module = "io.swagger.core.v3:swagger-models", version.ref = "swagger" }
-swaggerV3AnnotaionJarkarta = { module = "io.swagger.core.v3:swagger-annotations-jarkarta", version.ref = "swagger" }
-swaggerV3CoreJarkarta = { module = "io.swagger.core.v3:swagger-core-jarkarta", version.ref = "swagger" }
-swaggerV3ModelsJarkarta = { module = "io.swagger.core.v3:swagger-models-jarkarta", version.ref = "swagger" }
+swaggerV3CoreJakarta = { module = "io.swagger.core.v3:swagger-core-jakarta", version.ref = "swagger" }
+swaggerV3AnnotaionJakarta = { module = "io.swagger.core.v3:swagger-annotations-jakarta", version.ref = "swagger" }
+swaggerV3ModelsJakarta = { module = "io.swagger.core.v3:swagger-models-jakarta", version.ref = "swagger" }
 
-springdocUi = { module = "org.springdoc:springdoc-openapi-ui", version.ref = "springdoc" }
-springdocCommon = { module = "org.springdoc:springdoc-openapi-common", version.ref = "springdoc" }
-springdocKotlin = { module = "org.springdoc:springdoc-openapi-kotlin", version.ref = "springdoc" }
 springdocStarterCommon = { module = "org.springdoc:springdoc-openapi-starter-common", version.ref = "springdocStarter" }
 springdocStarterWebmvcApi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-api", version.ref = "springdocStarter" }
 springdocStarterWebmvcUi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdocStarter" }
