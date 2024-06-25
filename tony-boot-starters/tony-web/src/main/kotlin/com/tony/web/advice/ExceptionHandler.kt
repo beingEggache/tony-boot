@@ -187,7 +187,7 @@ internal class ExceptionHandler : ErrorController {
     @ResponseBody
     fun notFoundException(e: NoResourceFoundException) =
         errorResponse(
-            "${e.resourcePath} not found.",
+            e.localizedMessage,
             HttpStatus.NOT_FOUND.value()
         )
 
