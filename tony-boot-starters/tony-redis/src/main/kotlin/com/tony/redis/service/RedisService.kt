@@ -56,12 +56,10 @@ public sealed interface RedisValueTransformer {
      * @date 2023/09/13 19:44
      * @since 1.0.0
      */
-    public fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? {
+    public fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? =
         if (type.isNumberTypes()) {
-            return toNum(type)
-        }
-        return this?.asTo()
-    }
+            toNum(type)
+        } else this?.asTo()
 
     /**
      * 输出转换为

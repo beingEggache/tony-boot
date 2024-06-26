@@ -81,11 +81,10 @@ internal class JacksonRedisService : RedisService {
     private fun <T : Any> Any?.jsonToObjWithTypeClass(
         type: Class<T>,
         func: (String) -> T,
-    ): T? {
-        if (this == null) {
-            return null
-        }
-        return when {
+    ): T? =
+        when {
+            this == null -> null
+
             type.isNumberTypes() -> toNum(type)
 
             type.isStringLikeType() -> toString().trimQuotes()
@@ -108,5 +107,4 @@ internal class JacksonRedisService : RedisService {
 
             else -> func(toString())
         }.asTo()
-    }
 }
