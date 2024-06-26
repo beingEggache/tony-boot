@@ -21,7 +21,7 @@ internal class PhysicalDeleteByIds : AbstractMethod("physicalDeleteByIds") {
         val sqlMethod = SqlMethod.DELETE_BY_IDS
         val sql =
             String.format(
-                sqlMethod.getSql(),
+                sqlMethod.sql,
                 tableInfo.tableName,
                 tableInfo.keyColumn,
                 SqlScriptUtils.convertForeach(
