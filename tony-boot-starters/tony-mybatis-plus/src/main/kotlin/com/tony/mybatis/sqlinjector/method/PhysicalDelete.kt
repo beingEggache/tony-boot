@@ -3,6 +3,7 @@ package com.tony.mybatis.sqlinjector.method
 import com.baomidou.mybatisplus.core.enums.SqlMethod
 import com.baomidou.mybatisplus.core.injector.AbstractMethod
 import com.baomidou.mybatisplus.core.metadata.TableInfo
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils
 import org.apache.ibatis.mapping.MappedStatement
 
 /**
@@ -16,16 +17,49 @@ internal class PhysicalDelete : AbstractMethod("physicalDelete") {
         mapperClass: Class<*>,
         modelClass: Class<*>,
         tableInfo: TableInfo,
-    ): MappedStatement {
-        val sqlMethod = SqlMethod.DELETE
-        val sql =
-            String.format(
-                sqlMethod.sql,
+    ): MappedStatement =
+        String
+            .format(
+                SqlMethod.DELETE.sql,
                 tableInfo.tableName,
                 sqlWhereEntityWrapper(true, tableInfo),
                 sqlComment()
+            ).let { sql ->
+                addDeleteMappedStatement(
+                    mapperClass,
+                    methodName,
+                    createSqlSource(configuration, sql, modelClass)
+                )
+            }
+
+    override fun sqlWhereEntityWrapper(
+        newLine: Boolean,
+        table: TableInfo,
+    ): String {
+        /*
+         * Wrapper SQL
+         */
+        val sgEs = """<bind name="_sgEs_" value="ew.sqlSegment != null and ew.sqlSegment != ''"/>"""
+        val andSqlSegment =
+            SqlScriptUtils.convertIf(
+                " AND \${$WRAPPER_SQLSEGMENT}",
+                "_sgEs_ and $WRAPPER_NONEMPTYOFNORMAL",
+                true
             )
-        val sqlSource = super.createSqlSource(configuration, sql, modelClass)
-        return this.addDeleteMappedStatement(mapperClass, methodName, sqlSource)
+        val lastSqlSegment =
+            SqlScriptUtils.convertIf(
+                " \${$WRAPPER_SQLSEGMENT}",
+                "_sgEs_ and $WRAPPER_EMPTYOFNORMAL",
+                true
+            )
+
+        /*
+         * 普通 SQL 注入
+         */
+        var sqlScript = table.getAllSqlWhere(false, false, true, WRAPPER_ENTITY_DOT)
+        sqlScript = SqlScriptUtils.convertIf(sqlScript, "$WRAPPER_ENTITY != null", true)
+        sqlScript = "${SqlScriptUtils.convertWhere("$sqlScript$NEWLINE$andSqlSegment")}$NEWLINE$lastSqlSegment"
+        sqlScript = SqlScriptUtils.convertIf("$sgEs$NEWLINE$sqlScript", "$WRAPPER != null", true)
+        return sqlScript
     }
 }

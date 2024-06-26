@@ -48,7 +48,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 
 
 @SpringBootTest(
@@ -61,9 +60,6 @@ class MyBatisAppTest {
 
     @Resource
     lateinit var userDao: UserDao
-
-    @Resource
-    lateinit var namedParameterJdbcTemplate: NamedParameterJdbcTemplate
 
     private val logger = getLogger()
 
@@ -158,14 +154,14 @@ class MyBatisAppTest {
 
     @Order(7)
     @Test
-    fun testDaoChainUpdate() {
+    fun testDaoChainUpdateAndPhysicalRemove() {
 
         val userNameStr = "lg${genRandomInt(6)}"
         val user =
             User().apply {
                 userName = userNameStr
-                realName = "李赣3"
-                mobile = "13981842693"
+                realName = "李赣$userNameStr"
+                mobile = "13981$userNameStr"
                 pwd = "123456$userNameStr".md5().uppercase()
             }
 
@@ -176,10 +172,48 @@ class MyBatisAppTest {
             .eq(User::userName, userNameStr)
             .set(User::realName, "测试测试")
             .update(user)
+
+        userDao
+            .ktUpdate()
+            .eq(User::userName, userNameStr)
+            .remove()
+
         userDao
             .ktUpdate()
             .eq(User::userName, userNameStr)
             .physicalRemove()
+    }
+
+    @Order(8)
+    @Test
+    fun testPhysicalRemove() {
+        val userIdList = (1..50).map {
+            val userNameStr1 = "lg${genRandomInt(6)}"
+            val user1 =
+                    User().apply {
+                        userName = userNameStr1
+                        realName = "李赣$userNameStr1"
+                        mobile = "13981$userNameStr1"
+                        pwd = "123456$userNameStr1".md5().uppercase()
+                    }
+
+            userDao.insert(user1)
+            user1.userId
+        }
+
+        userDao.physicalDeleteByIds(userIdList)
+
+        val userNameStr1 = "lg${genRandomInt(6)}"
+        val user1 =
+                User().apply {
+                    userName = userNameStr1
+                    realName = "李赣$userNameStr1"
+                    mobile = "13981$userNameStr1"
+                    pwd = "123456$userNameStr1".md5().uppercase()
+                }
+
+        userDao.insert(user1)
+        userDao.physicalDeleteById(user1.userId)
     }
 }
 

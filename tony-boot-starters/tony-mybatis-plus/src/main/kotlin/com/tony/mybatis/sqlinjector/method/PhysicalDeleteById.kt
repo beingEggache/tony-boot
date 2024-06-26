@@ -16,19 +16,18 @@ internal class PhysicalDeleteById : AbstractMethod("physicalDeleteById") {
         mapperClass: Class<*>,
         modelClass: Class<*>,
         tableInfo: TableInfo,
-    ): MappedStatement {
-        val sqlMethod = SqlMethod.DELETE_BY_ID
-        val sql =
-            String.format(
-                sqlMethod.sql,
+    ): MappedStatement =
+        String
+            .format(
+                SqlMethod.DELETE_BY_ID.sql,
                 tableInfo.tableName,
                 tableInfo.keyColumn,
                 tableInfo.keyProperty
-            )
-        return addDeleteMappedStatement(
-            mapperClass,
-            methodName,
-            super.createSqlSource(configuration, sql, Any::class.java)
-        )
-    }
+            ).let { sql ->
+                addDeleteMappedStatement(
+                    mapperClass,
+                    methodName,
+                    createSqlSource(configuration, sql, Any::class.java)
+                )
+            }
 }

@@ -59,7 +59,9 @@ public sealed interface RedisValueTransformer {
     public fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? =
         if (type.isNumberTypes()) {
             toNum(type)
-        } else this?.asTo()
+        } else {
+            this?.asTo()
+        }
 
     /**
      * 输出转换为

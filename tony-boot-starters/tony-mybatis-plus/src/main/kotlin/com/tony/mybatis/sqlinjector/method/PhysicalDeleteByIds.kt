@@ -17,11 +17,10 @@ internal class PhysicalDeleteByIds : AbstractMethod("physicalDeleteByIds") {
         mapperClass: Class<*>,
         modelClass: Class<*>,
         tableInfo: TableInfo,
-    ): MappedStatement {
-        val sqlMethod = SqlMethod.DELETE_BY_IDS
-        val sql =
-            String.format(
-                sqlMethod.sql,
+    ): MappedStatement =
+        String
+            .format(
+                SqlMethod.DELETE_BY_IDS.sql,
                 tableInfo.tableName,
                 tableInfo.keyColumn,
                 SqlScriptUtils.convertForeach(
@@ -35,8 +34,11 @@ internal class PhysicalDeleteByIds : AbstractMethod("physicalDeleteByIds") {
                     "item",
                     COMMA
                 )
-            )
-        val sqlSource = super.createSqlSource(configuration, sql, Any::class.java)
-        return this.addDeleteMappedStatement(mapperClass, methodName, sqlSource)
-    }
+            ).let { sql ->
+                addDeleteMappedStatement(
+                    mapperClass,
+                    methodName,
+                    createSqlSource(configuration, sql, Any::class.java)
+                )
+            }
 }
