@@ -6,12 +6,17 @@ import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor
 import com.tony.ApiSession
+import com.tony.db.dao.UserDao
+import com.tony.db.po.User
 import com.tony.id.IdGenerator
 import com.tony.mybatis.DefaultMetaObjectHandler
+import com.tony.mybatis.MetaColumn
+import java.util.function.Function
 import org.mybatis.spring.annotation.MapperScan
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Lazy
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
 @Configuration
@@ -30,8 +35,26 @@ class DbConfig {
 
     @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
-    internal fun metaObjectHandler(apiSession: ApiSession): MetaObjectHandler =
-        DefaultMetaObjectHandler(apiSession)
+    internal fun metaObjectHandler(
+        apiSession: ApiSession,
+        userNameProvider: Function<in Any?, out Any?>,
+    ): MetaObjectHandler =
+        DefaultMetaObjectHandler(
+            apiSession,
+            mapOf(MetaColumn.USER_NAME to userNameProvider)
+        )
+
+    @Bean
+    internal fun userNameProvider(
+        @Lazy userDao: UserDao,
+    ): Function<in Any?, out Any?> =
+        Function<Any?, Any?> {
+            userDao
+                .ktQuery()
+                .select(User::userName)
+                .eq(User::userId, it)
+                .oneObj()
+        }
 
     @Bean
     fun identifierGenerator(): IdentifierGenerator =

@@ -36,6 +36,7 @@ import com.tony.PageResultLike
 import com.tony.exception.BaseException
 import com.tony.exception.BizException
 import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
+import com.tony.mybatis.wrapper.TonyKtUpdateChainWrapper
 import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
 import com.tony.mybatis.wrapper.TonyQueryChainWrapper
 import com.tony.utils.throwIfEmpty
@@ -52,6 +53,40 @@ import org.apache.ibatis.annotations.Param
  * @since 1.0.0
  */
 public interface BaseDao<T : Any> : BaseMapper<T> {
+    /**
+     * 物理删除
+     * @param [queryWrapper] 查询条件
+     * @return [Int] 影响行数
+     * @author tangli
+     * @date 2024/06/26 13:13
+     * @since 1.0.0
+     */
+    public fun physicalDelete(
+        @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
+    ): Int
+
+    /**
+     * 按id进行物理删除
+     * @param [id] id
+     * @return [Int] 影响行数
+     * @author tangli
+     * @date 2024/06/26 13:17
+     * @since 1.0.0
+     */
+    public fun physicalDeleteById(id: Serializable): Int
+
+    /**
+     * 按ID进行物理删除
+     * @param [idList] id列表
+     * @return [Int] 影响行数
+     * @author tangli
+     * @date 2024/06/26 13:18
+     * @since 1.0.0
+     */
+    public fun physicalDeleteByIds(
+        @Param(Constants.COLL) idList: Collection<*>,
+    ): Int
+
     /**
      * 根据id查询，为null 将会抛错
      * @param [id] id
@@ -295,8 +330,8 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @since 1.0.0
      */
     @JvmSynthetic
-    public fun ktUpdate(): KtUpdateChainWrapper<T> =
-        KtUpdateChainWrapper(this, getEntityClass())
+    public fun ktUpdate(): TonyKtUpdateChainWrapper<T> =
+        TonyKtUpdateChainWrapper(this, getEntityClass())
 
     /**
      * 链式更改 普通.

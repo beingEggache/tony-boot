@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableLogic
 import com.baomidou.mybatisplus.annotation.TableName
+import com.tony.mybatis.MetaColumn
+import com.tony.mybatis.MybatisPlusMetaProperty
 import java.time.LocalDateTime
 
 /**
@@ -63,9 +65,9 @@ class User {
     /**
      * 创建人
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_ID)
     @TableField(
         fill = FieldFill.INSERT,
-        insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
     var creatorId: String = ""
@@ -73,9 +75,9 @@ class User {
     /**
      * 创建人名称
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_NAME, relativeProp = "creatorId")
     @TableField(
         fill = FieldFill.INSERT,
-        insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
     var creatorName: String = ""

@@ -25,6 +25,8 @@
 package com.tony.mybatis.config
 
 import com.tony.misc.YamlPropertySourceFactory
+import com.tony.mybatis.sqlinjector.TonySqlInjector
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 
@@ -35,4 +37,8 @@ import org.springframework.context.annotation.PropertySource
  */
 @Configuration
 @PropertySource("classpath:mybatis-plus.config.yml", factory = YamlPropertySourceFactory::class)
-internal class MybatisPlusConfig
+internal class MybatisPlusConfig {
+    @Bean
+    fun tonySqlInjector(): TonySqlInjector =
+        TonySqlInjector()
+}

@@ -33,6 +33,7 @@ import com.tony.mybatis.DefaultMetaObjectHandler
 import com.tony.test.mybatis.db.config.DbConfig
 import com.tony.test.mybatis.db.dao.UserDao
 import com.tony.test.mybatis.db.po.User
+import com.tony.utils.genRandomInt
 import com.tony.utils.getLogger
 import com.tony.utils.md5
 import com.tony.utils.toJsonString
@@ -68,7 +69,7 @@ class MyBatisAppTest {
 
     @BeforeAll
     fun beforeAll() {
-        namedParameterJdbcTemplate.execute("delete from sys_user") { it.execute() }
+        //namedParameterJdbcTemplate.execute("delete from sys_user") { it.execute() }
     }
 
     @Order(1)
@@ -89,12 +90,13 @@ class MyBatisAppTest {
     @Order(2)
     @Test
     fun testDaoInsertBatch() {
-        val users = (1..9).map {
+        val users = (1..999).map { index ->
             User().apply {
-                val s = "sxc$it"
+                val indexStr = index.toString().padStart(3, '0')
+                val s = "sxc$indexStr"
                 userName = s
-                realName = "孙笑川$it"
-                mobile = "1398184268$it"
+                realName = "孙笑川$indexStr"
+                mobile = "13984842$indexStr"
                 pwd = "123456$s".md5().uppercase()
             }
         }
@@ -152,6 +154,32 @@ class MyBatisAppTest {
         logger.info(oneObj.toJsonString())
         val pageResult = userDao.ktQuery().pageResult(PageQuery<String>())
         logger.info(pageResult.toJsonString())
+    }
+
+    @Order(7)
+    @Test
+    fun testDaoChainUpdate() {
+
+        val userNameStr = "lg${genRandomInt(6)}"
+        val user =
+            User().apply {
+                userName = userNameStr
+                realName = "李赣3"
+                mobile = "13981842693"
+                pwd = "123456$userNameStr".md5().uppercase()
+            }
+
+        userDao.insert(user)
+
+        userDao
+            .ktUpdate()
+            .eq(User::userName, userNameStr)
+            .set(User::realName, "测试测试")
+            .update(user)
+        userDao
+            .ktUpdate()
+            .eq(User::userName, userNameStr)
+            .physicalRemove()
     }
 }
 
