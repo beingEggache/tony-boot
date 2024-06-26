@@ -57,5 +57,5 @@ public class TonyKtUpdateChainWrapper<T : Any>(
      * @since 1.0.0
      */
     public fun physicalRemove(): Boolean =
-        SqlHelper.retBool(baseDao?.physicalDelete(wrapper))
+        SqlHelper.retBool(baseDao.physicalDelete(wrapper))
 }
