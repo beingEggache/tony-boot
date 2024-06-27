@@ -34,9 +34,9 @@ class TestValidateService {
         logger.info("validating $list, $age")
     }
     fun validateServiceMethodParameter(
-        @NotEmpty(message = "列表不能为空")
+        @NotEmpty
         array:Array<String>?,
-        @Future(message = "得是一个未来")
+        @Future
         future:LocalDate?
     ) {
         logger.info("validating $array, $future")

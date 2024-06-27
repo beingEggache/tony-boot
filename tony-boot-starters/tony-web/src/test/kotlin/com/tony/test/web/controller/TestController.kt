@@ -32,6 +32,7 @@ import com.tony.test.web.req.TestDateTimesReq
 import com.tony.test.web.req.TestIntEnum
 import com.tony.test.web.req.TestNullValues
 import com.tony.test.web.req.TestReq
+import com.tony.utils.getLogger
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springdoc.core.annotations.ParameterObject
@@ -44,10 +45,14 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Date
 
 @Tag(name = "测试")
 @RestController
 class TestController {
+
     @Operation(description = "index")
     @PostMapping("/")
     fun index() {
@@ -212,4 +217,37 @@ class TestController {
     @Operation(description = "datetime")
     @PostMapping("/null-values")
     fun eachTypeNullValue(): TestNullValues? = TestNullValues()
+
+    @Operation(description = "get-dates")
+    @GetMapping("/get-dates")
+    fun getDates(
+        date: Date?,
+        localDateTime: LocalDateTime?,
+        localDate: LocalDate?,
+    ) {
+        println(date)
+        println(localDateTime)
+        println(localDate)
+    }
+
+    @Operation(description = "post-dates")
+    @PostMapping("/post-dates")
+    fun postDates(
+        date: Date?,
+        localDateTime: LocalDateTime?,
+        localDate: LocalDate?,
+    ) {
+        println(date)
+        println(localDateTime)
+        println(localDate)
+    }
+
+    @Operation(description = "post-dates-form")
+    @PostMapping("/post-dates-form")
+    fun postDatesForm(
+        @ParameterObject
+        testReq: TestDateTimesReq
+    ) {
+        println(testReq)
+    }
 }

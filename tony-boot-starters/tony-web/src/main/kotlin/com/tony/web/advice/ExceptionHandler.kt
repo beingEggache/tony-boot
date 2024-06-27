@@ -34,6 +34,7 @@ import com.tony.utils.ifNullOrBlank
 import com.tony.web.WebContext
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.ConstraintViolationException
+import org.springframework.beans.TypeMismatchException
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -112,15 +113,32 @@ internal class ExceptionHandler : ErrorController {
 
     @ExceptionHandler(BindException::class)
     @ResponseBody
-    fun bindingResultException(e: BindException) =
-        errorResponse(
-            e.bindingResult
-                .allErrors
-                .joinToString(System.lineSeparator()) {
-                    it.defaultMessage.ifNullOrBlank()
-                },
-            ApiProperty.badRequestCode
+    fun bindingResultException(e: BindException): ApiResult<*> {
+        val allErrors = e.bindingResult.allErrors
+        val hasTypeMismatch = allErrors.any { it.code == TypeMismatchException.ERROR_CODE }
+
+        if (hasTypeMismatch) {
+            logger.warn(e.message)
+            WebContext.response?.status = HttpStatus.BAD_REQUEST.value()
+        }
+        val errorMessage =
+            if (hasTypeMismatch) {
+                ApiProperty.badRequestMsg
+            } else {
+                allErrors.joinToString(System.lineSeparator()) { objectError ->
+                    objectError.defaultMessage.ifNullOrBlank()
+                }
+            }
+
+        return errorResponse(
+            errorMessage,
+            if (hasTypeMismatch) {
+                HttpStatus.BAD_REQUEST.value()
+            } else {
+                ApiProperty.badRequestCode
+            }
         )
+    }
 
     /**
      * 常规Service方法验证会抛此异常
