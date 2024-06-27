@@ -115,15 +115,17 @@ internal class ExceptionHandler : ErrorController {
     @ExceptionHandler(BindException::class)
     @ResponseBody
     fun bindingResultException(e: BindException): ApiResult<*> {
-        val hasTypeMismatch = e.allErrors.any { it.code == TypeMismatchException.ERROR_CODE || it.code.isNullOrBlank() }
-
+        val hasTypeMismatch = e.allErrors.any { it.code == TypeMismatchException.ERROR_CODE }
+        val nonNullTypeNull = e.allErrors.any { it.code.isNullOrBlank() }
         if (hasTypeMismatch) {
             logger.warn(e.message, e)
             WebContext.response?.status = HttpStatus.BAD_REQUEST.value()
         }
         val errorMessage =
             if (hasTypeMismatch) {
-                "${e.bindingResult.fieldError?.field.asToDefault("")}参数类型不匹配或为空"
+                "${e.bindingResult.fieldError?.field.asToDefault("")}参数类型不匹配"
+            } else if (nonNullTypeNull) {
+                "参数不能为空"
             } else {
                 e.allErrors.joinToString(System.lineSeparator()) { objectError ->
                     objectError.defaultMessage.ifNullOrBlank()
