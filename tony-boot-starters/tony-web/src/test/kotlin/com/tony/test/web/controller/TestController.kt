@@ -32,7 +32,6 @@ import com.tony.test.web.req.TestDateTimesReq
 import com.tony.test.web.req.TestIntEnum
 import com.tony.test.web.req.TestNullValues
 import com.tony.test.web.req.TestReq
-import com.tony.utils.getLogger
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springdoc.core.annotations.ParameterObject

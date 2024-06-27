@@ -34,7 +34,7 @@ import java.util.Date
  * @date 2023/07/07 19:46
  */
 data class TestDateTimesReq(
-    val date: Date? = null,
+    val date: Date,
     val localDateTime: LocalDateTime? = null,
     val localDate: LocalDate? = null,
 )

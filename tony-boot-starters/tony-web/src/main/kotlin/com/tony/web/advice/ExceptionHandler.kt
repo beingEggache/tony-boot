@@ -29,6 +29,7 @@ import com.tony.ApiResult
 import com.tony.ERROR_CODE_HEADER_NAME
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
+import com.tony.utils.asToDefault
 import com.tony.utils.getLogger
 import com.tony.utils.ifNullOrBlank
 import com.tony.web.WebContext
@@ -114,18 +115,17 @@ internal class ExceptionHandler : ErrorController {
     @ExceptionHandler(BindException::class)
     @ResponseBody
     fun bindingResultException(e: BindException): ApiResult<*> {
-        val allErrors = e.bindingResult.allErrors
-        val hasTypeMismatch = allErrors.any { it.code == TypeMismatchException.ERROR_CODE }
+        val hasTypeMismatch = e.allErrors.any { it.code == TypeMismatchException.ERROR_CODE || it.code.isNullOrBlank() }
 
         if (hasTypeMismatch) {
-            logger.warn(e.message)
+            logger.warn(e.message, e)
             WebContext.response?.status = HttpStatus.BAD_REQUEST.value()
         }
         val errorMessage =
             if (hasTypeMismatch) {
-                ApiProperty.badRequestMsg
+                "${e.bindingResult.fieldError?.field.asToDefault("")}参数类型不匹配或为空"
             } else {
-                allErrors.joinToString(System.lineSeparator()) { objectError ->
+                e.allErrors.joinToString(System.lineSeparator()) { objectError ->
                     objectError.defaultMessage.ifNullOrBlank()
                 }
             }
