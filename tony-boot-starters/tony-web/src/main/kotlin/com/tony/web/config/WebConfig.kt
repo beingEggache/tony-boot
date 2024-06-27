@@ -35,6 +35,7 @@ import com.tony.ApiResult
 import com.tony.jackson.InjectableValueSupplier
 import com.tony.jackson.InjectableValuesBySupplier
 import com.tony.jackson.NullValueBeanSerializerModifier
+import com.tony.misc.YamlPropertySourceFactory
 import com.tony.utils.createObjectMapper
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
@@ -58,6 +59,7 @@ import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.PropertySource
 import org.springframework.format.FormatterRegistry
 import org.springframework.http.HttpHeaders
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
@@ -82,6 +84,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
             .Type
             .SERVLET
 )
+@PropertySource("classpath:web.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(value = [WebProperties::class, WebCorsProperties::class])
 internal class WebConfig(
     private val webProperties: WebProperties,
