@@ -229,7 +229,7 @@ public data class MonoResult<T> internal constructor(
  */
 public data class ListResult<T>(
     private val rows: Collection<T>?,
-) : RowsWrapper<T> {
+) : RowsWrapperLike<T> {
     public constructor(array: Array<*>) : this(array.asList().asTo())
     public constructor(byteArray: ByteArray) : this(byteArray.asList().asTo())
     public constructor(shortArray: ShortArray) : this(shortArray.asList().asTo())

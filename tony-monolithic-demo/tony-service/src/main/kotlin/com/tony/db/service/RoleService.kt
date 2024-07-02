@@ -11,8 +11,6 @@ import com.tony.dto.req.RoleAssignReq
 import com.tony.dto.req.RoleCreateReq
 import com.tony.dto.req.RoleUpdateReq
 import com.tony.exception.BizException
-import com.tony.extension.throwIfAndReturn
-import com.tony.extension.throwIfNullAndReturn
 import com.tony.utils.ifNullOrBlank
 import com.tony.utils.throwIf
 import jakarta.validation.Valid
@@ -34,7 +32,8 @@ class RoleService(
     fun add(
         @Valid req: RoleCreateReq,
         appId: String,
-    ) = throwIfAndReturn(roleDao.selectById(req.roleId) != null, "角色ID已重复") {
+    ) = run {
+        throwIf(roleDao.selectById(req.roleId) != null, "角色ID已重复")
         roleDao.insert(
             Role().apply {
                 this.roleId = req.roleId
@@ -48,7 +47,8 @@ class RoleService(
     @Transactional
     fun update(
         @Valid req: RoleUpdateReq,
-    ) = roleDao.selectById(req.roleId).throwIfNullAndReturn("不存在此角色") {
+    ) = run {
+        roleDao.selectByIdNotNull(req.roleId, "不存在此角色")
         roleDao.updateById(
             Role().apply {
                 this.roleId = req.roleId

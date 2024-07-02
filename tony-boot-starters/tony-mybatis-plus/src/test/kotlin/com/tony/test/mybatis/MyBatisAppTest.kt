@@ -93,7 +93,7 @@ class MyBatisAppTest {
                 userName = s
                 realName = "孙笑川$indexStr"
                 mobile = "13984842$indexStr"
-                pwd = "123456$s".md5().uppercase()
+                pwd = "${"123456".md5().uppercase()}$s".md5().uppercase()
             }
         }
         userDao.insert(users)
@@ -162,7 +162,7 @@ class MyBatisAppTest {
                 userName = userNameStr
                 realName = "李赣$userNameStr"
                 mobile = "13981$userNameStr"
-                pwd = "123456$userNameStr".md5().uppercase()
+                pwd = "${"123456".md5().uppercase()}$userNameStr".md5().uppercase()
             }
 
         userDao.insert(user)

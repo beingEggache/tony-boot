@@ -27,6 +27,8 @@ package com.tony;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.tony.utils.Cols;
 import com.tony.utils.Objs;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -42,14 +44,7 @@ import java.util.function.Predicate;
  */
 @SuppressWarnings("unused")
 @JsonPropertyOrder(value = {"page", "size", "total", "pages", "hasNext", "rows"})
-public interface PageResultLike<T> {
-
-    /**
-     * rows.
-     *
-     * @return 分页集合.
-     */
-    Collection<T> getRows();
+public interface PageResultLike<T> extends RowsWrapperLike<T> {
 
     /**
      * current page.
@@ -94,8 +89,9 @@ public interface PageResultLike<T> {
      * @return this.
      * @see [List.map]
      */
+    @NotNull
     default <R, E extends PageResultLike<R>> E map(final Function<T, R> transform) {
-        final Collection<T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
+        final Collection<? extends T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
         return Objs.asToNotNull(
             new PageResult<>(
                 rows.stream().map(transform).toList(),
@@ -115,8 +111,9 @@ public interface PageResultLike<T> {
      * @return this.
      * @see [List.onEach]
      */
+    @NotNull
     default <E extends PageResultLike<T>> E onEach(final Consumer<T> action) {
-        final Collection<T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
+        final Collection<? extends T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
         return Objs.asToNotNull(
             new PageResult<>(
                 rows.stream().peek(action).toList(),
@@ -135,8 +132,9 @@ public interface PageResultLike<T> {
      * @param predicate predicate.
      * @return first item.
      */
+    @Nullable
     default T firstOrNull(final Predicate<T> predicate) {
-        final Collection<T> rows = getRows();
+        final Collection<? extends T> rows = getRows();
         if (Cols.isNullOrEmpty(rows)) {
             return null;
         }

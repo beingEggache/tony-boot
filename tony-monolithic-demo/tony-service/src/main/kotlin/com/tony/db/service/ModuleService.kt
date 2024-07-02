@@ -9,7 +9,6 @@ import com.tony.dto.enums.ModuleType
 import com.tony.dto.resp.ModuleResp
 import com.tony.dto.resp.RouteAndComponentModuleResp
 import com.tony.dto.trait.listAndSetChildren
-import com.tony.extension.throwIfAndReturn
 import com.tony.utils.copyTo
 import com.tony.utils.ifNullOrBlank
 import com.tony.utils.throwIf
@@ -99,7 +98,8 @@ class ModuleService(
             .distinct()
 
     fun listByRoleId(roleId: String) =
-        throwIfAndReturn(roleId.isBlank(), "请选择角色") {
+        run {
+            throwIf(roleId.isBlank(), "请选择角色")
             moduleDao
                 .selectModuleByRoleId(roleId)
                 .filter { it.moduleType in frontEndModuleTypes }
