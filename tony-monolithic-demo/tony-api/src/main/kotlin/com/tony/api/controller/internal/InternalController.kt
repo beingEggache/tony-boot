@@ -1,10 +1,10 @@
 package com.tony.api.controller.internal
 
+import com.tony.RowsWrapper
 import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.api.permission.NoPermissionCheck
 import com.tony.db.service.ModuleService
 import com.tony.dto.enums.ModuleType
-import com.tony.dto.req.ListReq
 import com.tony.dto.req.internal.FrontEndModuleReq
 import com.tony.utils.copyTo
 import com.tony.web.WebContext
@@ -36,7 +36,7 @@ class InternalController(
     fun initFrontendModules(
         @RequestBody
         @Validated
-        req: ListReq<FrontEndModuleReq>,
+        req: RowsWrapper<FrontEndModuleReq>,
     ) = moduleService.saveModules(
         req.rows.map { it.copyTo() },
         listOf(ModuleType.ROUTE, ModuleType.COMPONENT),
