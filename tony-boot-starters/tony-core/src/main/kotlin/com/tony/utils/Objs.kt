@@ -26,6 +26,7 @@
 
 package com.tony.utils
 
+import com.fasterxml.jackson.module.kotlin.convertValue
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
@@ -125,19 +126,11 @@ public fun Any.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
  * @author tangli
  * @date 2023/09/25 19:11
  * @since 1.0.0
- * @see BeanUtils.copyProperties
+ * @see [com.fasterxml.jackson.databind.ObjectMapper.convertValue]
  */
 @JvmSynthetic
 public inline fun <reified T> Any?.copyTo(): T =
-    let {
-        val instance = BeanUtils.instantiateClass(T::class.java)
-        if (it == null) {
-            instance
-        } else {
-            BeanUtils.copyProperties(it, instance)
-            instance
-        }
-    }
+    globalObjectMapper.convertValue(this, T::class.java)
 
 /**
  * 复制属性
@@ -147,15 +140,10 @@ public inline fun <reified T> Any?.copyTo(): T =
  * @author tangli
  * @date 2023/09/25 19:13
  * @since 1.0.0
+ * @see [com.fasterxml.jackson.databind.ObjectMapper.convertValue]
  */
-public fun <T> Any?.copyTo(targetType: Class<T>): T {
-    val instance = BeanUtils.instantiateClass(targetType)
-    if (this == null) {
-        return instance
-    }
-    BeanUtils.copyProperties(this, instance)
-    return instance
-}
+public fun <T> Any?.copyTo(targetType: Class<T>): T =
+    globalObjectMapper.convertValue(this, targetType)
 
 /**
  * 复制属性
