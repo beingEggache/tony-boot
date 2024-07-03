@@ -24,6 +24,7 @@
 
 package com.tony;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.tony.utils.Cols;
 import com.tony.utils.Objs;
@@ -51,6 +52,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return current page.
      */
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     long getPage();
 
     /**
@@ -58,6 +60,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return page item size.
      */
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     long getSize();
 
     /**
@@ -65,6 +68,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return page total pages.
      */
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     long getPages();
 
     /**
@@ -72,6 +76,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return total item count.
      */
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     long getTotal();
 
     /**
