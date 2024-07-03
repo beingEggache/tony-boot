@@ -28,6 +28,6 @@ data class ModuleResp(
     @Schema(description = "子路由")
     override val children: MutableList<ModuleResp> = mutableListOf()
 
-    override val order: Int
+    override val sort: Int
         get() = 0
 }

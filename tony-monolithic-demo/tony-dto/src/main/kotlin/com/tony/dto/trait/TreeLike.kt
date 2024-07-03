@@ -31,7 +31,7 @@ interface TreeLike<T : TreeLike<T>> {
     val code: String?
 
     @get:JsonIgnore
-    val order: Int?
+    val sort: Int?
 
     val children: MutableList<T>
 
@@ -40,7 +40,7 @@ interface TreeLike<T : TreeLike<T>> {
             .filter {
                 isMyChild(it.code)
             }.sortedBy {
-                it.order
+                it.sort
             }.onEach {
                 it.findAndSetChildren(nodes)
             }.let { children ->

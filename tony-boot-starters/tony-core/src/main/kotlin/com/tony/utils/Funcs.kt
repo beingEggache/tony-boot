@@ -181,23 +181,21 @@ public inline fun <T> T.alsoIf(
 }
 
 /**
- * 当[condition]为真时,抛出[BizException]异常.
+ * 当[this]为真时,抛出[BizException]异常.
  *
  * 异常信息为[message], 异常代码为[code],默认为[ApiProperty.preconditionFailedCode]
  *
- * @param condition 异常条件
  * @param message 异常信息
  * @param code 异常代码
  * @param ex 异常类型
  */
 @JvmOverloads
-public fun throwIf(
-    condition: Boolean,
+public fun Boolean.throwIfTrue(
     message: String,
     code: Int = ApiProperty.preconditionFailedCode,
     ex: (message: String, code: Int) -> BaseException = ::BizException,
 ) {
-    if (condition) throw ex(message, code)
+    if (this) throw ex(message, code)
 }
 
 /**
@@ -214,7 +212,7 @@ public fun throwIf(
  * @param ex 异常类型
  * @return [T] this
  *
- * @see throwIf
+ * @see throwIfTrue
  */
 @JvmOverloads
 public fun <T> T?.throwIfNull(
@@ -222,7 +220,7 @@ public fun <T> T?.throwIfNull(
     code: Int = ApiProperty.notFoundCode,
     ex: (message: String, code: Int) -> BaseException = ::BizException,
 ): T {
-    throwIf(this == null, message, code, ex)
+    (this == null).throwIfTrue(message, code, ex)
     return this!!
 }
 
@@ -246,7 +244,7 @@ public fun <C : Collection<T>, T : Any?> C?.throwIfEmpty(
     code: Int = ApiProperty.notFoundCode,
     ex: (message: String, code: Int) -> BaseException = ::BizException,
 ): C {
-    throwIf(isNullOrEmpty(), message, code, ex)
+    isNullOrEmpty().throwIfTrue(message, code, ex)
     return this!!
 }
 
@@ -272,7 +270,7 @@ public fun <C : Map<*, *>> C?.throwIfEmpty(
     code: Int = ApiProperty.notFoundCode,
     ex: (message: String, code: Int) -> BaseException = ::BizException,
 ): C {
-    throwIf(isNullOrEmpty(), message, code, ex)
+    isNullOrEmpty().throwIfTrue(message, code, ex)
     return this!!
 }
 
@@ -298,6 +296,6 @@ public fun <C : CharSequence> C?.throwIfNullOrEmpty(
     code: Int = ApiProperty.notFoundCode,
     ex: (message: String, code: Int) -> BaseException = ::BizException,
 ): C {
-    throwIf(isNullOrEmpty(), message, code, ex)
+    isNullOrEmpty().throwIfTrue(message, code, ex)
     return this!!
 }
