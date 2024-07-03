@@ -29,7 +29,6 @@ package com.tony.utils
 import com.fasterxml.jackson.module.kotlin.convertValue
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.BeanUtils
 
 /**
  * ObjUtils is
@@ -144,41 +143,6 @@ public inline fun <reified T> Any?.copyTo(): T =
  */
 public fun <T> Any?.copyTo(targetType: Class<T>): T =
     globalObjectMapper.convertValue(this, targetType)
-
-/**
- * 复制属性
- * @receiver 来源
- * @param [target] 目标
- * @return [T]
- * @author tangli
- * @date 2023/09/25 19:13
- * @since 1.0.0
- */
-public fun <T> Any?.copyTo(target: T?): T? {
-    if (this == null || target == null) {
-        return target
-    }
-    BeanUtils.copyProperties(this, target)
-    return target
-}
-
-/**
- * 复制属性
- * @receiver 来源
- * @param [target] 目标
- * @return [T]
- * @author tangli
- * @date 2023/09/25 19:13
- * @since 1.0.0
- */
-@JvmSynthetic
-public fun <T : Any> Any?.copyToNotNull(target: T): T {
-    if (this == null) {
-        return target
-    }
-    BeanUtils.copyProperties(this, target)
-    return target
-}
 
 /**
  * 普通对象非null, 字符串非blank
