@@ -11,7 +11,7 @@ import com.tony.dto.resp.RouteAndComponentModuleResp
 import com.tony.dto.trait.listAndSetChildren
 import com.tony.utils.copyTo
 import com.tony.utils.ifNullOrBlank
-import com.tony.utils.throwIf
+import com.tony.utils.throwIfTrue
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -71,7 +71,7 @@ class ModuleService(
         moduleType: List<ModuleType>,
         appId: String,
     ) {
-        throwIf(modules.isEmpty(), "模块列表为空")
+        modules.isEmpty().throwIfTrue("模块列表为空")
         moduleDao.delete(Wrappers.lambdaQuery(Module::class.java).`in`(Module::moduleType, moduleType))
         modules.forEach {
             it.appId = appId
@@ -99,7 +99,7 @@ class ModuleService(
 
     fun listByRoleId(roleId: String) =
         run {
-            throwIf(roleId.isBlank(), "请选择角色")
+            roleId.isBlank().throwIfTrue("请选择角色")
             moduleDao
                 .selectModuleByRoleId(roleId)
                 .filter { it.moduleType in frontEndModuleTypes }

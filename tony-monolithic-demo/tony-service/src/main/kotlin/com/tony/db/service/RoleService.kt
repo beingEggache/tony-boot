@@ -12,7 +12,7 @@ import com.tony.dto.req.RoleCreateReq
 import com.tony.dto.req.RoleUpdateReq
 import com.tony.exception.BizException
 import com.tony.utils.ifNullOrBlank
-import com.tony.utils.throwIf
+import com.tony.utils.throwIfTrue
 import jakarta.validation.Valid
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -33,7 +33,7 @@ class RoleService(
         @Valid req: RoleCreateReq,
         appId: String,
     ) = run {
-        throwIf(roleDao.selectById(req.roleId) != null, "角色ID已重复")
+        (roleDao.selectById(req.roleId) != null).throwIfTrue("角色ID已重复")
         roleDao.insert(
             Role().apply {
                 this.roleId = req.roleId
@@ -92,7 +92,7 @@ class RoleService(
             moduleDao.selectByModuleGroups(req.moduleGroupList).map {
                 it.moduleId.ifNullOrBlank()
             }
-        throwIf(!moduleIdList.any(), "没找到对应模块:${req.moduleGroupList.joinToString()}")
+        (!moduleIdList.any()).throwIfTrue("没找到对应模块:${req.moduleGroupList.joinToString()}")
 
         req.roleIdList.forEach { roleId ->
             roleDao.deleteRoleModuleByRoleId(roleId)

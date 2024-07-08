@@ -160,5 +160,5 @@ public data object ApiProperty {
      */
     @get:JvmName("notFoundMessage")
     @JvmStatic
-    public val notFoundMessage: String = "该对象不存在"
+    public val notFoundMessage: String = "数据不存在"
 }
