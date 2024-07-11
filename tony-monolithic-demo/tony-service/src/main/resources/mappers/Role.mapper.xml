@@ -59,15 +59,17 @@
             r.remark,
             r.enabled,
             r.create_time
-            from sys_role r
-            join sys_employee_role er on r.role_id = er.role_id
-                and er.employee_id = #{employeeId}
-                and r.tenant_id = #{tenantId}
-                and er.tenant_id = #{tenantId}
-                and r.enabled = true
+        from sys_role r
+                 join sys_employee_role er on r.role_id = er.role_id
+            and er.employee_id = #{employeeId}
+            and r.tenant_id = #{tenantId}
+            and er.tenant_id = #{tenantId}
+            and r.enabled = true
+            and r.deleted = false
         where er.employee_id = #{employeeId}
           and r.tenant_id = #{tenantId}
           and er.tenant_id = #{tenantId}
           and r.enabled = true
+          and r.deleted = false
     </select>
 </mapper>

@@ -30,12 +30,16 @@
             d.remark,
             d.create_time,
             d.enabled
-            from sys_dept d
-            join sys_employee_dept ed on
-                d.dept_id = ed.dept_id and
-                ed.employee_id = #{employeeId} and
-                ed.tenant_id = #{tenantId}
+        from sys_dept d
+                 join sys_employee_dept ed on
+            d.dept_id = ed.dept_id and
+            ed.employee_id = #{employeeId} and
+            ed.tenant_id = #{tenantId} and
+            d.enabled = true and
+            d.deleted = false
         where ed.employee_id = #{employeeId} and
-            ed.tenant_id = #{tenantId}
+            ed.tenant_id = #{tenantId} and
+            d.enabled = true and
+            d.deleted = false
     </select>
 </mapper>
