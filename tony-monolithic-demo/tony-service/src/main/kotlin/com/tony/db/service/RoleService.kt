@@ -1,107 +1,141 @@
 package com.tony.db.service
 
-import com.tony.PageQuery
-import com.tony.PageResultLike
-import com.tony.db.dao.ModuleDao
+import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum
+import com.github.houbb.pinyin.util.PinyinHelper
 import com.tony.db.dao.RoleDao
-import com.tony.db.dao.UserDao
 import com.tony.db.po.Role
-import com.tony.dto.req.ModuleAssignReq
-import com.tony.dto.req.RoleAssignReq
-import com.tony.dto.req.RoleCreateReq
+import com.tony.dto.req.RoleAddReq
+import com.tony.dto.req.RoleAssignModulesReq
+import com.tony.dto.req.RoleDeleteReq
+import com.tony.dto.req.RoleModuleQuery
+import com.tony.dto.req.RoleQuery
 import com.tony.dto.req.RoleUpdateReq
-import com.tony.exception.BizException
-import com.tony.utils.ifNullOrBlank
-import com.tony.utils.throwIfTrue
-import jakarta.validation.Valid
+import com.tony.dto.resp.ModuleResp
+import com.tony.dto.resp.RoleResp
+import com.tony.PageQueryLike
+import com.tony.PageResult
+import com.tony.utils.copyTo
+import com.tony.utils.genRandomInt
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 /**
- *
+ * 角色Service
  * @author tangli
- * @date 2020-11-03 14:35
+ * @date 2024/07/03 13:14
+ * @since 1.0.0
  */
 @Service
 class RoleService(
-    private val userDao: UserDao,
-    private val moduleDao: ModuleDao,
-    private val roleDao: RoleDao,
+    private val dao: RoleDao,
 ) {
-    @Transactional
-    fun add(
-        @Valid req: RoleCreateReq,
-        appId: String,
-    ) = run {
-        (roleDao.selectById(req.roleId) != null).throwIfTrue("角色ID已重复")
-        roleDao.insert(
-            Role().apply {
-                this.roleId = req.roleId
-                this.roleName = req.roleName
-                this.remark = req.remark.ifNullOrBlank()
-                this.appId = appId
-            }
-        )
-    }
-
-    @Transactional
-    fun update(
-        @Valid req: RoleUpdateReq,
-    ) = run {
-        roleDao.selectByIdNotNull(req.roleId, "不存在此角色")
-        roleDao.updateById(
-            Role().apply {
-                this.roleId = req.roleId
-                this.roleName = req.roleName
-                this.remark = req.remark
-            }
-        )
-    }
-
-    fun page(query: PageQuery<String>): PageResultLike<Role> =
-        roleDao
+    /**
+     * 列表
+     * @param [req] 请求
+     * @return [PageResult]<[RoleResp]>
+     * @author tangli
+     * @date 2024/07/04 14:35
+     * @since 1.0.0
+     */
+    fun list(req: PageQueryLike<RoleQuery>): PageResult<RoleResp> =
+        dao
             .ktQuery()
-            .like(!query.query.isNullOrBlank(), Role::roleName, query)
-            .pageResult(query)
+            .like(req.query.roleName.isNotBlank(), Role::roleName, req.query.roleName)
+            .eq(req.query.enabled != null, Role::enabled, req.query.enabled)
+            .eq(Role::tenantId, req.query.tenantId)
+            .pageResult(req)
+            .map { it.copyTo() }
 
-    fun list(): List<Role> =
-        roleDao.ktQuery().list()
+    /**
+     * 新增
+     * @param [req] 请求
+     * @author tangli
+     * @date 2024/07/04 14:36
+     * @since 1.0.0
+     */
+    fun add(req: RoleAddReq) {
+        val name = req.roleName
+        dao
+            .ktQuery()
+            .eq(Role::roleName, name)
+            .eq(Role::tenantId, req.tenantId)
+            .throwIfExists("已有同名数据")
 
-    fun selectByUserId(
-        userId: String?,
-        appId: String,
-    ): List<Role> =
-        roleDao.selectByUserId(userId, appId)
-
-    @Transactional
-    fun assignRole(req: RoleAssignReq) {
-        req.userIdList.forEach { userId ->
-            roleDao.deleteUserRoleByUserId(userId)
-            userDao.selectById(userId) ?: throw BizException("不存在的用户:$userId")
-            req.roleIdList.forEach { roleId ->
-                roleDao.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
-                roleDao.insertUserRole(userId, roleId)
-            }
-            moduleDao.clearModuleCache(userId)
-        }
+        val code =
+            PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "").uppercase() + "${genRandomInt(4)}"
+        val po =
+            req
+                .copyTo<Role>()
+                .apply {
+                    this.roleCode = code
+                }
+        dao.insert(po)
     }
 
-    @Transactional
-    fun assignModule(req: ModuleAssignReq) {
-        val moduleIdList =
-            moduleDao.selectByModuleGroups(req.moduleGroupList).map {
-                it.moduleId.ifNullOrBlank()
-            }
-        (!moduleIdList.any()).throwIfTrue("没找到对应模块:${req.moduleGroupList.joinToString()}")
+    /**
+     * 更新
+     * @param [req] 请求
+     * @author tangli
+     * @date 2024/07/04 14:36
+     * @since 1.0.0
+     */
+    fun update(req: RoleUpdateReq) {
+        val id = req.roleId
+        val tenantId = req.tenantId
 
-        req.roleIdList.forEach { roleId ->
-            roleDao.deleteRoleModuleByRoleId(roleId)
-            roleDao.selectById(roleId) ?: throw BizException("不存在的角色:$roleId")
-            moduleIdList.forEach { moduleId ->
-                roleDao.selectById(roleId) ?: throw BizException("不存在的模块:$moduleId")
-                roleDao.insertRoleModule(roleId, moduleId)
-            }
-        }
-        moduleDao.clearModuleCache()
+        val name = req.roleName
+        dao
+            .ktQuery()
+            .ne(Role::roleId, id)
+            .eq(Role::roleName, name)
+            .eq(Role::tenantId, tenantId)
+            .throwIfExists("已有同名数据")
+
+        val updatedPo =
+            req.copyTo<Role>()
+
+        dao.updateById(updatedPo)
     }
+
+    /**
+     * 删除
+     * @param [req] 请求
+     * @author tangli
+     * @date 2024/07/04 14:36
+     * @since 1.0.0
+     */
+    fun delete(req: RoleDeleteReq) {
+        val id = req.roleId
+        val tenantId = req.tenantId
+        val po =
+            dao
+                .ktQuery()
+                .eq(Role::roleId, id)
+                .eq(Role::tenantId, tenantId)
+                .oneNotNull()
+
+        dao.deleteById(po)
+        dao.deleteRoleModules(id, req.tenantId)
+        dao.deleteEmployeesRole(id, tenantId)
+    }
+
+    /**
+     * 分配模块
+     * @param [req] 请求
+     * @author tangli
+     * @date 2024/07/05 16:05
+     * @since 1.0.0
+     */
+    @Transactional(rollbackFor = [Throwable::class])
+    fun assignModules(req: RoleAssignModulesReq) {
+        dao.deleteRoleModules(req.roleId, req.tenantId)
+        req.moduleIdList
+            .takeIf { it.isNotEmpty() }
+            ?.let {
+                dao.insertRoleModules(req.roleId, it, req.tenantId)
+            }
+    }
+
+    fun listRoleModuleIdList(req: RoleModuleQuery): Collection<ModuleResp> =
+        dao.selectRoleModules(req.roleId, req.moduleTypes, req.tenantId)
 }

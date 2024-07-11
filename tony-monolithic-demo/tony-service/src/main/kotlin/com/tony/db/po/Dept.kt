@@ -12,44 +12,57 @@ import com.tony.mybatis.MybatisPlusMetaProperty
 import java.time.LocalDateTime
 
 /**
- * <p>
- * 用户
- * </p>
- *
- * @author tangli
- * @date 2020-11-15
+ * 部门
+ * @TableName sys_dept
  */
-@TableName("sys_user")
-class User {
+@TableName("sys_dept")
+class Dept {
     /**
-     * 用户id
+     *
      */
     @TableId
-    var userId: String = ""
+    var deptId: String = ""
 
     /**
-     * 用户登录名
+     * 上级部门id
      */
-    var userName: String = ""
+    @TableField(
+        updateStrategy = FieldStrategy.NOT_EMPTY
+    )
+    var parentDeptId: String = ""
 
     /**
-     * 用户真实姓名
+     * 部门名
      */
-    var realName: String = ""
+    @TableField(
+        updateStrategy = FieldStrategy.NOT_EMPTY
+    )
+    var deptName: String = ""
 
     /**
-     * 手机号
+     * 部门编码
      */
-    var mobile: String = ""
+    @TableField(
+        updateStrategy = FieldStrategy.NEVER
+    )
+    var deptCode: String = ""
 
     /**
-     * 密码
+     * 部门编码序列
      */
-    var pwd: String = ""
+    var deptCodeSeq: String = ""
+
+    /**
+     * 排序
+     */
+    var sort: Int = 0
 
     /**
      * 备注
      */
+    @TableField(
+        updateStrategy = FieldStrategy.NOT_EMPTY
+    )
     var remark: String = ""
 
     /**

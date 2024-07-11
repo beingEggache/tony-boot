@@ -3,20 +3,22 @@
 <mapper namespace="com.tony.db.dao.ModuleDao">
 
     <select id="selectModulesByUserIdAndAppId">
-        select m.module_id,
-        m.app_id,
-        m.module_name,
-        m.module_value,
-        m.module_type,
-        m.module_group,
-        m.remark
-        from sys_user_role ur
-        join sys_role r on ur.role_id = r.role_id
-        join sys_role_module rm on r.role_id = rm.role_id
-        join sys_module m on rm.module_id = m.module_id
-        where ur.user_id = #{userId,jdbcType=VARCHAR}
-        and m.app_id = #{appId,jdbcType=VARCHAR}
-        and m.module_type in (<foreach collection="types" item="type" separator=",">#{type,jdbcType=SMALLINT}</foreach> )
+        select
+            distinct
+            m.module_id,
+            m.app_id,
+            m.module_name,
+            m.module_value,
+            m.module_type,
+            m.module_group,
+            m.remark
+        from sys_employee_role ur
+            join sys_role r on ur.role_id = r.role_id
+            join sys_role_module rm on r.role_id = rm.role_id
+            join sys_module m on rm.module_id = m.module_id
+        where ur.employee_id = #{userId,jdbcType=VARCHAR}
+            and m.app_id = #{appId,jdbcType=VARCHAR}
+            and m.module_type in (<foreach collection="types" item="type" separator=",">#{type,jdbcType=SMALLINT}</foreach> )
         order by m.module_id;
     </select>
 </mapper>

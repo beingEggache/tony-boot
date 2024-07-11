@@ -11,11 +11,8 @@ import jakarta.validation.constraints.NotNull
  * @date 2024/07/04 11:07
  * @since 1.0.0
  */
-@Schema(description = "更新角色请求")
-data class RoleUpdateReq(
-    @get:NotBlank(message = "请选择")
-    @Schema(description = "id", required = true)
-    val roleId: String = "",
+@Schema(description = "新增角色请求")
+data class RoleAddReq(
     /**
      * 角色名
      */

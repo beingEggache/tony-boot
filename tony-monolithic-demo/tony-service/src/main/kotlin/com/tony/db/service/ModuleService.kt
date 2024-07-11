@@ -1,117 +1,79 @@
 package com.tony.db.service
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers
-import com.tony.annotation.redis.RedisCacheable
-import com.tony.db.CacheKeys
+import com.tony.RowsWrapper
 import com.tony.db.dao.ModuleDao
 import com.tony.db.po.Module
 import com.tony.dto.enums.ModuleType
+import com.tony.dto.req.ModuleQuery
+import com.tony.dto.req.ModuleSubmitReq
 import com.tony.dto.resp.ModuleResp
-import com.tony.dto.resp.RouteAndComponentModuleResp
 import com.tony.dto.trait.listAndSetChildren
+import com.tony.dto.trait.treeToList
 import com.tony.utils.copyTo
-import com.tony.utils.ifNullOrBlank
-import com.tony.utils.throwIfTrue
+import com.tony.utils.throwIfEmpty
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 /**
- *
+ * 模块Service
  * @author tangli
- * @date 2020-11-04 14:48
+ * @date 2024/07/03 13:14
+ * @since 1.0.0
  */
 @Service
 class ModuleService(
     private val moduleDao: ModuleDao,
 ) {
-    companion object {
-        val frontEndModuleTypes = listOf(ModuleType.ROUTE, ModuleType.COMPONENT)
-    }
-
-    @RedisCacheable(
-        cacheKey = CacheKeys.USER_FRONTEND_MODULES_CACHE_KEY,
-        expressions = ["userId"]
-    )
-    fun listRouteAndComponentModules(
-        userId: String,
-        appId: String,
-    ): RouteAndComponentModuleResp {
-        val modules =
-            moduleDao
-                .selectModulesByUserIdAndAppId(
-                    userId,
-                    appId,
-                    listOf(
-                        ModuleType.ROUTE,
-                        ModuleType.COMPONENT
-                    )
-                ).map { it.copyTo<ModuleResp>() }
-
-        val routeModules = modules.filter { it.moduleType == ModuleType.ROUTE }
-
-        val componentModule = modules.filter { it.moduleType == ModuleType.COMPONENT }
-
-        return RouteAndComponentModuleResp(routeModules, componentModule)
-    }
-
-    @RedisCacheable(
-        cacheKey = CacheKeys.USER_API_MODULES_CACHE_KEY,
-        expressions = ["userId"]
-    )
-    fun listApiModules(
-        userId: String,
-        appId: String,
-    ) = moduleDao
-        .selectModulesByUserIdAndAppId(userId, appId, listOf(ModuleType.API))
-        .map { it.toDto() }
-
-    @Transactional
-    fun saveModules(
-        modules: List<Module>,
-        moduleType: List<ModuleType>,
-        appId: String,
-    ) {
-        modules.isEmpty().throwIfTrue("模块列表为空")
-        moduleDao.delete(Wrappers.lambdaQuery(Module::class.java).`in`(Module::moduleType, moduleType))
-        modules.forEach {
-            it.appId = appId
-            moduleDao.insert(it)
-        }
-        moduleDao.clearModuleCache()
-    }
-
-    fun tree(moduleTypes: List<ModuleType>) =
+    /**
+     * 提交全部
+     * @param [req] 绿色
+     * @author tangli
+     * @date 2024/07/05 16:33
+     * @since 1.0.0
+     */
+    @Transactional(rollbackFor = [Throwable::class])
+    fun submitAll(req: RowsWrapper<ModuleSubmitReq>) {
+        val rows = req.rows.throwIfEmpty()
         moduleDao
-            .lambdaQuery()
-            .`in`(Module::moduleType, moduleTypes)
+            .ktUpdate()
+            .and { param ->
+                rows.forEach { module -> param.or().likeRight(Module::moduleCodeSeq, module.moduleCodeSeq) }
+            }.physicalRemove()
+        val moduleList = rows.treeToList().map<ModuleSubmitReq, Module> { it.copyTo() }
+        moduleDao.insert(moduleList)
+    }
+
+    /**
+     * 树
+     * @param [appId] 应用程序id
+     * @return [List<ModuleResp>]
+     * @author tangli
+     * @date 2024/07/05 16:33
+     * @since 1.0.0
+     */
+    fun tree(appId: String): List<ModuleResp> =
+        moduleDao
+            .ktQuery()
+            .eq(Module::appId, appId)
+            .orderByDesc(Module::moduleCode)
             .list()
-            .map { it.toDto() }
+            .map { it.copyTo<ModuleResp>() }
             .listAndSetChildren()
 
-    fun listModuleGroups(appId: String) =
+    /**
+     * 列表
+     * @param [query] 应用程序id
+     * @return [List]<[ModuleResp]>
+     * @author tangli
+     * @date 2024/07/08 10:40
+     * @since 1.0.0
+     */
+    fun list(query: ModuleQuery): List<ModuleResp> =
         moduleDao
-            .lambdaQuery()
-            .eq(Module::appId, appId)
+            .ktQuery()
+            .eq(Module::appId, query.appId)
+            .`in`(Module::moduleType, mutableListOf(ModuleType.NODE).plus(query.moduleTypes))
+            .orderByDesc(Module::moduleCode)
             .list()
-            .filter { it.moduleGroup.isNotEmpty() }
-            .flatMap { it.moduleGroup.ifNullOrBlank().split(",") }
-            .distinct()
-
-    fun listByRoleId(roleId: String) =
-        run {
-            roleId.isBlank().throwIfTrue("请选择角色")
-            moduleDao
-                .selectModuleByRoleId(roleId)
-                .filter { it.moduleType in frontEndModuleTypes }
-                .map { it.moduleId }
-        }
-
-    private fun Module.toDto() =
-        ModuleResp(
-            moduleId.ifNullOrBlank(),
-            moduleName.ifNullOrBlank(),
-            moduleValue.ifNullOrBlank(),
-            moduleType,
-            moduleGroup.ifNullOrBlank()
-        )
+            .map { it.copyTo<ModuleResp>() }
 }

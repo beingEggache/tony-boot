@@ -8,20 +8,18 @@ import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableLogic
 import com.baomidou.mybatisplus.annotation.TableName
 import com.tony.dto.enums.ModuleType
+import com.tony.mybatis.MetaColumn
+import com.tony.mybatis.MybatisPlusMetaProperty
 import java.time.LocalDateTime
 
 /**
- * <p>
- * 模块/权限表
- * </p>
- *
- * @author tangli
- * @date 2020-11-15
+ * 模块(菜单,按钮,接口)
+ * @TableName sys_module
  */
 @TableName("sys_module")
 class Module {
     /**
-     * 模块/权限ID
+     *
      */
     @TableId
     var moduleId: String = ""
@@ -32,24 +30,47 @@ class Module {
     var appId: String = ""
 
     /**
-     * 模块/权限名
+     * 上级id
+     */
+    var parentModuleId: String = ""
+
+    /**
+     * 模块名
      */
     var moduleName: String = ""
 
     /**
-     * 模块/权限值（接口URL，前端路由，前端组件名）
+     * 编码
+     */
+    @TableField(
+        updateStrategy = FieldStrategy.NEVER
+    )
+    var moduleCode: String = ""
+
+    /**
+     * 编码序列
+     */
+    var moduleCodeSeq: String = ""
+
+    /**
+     * 模块值（接口URL，前端路由，前端组件名）
      */
     var moduleValue: String = ""
 
     /**
-     * 模块/权限类型（1：接口，2：前端路由，3：前端组件）
+     * 模块类型（1：接口，2：前端路由，3：前端组件）
      */
     var moduleType: ModuleType? = null
 
     /**
-     * 模块/权限分组
+     * 模块分组
      */
     var moduleGroup: String = ""
+
+    /**
+     * 模块 meta
+     */
+    var moduleMeta: String = "{}"
 
     /**
      * 备注
@@ -69,9 +90,9 @@ class Module {
     /**
      * 创建人
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_ID)
     @TableField(
         fill = FieldFill.INSERT,
-        insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
     var creatorId: String = ""
@@ -79,9 +100,9 @@ class Module {
     /**
      * 创建人名称
      */
+    @MybatisPlusMetaProperty(MetaColumn.USER_NAME, relativeProp = "creatorId")
     @TableField(
         fill = FieldFill.INSERT,
-        insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
     )
     var creatorName: String = ""
@@ -91,7 +112,8 @@ class Module {
      */
     @TableField(
         insertStrategy = FieldStrategy.NEVER,
-        updateStrategy = FieldStrategy.NEVER
+        updateStrategy = FieldStrategy.NEVER,
+        update = "CURRENT_TIMESTAMP"
     )
     var updateTime: LocalDateTime = LocalDateTime.now()
 
@@ -125,13 +147,4 @@ class Module {
      */
     @TableLogic
     var deleted: Boolean? = null
-
-    /**
-     * 租户id
-     */
-    @TableField(
-        fill = FieldFill.INSERT,
-        updateStrategy = FieldStrategy.NEVER
-    )
-    var tenantId: String = ""
 }

@@ -7,42 +7,69 @@ import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableLogic
 import com.baomidou.mybatisplus.annotation.TableName
+import com.tony.dto.enums.AccountState
 import com.tony.mybatis.MetaColumn
 import com.tony.mybatis.MybatisPlusMetaProperty
 import java.time.LocalDateTime
 
 /**
- * 角色
- * @TableName sys_role
+ * 员工
+ *
+ * @author tangli
+ * @date 2020-11-15
  */
-@TableName("sys_role")
-class Role {
+@TableName("sys_employee")
+class Employee {
     /**
-     *
+     * 员工id
      */
     @TableId
-    var roleId: String = ""
+    var employeeId: String = ""
 
     /**
-     * 角色名
+     * 员工登录名
      */
     @TableField(
         updateStrategy = FieldStrategy.NOT_EMPTY
     )
-    var roleName: String = ""
+    var account: String = ""
 
     /**
-     * 角色编码
+     * 员工真实姓名
      */
     @TableField(
         updateStrategy = FieldStrategy.NOT_EMPTY
     )
-    var roleCode: String = ""
+    var realName: String = ""
 
     /**
-     * 排序
+     * 员工手机号
      */
-    var sort: Int = 0
+    @TableField(
+        updateStrategy = FieldStrategy.NOT_EMPTY
+    )
+    var employeeMobile: String = ""
+
+    /**
+     * 密码
+     */
+    @TableField(
+        updateStrategy = FieldStrategy.NOT_EMPTY
+    )
+    var pwd: String = ""
+
+    /**
+     * 盐
+     */
+    @TableField(
+        updateStrategy = FieldStrategy.NEVER
+    )
+    var salt: String = ""
+
+    /**
+     * 帐户状态
+     */
+    var accountState: AccountState? = null
 
     /**
      * 备注
@@ -122,13 +149,4 @@ class Role {
      */
     @TableLogic
     var deleted: Boolean? = null
-
-    /**
-     * 租户id
-     */
-    @TableField(
-        fill = FieldFill.INSERT,
-        updateStrategy = FieldStrategy.NEVER
-    )
-    var tenantId: String = ""
 }

@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor
 import com.tony.ApiSession
-import com.tony.db.dao.UserDao
-import com.tony.db.po.User
+import com.tony.db.dao.EmployeeDao
+import com.tony.db.po.Employee
 import com.tony.id.IdGenerator
 import com.tony.mybatis.DefaultMetaObjectHandler
 import com.tony.mybatis.MetaColumn
@@ -46,13 +46,13 @@ class DbConfig {
 
     @Bean
     internal fun userNameProvider(
-        @Lazy userDao: UserDao,
+        @Lazy employeeDao: EmployeeDao,
     ): Function<in Any?, out Any?> =
         Function<Any?, Any?> {
-            userDao
+            employeeDao
                 .ktQuery()
-                .select(User::userName)
-                .eq(User::userId, it)
+                .select(Employee::account)
+                .eq(Employee::employeeId, it)
                 .oneObj()
         }
 

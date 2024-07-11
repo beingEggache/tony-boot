@@ -6,20 +6,31 @@ import com.tony.enums.DEFAULT_INT_VALUE
 import com.tony.enums.IntEnumCreator
 import com.tony.enums.IntEnumValue
 
+/**
+ * 帐户状态
+ * @author tangli
+ * @date 2024/07/09 09:19
+ * @since 1.0.0
+ */
 @Suppress("unused")
-enum class ModuleType(
+enum class AccountState(
     override val value: Int,
 ) : IntEnumValue {
-    NODE(0),
-    ROUTE(1),
-    COMPONENT(2),
-    API(3),
+    /**
+     * 需要修改密码
+     */
+    NEED_CHANGE_PWD(0),
+
+    /**
+     * 正常
+     */
+    NORMAL(1),
 
     @JsonEnumDefaultValue
     UNUSED(DEFAULT_INT_VALUE),
     ;
 
-    companion object : IntEnumCreator(ModuleType::class.java) {
+    companion object : IntEnumCreator(AccountState::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: Int) =

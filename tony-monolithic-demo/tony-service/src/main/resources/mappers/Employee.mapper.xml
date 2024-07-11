@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tony.db.dao.EmployeeDao">
+
+    <select id="selectEmployeeByQuery" resultType="com.tony.dto.resp.EmployeeResp">
+        select
+            distinct
+            e.employee_id,
+            e.account,
+            e.real_name,
+            e.employee_mobile,
+            e.create_time,
+            e.remark,
+            e.enabled
+        from sys_employee e
+                 left join sys_employee_dept ed on e.employee_id = ed.employee_id
+        <trim prefix="where" suffixOverrides="and">
+            <if test="!@kotlin.text.StringsKt@isBlank(query.account)">
+                e.account like concat('%',#{query.account},'%')
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(query.realName)">
+                e.real_name like concat('%',#{query.realName},'%')
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(query.employeeMobile)">
+                e.employee_mobile like concat('%',#{query.employeeMobile},'%')
+            </if>
+            <if test="query.enabled != null">
+                e.enabled =#{query.enabled}
+            </if>
+            <if test="!@kotlin.text.StringsKt@isBlank(query.deptId)">
+                ed.dept_id = #{query.deptId}
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectEmployeeModulesByEmployeeIdAndAppId" >
+        select
+            distinct
+            m.module_id,
+            m.parent_module_id,
+            m.module_name,
+            m.module_code_seq,
+            m.module_value,
+            m.module_type,
+            m.module_group
+        from sys_module m
+            join sys_role_module rm
+                on m.module_id = rm.module_id and rm.tenant_id = #{tenantId}
+            join sys_employee_role er
+                on rm.role_id = er.role_id and er.tenant_id = #{tenantId}
+        where er.employee_id = #{employeeId}
+            and er.tenant_id = #{tenantId}
+            and m.app_id = #{appId}
+            and m.module_type in (<foreach collection="moduleTypes" item="moduleType" separator=",">#{moduleType}</foreach> )
+    </select>
+
+</mapper>

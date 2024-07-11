@@ -30,7 +30,7 @@ springBoot = "3.3.1"
 slf4j = "2.0.13"
 logstashLogbackEncoder = "7.4"
 
-byteBuddy = "1.14.17"
+byteBuddy = "1.14.18"
 bouncycastle = "1.78.1"
 
 openFeign = "13.3"
@@ -70,7 +70,7 @@ vertx = "4.5.8"
 springCloud = "2023.0.2"
 springCloudAlibaba = "2023.0.1.0"
 springCloudTencent = "1.13.2-2023.0.0"
-reactor = "2023.0.7"
+reactor = "2023.0.8"
 netty = "4.1.111.Final"
 
 lombok = "8.6"
