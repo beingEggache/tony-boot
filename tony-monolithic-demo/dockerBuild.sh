@@ -13,8 +13,8 @@ while true ; do
                 -p|--port) port=$2 ; shift 2 ;;
                 -n|--project-name) project_name=$2 ; shift 2 ;;
                 -P|--profile) profile=$2 ; shift 2 ;;
-				-N|--docker-org-name) docker_org_name=$2 ; shift 2 ;;
-				-t|--image-tag) image_tag=$2 ; shift 2 ;;
+                -N|--docker-org-name) docker_org_name=$2 ; shift 2 ;;
+                -t|--image-tag) image_tag=$2 ; shift 2 ;;
                 --) shift ; break ;;
                 *) break ;;
         esac
