@@ -1,7 +1,10 @@
 spring:
   cloud:
-    polaris:
-      namespace: "dev"
+    nacos:
+      username: nacos
+      password: Nacos@ktwl
+      discovery:
+        namespace: "dev"
     gateway:
       globalcors:
         cors-configurations:

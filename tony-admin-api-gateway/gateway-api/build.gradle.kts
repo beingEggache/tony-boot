@@ -7,11 +7,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
     implementation(tonyLibs.caffeine)
-    implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-discovery")
-    implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-config")
-
-    implementation("com.tencent.cloud:spring-cloud-tencent-gateway-plugin")
-    implementation("com.tencent.cloud:spring-cloud-starter-tencent-metadata-transfer")
+    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
+    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
 
     // gateway 限流用
     implementation(tonyLibs.commonsPool2)

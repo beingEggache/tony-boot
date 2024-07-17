@@ -16,12 +16,16 @@ spring:
       discovery:
         locator:
           enabled: true
-    polaris:
-      address: grpc://127.0.0.1:8091
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
       config:
-        groups:
-          - name: "gateway"
-            files: [ "routes.yml", "routes-auth.yml" ]
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        extension-configs:
+          - data-id: tony-gateway-routes.yml
+          - data-id: tony-gateway-routes-auth.yml
+            refresh: true
   lifecycle:
     timeout-per-shutdown-phase: 20s
 jwt:

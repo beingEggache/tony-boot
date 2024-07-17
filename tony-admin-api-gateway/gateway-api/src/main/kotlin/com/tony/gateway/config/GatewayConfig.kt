@@ -5,6 +5,7 @@
  */
 package com.tony.gateway.config
 
+import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties
 import com.tony.gateway.filter.factory.RemoveResponseHeadersGatewayFilterFactory
 import com.tony.utils.antPathMatchAny
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -49,6 +50,7 @@ class GatewayConfig {
 
 @Component
 @ConfigurationProperties(prefix = "tony.gateway")
+@NacosConfigurationProperties(dataId = "tony-gateway-routes-auth.yml")
 class GatewayRouteConfigProperties {
     var noLoginCheckUrls: List<String>? = null
     var noPermissionCheckUrls: List<String>? = null
