@@ -74,27 +74,27 @@ repositories {
 
 gradlePlugin {
     plugins {
-        create("com.tony.gradle.plugin.build") {
+        register("build") {
             id = "com.tony.gradle.plugin.build"
             implementationClass = "com.tony.gradle.plugin.Build"
         }
 
-        create("com.tony.gradle.plugin.dep-configurations") {
+        register("dep-configurations") {
             id = "com.tony.gradle.plugin.dep-configurations"
             implementationClass = "com.tony.gradle.plugin.DependenciesConfigurationsPlugin"
         }
 
-        create("com.tony.gradle.plugin.ktlint") {
+        register("ktlint") {
             id = "com.tony.gradle.plugin.ktlint"
             implementationClass = "com.tony.gradle.plugin.KtlintPlugin"
         }
 
-        create("com.tony.gradle.plugin.maven-publish") {
+        register("maven-publish") {
             id = "com.tony.gradle.plugin.maven-publish"
             implementationClass = "com.tony.gradle.plugin.MavenPublishPlugin"
         }
 
-        create("com.tony.gradle.plugin.docker") {
+        register("docker") {
             id = "com.tony.gradle.plugin.docker"
             implementationClass = "com.tony.gradle.plugin.DockerPlugin"
         }
