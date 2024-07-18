@@ -178,7 +178,6 @@ springCloudAlibabaDenpendencies = { module = "com.alibaba.cloud:spring-cloud-ali
 springCloudDependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "springCloud" }
 reactorBom = { module = "io.projectreactor:reactor-bom", version.ref = "reactor" }
 nettyBom = { module = "io.netty:netty-bom", version.ref = "netty" }
-grpcBom = { module = "io.grpc:grpc-bom", version.ref = "grpc" }
 
 springBootDependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "springBoot" }
 springBoot = { module = "org.springframework.boot:spring-boot" }
@@ -200,18 +199,18 @@ springBootConfigurationProcessor = { module = "org.springframework.boot:spring-b
 springBootAutoconfigureProcessor = { module = "org.springframework.boot:spring-boot-autoconfigure-processor", version.ref = "springBoot" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
 
-grpcApi = { module = "io.grpc:grpc-api" }
-grpcCore = { module = "io.grpc:grpc-core" }
-grpcUtil = { module = "io.grpc:grpc-util" }
-grpcContext = { module = "io.grpc:grpc-context" }
-grpcStub = { module = "io.grpc:grpc-stub" }
-grpcProtobuf = { module = "io.grpc:grpc-protobuf" }
-grpcProtobufLite = { module = "io.grpc:grpc-protobuf-lite" }
-grpcNetty = { module = "io.grpc:grpc-netty" }
-grpcOkhttp = { module = "io.grpc:grpc-okhttp" }
+grpcApi = { module = "io.grpc:grpc-api", version.ref = "grpc" }
+grpcCore = { module = "io.grpc:grpc-core", version.ref = "grpc" }
+grpcUtil = { module = "io.grpc:grpc-util", version.ref = "grpc" }
+grpcContext = { module = "io.grpc:grpc-context", version.ref = "grpc" }
+grpcStub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
+grpcProtobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
+grpcProtobufLite = { module = "io.grpc:grpc-protobuf-lite", version.ref = "grpc" }
+grpcNetty = { module = "io.grpc:grpc-netty", version.ref = "grpc" }
+grpcOkhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpc" }
 
 protoc = { module = "com.google.protobuf:protoc", version = "4.27.2" }
-protocGenGrpcJava = { module = "io.grpc:protoc-gen-grpc-java" }
+protocGenGrpcJava = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc" }
 
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6.4" }
 
