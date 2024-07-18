@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
+includeBuild("build-script")
 pluginManagement {
     repositories {
         mavenLocal()
@@ -33,7 +33,6 @@ pluginManagement {
 //        }
         mavenCentral()
     }
-    includeBuild("build-script")
 }
 
 dependencyResolutionManagement {
@@ -60,7 +59,6 @@ include("$projectPrefix-captcha")
 include("$projectPrefix-snowflake-id")
 include("$projectPrefix-knife4j-api")
 include("$projectPrefix-web-crypto")
-include("$projectPrefix-fus")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 

@@ -1,5 +1,6 @@
 package com.tony.api.controller
 
+import com.tony.FlattenPageQuery
 import com.tony.db.service.EmployeeService
 import com.tony.dto.req.EmployeeAddReq
 import com.tony.dto.req.EmployeeAssignRoleReq
@@ -8,7 +9,6 @@ import com.tony.dto.req.EmployeeQuery
 import com.tony.dto.req.EmployeeResetPwdReq
 import com.tony.dto.req.EmployeeToggleEnabledReq
 import com.tony.dto.req.EmployeeUpdateReq
-import com.tony.FlattenPageQuery
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.validation.annotation.Validated

@@ -5,7 +5,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    alias(tonyLibs.plugins.tonyGradleBuild)
     alias(tonyLibs.plugins.kotlin) apply false
     alias(tonyLibs.plugins.kotlinSpring) apply false
     alias(tonyLibs.plugins.kotlinKapt) apply false
@@ -32,10 +31,10 @@ configure(subprojects) {
     }
 
     apply {
-        plugin("kotlin")
-        plugin("kotlin-kapt")
-        plugin("com.tony.gradle.plugin.ktlint")
-        plugin("com.tony.gradle.plugin.dep-configurations")
+        plugin(rootProject.tonyLibs.plugins.kotlin.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.kotlinKapt.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.tonyKtlint.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.tonyDepConfigurations.get().pluginId)
     }
 
     tasks.withType<Javadoc> {

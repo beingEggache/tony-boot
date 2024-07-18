@@ -1,6 +1,6 @@
 import com.tony.gradle.plugin.Build
 
-apply(plugin = "kotlin-spring")
+apply(plugin = rootProject.tonyLibs.plugins.kotlinSpring.get().pluginId)
 dependencies {
     api(Build.templateProject("core")) { isChanging = true }
     api(Build.templateProject("mybatis-plus")) { isChanging = true }

@@ -1,6 +1,6 @@
 import com.tony.gradle.plugin.Build
 
-apply(plugin = "com.tony.gradle.plugin.docker")
+apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)
 dependencies {
     val profile = Build.getProfile()
 

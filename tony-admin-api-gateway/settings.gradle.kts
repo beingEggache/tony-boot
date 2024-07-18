@@ -1,4 +1,4 @@
-pluginManagement {
+buildscript {
     repositories {
         mavenLocal()
         gradlePluginPortal()
@@ -8,6 +8,9 @@ pluginManagement {
 //            isAllowInsecureProtocol = true
 //        }
         mavenCentral()
+    }
+    dependencies {
+        classpath("com.tony:build-script:0.1-SNAPSHOT")
     }
 }
 
