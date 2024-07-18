@@ -62,8 +62,6 @@ swagger = "2.2.22"
 knife4j = "4.5.0"
 springdocStarter = "2.3.0"
 
-fury = "0.4.1"
-
 powerjob = "4.3.9"
 vertx = "4.5.8"
 
@@ -72,6 +70,7 @@ springCloudAlibaba = "2023.0.1.0"
 springCloudTencent = "1.13.2-2023.0.0"
 reactor = "2023.0.8"
 netty = "4.1.111.Final"
+grpc = "1.65.1"
 
 lombok = "8.6"
 ktlint = "1.3.0"
@@ -179,6 +178,7 @@ springCloudAlibabaDenpendencies = { module = "com.alibaba.cloud:spring-cloud-ali
 springCloudDependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "springCloud" }
 reactorBom = { module = "io.projectreactor:reactor-bom", version.ref = "reactor" }
 nettyBom = { module = "io.netty:netty-bom", version.ref = "netty" }
+grpcBom = { module = "io.grpc:grpc-bom", version.ref = "grpc" }
 
 springBootDependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "springBoot" }
 springBoot = { module = "org.springframework.boot:spring-boot" }
@@ -200,8 +200,18 @@ springBootConfigurationProcessor = { module = "org.springframework.boot:spring-b
 springBootAutoconfigureProcessor = { module = "org.springframework.boot:spring-boot-autoconfigure-processor", version.ref = "springBoot" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
 
-furyCore = { module = "org.furyio:fury-core", version.ref = "fury" }
-furyFormat = { module = "org.furyio:fury-format", version.ref = "fury" }
+grpcApi = { module = "io.grpc:grpc-api" }
+grpcCore = { module = "io.grpc:grpc-core" }
+grpcUtil = { module = "io.grpc:grpc-util" }
+grpcContext = { module = "io.grpc:grpc-context" }
+grpcStub = { module = "io.grpc:grpc-stub" }
+grpcProtobuf = { module = "io.grpc:grpc-protobuf" }
+grpcProtobufLite = { module = "io.grpc:grpc-protobuf-lite" }
+grpcNetty = { module = "io.grpc:grpc-netty" }
+grpcOkhttp = { module = "io.grpc:grpc-okhttp" }
+
+protoc = { module = "com.google.protobuf:protoc", version = "4.27.2" }
+protocGenGrpcJava = { module = "io.grpc:protoc-gen-grpc-java" }
 
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6.4" }
 
@@ -227,6 +237,8 @@ kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 lombok = { id="io.freefair.lombok", version.ref = "lombok" }
 graalvm = { id="org.graalvm.buildtools.native", version.ref = "graalvm" }
+
+protobuf = { id="com.google.protobuf", version = "0.9.4" }
 
 tonyGradleBuild = { id = "com.tony.gradle.plugin.build", version.ref="template"}
 tonyDepConfigurations = { id = "com.tony.gradle.plugin.dep-configurations", version.ref="template"}
