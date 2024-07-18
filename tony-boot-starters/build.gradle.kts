@@ -73,8 +73,8 @@ configure(allprojects) {
 configure(dependenciesProjects) {
     ext.set("pom", true)
     apply {
-        plugin("org.gradle.java-platform")
-        plugin("com.tony.gradle.plugin.maven-publish")
+        plugin(rootProject.tonyLibs.plugins.javaPlatform.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.tonyMavenPublish.get().pluginId)
     }
     extensions.getByType<JavaPlatformExtension>().apply {
         allowDependencies()
@@ -84,8 +84,8 @@ configure(dependenciesProjects) {
 configure(dependenciesCatalogProjects) {
     ext.set("catalog", true)
     apply {
-        plugin("org.gradle.version-catalog")
-        plugin("com.tony.gradle.plugin.maven-publish")
+        plugin(rootProject.tonyLibs.plugins.versionCatalog.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.tonyMavenPublish.get().pluginId)
     }
 }
 
@@ -97,13 +97,13 @@ tasks.dokkaHtmlMultiModule {
 configure(libraryProjects) {
 
     apply {
-        plugin("kotlin")
-        plugin("kotlin-spring")
-        plugin("kotlin-kapt")
-        plugin("com.tony.gradle.plugin.ktlint")
-        plugin("com.tony.gradle.plugin.dep-configurations")
-        plugin("com.tony.gradle.plugin.maven-publish")
-        plugin("org.jetbrains.dokka")
+        plugin(rootProject.tonyLibs.plugins.kotlin.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.kotlinSpring.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.kotlinKapt.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.tonyKtlint.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.tonyDepConfigurations.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.tonyMavenPublish.get().pluginId)
+        plugin(rootProject.tonyLibs.plugins.dokka.get().pluginId)
     }
 
     tasks.withType<Javadoc> {

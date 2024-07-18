@@ -37,6 +37,7 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.configurations.all {
 
+            exclude(group = "org.apache.logging.log4j", module = "log4j-api")
             exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
             exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
             exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk7")

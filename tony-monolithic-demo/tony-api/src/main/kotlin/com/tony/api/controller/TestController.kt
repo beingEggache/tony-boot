@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @Validated
 class TestController {
-
     @Operation(summary = "区域")
     @GetMapping("/locale")
     @NoLoginCheck

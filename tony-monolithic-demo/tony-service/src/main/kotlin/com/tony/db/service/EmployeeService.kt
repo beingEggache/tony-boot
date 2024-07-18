@@ -1,5 +1,8 @@
 package com.tony.db.service
 
+import com.tony.PageQueryLike
+import com.tony.PageResult
+import com.tony.PageResultLike
 import com.tony.db.dao.DeptDao
 import com.tony.db.dao.EmployeeDao
 import com.tony.db.dao.RoleDao
@@ -13,9 +16,6 @@ import com.tony.dto.req.EmployeeResetPwdReq
 import com.tony.dto.req.EmployeeToggleEnabledReq
 import com.tony.dto.req.EmployeeUpdateReq
 import com.tony.dto.resp.EmployeeResp
-import com.tony.PageQueryLike
-import com.tony.PageResult
-import com.tony.PageResultLike
 import com.tony.utils.copyTo
 import com.tony.utils.md5
 import com.tony.utils.toPage

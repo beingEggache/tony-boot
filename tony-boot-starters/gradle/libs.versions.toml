@@ -229,6 +229,9 @@ springBootGradlePlugin = { module = "org.springframework.boot:spring-boot-gradle
 ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref="ktlint"}
 
 [plugins]
+javaPlatform = { id = "org.gradle.java-platform" }
+versionCatalog = { id = "org.gradle.version-catalog" }
+
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 kotlinNoarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin" }

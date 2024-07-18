@@ -2,7 +2,6 @@ import com.tony.gradle.plugin.Build
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
-    alias(tonyLibs.plugins.tonyGradleBuild)
     alias(tonyLibs.plugins.lombok)
 }
 
@@ -28,7 +27,7 @@ configure(subprojects) {
     apply {
         plugin("org.gradle.java-library")
         plugin("io.freefair.lombok")
-        plugin("com.tony.gradle.plugin.dep-configurations")
+        plugin(rootProject.tonyLibs.plugins.tonyDepConfigurations.get().pluginId)
     }
 
     tasks.withType<Javadoc> {

@@ -1,5 +1,7 @@
 package com.tony.api.controller
 
+import com.tony.FlattenPageQuery
+import com.tony.PageResult
 import com.tony.db.service.RoleService
 import com.tony.dto.req.RoleAddReq
 import com.tony.dto.req.RoleAssignModulesReq
@@ -9,8 +11,6 @@ import com.tony.dto.req.RoleQuery
 import com.tony.dto.req.RoleUpdateReq
 import com.tony.dto.resp.ModuleResp
 import com.tony.dto.resp.RoleResp
-import com.tony.FlattenPageQuery
-import com.tony.PageResult
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.validation.annotation.Validated
