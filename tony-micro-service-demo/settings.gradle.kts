@@ -24,7 +24,7 @@ dependencyResolutionManagement {
 //        }
     }
     versionCatalogs {
-        create("tonyLibs") {
+        register("tonyLibs") {
             from("com.tony:tony-dependencies-catalog:0.1-SNAPSHOT")
         }
     }

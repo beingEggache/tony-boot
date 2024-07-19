@@ -37,7 +37,7 @@ pluginManagement {
 
 dependencyResolutionManagement {
     versionCatalogs {
-        create("tonyLibs") {
+        register("tonyLibs") {
             from(files("../gradle/libs.versions.toml"))
         }
     }
