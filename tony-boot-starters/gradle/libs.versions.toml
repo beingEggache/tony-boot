@@ -63,6 +63,7 @@ springCloudTencent = "1.13.2-2023.0.0"
 reactor = "2023.0.8"
 netty = "4.1.111.Final"
 grpc = "1.65.1"
+protobuf = "4.27.2"
 
 lombok = "8.6"
 ktlint = "1.3.0"
@@ -119,6 +120,13 @@ knife4jOpenapi3SpringBootStarter = { module = "com.github.xiaoymin:knife4j-opena
 knife4jOpenapi3JakartaSpringBootStarter = { module = "com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter", version.ref = "knife4j" }
 knife4jOpenapi3Ui = { module = "com.github.xiaoymin:knife4j-openapi3-ui", version.ref = "knife4j" }
 knife4jGatewaySpringBootStarter = { module = "com.github.xiaoymin:knife4j-gateway-spring-boot-starter", version.ref = "knife4j" }
+
+protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
+protobufJava = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
+protobufJavalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
+protobufJavaUtil = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf" }
+protobufKotlin = { module = "com.google.protobuf:protobuf-kotlin", version.ref = "protobuf" }
+protobufKotlinLite = { module = "com.google.protobuf:protobuf-kotlin-lite", version.ref = "protobuf" }
 
 grpcBom = { module = "io.grpc:grpc-bom", version.ref = "grpc" }
 grpcApi = { module = "io.grpc:grpc-api", version.ref = "grpc" }
@@ -233,7 +241,6 @@ snakeYaml = { module = "org.yaml:snakeyaml", version = "2.2" }
 yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version = "1.0.6" }
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
 
-protoc = { module = "com.google.protobuf:protoc", version = "4.27.2" }
 grpcSpringBootStarter = { module = "net.devh:grpc-spring-boot-starter", version = "3.1.0.RELEASE" }
 
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6.4" }
@@ -242,7 +249,7 @@ gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = 
 [plugins]
 javaPlatform = { id = "org.gradle.java-platform" }
 versionCatalog = { id = "org.gradle.version-catalog" }
-
+protobuf = { id="com.google.protobuf", version = "0.9.4" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 kotlinNoarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin" }
@@ -250,8 +257,6 @@ kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 lombok = { id="io.freefair.lombok", version.ref = "lombok" }
 graalvm = { id="org.graalvm.buildtools.native", version.ref = "graalvm" }
-
-protobuf = { id="com.google.protobuf", version = "0.9.4" }
 
 tonyGradleBuild = { id = "com.tony.gradle.plugin.build", version.ref="template"}
 tonyDepConfigurations = { id = "com.tony.gradle.plugin.dep-configurations", version.ref="template"}

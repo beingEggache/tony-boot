@@ -3,6 +3,6 @@
 
 ./gradlew ktlintFormat
 ./gradlew clean
-./gradlew publishPomPublicationToPrivateRepository --build-cache
-./gradlew publishCatalogPublicationToPrivateRepository --build-cache
+./gradlew publishPomPublicationToPrivateRepository
+./gradlew publishCatalogPublicationToPrivateRepository
 ./gradlew publishJarPublicationToPrivateRepository --build-cache

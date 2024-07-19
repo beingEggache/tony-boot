@@ -4,3 +4,7 @@ catalog {
     }
 }
 
+tasks.register("clean", Delete::class) {
+    group = "build"
+    delete("build")
+}

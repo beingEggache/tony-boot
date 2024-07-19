@@ -3,6 +3,6 @@
 
 ./gradlew ktlintFormat
 ./gradlew clean
-./gradlew publishPomPublicationToMavenLocal --build-cache
-./gradlew publishCatalogPublicationToMavenLocal --build-cache
+./gradlew publishPomPublicationToMavenLocal
+./gradlew publishCatalogPublicationToMavenLocal
 ./gradlew publishJarAndSrcPublicationToMavenLocal --build-cache
