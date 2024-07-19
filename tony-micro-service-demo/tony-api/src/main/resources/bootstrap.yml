@@ -10,8 +10,12 @@ spring:
     banner-mode: off
   profiles:
     default: dev
-  config:
-    import: optional:polaris:DEFAULT_GROUP:db-and-redis.yml
   cloud:
-    polaris:
-      address: grpc://127.0.0.1:8091
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        shared-configs:
+          - data-id: db-and-redis.yaml

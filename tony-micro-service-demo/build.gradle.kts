@@ -67,7 +67,7 @@ configure(subprojects) {
 
     dependencies {
         add("implementation", platform(Build.templateProject("dependencies")))
-        add("implementation", platform(rootProject.tonyLibs.springCloudTencentDependencies))
+        add("implementation", platform(rootProject.tonyLibs.springCloudAlibabaDenpendencies))
         add("kapt", rootProject.tonyLibs.springContextIndexer)
         add("testImplementation", rootProject.tonyLibs.bundles.test)
     }

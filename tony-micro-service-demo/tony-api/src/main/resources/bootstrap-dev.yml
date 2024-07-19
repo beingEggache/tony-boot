@@ -1,9 +1,10 @@
 spring:
-  config:
-    import: optional:polaris:DEFAULT_GROUP:db-and-redis.yml
   cloud:
-    polaris:
-      namespace: "dev"
+    nacos:
+      username: nacos
+      password: Nacos@ktwl
+      discovery:
+        namespace: "dev"
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

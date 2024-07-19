@@ -1,4 +1,5 @@
 spring:
   cloud:
-    polaris:
-      namespace: "qa"
+    nacos:
+      discovery:
+        namespace: "qa"

@@ -14,16 +14,8 @@ dependencies {
         implementation(tonyLibs.knife4jOpenapi3Ui)
     }
 
-    implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-discovery")
-    implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-config")
-    implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-ratelimit")
-    implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-circuitbreaker")
-    implementation("com.tencent.cloud:spring-cloud-starter-tencent-polaris-router")
-    implementation("com.tencent.cloud:spring-cloud-starter-tencent-metadata-transfer")
-
-//    implementation("com.tencent.cloud:spring-cloud-tencent-lossless-plugin")
-    implementation("com.tencent.cloud:spring-cloud-tencent-featureenv-plugin")
-    implementation("com.tencent.cloud:spring-cloud-tencent-rpc-enhancement")
+    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
+    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
 
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation(Build.templateProject("web")) { isChanging = true }
