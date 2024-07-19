@@ -17,6 +17,7 @@ dependencies {
     add("api", platform(tonyLibs.reactorBom))
     add("api", platform(tonyLibs.nettyBom))
     add("api", platform(tonyLibs.jacksonBom))
+    add("api", platform(tonyLibs.grpcBom))
     add("api", platform(tonyLibs.springBootDependencies))
     add("api", platform(tonyLibs.springCloudDependencies))
 }
