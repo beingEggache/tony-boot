@@ -234,6 +234,8 @@ yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version =
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
 
 protoc = { module = "com.google.protobuf:protoc", version = "4.27.2" }
+grpcSpringBootStarter = { module = "net.devh:grpc-spring-boot-starter", version = "3.1.0.RELEASE" }
+
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6.4" }
 gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.36.0"}
 
