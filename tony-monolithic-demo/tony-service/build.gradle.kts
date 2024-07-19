@@ -10,6 +10,5 @@ dependencies {
     implementation(tonyLibs.mysql)
     api(project(":tony-dto"))
     api(tonyLibs.springWeb)
-
     implementation("com.github.houbb:pinyin:0.4.0")
 }

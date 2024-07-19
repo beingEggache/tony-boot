@@ -32,7 +32,6 @@ import java.util.Date
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Exec
-import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 
@@ -90,7 +89,7 @@ class DockerPlugin : Plugin<Project> {
                 namedTags
                     .keys
                     .plus(project.version.toString())
-                    .map { "dockerPush${it.capitalized()}" }
+                    .map { "dockerPush${it.replaceFirstChar { char -> char.uppercase() }}" }
         }
 
         project.afterEvaluate {

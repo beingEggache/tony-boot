@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit
 import org.gradle.api.InvalidUserDataException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.getByType
@@ -35,6 +36,7 @@ import org.gradle.kotlin.dsl.getByType
 class DependenciesConfigurationsPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
+
         target.configurations.all {
 
             exclude(group = "org.apache.logging.log4j", module = "log4j-api")
@@ -65,6 +67,8 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
         }
     }
 
+    private fun VersionCatalog.libToString(name: String): String = findLibrary(name).get().get().toString()
+
     private fun canReplacedDependencies(target: Project): Map<String, String> {
         val versionCatalog =
             try {
@@ -78,42 +82,49 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
                 return mapOf()
             }
 
-        val kotlinVersion = versionCatalog.findVersion("kotlin").get()
-        val bouncycastleVersion = versionCatalog.findVersion("bouncycastle").get()
-        val annotationApiVersion = versionCatalog.findVersion("annotationApi").get()
-        val activationApiVersion = versionCatalog.findVersion("activationApi").get()
-        val elApiVersion = versionCatalog.findVersion("elApi").get()
-        val websocketApiVersion = versionCatalog.findVersion("websocketApi").get()
-        val validationApiVersion = versionCatalog.findVersion("validationApi").get()
-        val bindApiVersion = versionCatalog.findVersion("bindApi").get()
-        val springVersion = versionCatalog.findVersion("spring").get()
+        val kotlinStdlib = versionCatalog.libToString("kotlinStdlib")
+        val springJcl = versionCatalog.libToString("springJcl")
+        val tomcatEmbedEl = versionCatalog.libToString("tomcatEmbedEl")
+
+        val bcprovJdk18On = versionCatalog.libToString("bcprovJdk18On")
+        val bcmailJdk18On = versionCatalog.libToString("bcmailJdk18On")
+        val bcpkixJdk18On = versionCatalog.libToString("bcpkixJdk18On")
+
+        val validationApi = versionCatalog.libToString("validationApi")
+        val annotationApi = versionCatalog.libToString("annotationApi")
+        val activationApi = versionCatalog.libToString("activationApi")
+        val bindApi = versionCatalog.libToString("bindApi")
+        val websocketApi = versionCatalog.libToString("websocketApi")
+        val elApi = versionCatalog.libToString("elApi")
+        val dom4j = versionCatalog.libToString("dom4j")
         return mapOf(
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk8" to "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk7" to "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk8" to kotlinStdlib,
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk7" to kotlinStdlib,
 
-            "bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:$bouncycastleVersion",
-            "bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:$bouncycastleVersion",
+            "bouncycastle:bcprov-jdk14" to bcprovJdk18On,
+            "bouncycastle:bcmail-jdk14" to bcmailJdk18On,
 
-            "org.bouncycastle:bcprov-jdk14" to "org.bouncycastle:bcprov-jdk18on:$bouncycastleVersion",
-            "org.bouncycastle:bcmail-jdk14" to "org.bouncycastle:bcmail-jdk18on:$bouncycastleVersion",
+            "org.bouncycastle:bcprov-jdk14" to bcprovJdk18On,
+            "org.bouncycastle:bcmail-jdk14" to bcmailJdk18On,
 
-            "org.bouncycastle:bcprov-jdk15on" to "org.bouncycastle:bcprov-jdk18on:$bouncycastleVersion",
-            "org.bouncycastle:bcmail-jdk15on" to "org.bouncycastle:bcmail-jdk18on:$bouncycastleVersion",
-            "org.bouncycastle:bcpkix-jdk15on" to "org.bouncycastle:bcpkix-jdk18on:$bouncycastleVersion",
+            "org.bouncycastle:bcprov-jdk15on" to bcprovJdk18On,
+            "org.bouncycastle:bcmail-jdk15on" to bcmailJdk18On,
+            "org.bouncycastle:bcpkix-jdk15on" to bcpkixJdk18On,
 
-            "org.apache.tomcat:tomcat-annotations-api" to "jakarta.annotation:jakarta.annotation-api:$annotationApiVersion",
-            "javax.annotation:javax.annotation-api" to "jakarta.annotation:jakarta.annotation-api:$annotationApiVersion",
-            "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to "jakarta.annotation:jakarta.annotation-api:$annotationApiVersion",
-            "javax.activation:javax.activation-api" to "jakarta.activation:jakarta.activation-api:$activationApiVersion",
+            "org.apache.tomcat:tomcat-annotations-api" to annotationApi,
+            "javax.annotation:javax.annotation-api" to annotationApi,
+            "org.jboss.spec.javax.annotation:jboss-annotations-api_1.3_spec" to annotationApi,
+            "javax.activation:javax.activation-api" to activationApi,
 
-            "javax.el:el-api" to "jakarta.el:jakarta.el-api:$elApiVersion",
-            "org.glassfish:jakarta.el" to "jakarta.el:jakarta.el-api:$elApiVersion",
-            "org.glassfish.web:el-impl" to "org.apache.tomcat.embed:tomcat-embed-el:10.1.25",
+            "javax.el:el-api" to elApi,
+            "org.glassfish:jakarta.el" to elApi,
+            "org.glassfish.web:el-impl" to tomcatEmbedEl,
 
-            "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to "jakarta.websocket:jakarta.websocket-api:$websocketApiVersion",
-            "javax.validation:validation-api" to "jakarta.validation:jakarta.validation-api:$validationApiVersion",
-            "javax.xml.bind:jaxb-api" to "jakarta.xml.bind:jakarta.xml.bind-api:$bindApiVersion",
-            "commons-logging:commons-logging" to "org.springframework:spring-jcl:$springVersion"
+            "org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec" to websocketApi,
+            "javax.validation:validation-api" to validationApi,
+            "javax.xml.bind:jaxb-api" to bindApi,
+            "commons-logging:commons-logging" to springJcl,
+            "dom4j:dom4j" to dom4j
         )
     }
 }

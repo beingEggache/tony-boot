@@ -2,7 +2,7 @@ package com.tony.test
 
 import com.tony.PageQuery
 import com.tony.db.service.RoleService
-import com.tony.dto.req.RoleCreateReq
+import com.tony.dto.req.RoleAddReq
 import com.tony.dto.req.RoleUpdateReq
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
@@ -24,10 +24,10 @@ class MonoApiWebTest {
     @Test
     fun testAddRole() {
         roleService.add(
-            RoleCreateReq(
+            RoleAddReq(
                 roleName = "test",
+                enabled = true
             ),
-            "test"
         )
     }
 
@@ -38,17 +38,14 @@ class MonoApiWebTest {
             RoleUpdateReq(
                 roleId = "7522585322053",
                 roleName = "testUpdate",
+                enabled = true
             )
         )
     }
 
     @Test
     fun testPageRole() {
-        roleService.page(PageQuery())
-    }
-    @Test
-    fun testListRole() {
-        roleService.list()
+        roleService.list(PageQuery())
     }
 }
 
