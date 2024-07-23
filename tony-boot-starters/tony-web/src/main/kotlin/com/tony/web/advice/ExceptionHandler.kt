@@ -46,7 +46,6 @@ import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MissingRequestValueException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.HandlerMethodValidationException
@@ -71,7 +70,6 @@ internal class ExceptionHandler : ErrorController {
      * @since 1.0.0
      */
     @ExceptionHandler(BizException::class)
-    @ResponseBody
     fun bizException(e: BizException) =
         errorResponse(e.message.ifNullOrBlank(), e.code)
 
@@ -83,7 +81,6 @@ internal class ExceptionHandler : ErrorController {
      * @since 1.0.0
      */
     @ExceptionHandler(ApiException::class)
-    @ResponseBody
     fun apiException(e: ApiException) =
         run {
             e.cause?.apply {
@@ -101,7 +98,6 @@ internal class ExceptionHandler : ErrorController {
      * @since 1.0.0
      */
     @ExceptionHandler(Exception::class)
-    @ResponseBody
     fun exception(
         e: Exception,
         response: HttpServletResponse,
@@ -113,7 +109,6 @@ internal class ExceptionHandler : ErrorController {
     }
 
     @ExceptionHandler(BindException::class)
-    @ResponseBody
     fun bindingResultException(e: BindException): ApiResult<*> {
         val hasTypeMismatch = e.allErrors.any { it.code == TypeMismatchException.ERROR_CODE }
         val nonNullTypeNull = e.allErrors.any { it.code.isNullOrBlank() }
@@ -148,7 +143,6 @@ internal class ExceptionHandler : ErrorController {
      * @param e
      */
     @ExceptionHandler(ConstraintViolationException::class)
-    @ResponseBody
     fun constraintViolationException(e: ConstraintViolationException) =
         errorResponse(
             e.constraintViolations.joinToString(System.lineSeparator()) { it.message },
@@ -166,7 +160,6 @@ internal class ExceptionHandler : ErrorController {
             HandlerMethodValidationException::class
         ]
     )
-    @ResponseBody
     fun handlerMethodValidationException(e: MethodValidationResult) =
         errorResponse(
             e.allErrors.joinToString(System.lineSeparator()) { it.defaultMessage.ifNullOrBlank() },
@@ -181,7 +174,6 @@ internal class ExceptionHandler : ErrorController {
         ]
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
     fun badRequestException(e: Exception) =
         run {
             logger.warn(e.localizedMessage)
@@ -193,7 +185,6 @@ internal class ExceptionHandler : ErrorController {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException::class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    @ResponseBody
     fun methodNotSupportException(e: HttpRequestMethodNotSupportedException) =
         run {
             errorResponse(
@@ -204,7 +195,6 @@ internal class ExceptionHandler : ErrorController {
 
     @ExceptionHandler(NoResourceFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ResponseBody
     fun notFoundException(e: NoResourceFoundException) =
         errorResponse(
             e.localizedMessage,
@@ -212,7 +202,6 @@ internal class ExceptionHandler : ErrorController {
         )
 
     @RequestMapping("\${server.error.path:\${error.path:/error}}")
-    @ResponseBody
     fun error() =
         run {
             WebContext.response?.status = HttpStatus.OK.value()
