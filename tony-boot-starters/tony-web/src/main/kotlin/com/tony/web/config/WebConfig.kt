@@ -49,6 +49,7 @@ import com.tony.web.filter.TraceLoggingFilter
 import com.tony.web.log.DefaultRequestTraceLogger
 import com.tony.web.log.RequestTraceLogger
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.beans.BeanUtils
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
@@ -147,52 +148,25 @@ internal class WebConfig(
     @ConditionalOnExpression("\${web.cors.enabled:true}")
     @Bean
     internal fun corsFilter(): CorsFilter {
-        val source = UrlBasedCorsConfigurationSource()
         val corsConfiguration =
             CorsConfiguration().apply {
-                allowCredentials = webCorsProperties.allowCredentials
-                allowedOriginPatterns =
-                    webCorsProperties
-                        .allowedOrigins
-                        .ifEmpty { setOf("*") }
-                        .toList()
-                allowedHeaders =
-                    webCorsProperties
-                        .allowedHeaders
-                        .ifEmpty { setOf("*") }
-                        .toList()
-                allowedMethods =
-                    webCorsProperties
-                        .allowedMethods
-                        .ifEmpty { setOf("*") }
-                        .toList()
-                exposedHeaders =
-                    webCorsProperties
-                        .exposedHeaders
-                        .plus(HttpHeaders.CONTENT_DISPOSITION)
-                        .toList()
-                maxAge = webCorsProperties.maxAge
-
-                getLogger(
-                    CorsFilter::class.java
-                        .name
-                ).info(
-                    listOf(
-                        "Cors is enabled",
-                        "allowCredentials is $allowCredentials",
-                        "allowedOrigins is $allowedOriginPatterns",
-                        "allowedHeaders is $allowedHeaders",
-                        "allowedMethods is $allowedMethods",
-                        "exposedHeaders is $exposedHeaders",
-                        "maxAge is $maxAge"
-                    ).joinToString()
-                )
+                BeanUtils.copyProperties(webCorsProperties, this)
+                getLogger(CorsFilter::class.java.name)
+                    .info(
+                        "Cors is enabled. " +
+                            "allowCredentials is $allowCredentials,  " +
+                            "allowedOriginPatterns is $allowedOriginPatterns, " +
+                            "allowedHeaders is $allowedHeaders, " +
+                            "allowedMethods is $allowedMethods, " +
+                            "exposedHeaders is $exposedHeaders, " +
+                            "maxAge is $maxAge"
+                    )
             }
-        source.registerCorsConfiguration("/**", corsConfiguration)
-        return CorsFilter(source)
-            .apply {
-                setCorsProcessor(ApiCorsProcessor())
-            }
+        return CorsFilter(
+            UrlBasedCorsConfigurationSource().apply { registerCorsConfiguration("/**", corsConfiguration) }
+        ).apply {
+            setCorsProcessor(ApiCorsProcessor())
+        }
     }
 
     @Bean
@@ -304,10 +278,10 @@ public data class WebCorsProperties
     constructor(
         @DefaultValue("false")
         val enabled: Boolean,
-        val allowedOrigins: Set<String> = setOf(),
-        val allowedHeaders: Set<String> = setOf(),
-        val allowedMethods: Set<String> = setOf(),
-        val exposedHeaders: Set<String> = setOf(),
+        val allowedOriginPatterns: List<String> = listOf("*"),
+        val allowedHeaders: List<String> = listOf("*"),
+        val allowedMethods: List<String> = listOf("*"),
+        val exposedHeaders: List<String> = listOf(HttpHeaders.CONTENT_DISPOSITION),
         val maxAge: Long = Long.MAX_VALUE,
         @DefaultValue("true")
         val allowCredentials: Boolean,

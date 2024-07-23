@@ -33,6 +33,8 @@ package com.tony.jackson
  * @author tangli
  * @date 2022/04/24 19:44
  */
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.BeanDescription
 import com.fasterxml.jackson.databind.JsonSerializer
@@ -123,9 +125,17 @@ public class NullValueBeanSerializerModifier : BeanSerializerModifier() {
         beanProperties.onEach {
             val type = it.type
             when {
-                type.isStringLikeType() || type.isDateTimeLikeType() -> it.assignNullSerializer(nullStrJsonSerializer)
+                type.isStringLikeType() -> it.assignNullSerializer(nullStrJsonSerializer)
+
+                type.isDateTimeLikeType() &&
+                    it.member.getAnnotation(JsonSetter::class.java)?.nulls == Nulls.AS_EMPTY -> {
+                    it.assignNullSerializer(nullStrJsonSerializer)
+                }
+
                 type.isArrayLikeType() -> it.assignNullSerializer(nullArrayJsonSerializer)
+
                 type.isBooleanType() || type.isEnumType -> Unit
+
                 type.isObjLikeType() -> it.assignNullSerializer(nullObjJsonSerializer)
             }
         }

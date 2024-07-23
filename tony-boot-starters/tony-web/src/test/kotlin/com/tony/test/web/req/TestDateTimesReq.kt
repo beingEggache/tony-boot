@@ -24,6 +24,8 @@
 
 package com.tony.test.web.req
 
+import com.fasterxml.jackson.annotation.JsonSetter
+import com.fasterxml.jackson.annotation.Nulls
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Date
@@ -35,6 +37,12 @@ import java.util.Date
  */
 data class TestDateTimesReq(
     val date: Date,
+    /**
+     * when web.fillResponseNullValueEnabled is true,
+     * and with [JsonSetter](nulls = Nulls.AS_EMPTY),
+     * will return empty string.
+     */
+    @get:JsonSetter(nulls = Nulls.AS_EMPTY)
     val localDateTime: LocalDateTime? = null,
     val localDate: LocalDate? = null,
 )

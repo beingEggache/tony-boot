@@ -1,6 +1,7 @@
 package com.tony.test
 
 import com.tony.db.service.ModuleService
+import com.tony.dto.req.ModuleQuery
 import com.tony.jwt.JwtToken
 import com.tony.utils.println
 import com.tony.utils.toJsonString
@@ -21,7 +22,7 @@ class ModuleTest {
 
     @Test
     fun test() {
-        val modules = moduleService.listRouteAndComponentModules("b066a8a6dc2a4bdbb6013043df8400b2", "Lx-Api")
+        val modules = moduleService.list(ModuleQuery())
         println(modules.toJsonString())
     }
 
