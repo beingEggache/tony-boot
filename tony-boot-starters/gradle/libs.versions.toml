@@ -73,6 +73,7 @@ graalvm = "0.10.2"
 dokka = "1.9.20"
 
 [libraries]
+test = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlinBom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlinStdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
