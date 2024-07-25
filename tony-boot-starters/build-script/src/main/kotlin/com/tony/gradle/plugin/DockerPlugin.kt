@@ -80,11 +80,9 @@ class DockerPlugin : Plugin<Project> {
             copySpec
                 .from(outputs)
                 .into("")
-            buildArgs(
-                mapOf(
-                    "JAR_FILE" to outputs.files.singleFile.name
-                )
-            )
+            val args = project.properties.mapValues { (_, v) -> v.toString() }.toMutableMap()
+            args.putIfAbsent("JAR_FILE", outputs.files.singleFile.name)
+            buildArgs(args)
             taskNameList =
                 namedTags
                     .keys

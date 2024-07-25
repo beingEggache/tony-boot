@@ -6,6 +6,7 @@ RUN java -Djarmode=tools -jar app.jar extract --layers --destination extracted
 
 FROM eclipse-temurin:21-jre-alpine
 RUN echo "Asia/Shanghai" > /etc/timezone
+
 WORKDIR app
 #-XX:+EnableDynamicAgentLoading hide "Java agent has been loaded dynamically" warning.
 # https://zhuanlan.zhihu.com/p/528949267
@@ -29,6 +30,12 @@ ENV PROPS=""
 ENV ENABLE_ERROR_LOGS="true"
 ENV ENABLE_GC_LOGS="false"
 ENV ENABLE_JVM_LOGS="false"
+
+ENV GID=0
+ENV UID=0
+ENV USER_NAME="root"
+ENV GROUP_NAME=${USER_NAME}
+USER ${USER_NAME}
 
 EXPOSE 10000
 VOLUME ["/logs","/tmp"]

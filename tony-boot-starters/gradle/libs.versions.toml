@@ -65,6 +65,8 @@ netty = "4.1.112.Final"
 grpc = "1.65.1"
 protobuf = "4.27.2"
 
+grpcSpringBoot = "3.1.0.RELEASE"
+
 lombok = "8.6"
 ktlint = "1.3.1"
 graalvm = "0.10.2"
@@ -140,6 +142,10 @@ grpcNetty = { module = "io.grpc:grpc-netty", version.ref = "grpc" }
 grpcOkhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpc" }
 
 protocGenGrpcJava = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc" }
+
+grpcSpringBootStarter = { module = "net.devh:grpc-spring-boot-starter", version.ref = "grpcSpringBoot" }
+grpcServerSpringBootStarter = { module = "net.devh:grpc-server-spring-boot-starter", version.ref = "grpcSpringBoot" }
+grpcClientSpringBootStarter = { module = "net.devh:grpc-client-spring-boot-starter", version.ref = "grpcSpringBoot" }
 
 openFeignCore = { module = "io.github.openfeign:feign-core", version.ref = "openFeign" }
 openFeignSl4j = { module = "io.github.openfeign:feign-slf4j", version.ref = "openFeign" }
@@ -241,9 +247,7 @@ snakeYaml = { module = "org.yaml:snakeyaml", version = "2.2" }
 yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version = "1.0.6" }
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
 
-grpcSpringBootStarter = { module = "net.devh:grpc-spring-boot-starter", version = "3.1.0.RELEASE" }
-
-aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6.4" }
+aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.1" }
 gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.36.0"}
 
 [plugins]
