@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.support.serviceOf
-
 buildscript {
     repositories {
         mavenLocal()
@@ -27,20 +25,7 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         register("tonyLibs") {
-            from(
-                buildscript.configurations.create("catalog") {
-                    dependencies.add(
-                        buildscript.dependencies
-                            .create("com.tony:tony-dependencies-catalog:0.1-SNAPSHOT")
-                    )
-                    attributes {
-                        val objects = gradle.serviceOf<ObjectFactory>()
-
-                        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.REGULAR_PLATFORM))
-                        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.VERSION_CATALOG))
-                    }
-                }
-            )
+            from("com.tony:tony-dependencies-catalog:0.1-SNAPSHOT")
         }
     }
 }
