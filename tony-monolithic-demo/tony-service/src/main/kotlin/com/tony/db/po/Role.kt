@@ -40,9 +40,24 @@ class Role {
     var roleCode: String = ""
 
     /**
+     * 系统内建,不可删除
+     */
+    @TableField(
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    var buildIn: Boolean? = null
+
+    /**
      * 排序
      */
+    @OrderBy
     var sort: Int = 0
+
+    /**
+     * 状态：1-启用，0-禁用
+     */
+    var enabled: Boolean? = null
 
     /**
      * 备注
@@ -111,11 +126,6 @@ class Role {
         updateStrategy = FieldStrategy.NEVER
     )
     var updatorName: String = ""
-
-    /**
-     * 状态：1-启用，0-禁用
-     */
-    var enabled: Boolean? = null
 
     /**
      * 删除标记：1-已删除，0-未删除

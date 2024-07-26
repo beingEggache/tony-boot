@@ -1,6 +1,8 @@
 package com.tony.db.service
 
 import com.tony.db.dao.EmployeeDao
+import com.tony.db.dao.ModuleDao
+import com.tony.db.dao.RoleDao
 import com.tony.db.po.Employee
 import com.tony.dto.enums.ModuleType
 import com.tony.dto.req.ChangePwdReq
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Service
 @Service
 class IndexService(
     private val employeeDao: EmployeeDao,
+    private val roleDao: RoleDao,
+    private val moduleDao: ModuleDao,
 ) {
     /**
      * 登录
@@ -68,13 +72,19 @@ class IndexService(
                     it.employeeMobile
                 )
             }
+        val employeeHasAdminRole = roleDao.selectEmployeeHasBuildInRole(employeeId, "ADMIN")
         val modules =
-            employeeDao.selectEmployeeModulesByEmployeeIdAndAppId(
-                employeeId,
-                appId,
-                tenantId,
-                listOf(ModuleType.ROUTE, ModuleType.NODE, ModuleType.COMPONENT)
-            )
+            if (employeeHasAdminRole) {
+                moduleDao.selectByAppId(appId)
+            } else {
+                employeeDao.selectEmployeeModulesByEmployeeIdAndAppId(
+                    employeeId,
+                    appId,
+                    tenantId,
+                    listOf(ModuleType.ROUTE, ModuleType.NODE, ModuleType.COMPONENT)
+                )
+            }
+
         val route =
             modules
                 .filter { it.moduleType == ModuleType.ROUTE || it.moduleType == ModuleType.NODE }

@@ -27,7 +27,7 @@ data class DeptUpdateReq(
     @Schema(description = "状态", required = true)
     val enabled: Boolean?,
     @Schema(description = "备注")
-    val remarks: String = "",
+    val remark: String = "",
     @get:TenantIdInject
     @Schema(hidden = true)
     val tenantId: String = "",

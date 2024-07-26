@@ -42,6 +42,7 @@ class RoleService(
             .ktQuery()
             .like(req.query.roleName.isNotBlank(), Role::roleName, req.query.roleName)
             .eq(req.query.enabled != null, Role::enabled, req.query.enabled)
+            .eq(Role::buildIn, false)
             .eq(Role::tenantId, req.query.tenantId)
             .pageResult(req)
             .map { it.copyTo() }

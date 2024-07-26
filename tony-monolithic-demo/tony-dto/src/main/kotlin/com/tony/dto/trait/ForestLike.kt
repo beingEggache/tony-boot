@@ -11,7 +11,7 @@ import com.tony.utils.ifNullOrBlank
  * @date 2020-11-23 11:10
  */
 
-private const val CODE_PATTERN_STR = "[a-zA-Z0-9一二三四五六七八九零ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+"
+private const val CODE_PATTERN_STR = "[a-zA-Z0-9一二三四五六七八九零ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ_]+"
 private val ancestorPattern: Regex = Regex(CODE_PATTERN_STR)
 
 fun <T : ForestLike<T>> Collection<T>.listAndSetChildren(): List<T> =

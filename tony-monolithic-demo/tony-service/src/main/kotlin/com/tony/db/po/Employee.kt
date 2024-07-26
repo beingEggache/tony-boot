@@ -72,6 +72,11 @@ class Employee {
     var accountState: AccountState? = null
 
     /**
+     * 状态：1-启用，0-禁用
+     */
+    var enabled: Boolean? = null
+
+    /**
      * 备注
      */
     @TableField(
@@ -138,11 +143,6 @@ class Employee {
         updateStrategy = FieldStrategy.NEVER
     )
     var updatorName: String = ""
-
-    /**
-     * 状态：1-启用，0-禁用
-     */
-    var enabled: Boolean? = null
 
     /**
      * 删除标记：1-已删除，0-未删除

@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(description = "模块查询")
 data class ModuleQuery(
     val moduleTypes: Collection<ModuleType> = listOf(ModuleType.ROUTE, ModuleType.COMPONENT),
-    @AppIdInject
+    @get:AppIdInject
     @Schema(hidden = true)
     val appId: String = "",
 )

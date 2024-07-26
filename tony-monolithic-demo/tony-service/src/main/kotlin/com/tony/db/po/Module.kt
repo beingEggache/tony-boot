@@ -73,6 +73,11 @@ class Module {
     var moduleMeta: String = "{}"
 
     /**
+     * 状态：1-启用，0-禁用
+     */
+    var enabled: Boolean? = null
+
+    /**
      * 备注
      */
     var remark: String = ""
@@ -136,11 +141,6 @@ class Module {
         updateStrategy = FieldStrategy.NEVER
     )
     var updatorName: String = ""
-
-    /**
-     * 状态：1-启用，0-禁用
-     */
-    var enabled: Boolean? = null
 
     /**
      * 删除标记：1-已删除，0-未删除

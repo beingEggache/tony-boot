@@ -26,7 +26,7 @@ data class EmployeeAddReq(
     @Schema(description = "部门")
     val deptIds: Set<String> = setOf(),
     @Schema(description = "备注")
-    val remarks: String = "",
+    val remark: String = "",
     @get:TenantIdInject
     @Schema(hidden = true)
     val tenantId: String = "",

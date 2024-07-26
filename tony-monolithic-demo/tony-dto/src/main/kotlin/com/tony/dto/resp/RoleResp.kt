@@ -10,9 +10,9 @@ import java.time.LocalDateTime
  */
 @Schema(description = "角色响应")
 data class RoleResp(
-    @Schema(description = "id", required = true)
+    @Schema(description = "id")
     val roleId: String,
-    @Schema(description = "名称", required = true)
+    @Schema(description = "名称")
     val roleName: String,
     @Schema(description = "排序")
     val sort: Int,

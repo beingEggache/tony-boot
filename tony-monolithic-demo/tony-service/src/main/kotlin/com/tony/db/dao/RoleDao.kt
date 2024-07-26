@@ -9,13 +9,13 @@ import org.apache.ibatis.annotations.Param
 
 interface RoleDao : BaseDao<Role> {
     /**
-     * 插入用户角色
-     * @param [employeeId] 用户id
-     * @param [roleIds] 角色ID
+     * 插入员工角色
+     * @param [employeeId] 员工id
+     * @param [roleIds] 角色id
      * @param [tenantId] 租户id
      * @return [Int]
      * @author tangli
-     * @date 2024/07/11 09:14
+     * @date 2024/07/05 11:02
      * @since 1.0.0
      */
     fun insertEmployeeRoles(
@@ -29,7 +29,7 @@ interface RoleDao : BaseDao<Role> {
 
     /**
      * 删除用户角色
-     * @param [employeeId] 用户id
+     * @param [employeeId] 员工id
      * @param [tenantId] 租户id
      * @return [Int]
      * @author tangli
@@ -62,9 +62,11 @@ interface RoleDao : BaseDao<Role> {
     /**
      * 查询用户角色
      * @param [employeeId] 员工id
+     * @param [tenantId] 租户id
+     * @param [includeBuildIn] 包括内置
      * @return [List]<[RoleResp]>
      * @author tangli
-     * @date 2024/07/09 10:35
+     * @date 2024/07/26 11:07
      * @since 1.0.0
      */
     fun selectEmployeeRoles(
@@ -72,7 +74,47 @@ interface RoleDao : BaseDao<Role> {
         employeeId: String,
         @Param("tenantId")
         tenantId: String,
+        @Param("includeBuildIn")
+        includeBuildIn: Boolean,
     ): List<RoleResp>
+
+    /**
+     * 查询用户角色
+     * @param [employeeId] 员工id
+     * @param [tenantId] 租户id
+     * @return [List]<[RoleResp]>
+     * @author tangli
+     * @date 2024/07/26 11:07
+     * @since 1.0.0
+     */
+    fun selectEmployeeRoles(
+        employeeId: String,
+        tenantId: String,
+    ): List<RoleResp> =
+        selectEmployeeRoles(
+            employeeId,
+            tenantId,
+            false
+        )
+
+    /**
+     * 查询员工是否具有内置角色
+     * @param [employeeId] 员工id
+     * @param [roleId] 角色id
+     * @return [Boolean]
+     * @author tangli
+     * @date 2024/07/26 11:15
+     * @since 1.0.0
+     */
+    fun selectEmployeeHasBuildInRole(
+        employeeId: String,
+        roleId: String,
+    ): Boolean =
+        selectEmployeeRoles(
+            employeeId,
+            "",
+            true
+        ).any { it.roleId == roleId }
 
     /**
      * 插入角色模块
@@ -112,7 +154,7 @@ interface RoleDao : BaseDao<Role> {
     /**
      * 列出角色模块
      * @param [roleId] 角色id
-     * @return [List<ModuleResp>]
+     * @return [List]<[ModuleResp]>
      * @author tangli
      * @date 2024/07/05 14:43
      * @since 1.0.0
