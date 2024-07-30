@@ -1,0 +1,44 @@
+package com.tony.sys.dto.req
+
+import com.tony.annotation.TenantIdInject
+import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
+
+/**
+ * 新增角色请求
+ * @author tangli
+ * @date 2024/07/04 11:07
+ * @since 1.0.0
+ */
+@Schema(description = "更新角色请求")
+data class RoleUpdateReq(
+    @get:NotBlank(message = "请选择")
+    @Schema(description = "id", required = true)
+    val roleId: String = "",
+    /**
+     * 角色名
+     */
+    @get:NotBlank(message = "请输入名称")
+    @Schema(description = "名称", required = true)
+    val roleName: String = "",
+    @Schema(description = "排序", required = true)
+    val sort: Int = -1,
+    /**
+     * 备注
+     */
+    @Schema(description = "备注")
+    val remark: String = "",
+    /**
+     * 状态：1-启用，0-禁用
+     */
+    @NotNull
+    @Schema(description = "状态", required = true)
+    val enabled: Boolean?,
+    /**
+     * 租户id
+     */
+    @get:TenantIdInject
+    @Schema(hidden = true)
+    val tenantId: String = "",
+)

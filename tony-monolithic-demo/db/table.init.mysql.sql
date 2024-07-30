@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS `sys_employee`
 (
     `employee_id`     varchar(50)  NOT NULL COMMENT '员工id',
     `account`         varchar(30)  NOT NULL COMMENT '员工登录名',
-    `employee_no`     varchar(30)  NOT NULL COMMENT '员工登录名',
     `real_name`       varchar(30)  NOT NULL COMMENT '员工真实姓名',
     `employee_mobile` varchar(14)  NOT NULL COMMENT '手机号',
     `pwd`             varchar(100) NOT NULL COMMENT '密码',
@@ -29,13 +28,13 @@ CREATE TABLE IF NOT EXISTS `sys_employee`
     `update_time`     timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `updator_id`      varchar(32)  NOT NULL DEFAULT '' COMMENT '更新人',
     `updator_name`    varchar(30)  NOT NULL DEFAULT '' COMMENT '更新人名称',
-    `deleted`         tinyint      NOT NULL DEFAULT '0' COMMENT '删除标记：1-已删除，0-未删除',
+    `delete_time`     timestamp    NULL     DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`employee_id`),
     KEY `idx_account` (`account`),
     KEY `idx_employee_mobile` (`employee_mobile`)
-    ) ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_general_ci COMMENT ='员工';
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='员工';
 
 CREATE TABLE IF NOT EXISTS `sys_role`
 (
@@ -51,13 +50,13 @@ CREATE TABLE IF NOT EXISTS `sys_role`
     `update_time`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `updator_id`   varchar(32)  NOT NULL DEFAULT '' COMMENT '更新人',
     `updator_name` varchar(30)  NOT NULL DEFAULT '' COMMENT '更新人名称',
-    `deleted`      tinyint      NOT NULL DEFAULT '0' COMMENT '删除标记：1-已删除，0-未删除',
+    `delete_time`  timestamp    NULL     DEFAULT NULL COMMENT '删除时间',
     `tenant_id`    varchar(32)  NOT NULL DEFAULT '' COMMENT '租户id',
     PRIMARY KEY (`role_id`),
     KEY `idx_role_name` (`role_name`)
-    ) ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_general_ci COMMENT ='角色';
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='角色';
 
 CREATE TABLE IF NOT EXISTS `sys_dept`
 (
@@ -75,13 +74,13 @@ CREATE TABLE IF NOT EXISTS `sys_dept`
     `update_time`    timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `updator_id`     varchar(32)  NOT NULL DEFAULT '' COMMENT '更新人',
     `updator_name`   varchar(30)  NOT NULL DEFAULT '' COMMENT '更新人名称',
-    `deleted`        tinyint      NOT NULL DEFAULT '0' COMMENT '删除标记：1-已删除，0-未删除',
+    `delete_time`    timestamp    NULL     DEFAULT NULL COMMENT '删除时间',
     `tenant_id`      varchar(32)  NOT NULL DEFAULT '' COMMENT '租户id',
     PRIMARY KEY (`dept_id`),
     KEY `idx_dept_code_seq` (`dept_code_seq`)
-    ) ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_general_ci COMMENT ='部门';
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='部门';
 
 CREATE TABLE IF NOT EXISTS `sys_module`
 (
@@ -103,11 +102,11 @@ CREATE TABLE IF NOT EXISTS `sys_module`
     `update_time`      timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `updator_id`       varchar(32)  NOT NULL DEFAULT '' COMMENT '更新人',
     `updator_name`     varchar(30)  NOT NULL DEFAULT '' COMMENT '更新人名称',
-    `deleted`          tinyint      NOT NULL DEFAULT '0' COMMENT '删除标记：1-已删除，0-未删除',
+    `delete_time`      timestamp    NULL     DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`module_id`)
-    ) ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_general_ci COMMENT ='模块(菜单,按钮,接口)';
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='模块(菜单,按钮,接口)';
 
 CREATE TABLE IF NOT EXISTS `sys_employee_role`
 (
@@ -115,9 +114,9 @@ CREATE TABLE IF NOT EXISTS `sys_employee_role`
     `role_id`     varchar(50) NOT NULL,
     `tenant_id`   varchar(32) NOT NULL DEFAULT '' COMMENT '租户id',
     PRIMARY KEY (`employee_id`, `role_id`)
-    ) ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_general_ci;
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `sys_employee_dept`
 (
@@ -125,9 +124,9 @@ CREATE TABLE IF NOT EXISTS `sys_employee_dept`
     `dept_id`     varchar(50) NOT NULL,
     `tenant_id`   varchar(50) NOT NULL DEFAULT '' COMMENT '租户id',
     PRIMARY KEY (`employee_id`, `dept_id`)
-    ) ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_general_ci;
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `sys_role_module`
 (
@@ -135,9 +134,9 @@ CREATE TABLE IF NOT EXISTS `sys_role_module`
     `module_id` varchar(50) NOT NULL,
     `tenant_id` varchar(50) NOT NULL DEFAULT '' COMMENT '租户id',
     PRIMARY KEY (`role_id`, `module_id`)
-    ) ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_general_ci;
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `sys_dict_type`
 (
@@ -156,17 +155,18 @@ CREATE TABLE IF NOT EXISTS `sys_dict_type`
     `update_time`         timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `updator_id`          varchar(32)  NOT NULL DEFAULT '' COMMENT '更新人',
     `updator_name`        varchar(30)  NOT NULL DEFAULT '' COMMENT '更新人名称',
-    `deleted`             tinyint      NOT NULL DEFAULT '0' COMMENT '删除标记：1-已删除，0-未删除',
+    `delete_time`         timestamp    NULL     DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`dict_type_id`)
-    ) ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_general_ci COMMENT ='字典类型';
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='字典类型';
 
 CREATE TABLE IF NOT EXISTS `sys_dict`
 (
     `dict_id`      varchar(50)  NOT NULL,
     `dict_type_id` varchar(50)  NOT NULL COMMENT '字典类型id',
     `dict_name`    varchar(50)  NOT NULL COMMENT '字典标签',
+    `dict_code`    varchar(50)  NOT NULL COMMENT '字典code',
     `dict_value`   varchar(50)  NOT NULL COMMENT '字典值',
     `dict_meta`    json         NOT NULL DEFAULT ('{}') COMMENT '字典meta',
     `build_in`     tinyint      NOT NULL DEFAULT '0' COMMENT '系统内建,不可删除',
@@ -178,9 +178,9 @@ CREATE TABLE IF NOT EXISTS `sys_dict`
     `update_time`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `updator_id`   varchar(32)  NOT NULL DEFAULT '' COMMENT '更新人',
     `updator_name` varchar(30)  NOT NULL DEFAULT '' COMMENT '更新人名称',
-    `deleted`      tinyint      NOT NULL DEFAULT '0' COMMENT '删除标记：1-已删除，0-未删除',
+    `delete_time`  timestamp    NULL     DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`dict_id`),
     KEY `idx_sys_dict_type_id` (`dict_type_id`)
-    ) ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_general_ci COMMENT ='字典';
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='字典';

@@ -37,6 +37,17 @@ import com.tony.exception.BaseException
 import com.tony.exception.BizException
 
 /**
+ * Not equal
+ * @param other
+ * @return result
+ * @author tangli
+ * @date 2023/11/07 19:38
+ * @since 1.0.0
+ */
+public fun Any?.notEquals(other: Any?): Boolean =
+    this != other
+
+/**
  * 如果为null, 提供默认值.
  * @receiver [T]?
  * @param [T] 自身类型
@@ -190,12 +201,30 @@ public inline fun <T> T.alsoIf(
  * @param ex 异常类型
  */
 @JvmOverloads
-public fun Boolean.throwIfTrue(
+public fun Boolean?.throwIfTrue(
     message: String,
     code: Int = ApiProperty.preconditionFailedCode,
     ex: (message: String, code: Int) -> BaseException = ::BizException,
 ) {
-    if (this) throw ex(message, code)
+    if (this == true) throw ex(message, code)
+}
+
+/**
+ * 当[this]为假时,抛出[BizException]异常.
+ *
+ * 异常信息为[message], 异常代码为[code],默认为[ApiProperty.preconditionFailedCode]
+ *
+ * @param message 异常信息
+ * @param code 异常代码
+ * @param ex 异常类型
+ */
+@JvmOverloads
+public fun Boolean?.throwIfFalse(
+    message: String,
+    code: Int = ApiProperty.preconditionFailedCode,
+    ex: (message: String, code: Int) -> BaseException = ::BizException,
+) {
+    if (this == false) throw ex(message, code)
 }
 
 /**

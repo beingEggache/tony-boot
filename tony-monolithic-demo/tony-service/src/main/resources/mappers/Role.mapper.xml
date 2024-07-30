@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tony.db.dao.RoleDao">
+<mapper namespace="com.tony.sys.dao.RoleDao">
 
     <insert id="insertEmployeeRoles">
         insert into sys_employee_role(employee_id, role_id, tenant_id)
@@ -30,7 +30,7 @@
         delete from sys_role_module where role_id = #{roleId} and tenant_id = #{tenantId}
     </delete>
 
-    <select id="selectRoleModules" resultType="com.tony.dto.resp.ModuleResp">
+    <select id="selectRoleModules" resultType="com.tony.sys.dto.resp.ModuleResp">
         select
         distinctrow
         m.module_id,
@@ -50,7 +50,7 @@
         and m.module_type in <foreach open="(" close=")" collection="moduleTypes" item="moduleType" separator=",">#{moduleType}</foreach>
     </select>
 
-    <select id="selectEmployeeRoles" resultType="com.tony.dto.resp.RoleResp">
+    <select id="selectEmployeeRoles" resultType="com.tony.sys.dto.resp.RoleResp">
         select
         distinct
         r.role_id,

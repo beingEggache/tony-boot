@@ -27,7 +27,7 @@ package com.tony.captcha
 import com.tony.SpringContexts
 import com.tony.redis.RedisManager
 import com.tony.redis.RedisValues
-import com.tony.utils.throwIfTrue
+import com.tony.utils.throwIfFalse
 import com.tony.utils.uuid
 import com.wf.captcha.SpecCaptcha
 import java.util.concurrent.TimeUnit
@@ -90,7 +90,7 @@ public data object CaptchaManager {
         message: String = "验证码错误",
         func: Supplier<R>,
     ): R {
-        (!captchaService.verify(vo)).throwIfTrue(message)
+        captchaService.verify(vo).throwIfFalse(message)
         val apply = func.get()
         RedisManager.delete(vo.captchaKeyRule(vo))
         return apply

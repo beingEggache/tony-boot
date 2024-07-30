@@ -31,6 +31,7 @@ import com.tony.PageResultLike
 import com.tony.exception.BaseException
 import com.tony.mybatis.dao.BaseDao
 import com.tony.mybatis.dao.getEntityClass
+import com.tony.utils.throwIfFalse
 import com.tony.utils.throwIfNull
 import com.tony.utils.throwIfTrue
 import java.util.Collections
@@ -113,7 +114,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @since 1.0.0
      */
     public fun throwIfNotExists(message: String) {
-        (!exists()).throwIfTrue(message, ApiProperty.notFoundCode)
+        exists().throwIfFalse(message, ApiProperty.notFoundCode)
     }
 
     /**
@@ -128,7 +129,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
         message: String,
         ex: (message: String, code: Int) -> BaseException,
     ) {
-        (!exists()).throwIfTrue(message, ApiProperty.notFoundCode)
+        exists().throwIfFalse(message, ApiProperty.notFoundCode)
     }
 
     /**

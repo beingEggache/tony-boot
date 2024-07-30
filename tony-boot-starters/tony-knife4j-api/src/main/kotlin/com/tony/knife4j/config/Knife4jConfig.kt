@@ -30,6 +30,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Contact
 import io.swagger.v3.oas.models.info.Info
+import io.swagger.v3.oas.models.responses.ApiResponses
 import org.slf4j.LoggerFactory
 import org.springdoc.core.models.GroupedOpenApi
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
@@ -68,7 +69,10 @@ internal class Knife4jExtensionConfig(
         return GroupedOpenApi
             .builder()
             .group("default")
-            .addOpenApiMethodFilter {
+            .addOperationCustomizer { operation, _ ->
+                operation.responses = ApiResponses().addApiResponse("200", operation.responses["200"])
+                operation
+            }.addOpenApiMethodFilter {
                 it
                     .annotations
                     .map { annotation ->
