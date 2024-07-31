@@ -30,11 +30,13 @@ import com.tony.ListResult
 import com.tony.misc.notSupportResponseWrapClasses
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
+import com.tony.utils.getLogger
 import com.tony.utils.isArrayLikeType
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.web.WebContext
 import com.tony.web.utils.url
 import java.util.Collections
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType
 import org.springframework.http.converter.HttpMessageConverter
@@ -50,8 +52,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
  * @author tangli
  * @date 2023/05/25 19:51
  */
+@ConditionalOnExpression("false")
 @RestControllerAdvice
 internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
+    private val logger = getLogger()
+
+    init {
+        logger.info("Response wrap is enabled")
+    }
+
     override fun beforeBodyWrite(
         body: Any?,
         returnType: MethodParameter,

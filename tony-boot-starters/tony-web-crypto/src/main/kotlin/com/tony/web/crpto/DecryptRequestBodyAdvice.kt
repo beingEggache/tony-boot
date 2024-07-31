@@ -32,9 +32,11 @@ package com.tony.web.crpto
 import com.tony.annotation.web.crypto.DecryptRequestBody
 import com.tony.crypto.CryptoProvider
 import com.tony.crypto.symmetric.decryptToBytes
+import com.tony.utils.getLogger
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.lang.reflect.Type
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpHeaders
@@ -133,7 +135,14 @@ public interface DecryptRequestBodyAdvice :
     }
 }
 
+@ConditionalOnExpression("false")
 @RestControllerAdvice
 internal class DefaultDecryptRequestBodyAdvice(
     override val cryptoProvider: CryptoProvider,
-) : DecryptRequestBodyAdvice
+) : DecryptRequestBodyAdvice {
+    private val logger = getLogger()
+
+    init {
+        logger.info("Request body decrypt is enabled.")
+    }
+}

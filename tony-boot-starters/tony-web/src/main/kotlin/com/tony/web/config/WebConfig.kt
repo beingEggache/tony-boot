@@ -113,33 +113,13 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
     @Bean
-    internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter {
-        val logger =
-            getLogger(
-                TraceLoggingFilter::class.java
-                    .name
-            )
-        logger.info("Request trace log is enabled")
-        if (webProperties.traceLoggerEnabled &&
-            webProperties
-                .traceLogExcludePatterns
-                .isNotEmpty()
-        ) {
-            logger.info("Request trace log exclude patterns: ${webProperties.traceLogExcludePatterns}")
-        }
-        return TraceLoggingFilter(requestTraceLogger, webProperties.traceLogExcludePatterns)
-    }
+    internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter =
+        TraceLoggingFilter(requestTraceLogger, webProperties.traceLogExcludePatterns)
 
     @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
     @Bean
     internal fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice =
         WrapResponseBodyAdvice()
-            .apply {
-                getLogger(
-                    WrapResponseBodyAdvice::class.java
-                        .name
-                ).info("Response wrap is enabled")
-            }
 
     @Bean
     internal fun exceptionHandler() =

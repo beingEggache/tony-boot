@@ -25,7 +25,6 @@
 package com.tony.web.crpto.config
 
 import com.tony.crypto.CryptoProvider
-import com.tony.utils.getLogger
 import com.tony.web.crpto.DecryptRequestBodyAdvice
 import com.tony.web.crpto.DefaultDecryptRequestBodyAdvice
 import com.tony.web.crpto.DefaultEncryptResponseBodyAdvice
@@ -54,7 +53,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 )
 internal class WebCryptoConfig {
     @Resource
-    private fun initMappingJackson2HttpMessageConverter(
+    internal fun initMappingJackson2HttpMessageConverter(
         mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
     ) {
         val supportedMediaTypes =
@@ -70,21 +69,9 @@ internal class WebCryptoConfig {
     @Bean
     internal fun decryptRequestBodyAdvice(cryptoProvider: CryptoProvider): DecryptRequestBodyAdvice =
         DefaultDecryptRequestBodyAdvice(cryptoProvider)
-            .apply {
-                getLogger(
-                    this::class.java
-                        .name
-                ).info("Request body decrypt is enabled.")
-            }
 
     @ConditionalOnMissingBean(EncryptResponseBodyAdvice::class)
     @Bean
     internal fun encryptResponseBodyAdvice(cryptoProvider: CryptoProvider): EncryptResponseBodyAdvice =
         DefaultEncryptResponseBodyAdvice(cryptoProvider)
-            .apply {
-                getLogger(
-                    this::class.java
-                        .name
-                ).info("Response body encrypt is enabled.")
-            }
 }

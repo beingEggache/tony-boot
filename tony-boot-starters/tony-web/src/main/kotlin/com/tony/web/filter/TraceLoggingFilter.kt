@@ -32,6 +32,7 @@ package com.tony.web.filter
  */
 import com.tony.TRACE_ID_HEADER_NAME
 import com.tony.utils.antPathMatchAny
+import com.tony.utils.getLogger
 import com.tony.utils.mdcPutOrGetDefault
 import com.tony.utils.sanitizedPath
 import com.tony.utils.toInstant
@@ -65,6 +66,15 @@ internal class TraceLoggingFilter(
     traceLogExcludePatterns: List<String>,
 ) : OncePerRequestFilter(),
     PriorityOrdered {
+    private val log = getLogger()
+
+    init {
+        log.info("Request trace log is enabled")
+        if (traceLogExcludePatterns.isNotEmpty()) {
+            log.info("Request trace log exclude patterns: $traceLogExcludePatterns")
+        }
+    }
+
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
         WebContext
             .responseWrapExcludePatterns
@@ -115,7 +125,7 @@ internal class TraceLoggingFilter(
             elapsedTime
         )
     } catch (e: Exception) {
-        logger.error(e.message, e)
+        log.error(e.message, e)
     }
 
     override fun shouldNotFilter(request: HttpServletRequest) =

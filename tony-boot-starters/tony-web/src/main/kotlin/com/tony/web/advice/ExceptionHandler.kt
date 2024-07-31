@@ -36,6 +36,7 @@ import com.tony.web.WebContext
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.ConstraintViolationException
 import org.springframework.beans.TypeMismatchException
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.http.HttpStatus
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -58,6 +59,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException
  * @author tangli
  * @date 2023/05/25 19:53
  */
+@ConditionalOnExpression("false")
 @RestControllerAdvice
 internal class ExceptionHandler : ErrorController {
     private val logger = getLogger()

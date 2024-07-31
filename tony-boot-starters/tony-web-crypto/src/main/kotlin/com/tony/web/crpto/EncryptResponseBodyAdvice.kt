@@ -34,10 +34,12 @@ import com.tony.ENCRYPTED_HEADER_NAME
 import com.tony.annotation.web.crypto.EncryptResponseBody
 import com.tony.crypto.CryptoProvider
 import com.tony.crypto.symmetric.encryptToString
+import com.tony.utils.getLogger
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.toJsonString
 import com.tony.utils.trimQuotes
 import com.tony.web.WebContext
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.core.MethodParameter
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.MediaType
@@ -110,7 +112,14 @@ public interface EncryptResponseBodyAdvice :
         PriorityOrdered.LOWEST_PRECEDENCE
 }
 
+@ConditionalOnExpression("false")
 @RestControllerAdvice
 internal class DefaultEncryptResponseBodyAdvice(
     override val cryptoProvider: CryptoProvider,
-) : EncryptResponseBodyAdvice
+) : EncryptResponseBodyAdvice {
+    private val logger = getLogger()
+
+    init {
+        logger.info("Response body encrypt is enabled.")
+    }
+}
