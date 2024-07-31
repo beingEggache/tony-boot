@@ -36,6 +36,7 @@ import com.tony.jackson.InjectableValueSupplier
 import com.tony.jackson.InjectableValuesBySupplier
 import com.tony.jackson.NullValueBeanSerializerModifier
 import com.tony.misc.YamlPropertySourceFactory
+import com.tony.utils.asTo
 import com.tony.utils.createObjectMapper
 import com.tony.utils.getLogger
 import com.tony.utils.toJsonString
@@ -63,6 +64,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.format.FormatterRegistry
 import org.springframework.http.HttpHeaders
+import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.http.server.ServerHttpResponse
@@ -94,6 +96,27 @@ internal class WebConfig(
     override fun addFormatters(registry: FormatterRegistry) {
         registry.addConverterFactory(EnumIntValueConverterFactory())
         registry.addConverterFactory(EnumStringValueConverterFactory())
+    }
+
+    override fun configureMessageConverters(converters: MutableList<HttpMessageConverter<*>>) {
+        if (webProperties.fillResponseNullValueEnabled) {
+            converters
+                .firstOrNull { it is MappingJackson2HttpMessageConverter }
+                .asTo<MappingJackson2HttpMessageConverter>()
+                ?.let { mappingJackson2HttpMessageConverter ->
+                    getLogger(
+                        NullValueBeanSerializerModifier::class.java
+                            .name
+                    ).info("Fill response null value enabled")
+                    mappingJackson2HttpMessageConverter
+                        .objectMapper
+                        .apply {
+                            serializerFactory =
+                                serializerFactory
+                                    .withSerializerModifier(NullValueBeanSerializerModifier())
+                        }
+                }
+        }
     }
 
     @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
@@ -172,26 +195,6 @@ internal class WebConfig(
                             .associateBy { it.name }
                     )
             }
-
-    @Bean
-    internal fun initMappingJackson2HttpMessageConverter(
-        mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
-        objectMapper: ObjectMapper,
-    ): String {
-        if (webProperties.fillResponseNullValueEnabled) {
-            getLogger(
-                NullValueBeanSerializerModifier::class.java
-                    .name
-            ).info("Fill response null value enabled")
-            mappingJackson2HttpMessageConverter.objectMapper =
-                objectMapper.apply {
-                    serializerFactory =
-                        serializerFactory
-                            .withSerializerModifier(NullValueBeanSerializerModifier())
-                }
-        }
-        return ""
-    }
 }
 
 /**
