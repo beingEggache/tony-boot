@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `sys_module`
     `app_id`           varchar(50)  NOT NULL DEFAULT '' COMMENT '应用ID',
     `parent_module_id` varchar(50)  NOT NULL DEFAULT '' NOT NULL COMMENT '上级id',
     `module_name`      varchar(50)  NOT NULL COMMENT '模块名',
-    `module_code`      varchar(50)  NOT NULL COMMENT '编码',
+    `module_code`      varchar(50)  NOT NULL DEFAULT '' COMMENT '编码',
     `module_code_seq`  varchar(300) NOT NULL COMMENT '编码序列',
     `module_value`     varchar(200) NOT NULL COMMENT '模块值（接口URL，前端路由，前端组件名）',
     `module_type`      smallint     NOT NULL COMMENT '模块类型:0-节点(纯做树形结构的节点), 1-接口，2-前端路由，3-前端组件）',
