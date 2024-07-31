@@ -2,7 +2,7 @@ package com.tony.test
 
 import com.tony.jwt.JwtToken
 import com.tony.sys.dto.req.ModuleQuery
-import com.tony.sys.service.ModuleService
+import com.tony.demo.sys.service.ModuleService
 import com.tony.utils.println
 import com.tony.utils.toJsonString
 import jakarta.annotation.Resource
