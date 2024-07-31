@@ -27,6 +27,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
 plugins {
     `version-catalog`
@@ -141,6 +142,16 @@ configure(libraryProjects) {
         add("kapt", rootProject.tonyLibs.bundles.springBootProcessors)
         add("kaptTest", rootProject.tonyLibs.springContextIndexer)
         add("testImplementation", rootProject.tonyLibs.bundles.test)
+    }
+
+    // fix kapt additional-spring-configuration-metadata.json can not process problem
+    configure<KaptExtension> {
+        arguments {
+            arg(
+                "org.springframework.boot.configurationprocessor.additionalMetadataLocations",
+                "$projectDir/src/main/resources"
+            )
+        }
     }
 
     tasks.withType<Test> {
