@@ -75,6 +75,7 @@ dokka = "1.9.20"
 [libraries]
 kotlinBom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlinStdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+annotations = { module = "org.jetbrains:annotations", version = "24.1.0" }
 
 springBom = { module = "org.springframework:spring-framework-bom", version.ref = "spring" }
 springContext = { module = "org.springframework:spring-context", version.ref = "spring" }
