@@ -74,7 +74,7 @@ configure(allprojects) {
         rejectVersionIf {
             candidate
                 .version
-                .contains(Regex("alpha|beta|rc|snapshot|milestone|pre",RegexOption.IGNORE_CASE))
+                .contains(Regex("alpha|beta|rc|snapshot|milestone|pre|m",RegexOption.IGNORE_CASE))
         }
     }
 }
