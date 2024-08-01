@@ -1,10 +1,10 @@
-FROM eclipse-temurin:21-jre-alpine AS builder
+FROM eclipse-temurin:21.0.4_7-jre-alpine AS builder
 WORKDIR app
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 RUN java -Djarmode=tools -jar app.jar extract --layers --destination extracted
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21.0.4_7-jre-alpine
 RUN echo "Asia/Shanghai" > /etc/timezone
 WORKDIR app
 #-XX:+EnableDynamicAgentLoading hide "Java agent has been loaded dynamically" warning.
