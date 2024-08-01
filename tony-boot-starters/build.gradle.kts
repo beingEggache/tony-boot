@@ -38,7 +38,6 @@ plugins {
     alias(tonyLibs.plugins.kotlinKapt) apply false
     alias(tonyLibs.plugins.dokka)
     alias(tonyLibs.plugins.gradleVersionsPlugin)
-    alias(tonyLibs.plugins.versionCatalogUpdate)
 }
 
 val dependenciesProjects = setOf(project("${Build.PREFIX}-dependencies"))
@@ -71,6 +70,12 @@ configure(allprojects) {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
     tasks.withType<DependencyUpdatesTask> {
+        revision = "release"
+        checkForGradleUpdate = false
+        gradleReleaseChannel = "current"
+        checkConstraints = true
+        checkBuildEnvironmentConstraints = true
+        outputFormatter = "plain"
         rejectVersionIf {
             candidate
                 .version
