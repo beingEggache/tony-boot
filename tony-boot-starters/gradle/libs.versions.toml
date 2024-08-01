@@ -33,7 +33,7 @@ byteBuddy = "1.14.18"
 bouncycastle = "1.78.1"
 
 openFeign = "13.3"
-lettuce = "6.3.2.RELEASE"
+lettuce = "6.4.0.RELEASE"
 
 jackson = "2.17.2"
 gson = "2.11.0"
@@ -57,13 +57,13 @@ powerjob = "4.3.9"
 vertx = "4.5.9"
 xnio = "3.8.16.Final"
 
-springCloud = "2023.0.2"
+springCloud = "2023.0.3"
 springCloudAlibaba = "2023.0.1.2"
 springCloudTencent = "1.13.2-2023.0.0"
 reactor = "2023.0.8"
 netty = "4.1.112.Final"
 grpc = "1.65.1"
-protobuf = "4.27.2"
+protobuf = "4.27.3"
 
 grpcSpringBoot = "3.1.0.RELEASE"
 
@@ -261,6 +261,9 @@ kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 lombok = { id="io.freefair.lombok", version.ref = "lombok" }
 graalvm = { id="org.graalvm.buildtools.native", version.ref = "graalvm" }
+
+gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version = "0.8.4" }
 
 tonyGradleBuild = { id = "com.tony.gradle.plugin.build", version.ref="template"}
 tonyDepConfigurations = { id = "com.tony.gradle.plugin.dep-configurations", version.ref="template"}

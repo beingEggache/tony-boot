@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.tony.gradle.plugin.Build
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -36,6 +37,8 @@ plugins {
     alias(tonyLibs.plugins.kotlinSpring) apply false
     alias(tonyLibs.plugins.kotlinKapt) apply false
     alias(tonyLibs.plugins.dokka)
+    alias(tonyLibs.plugins.gradleVersionsPlugin)
+    alias(tonyLibs.plugins.versionCatalogUpdate)
 }
 
 val dependenciesProjects = setOf(project("${Build.PREFIX}-dependencies"))
@@ -66,6 +69,13 @@ configure(allprojects) {
             attributes["Implementation-Version"] = project.version
         }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+    tasks.withType<DependencyUpdatesTask> {
+        rejectVersionIf {
+            candidate
+                .version
+                .contains(Regex("alpha|beta|rc|snapshot|milestone|pre",RegexOption.IGNORE_CASE))
+        }
     }
 }
 
