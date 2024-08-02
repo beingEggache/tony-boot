@@ -140,6 +140,7 @@ grpcStub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
 grpcProtobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
 grpcProtobufLite = { module = "io.grpc:grpc-protobuf-lite", version.ref = "grpc" }
 grpcNetty = { module = "io.grpc:grpc-netty", version.ref = "grpc" }
+grpcNettyShaded = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpc" }
 grpcOkhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpc" }
 
 protocGenGrpcJava = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc" }
