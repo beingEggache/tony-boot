@@ -264,6 +264,7 @@ lombok = { id="io.freefair.lombok", version.ref = "lombok" }
 graalvm = { id="org.graalvm.buildtools.native", version.ref = "graalvm" }
 
 gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = "1.33.0" }
 
 tonyGradleBuild = { id = "com.tony.gradle.plugin.build", version.ref="template"}
 tonyDepConfigurations = { id = "com.tony.gradle.plugin.dep-configurations", version.ref="template"}

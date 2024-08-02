@@ -38,6 +38,7 @@ plugins {
     alias(tonyLibs.plugins.kotlinKapt) apply false
     alias(tonyLibs.plugins.dokka)
     alias(tonyLibs.plugins.gradleVersionsPlugin)
+    alias(tonyLibs.plugins.dependencyAnalysis)
 }
 
 val dependenciesProjects = setOf(project("${Build.PREFIX}-dependencies"))
