@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="LOG_EXCEPTION_CONVERSION_WORD" value="
-    %stack{100,full,full,rootFirst,inlineHash,omitCommonFrames,
-    ^jdk\.internal\.reflect,
-    ^java\.base\/jdk\.internal\.reflect,
-    ^jdk\.proxy,
-    ^java\.lang\.reflect,
-    ^java\.lang\.invoke,
-    ^kotlin\.reflect,
-    ^sun\.,
-    .*SpringCGLIB.*,
-    ^org\.springframework\.aop,
-    ^jakarta\.servlet,
-    ^io\.undertow,
-    ^org\.jboss\.threads,
-    ^org\.xnio
-    }"/>
 <!--    <property name="LOG_EXCEPTION_CONVERSION_WORD" value="-->
 <!--    %stack{100,full,full,rootFirst,inlineHash,omitCommonFrames,-->
-<!--    ^(?:(?!com\.tony\..*).)*$,-->
+<!--    ^jdk\.internal\.reflect,-->
+<!--    ^jdk\.proxy,-->
+<!--    ^java\.lang,-->
+<!--    ^java\.base\/jdk\.internal\.reflect,-->
+<!--    ^sun\.,-->
+<!--    ^kotlin\.reflect,-->
 <!--    .*SpringCGLIB.*,-->
+<!--    ^org\.springframework\.aop,-->
+<!--    ^org\.springframework\.web\.filter,-->
+<!--    ^jakarta\.servlet,-->
+<!--    ^io\.undertow,-->
+<!--    ^io\.netty,-->
+<!--    ^io\.lettuce,-->
+<!--    ^org\.jboss\.threads,-->
+<!--    ^org\.xnio-->
 <!--    }"/>-->
+    <property name="LOG_EXCEPTION_CONVERSION_WORD" value="
+    %stack{100,full,full,rootFirst,inlineHash,omitCommonFrames,
+    ^(?:(?!com\.tony\..*).)*$,
+    .*SpringCGLIB.*,
+    }"/>
     <include resource="logback-core.xml"/>
     <springProfile name="dev">
         <logger name="trace-logger" level="TRACE" />

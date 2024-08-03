@@ -5,8 +5,3 @@ spring:
     default: dev
   application:
     name: tony-api
-mybatis-plus:
-  global-config:
-    db-config:
-      logic-not-delete-value: 'null'
-      logic-delete-value: 'CURRENT_TIMESTAMP'

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.BeanProperty
 import com.tony.demo.MonoApiWebContext.tenantId
 import com.tony.jackson.InjectableValueSupplier
 import com.tony.web.WebContext
-import com.tony.web.WebContextExtensions.appId
 import com.tony.web.WebContextExtensions.userId
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -56,5 +55,6 @@ class AppIdInjector(
         property: BeanProperty?,
         instance: Any?,
     ): String =
-        WebContext.appId
+        ""
+    // WebContext.appId
 }

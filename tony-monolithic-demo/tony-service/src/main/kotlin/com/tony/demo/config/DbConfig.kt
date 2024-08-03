@@ -9,6 +9,7 @@ import com.tony.ApiSession
 import com.tony.demo.sys.dao.EmployeeDao
 import com.tony.demo.sys.po.Employee
 import com.tony.id.IdGenerator
+import com.tony.misc.YamlPropertySourceFactory
 import com.tony.mybatis.DefaultMetaObjectHandler
 import com.tony.mybatis.MetaColumn
 import java.util.function.Function
@@ -17,14 +18,14 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Lazy
+import org.springframework.context.annotation.PropertySource
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
-@Configuration
-@ComponentScan(
-    basePackages = ["com.tony.demo"]
-)
-@EnableTransactionManagement(proxyTargetClass = true)
 @MapperScan("com.tony.demo.*.dao")
+@ComponentScan(basePackages = ["com.tony.demo"])
+@EnableTransactionManagement(proxyTargetClass = true)
+@PropertySource("classpath:db.config.yml", factory = YamlPropertySourceFactory::class)
+@Configuration
 class DbConfig {
     @Bean
     internal fun mybatisPlusInterceptor(): MybatisPlusInterceptor {
