@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class InfoResp(
     @Schema(description = "用户id")
     val employeeId: String,
+    @Schema(description = "账号")
+    val account: String,
     @Schema(description = "姓名")
     val realName: String,
     @Schema(description = "手机号")

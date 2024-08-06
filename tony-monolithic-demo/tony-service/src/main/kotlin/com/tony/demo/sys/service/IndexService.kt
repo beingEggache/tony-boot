@@ -1,5 +1,6 @@
 package com.tony.demo.sys.service
 
+import com.tony.ApiProperty
 import com.tony.demo.sys.dao.EmployeeDao
 import com.tony.demo.sys.dao.ModuleDao
 import com.tony.demo.sys.dao.RoleDao
@@ -66,10 +67,13 @@ class IndexService(
         appId: String,
         tenantId: String,
     ): InfoResp {
+        val employee = employeeDao.selectByIdNotNull(employeeId, "没有此用户")
+        employee.enabled.throwIfFalse("用户已被停用", ApiProperty.unauthorizedCode)
         val infoResp =
-            employeeDao.selectByIdNotNull(employeeId, "没有此用户").let {
+            employee.let {
                 InfoResp(
                     it.employeeId,
+                    it.account,
                     it.realName,
                     it.employeeMobile
                 )
