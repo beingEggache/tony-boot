@@ -25,7 +25,7 @@
 package com.tony.test.web.controller
 
 import com.tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
-import com.tony.enums.validate.SimpleIntEnum
+import com.tony.enums.validate.RangedIntEnum
 import com.tony.exception.ApiException
 import com.tony.exception.BizException
 import com.tony.test.web.req.TestDateTimesReq
@@ -186,7 +186,7 @@ class TestController {
     @PostMapping("/int-enum-validate")
     fun intEnumValidate(
         @RequestParam
-        @SimpleIntEnum(enums = [1], message = "不对", required = true)
+        @RangedIntEnum(enums = [1], message = "不对", required = true)
         testIntEnum: TestIntEnum
     ): TestIntEnum = TestIntEnum.TEST_2
 

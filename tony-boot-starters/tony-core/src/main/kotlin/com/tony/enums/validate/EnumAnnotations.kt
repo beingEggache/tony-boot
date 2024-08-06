@@ -34,14 +34,14 @@ import jakarta.validation.Payload
 import kotlin.reflect.KClass
 
 /**
- * 简单枚举校验
+ * 简单字符串枚举校验
  * @param enums 枚举值
  *
  * @author tangli
  * @date 2021-05-19 10:58
  */
 @MustBeDocumented
-@Constraint(validatedBy = [SimpleEnumValidator::class])
+@Constraint(validatedBy = [SimpleStringEnumValidator::class])
 @Target(
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
@@ -50,7 +50,7 @@ import kotlin.reflect.KClass
     AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
-public annotation class SimpleEnum(
+public annotation class SimpleStringEnum(
     vararg val enums: String,
     val message: String = "非法参数",
     val groups: Array<KClass<*>> = [],
@@ -58,9 +58,8 @@ public annotation class SimpleEnum(
 )
 
 /**
- * 简单整形枚举校验
+ * 简单数字枚举校验
  * @param enums 枚举值
- * @param required 是否必须
  *
  * @author tangli
  * @date 2021-05-19 10:58
@@ -76,6 +75,31 @@ public annotation class SimpleEnum(
 )
 @Retention(AnnotationRetention.RUNTIME)
 public annotation class SimpleIntEnum(
+    vararg val enums: Int,
+    val message: String = "非法参数",
+    val groups: Array<KClass<*>> = [],
+    val payload: Array<KClass<out Payload>> = [],
+)
+
+/**
+ * 简单整形枚举校验
+ * @param enums 枚举值
+ * @param required 是否必须
+ *
+ * @author tangli
+ * @date 2021-05-19 10:58
+ */
+@MustBeDocumented
+@Constraint(validatedBy = [RangedIntEnumValidator::class])
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER,
+    AnnotationTarget.FIELD,
+    AnnotationTarget.VALUE_PARAMETER
+)
+@Retention(AnnotationRetention.RUNTIME)
+public annotation class RangedIntEnum(
     vararg val enums: Int,
     val message: String = "非法参数",
     val required: Boolean = false,
@@ -118,7 +142,7 @@ public annotation class IntEnum(
  * @date 2021-05-19 10:58
  */
 @MustBeDocumented
-@Constraint(validatedBy = [SimpleStringEnumValidator::class])
+@Constraint(validatedBy = [RangedStringEnumValidator::class])
 @Target(
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
@@ -127,7 +151,7 @@ public annotation class IntEnum(
     AnnotationTarget.VALUE_PARAMETER
 )
 @Retention(AnnotationRetention.RUNTIME)
-public annotation class SimpleStringEnum(
+public annotation class RangedStringEnum(
     vararg val enums: String,
     val message: String = "非法参数",
     val required: Boolean = false,

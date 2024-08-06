@@ -26,7 +26,7 @@ package com.tony.test.web.controller
 
 import com.tony.PageQuery
 import com.tony.codec.enums.Encoding
-import com.tony.enums.validate.SimpleStringEnum
+import com.tony.enums.validate.RangedStringEnum
 import com.tony.test.web.req.TestPatternReq
 import com.tony.test.web.req.TestQuery
 import com.tony.test.web.req.TestReq
@@ -63,7 +63,7 @@ class TestValidateController(
     @PostMapping("/string-enum-validate")
     fun stringEnumValidate(
         @RequestParam
-        @SimpleStringEnum(enums = ["BASE64"], message = "不对", required = true)
+        @RangedStringEnum(enums = ["BASE64"], message = "不对", required = true)
         testStringEnum: Encoding
     ): Encoding = Encoding.BASE64
 

@@ -27,8 +27,8 @@ package com.tony.test.web.req
 import com.tony.annotation.web.support.InjectEmptyIfNull
 import com.tony.annotation.web.support.InjectRequestBodyField
 import com.tony.codec.enums.Encoding
-import com.tony.enums.validate.SimpleIntEnum
-import com.tony.enums.validate.SimpleStringEnum
+import com.tony.enums.validate.RangedIntEnum
+import com.tony.enums.validate.RangedStringEnum
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -39,9 +39,9 @@ data class TestReq(
     val name: String? = null,
     @get:NotNull(message = "请输入年龄")
     val age: Int? = null,
-    @get:SimpleIntEnum(enums = [1],"不合法的testIntNum")
+    @get:RangedIntEnum(enums = [1],"不合法的testIntNum")
     val testIntEnum: TestIntEnum? = null,
-    @get:SimpleStringEnum(enums = ["base64"], message = "不合法的testStringEnum")
+    @get:RangedStringEnum(enums = ["base64"], message = "不合法的testStringEnum")
     val testStringEnum: Encoding? = null
 )
 

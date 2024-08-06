@@ -43,28 +43,28 @@ import jakarta.validation.ConstraintValidatorContext
  * @author tangli
  * @date 2021-05-19 10:58
  */
-public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, IntEnumValue?> {
+public class RangedIntEnumValidator : ConstraintValidator<RangedIntEnum, IntEnumValue?> {
     private var enums: IntArray = intArrayOf()
     private var required = false
 
-    override fun initialize(constraintAnnotation: SimpleIntEnum) {
+    override fun initialize(constraintAnnotation: RangedIntEnum) {
         enums = constraintAnnotation.enums
         required = constraintAnnotation.required
     }
 
     override fun isValid(
-        str: IntEnumValue?,
+        enumValue: IntEnumValue?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean {
         if (required &&
             (
-                str?.value == null ||
-                    str.value == DEFAULT_INT_VALUE
+                enumValue?.value == null ||
+                    enumValue.value == DEFAULT_INT_VALUE
             )
         ) {
             return false
         }
-        val value = str?.value ?: return false
+        val value = enumValue?.value ?: return false
         return value in enums
     }
 }
@@ -89,18 +89,18 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
     }
 
     override fun isValid(
-        str: IntEnumValue?,
+        enumValue: IntEnumValue?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean {
         if (required &&
             (
-                str?.value == null ||
-                    str.value == DEFAULT_INT_VALUE
+                enumValue?.value == null ||
+                    enumValue.value == DEFAULT_INT_VALUE
             )
         ) {
             return false
         }
-        return str?.value in enums
+        return enumValue?.value in enums
     }
 }
 
@@ -109,28 +109,28 @@ public class IntEnumValidator : ConstraintValidator<IntEnum, IntEnumValue?> {
  * @author tangli
  * @date 2021-05-19 10:58
  */
-public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, StringEnumValue?> {
+public class RangedStringEnumValidator : ConstraintValidator<RangedStringEnum, StringEnumValue?> {
     private lateinit var enums: Array<out String>
     private var required = false
 
-    override fun initialize(constraintAnnotation: SimpleStringEnum) {
+    override fun initialize(constraintAnnotation: RangedStringEnum) {
         enums = constraintAnnotation.enums
         required = constraintAnnotation.required
     }
 
     override fun isValid(
-        str: StringEnumValue?,
+        enumValue: StringEnumValue?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean {
         if (required &&
             (
-                str?.value == null ||
-                    str.value == DEFAULT_STRING_VALUE
+                enumValue?.value == null ||
+                    enumValue.value == DEFAULT_STRING_VALUE
             )
         ) {
             return false
         }
-        return str?.value in enums
+        return enumValue?.value in enums
     }
 }
 
@@ -154,18 +154,18 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumVal
     }
 
     override fun isValid(
-        str: StringEnumValue?,
+        enumValue: StringEnumValue?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean {
         if (required &&
             (
-                str?.value == null ||
-                    str.value == DEFAULT_STRING_VALUE
+                enumValue?.value == null ||
+                    enumValue.value == DEFAULT_STRING_VALUE
             )
         ) {
             return false
         }
-        return str?.value in enums
+        return enumValue?.value in enums
     }
 }
 
@@ -174,18 +174,36 @@ public class StringEnumValidator : ConstraintValidator<StringEnum, StringEnumVal
  * @author tangli
  * @date 2021-05-19 10:58
  */
-public class SimpleEnumValidator : ConstraintValidator<SimpleEnum, Any?> {
+public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, String?> {
     private lateinit var enums: Array<out String>
 
-    override fun initialize(constraintAnnotation: SimpleEnum) {
+    override fun initialize(constraintAnnotation: SimpleStringEnum) {
         enums = constraintAnnotation.enums
     }
 
     override fun isValid(
-        str: Any?,
+        enumValue: String?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean =
-        null == str ||
-            str.toString().isBlank() ||
-            str.toString() in enums
+        enumValue in enums
+}
+
+/**
+ * 简单字符串枚举校验
+ * @author tangli
+ * @date 2021-05-19 10:58
+ */
+public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, Int?> {
+    private lateinit var enums: IntArray
+
+    override fun initialize(constraintAnnotation: SimpleIntEnum) {
+        enums = constraintAnnotation.enums
+    }
+
+    override fun isValid(
+        enumValue: Int?,
+        constraintValidatorContext: ConstraintValidatorContext,
+    ): Boolean =
+        enumValue != null &&
+            enumValue in enums
 }
