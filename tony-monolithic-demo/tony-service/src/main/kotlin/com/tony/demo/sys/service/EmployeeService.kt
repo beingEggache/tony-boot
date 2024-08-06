@@ -49,11 +49,13 @@ class EmployeeService(
             .eq(Employee::employeeMobile, req.employeeMobile)
             .throwIfExists("手机号重复")
 
-        val po = req.copyTo<Employee>()
+        val po =
+            req.copyTo<Employee>().apply {
+                salt = uuid()
+            }
         employeeDao.insert(po)
         val employeeId = po.employeeId
         val tenantId = req.tenantId
-        po.salt = uuid()
         resetPwd(po)
         deptDao.deleteEmployeeDepts(employeeId, tenantId)
         req.deptIds.takeIf { it.isNotEmpty() }?.let {
