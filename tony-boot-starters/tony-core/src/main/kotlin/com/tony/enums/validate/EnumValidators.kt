@@ -185,7 +185,8 @@ public class SimpleStringEnumValidator : ConstraintValidator<SimpleStringEnum, S
         enumValue: String?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean =
-        enumValue in enums
+        enumValue.isNullOrBlank() ||
+            enumValue in enums
 }
 
 /**
@@ -204,6 +205,6 @@ public class SimpleIntEnumValidator : ConstraintValidator<SimpleIntEnum, Int?> {
         enumValue: Int?,
         constraintValidatorContext: ConstraintValidatorContext,
     ): Boolean =
-        enumValue != null &&
+        enumValue == null ||
             enumValue in enums
 }
