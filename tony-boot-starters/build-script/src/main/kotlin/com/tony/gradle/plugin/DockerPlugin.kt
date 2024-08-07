@@ -50,6 +50,7 @@ class DockerPlugin : Plugin<Project> {
         val dockerNameSpace: String by project
         val imageNameFromProperty = project.getImageNameFromProperty()
         val nameSpace: String = dockerNameSpace.ifBlank { dockerRegistry }
+        val dockerImageFullName = "$dockerRegistry/$nameSpace/${imageNameFromProperty}"
 
         project.tasks.register("dockerLogin", Exec::class.java) {
             group = "docker"
@@ -66,11 +67,24 @@ class DockerPlugin : Plugin<Project> {
             )
         }
 
+        project.tasks.register("dockerSave", Exec::class.java) {
+            group = "docker"
+            executable = "docker"
+            args(
+                listOf(
+                    "save",
+                    "-o",
+                    "${imageNameFromProperty}.tar",
+                    dockerImageFullName,
+                )
+            )
+        }
+
         lateinit var taskNameList: List<String>
 
         project.extensions.getByType<DockerExtension>().apply {
             //final name:my.registry.com/username/my-app:version
-            name = "$dockerRegistry/$nameSpace/${imageNameFromProperty}"
+            name = dockerImageFullName
             val today = yyyyMMdd.format(Date())
             tag("today", "$name:$today")
             tag("latest", "$name:latest")
