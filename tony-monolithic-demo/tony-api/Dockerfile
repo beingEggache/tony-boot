@@ -1,19 +1,21 @@
 FROM eclipse-temurin:21.0.4_7-jre-alpine AS builder
-WORKDIR app
+ARG WORKDIR=/app
+WORKDIR ${WORKDIR}
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 RUN java -Djarmode=tools -jar app.jar extract --layers --destination extracted
 
 FROM eclipse-temurin:21.0.4_7-jre-alpine
 RUN echo "Asia/Shanghai" > /etc/timezone
-
-WORKDIR app
+ARG WORKDIR=/app
+WORKDIR ${WORKDIR}
 #-XX:+EnableDynamicAgentLoading hide "Java agent has been loaded dynamically" warning.
 # https://zhuanlan.zhihu.com/p/528949267
 # JVM 参数升级提示工具 https://jacoline.dev/inspect
 # JVM 参数词典：https://chriswhocodes.com
 ENV JVM_OPTS=""
 ENV JVM_DEFAULT_OPTS="\
+-Djava.io.tmpdir=${WORKDIR}/tmp \
 -XX:+EnableDynamicAgentLoading \
 -XX:+SegmentedCodeCache \
 -XX:+UseStringDeduplication \
@@ -37,27 +39,29 @@ ENV USER_NAME="root"
 ENV GROUP_NAME=${USER_NAME}
 USER ${USER_NAME}
 
-EXPOSE 10000
-VOLUME ["/logs","/tmp"]
+ARG PORT=10000
+EXPOSE ${PORT}
 
-COPY --from=builder app/extracted/dependencies/ ./
-COPY --from=builder app/extracted/snapshot-dependencies/ ./
-COPY --from=builder app/extracted/application/ ./
+VOLUME ["${WORKDIR}/logs", "${WORKDIR}/tmp", "${WORKDIR}/config"]
+
+COPY --from=builder ${WORKDIR}/extracted/dependencies/ ./
+COPY --from=builder ${WORKDIR}/extracted/snapshot-dependencies/ ./
+COPY --from=builder ${WORKDIR}/extracted/application/ ./
 
 ENTRYPOINT ["sh", "-c", "java ${JVM_DEFAULT_OPTS} ${PROPS} ${JVM_OPTS} \
 $([ ${ENABLE_ERROR_LOGS} == 'true' ] && echo -n '\
--XX:ErrorFile=/logs/hs_err_pid.log \
--XX:HeapDumpPath=/logs/java_heapdump.hprof \
+-XX:ErrorFile=${WORKDIR}/logs/hs_err_pid.log \
+-XX:HeapDumpPath=${WORKDIR}/logs/java_heapdump.hprof \
 -XX:+ExtensiveErrorReports \
 -XX:+HeapDumpOnOutOfMemoryError') \
 $([ ${ENABLE_GC_LOGS} == 'true' ] && echo -n '\
 -Xlog:async \
--Xlog:gc*=info:file=/logs/gc_%t.log:utctime,level,tags:filecount=10,filesize=10M \
--Xlog:jit+compilation=info:file=/logs/jit_compile_%t.log:utctime,level,tags:filecount=10,filesize=10M \
--Xlog:safepoint=info:file=/logs/safepoint_%t.log:utctime,level,tags:filecount=10,filesize=10M') \
+-Xlog:gc*=info:file=${WORKDIR}/logs/gc_%t.log:utctime,level,tags:filecount=10,filesize=10M \
+-Xlog:jit+compilation=info:file=${WORKDIR}/logs/jit_compile_%t.log:utctime,level,tags:filecount=10,filesize=10M \
+-Xlog:safepoint=info:file=${WORKDIR}/logs/safepoint_%t.log:utctime,level,tags:filecount=10,filesize=10M') \
 $([ ${ENABLE_JVM_LOGS} == 'true' ] && echo -n '\
 -XX:+UnlockDiagnosticVMOptions \
--XX:LogFile=/logs/hotspot.log \
+-XX:LogFile=${WORKDIR}/logs/hotspot.log \
 -XX:+LogCompilation \
 -XX:+PrintCompilation \
 -XX:+PrintInlining') \

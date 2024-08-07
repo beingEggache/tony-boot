@@ -3,11 +3,11 @@
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
-    <springProperty scope="context" name="LOG_FILE_PATH" source="logging.file.path" defaultValue="../logs"/>
+    <springProperty scope="context" name="LOG_FILE_PATH" source="logging.file.path" defaultValue="./logs"/>
     <springProperty scope="context" name="MAX_FILE_SIZE" source="logging.logback.rollingpolicy.max-file-size" defaultValue="10MB"/>
     <springProperty scope="context" name="MAX_HISTORY" source="logging.logback.rollingpolicy.max-history" defaultValue="7"/>
     <springProperty scope="context" name="TOTAL_SIZE_CAP" source="logging.logback.rollingpolicy.total-size-cap" defaultValue="5GB"/>
-
+    <springProperty scope="context" name="FILE_LOG_CHARSET" source="logging.charset.file" defaultValue="${file.encoding:-UTF-8}"/>
 
     <conversionRule conversionWord="stack"
                     converterClass="net.logstash.logback.stacktrace.ShortenedThrowableConverter"/>

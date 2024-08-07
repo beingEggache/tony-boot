@@ -5,3 +5,6 @@ spring:
     default: dev
   application:
     name: tony-api
+logging:
+  charset:
+    file: UTF-8

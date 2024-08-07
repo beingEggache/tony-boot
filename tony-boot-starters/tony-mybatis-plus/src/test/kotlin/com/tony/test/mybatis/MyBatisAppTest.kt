@@ -31,8 +31,8 @@ import com.tony.annotation.EnableTonyBoot
 import com.tony.mybatis.DbMetaObjectHandler
 import com.tony.mybatis.DefaultMetaObjectHandler
 import com.tony.test.mybatis.db.config.DbConfig
-import com.tony.test.mybatis.db.dao.UserDao
-import com.tony.test.mybatis.db.po.User
+import com.tony.test.mybatis.db.dao.EmployeeDao
+import com.tony.test.mybatis.db.po.Employee
 import com.tony.utils.genRandomInt
 import com.tony.utils.getLogger
 import com.tony.utils.md5
@@ -59,7 +59,7 @@ import org.springframework.context.annotation.Import
 class MyBatisAppTest {
 
     @Resource
-    lateinit var userDao: UserDao
+    lateinit var employeeDao: EmployeeDao
 
     private val logger = getLogger()
 
@@ -72,43 +72,43 @@ class MyBatisAppTest {
     @Test
     fun testDaoInsert() {
         val user =
-            User().apply {
+            Employee().apply {
                 val s = "lg3"
-                userName = s
+                account = s
                 realName = "李赣3"
-                mobile = "13981842693"
+                employeeMobile = "13981842693"
                 pwd = "123456$s".md5().uppercase()
             }
 
-        userDao.insert(user)
+        employeeDao.insert(user)
     }
 
     @Order(2)
     @Test
     fun testDaoInsertBatch() {
         val users = (1..999).map { index ->
-            User().apply {
+            Employee().apply {
                 val indexStr = index.toString().padStart(3, '0')
                 val s = "sxc$indexStr"
-                userName = s
+                account = s
                 realName = "孙笑川$indexStr"
-                mobile = "13984842$indexStr"
+                employeeMobile = "13984842$indexStr"
                 pwd = "${"123456".md5().uppercase()}$s".md5().uppercase()
             }
         }
-        userDao.insert(users)
+        employeeDao.insert(users)
     }
 
     @Order(3)
     @Test
     fun testDaoUpdate() {
-        val one = userDao
+        val one = employeeDao
             .ktQuery()
-            .eq(User::mobile, "13981842693")
+            .eq(Employee::employeeMobile, "13981842693")
             .one()
-        one.userName = "lg1"
+        one.account = "lg1"
 
-        userDao
+        employeeDao
             .updateById(one)
 
     }
@@ -116,7 +116,7 @@ class MyBatisAppTest {
     @Order(4)
     @Test
     fun testDaoOneMap() {
-        val list = userDao
+        val list = employeeDao
             .ktQuery()
             .select("sum(enabled)")
             .oneMap()
@@ -126,29 +126,29 @@ class MyBatisAppTest {
     @Order(5)
     @Test
     fun testDaoTransform() {
-        val mapList = userDao
+        val mapList = employeeDao
             .ktQuery()
             .list<Map<String, Any?>> {
                 mapOf(
-                    "userName" to it.userName,
+                    "account" to it.account,
                     "realName" to it.realName
                 )
             }
         logger.info(mapList.toJsonString())
-        val pageResult1 = userDao.selectPageResult(PageQuery<String>(), Wrappers.emptyWrapper())
+        val pageResult1 = employeeDao.selectPageResult(PageQuery<String>(), Wrappers.emptyWrapper())
         logger.info(pageResult1.toJsonString())
     }
 
     @Order(6)
     @Test
     fun testDaoQuery() {
-        val userId = userDao.ktQuery().list().first().userId
-        val oneMap = userDao.ktQuery().eq(User::userId, userId).oneMap()
+        val employeeId = employeeDao.ktQuery().list().first().employeeId
+        val oneMap = employeeDao.ktQuery().eq(Employee::employeeId, employeeId).oneMap()
         logger.info(oneMap.toJsonString())
-        val oneObj = userDao.ktQuery().eq(User::userId, userId).oneObj<String>()
+        val oneObj = employeeDao.ktQuery().eq(Employee::employeeId, employeeId).oneObj<String>()
         logger.info(oneObj!!::class.java.name)
         logger.info(oneObj.toJsonString())
-        val pageResult = userDao.ktQuery().pageResult(PageQuery<String>())
+        val pageResult = employeeDao.ktQuery().pageResult(PageQuery<String>())
         logger.info(pageResult.toJsonString())
     }
 
@@ -158,29 +158,29 @@ class MyBatisAppTest {
 
         val userNameStr = "lg${genRandomInt(6)}"
         val user =
-            User().apply {
-                userName = userNameStr
+            Employee().apply {
+                account = userNameStr
                 realName = "李赣$userNameStr"
-                mobile = "13981$userNameStr"
+                employeeMobile = "13981$userNameStr"
                 pwd = "${"123456".md5().uppercase()}$userNameStr".md5().uppercase()
             }
 
-        userDao.insert(user)
+        employeeDao.insert(user)
 
-        userDao
+        employeeDao
             .ktUpdate()
-            .eq(User::userName, userNameStr)
-            .set(User::realName, "测试测试")
+            .eq(Employee::account, userNameStr)
+            .set(Employee::realName, "测试测试")
             .update(user)
 
-        userDao
+        employeeDao
             .ktUpdate()
-            .eq(User::userName, userNameStr)
+            .eq(Employee::account, userNameStr)
             .remove()
 
-        userDao
+        employeeDao
             .ktUpdate()
-            .eq(User::userName, userNameStr)
+            .eq(Employee::account, userNameStr)
             .physicalRemove()
     }
 
@@ -190,30 +190,30 @@ class MyBatisAppTest {
         val userIdList = (1..50).map {
             val userNameStr1 = "lg${genRandomInt(6)}"
             val user1 =
-                    User().apply {
-                        userName = userNameStr1
+                Employee().apply {
+                        account = userNameStr1
                         realName = "李赣$userNameStr1"
-                        mobile = "13981$userNameStr1"
+                        employeeMobile = "13981$userNameStr1"
                         pwd = "123456$userNameStr1".md5().uppercase()
                     }
 
-            userDao.insert(user1)
-            user1.userId
+            employeeDao.insert(user1)
+            user1.employeeId
         }
 
-        userDao.physicalDeleteByIds(userIdList)
+        employeeDao.physicalDeleteByIds(userIdList)
 
         val userNameStr1 = "lg${genRandomInt(6)}"
         val user1 =
-                User().apply {
-                    userName = userNameStr1
+            Employee().apply {
+                    account = userNameStr1
                     realName = "李赣$userNameStr1"
-                    mobile = "13981$userNameStr1"
+                    employeeMobile = "13981$userNameStr1"
                     pwd = "123456$userNameStr1".md5().uppercase()
                 }
 
-        userDao.insert(user1)
-        userDao.physicalDeleteById(user1.userId)
+        employeeDao.insert(user1)
+        employeeDao.physicalDeleteById(user1.employeeId)
     }
 }
 
