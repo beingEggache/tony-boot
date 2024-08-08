@@ -20,7 +20,7 @@ configure(subprojects) {
 //            name = "private"
 //            isAllowInsecureProtocol = true
 //        }
-        maven(url = "https://maven.oschina.net/content/groups/public/")
+        maven(url = "https://maven.aliyun.com/repository/central")
         mavenCentral()
     }
 
