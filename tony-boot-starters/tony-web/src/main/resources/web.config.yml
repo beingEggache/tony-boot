@@ -1,3 +1,7 @@
+server:
+  compression:
+    enabled: true
+    mime-types: application/json, text/xml, text/plain
 spring:
   mvc:
     format:
