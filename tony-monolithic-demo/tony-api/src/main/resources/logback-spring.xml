@@ -20,7 +20,8 @@
 <!--    }"/>-->
     <property name="LOG_EXCEPTION_CONVERSION_WORD" value="
     %stack{100,full,full,rootFirst,inlineHash,omitCommonFrames,
-    ^(?:(?!com\.tony\..*).)*$,
+    ^(?:(?!com\.tony\.demo\..*).)*$,
+    ^com\.tony\.web\.filter,
     .*SpringCGLIB.*,
     }"/>
     <include resource="logback-core.xml"/>
