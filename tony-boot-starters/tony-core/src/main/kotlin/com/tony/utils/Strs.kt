@@ -189,8 +189,8 @@ public fun CharSequence.isMobileNumber(): Boolean =
  * @date 2023/12/08 19:29
  * @since 1.0.0
  */
-public fun CharSequence.isInt(): Boolean =
-    toString().toIntOrNull() != null
+public fun CharSequence.isNumber(): Boolean =
+    toString().toLongOrNull() != null || toString().toDoubleOrNull() != null
 
 /**
  * 字符串转数字
