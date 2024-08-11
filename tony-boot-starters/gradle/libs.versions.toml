@@ -27,7 +27,7 @@ kotlin = "1.9.24"
 spring = "6.1.11"
 springBoot = "3.3.2"
 
-slf4j = "2.0.15"
+slf4j = "2.0.16"
 
 byteBuddy = "1.14.18"
 bouncycastle = "1.78.1"
