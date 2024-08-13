@@ -88,9 +88,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
             .SERVLET
 )
 @PropertySource("classpath:web.config.yml", factory = YamlPropertySourceFactory::class)
-@EnableConfigurationProperties(value = [WebProperties::class, WebCorsProperties::class])
+@EnableConfigurationProperties(value = [WebProperties::class, WebLogProperties::class, WebCorsProperties::class])
 internal class WebConfig(
     private val webProperties: WebProperties,
+    private val webLogProperties: WebLogProperties,
     private val webCorsProperties: WebCorsProperties,
 ) : WebMvcConfigurer {
     override fun addFormatters(registry: FormatterRegistry) {
@@ -119,25 +120,30 @@ internal class WebConfig(
         }
     }
 
-    @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
+    @ConditionalOnExpression("\${web.log.trace:true}")
     @Bean
     internal fun requestReplaceToRepeatReadFilter() =
-        RequestReplaceToRepeatReadFilter(webProperties.traceLogExcludePatterns)
+        RequestReplaceToRepeatReadFilter(webLogProperties.excludePatterns)
 
     @Bean
     internal fun traceIdFilter() =
         TraceIdFilter()
 
     @ConditionalOnMissingBean(RequestTraceLogger::class)
-    @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
+    @ConditionalOnExpression("\${web.log.trace:true}")
     @Bean
     internal fun defaultRequestTraceLogger(): RequestTraceLogger =
         DefaultRequestTraceLogger()
 
-    @ConditionalOnExpression("\${web.trace-logger-enabled:true}")
+    @ConditionalOnExpression("\${web.log.trace:true}")
     @Bean
     internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter =
-        TraceLoggingFilter(requestTraceLogger, webProperties.traceLogExcludePatterns)
+        TraceLoggingFilter(
+            requestTraceLogger,
+            webLogProperties.excludePatterns,
+            webLogProperties.requestBodyMaxSize,
+            webLogProperties.responseBodyMaxSize
+        )
 
     @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
     @Bean
@@ -228,19 +234,41 @@ internal data class WebProperties
          */
         val wrapResponseExcludePatterns: List<String> = listOf(),
         /**
-         * 是否记录请求日志。
-         */
-        @DefaultValue("true")
-        val traceLoggerEnabled: Boolean,
-        /**
-         * 请求日志排除url
-         */
-        val traceLogExcludePatterns: List<String> = listOf(),
-        /**
          * 是否处理响应json null值。
          */
         @DefaultValue("true")
         val fillResponseNullValueEnabled: Boolean,
+    )
+
+@ConditionalOnWebApplication(
+    type =
+        ConditionalOnWebApplication
+            .Type
+            .SERVLET
+)
+@ConfigurationProperties(prefix = "web.log")
+internal data class WebLogProperties
+    @ConstructorBinding
+    constructor(
+        /**
+         * 是否记录请求日志。
+         */
+        @DefaultValue("true")
+        val trace: Boolean,
+        /**
+         * 请求日志排除url
+         */
+        val excludePatterns: List<String> = listOf(),
+        /**
+         * 请求日志请求体长度, 超过只显示ContentType
+         */
+        @DefaultValue("65535")
+        val requestBodyMaxSize: Int = 65535,
+        /**
+         * 请求日志响应体长度, 超过只显示ContentType
+         */
+        @DefaultValue("65535")
+        val responseBodyMaxSize: Int = 65535,
     )
 
 /**

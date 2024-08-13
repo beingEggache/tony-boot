@@ -64,16 +64,22 @@ import org.springframework.web.util.ContentCachingResponseWrapper
  */
 public fun interface RequestTraceLogger {
     /**
-     * 记录请求日志
-     *
-     * @param request
-     * @param response
-     * @param elapsedTime 执行时间
+     * 请求跟踪日志
+     * @param [request] 请求
+     * @param [response] 响应
+     * @param [elapsedTime] 执行时间
+     * @param [requestBodyMaxSize] 请求正文最大尺寸
+     * @param [responseBodyMaxSize] 响应体最大尺寸
+     * @author tangli
+     * @date 2024/08/13 15:53
+     * @since 1.0.0
      */
     public fun requestTraceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         elapsedTime: Long,
+        requestBodyMaxSize: Int,
+        responseBodyMaxSize: Int,
     )
 }
 
@@ -113,9 +119,11 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         elapsedTime: Long,
+        requestBodyMaxSize: Int,
+        responseBodyMaxSize: Int,
     ) {
-        val requestBody = requestBody(request)
-        val responseBody = responseBody(response)
+        val requestBody = requestBody(request, requestBodyMaxSize)
+        val responseBody = responseBody(response, responseBodyMaxSize)
         val resultCode = resultCode(responseBody, response)
         val resultStatus = resultStatus(resultCode)
         val protocol = request.scheme
@@ -159,41 +167,45 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
         logger.trace(logStr.removeLineBreak())
     }
 
-    private fun requestBody(request: RepeatReadRequestWrapper) =
-        if (!isTextMediaTypes(request.parsedMedia)) {
-            "[${request.contentType}]"
-        } else if (request
-                .method
-                .equals(
-                    HttpMethod
-                        .POST
-                        .name(),
-                    true
-                )
-        ) {
-            val bytes = request.contentAsByteArray
-            when {
-                bytes.isEmpty() -> NULL
-                bytes.size <= 65535 -> String(bytes)
-                else -> "[too long content, length = ${bytes.size}]"
-            }
-        } else {
-            NULL
+    private fun requestBody(
+        request: RepeatReadRequestWrapper,
+        requestBodyMaxSize: Int,
+    ) = if (!isTextMediaTypes(request.parsedMedia)) {
+        "[${request.contentType}]"
+    } else if (request
+            .method
+            .equals(
+                HttpMethod
+                    .POST
+                    .name(),
+                true
+            )
+    ) {
+        val bytes = request.contentAsByteArray
+        when {
+            bytes.isEmpty() -> NULL
+            bytes.size <= requestBodyMaxSize -> String(bytes)
+            else -> "[too long content, length = ${bytes.size}]"
         }
+    } else {
+        NULL
+    }
 
-    private fun responseBody(response: ContentCachingResponseWrapper) =
-        if (!isTextMediaTypes(response.parsedMedia)) {
-            "[${response.contentType}]"
-        } else {
-            response.contentAsByteArray.let { bytes ->
-                val size = bytes.size
-                when {
-                    size in 1..65535 -> String(bytes)
-                    size >= 65536 -> "[too long content, length = $size]"
-                    else -> NULL
-                }
+    private fun responseBody(
+        response: ContentCachingResponseWrapper,
+        responseBodyMaxSize: Int,
+    ) = if (!isTextMediaTypes(response.parsedMedia)) {
+        "[${response.contentType}]"
+    } else {
+        response.contentAsByteArray.let { bytes ->
+            val size = bytes.size
+            when {
+                size in 1..responseBodyMaxSize -> String(bytes)
+                size >= responseBodyMaxSize -> "[too long content, length = $size]"
+                else -> NULL
             }
         }
+    }
 
     private fun resultCode(
         responseBody: String,

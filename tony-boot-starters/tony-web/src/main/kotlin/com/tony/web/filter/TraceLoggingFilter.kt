@@ -64,6 +64,14 @@ internal class TraceLoggingFilter(
      * 请求日志排除url
      */
     traceLogExcludePatterns: List<String>,
+    /**
+     * 请求日志请求体长度, 超过只显示ContentType
+     */
+    private val requestBodyMaxSize: Int,
+    /**
+     * 请求日志响应体长度, 超过只显示ContentType
+     */
+    private val responseBodyMaxSize: Int,
 ) : OncePerRequestFilter(),
     PriorityOrdered {
     private val log = getLogger()
@@ -122,7 +130,9 @@ internal class TraceLoggingFilter(
         requestTraceLogger.requestTraceLog(
             request,
             response,
-            elapsedTime
+            elapsedTime,
+            requestBodyMaxSize,
+            responseBodyMaxSize
         )
     } catch (e: Exception) {
         log.error(e.message, e)
