@@ -120,7 +120,7 @@ internal class WebConfig(
         }
     }
 
-    @ConditionalOnExpression("\${web.log.trace:true}")
+    @ConditionalOnExpression("\${web.log.trace.enabled:true}")
     @Bean
     internal fun requestReplaceToRepeatReadFilter() =
         RequestReplaceToRepeatReadFilter(webLogProperties.excludePatterns)
@@ -130,12 +130,12 @@ internal class WebConfig(
         TraceIdFilter()
 
     @ConditionalOnMissingBean(RequestTraceLogger::class)
-    @ConditionalOnExpression("\${web.log.trace:true}")
+    @ConditionalOnExpression("\${web.log.trace.enabled:true}")
     @Bean
     internal fun defaultRequestTraceLogger(): RequestTraceLogger =
         DefaultRequestTraceLogger()
 
-    @ConditionalOnExpression("\${web.log.trace:true}")
+    @ConditionalOnExpression("\${web.log.trace.enabled:true}")
     @Bean
     internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter =
         TraceLoggingFilter(
@@ -246,7 +246,7 @@ internal data class WebProperties
             .Type
             .SERVLET
 )
-@ConfigurationProperties(prefix = "web.log")
+@ConfigurationProperties(prefix = "web.log.trace")
 internal data class WebLogProperties
     @ConstructorBinding
     constructor(
@@ -254,7 +254,7 @@ internal data class WebLogProperties
          * 是否记录请求日志。
          */
         @DefaultValue("true")
-        val trace: Boolean,
+        val enabled: Boolean,
         /**
          * 请求日志排除url
          */
