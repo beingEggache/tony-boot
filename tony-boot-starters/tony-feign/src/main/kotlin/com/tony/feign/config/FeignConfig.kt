@@ -32,9 +32,9 @@ import com.tony.feign.interceptor.request.UseRequestProcessorsRequestInterceptor
 import com.tony.feign.interceptor.response.DefaultUnwrapResponseInterceptor
 import com.tony.feign.interceptor.response.GlobalResponseInterceptorProvider
 import com.tony.feign.interceptor.response.UnwrapResponseInterceptorProvider
-import com.tony.feign.log.DefaultFeignRequestTraceLogger
+import com.tony.feign.log.DefaultFeignRequestLogger
 import com.tony.feign.log.FeignLogInterceptor
-import com.tony.feign.log.FeignRequestTraceLogger
+import com.tony.feign.log.FeignRequestLogger
 import com.tony.feign.okhttp.interceptor.AppInterceptor
 import com.tony.feign.okhttp.interceptor.NetworkInterceptor
 import com.tony.misc.YamlPropertySourceFactory
@@ -47,6 +47,7 @@ import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.ObjectFactory
 import org.springframework.beans.factory.ObjectProvider
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters
@@ -61,6 +62,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.lang.Nullable
+import org.springframework.util.unit.DataSize
 
 /**
  * FeignConfig
@@ -68,10 +70,12 @@ import org.springframework.lang.Nullable
  * @date 2023/05/25 19:43
  * @since 1.0.0
  */
-@EnableConfigurationProperties(FeignConfigProperties::class)
+@EnableConfigurationProperties(value = [FeignConfigProperties::class, RequestLogProperties::class])
 @Configuration
 @PropertySource("classpath:feign.config.yml", factory = YamlPropertySourceFactory::class)
-public class FeignConfig {
+internal class FeignConfig(
+    private val requestLogProperties: RequestLogProperties,
+) {
     @Bean
     internal fun encoder(messageConverters: ObjectFactory<HttpMessageConverters>): Encoder =
         SpringFormEncoder(SpringEncoder(messageConverters))
@@ -88,16 +92,24 @@ public class FeignConfig {
     internal fun errorDecoder() =
         DefaultErrorDecoder()
 
-    @ConditionalOnMissingBean(FeignRequestTraceLogger::class)
-    @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
+    @ConditionalOnMissingBean(FeignRequestLogger::class)
+    @ConditionalOnExpression(
+        "\${spring.cloud.openfeign.okhttp.enabled:true} and \${web.log.request.enabled:true}"
+    )
     @Bean
-    internal fun feignRequestTraceLogger(): FeignRequestTraceLogger =
-        DefaultFeignRequestTraceLogger()
+    internal fun feignRequestLogger(): FeignRequestLogger =
+        DefaultFeignRequestLogger()
 
-    @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
+    @ConditionalOnExpression(
+        "\${spring.cloud.openfeign.okhttp.enabled:true} and \${web.log.request.enabled:true}"
+    )
     @Bean
-    internal fun feignLogInterceptor(feignRequestTraceLogger: FeignRequestTraceLogger) =
-        FeignLogInterceptor(feignRequestTraceLogger)
+    internal fun feignLogInterceptor(feignRequestLogger: FeignRequestLogger) =
+        FeignLogInterceptor(
+            feignRequestLogger,
+            requestLogProperties.requestBodyMaxSize.toBytes(),
+            requestLogProperties.responseBodyMaxSize.toBytes()
+        )
 
     @ConditionalOnMissingBean(name = ["useRequestProcessorsRequestInterceptor"])
     @Bean("useRequestProcessorsRequestInterceptor")
@@ -162,4 +174,27 @@ internal data class FeignConfigProperties
         val retryOnConnectionFailure: Boolean,
         @DefaultValue("true")
         val followRedirects: Boolean,
+    )
+
+@ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
+@ConditionalOnBean(OkHttpClient::class)
+@ConfigurationProperties(prefix = "web.log.request")
+internal data class RequestLogProperties
+    @ConstructorBinding
+    constructor(
+        /**
+         * 是否记录request日志。
+         */
+        @DefaultValue("true")
+        val enabled: Boolean,
+        /**
+         * request日志请求体长度, 超过只显示ContentType
+         */
+        @DefaultValue("50KB")
+        val requestBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
+        /**
+         * request日志响应体长度, 超过只显示ContentType
+         */
+        @DefaultValue("50KB")
+        val responseBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
     )

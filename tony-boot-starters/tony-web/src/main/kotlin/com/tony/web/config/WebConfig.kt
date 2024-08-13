@@ -46,9 +46,9 @@ import com.tony.web.converter.EnumIntValueConverterFactory
 import com.tony.web.converter.EnumStringValueConverterFactory
 import com.tony.web.filter.RequestReplaceToRepeatReadFilter
 import com.tony.web.filter.TraceIdFilter
-import com.tony.web.filter.TraceLoggingFilter
-import com.tony.web.log.DefaultRequestTraceLogger
-import com.tony.web.log.RequestTraceLogger
+import com.tony.web.filter.TraceLogFilter
+import com.tony.web.log.DefaultTraceLogger
+import com.tony.web.log.TraceLogger
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.BeanUtils
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
@@ -68,6 +68,7 @@ import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.http.server.ServerHttpResponse
+import org.springframework.util.unit.DataSize
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.DefaultCorsProcessor
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -88,10 +89,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
             .SERVLET
 )
 @PropertySource("classpath:web.config.yml", factory = YamlPropertySourceFactory::class)
-@EnableConfigurationProperties(value = [WebProperties::class, WebLogProperties::class, WebCorsProperties::class])
+@EnableConfigurationProperties(value = [WebProperties::class, TraceLogProperties::class, WebCorsProperties::class])
 internal class WebConfig(
     private val webProperties: WebProperties,
-    private val webLogProperties: WebLogProperties,
+    private val traceLogProperties: TraceLogProperties,
     private val webCorsProperties: WebCorsProperties,
 ) : WebMvcConfigurer {
     override fun addFormatters(registry: FormatterRegistry) {
@@ -123,26 +124,26 @@ internal class WebConfig(
     @ConditionalOnExpression("\${web.log.trace.enabled:true}")
     @Bean
     internal fun requestReplaceToRepeatReadFilter() =
-        RequestReplaceToRepeatReadFilter(webLogProperties.excludePatterns)
+        RequestReplaceToRepeatReadFilter(traceLogProperties.excludePatterns)
 
     @Bean
     internal fun traceIdFilter() =
         TraceIdFilter()
 
-    @ConditionalOnMissingBean(RequestTraceLogger::class)
+    @ConditionalOnMissingBean(TraceLogger::class)
     @ConditionalOnExpression("\${web.log.trace.enabled:true}")
     @Bean
-    internal fun defaultRequestTraceLogger(): RequestTraceLogger =
-        DefaultRequestTraceLogger()
+    internal fun defaultTraceLogger(): TraceLogger =
+        DefaultTraceLogger()
 
     @ConditionalOnExpression("\${web.log.trace.enabled:true}")
     @Bean
-    internal fun traceLoggingFilter(requestTraceLogger: RequestTraceLogger): TraceLoggingFilter =
-        TraceLoggingFilter(
-            requestTraceLogger,
-            webLogProperties.excludePatterns,
-            webLogProperties.requestBodyMaxSize,
-            webLogProperties.responseBodyMaxSize
+    internal fun traceLogFilter(traceLogger: TraceLogger): TraceLogFilter =
+        TraceLogFilter(
+            traceLogger,
+            traceLogProperties.excludePatterns,
+            traceLogProperties.requestBodyMaxSize.toBytes(),
+            traceLogProperties.responseBodyMaxSize.toBytes()
         )
 
     @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
@@ -247,28 +248,28 @@ internal data class WebProperties
             .SERVLET
 )
 @ConfigurationProperties(prefix = "web.log.trace")
-internal data class WebLogProperties
+internal data class TraceLogProperties
     @ConstructorBinding
     constructor(
         /**
-         * 是否记录请求日志。
+         * 是否记录trace日志。
          */
         @DefaultValue("true")
         val enabled: Boolean,
         /**
-         * 请求日志排除url
+         * trace日志排除url
          */
         val excludePatterns: List<String> = listOf(),
         /**
-         * 请求日志请求体长度, 超过只显示ContentType
+         * trace日志请求体长度, 超过只显示ContentType
          */
-        @DefaultValue("65535")
-        val requestBodyMaxSize: Int = 65535,
+        @DefaultValue("50KB")
+        val requestBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
         /**
-         * 请求日志响应体长度, 超过只显示ContentType
+         * trace日志响应体长度, 超过只显示ContentType
          */
-        @DefaultValue("65535")
-        val responseBodyMaxSize: Int = 65535,
+        @DefaultValue("50KB")
+        val responseBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
     )
 
 /**

@@ -49,6 +49,7 @@ import okhttp3.Request
 import okhttp3.Response
 import org.slf4j.Logger
 import org.springframework.http.HttpStatus
+import org.springframework.util.unit.DataSize
 
 /**
  * Feign okhttp 请求日志拦截器
@@ -58,8 +59,26 @@ import org.springframework.http.HttpStatus
  */
 @Priority(Int.MAX_VALUE)
 internal class FeignLogInterceptor(
-    private val feignRequestTraceLogger: FeignRequestTraceLogger,
+    private val feignRequestLogger: FeignRequestLogger,
+    /**
+     * request日志请求体长度, 超过只显示ContentType
+     */
+    private val requestBodyMaxSize: Long,
+    /**
+     * request日志响应体长度, 超过只显示ContentType
+     */
+    private val responseBodyMaxSize: Long,
 ) : NetworkInterceptor {
+    private val logger = getLogger()
+
+    init {
+        logger.info(
+            "Request log is enabled. " +
+                "Request body size limit is ${DataSize.ofBytes(requestBodyMaxSize)}, " +
+                "Response body size limit is ${DataSize.ofBytes(responseBodyMaxSize)} "
+        )
+    }
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val startTime = LocalDateTime.now()
         val request = chain.request()
@@ -83,7 +102,14 @@ internal class FeignLogInterceptor(
                 .headers(headers)
                 .build()
 
-        feignRequestTraceLogger.log(chain.connection(), newRequest, response, elapsedTime)
+        feignRequestLogger.requestLog(
+            chain.connection(),
+            newRequest,
+            response,
+            elapsedTime,
+            requestBodyMaxSize,
+            responseBodyMaxSize
+        )
         return response
     }
 }
@@ -94,7 +120,7 @@ internal class FeignLogInterceptor(
  * @date 2023/09/13 19:35
  * @since 1.0.0
  */
-internal open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
+internal open class DefaultFeignRequestLogger : FeignRequestLogger {
     protected val logger: Logger =
         getLogger("request-logger")
 
@@ -108,11 +134,13 @@ internal open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
      * @date 2023/09/12 19:10
      * @since 1.0.0
      */
-    override fun log(
+    override fun requestLog(
         connection: Connection?,
         request: Request,
         response: Response,
         elapsedTime: Long,
+        requestBodyMaxSize: Long,
+        responseBodyMaxSize: Long,
     ) {
         val url =
             request
@@ -146,7 +174,10 @@ internal open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
                 .joinToString(";;") { "${it.key}:${it.value}" }
         val requestBody =
             request.body?.run {
-                if (isTextMediaTypes(parsedMedia)) {
+                val size = contentLength()
+                if (size > requestBodyMaxSize) {
+                    "[too long content, length = ${DataSize.ofBytes(size)}]"
+                } else if (isTextMediaTypes(parsedMedia)) {
                     string()
                 } else {
                     "[${contentType()}]"
@@ -161,7 +192,10 @@ internal open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
                             ?.contentLength() ?: 0
                     ).coerceAtLeast(0)
                 ).run {
-                    if (isTextMediaTypes(parsedMedia)) {
+                    val size = contentLength()
+                    if (size > responseBodyMaxSize) {
+                        "[too long content, length = ${DataSize.ofBytes(size)}]"
+                    } else if (isTextMediaTypes(parsedMedia)) {
                         string()
                     } else {
                         "[${contentType()}]"
@@ -209,11 +243,13 @@ internal open class DefaultFeignRequestTraceLogger : FeignRequestTraceLogger {
  * @date 2023/09/13 19:35
  * @since 1.0.0
  */
-public fun interface FeignRequestTraceLogger {
-    public fun log(
+public fun interface FeignRequestLogger {
+    public fun requestLog(
         connection: Connection?,
         request: Request,
         response: Response,
         elapsedTime: Long,
+        requestBodyMaxSize: Long,
+        responseBodyMaxSize: Long,
     )
 }

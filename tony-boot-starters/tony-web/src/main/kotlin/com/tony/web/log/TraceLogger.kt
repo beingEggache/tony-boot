@@ -54,17 +54,18 @@ import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.Logger
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.util.unit.DataSize
 import org.springframework.web.util.ContentCachingResponseWrapper
 
 /**
- * 请求日志记录接口.
+ * trace日志记录接口.
  *
  * @author tangli
  * @date 2023/05/25 19:29
  */
-public fun interface RequestTraceLogger {
+public fun interface TraceLogger {
     /**
-     * 请求跟踪日志
+     * trace跟踪日志
      * @param [request] 请求
      * @param [response] 响应
      * @param [elapsedTime] 执行时间
@@ -74,12 +75,12 @@ public fun interface RequestTraceLogger {
      * @date 2024/08/13 15:53
      * @since 1.0.0
      */
-    public fun requestTraceLog(
+    public fun traceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         elapsedTime: Long,
-        requestBodyMaxSize: Int,
-        responseBodyMaxSize: Int,
+        requestBodyMaxSize: Long,
+        responseBodyMaxSize: Long,
     )
 }
 
@@ -114,13 +115,13 @@ internal object `#Const` {
  * @author tangli
  * @date 2023/05/25 19:30
  */
-internal class DefaultRequestTraceLogger : RequestTraceLogger {
-    override fun requestTraceLog(
+internal class DefaultTraceLogger : TraceLogger {
+    override fun traceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         elapsedTime: Long,
-        requestBodyMaxSize: Int,
-        responseBodyMaxSize: Int,
+        requestBodyMaxSize: Long,
+        responseBodyMaxSize: Long,
     ) {
         val requestBody = requestBody(request, requestBodyMaxSize)
         val responseBody = responseBody(response, responseBodyMaxSize)
@@ -169,7 +170,7 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
 
     private fun requestBody(
         request: RepeatReadRequestWrapper,
-        requestBodyMaxSize: Int,
+        requestBodyMaxSize: Long,
     ) = if (!isTextMediaTypes(request.parsedMedia)) {
         "[${request.contentType}]"
     } else if (request
@@ -182,10 +183,11 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
             )
     ) {
         val bytes = request.contentAsByteArray
+        val size = bytes.size.toLong()
         when {
             bytes.isEmpty() -> NULL
-            bytes.size <= requestBodyMaxSize -> String(bytes)
-            else -> "[too long content, length = ${bytes.size}]"
+            size <= requestBodyMaxSize -> String(bytes)
+            else -> "[too long content, length = ${DataSize.ofBytes(size)}]"
         }
     } else {
         NULL
@@ -193,15 +195,15 @@ internal class DefaultRequestTraceLogger : RequestTraceLogger {
 
     private fun responseBody(
         response: ContentCachingResponseWrapper,
-        responseBodyMaxSize: Int,
+        responseBodyMaxSize: Long,
     ) = if (!isTextMediaTypes(response.parsedMedia)) {
         "[${response.contentType}]"
     } else {
         response.contentAsByteArray.let { bytes ->
-            val size = bytes.size
+            val size = bytes.size.toLong()
             when {
                 size in 1..responseBodyMaxSize -> String(bytes)
-                size >= responseBodyMaxSize -> "[too long content, length = $size]"
+                size >= responseBodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
                 else -> NULL
             }
         }

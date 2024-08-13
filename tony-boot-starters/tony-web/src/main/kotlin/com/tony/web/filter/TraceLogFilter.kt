@@ -39,7 +39,7 @@ import com.tony.utils.toInstant
 import com.tony.utils.uuid
 import com.tony.web.WebContext
 import com.tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
-import com.tony.web.log.RequestTraceLogger
+import com.tony.web.log.TraceLogger
 import com.tony.web.utils.isCorsPreflightRequest
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
@@ -49,6 +49,7 @@ import java.io.IOException
 import java.time.LocalDateTime
 import org.slf4j.MDC
 import org.springframework.core.PriorityOrdered
+import org.springframework.util.unit.DataSize
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingResponseWrapper
 
@@ -58,26 +59,30 @@ import org.springframework.web.util.ContentCachingResponseWrapper
  * @date 2023/09/13 19:48
  * @since 1.0.0
  */
-internal class TraceLoggingFilter(
-    private val requestTraceLogger: RequestTraceLogger,
+internal class TraceLogFilter(
+    private val traceLogger: TraceLogger,
     /**
      * 请求日志排除url
      */
     traceLogExcludePatterns: List<String>,
     /**
-     * 请求日志请求体长度, 超过只显示ContentType
+     * trace日志请求体长度, 超过只显示ContentType
      */
-    private val requestBodyMaxSize: Int,
+    private val requestBodyMaxSize: Long,
     /**
-     * 请求日志响应体长度, 超过只显示ContentType
+     * trace日志响应体长度, 超过只显示ContentType
      */
-    private val responseBodyMaxSize: Int,
+    private val responseBodyMaxSize: Long,
 ) : OncePerRequestFilter(),
     PriorityOrdered {
     private val log = getLogger()
 
     init {
-        log.info("Request trace log is enabled")
+        log.info(
+            "Trace log is enabled. " +
+                "Request body size limit is ${DataSize.ofBytes(requestBodyMaxSize)}, " +
+                "Response body size limit is ${DataSize.ofBytes(responseBodyMaxSize)} "
+        )
         if (traceLogExcludePatterns.isNotEmpty()) {
             log.info("Request trace log exclude patterns: $traceLogExcludePatterns")
         }
@@ -127,7 +132,7 @@ internal class TraceLoggingFilter(
         response: ContentCachingResponseWrapper,
         elapsedTime: Long,
     ) = try {
-        requestTraceLogger.requestTraceLog(
+        traceLogger.traceLog(
             request,
             response,
             elapsedTime,
