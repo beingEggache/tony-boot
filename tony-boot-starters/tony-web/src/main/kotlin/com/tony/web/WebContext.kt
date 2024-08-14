@@ -174,7 +174,7 @@ public data object WebContext {
      * 一般默认包含 文档地址, 及对应的静态文件地址.
      *
      * @param [prefix] 前缀
-     * @return [Set<String>]
+     * @return [Set]<[String]>
      * @author tangli
      * @date 2024/02/07 09:27
      * @since 1.0.0
