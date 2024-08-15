@@ -5,11 +5,7 @@ dependencies {
     val profile = Build.getProfile()
 
     //while execute gradle task, use -Pprofile=prod
-    if (profile == "qa") {
-        implementation(Build.templateProject("knife4j-api")) { isChanging = true }
-        implementation(tonyLibs.knife4jOpenapi3Ui)
-    }
-    if (profile == "dev") {
+    if (profile in setOf("qa", "dev")) {
         implementation(Build.templateProject("knife4j-api")) { isChanging = true }
         implementation(tonyLibs.knife4jOpenapi3Ui)
     }
