@@ -37,7 +37,10 @@ COPY --from=builder app/extracted/dependencies/ ./
 COPY --from=builder app/extracted/snapshot-dependencies/ ./
 COPY --from=builder app/extracted/application/ ./
 
+RUN java -XX:ArchiveClassesAtExit=app.jsa -Dspring.context.exit=onRefresh -jar app.jar
+
 ENTRYPOINT ["sh", "-c", "java ${JVM_DEFAULT_OPTS} ${PROPS} ${JVM_OPTS} \
+-XX:SharedArchiveFile=app.jsa \
 $([ ${ENABLE_ERROR_LOGS} == 'true' ] && echo -n '\
 -XX:ErrorFile=/logs/hs_err_pid.log \
 -XX:HeapDumpPath=/logs/java_heapdump.hprof \
