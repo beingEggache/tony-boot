@@ -57,7 +57,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -81,7 +80,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
  * @author tangli
  * @date 2023/05/25 19:35
  */
-@Configuration
 @ConditionalOnWebApplication(
     type =
         ConditionalOnWebApplication
@@ -90,6 +88,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 )
 @PropertySource("classpath:web.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(value = [WebProperties::class, TraceLogProperties::class, WebCorsProperties::class])
+@Configuration
 internal class WebConfig(
     private val webProperties: WebProperties,
     private val traceLogProperties: TraceLogProperties,
@@ -217,29 +216,27 @@ internal class WebConfig(
             .SERVLET
 )
 @ConfigurationProperties(prefix = "web")
-internal data class WebProperties
-    @ConstructorBinding
-    constructor(
-        /**
-         * 是否包装返回值。
-         */
-        @DefaultValue("true")
-        val wrapResponseBodyEnabled: Boolean,
-        /**
-         * 是否注入请求。
-         */
-        @DefaultValue("true")
-        val injectRequestBodyEnabled: Boolean,
-        /**
-         * 包装返回值白名单url（ant pattern）。
-         */
-        val wrapResponseExcludePatterns: List<String> = listOf(),
-        /**
-         * 是否处理响应json null值。
-         */
-        @DefaultValue("true")
-        val fillResponseNullValueEnabled: Boolean,
-    )
+internal data class WebProperties(
+    /**
+     * 是否包装返回值。
+     */
+    @DefaultValue("true")
+    val wrapResponseBodyEnabled: Boolean,
+    /**
+     * 是否注入请求。
+     */
+    @DefaultValue("true")
+    val injectRequestBodyEnabled: Boolean,
+    /**
+     * 包装返回值白名单url（ant pattern）。
+     */
+    val wrapResponseExcludePatterns: List<String> = listOf(),
+    /**
+     * 是否处理响应json null值。
+     */
+    @DefaultValue("true")
+    val fillResponseNullValueEnabled: Boolean,
+)
 
 @ConditionalOnWebApplication(
     type =
@@ -248,29 +245,27 @@ internal data class WebProperties
             .SERVLET
 )
 @ConfigurationProperties(prefix = "web.log.trace")
-internal data class TraceLogProperties
-    @ConstructorBinding
-    constructor(
-        /**
-         * 是否记录trace日志。
-         */
-        @DefaultValue("true")
-        val enabled: Boolean,
-        /**
-         * trace日志排除url
-         */
-        val excludePatterns: List<String> = listOf(),
-        /**
-         * trace日志请求体长度, 超过只显示ContentType
-         */
-        @DefaultValue("50KB")
-        val requestBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
-        /**
-         * trace日志响应体长度, 超过只显示ContentType
-         */
-        @DefaultValue("50KB")
-        val responseBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
-    )
+internal data class TraceLogProperties(
+    /**
+     * 是否记录trace日志。
+     */
+    @DefaultValue("true")
+    val enabled: Boolean,
+    /**
+     * trace日志排除url
+     */
+    val excludePatterns: List<String> = listOf(),
+    /**
+     * trace日志请求体长度, 超过只显示ContentType
+     */
+    @DefaultValue("50KB")
+    val requestBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
+    /**
+     * trace日志响应体长度, 超过只显示ContentType
+     */
+    @DefaultValue("50KB")
+    val responseBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
+)
 
 /**
  * WebCorsProperties
@@ -285,19 +280,17 @@ internal data class TraceLogProperties
             .SERVLET
 )
 @ConfigurationProperties(prefix = "web.cors")
-public data class WebCorsProperties
-    @ConstructorBinding
-    constructor(
-        @DefaultValue("false")
-        val enabled: Boolean,
-        val allowedOriginPatterns: List<String> = listOf("*"),
-        val allowedHeaders: List<String> = listOf("*"),
-        val allowedMethods: List<String> = listOf("*"),
-        val exposedHeaders: List<String> = listOf(HttpHeaders.CONTENT_DISPOSITION),
-        val maxAge: Long = Long.MAX_VALUE,
-        @DefaultValue("true")
-        val allowCredentials: Boolean,
-    )
+public data class WebCorsProperties(
+    @DefaultValue("false")
+    val enabled: Boolean,
+    val allowedOriginPatterns: List<String> = listOf("*"),
+    val allowedHeaders: List<String> = listOf("*"),
+    val allowedMethods: List<String> = listOf("*"),
+    val exposedHeaders: List<String> = listOf(HttpHeaders.CONTENT_DISPOSITION),
+    val maxAge: Long = Long.MAX_VALUE,
+    @DefaultValue("true")
+    val allowCredentials: Boolean,
+)
 
 /**
  * ApiCorsProcessor

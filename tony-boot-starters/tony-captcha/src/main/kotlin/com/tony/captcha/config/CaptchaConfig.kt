@@ -46,8 +46,8 @@ import org.springframework.context.annotation.Configuration
  * @author tangli
  * @date 2023/05/25 19:41
  */
-@Configuration
 @EnableConfigurationProperties(CaptchaProperties::class)
+@Configuration
 internal class CaptchaConfig(
     private val captchaProperties: CaptchaProperties,
 ) {

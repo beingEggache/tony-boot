@@ -27,12 +27,11 @@ package com.tony.aliyun.sms.config
 import com.tony.aliyun.sms.AliyunSmsManager
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
-@Configuration
 @EnableConfigurationProperties(AliyunSmsProperties::class)
+@Configuration
 public class AliyunSmsConfig(
     private val aliyunSMSProperties: AliyunSmsProperties,
 ) {
@@ -47,11 +46,9 @@ public class AliyunSmsConfig(
 }
 
 @ConfigurationProperties(prefix = "aliyun.sms")
-public class AliyunSmsProperties
-    @ConstructorBinding
-    constructor(
-        public val accessKeyId: String,
-        public val accessKeySecret: String,
-        public val signName: String,
-        public val timeout: String,
-    )
+public class AliyunSmsProperties(
+    public val accessKeyId: String,
+    public val accessKeySecret: String,
+    public val signName: String,
+    public val timeout: String,
+)

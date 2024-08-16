@@ -34,7 +34,6 @@ import kotlin.reflect.full.findAnnotation
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.cloud.openfeign.FeignClientBuilder
 import org.springframework.context.ApplicationContext
@@ -43,8 +42,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 
-@Configuration
 @EnableConfigurationProperties(WechatProperties::class)
+@Configuration
 internal class WechatConfig {
     @Resource
     private fun initMappingJackson2HttpMessageConverter(
@@ -86,22 +85,20 @@ internal class WechatConfig {
  * @date 2023/05/25 19:22
  */
 @ConfigurationProperties(prefix = "wechat")
-public data class WechatProperties
-    @ConstructorBinding
-    constructor(
-        val token: String?,
-        val appId: String?,
-        val appSecret: String?,
-        val mchId: String?,
-        val mchSecretKey: String?,
-        val app: LinkedHashMap<String, WechatAppProperties>?,
-    ) {
-        public fun getAppByAppId(appId: String): String? =
-            app
-                ?.entries
-                ?.firstOrNull { it.value.appId == appId }
-                ?.key
-    }
+public data class WechatProperties(
+    val token: String?,
+    val appId: String?,
+    val appSecret: String?,
+    val mchId: String?,
+    val mchSecretKey: String?,
+    val app: LinkedHashMap<String, WechatAppProperties>?,
+) {
+    public fun getAppByAppId(appId: String): String? =
+        app
+            ?.entries
+            ?.firstOrNull { it.value.appId == appId }
+            ?.key
+}
 
 /**
  * 微信配置

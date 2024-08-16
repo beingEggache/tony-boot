@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource
  * @date 2024/01/23 10:40
  * @since 1.0.0
  */
-@PropertySource("classpath:powerjob.config.yml", factory = YamlPropertySourceFactory::class)
 @ComponentScan("com.tony.job")
+@PropertySource("classpath:powerjob.config.yml", factory = YamlPropertySourceFactory::class)
 @Configuration
 class PowerJobConfig

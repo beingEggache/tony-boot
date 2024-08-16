@@ -40,7 +40,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -58,9 +57,9 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
  * @author tangli
  * @date 2023/05/25 19:31
  */
-@Configuration
-@EnableConfigurationProperties(RedisProperties::class)
 @PropertySource("classpath:redis.config.yml", factory = YamlPropertySourceFactory::class)
+@EnableConfigurationProperties(RedisProperties::class)
+@Configuration
 internal class RedisConfig(
     private val redisProperties: RedisProperties,
 ) {
@@ -138,14 +137,12 @@ internal class RedisConfig(
  * @date 2023/05/25 19:31
  */
 @ConfigurationProperties(prefix = "redis")
-internal data class RedisProperties
-    @ConstructorBinding
-    constructor(
-        @DefaultValue("")
-        val keyPrefix: String,
-        /**
-         * redis 序列化/反序列化 方式
-         */
-        @DefaultValue("JACKSON")
-        val serializerMode: SerializerMode,
-    )
+internal data class RedisProperties(
+    @DefaultValue("")
+    val keyPrefix: String,
+    /**
+     * redis 序列化/反序列化 方式
+     */
+    @DefaultValue("JACKSON")
+    val serializerMode: SerializerMode,
+)

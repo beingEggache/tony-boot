@@ -49,9 +49,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
  * @author tangli
  * @date 2023/05/25 19:13
  */
-@Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableConfigurationProperties(JwtProperties::class, WebAuthProperties::class)
+@Configuration
 internal class WebAuthConfig(
     private val jwtProperties: JwtProperties,
     private val webAuthProperties: WebAuthProperties,

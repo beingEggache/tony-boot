@@ -53,7 +53,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer
 import org.springframework.cloud.openfeign.support.SpringDecoder
@@ -70,9 +69,9 @@ import org.springframework.util.unit.DataSize
  * @date 2023/05/25 19:43
  * @since 1.0.0
  */
+@PropertySource("classpath:feign.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(value = [FeignConfigProperties::class, RequestLogProperties::class])
 @Configuration
-@PropertySource("classpath:feign.config.yml", factory = YamlPropertySourceFactory::class)
 internal class FeignConfig(
     private val requestLogProperties: RequestLogProperties,
 ) {
@@ -157,44 +156,40 @@ internal class FeignConfig(
 }
 
 @ConfigurationProperties(prefix = "spring.cloud.openfeign.okhttp")
-internal data class FeignConfigProperties
-    @ConstructorBinding
-    constructor(
-        @DefaultValue("0")
-        val callTimeout: Long,
-        @DefaultValue("10000")
-        val connectTimeout: Long,
-        @DefaultValue("10000")
-        val readTimeout: Long,
-        @DefaultValue("10000")
-        val writeTimeout: Long,
-        @DefaultValue("10000")
-        val pingInterval: Long,
-        @DefaultValue("true")
-        val retryOnConnectionFailure: Boolean,
-        @DefaultValue("true")
-        val followRedirects: Boolean,
-    )
+internal data class FeignConfigProperties(
+    @DefaultValue("0")
+    val callTimeout: Long,
+    @DefaultValue("10000")
+    val connectTimeout: Long,
+    @DefaultValue("10000")
+    val readTimeout: Long,
+    @DefaultValue("10000")
+    val writeTimeout: Long,
+    @DefaultValue("10000")
+    val pingInterval: Long,
+    @DefaultValue("true")
+    val retryOnConnectionFailure: Boolean,
+    @DefaultValue("true")
+    val followRedirects: Boolean,
+)
 
 @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
 @ConditionalOnBean(OkHttpClient::class)
 @ConfigurationProperties(prefix = "web.log.request")
-internal data class RequestLogProperties
-    @ConstructorBinding
-    constructor(
-        /**
-         * 是否记录request日志。
-         */
-        @DefaultValue("true")
-        val enabled: Boolean,
-        /**
-         * request日志请求体长度, 超过只显示ContentType
-         */
-        @DefaultValue("50KB")
-        val requestBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
-        /**
-         * request日志响应体长度, 超过只显示ContentType
-         */
-        @DefaultValue("50KB")
-        val responseBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
-    )
+internal data class RequestLogProperties(
+    /**
+     * 是否记录request日志。
+     */
+    @DefaultValue("true")
+    val enabled: Boolean,
+    /**
+     * request日志请求体长度, 超过只显示ContentType
+     */
+    @DefaultValue("50KB")
+    val requestBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
+    /**
+     * request日志响应体长度, 超过只显示ContentType
+     */
+    @DefaultValue("50KB")
+    val responseBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
+)

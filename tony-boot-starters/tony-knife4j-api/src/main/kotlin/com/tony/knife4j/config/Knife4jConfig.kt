@@ -36,16 +36,15 @@ import org.springdoc.core.models.GroupedOpenApi
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.context.properties.bind.ConstructorBinding
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 
 @EnableKnife4j
-@EnableConfigurationProperties(Knife4jExtensionProperties::class)
 @ConditionalOnExpression("\${knife4j.enable:true}")
 @PropertySource("classpath:knife4j.config.yml", factory = YamlPropertySourceFactory::class)
+@EnableConfigurationProperties(Knife4jExtensionProperties::class)
 @Configuration
 internal class Knife4jExtensionConfig(
     private val knife4jExtensionProperties: Knife4jExtensionProperties,
@@ -83,14 +82,12 @@ internal class Knife4jExtensionConfig(
 }
 
 @ConfigurationProperties(prefix = "knife4j.extension")
-public data class Knife4jExtensionProperties
-    @ConstructorBinding
-    constructor(
-        @DefaultValue("Tony-Api")
-        val title: String,
-        @DefaultValue("1.0")
-        val version: String,
-        @DefaultValue("")
-        val description: String,
-        val contact: Contact = Contact(),
-    )
+public data class Knife4jExtensionProperties(
+    @DefaultValue("Tony-Api")
+    val title: String,
+    @DefaultValue("1.0")
+    val version: String,
+    @DefaultValue("")
+    val description: String,
+    val contact: Contact = Contact(),
+)

@@ -43,14 +43,14 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
  * @author tangli
  * @date 2023/05/26 19:00
  */
-@Configuration
-@ConditionalOnExpression("\${web.crypto.enabled:false}")
 @ConditionalOnWebApplication(
     type =
         ConditionalOnWebApplication
             .Type
             .SERVLET
 )
+@ConditionalOnExpression("\${web.crypto.enabled:false}")
+@Configuration
 internal class WebCryptoConfig {
     @Resource
     internal fun initMappingJackson2HttpMessageConverter(
