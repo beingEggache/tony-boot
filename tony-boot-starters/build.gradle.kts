@@ -72,7 +72,7 @@ configure(allprojects) {
     }
     tasks.withType<DependencyUpdatesTask> {
         revision = "release"
-        checkForGradleUpdate = false
+        checkForGradleUpdate = true
         gradleReleaseChannel = "current"
         checkConstraints = true
         checkBuildEnvironmentConstraints = true
