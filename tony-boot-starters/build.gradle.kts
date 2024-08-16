@@ -23,7 +23,9 @@
  */
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import com.tony.gradle.plugin.Build
+import com.tony.gradle.plugin.Build.Companion.templateGroup
+import com.tony.gradle.plugin.Build.Companion.templatePrefix
+import com.tony.gradle.plugin.Build.Companion.templateVersion
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
@@ -41,16 +43,16 @@ plugins {
     alias(tonyLibs.plugins.dependencyAnalysis)
 }
 
-val dependenciesProjects = setOf(project("${Build.PREFIX}-dependencies"))
-val dependenciesCatalogProjects = setOf(project("${Build.PREFIX}-dependencies-catalog"))
+val dependenciesProjects = setOf(project("${templatePrefix()}-dependencies"))
+val dependenciesCatalogProjects = setOf(project("${templatePrefix()}-dependencies-catalog"))
 val libraryProjects = subprojects - dependenciesProjects - dependenciesCatalogProjects
 
 val javaVersion: String = rootProject.tonyLibs.versions.java.get()
 val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
 
 configure(allprojects) {
-    group = Build.GROUP
-    version = Build.VERSION
+    group = templateGroup()
+    version = templateVersion()
     repositories {
         mavenLocal()
 
@@ -80,7 +82,7 @@ configure(allprojects) {
         rejectVersionIf {
             candidate
                 .version
-                .contains(Regex("alpha|beta|rc|snapshot|milestone|pre|m",RegexOption.IGNORE_CASE))
+                .contains(Regex("alpha|beta|rc|snapshot|milestone|pre|m", RegexOption.IGNORE_CASE))
         }
     }
 }
@@ -154,7 +156,7 @@ configure(libraryProjects) {
     }
 
     dependencies {
-        add("implementation", platform(project(":${Build.PREFIX}-dependencies")))
+        add("implementation", platform(project(":${templatePrefix()}-dependencies")))
         add("kapt", rootProject.tonyLibs.bundles.springBootProcessors)
         add("kaptTest", rootProject.tonyLibs.springContextIndexer)
         add("testImplementation", rootProject.tonyLibs.bundles.test)

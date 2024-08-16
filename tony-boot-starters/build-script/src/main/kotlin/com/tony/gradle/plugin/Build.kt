@@ -38,21 +38,33 @@ class Build : Plugin<Project> {
     override fun apply(target: Project) = Unit
 
     companion object {
-        const val GROUP = "com.tony"
-        const val PREFIX = "tony"
-        const val VERSION = "0.1-SNAPSHOT"
+        private const val GROUP = "com.tony"
+        private const val PREFIX = "tony"
+        private const val VERSION = "0.1-SNAPSHOT"
 
         @JvmStatic
-        fun templateProject(name: String): String =
-            "$GROUP:$PREFIX-$name:$VERSION"
+        fun Project.propFromSysOrProject(propertyName: String, defaultValue: String = ""): String =
+            System.getProperty(propertyName) ?: findProperty(propertyName)?.toString() ?: defaultValue
 
         @JvmStatic
-        fun getProfile(): String =
-            System.getProperty("profile", "dev")
+        fun Project.templateGroup(): String =
+            propFromSysOrProject("templateGroup", GROUP)
 
-        fun Project.getImageNameFromProperty(): String =
-            System.getProperty("project_name", name)
+        @JvmStatic
+        fun Project.templatePrefix(): String =
+            propFromSysOrProject("templatePrefix", PREFIX)
 
+        @JvmStatic
+        fun Project.templateVersion(): String =
+            propFromSysOrProject("templateVersion", VERSION)
+
+        @JvmStatic
+        fun Project.profile(): String =
+            propFromSysOrProject("profile", "dev")
+
+        @JvmStatic
+        fun Project.templateProject(name: String): String =
+            "${templateGroup()}:${templatePrefix()}-$name:${templateVersion()}"
 
         fun Project.copyProjectHookToGitHook(projectRootDir: File, vararg hookNames: String) {
 

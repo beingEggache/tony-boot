@@ -23,13 +23,13 @@
 [versions]
 template = "0.1-SNAPSHOT"
 java = "21"
-kotlin = "1.9.24"
+kotlin = "1.9.25"
 spring = "6.1.12"
 springBoot = "3.3.2"
 
 slf4j = "2.0.16"
 
-byteBuddy = "1.14.18"
+byteBuddy = "1.14.19"
 bouncycastle = "1.78.1"
 
 openFeign = "13.3"

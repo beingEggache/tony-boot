@@ -39,26 +39,26 @@ dependencyResolutionManagement {
     defaultLibrariesExtensionName = "tonyLibs"
 }
 
-val projectPrefix: String by settings
-rootProject.name = "$projectPrefix-boot-starters"
-include("$projectPrefix-dependencies")
-include("$projectPrefix-dependencies-catalog")
-include("$projectPrefix-aliyun-oss")
-include("$projectPrefix-aliyun-sms")
-include("$projectPrefix-interfaces")
-include("$projectPrefix-web")
-include("$projectPrefix-core")
-include("$projectPrefix-redis")
-include("$projectPrefix-alipay")
-include("$projectPrefix-wechat")
-include("$projectPrefix-jwt")
-include("$projectPrefix-web-auth")
-include("$projectPrefix-feign")
-include("$projectPrefix-mybatis-plus")
-include("$projectPrefix-captcha")
-include("$projectPrefix-snowflake-id")
-include("$projectPrefix-knife4j-api")
-include("$projectPrefix-web-crypto")
+val templatePrefix: String by settings
+rootProject.name = "$templatePrefix-boot-starters"
+include("$templatePrefix-dependencies")
+include("$templatePrefix-dependencies-catalog")
+include("$templatePrefix-aliyun-oss")
+include("$templatePrefix-aliyun-sms")
+include("$templatePrefix-interfaces")
+include("$templatePrefix-web")
+include("$templatePrefix-core")
+include("$templatePrefix-redis")
+include("$templatePrefix-alipay")
+include("$templatePrefix-wechat")
+include("$templatePrefix-jwt")
+include("$templatePrefix-web-auth")
+include("$templatePrefix-feign")
+include("$templatePrefix-mybatis-plus")
+include("$templatePrefix-captcha")
+include("$templatePrefix-snowflake-id")
+include("$templatePrefix-knife4j-api")
+include("$templatePrefix-web-crypto")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 

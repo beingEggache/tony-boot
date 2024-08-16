@@ -1,4 +1,4 @@
-import com.tony.gradle.plugin.Build
+import com.tony.gradle.plugin.Build.Companion.templateProject
 
 apply(plugin = rootProject.tonyLibs.plugins.kotlinSpring.get().pluginId)
 apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)
@@ -17,6 +17,6 @@ dependencies {
     implementation(tonyLibs.commonsPool2)
     implementation(tonyLibs.springBootStarterDataRedisReactive)
 
-    implementation(Build.templateProject("core")) { isChanging = true }
-    implementation(Build.templateProject("jwt")) { isChanging = true }
+    implementation(templateProject("core")) { isChanging = true }
+    implementation(templateProject("jwt")) { isChanging = true }
 }

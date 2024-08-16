@@ -1,4 +1,4 @@
-import com.tony.gradle.plugin.Build
+import com.tony.gradle.plugin.Build.Companion.templateProject
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
@@ -16,7 +16,6 @@ val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
 // copyProjectHookToGitHook(rootDir.parentFile, "pre-commit", "pre-push")
 
 configure(subprojects) {
-    group = Build.GROUP
     version = "0.1"
     repositories {
         mavenLocal()
@@ -65,7 +64,7 @@ configure(subprojects) {
         }
     }
     dependencies {
-        add("implementation", platform(Build.templateProject("dependencies")))
+        add("implementation", platform(templateProject("dependencies")))
         add("implementation", platform(rootProject.tonyLibs.springCloudTencentDependencies))
         add("kapt", rootProject.tonyLibs.springContextIndexer)
         add("testImplementation", rootProject.tonyLibs.bundles.test)

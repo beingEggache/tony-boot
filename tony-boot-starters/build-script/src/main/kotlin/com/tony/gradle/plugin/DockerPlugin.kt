@@ -25,7 +25,7 @@
 package com.tony.gradle.plugin
 
 import com.palantir.gradle.docker.DockerExtension
-import com.tony.gradle.plugin.Build.Companion.getImageNameFromProperty
+import com.tony.gradle.plugin.Build.Companion.propFromSysOrProject
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -33,7 +33,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Exec
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.provideDelegate
 
 class DockerPlugin : Plugin<Project> {
     override fun apply(project: Project) {
@@ -44,13 +43,19 @@ class DockerPlugin : Plugin<Project> {
         }
 
         val yyyyMMdd = SimpleDateFormat("yyyyMMdd")
-        val dockerRegistry: String by project
-        val dockerUserName: String by project
-        val dockerPassword: String by project
-        val dockerNameSpace: String by project
-        val imageNameFromProperty = project.getImageNameFromProperty()
-        val nameSpace: String = dockerNameSpace.ifBlank { dockerRegistry }
-        val dockerImageFullName = "$dockerRegistry/$nameSpace/${imageNameFromProperty}"
+        val dockerRegistry: String = project.propFromSysOrProject("dockerRegistry")
+        val dockerUserName: String = project.propFromSysOrProject("dockerUserName")
+        val dockerPassword: String = project.propFromSysOrProject("dockerPassword")
+        val dockerNameSpace: String = project.propFromSysOrProject("dockerNameSpace")
+        val projectName: String = project.propFromSysOrProject("projectName", project.name)
+        val dockerImageFullName =
+            listOf(
+                dockerRegistry,
+                dockerNameSpace,
+                projectName
+            ).filter {
+                it.isNotBlank()
+            }.joinToString("/")
 
         project.tasks.register("dockerLogin", Exec::class.java) {
             group = "docker"
@@ -74,13 +79,13 @@ class DockerPlugin : Plugin<Project> {
                 listOf(
                     "save",
                     "-o",
-                    "${imageNameFromProperty}.tar",
+                    "${projectName}.tar",
                     dockerImageFullName,
                 )
             )
         }
 
-        lateinit var taskNameList: List<String>
+        val taskNameList: List<String>
 
         project.extensions.getByType<DockerExtension>().apply {
             //final name:my.registry.com/username/my-app:version
@@ -88,13 +93,21 @@ class DockerPlugin : Plugin<Project> {
             val today = yyyyMMdd.format(Date())
             tag("today", "$name:$today")
             tag("latest", "$name:latest")
-            setDockerfile(File("Dockerfile"))
+            setDockerfile(File(project.propFromSysOrProject("Dockerfile", "Dockerfile")))
             // implicit task dep
-            val outputs = project.tasks.getByPath("bootJar").outputs
+            val outputs =
+                project
+                    .tasks
+                    .getByPath("bootJar")
+                    .outputs
             copySpec
                 .from(outputs)
                 .into("")
-            val args = project.properties.mapValues { (_, v) -> v.toString() }.toMutableMap()
+            val args =
+                project
+                    .properties
+                    .mapValues { (_, v) -> v.toString() }
+                    .toMutableMap()
             args.putIfAbsent("JAR_FILE", outputs.files.singleFile.name)
             buildArgs(args)
             taskNameList =
