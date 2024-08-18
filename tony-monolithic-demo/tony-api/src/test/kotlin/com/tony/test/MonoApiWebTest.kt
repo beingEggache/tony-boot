@@ -1,8 +1,8 @@
 package com.tony.test
 
 import com.tony.PageQuery
-import com.tony.sys.dto.req.RoleAddReq
-import com.tony.sys.dto.req.RoleUpdateReq
+import com.tony.demo.sys.dto.req.RoleAddReq
+import com.tony.demo.sys.dto.req.RoleUpdateReq
 import com.tony.demo.sys.service.RoleService
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
