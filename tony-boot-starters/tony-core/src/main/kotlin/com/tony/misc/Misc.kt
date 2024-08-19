@@ -33,8 +33,8 @@ import java.util.Date
 /**
  * 不支持响应包装类
  */
-public val notSupportResponseWrapClasses: Array<Class<*>?> =
-    arrayOf(
+public val notSupportResponseWrapClassCollection: Collection<Class<*>?> =
+    listOf(
         ApiResultLike::class.java,
         Enum::class.java,
         Date::class.java,

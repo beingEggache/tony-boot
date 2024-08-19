@@ -26,6 +26,7 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.tony.gradle.plugin.Build.Companion.templateGroup
 import com.tony.gradle.plugin.Build.Companion.templatePrefix
 import com.tony.gradle.plugin.Build.Companion.templateVersion
+import org.cadixdev.gradle.licenser.LicenseExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
@@ -41,6 +42,7 @@ plugins {
     alias(tonyLibs.plugins.dokka)
     alias(tonyLibs.plugins.gradleVersionsPlugin)
     alias(tonyLibs.plugins.dependencyAnalysis)
+    alias(tonyLibs.plugins.licenser) apply false
 }
 
 val dependenciesProjects = setOf(project("${templatePrefix()}-dependencies"))
@@ -84,6 +86,20 @@ configure(allprojects) {
                 .version
                 .contains(Regex("alpha|beta|rc|snapshot|milestone|pre|m", RegexOption.IGNORE_CASE))
         }
+    }
+    apply {
+        plugin(rootProject.tonyLibs.plugins.licenser.get().pluginId)
+    }
+    extensions.getByType<LicenseExtension>().apply {
+        this.setHeader(rootProject.file("LICENSE"))
+        include(
+            "**/*.java",
+            "**/*.kt",
+            "**/*.kts",
+            "**/*.xml",
+            "**/*.properties",
+            "**/*.toml",
+        )
     }
 }
 
@@ -163,7 +179,7 @@ configure(libraryProjects) {
     }
 
     // fix kapt additional-spring-configuration-metadata.json can not process problem
-    configure<KaptExtension> {
+    extensions.getByType<KaptExtension>().apply {
         arguments {
             arg(
                 "org.springframework.boot.configurationprocessor.additionalMetadataLocations",

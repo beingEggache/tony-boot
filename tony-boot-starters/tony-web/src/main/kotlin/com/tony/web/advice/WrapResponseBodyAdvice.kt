@@ -27,7 +27,7 @@ package com.tony.web.advice
 import com.tony.ApiProperty
 import com.tony.ApiResult
 import com.tony.ListResult
-import com.tony.misc.notSupportResponseWrapClasses
+import com.tony.misc.notSupportResponseWrapClassCollection
 import com.tony.utils.antPathMatchAny
 import com.tony.utils.asTo
 import com.tony.utils.getLogger
@@ -96,7 +96,7 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         converterType.isTypesOrSubTypesOf(MappingJackson2HttpMessageConverter::class.java) &&
         !returnType
             .parameterType
-            .isTypesOrSubTypesOf(*notSupportResponseWrapClasses)
+            .isTypesOrSubTypesOf(notSupportResponseWrapClassCollection)
 
     private companion object Utils {
         @JvmStatic

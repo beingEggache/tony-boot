@@ -40,7 +40,7 @@ import com.tony.ListResult
 import com.tony.crypto.CryptoProvider
 import com.tony.crypto.symmetric.decryptToString
 import com.tony.exception.ApiException
-import com.tony.misc.notSupportResponseWrapClasses
+import com.tony.misc.notSupportResponseWrapClassCollection
 import com.tony.utils.convertTo
 import com.tony.utils.getLogger
 import com.tony.utils.isArrayLikeType
@@ -125,7 +125,7 @@ internal class DefaultUnwrapResponseInterceptor(
                 ?.firstOrNull() == MediaType.APPLICATION_JSON_VALUE
 
         val hasErrorCode = !responseHeaders[ERROR_CODE_HEADER_NAME].isNullOrEmpty()
-        if (!hasErrorCode && (returnRawClass.isTypesOrSubTypesOf(*notSupportResponseWrapClasses) || !isJson)) {
+        if (!hasErrorCode && (returnRawClass.isTypesOrSubTypesOf(notSupportResponseWrapClassCollection) || !isJson)) {
             return chain.next(invocationContext)
         }
         val hasEncrypted = !responseHeaders[ENCRYPTED_HEADER_NAME].isNullOrEmpty()

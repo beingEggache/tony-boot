@@ -267,6 +267,8 @@ graalvm = { id="org.graalvm.buildtools.native", version.ref = "graalvm" }
 gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = "1.33.0" }
 
+licenser = { id = "org.cadixdev.licenser", version = "0.6.1" }
+
 tonyGradleBuild = { id = "com.tony.gradle.plugin.build", version.ref="template"}
 tonyDepConfigurations = { id = "com.tony.gradle.plugin.dep-configurations", version.ref="template"}
 tonyKtlint = { id = "com.tony.gradle.plugin.ktlint", version.ref="template"}

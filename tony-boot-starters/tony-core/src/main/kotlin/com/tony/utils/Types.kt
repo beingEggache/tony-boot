@@ -131,8 +131,19 @@ internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
 public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
     types.any { this.isTypeOrSubTypeOf(it) }
 
-private val NUMBER_TYPES: Array<Class<*>?> =
-    arrayOf(
+/**
+ * 检查 是否 是某些类型 或某些类型的子类
+ * @param [types] 类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:29
+ * @since 1.0.0
+ */
+public fun Class<*>.isTypesOrSubTypesOf(typeCollection: Collection<Class<*>?>): Boolean =
+    typeCollection.any { this.isTypeOrSubTypeOf(it) }
+
+private val numberTypeCollection: List<Class<*>?> =
+    listOf(
         Long::class.javaObjectType,
         Long::class.javaPrimitiveType,
         Int::class.javaObjectType,
@@ -157,7 +168,7 @@ private val NUMBER_TYPES: Array<Class<*>?> =
  * @since 1.0.0
  */
 public fun Class<*>.isNumberTypes(): Boolean =
-    isTypesOrSubTypesOf(*NUMBER_TYPES)
+    isTypesOrSubTypesOf(numberTypeCollection)
 
 /**
  * 是否字符串类型
