@@ -13,8 +13,6 @@ plugins {
 val javaVersion: String = rootProject.tonyLibs.versions.java.get()
 val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
 
-// copyProjectHookToGitHook(rootDir.parentFile, "pre-commit", "pre-push")
-
 configure(subprojects) {
     version = "0.1"
     repositories {

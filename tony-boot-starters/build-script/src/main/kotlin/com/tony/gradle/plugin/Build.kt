@@ -24,9 +24,9 @@
 
 package com.tony.gradle.plugin
 
-import java.io.File
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.initialization.Settings
 
 /**
  * Build is
@@ -44,75 +44,44 @@ class Build : Plugin<Project> {
 
         @JvmStatic
         fun Project.propFromSysOrProject(propertyName: String, defaultValue: String = ""): String =
-            System.getProperty(propertyName) ?: findProperty(propertyName)?.toString() ?: defaultValue
+            System.getProperty(propertyName) ?: providers.gradleProperty(propertyName).getOrElse(defaultValue)
 
         @JvmStatic
-        fun Project.templateGroup(): String =
-            propFromSysOrProject("templateGroup", GROUP)
+        fun Settings.propFromSysOrSettings(propertyName: String, defaultValue: String = ""): String =
+            System.getProperty(propertyName) ?: providers.gradleProperty(propertyName).getOrElse(defaultValue)
 
         @JvmStatic
-        fun Project.templatePrefix(): String =
-            propFromSysOrProject("templatePrefix", PREFIX)
+        fun Project.templateGroup(defaultValue: String = GROUP): String =
+            propFromSysOrProject("templateGroup", defaultValue)
 
         @JvmStatic
-        fun Project.templateVersion(): String =
-            propFromSysOrProject("templateVersion", VERSION)
+        fun Project.templatePrefix(defaultValue: String = PREFIX): String =
+            propFromSysOrProject("templatePrefix", defaultValue)
+
+        @JvmStatic
+        fun Project.templateVersion(defaultValue: String = VERSION): String =
+            propFromSysOrProject("templateVersion", defaultValue)
 
         @JvmStatic
         fun Project.profile(): String =
             propFromSysOrProject("profile", "dev")
 
         @JvmStatic
-        fun Project.templateProject(name: String): String =
-            "${templateGroup()}:${templatePrefix()}-$name:${templateVersion()}"
+        fun Project.templateProject(
+            name: String,
+            group: String = GROUP,
+            prefix: String = PREFIX,
+            version: String = VERSION): String =
+            "${templateGroup(group)}:${templatePrefix(prefix)}-$name:${templateVersion(version)}"
 
-        fun Project.copyProjectHookToGitHook(projectRootDir: File, vararg hookNames: String) {
-
-            val gitDir = File(projectRootDir, "/.git/")
-            if (!gitDir.exists()) {
-                logger.warn("Your project does not has a git directory.")
-                return
-            }
-            val gitHookDir = File(gitDir, "hooks")
-            if (!gitHookDir.exists()) {
-                logger.warn("Your project does not has a git hook directory.")
-                return
-            }
-
-            hookNames.forEach { hookName ->
-                val hookFile = File(getProjectGitHook(hookName))
-                if (!hookFile.exists()) {
-                    logger.warn("Your project src does not exist githook:$hookName.")
-                    return@forEach
-                }
-
-                val gitHookFile = File(gitHookDir, hookName)
-                if (gitHookFile.exists()) {
-                    logger.warn("Your project has already exists githook:$hookName.")
-                    return@forEach
-                }
-
-                hookFile.copyTo(gitHookFile)
-                logger.info("$hookName has already copy to ${gitHookDir.absolutePath}")
-            }
-        }
-
-        private fun Project.getProjectGitHooksPath(): String {
-            val projectGitHooks = File(rootDir, "/githooks/")
-            if (!projectGitHooks.exists()) {
-                logger.warn("RootProject does not exists githooks directory.")
-                return ""
-            }
-            return projectGitHooks.absolutePath
-        }
-
-        private fun Project.getProjectGitHook(hookName: String): String {
-            val hook = File(getProjectGitHooksPath(), hookName)
-            if (!hook.exists()) {
-                logger.warn("RootProject does not exists githook:$hookName.")
-                return ""
-            }
-            return hook.absolutePath
-        }
+        @JvmStatic
+        fun Settings.templateProject(
+            name: String,
+            group: String = GROUP,
+            prefix: String = PREFIX,
+            version: String = VERSION): String =
+            "${propFromSysOrSettings("templateGroup", group)}:" +
+                "${propFromSysOrSettings("templatePrefix", prefix)}-$name:" +
+                propFromSysOrSettings("templateVersion", version)
     }
 }

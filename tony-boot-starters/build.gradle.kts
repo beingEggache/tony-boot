@@ -103,8 +103,6 @@ configure(allprojects) {
     }
 }
 
-// copyProjectHookToGitHook(rootDir.parentFile,"pre-commit", "pre-push")
-
 configure(dependenciesProjects) {
     ext.set("pom", true)
     apply {
