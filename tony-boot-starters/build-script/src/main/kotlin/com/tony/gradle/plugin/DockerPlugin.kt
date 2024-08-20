@@ -33,8 +33,12 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Exec
 import org.gradle.kotlin.dsl.getByType
+import org.slf4j.LoggerFactory
 
 class DockerPlugin : Plugin<Project> {
+
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     override fun apply(project: Project) {
         project.apply {
             plugin("com.palantir.docker")
@@ -47,7 +51,7 @@ class DockerPlugin : Plugin<Project> {
         val dockerUserName: String = project.propFromSysOrProject("dockerUserName")
         val dockerPassword: String = project.propFromSysOrProject("dockerPassword")
         val dockerNameSpace: String = project.propFromSysOrProject("dockerNameSpace")
-        val projectName: String = project.propFromSysOrProject("projectName", project.name)
+        val projectName: String = project.propFromSysOrProject("projectName", project.rootProject.name)
         val dockerImageFullName =
             listOf(
                 dockerRegistry,
@@ -57,6 +61,7 @@ class DockerPlugin : Plugin<Project> {
                 it.isNotBlank()
             }.joinToString("/")
 
+        logger.info("dockerImageFullName: $dockerImageFullName")
         project.tasks.register("dockerLogin", Exec::class.java) {
             group = "docker"
             executable = "docker"
@@ -103,6 +108,15 @@ class DockerPlugin : Plugin<Project> {
             copySpec
                 .from(outputs)
                 .into("")
+
+            copySpec
+                .from(
+                    project.layout.projectDirectory.asFileTree.matching {
+                        this.include("*.sh")
+                    }
+                )
+                .into("")
+
             val args =
                 project
                     .properties
