@@ -65,18 +65,24 @@ fi
 
 if [ "${JVM_APPEND_OPTS}" ]
 then
-opts="\
+    opts="\
 ${opts} \
 ${JVM_APPEND_OPTS}"
 fi
 
 if [ "${JVM_OPTS}" ]
 then
-opts="${JVM_OPTS}"
+    opts="${JVM_OPTS}"
+fi
+
+unzip_opts="-n"
+if [ ${OVERWRITE_CONFIG} == 'true' ]
+then
+    unzip_opts="${unzip_opts} -o"
 fi
 
 # 解压配置文件 到${WORKDIR}/config
-unzip -n $([ ${OVERWRITE_CONFIG} == 'true' ] && echo '-o') app.jar *.yml *.yaml *.properties -d config
+unzip $unzip_opts app.jar *.yml *.yaml *.properties -d config
 
 echo ${opts}
 java ${opts} -jar app.jar
