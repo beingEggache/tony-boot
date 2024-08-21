@@ -133,7 +133,7 @@ public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
 
 /**
  * 检查 是否 是某些类型 或某些类型的子类
- * @param [types] 类型
+ * @param [typeCollection] 类型
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:29

@@ -49,6 +49,11 @@ class EmployeeService(
             .eq(Employee::employeeMobile, req.employeeMobile)
             .throwIfExists("手机号重复")
 
+        employeeDao
+            .ktQuery()
+            .eq(Employee::account, req.account)
+            .throwIfExists("账号重复")
+
         val po =
             req.copyTo<Employee>().apply {
                 salt = uuid()

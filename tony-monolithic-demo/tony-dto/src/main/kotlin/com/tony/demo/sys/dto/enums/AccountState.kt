@@ -30,7 +30,7 @@ enum class AccountState(
     UNUSED(DEFAULT_INT_VALUE),
     ;
 
-    companion object : IntEnumCreator(com.tony.demo.sys.dto.enums.AccountState::class.java) {
+    companion object : IntEnumCreator(AccountState::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: Int) =
