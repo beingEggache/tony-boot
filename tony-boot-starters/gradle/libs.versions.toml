@@ -67,7 +67,7 @@ protobuf = "4.27.3"
 
 grpcSpringBoot = "3.1.0.RELEASE"
 
-lombok = "8.6"
+lombok = "8.10"
 ktlint = "1.3.1"
 graalvm = "0.10.2"
 dokka = "1.9.20"
@@ -218,7 +218,7 @@ tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = 
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.5" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.17.1" }
 commonsIo = { module = "commons-io:commons-io", version = "2.16.1" }
-commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.27.0" }
+commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.27.1" }
 commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.0" }
 commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.16.0" }
 

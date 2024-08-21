@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 TEMP=$(getopt -o \
     r:d:p:n:P:N:t:e:o: --long \
