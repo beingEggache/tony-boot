@@ -24,13 +24,14 @@
 
 package com.tony.test.core
 
-import com.tony.utils.genRandomInt
-import com.tony.utils.genRandomLong
 import com.tony.utils.getLogger
-import com.tony.utils.secureRandom
 import com.tony.utils.toBigDecimal
 import com.tony.utils.toNumber
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
+import java.math.BigInteger
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 
 /**
  * NumsTest is
@@ -43,19 +44,38 @@ object NumsTest {
     val logger = getLogger()
 
     @Test
-    fun testIntToBigDecimal() {
-        testNumber(genRandomInt(5))
+    fun testToBigDecimal() {
+        val byte: Byte = 1
+        val short: Short = 2
+        val int = 3
+        val long = 3L
+        val float = 4.1f
+        val double = 5.2
+        val bigInteger: BigInteger = BigInteger.valueOf(6)
+        val bigDecimal: BigDecimal = BigDecimal.valueOf(7.3)
+        val atomicInteger = AtomicInteger(8)
+        val atomicLong = AtomicLong(9)
+
+        val nil: Number? = null
+
+        logger.info("${byte.toBigDecimal()}")
+        logger.info("${short.toBigDecimal()}")
+        logger.info("${int.toBigDecimal()}")
+        logger.info("${long.toBigDecimal()}")
+        logger.info("${float.toBigDecimal()}")
+        logger.info("${double.toBigDecimal()}")
+        logger.info("${bigInteger.toBigDecimal()}")
+        logger.info("${bigDecimal.toBigDecimal()}")
+        logger.info("${atomicInteger.toBigDecimal()}")
+        logger.info("${atomicLong.toBigDecimal()}")
+
+        try{
+            nil.toBigDecimal()
+        } catch (e: IllegalArgumentException){
+            logger.error(e.message)
+        }
     }
 
-    @Test
-    fun testLongToBigDecimal() {
-        testNumber(genRandomLong(5))
-    }
-
-    @Test
-    fun testDoubleToBigDecimal() {
-        testNumber(secureRandom.nextDouble())
-    }
 
     @Test
     fun testNumberToNumber() {
@@ -205,12 +225,5 @@ object NumsTest {
         logger.info("bigIntegerString to double: ${bigIntegerString.toNumber(Double::class.java)}")
         logger.info("bigIntegerString to BigDecimal: ${bigIntegerString.toNumber(java.math.BigDecimal::class.java)}")
         logger.info("bigIntegerString to BigInteger: ${bigIntegerString.toNumber(java.math.BigInteger::class.java)}")
-    }
-
-    private fun <T : Number> testNumber(number: T) {
-        logger.info("number is $number")
-        (1..20).forEach { digit ->
-            logger.info("number to big decimal, digit ${"$digit".padEnd(2)}: ${number.toBigDecimal(digit)}")
-        }
     }
 }

@@ -49,10 +49,13 @@ import kotlin.math.pow
  * @since 1.0.0
  */
 @JvmOverloads
-public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
+public fun Number?.toBigDecimal(
+    decimal: Int = 2,
+    roundingMode: RoundingMode = RoundingMode.DOWN,
+): BigDecimal {
     require(decimal >= 0) { "decimal must >= 0" }
     requireNotNull(this) { "number must not be null" }
-    return "$this".toBigDecimal(decimal)
+    return BigDecimal("$this").setScale(decimal, roundingMode)
 }
 
 /**
@@ -161,7 +164,7 @@ public fun genRandomInt(digit: Int): Int {
             10.0
                 .pow((digit - 1).toDouble())
                 .toInt()
-        )
+            )
     val fix =
         10.0
             .pow((digit - 1).toDouble())
@@ -187,7 +190,7 @@ public fun genRandomLong(digit: Int): Long {
             10.0
                 .pow((digit - 1).toDouble())
                 .toLong()
-        )
+            )
     val fix =
         10.0
             .pow((digit - 1).toDouble())
@@ -195,6 +198,3 @@ public fun genRandomLong(digit: Int): Long {
     return secureRandom.nextLong(base) + fix
 }
 
-private fun String?.toBigDecimal(decimal: Int = 2) =
-    BigDecimal(this ?: "0")
-        .setScale(decimal, RoundingMode.DOWN)
