@@ -196,7 +196,7 @@ public data class ApiResult<T>
  * @author tangli
  * @date 2021/12/6 10:51
  */
-public data class MonoResult<T> internal constructor(
+public data class MonoResult<T>(
     val value: T? = null,
 ) {
     public companion object {
