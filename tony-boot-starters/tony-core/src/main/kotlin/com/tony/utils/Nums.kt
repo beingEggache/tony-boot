@@ -122,8 +122,9 @@ public fun Number?.truncToString(
 
 /**
  * 格式化为百分比
- * @receiver [Float]?
- * @param [decimal] 保留几位小数
+ * @receiver [Number]?
+ * @param [minimumFractionDigits] 小数最小位数
+ * @param [maximumFractionDigits] 小数最大位数
  * @param [roundingMode] see [RoundingMode]
  * @return [String]
  * @author tangli
@@ -131,45 +132,19 @@ public fun Number?.truncToString(
  * @since 1.0.0
  */
 @JvmOverloads
-public fun Float?.formatToPercent(
-    decimal: Int = 2,
+public fun Number?.formatToPercent(
+    minimumFractionDigits: Int = 2,
+    maximumFractionDigits: Int = minimumFractionDigits,
     roundingMode: RoundingMode = RoundingMode.DOWN,
 ): String =
-    formatToPercent(this, decimal, roundingMode)
-
-/**
- * 格式化为百分比
- * @receiver [Double]?
- * @param [decimal] 保留几位小数
- * @param [roundingMode] see [RoundingMode]
- * @return [String]
- * @author tangli
- * @date 2023/09/13 19:25
- * @since 1.0.0
- */
-@JvmOverloads
-public fun Double?.formatToPercent(
-    decimal: Int = 2,
-    roundingMode: RoundingMode = RoundingMode.DOWN,
-): String =
-    formatToPercent(this, decimal, roundingMode)
-
-/**
- * 格式化为百分比
- * @receiver [BigDecimal]?
- * @param [decimal] 保留几位小数
- * @param [roundingMode] see [RoundingMode]
- * @return [String]
- * @author tangli
- * @date 2023/09/13 19:25
- * @since 1.0.0
- */
-@JvmOverloads
-public fun BigDecimal?.formatToPercent(
-    decimal: Int = 2,
-    roundingMode: RoundingMode = RoundingMode.DOWN,
-): String =
-    formatToPercent(this, decimal, roundingMode)
+    DecimalFormat
+        .getPercentInstance()
+        .asToNotNull<DecimalFormat>()
+        .apply {
+            this.minimumFractionDigits = minimumFractionDigits
+            this.maximumFractionDigits = maximumFractionDigits
+            this.roundingMode = roundingMode
+        }.format(this ?: 0)
 
 @get:JvmName("secureRandom")
 public val secureRandom: SecureRandom = SecureRandom()
@@ -229,17 +204,3 @@ public fun genRandomLong(digit: Int): Long {
 private fun String?.toBigDecimal(decimal: Int = 2) =
     BigDecimal(this ?: "0")
         .setScale(decimal, RoundingMode.DOWN)
-
-private fun formatToPercent(
-    number: Number?,
-    digit: Int,
-    roundingMode: RoundingMode = RoundingMode.DOWN,
-): String =
-    DecimalFormat
-        .getPercentInstance()
-        .asToNotNull<DecimalFormat>()
-        .apply {
-            maximumFractionDigits = digit
-            minimumFractionDigits = digit
-            this.roundingMode = roundingMode
-        }.format(number ?: 0)
