@@ -51,14 +51,8 @@ import kotlin.math.pow
 @JvmOverloads
 public fun Number?.toBigDecimal(decimal: Int = 2): BigDecimal {
     require(decimal >= 0) { "decimal must >= 0" }
-    return when (this) {
-        null -> "0".toBigDecimal(decimal)
-        is Int -> "$this".toBigDecimal(decimal)
-        is Long -> "$this".toBigDecimal(decimal)
-        is Double -> "$this".toBigDecimal(decimal)
-        is BigDecimal -> "$this".toBigDecimal(decimal)
-        else -> throw ApiException("Not support ${this::class.simpleName}")
-    }
+    requireNotNull(this) { "number must not be null" }
+    return "$this".toBigDecimal(decimal)
 }
 
 /**
