@@ -36,7 +36,7 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
 import java.security.SecureRandom
-import java.text.NumberFormat
+import java.text.DecimalFormat
 import kotlin.math.pow
 
 /**
@@ -235,9 +235,11 @@ private fun formatToPercent(
     digit: Int,
     roundingMode: RoundingMode = RoundingMode.DOWN,
 ): String =
-    NumberFormat
+    DecimalFormat
         .getPercentInstance()
+        .asToNotNull<DecimalFormat>()
         .apply {
             maximumFractionDigits = digit
+            minimumFractionDigits = digit
             this.roundingMode = roundingMode
         }.format(number ?: 0)
