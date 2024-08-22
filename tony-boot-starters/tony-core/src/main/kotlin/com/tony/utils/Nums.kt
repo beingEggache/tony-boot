@@ -163,10 +163,8 @@ public fun genRandomInt(digit: Int): Int {
     if (digit == 1) {
         return secureRandom.nextInt(10)
     }
-
-    val base = 10.0.pow(digit - 1).toInt() * 9
-    val fix = 10.0.pow(digit - 1).toInt()
-    return secureRandom.nextInt(base) + fix
+    val bound = 10.0.pow(digit - 1).toInt()
+    return secureRandom.nextInt(bound * 9) + bound
 }
 
 /**
@@ -182,7 +180,6 @@ public fun genRandomLong(digit: Int): Long {
     if (digit == 1) {
         return secureRandom.nextLong(10)
     }
-    val base = 10.0.pow(digit - 1).toLong() * 9
-    val fix = 10.0.pow(digit - 1).toLong()
-    return secureRandom.nextLong(base) + fix
+    val bound = 10.0.pow(digit - 1).toLong()
+    return secureRandom.nextLong(bound * 9) + bound
 }
