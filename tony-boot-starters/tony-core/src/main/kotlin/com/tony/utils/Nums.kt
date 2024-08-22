@@ -31,7 +31,6 @@ package com.tony.utils
  * @author tangli
  * @date 2020-12-14 13:49
  */
-import com.tony.exception.ApiException
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
@@ -43,6 +42,7 @@ import kotlin.math.pow
  * 数字类型转为 [BigDecimal]
  * @receiver [Number]?
  * @param [decimal] 小数点后保留几位
+ * @param [roundingMode] 四舍五入模式. 默认 [RoundingMode.DOWN] see [RoundingMode]
  * @return [BigDecimal]
  * @author tangli
  * @date 2023/09/13 19:23
@@ -86,8 +86,9 @@ public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
 /**
  * 数字截断并转为  [BigDecimal]
  * @receiver [Number]?
- * @param [digit] 截断位数
+ * @param [digit] 除以 10.pow(digit), 比如digit=3, 就除以1000
  * @param [decimal] 保留几位小数
+ * @param [roundingMode] 四舍五入模式. 默认 [RoundingMode.DOWN] see [RoundingMode]
  * @return [BigDecimal]
  * @author tangli
  * @date 2023/09/13 19:24
@@ -97,14 +98,16 @@ public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
 public fun Number?.truncToBigDecimal(
     digit: Int = 2,
     decimal: Int = digit,
+    roundingMode: RoundingMode = RoundingMode.DOWN,
 ): BigDecimal =
-    toBigDecimal(decimal).div(10.toBigDecimal(decimal).pow(digit))
+    toBigDecimal(decimal, roundingMode).divide(BigDecimal(10).pow(digit), roundingMode)
 
 /**
  * 数字截断并转为 [String]
  * @receiver [Number]?
- * @param [digit] 截断位数
+ * @param [digit] 除以 10.pow(digit), 比如digit=3, 就除以1000
  * @param [decimal] 保留几位小数
+ * @param [roundingMode] 四舍五入模式. 默认 [RoundingMode.DOWN] see [RoundingMode]
  * @return [String]
  * @author tangli
  * @date 2023/09/13 19:24
@@ -114,15 +117,16 @@ public fun Number?.truncToBigDecimal(
 public fun Number?.truncToString(
     digit: Int = 2,
     decimal: Int = digit,
+    roundingMode: RoundingMode = RoundingMode.DOWN,
 ): String =
-    truncToBigDecimal(digit, decimal).toString()
+    truncToBigDecimal(digit, decimal, roundingMode).toString()
 
 /**
  * 格式化为百分比
  * @receiver [Number]?
- * @param [minimumFractionDigits] 小数最小位数
+ * @param [minimumFractionDigits] 小数最小位数, 默认2
  * @param [maximumFractionDigits] 小数最大位数
- * @param [roundingMode] see [RoundingMode]
+ * @param [roundingMode] 四舍五入模式. 默认 [RoundingMode.DOWN] see [RoundingMode]
  * @return [String]
  * @author tangli
  * @date 2023/09/13 19:24
@@ -155,20 +159,13 @@ public val secureRandom: SecureRandom = SecureRandom()
  * @since 1.0.0
  */
 public fun genRandomInt(digit: Int): Int {
-    if (digit < 1) throw ApiException("随机数至少是一位数")
+    require(digit >= 0) { "digit must be positive." }
     if (digit == 1) {
         return secureRandom.nextInt(10)
     }
-    val base =
-        9 * (
-            10.0
-                .pow((digit - 1).toDouble())
-                .toInt()
-            )
-    val fix =
-        10.0
-            .pow((digit - 1).toDouble())
-            .toInt()
+
+    val base = 10.0.pow(digit - 1).toInt() * 9
+    val fix = 10.0.pow(digit - 1).toInt()
     return secureRandom.nextInt(base) + fix
 }
 
@@ -181,20 +178,11 @@ public fun genRandomInt(digit: Int): Int {
  * @since 1.0.0
  */
 public fun genRandomLong(digit: Int): Long {
-    if (digit < 1) throw ApiException("随机数至少是一位数")
+    require(digit >= 0) { "digit must be positive." }
     if (digit == 1) {
         return secureRandom.nextLong(10)
     }
-    val base =
-        9 * (
-            10.0
-                .pow((digit - 1).toDouble())
-                .toLong()
-            )
-    val fix =
-        10.0
-            .pow((digit - 1).toDouble())
-            .toLong()
+    val base = 10.0.pow(digit - 1).toLong() * 9
+    val fix = 10.0.pow(digit - 1).toLong()
     return secureRandom.nextLong(base) + fix
 }
-
