@@ -26,7 +26,6 @@ package com.tony.redis.service
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.redis.RedisMaps.multiGet
 import com.tony.redis.hashOp
 import com.tony.redis.redisTemplate
 import com.tony.utils.toCollectionJavaType

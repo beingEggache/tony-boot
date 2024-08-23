@@ -57,39 +57,14 @@ configure(allprojects) {
     version = templateVersion()
     repositories {
         mavenLocal()
-
-//        val privateMavenRepoUrl: String by project
-//        maven(url = privateMavenRepoUrl) {
-//            name = "private"
-//            isAllowInsecureProtocol = true
-//        }
-
         maven(url = "https://maven.aliyun.com/repository/central")
         mavenCentral()
     }
-    tasks.withType<Jar> {
-        manifest {
-            attributes["Implementation-Title"] = project.name
-            attributes["Implementation-Version"] = project.version
-        }
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    }
-    tasks.withType<DependencyUpdatesTask> {
-        revision = "release"
-        checkForGradleUpdate = true
-        gradleReleaseChannel = "current"
-        checkConstraints = true
-        checkBuildEnvironmentConstraints = true
-        outputFormatter = "plain"
-        rejectVersionIf {
-            candidate
-                .version
-                .contains(Regex("alpha|beta|rc|snapshot|milestone|pre|m", RegexOption.IGNORE_CASE))
-        }
-    }
+
     apply {
         plugin(rootProject.tonyLibs.plugins.licenser.get().pluginId)
     }
+
     extensions.getByType<LicenseExtension>().apply {
         this.setHeader(rootProject.file("LICENSE"))
         include(
@@ -103,22 +78,17 @@ configure(allprojects) {
     }
 }
 
-configure(dependenciesProjects) {
-    ext.set("pom", true)
-    apply {
-        plugin(rootProject.tonyLibs.plugins.javaPlatform.get().pluginId)
-        plugin(rootProject.tonyLibs.plugins.tonyMavenPublish.get().pluginId)
-    }
-    extensions.getByType<JavaPlatformExtension>().apply {
-        allowDependencies()
-    }
-}
-
-configure(dependenciesCatalogProjects) {
-    ext.set("catalog", true)
-    apply {
-        plugin(rootProject.tonyLibs.plugins.versionCatalog.get().pluginId)
-        plugin(rootProject.tonyLibs.plugins.tonyMavenPublish.get().pluginId)
+tasks.withType<DependencyUpdatesTask> {
+    revision = "release"
+    checkForGradleUpdate = true
+    gradleReleaseChannel = "current"
+    checkConstraints = true
+    checkBuildEnvironmentConstraints = true
+    outputFormatter = "plain"
+    rejectVersionIf {
+        candidate
+            .version
+            .contains(Regex("alpha|beta|rc|snapshot|milestone|pre|m", RegexOption.IGNORE_CASE))
     }
 }
 
@@ -128,7 +98,6 @@ tasks.dokkaHtmlMultiModule {
 }
 
 configure(libraryProjects) {
-
     apply {
         plugin(rootProject.tonyLibs.plugins.kotlin.get().pluginId)
         plugin(rootProject.tonyLibs.plugins.kotlinSpring.get().pluginId)
@@ -139,12 +108,19 @@ configure(libraryProjects) {
         plugin(rootProject.tonyLibs.plugins.dokka.get().pluginId)
     }
 
+    tasks.withType<Jar> {
+        manifest {
+            attributes["Implementation-Title"] = project.name
+            attributes["Implementation-Version"] = project.version
+        }
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
     tasks.withType<Javadoc> {
         this.enabled = false
     }
 
     extensions.getByType<KotlinJvmProjectExtension>().apply {
-
         jvmToolchain {
             languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         }
@@ -163,6 +139,7 @@ configure(libraryProjects) {
                 "-Xtype-enhancement-improvements-strict-mode",
                 "-Xenhance-type-parameter-types-to-def-not-null",
                 "-Xextended-compiler-checks",
+                "-java-parameters",
                 // "-Xuse-fast-jar-file-system",
             )
         }

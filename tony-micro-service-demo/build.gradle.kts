@@ -57,6 +57,7 @@ configure(subprojects) {
                 "-Xtype-enhancement-improvements-strict-mode",
                 "-Xenhance-type-parameter-types-to-def-not-null",
                 "-Xextended-compiler-checks",
+                "-java-parameters",
                 // "-Xuse-fast-jar-file-system",
             )
         }

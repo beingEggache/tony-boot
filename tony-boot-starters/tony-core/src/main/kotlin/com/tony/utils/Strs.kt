@@ -69,7 +69,7 @@ public fun CharSequence.isJson(): Boolean =
     try {
         globalObjectMapper.readTree(this.toString())
         true
-    } catch (e: JsonProcessingException) {
+    } catch (_: JsonProcessingException) {
         false
     }
 
@@ -260,7 +260,7 @@ private val antPathMatcher = AntPathMatcher()
  * @see AntPathMatcher.match
  */
 public fun CharSequence?.antPathMatchAny(patterns: Collection<String>?): Boolean =
-    patterns?.any { antPathMatcher.match(it, ifNullOrBlank()) } ?: false
+    patterns?.any { antPathMatcher.match(it, ifNullOrBlank()) } == true
 
 private val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
 private val snakeRegex = "_[a-zA-Z]".toRegex()

@@ -76,11 +76,11 @@ public fun ObjectMapper.initialize(): ObjectMapper =
 
         configOverride(Date::class.java).format = JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss")
         configOverride(LocalDateTime::class.java).format = JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss")
-        configOverride(Long::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
-        configOverride(Float::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
-        configOverride(Double::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
-        configOverride(BigDecimal::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
-        configOverride(BigInteger::class.java).setFormat(JsonFormat.Value.forShape(JsonFormat.Shape.STRING))
+        configOverride(Long::class.java).format = JsonFormat.Value.forShape(JsonFormat.Shape.STRING)
+        configOverride(Float::class.java).format = JsonFormat.Value.forShape(JsonFormat.Shape.STRING)
+        configOverride(Double::class.java).format = JsonFormat.Value.forShape(JsonFormat.Shape.STRING)
+        configOverride(BigDecimal::class.java).format = JsonFormat.Value.forShape(JsonFormat.Shape.STRING)
+        configOverride(BigInteger::class.java).format = JsonFormat.Value.forShape(JsonFormat.Shape.STRING)
 
         disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
         disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)

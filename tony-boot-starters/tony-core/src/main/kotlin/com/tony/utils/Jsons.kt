@@ -268,7 +268,7 @@ public fun CharSequence.getFromRootAsString(field: String): String? {
         while (
             try {
                 it.nextToken()
-            } catch (e: JsonParseException) {
+            } catch (_: JsonParseException) {
                 return null
             } != null
         ) {
