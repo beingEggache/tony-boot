@@ -82,7 +82,7 @@ then
 fi
 
 # 解压配置文件 到${WORKDIR}/config
-sh -c "unzip ${unzip_opts} app.jar *.yml *.yaml *.properties -d config"
+sh -c "unzip ${unzip_opts} ${WORKDIR}/app.jar *.yml *.yaml *.properties -d ${WORKDIR}/config"
 
 echo "${opts}"
-sh -c "java ${opts} -jar app.jar"
+sh -c "java ${opts} -jar ${WORKDIR}/app.jar"
