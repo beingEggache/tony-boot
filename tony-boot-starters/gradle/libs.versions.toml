@@ -23,9 +23,9 @@
 [versions]
 template = "0.1-SNAPSHOT"
 java = "21"
-kotlin = "1.9.25"
+kotlin = "2.0.20"
 spring = "6.1.12"
-springBoot = "3.3.2"
+springBoot = "3.3.3"
 
 slf4j = "2.0.16"
 
@@ -39,7 +39,7 @@ jackson = "2.17.2"
 gson = "2.11.0"
 fastjson = "2.0.52"
 
-postgresql = "42.7.3"
+postgresql = "42.7.4"
 mysql = "9.0.0"
 
 hikariCP = "5.1.0"

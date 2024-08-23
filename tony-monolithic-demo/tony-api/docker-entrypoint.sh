@@ -32,7 +32,7 @@ opts="\
 -Dspring.profiles.active=${PROFILE} \
 -Dserver.port=${PORT}"
 
-if [ ${ENABLE_ERROR_LOGS} == 'true' ]
+if [ "${ENABLE_ERROR_LOGS}" == 'true' ]
 then
     opts="\
 ${opts} \
@@ -42,7 +42,7 @@ ${opts} \
 -XX:+HeapDumpOnOutOfMemoryError"
 fi
 
-if [ ${ENABLE_GC_LOGS} == 'true' ]
+if [ "${ENABLE_GC_LOGS}" == 'true' ]
 then
     opts="\
 ${opts} \
@@ -52,7 +52,7 @@ ${opts} \
 -Xlog:safepoint=info:file=${WORKDIR}/logs/safepoint_%t.log:utctime,level,tags:filecount=10,filesize=10M"
 fi
 
-if [ ${ENABLE_JVM_LOGS} == 'true' ]
+if [ "${ENABLE_JVM_LOGS}" == 'true' ]
 then
     opts="\
 ${opts} \
@@ -76,13 +76,13 @@ then
 fi
 
 unzip_opts="-n"
-if [ ${OVERWRITE_CONFIG} == 'true' ]
+if [ "${OVERWRITE_CONFIG}" == 'true' ]
 then
     unzip_opts="${unzip_opts} -o"
 fi
 
 # 解压配置文件 到${WORKDIR}/config
-unzip $unzip_opts app.jar *.yml *.yaml *.properties -d config
+unzip "$unzip_opts" app.jar *.yml *.yaml *.properties -d config
 
-echo ${opts}
-java ${opts} -jar app.jar
+echo "${opts}"
+java "${opts}" -jar app.jar
