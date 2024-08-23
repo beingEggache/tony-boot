@@ -35,5 +35,5 @@ COPY --from=builder ${WORKDIR}/extracted/snapshot-dependencies/ ./
 COPY --from=builder ${WORKDIR}/extracted/application/ ./
 
 RUN java -XX:ArchiveClassesAtExit=app.jsa -Dspring.context.exit=onRefresh -jar app.jar
-COPY --chmod=755 docker-entrypoint.sh ./
-ENTRYPOINT ["./docker-entrypoint.sh"]
+COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
