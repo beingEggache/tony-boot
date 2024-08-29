@@ -1,0 +1,39 @@
+/*
+ * Copyright 2023-2025 Licensed under the AGPL License
+ */
+package test.mysql;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+
+/**
+ * 测试触发器任务
+ */
+public class TestTrigger extends MysqlTest {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(TestTrigger.class);
+
+    @BeforeEach
+    public void before() {
+        processId = this.deployByResource("test/testTrigger.json", testCreator);
+    }
+
+    @Test
+    public void test() {
+        flowLongEngine.startInstanceById(processId, testCreator).ifPresent(instance -> {
+
+            // 忽略查询时间执行定时器任务
+            this.executeActiveTasks(instance.getId(), flwTask ->
+
+                    // 模拟自动完成定时触发器任务
+                    flowLongEngine.autoCompleteTask(flwTask.getId()));
+
+            this.executeActiveTasks(instance.getId(), flwTask ->
+
+                    // 进入人事审批
+                    Assertions.assertEquals("人事审批", flwTask.getTaskName()));
+        });
+    }
+}

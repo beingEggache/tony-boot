@@ -284,8 +284,7 @@ public fun <C : Collection<T>, T : Any?> C?.throwIfEmpty(
  *
  * 异常代码为 [code], 默认为 [ApiProperty.notFoundCode]
  * @receiver [C]
- * @param [C] Map类型
- * @param [message] 异常信息
+ * @param [C] Map类型 * @param [message] 异常信息
  * @param [code] 异常代码
  * @param [ex] 异常类型构造函数
  * @return [C]

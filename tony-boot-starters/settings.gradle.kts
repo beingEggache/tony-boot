@@ -59,6 +59,7 @@ include("$templatePrefix-captcha")
 include("$templatePrefix-snowflake-id")
 include("$templatePrefix-knife4j-api")
 include("$templatePrefix-web-crypto")
+include("$templatePrefix-fus")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
