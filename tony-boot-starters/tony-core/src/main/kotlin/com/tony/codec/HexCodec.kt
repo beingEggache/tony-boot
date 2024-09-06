@@ -34,9 +34,6 @@ import java.util.HexFormat
  * @since 1.0.0
  */
 public data object HexCodec : Codec {
-    @JvmStatic
-    private val DIGITS_LOWER = "0123456789abcdef".toCharArray().map { it.code.toByte() }.toByteArray()
-
     override fun encodeToString(src: ByteArray): String =
         HexFormat
             .of()
@@ -59,32 +56,14 @@ public data object HexCodec : Codec {
             .parseHex(src.string())
             .string()
 
-    override fun encodeToByteArray(src: ByteArray): ByteArray {
-        val out = ByteArray(src.size shl 1)
-        var i = 0
-        var j = 0
-        while (i < src.size) {
-            out[j++] = DIGITS_LOWER[0xF0 and src[i].toInt() ushr 4]
-            out[j++] = DIGITS_LOWER[0xF and src[i].toInt()]
-            i++
-        }
-        return out
-    }
+    override fun encodeToByteArray(src: ByteArray): ByteArray =
+        HexFormat
+            .of()
+            .formatHex(src)
+            .toByteArray()
 
-    override fun decodeToByteArray(src: ByteArray): ByteArray {
-        val len = src.size
-        require(len and 0x01 == 0) { "hexBinary needs to be even-length: $len" }
-        val out = ByteArray(len shr 1)
-        var i = 0
-        var j = 0
-        while (j < len) {
-            var f = Character.digit(src[j].toInt(), 16) shl 4
-            j++
-            f = f or Character.digit(src[j].toInt(), 16)
-            j++
-            out[i] = (f and 0xFF).toByte()
-            i++
-        }
-        return out
-    }
+    override fun decodeToByteArray(src: ByteArray): ByteArray =
+        HexFormat
+            .of()
+            .parseHex(src.string())
 }

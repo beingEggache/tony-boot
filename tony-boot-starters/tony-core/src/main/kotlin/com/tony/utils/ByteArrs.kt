@@ -41,5 +41,6 @@ import java.nio.charset.Charset
  * @date 2023/09/12 19:53
  * @since 1.0.0
  */
+@JvmOverloads
 public fun ByteArray.string(charset: Charset = Charsets.UTF_8): String =
     toString(charset)

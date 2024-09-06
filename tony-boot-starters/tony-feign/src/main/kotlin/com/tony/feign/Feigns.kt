@@ -45,24 +45,24 @@ import org.springframework.http.MediaType
  * @return
  */
 public fun RequestBody.string(): String =
-    run {
-        val buffer = Buffer()
-        writeTo(buffer)
-        String(buffer.readByteArray())
-    }
+    Buffer()
+        .let { buffer ->
+            writeTo(buffer)
+            String(buffer.readByteArray())
+        }
 
 /**
  * request body 读取成 jackson的 [JsonNode]
  * @return
  */
 public fun RequestBody.jsonNode(): JsonNode =
-    run {
-        val buffer = Buffer()
-        writeTo(buffer)
-        buffer
-            .readByteArray()
-            .jsonNode()
-    }
+    Buffer()
+        .let { buffer ->
+            writeTo(buffer)
+            buffer
+                .readByteArray()
+                .jsonNode()
+        }
 
 /**
  * Parsed media
