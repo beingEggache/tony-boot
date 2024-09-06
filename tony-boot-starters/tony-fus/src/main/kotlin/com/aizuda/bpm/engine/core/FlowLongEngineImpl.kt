@@ -99,7 +99,7 @@ public class FlowLongEngineImpl : FlowLongEngine {
             if (log.isDebugEnabled) {
                 log.debug("start process instanceId={}", flwInstance.id)
             }
-            Execution(this, process.model()!!, flowCreator, flwInstance, args)
+            Execution(this, process.model(true)!!, flowCreator, flwInstance, args)
         }
     }
 

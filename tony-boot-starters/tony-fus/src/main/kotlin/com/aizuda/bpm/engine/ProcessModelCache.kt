@@ -33,14 +33,17 @@ public interface ProcessModelCache {
      */
     public val modelContent: String?
 
+    public fun model(): ProcessModel? =
+        model(false)
+
     /**
      * JSON BPM 模型
      *
      * @return JSON BPM 模型
      */
-    public fun model(): ProcessModel? {
+    public fun model(redeploy: Boolean): ProcessModel? {
         val modelContent = this.modelContent
         Assert.isEmpty(modelContent, "The process modelContent is Empty.")
-        return FlowLongContext.parseProcessModel(modelContent, this.modelCacheKey(), false)
+        return FlowLongContext.parseProcessModel(modelContent, this.modelCacheKey(), redeploy)
     }
 }

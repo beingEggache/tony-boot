@@ -123,8 +123,9 @@ public class FlwProcess :
             isTrue(checkDuplicateNodeKeys(nodeModel), "There are duplicate node keys present")
             // 回调执行创建实例
             val execution = function.apply(nodeModel)
+            // 重新渲染逻辑节点
             // 创建首个审批任务
-            flowLongContext.createTask(execution, nodeModel)
+            flowLongContext.createTask(execution, execution.processModel.nodeConfig!!)
             // 当前执行实例
             flwInstance = execution.flwInstance
         }

@@ -61,13 +61,7 @@ public class RuntimeServiceImpl(
         nodeModel: NodeModel?,
         supplier: Supplier<FlwInstance>?,
     ): FlwInstance {
-        var flwInstance: FlwInstance? = null
-        if (null != supplier) {
-            flwInstance = supplier.get()
-        }
-        if (null == flwInstance) {
-            flwInstance = FlwInstance()
-        }
+        val flwInstance: FlwInstance = supplier?.get() ?: FlwInstance()
         flwInstance.createTime = currentDate
         flwInstance.setFlowCreator(flowCreator)
         flwInstance.currentNodeName = nodeModel?.nodeName

@@ -29,7 +29,7 @@ springBoot = "3.3.3"
 
 slf4j = "2.0.16"
 
-byteBuddy = "1.15.0"
+byteBuddy = "1.15.1"
 bouncycastle = "1.78.1"
 
 openFeign = "13.3"
@@ -49,21 +49,21 @@ mybatisPlus = "3.5.7"
 
 guava = "33.3.0-jre"
 
-swagger = "2.2.22"
+swagger = "2.2.23"
 knife4j = "4.5.0"
 springdocStarter = "2.3.0"
 
 powerjob = "5.1.0"
-vertx = "4.5.9"
+vertx = "4.5.10"
 xnio = "3.8.16.Final"
 
 springCloud = "2023.0.3"
 springCloudAlibaba = "2023.0.1.2"
 springCloudTencent = "1.13.2-2023.0.0"
 reactor = "2023.0.9"
-netty = "4.1.112.Final"
+netty = "4.1.113.Final"
 grpc = "1.66.0"
-protobuf = "4.27.4"
+protobuf = "4.28.0"
 
 grpcSpringBoot = "3.1.0.RELEASE"
 
@@ -220,7 +220,7 @@ commonsCodec = { module = "commons-codec:commons-codec", version = "1.17.1" }
 commonsIo = { module = "commons-io:commons-io", version = "2.16.1" }
 commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.27.1" }
 commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.0" }
-commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.16.0" }
+commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.17.0" }
 
 httpclient = { module = "org.apache.httpcomponents:httpclient", version = "4.5.14" }
 httpcore = { module = "org.apache.httpcomponents:httpcore", version = "4.4.16" }
@@ -244,7 +244,7 @@ findbugsAnnotations = { module = "com.google.code.findbugs:annotations", version
 classmate = { module = "com.fasterxml:classmate", version = "1.7.0" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.1.8" }
 
-snakeYaml = { module = "org.yaml:snakeyaml", version = "2.2" }
+snakeYaml = { module = "org.yaml:snakeyaml", version = "2.3" }
 
 yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version = "1.0.6" }
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }

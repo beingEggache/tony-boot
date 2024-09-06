@@ -41,7 +41,6 @@ plugins {
     alias(tonyLibs.plugins.kotlinKapt) apply false
     alias(tonyLibs.plugins.dokka)
     alias(tonyLibs.plugins.gradleVersionsPlugin)
-    alias(tonyLibs.plugins.dependencyAnalysis)
     alias(tonyLibs.plugins.licenser) apply false
 }
 
