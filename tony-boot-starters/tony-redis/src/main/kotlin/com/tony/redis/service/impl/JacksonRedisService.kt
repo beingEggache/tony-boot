@@ -24,8 +24,6 @@
 
 package com.tony.redis.service.impl
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.JavaType
 import com.tony.enums.EnumValue
 import com.tony.enums.IntEnumCreator
 import com.tony.enums.IntEnumValue
@@ -39,7 +37,6 @@ import com.tony.utils.isNumberTypes
 import com.tony.utils.isStringLikeType
 import com.tony.utils.isTypesOrSubTypesOf
 import com.tony.utils.jsonToObj
-import com.tony.utils.rawClass
 import com.tony.utils.toJsonString
 import com.tony.utils.trimQuotes
 
@@ -58,30 +55,9 @@ internal class JacksonRedisService : RedisService {
         }
 
     override fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? =
-        jsonToObjWithTypeClass(type) {
-            it
-                .trimQuotes()
-                .jsonToObj(type)
-        }
+        jsonToObjWithTypeClass(type)
 
-    override fun <T : Any> Any?.outputTransformTo(type: JavaType): T? =
-        jsonToObjWithTypeClass(type.rawClass()) {
-            it
-                .trimQuotes()
-                .jsonToObj(type)
-        }
-
-    override fun <T : Any> Any?.outputTransformTo(type: TypeReference<T>): T? =
-        jsonToObjWithTypeClass(type.rawClass()) {
-            it
-                .trimQuotes()
-                .jsonToObj(type)
-        }
-
-    private fun <T : Any> Any?.jsonToObjWithTypeClass(
-        type: Class<T>,
-        func: (String) -> T,
-    ): T? =
+    private fun <T : Any> Any?.jsonToObjWithTypeClass(type: Class<T>): T? =
         when {
             this == null -> null
 
@@ -105,6 +81,9 @@ internal class JacksonRedisService : RedisService {
 
             this.isTypesOrSubTypesOf(type) -> this
 
-            else -> func(toString())
+            else ->
+                toString()
+                    .trimQuotes()
+                    .jsonToObj(type)
         }.asTo()
 }

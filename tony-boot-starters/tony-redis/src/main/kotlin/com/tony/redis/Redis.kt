@@ -94,7 +94,7 @@ internal val deleteKeyByPatternScript: RedisScript<Long?> =
 @JvmSynthetic
 internal fun <R : Number> Any?.toNum(type: Class<in R>): R? =
     when (this) {
-        is String -> this.toNumber(type)
+        is CharSequence -> this.toNumber(type)
         is Number -> this.toNumber(type)
         null -> null
         else -> throw ApiException("Not support ${this::class.java}")

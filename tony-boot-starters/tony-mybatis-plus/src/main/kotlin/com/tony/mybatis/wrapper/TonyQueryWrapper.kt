@@ -116,7 +116,7 @@ public open class TonyQueryWrapper<T : Any> :
         entityClass: Class<T>,
         predicate: Predicate<TableFieldInfo>,
     ): TonyQueryWrapper<T> {
-        super.entityClass = entityClass
+        super.setEntityClass(entityClass)
         sqlSelect.setStringValue(TableInfoHelper.getTableInfo(getEntityClass()).chooseSelect(predicate))
         return typedThis
     }

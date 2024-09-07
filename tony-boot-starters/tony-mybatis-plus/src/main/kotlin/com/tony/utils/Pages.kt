@@ -42,7 +42,7 @@ import java.util.Collections
 
 /**
  * Pageable对象转成mybatis的page对象
- * @return [IPage<T>]
+ * @return [IPage]<[T]>
  * @author tangli
  * @date 2023/09/28 19:55
  * @since 1.0.0
@@ -52,17 +52,13 @@ public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
         page.current = this.page.takeIf { it > 0 } ?: 1L
         page.size = this.size.takeIf { it > 0 } ?: 10L
         descs
-            .filterNotNull()
-            .filter { it.isNotBlank() }
-            .takeIf { it.any() }
-            ?.map { OrderItem.desc(it.camelToSnakeCase()) }
-            ?.let { page.addOrder(it) }
+            .filter { !it.isNullOrBlank() }
+            .map { OrderItem.desc(it.camelToSnakeCase()) }
+            .let { page.addOrder(it) }
         ascs
-            .filterNotNull()
-            .filter { it.isNotBlank() }
-            .takeIf { it.any() }
-            ?.map { OrderItem.asc(it.camelToSnakeCase()) }
-            ?.let { page.addOrder(it) }
+            .filter { !it.isNullOrBlank() }
+            .map { OrderItem.asc(it.camelToSnakeCase()) }
+            .let { page.addOrder(it) }
     }
 
 /**
