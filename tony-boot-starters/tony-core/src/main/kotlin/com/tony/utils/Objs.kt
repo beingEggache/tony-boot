@@ -27,8 +27,6 @@
 package com.tony.utils
 
 import com.fasterxml.jackson.module.kotlin.convertValue
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 /**
  * ObjUtils is
@@ -42,17 +40,6 @@ import org.slf4j.LoggerFactory
 @JvmSynthetic
 public fun <T> T?.println(): Unit =
     println(this)
-
-/**
- * 获取 logger.
- * @param [name] logger 名
- * @return [Logger]
- * @author tangli
- * @date 2024/02/06 13:55
- * @since 1.0.0
- */
-public fun getLogger(name: String?): Logger =
-    LoggerFactory.getLogger(name)
 
 /**
  * 将 [this] 自身 转为 [E] 类型
@@ -93,20 +80,6 @@ public fun <E> Any?.asToDefault(default: E): E where E : Any =
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any.asToNotNull(): E where E : Any =
     this as E
-
-/**
- * 获取 Logger
- *
- * LoggerFactory.getLogger(this::class.java)
- *
- * @return [Logger]
- * @author tangli
- * @date 2024/02/06 13:57
- * @since 1.0.0
- */
-@JvmSynthetic
-public fun <T> T.getLogger(): Logger where T : Any =
-    LoggerFactory.getLogger(this::class.java)
 
 /**
  * 是类型或子类型

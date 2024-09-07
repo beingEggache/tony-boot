@@ -25,6 +25,7 @@
 @file:JvmName("Logs")
 
 package com.tony.utils
+
 /**
  * 日志工具类
  * @author tangli
@@ -32,6 +33,8 @@ package com.tony.utils
  * @since 1.0.0
  */
 import java.util.function.Supplier
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 
 /**
@@ -53,3 +56,28 @@ public fun mdcPutOrGetDefault(
     MDC.put(key, value)
     return value
 }
+
+/**
+ * 获取 logger.
+ * @param [name] logger 名
+ * @return [Logger]
+ * @author tangli
+ * @date 2024/02/06 13:55
+ * @since 1.0.0
+ */
+public fun getLogger(name: String?): Logger =
+    LoggerFactory.getLogger(name)
+
+/**
+ * 获取 Logger
+ *
+ * LoggerFactory.getLogger(this::class.java)
+ *
+ * @return [Logger]
+ * @author tangli
+ * @date 2024/02/06 13:57
+ * @since 1.0.0
+ */
+@JvmSynthetic
+public fun <T : Any> T.getLogger(): Logger =
+    LoggerFactory.getLogger(this::class.java)
