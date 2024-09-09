@@ -250,9 +250,7 @@ public data class ListResult<T>(
  * @param rows 列表
  * @param page 当前页
  * @param size 每页数量
- * @param pages 总页数
  * @param total 总个数
- * @param hasNext 是否有下页
  *
  * @author tangli
  * @date 2021/12/6 10:51
@@ -261,9 +259,7 @@ public data class PageResult<T>(
     private val rows: Collection<T>?,
     private val page: Long,
     private val size: Long,
-    private val pages: Long,
     private val total: Long,
-    private val hasNext: Boolean,
 ) : PageResultLike<T> {
     override fun getRows(): Collection<T> =
         rows ?: emptyList()
@@ -274,14 +270,8 @@ public data class PageResult<T>(
     override fun getSize(): Long =
         size
 
-    override fun getPages(): Long =
-        pages
-
     override fun getTotal(): Long =
         total
-
-    override fun getHasNext(): Boolean =
-        hasNext
 
     /**
      * @see [PageResult]
@@ -290,10 +280,8 @@ public data class PageResult<T>(
         array: Array<T>,
         page: Long,
         size: Long,
-        pages: Long,
         total: Long,
-        hasNext: Boolean,
-    ) : this(array.asList(), page, size, pages, total, hasNext)
+    ) : this(array.asList(), page, size, total)
 
     /**
      * @see [PageResult]
@@ -302,10 +290,8 @@ public data class PageResult<T>(
         byteArray: ByteArray,
         page: Long,
         size: Long,
-        pages: Long,
         total: Long,
-        hasNext: Boolean,
-    ) : this(byteArray.asList().asTo(), page, size, pages, total, hasNext)
+    ) : this(byteArray.asList().asTo(), page, size, total)
 
     /**
      * @see [PageResult]
@@ -314,10 +300,8 @@ public data class PageResult<T>(
         shortArray: ShortArray,
         page: Long,
         size: Long,
-        pages: Long,
         total: Long,
-        hasNext: Boolean,
-    ) : this(shortArray.asList().asTo(), page, size, pages, total, hasNext)
+    ) : this(shortArray.asList().asTo(), page, size, total)
 
     /**
      * @see [PageResult]
@@ -326,10 +310,8 @@ public data class PageResult<T>(
         intArray: IntArray,
         page: Long,
         size: Long,
-        pages: Long,
         total: Long,
-        hasNext: Boolean,
-    ) : this(intArray.asList().asTo(), page, size, pages, total, hasNext)
+    ) : this(intArray.asList().asTo(), page, size, total)
 
     /**
      * @see [PageResult]
@@ -338,10 +320,8 @@ public data class PageResult<T>(
         longArray: LongArray,
         page: Long,
         size: Long,
-        pages: Long,
         total: Long,
-        hasNext: Boolean,
-    ) : this(longArray.asList().asTo(), page, size, pages, total, hasNext)
+    ) : this(longArray.asList().asTo(), page, size, total)
 
     /**
      * @see [PageResult]
@@ -350,10 +330,8 @@ public data class PageResult<T>(
         floatArray: FloatArray,
         page: Long,
         size: Long,
-        pages: Long,
         total: Long,
-        hasNext: Boolean,
-    ) : this(floatArray.asList().asTo(), page, size, pages, total, hasNext)
+    ) : this(floatArray.asList().asTo(), page, size, total)
 
     /**
      * @see [PageResult]
@@ -362,10 +340,8 @@ public data class PageResult<T>(
         doubleArray: DoubleArray,
         page: Long,
         size: Long,
-        pages: Long,
         total: Long,
-        hasNext: Boolean,
-    ) : this(doubleArray.asList().asTo(), page, size, pages, total, hasNext)
+    ) : this(doubleArray.asList().asTo(), page, size, total)
 
     /**
      * @see [PageResult]
@@ -374,10 +350,8 @@ public data class PageResult<T>(
         booleanArray: BooleanArray,
         page: Long,
         size: Long,
-        pages: Long,
         total: Long,
-        hasNext: Boolean,
-    ) : this(booleanArray.asList().asTo(), page, size, pages, total, hasNext)
+    ) : this(booleanArray.asList().asTo(), page, size, total)
 
     /**
      * @see [PageResult]
@@ -386,8 +360,6 @@ public data class PageResult<T>(
         charArray: CharArray,
         page: Long,
         size: Long,
-        pages: Long,
         total: Long,
-        hasNext: Boolean,
-    ) : this(charArray.asList().asTo(), page, size, pages, total, hasNext)
+    ) : this(charArray.asList().asTo(), page, size, total)
 }

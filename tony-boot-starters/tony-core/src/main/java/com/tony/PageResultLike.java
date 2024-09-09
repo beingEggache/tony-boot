@@ -69,7 +69,9 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      * @return page total pages.
      */
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
-    long getPages();
+    default long getPages(){
+        return Math.ceilDiv(getTotal(), getSize());
+    }
 
     /**
      * total item count
@@ -84,7 +86,9 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return has next page.
      */
-    boolean getHasNext();
+    default boolean getHasNext(){
+        return getRows().size() < getSize();
+    }
 
     /**
      * map
@@ -102,9 +106,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
                 rows.stream().map(transform).toList(),
                 getPage(),
                 getSize(),
-                getPages(),
-                getTotal(),
-                getHasNext()
+                getTotal()
             )
         );
     }
@@ -124,9 +126,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
                 rows.stream().peek(action).toList(),
                 getPage(),
                 getSize(),
-                getPages(),
-                getTotal(),
-                getHasNext()
+                getTotal()
             )
         );
     }
