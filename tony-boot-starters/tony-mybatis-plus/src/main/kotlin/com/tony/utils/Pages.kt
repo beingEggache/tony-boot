@@ -72,11 +72,11 @@ public fun <T> IPage<T>?.toPageResult(): PageResult<T> =
     if (this == null) {
         EMPTY_PAGE_RESULT
     } else {
-        PageResult(records, current, size, pages, total, current < pages)
+        PageResult(records, current, size, total)
     }.asToNotNull()
 
 /**
  * 空分页结构.
  * @return
  */
-private val EMPTY_PAGE_RESULT: PageResult<*> = PageResult<Nothing>(Collections.emptyList(), 1L, 0L, 0L, 0L, false)
+private val EMPTY_PAGE_RESULT: PageResult<*> = PageResult<Nothing>(Collections.emptyList(), 1L, 0L, 0L)
