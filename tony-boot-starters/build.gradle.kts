@@ -108,9 +108,17 @@ configure(libraryProjects) {
     }
 
     tasks.withType<Jar> {
+        into("META-INF") {
+            from(rootProject.file("LICENSE"))
+        }
+        into("META-INF/maven/${project.group}/${project.name}") {
+            from(project.tasks.getByPath("generatePomFileForJarPublication"))
+            rename("pom-default.xml","pom.xml")
+        }
         manifest {
             attributes["Implementation-Title"] = project.name
             attributes["Implementation-Version"] = project.version
+            attributes["Build-Jdk-Spec"] = javaVersion
         }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
