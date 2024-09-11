@@ -15,6 +15,7 @@ import com.tony.demo.sys.dto.req.EmployeeToggleEnabledReq
 import com.tony.demo.sys.dto.req.EmployeeUpdateReq
 import com.tony.demo.sys.dto.resp.EmployeeResp
 import com.tony.demo.sys.po.Employee
+import com.tony.utils.alsoIfNotEmpty
 import com.tony.utils.copyTo
 import com.tony.utils.md5
 import com.tony.utils.toPage
@@ -63,7 +64,7 @@ class EmployeeService(
         val tenantId = req.tenantId
         resetPwd(po)
         deptDao.deleteEmployeeDepts(employeeId, tenantId)
-        req.deptIds.takeIf { it.isNotEmpty() }?.let {
+        req.deptIds.alsoIfNotEmpty {
             deptDao.insertEmployeeDepts(employeeId, it, tenantId)
         }
     }
@@ -83,7 +84,7 @@ class EmployeeService(
         val employeeId = po.employeeId
         val tenantId = req.tenantId
         deptDao.deleteEmployeeDepts(employeeId, tenantId)
-        req.deptIds.takeIf { it.isNotEmpty() }?.let {
+        req.deptIds.alsoIfNotEmpty {
             deptDao.insertEmployeeDepts(employeeId, it, tenantId)
         }
     }
@@ -160,7 +161,7 @@ class EmployeeService(
 
         val tenantId = req.tenantId
         roleDao.deleteEmployeeRoles(employeeId, tenantId)
-        req.roleIds.takeIf { it.isNotEmpty() }?.let {
+        req.roleIds.alsoIfNotEmpty {
             roleDao.insertEmployeeRoles(employeeId, it, tenantId)
         }
     }

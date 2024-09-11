@@ -14,6 +14,7 @@ import com.tony.demo.sys.dto.req.RoleUpdateReq
 import com.tony.demo.sys.dto.resp.ModuleResp
 import com.tony.demo.sys.dto.resp.RoleResp
 import com.tony.demo.sys.po.Role
+import com.tony.utils.alsoIfNotEmpty
 import com.tony.utils.copyTo
 import com.tony.utils.genRandomInt
 import org.springframework.stereotype.Service
@@ -131,8 +132,7 @@ class RoleService(
     fun assignModules(req: RoleAssignModulesReq) {
         dao.deleteRoleModules(req.roleId, req.tenantId)
         req.moduleIdList
-            .takeIf { it.isNotEmpty() }
-            ?.let {
+            .alsoIfNotEmpty {
                 dao.insertRoleModules(req.roleId, it, req.tenantId)
             }
     }
