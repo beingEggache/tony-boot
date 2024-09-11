@@ -197,9 +197,9 @@ internal class ExceptionHandler : ErrorController {
 
     @ExceptionHandler(NoResourceFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun notFoundException(e: NoResourceFoundException) =
+    fun notFoundException() =
         errorResponse(
-            e.localizedMessage,
+            "NOT FOUND",
             HttpStatus.NOT_FOUND.value()
         )
 

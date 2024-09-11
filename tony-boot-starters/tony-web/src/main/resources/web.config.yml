@@ -1,15 +1,31 @@
 server:
+  error:
+    whitelabel:
+      enabled: false
+  http2:
+    enabled: true
+  servlet:
+    encoding:
+      enabled: false
   compression:
     enabled: true
-    mime-types: application/json, text/xml, text/plain
+    mime-types:
+      - application/json
+      - text/xml
+      - text/plain
 spring:
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
       date: yyyy-MM-dd
+    formcontent:
+      filter:
+        enabled: false
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration
       - org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
       - org.springframework.boot.autoconfigure.dao.PersistenceExceptionTranslationAutoConfiguration
       - org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration
+  web:
+    locale-resolver: fixed

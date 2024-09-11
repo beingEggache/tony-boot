@@ -1,6 +1,13 @@
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
+  data:
+    jdbc:
+      repositories:
+        enabled: false
+  dao:
+    exceptiontranslation:
+      enabled: false
 mybatis-plus:
   mapper-locations: classpath*:mappers/*.mapper.xml
   configuration:
@@ -8,4 +15,3 @@ mybatis-plus:
     default-enum-type-handler: com.tony.mybatis.typehandler.EnumTypeHandler
   global-config:
     banner: off
-

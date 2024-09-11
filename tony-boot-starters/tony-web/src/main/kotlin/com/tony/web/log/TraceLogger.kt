@@ -36,12 +36,7 @@ import com.tony.utils.getLogger
 import com.tony.utils.removeLineBreak
 import com.tony.web.WebContext
 import com.tony.web.filter.RepeatReadRequestWrapper
-import com.tony.web.log.`#Const`.BAD_REQUEST
-import com.tony.web.log.`#Const`.INTERNAL_SERVER_ERROR
 import com.tony.web.log.`#Const`.NULL
-import com.tony.web.log.`#Const`.OK
-import com.tony.web.log.`#Const`.PRECONDITION_FAILED
-import com.tony.web.log.`#Const`.UNAUTHORIZED
 import com.tony.web.log.`#Const`.logger
 import com.tony.web.utils.headers
 import com.tony.web.utils.isTextMediaTypes
@@ -86,21 +81,6 @@ public fun interface TraceLogger {
 
 @Suppress("ClassName")
 internal object `#Const` {
-    @JvmSynthetic
-    internal const val OK: String = "OK"
-
-    @JvmSynthetic
-    internal const val INTERNAL_SERVER_ERROR: String = "INTERNAL_SERVER_ERROR"
-
-    @JvmSynthetic
-    internal const val PRECONDITION_FAILED: String = "PRECONDITION_FAILED"
-
-    @JvmSynthetic
-    internal const val BAD_REQUEST: String = "BAD_REQUEST"
-
-    @JvmSynthetic
-    internal const val UNAUTHORIZED: String = "UNAUTHORIZED"
-
     @JvmSynthetic
     internal const val NULL: String = "[null]"
 
@@ -230,12 +210,20 @@ internal class DefaultTraceLogger : TraceLogger {
 
     private fun resultStatus(resultCode: Int): String =
         when (resultCode) {
-            ApiProperty.okCode, HttpStatus.OK.value() -> OK
-            ApiProperty.badRequestCode, HttpStatus.BAD_REQUEST.value() -> BAD_REQUEST
-            ApiProperty.preconditionFailedCode -> PRECONDITION_FAILED
-            ApiProperty.unauthorizedCode -> UNAUTHORIZED
-            in 400 * 100..499 * 100, in 400..499 -> BAD_REQUEST
-            in 100 * 100..199 * 100 -> OK
-            else -> INTERNAL_SERVER_ERROR
+            ApiProperty.okCode, HttpStatus.OK.value(), in 100 * 100..199 * 100 -> HttpStatus.OK.name
+
+            ApiProperty.preconditionFailedCode -> HttpStatus.PRECONDITION_FAILED.name
+
+            ApiProperty.badRequestCode, HttpStatus.BAD_REQUEST.value() -> HttpStatus.BAD_REQUEST.name
+
+            ApiProperty.unauthorizedCode, HttpStatus.UNAUTHORIZED.value() -> HttpStatus.UNAUTHORIZED.name
+
+            ApiProperty.notFoundCode, HttpStatus.NOT_FOUND.value(), in 404 * 100 until 405 * 100 ->
+                HttpStatus.NOT_FOUND
+                    .name
+
+            in 400 * 100..499 * 100, in 400..499 -> HttpStatus.BAD_REQUEST.name
+
+            else -> HttpStatus.INTERNAL_SERVER_ERROR.name
         }
 }
