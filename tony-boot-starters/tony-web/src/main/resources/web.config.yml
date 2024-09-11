@@ -7,3 +7,9 @@ spring:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
       date: yyyy-MM-dd
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration
+      - org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
+      - org.springframework.boot.autoconfigure.dao.PersistenceExceptionTranslationAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration
