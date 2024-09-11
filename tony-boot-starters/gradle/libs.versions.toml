@@ -60,7 +60,7 @@ xnio = "3.8.16.Final"
 springCloud = "2023.0.3"
 springCloudAlibaba = "2023.0.1.2"
 springCloudTencent = "1.13.2-2023.0.0"
-reactor = "2023.0.9"
+reactor = "2023.0.10"
 netty = "4.1.113.Final"
 grpc = "1.66.0"
 protobuf = "4.28.0"
@@ -213,7 +213,7 @@ elApi = { module = "jakarta.el:jakarta.el-api", version = "6.0.1" }
 websocketApi = { module = "jakarta.websocket:jakarta.websocket-api", version = "2.2.0" }
 bindApi = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version = "4.0.2" }
 
-tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "10.1.28" }
+tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "10.1.29" }
 
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.5" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.17.1" }
