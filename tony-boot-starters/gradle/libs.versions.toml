@@ -24,7 +24,7 @@
 template = "0.1-SNAPSHOT"
 java = "21"
 kotlin = "2.0.20"
-spring = "6.1.12"
+spring = "6.1.13"
 springBoot = "3.3.3"
 
 slf4j = "2.0.16"
@@ -63,7 +63,7 @@ springCloudTencent = "1.13.2-2023.0.0"
 reactor = "2023.0.10"
 netty = "4.1.113.Final"
 grpc = "1.66.0"
-protobuf = "4.28.0"
+protobuf = "4.28.1"
 
 grpcSpringBoot = "3.1.0.RELEASE"
 
@@ -228,7 +228,7 @@ httpcoreNio = { module = "org.apache.httpcomponents:httpcore-nio", version = "4.
 httpasyncclient = { module = "org.apache.httpcomponents:httpasyncclient", version = "4.1.5" }
 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version = "4.12.0" }
-okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.9.0" }
+okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.9.1" }
 
 javaJwt = { module = "com.auth0:java-jwt", version = "4.4.0" }
 jasypt = { module = "org.jasypt:jasypt", version = "1.9.3" }
