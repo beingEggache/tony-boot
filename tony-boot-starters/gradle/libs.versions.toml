@@ -32,12 +32,12 @@ slf4j = "2.0.16"
 byteBuddy = "1.15.1"
 bouncycastle = "1.78.1"
 
-openFeign = "13.3"
+openFeign = "13.4"
 lettuce = "6.4.0.RELEASE"
 
 jackson = "2.17.2"
 gson = "2.11.0"
-fastjson = "2.0.52"
+fastjson = "2.0.53"
 
 postgresql = "42.7.4"
 mysql = "9.0.0"
@@ -213,7 +213,7 @@ elApi = { module = "jakarta.el:jakarta.el-api", version = "6.0.1" }
 websocketApi = { module = "jakarta.websocket:jakarta.websocket-api", version = "2.2.0" }
 bindApi = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version = "4.0.2" }
 
-tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "10.1.29" }
+tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "10.1.30" }
 
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.5" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.17.1" }
