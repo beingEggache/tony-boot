@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tony.mybatis.wrapper
+package com.tony.mybatis.wrapper.update
 
 import com.baomidou.mybatisplus.core.conditions.update.Update
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
@@ -31,6 +31,7 @@ import com.baomidou.mybatisplus.extension.conditions.update.ChainUpdate
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateWrapper
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper
 import com.tony.mybatis.dao.BaseDao
+import com.tony.mybatis.dao.getEntityClass
 import kotlin.reflect.KProperty1
 
 /**
@@ -40,12 +41,13 @@ import kotlin.reflect.KProperty1
  * @since 1.0.0
  */
 public class TonyKtUpdateChainWrapper<T : Any>(
-    internal val baseDao: BaseDao<T>,
+    private val baseMapper: BaseDao<T>,
+    wrapperChildren: KtUpdateWrapper<T> = KtUpdateWrapper(baseMapper.getEntityClass()),
 ) : AbstractChainWrapper<T, KProperty1<in T, *>, TonyKtUpdateChainWrapper<T>, KtUpdateWrapper<T>>(),
     ChainUpdate<T>,
     Update<TonyKtUpdateChainWrapper<T>, KProperty1<in T, *>> {
-    public constructor(baseDao: BaseDao<T>, entityClass: Class<T>) : this(baseDao) {
-        super.wrapperChildren = KtUpdateWrapper(entityClass)
+    init {
+        this.wrapperChildren = wrapperChildren
     }
 
     override fun set(
@@ -67,8 +69,26 @@ public class TonyKtUpdateChainWrapper<T : Any>(
         return typedThis
     }
 
+    override fun setDecrBy(
+        condition: Boolean,
+        column: KProperty1<in T, *>,
+        value: Number,
+    ): TonyKtUpdateChainWrapper<T> {
+        wrapperChildren.setDecrBy(condition, column, value)
+        return typedThis
+    }
+
+    override fun setIncrBy(
+        condition: Boolean,
+        column: KProperty1<in T, *>,
+        value: Number,
+    ): TonyKtUpdateChainWrapper<T> {
+        wrapperChildren.setIncrBy(condition, column, value)
+        return typedThis
+    }
+
     override fun getBaseMapper(): BaseMapper<T> =
-        baseDao
+        baseMapper
 
     override fun getEntityClass(): Class<T> =
         super.wrapperChildren.entityClass
@@ -81,5 +101,5 @@ public class TonyKtUpdateChainWrapper<T : Any>(
      * @since 1.0.0
      */
     public fun physicalRemove(): Boolean =
-        SqlHelper.retBool(baseDao.physicalDelete(wrapper))
+        SqlHelper.retBool(baseMapper.physicalDelete(wrapper))
 }

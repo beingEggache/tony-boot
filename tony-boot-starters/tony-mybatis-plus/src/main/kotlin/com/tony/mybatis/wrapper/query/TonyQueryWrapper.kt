@@ -22,104 +22,140 @@
  * SOFTWARE.
  */
 
-package com.tony.mybatis.wrapper
+package com.tony.mybatis.wrapper.query
 
+import com.baomidou.mybatisplus.core.conditions.AbstractWrapper
 import com.baomidou.mybatisplus.core.conditions.SharedString
 import com.baomidou.mybatisplus.core.conditions.query.Query
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments
+import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
-import com.baomidou.mybatisplus.core.toolkit.ArrayUtils
-import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache
-import com.baomidou.mybatisplus.extension.kotlin.AbstractKtWrapper
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Predicate
-import kotlin.reflect.KProperty1
 
 /**
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
+ *
  * @author tangli
- * @date 2023/09/13 19:41
- * @since 1.0.0
+ * @date 2023/05/25 19:32
  */
-public open class TonyKtQueryWrapper<T : Any> :
-    AbstractKtWrapper<T, TonyKtQueryWrapper<T>>,
-    Query<TonyKtQueryWrapper<T>, T, KProperty1<in T, *>> {
+
+public open class TonyQueryWrapper<T : Any> :
+    AbstractWrapper<T, String, TonyQueryWrapper<T>>,
+    Query<TonyQueryWrapper<T>, T, String> {
     /**
      * 查询字段
      */
-    private var sqlSelect: SharedString = SharedString()
+    private val sqlSelect: SharedString = SharedString()
 
     internal constructor(entityClass: Class<T>) {
         this.entityClass = entityClass
         this.initNeed()
     }
 
-    internal constructor(
-        entity: T?,
+    /**
+     * 非对外公开的构造方法,只用于生产嵌套 sql
+     *
+     * @param entityClass 本不应该需要的
+     */
+    private constructor(
+        entity: T,
         entityClass: Class<T>,
-        sqlSelect: SharedString,
         paramNameSeq: AtomicInteger,
         paramNameValuePairs: Map<String, Any>,
-        columnMap: Map<String, ColumnCache>,
+        mergeSegments: MergeSegments,
+        paramAlias: SharedString,
         lastSql: SharedString,
         sqlComment: SharedString,
         sqlFirst: SharedString,
     ) {
         this.entity = entity
+        this.entityClass = entityClass
         this.paramNameSeq = paramNameSeq
         this.paramNameValuePairs = paramNameValuePairs
-        this.expression = MergeSegments()
-        this.columnMap = columnMap
-        this.sqlSelect = sqlSelect
-        this.entityClass = entityClass
+        this.expression = mergeSegments
+        this.paramAlias = paramAlias
         this.lastSql = lastSql
         this.sqlComment = sqlComment
         this.sqlFirst = sqlFirst
     }
 
+    /**
+     * 检查 SQL 注入过滤
+     */
+    private var checkSqlInjection = false
+
+    /**
+     * 开启检查 SQL 注入
+     */
+    public fun checkSqlInjection(): TonyQueryWrapper<T> =
+        apply {
+            checkSqlInjection = true
+        }
+
+    protected override fun columnToString(column: String): String {
+        if (checkSqlInjection && SqlInjectionUtils.check(column)) {
+            throw MybatisPlusException("Discovering SQL injection column: $column")
+        }
+        return column
+    }
+
     override fun select(
         condition: Boolean,
-        columns: MutableList<KProperty1<in T, *>>,
-    ): TonyKtQueryWrapper<T> {
+        columns: List<String>,
+    ): TonyQueryWrapper<T> {
         if (condition && columns.isNotEmpty()) {
-            this.sqlSelect.stringValue = columnsToString(false, columns)
+            sqlSelect.setStringValue(columns.joinToString())
         }
         return typedThis
     }
 
-    override fun select(
+    public override fun select(
         entityClass: Class<T>,
         predicate: Predicate<TableFieldInfo>,
-    ): TonyKtQueryWrapper<T> {
-        this.entityClass = entityClass
-        this.sqlSelect.stringValue = TableInfoHelper.getTableInfo(getEntityClass()).chooseSelect(predicate)
+    ): TonyQueryWrapper<T> {
+        super.setEntityClass(entityClass)
+        sqlSelect.setStringValue(TableInfoHelper.getTableInfo(getEntityClass()).chooseSelect(predicate))
         return typedThis
     }
 
-    public fun select(vararg columns: String): TonyKtQueryWrapper<T> {
-        if (ArrayUtils.isNotEmpty(columns)) {
-            sqlSelect.stringValue = columns.joinToString()
-        }
-        return typedThis
-    }
-
-    override fun getSqlSelect(): String? =
+    override fun getSqlSelect(): String =
         sqlSelect.stringValue
 
     /**
-     * 用于生成嵌套 sql
-     *
-     * 故 sqlSelect 不向下传递
+     * 返回一个支持 lambda 函数写法的 wrapper
      */
-    override fun instance(): TonyKtQueryWrapper<T> =
-        TonyKtQueryWrapper(
+    public fun lambda(): TonyLambdaQueryWrapper<T> =
+        TonyLambdaQueryWrapper(
             entity,
             entityClass,
             sqlSelect,
             paramNameSeq,
             paramNameValuePairs,
-            columnMap,
+            expression,
+            paramAlias,
+            lastSql,
+            sqlComment,
+            sqlFirst
+        )
+
+    /**
+     * 用于生成嵌套 sql
+     *
+     *
+     * 故 sqlSelect 不向下传递
+     *
+     */
+    override fun instance(): TonyQueryWrapper<T> =
+        TonyQueryWrapper(
+            entity,
+            entityClass,
+            paramNameSeq,
+            paramNameValuePairs,
+            MergeSegments(),
+            paramAlias,
             SharedString.emptyString(),
             SharedString.emptyString(),
             SharedString.emptyString()

@@ -35,10 +35,10 @@ import com.tony.PageQueryLike
 import com.tony.PageResultLike
 import com.tony.exception.BaseException
 import com.tony.exception.BizException
-import com.tony.mybatis.wrapper.TonyKtQueryChainWrapper
-import com.tony.mybatis.wrapper.TonyKtUpdateChainWrapper
-import com.tony.mybatis.wrapper.TonyLambdaQueryChainWrapper
-import com.tony.mybatis.wrapper.TonyQueryChainWrapper
+import com.tony.mybatis.wrapper.query.TonyKtQueryChainWrapper
+import com.tony.mybatis.wrapper.query.TonyLambdaQueryChainWrapper
+import com.tony.mybatis.wrapper.query.TonyQueryChainWrapper
+import com.tony.mybatis.wrapper.update.TonyKtUpdateChainWrapper
 import com.tony.utils.throwIfEmpty
 import com.tony.utils.throwIfNull
 import com.tony.utils.toPage
@@ -331,7 +331,7 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      */
     @JvmSynthetic
     public fun ktUpdate(): TonyKtUpdateChainWrapper<T> =
-        TonyKtUpdateChainWrapper(this, getEntityClass())
+        TonyKtUpdateChainWrapper(this)
 
     /**
      * 链式更改 普通.

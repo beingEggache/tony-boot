@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tony.mybatis.wrapper
+package com.tony.mybatis.wrapper.query
 
 import com.baomidou.mybatisplus.core.conditions.query.Query
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
@@ -70,4 +70,7 @@ public open class TonyQueryChainWrapper<T : Any> internal constructor(
 
     override fun getBaseMapper(): BaseDao<T> =
         baseMapper
+
+    public fun lambda(): TonyLambdaQueryChainWrapper<T> =
+        TonyLambdaQueryChainWrapper(baseMapper, wrapperChildren.lambda())
 }

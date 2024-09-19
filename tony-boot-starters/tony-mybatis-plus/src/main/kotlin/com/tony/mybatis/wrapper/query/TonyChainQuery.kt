@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tony.mybatis.wrapper
+package com.tony.mybatis.wrapper.query
 
 import com.baomidou.mybatisplus.extension.conditions.query.ChainQuery
 import com.tony.ApiProperty

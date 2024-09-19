@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tony.mybatis.wrapper
+package com.tony.mybatis.wrapper.query
 
 import com.baomidou.mybatisplus.core.conditions.query.Query
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo
@@ -40,11 +40,12 @@ import java.util.function.Predicate
  */
 public open class TonyLambdaQueryChainWrapper<T : Any> internal constructor(
     private val baseMapper: BaseDao<T>,
+    wrapperChildren: TonyLambdaQueryWrapper<T> = TonyLambdaQueryWrapper(baseMapper.getEntityClass()),
 ) : AbstractChainWrapper<T, SFunction<T, *>, TonyLambdaQueryChainWrapper<T>, TonyLambdaQueryWrapper<T>>(),
     TonyChainQuery<T>,
     Query<TonyLambdaQueryChainWrapper<T>, T, SFunction<T, *>> {
     init {
-        wrapperChildren = TonyLambdaQueryWrapper(baseMapper.getEntityClass())
+        this.wrapperChildren = wrapperChildren
     }
 
     override fun select(

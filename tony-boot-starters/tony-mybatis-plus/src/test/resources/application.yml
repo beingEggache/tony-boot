@@ -5,3 +5,10 @@ spring:
     username: tony_api
     password: tony_api
     driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-not-delete-value: 'null'
+      logic-delete-value: 'CURRENT_TIMESTAMP'
+  configuration:
+    default-executor-type: reuse
