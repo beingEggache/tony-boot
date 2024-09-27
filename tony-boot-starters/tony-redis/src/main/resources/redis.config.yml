@@ -4,4 +4,7 @@ spring:
       repositories:
         enabled: false
   autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration
+    exclude:
+      -  org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration
+      -  org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+      -  org.springframework.boot.autoconfigure.data.redis.JedisConnectionConfiguration

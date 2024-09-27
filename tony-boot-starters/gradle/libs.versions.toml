@@ -25,31 +25,31 @@ template = "0.1-SNAPSHOT"
 java = "21"
 kotlin = "2.0.20"
 spring = "6.1.13"
-springBoot = "3.3.3"
+springBoot = "3.3.4"
 
 slf4j = "2.0.16"
 
-byteBuddy = "1.15.1"
+byteBuddy = "1.15.3"
 bouncycastle = "1.78.1"
 
 openFeign = "13.4"
 lettuce = "6.4.0.RELEASE"
 
-jackson = "2.17.2"
+jackson = "2.18.0"
 gson = "2.11.0"
 fastjson = "2.0.53"
 
 postgresql = "42.7.4"
 mysql = "9.0.0"
 
-hikariCP = "5.1.0"
+hikariCP = "6.0.0"
 mybatis = "3.5.16"
 mybatisSpring = "3.0.4"
 mybatisPlus = "3.5.8"
 
-guava = "33.3.0-jre"
+guava = "33.3.1-jre"
 
-swagger = "2.2.23"
+swagger = "2.2.24"
 knife4j = "4.5.0"
 springdocStarter = "2.3.0"
 
@@ -62,7 +62,7 @@ springCloudAlibaba = "2023.0.1.2"
 springCloudTencent = "1.13.2-2023.0.0"
 reactor = "2023.0.10"
 netty = "4.1.113.Final"
-grpc = "1.66.0"
+grpc = "1.68.0"
 protobuf = "4.28.2"
 
 grpcSpringBoot = "3.1.0.RELEASE"
@@ -75,7 +75,7 @@ dokka = "1.9.20"
 [libraries]
 kotlinBom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlinStdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
-annotations = { module = "org.jetbrains:annotations", version = "24.1.0" }
+annotations = { module = "org.jetbrains:annotations", version = "25.0.0" }
 
 springBom = { module = "org.springframework:spring-framework-bom", version.ref = "spring" }
 springContext = { module = "org.springframework:spring-context", version.ref = "spring" }

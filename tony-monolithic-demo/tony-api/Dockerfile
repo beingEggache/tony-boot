@@ -6,7 +6,7 @@ WORKDIR ${WORKDIR}
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 
-RUN java -Djarmode=tools -jar app.jar extract --layers --destination extracted
+RUN java -Djarmode=tools -jar ${WORKDIR}/app.jar extract --layers --destination extracted
 
 FROM eclipse-temurin:21.0.4_7-jre-alpine
 
@@ -34,6 +34,6 @@ COPY --from=builder ${WORKDIR}/extracted/dependencies/ ./
 COPY --from=builder ${WORKDIR}/extracted/snapshot-dependencies/ ./
 COPY --from=builder ${WORKDIR}/extracted/application/ ./
 
-RUN java -XX:ArchiveClassesAtExit=app.jsa -Dspring.context.exit=onRefresh -jar app.jar
+RUN java -XX:ArchiveClassesAtExit=${WORKDIR}/app.jsa -Dspring.context.exit=onRefresh -jar ${WORKDIR}/app.jar
 COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]

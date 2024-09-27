@@ -17,6 +17,7 @@ opts="\
 -DJM.LOG.PATH=${WORKDIR}/log/nacos \
 -DJM.SNAPSHOT.PATH=${WORKDIR}/tmp \
 -Dcom.alibaba.nacos.naming.cache.dir=${WORKDIR}/tmp \
+-XX:SharedArchiveFile=${WORKDIR}/app.jsa \
 -XX:+EnableDynamicAgentLoading \
 -XX:+SegmentedCodeCache \
 -XX:+UseStringDeduplication \

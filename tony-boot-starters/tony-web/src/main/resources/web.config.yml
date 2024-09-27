@@ -7,6 +7,10 @@ server:
   servlet:
     encoding:
       enabled: false
+    jsp:
+      registered: false
+  ssl:
+    enabled: false
   compression:
     enabled: true
     mime-types:
@@ -21,11 +25,19 @@ spring:
     formcontent:
       filter:
         enabled: false
+  freemarker:
+    enabled: false
+  thymeleaf:
+    enabled: false
+  main:
+    web-application-type: servlet
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration
       - org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
+      - org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
       - org.springframework.boot.autoconfigure.dao.PersistenceExceptionTranslationAutoConfiguration
       - org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
   web:
     locale-resolver: fixed
