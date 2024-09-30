@@ -32,14 +32,14 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
 @EnableConfigurationProperties(AlipayProperties::class)
-@Configuration
-internal class AlipayConfig(
+@Configuration(proxyBeanMethods = false)
+private class AlipayConfig(
     private val alipayProperties: AlipayProperties,
 ) {
     private val resourceResolver = PathMatchingResourcePatternResolver()
 
     @Bean
-    internal fun alipayService() =
+    private fun alipayService() =
         AlipayManager(
             alipayProperties.appId,
             getFrom(alipayProperties.publicKeyPath),
@@ -55,7 +55,7 @@ internal class AlipayConfig(
 }
 
 @ConfigurationProperties(prefix = "alipay")
-internal data class AlipayProperties(
+private data class AlipayProperties(
     val appId: String,
     val publicKeyPath: String,
     val privateKeyPath: String,

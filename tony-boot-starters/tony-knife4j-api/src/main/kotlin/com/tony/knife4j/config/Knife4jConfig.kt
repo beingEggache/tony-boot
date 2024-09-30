@@ -45,14 +45,14 @@ import org.springframework.context.annotation.PropertySource
 @ConditionalOnExpression("\${knife4j.enable:true}")
 @PropertySource("classpath:knife4j.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(Knife4jExtensionProperties::class)
-@Configuration
-internal class Knife4jExtensionConfig(
+@Configuration(proxyBeanMethods = false)
+private class Knife4jExtensionConfig(
     private val knife4jExtensionProperties: Knife4jExtensionProperties,
 ) {
     private val logger = LoggerFactory.getLogger(Knife4jExtensionConfig::class.java)
 
     @Bean
-    internal fun openAPI(): OpenAPI =
+    private fun openAPI(): OpenAPI =
         OpenAPI()
             .info(
                 Info()
@@ -63,7 +63,7 @@ internal class Knife4jExtensionConfig(
             )
 
     @Bean
-    internal fun api(): GroupedOpenApi {
+    private fun api(): GroupedOpenApi {
         logger.info("Knife4j is Enabled")
         return GroupedOpenApi
             .builder()
@@ -82,7 +82,7 @@ internal class Knife4jExtensionConfig(
 }
 
 @ConfigurationProperties(prefix = "knife4j.extension")
-public data class Knife4jExtensionProperties(
+private data class Knife4jExtensionProperties(
     @DefaultValue("Tony-Api")
     val title: String,
     @DefaultValue("1.0")

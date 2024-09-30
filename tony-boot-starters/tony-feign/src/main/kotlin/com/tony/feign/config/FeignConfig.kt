@@ -71,16 +71,16 @@ import org.springframework.util.unit.DataSize
  */
 @PropertySource("classpath:feign.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(value = [FeignConfigProperties::class, RequestLogProperties::class])
-@Configuration
-internal class FeignConfig(
+@Configuration(proxyBeanMethods = false)
+private class FeignConfig(
     private val requestLogProperties: RequestLogProperties,
 ) {
     @Bean
-    internal fun encoder(messageConverters: ObjectFactory<HttpMessageConverters>): Encoder =
+    private fun encoder(messageConverters: ObjectFactory<HttpMessageConverters>): Encoder =
         SpringFormEncoder(SpringEncoder(messageConverters))
 
     @Bean
-    internal fun decoder(
+    private fun decoder(
         messageConverters: ObjectFactory<HttpMessageConverters>,
         customizers: ObjectProvider<HttpMessageConverterCustomizer>,
     ): Decoder =
@@ -88,7 +88,7 @@ internal class FeignConfig(
 
     @ConditionalOnMissingBean(ErrorDecoder::class)
     @Bean
-    internal fun errorDecoder() =
+    private fun errorDecoder() =
         DefaultErrorDecoder()
 
     @ConditionalOnMissingBean(FeignRequestLogger::class)
@@ -96,14 +96,14 @@ internal class FeignConfig(
         "\${spring.cloud.openfeign.okhttp.enabled:true} and \${web.log.request.enabled:true}"
     )
     @Bean
-    internal fun feignRequestLogger(): FeignRequestLogger =
+    private fun feignRequestLogger(): FeignRequestLogger =
         DefaultFeignRequestLogger()
 
     @ConditionalOnExpression(
         "\${spring.cloud.openfeign.okhttp.enabled:true} and \${web.log.request.enabled:true}"
     )
     @Bean
-    internal fun feignLogInterceptor(feignRequestLogger: FeignRequestLogger) =
+    private fun feignLogInterceptor(feignRequestLogger: FeignRequestLogger) =
         FeignLogInterceptor(
             feignRequestLogger,
             requestLogProperties.requestBodyMaxSize.toBytes(),
@@ -112,17 +112,17 @@ internal class FeignConfig(
 
     @ConditionalOnMissingBean(name = ["useRequestProcessorsRequestInterceptor"])
     @Bean("useRequestProcessorsRequestInterceptor")
-    internal fun useRequestProcessorsRequestInterceptor(): GlobalRequestInterceptorProvider<RequestInterceptor> =
+    private fun useRequestProcessorsRequestInterceptor(): GlobalRequestInterceptorProvider<RequestInterceptor> =
         GlobalRequestInterceptorProvider(UseRequestProcessorsRequestInterceptor())
 
     @Bean
-    internal fun unwrapResponseInterceptorProvider(
+    private fun unwrapResponseInterceptorProvider(
         @Nullable
         cryptoProvider: CryptoProvider?,
     ) = UnwrapResponseInterceptorProvider(DefaultUnwrapResponseInterceptor(cryptoProvider))
 
     @Bean
-    internal fun feignTargeter(
+    private fun feignTargeter(
         globalRequestInterceptors: List<GlobalRequestInterceptorProvider<*>>,
         globalResponseInterceptors: List<GlobalResponseInterceptorProvider<*>>,
         unwrapResponseInterceptors: List<UnwrapResponseInterceptorProvider<*>>,
@@ -135,7 +135,7 @@ internal class FeignConfig(
     @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
     @ConditionalOnMissingBean(OkHttpClient::class)
     @Bean
-    internal fun okHttpClient(
+    private fun okHttpClient(
         appInterceptors: List<AppInterceptor>,
         networkInterceptors: List<NetworkInterceptor>,
         feignConfigProperties: FeignConfigProperties,
@@ -156,7 +156,7 @@ internal class FeignConfig(
 }
 
 @ConfigurationProperties(prefix = "spring.cloud.openfeign.okhttp")
-internal data class FeignConfigProperties(
+private data class FeignConfigProperties(
     @DefaultValue("0")
     val callTimeout: Long,
     @DefaultValue("10000")
@@ -176,7 +176,7 @@ internal data class FeignConfigProperties(
 @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
 @ConditionalOnBean(OkHttpClient::class)
 @ConfigurationProperties(prefix = "web.log.request")
-internal data class RequestLogProperties(
+private data class RequestLogProperties(
     /**
      * 是否记录request日志。
      */

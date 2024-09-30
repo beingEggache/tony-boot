@@ -24,6 +24,7 @@
 
 package com.tony.web.config
 
+import com.tony.SpringContexts
 import com.tony.jwt.config.JwtProperties
 import com.tony.utils.getLogger
 import com.tony.web.JwtWebSession
@@ -51,8 +52,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableConfigurationProperties(JwtProperties::class, WebAuthProperties::class)
-@Configuration
-internal class WebAuthConfig(
+@Configuration(proxyBeanMethods = false)
+private class WebAuthConfig(
     private val jwtProperties: JwtProperties,
     private val webAuthProperties: WebAuthProperties,
 ) : WebMvcConfigurer {
@@ -60,12 +61,12 @@ internal class WebAuthConfig(
 
     @ConditionalOnMissingBean(LoginCheckInterceptor::class)
     @Bean
-    internal fun loginCheckInterceptor(): LoginCheckInterceptor =
+    private fun loginCheckInterceptor(): LoginCheckInterceptor =
         DefaultLoginCheckInterceptor()
 
     @ConditionalOnMissingBean(WebSession::class)
     @Bean
-    internal fun webSession(): WebSession =
+    private fun webSession(): WebSession =
         if (jwtProperties.secret.isNotBlank()) {
             JwtWebSession().apply {
                 getLogger().info("Jwt auth is enabled")
@@ -77,7 +78,7 @@ internal class WebAuthConfig(
     override fun addInterceptors(registry: InterceptorRegistry) {
         logger.info("noLoginCheckUrl:${webAuthProperties.noLoginCheckUrl}")
         registry
-            .addInterceptor(loginCheckInterceptor())
+            .addInterceptor(SpringContexts.getBean(LoginCheckInterceptor::class.java))
             .excludePathPatterns(
                 *WebContext
                     .excludePathPatterns()
@@ -95,7 +96,7 @@ internal class WebAuthConfig(
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConfigurationProperties(prefix = "web.auth")
-public data class WebAuthProperties(
+private data class WebAuthProperties(
     /**
      * 不需要登录校验的地址.
      */

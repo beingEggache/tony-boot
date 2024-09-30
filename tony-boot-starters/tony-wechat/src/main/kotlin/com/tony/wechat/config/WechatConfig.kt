@@ -43,8 +43,8 @@ import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 
 @EnableConfigurationProperties(WechatProperties::class)
-@Configuration
-internal class WechatConfig {
+@Configuration(proxyBeanMethods = false)
+private class WechatConfig {
     @Resource
     private fun initMappingJackson2HttpMessageConverter(
         mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
@@ -59,7 +59,7 @@ internal class WechatConfig {
     }
 
     @Bean
-    internal fun wechatClient(applicationContext: ApplicationContext): WechatClient =
+    private fun wechatClient(applicationContext: ApplicationContext): WechatClient =
         WechatClient::class.findAnnotation<FeignClient>().let {
             FeignClientBuilder(applicationContext)
                 .forType(WechatClient::class.java, it?.value)
@@ -69,12 +69,12 @@ internal class WechatConfig {
 
     @ConditionalOnMissingBean(WechatApiAccessTokenProvider::class)
     @Bean
-    internal fun apiAccessTokenProviderWrapper(): WechatApiAccessTokenProvider =
+    private fun apiAccessTokenProviderWrapper(): WechatApiAccessTokenProvider =
         DefaultWechatApiAccessTokenProvider()
 
     @ConditionalOnMissingBean(WechatPropProvider::class)
     @Bean
-    internal fun wechatApiPropProvider(wechatProperties: WechatProperties) =
+    private fun wechatApiPropProvider(wechatProperties: WechatProperties) =
         DefaultWechatPropProvider(wechatProperties)
 }
 

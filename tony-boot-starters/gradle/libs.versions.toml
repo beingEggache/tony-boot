@@ -249,7 +249,7 @@ snakeYaml = { module = "org.yaml:snakeyaml", version = "2.3" }
 yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version = "1.0.6" }
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
 
-aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.1" }
+aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.2" }
 gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.36.0"}
 
 [plugins]

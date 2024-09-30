@@ -50,10 +50,10 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
             .SERVLET
 )
 @ConditionalOnExpression("\${web.crypto.enabled:false}")
-@Configuration
-internal class WebCryptoConfig {
+@Configuration(proxyBeanMethods = false)
+private class WebCryptoConfig {
     @Resource
-    internal fun initMappingJackson2HttpMessageConverter(
+    private fun initMappingJackson2HttpMessageConverter(
         mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,
     ) {
         val supportedMediaTypes =
@@ -67,11 +67,11 @@ internal class WebCryptoConfig {
 
     @ConditionalOnMissingBean(DecryptRequestBodyAdvice::class)
     @Bean
-    internal fun decryptRequestBodyAdvice(cryptoProvider: CryptoProvider): DecryptRequestBodyAdvice =
+    private fun decryptRequestBodyAdvice(cryptoProvider: CryptoProvider): DecryptRequestBodyAdvice =
         DefaultDecryptRequestBodyAdvice(cryptoProvider)
 
     @ConditionalOnMissingBean(EncryptResponseBodyAdvice::class)
     @Bean
-    internal fun encryptResponseBodyAdvice(cryptoProvider: CryptoProvider): EncryptResponseBodyAdvice =
+    private fun encryptResponseBodyAdvice(cryptoProvider: CryptoProvider): EncryptResponseBodyAdvice =
         DefaultEncryptResponseBodyAdvice(cryptoProvider)
 }

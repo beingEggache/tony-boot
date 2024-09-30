@@ -37,8 +37,8 @@ import org.springframework.context.annotation.Configuration
  */
 @ConditionalOnWebApplication
 @EnableConfigurationProperties(JwtProperties::class)
-@Configuration
-internal class JwtConfig
+@Configuration(proxyBeanMethods = false)
+private class JwtConfig
 
 /**
  * JwtProperties

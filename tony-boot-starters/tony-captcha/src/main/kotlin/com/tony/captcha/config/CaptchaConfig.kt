@@ -47,13 +47,13 @@ import org.springframework.context.annotation.Configuration
  * @date 2023/05/25 19:41
  */
 @EnableConfigurationProperties(CaptchaProperties::class)
-@Configuration
-internal class CaptchaConfig(
+@Configuration(proxyBeanMethods = false)
+private class CaptchaConfig(
     private val captchaProperties: CaptchaProperties,
 ) {
     @ConditionalOnMissingBean(CaptchaService::class)
     @Bean
-    fun captchaService(): CaptchaService =
+    private fun captchaService(): CaptchaService =
         if (captchaProperties.mode == CaptchaMode.DEFAULT) {
             DefaultCaptchaServiceImpl()
         } else {
@@ -68,7 +68,7 @@ internal class CaptchaConfig(
  * @date 2023/05/25 19:42
  */
 @ConfigurationProperties(prefix = "captcha")
-internal data class CaptchaProperties(
+private data class CaptchaProperties(
     /**
      * captcha mode.
      */

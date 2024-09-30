@@ -37,7 +37,7 @@ fun main(args: Array<String>) {
         PowerJobConfig::class
     ]
 )
-@SpringBootApplication
+@SpringBootApplication(proxyBeanMethods = false)
 class MonoApiWebApp(
     private val permissionInterceptor: PermissionInterceptor,
 ) : WebMvcConfigurer {

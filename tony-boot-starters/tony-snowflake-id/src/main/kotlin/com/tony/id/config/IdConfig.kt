@@ -31,19 +31,17 @@
 package com.tony.id.config
 
 import com.tony.id.IdGenerator
-import jakarta.annotation.PostConstruct
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Configuration
 
 @EnableConfigurationProperties(IdProperties::class)
-@Configuration
-public class IdConfig(
-    private val idProperties: IdProperties,
+@Configuration(proxyBeanMethods = false)
+private class IdConfig(
+    idProperties: IdProperties,
 ) {
-    @PostConstruct
-    public fun idGenerator() {
+    init {
         IdGenerator.init(idProperties)
     }
 }

@@ -59,8 +59,8 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
  */
 @PropertySource("classpath:redis.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(RedisProperties::class)
-@Configuration
-internal class RedisConfig(
+@Configuration(proxyBeanMethods = false)
+private class RedisConfig(
     private val redisProperties: RedisProperties,
 ) {
     private val logger = LoggerFactory.getLogger(RedisConfig::class.java)
@@ -68,7 +68,7 @@ internal class RedisConfig(
     @ConditionalOnMissingBean(RedisCacheAspect::class)
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON", matchIfMissing = true)
     @Bean
-    internal fun jacksonRedisCacheAspect(): RedisCacheAspect {
+    private fun jacksonRedisCacheAspect(): RedisCacheAspect {
         logger.info("Annotation based redis cache with jackson enabled")
         return JacksonRedisCacheAspect()
     }
@@ -76,7 +76,7 @@ internal class RedisConfig(
     @ConditionalOnMissingBean(Jackson2ObjectMapperBuilder::class)
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON", matchIfMissing = true)
     @Bean
-    internal fun jackson2ObjectMapperBuilder(
+    private fun jackson2ObjectMapperBuilder(
         jackson2ObjectMapperBuilderCustomizer: Jackson2ObjectMapperBuilderCustomizer,
     ): Jackson2ObjectMapperBuilder =
         Jackson2ObjectMapperBuilder().apply {
@@ -86,7 +86,7 @@ internal class RedisConfig(
     @ConditionalOnMissingBean(ObjectMapper::class)
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON", matchIfMissing = true)
     @Bean
-    internal fun objectMapper(
+    private fun objectMapper(
         jackson2ObjectMapperBuilder: Jackson2ObjectMapperBuilder,
         injectableValueSuppliers: List<InjectableValueSupplier>,
     ): ObjectMapper =
@@ -97,7 +97,7 @@ internal class RedisConfig(
 
     @ConditionalOnMissingBean(RedisSerializer::class)
     @Bean
-    internal fun genericJackson2JsonRedisSerializer(objectMapper: ObjectMapper): RedisSerializer<Any?> =
+    private fun genericJackson2JsonRedisSerializer(objectMapper: ObjectMapper): RedisSerializer<Any?> =
         GenericJackson2JsonRedisSerializer(objectMapper).also {
             if (redisProperties.serializerMode == SerializerMode.PROTOSTUFF) {
                 logger.warn(
@@ -111,11 +111,11 @@ internal class RedisConfig(
 
     @ConditionalOnMissingBean(RedisService::class)
     @Bean
-    internal fun jacksonRedisService(): RedisService =
+    private fun jacksonRedisService(): RedisService =
         JacksonRedisService()
 
     @Bean("redisTemplate")
-    internal fun redisTemplate(
+    private fun redisTemplate(
         redisConnectionFactory: RedisConnectionFactory,
         redisSerializer: RedisSerializer<Any?>,
     ): RedisTemplate<String, Any> =
@@ -137,7 +137,7 @@ internal class RedisConfig(
  * @date 2023/05/25 19:31
  */
 @ConfigurationProperties(prefix = "redis")
-internal data class RedisProperties(
+private data class RedisProperties(
     @DefaultValue("")
     val keyPrefix: String,
     /**

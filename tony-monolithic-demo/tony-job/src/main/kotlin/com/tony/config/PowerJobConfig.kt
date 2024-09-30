@@ -13,5 +13,5 @@ import org.springframework.context.annotation.PropertySource
  */
 @ComponentScan("com.tony.job")
 @PropertySource("classpath:powerjob.config.yml", factory = YamlPropertySourceFactory::class)
-@Configuration
+@Configuration(proxyBeanMethods = false)
 class PowerJobConfig

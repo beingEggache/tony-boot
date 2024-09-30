@@ -48,6 +48,9 @@ class TestSessionController {
     fun testUserId(): String {
         return WebContext.webSession.userId
     }
+    @Operation(summary = "测试loginCheck", description = "测试loginCheck")
+    @GetMapping("/test-login-check")
+    fun testSimpleNoLoginCheck(): String = "something"
 
     @NoLoginCheck
     @Operation(summary = "测试登录", description = "测试登录 description")

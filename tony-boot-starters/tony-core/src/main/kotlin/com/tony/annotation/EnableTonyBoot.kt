@@ -50,14 +50,14 @@ import org.springframework.core.type.AnnotationMetadata
 )
 public annotation class EnableTonyBoot
 
-@Configuration
-internal class TonyBootConfiguration {
+@Configuration(proxyBeanMethods = false)
+private class TonyBootConfiguration {
     @Bean
-    internal fun applicationContextHolder() =
+    private fun applicationContextHolder() =
         SpringContexts.ApplicationContextHolder
 }
 
-internal class TonyBootImportSelector : ImportSelector {
+private class TonyBootImportSelector : ImportSelector {
     private val logger = getLogger()
 
     override fun selectImports(importingClassMetadata: AnnotationMetadata) =

@@ -25,10 +25,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @ComponentScan(basePackages = ["com.tony.demo"])
 @EnableTransactionManagement(proxyTargetClass = true)
 @PropertySource("classpath:db.config.yml", factory = YamlPropertySourceFactory::class)
-@Configuration
+@Configuration(proxyBeanMethods = false)
 class DbConfig {
     @Bean
-    internal fun mybatisPlusInterceptor(): MybatisPlusInterceptor {
+    private fun mybatisPlusInterceptor(): MybatisPlusInterceptor {
         val interceptor = MybatisPlusInterceptor()
         interceptor.addInnerInterceptor(PaginationInnerInterceptor(DbType.MYSQL))
         return interceptor
@@ -36,7 +36,7 @@ class DbConfig {
 
     @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
-    internal fun metaObjectHandler(
+    private fun metaObjectHandler(
         apiSession: ApiSession,
         userNameProvider: Function<in Any?, out Any?>,
     ): MetaObjectHandler =
@@ -46,7 +46,7 @@ class DbConfig {
         )
 
     @Bean
-    internal fun userNameProvider(
+    private fun userNameProvider(
         @Lazy employeeDao: EmployeeDao,
     ): Function<in Any?, out Any?> =
         Function<Any?, Any?> {
@@ -58,6 +58,6 @@ class DbConfig {
         }
 
     @Bean
-    fun identifierGenerator(): IdentifierGenerator =
+    private fun identifierGenerator(): IdentifierGenerator =
         IdentifierGenerator { IdGenerator.nextId() }
 }

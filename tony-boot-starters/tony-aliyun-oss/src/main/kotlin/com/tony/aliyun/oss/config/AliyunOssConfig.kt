@@ -29,8 +29,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration
 
 @EnableConfigurationProperties(AliyunOssProperties::class)
-@Configuration
-internal class AliyunOssConfig
+@Configuration(proxyBeanMethods = false)
+private class AliyunOssConfig
 
 @ConfigurationProperties(prefix = "aliyun.oss")
 internal data class AliyunOssProperties(

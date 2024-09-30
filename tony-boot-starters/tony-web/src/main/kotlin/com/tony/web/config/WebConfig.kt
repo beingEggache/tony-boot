@@ -88,8 +88,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 )
 @PropertySource("classpath:web.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(value = [WebProperties::class, TraceLogProperties::class, WebCorsProperties::class])
-@Configuration
-internal class WebConfig(
+@Configuration(proxyBeanMethods = false)
+private class WebConfig(
     private val webProperties: WebProperties,
     private val traceLogProperties: TraceLogProperties,
     private val webCorsProperties: WebCorsProperties,
@@ -122,22 +122,22 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.log.trace.enabled:true}")
     @Bean
-    internal fun requestReplaceToRepeatReadFilter() =
+    private fun requestReplaceToRepeatReadFilter() =
         RequestReplaceToRepeatReadFilter(traceLogProperties.excludePatterns)
 
     @Bean
-    internal fun traceIdFilter() =
+    private fun traceIdFilter() =
         TraceIdFilter()
 
     @ConditionalOnMissingBean(TraceLogger::class)
     @ConditionalOnExpression("\${web.log.trace.enabled:true}")
     @Bean
-    internal fun defaultTraceLogger(): TraceLogger =
+    private fun defaultTraceLogger(): TraceLogger =
         DefaultTraceLogger()
 
     @ConditionalOnExpression("\${web.log.trace.enabled:true}")
     @Bean
-    internal fun traceLogFilter(traceLogger: TraceLogger): TraceLogFilter =
+    private fun traceLogFilter(traceLogger: TraceLogger): TraceLogFilter =
         TraceLogFilter(
             traceLogger,
             traceLogProperties.excludePatterns,
@@ -147,16 +147,16 @@ internal class WebConfig(
 
     @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
     @Bean
-    internal fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice =
+    private fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice =
         WrapResponseBodyAdvice()
 
     @Bean
-    internal fun exceptionHandler() =
+    private fun exceptionHandler() =
         ExceptionHandler()
 
     @ConditionalOnExpression("\${web.cors.enabled:true}")
     @Bean
-    internal fun corsFilter(): CorsFilter {
+    private fun corsFilter(): CorsFilter {
         val corsConfiguration =
             CorsConfiguration().apply {
                 BeanUtils.copyProperties(webCorsProperties, this)
@@ -179,7 +179,7 @@ internal class WebConfig(
     }
 
     @Bean
-    internal fun jackson2ObjectMapperBuilder(
+    private fun jackson2ObjectMapperBuilder(
         jackson2ObjectMapperBuilderCustomizer: Jackson2ObjectMapperBuilderCustomizer,
     ): Jackson2ObjectMapperBuilder =
         Jackson2ObjectMapperBuilder()
@@ -188,7 +188,7 @@ internal class WebConfig(
             }
 
     @Bean
-    internal fun objectMapper(
+    private fun objectMapper(
         jackson2ObjectMapperBuilder: Jackson2ObjectMapperBuilder,
         injectableValueSuppliers: List<InjectableValueSupplier>,
     ): ObjectMapper =
@@ -280,7 +280,7 @@ internal data class TraceLogProperties(
             .SERVLET
 )
 @ConfigurationProperties(prefix = "web.cors")
-public data class WebCorsProperties(
+internal data class WebCorsProperties(
     @DefaultValue("false")
     val enabled: Boolean,
     val allowedOriginPatterns: List<String> = listOf("*"),

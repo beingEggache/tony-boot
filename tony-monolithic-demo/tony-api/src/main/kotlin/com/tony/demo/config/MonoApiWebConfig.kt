@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration
  * @author tangli
  * @date 2023/07/06 19:23
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 class MonoApiWebConfig {
     @Bean
     fun tenantIdInjector(): TenantIdInjector =

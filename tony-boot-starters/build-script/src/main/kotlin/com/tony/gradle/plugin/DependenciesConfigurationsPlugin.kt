@@ -52,6 +52,8 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
             exclude(group = "com.google.errorprone", module = "error_prone_annotations")
             exclude(group = "com.google.guava", module = "listenablefuture")
             exclude(group = "com.google.j2objc", module = "j2objc-annotations")
+            exclude(group = "com.google.code.findbugs", module = "jsr305")
+            exclude(group = "com.google.code.findbugs", module = "annotations")
             exclude(group = "com.vaadin.external.google", module = "android-json")
             exclude(group = "org.checkerframework", module = "checker-qual")
 

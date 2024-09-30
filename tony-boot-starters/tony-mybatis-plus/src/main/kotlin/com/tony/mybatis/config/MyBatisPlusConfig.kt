@@ -36,9 +36,9 @@ import org.springframework.context.annotation.PropertySource
  * @date 2023/05/25 19:55
  */
 @PropertySource("classpath:mybatis-plus.config.yml", factory = YamlPropertySourceFactory::class)
-@Configuration
-internal class MybatisPlusConfig {
+@Configuration(proxyBeanMethods = false)
+private class MybatisPlusConfig {
     @Bean
-    fun tonySqlInjector(): TonySqlInjector =
+    private fun tonySqlInjector(): TonySqlInjector =
         TonySqlInjector()
 }
