@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21.0.4_7-jre-alpine AS builder
+FROM eclipse-temurin:21.0.5_11-jre-alpine AS builder
 
 ARG WORKDIR=/app
 WORKDIR ${WORKDIR}
@@ -8,7 +8,7 @@ COPY ${JAR_FILE} app.jar
 
 RUN java -Djarmode=tools -jar ${WORKDIR}/app.jar extract --layers --destination extracted
 
-FROM eclipse-temurin:21.0.4_7-jre-alpine
+FROM eclipse-temurin:21.0.5_11-jre-alpine
 
 RUN echo "Asia/Shanghai" > /etc/timezone
 

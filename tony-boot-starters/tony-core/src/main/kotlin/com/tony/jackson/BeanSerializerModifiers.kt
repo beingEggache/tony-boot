@@ -125,18 +125,26 @@ public class NullValueBeanSerializerModifier : BeanSerializerModifier() {
         beanProperties.onEach {
             val type = it.type
             when {
-                type.isStringLikeType() -> it.assignNullSerializer(nullStrJsonSerializer)
+                type.isStringLikeType() -> {
+                    it.assignNullSerializer(nullStrJsonSerializer)
+                }
 
                 type.isDateTimeLikeType() &&
                     it.member.getAnnotation(JsonSetter::class.java)?.nulls == Nulls.AS_EMPTY -> {
                     it.assignNullSerializer(nullStrJsonSerializer)
                 }
 
-                type.isArrayLikeType() -> it.assignNullSerializer(nullArrayJsonSerializer)
+                type.isArrayLikeType() -> {
+                    it.assignNullSerializer(nullArrayJsonSerializer)
+                }
 
-                type.isBooleanType() || type.isEnumType -> Unit
+                type.isBooleanType() || type.isEnumType -> {
+                    Unit
+                }
 
-                type.isObjLikeType() -> it.assignNullSerializer(nullObjJsonSerializer)
+                type.isObjLikeType() -> {
+                    it.assignNullSerializer(nullObjJsonSerializer)
+                }
             }
         }
 }

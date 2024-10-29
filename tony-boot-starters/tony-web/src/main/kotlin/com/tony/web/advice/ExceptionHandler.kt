@@ -208,14 +208,18 @@ internal class ExceptionHandler : ErrorController {
         run {
             WebContext.response?.status = HttpStatus.OK.value()
             when {
-                WebContext.httpStatus == 999 -> errorResponse("", ApiProperty.okCode)
+                WebContext.httpStatus == 999 -> {
+                    errorResponse("", ApiProperty.okCode)
+                }
 
                 WebContext.httpStatus >= 500 -> {
                     logger.error(WebContext.errorMessage)
                     errorResponse(ApiProperty.errorMsg)
                 }
 
-                else -> errorResponse(WebContext.error, WebContext.httpStatus)
+                else -> {
+                    errorResponse(WebContext.error, WebContext.httpStatus)
+                }
             }
         }
 

@@ -210,20 +210,33 @@ internal class DefaultTraceLogger : TraceLogger {
 
     private fun resultStatus(resultCode: Int): String =
         when (resultCode) {
-            ApiProperty.okCode, HttpStatus.OK.value(), in 100 * 100..199 * 100 -> HttpStatus.OK.name
+            ApiProperty.okCode, HttpStatus.OK.value(), in 100 * 100..199 * 100 -> {
+                HttpStatus.OK.name
+            }
 
-            ApiProperty.preconditionFailedCode -> HttpStatus.PRECONDITION_FAILED.name
+            ApiProperty.preconditionFailedCode -> {
+                HttpStatus.PRECONDITION_FAILED.name
+            }
 
-            ApiProperty.badRequestCode, HttpStatus.BAD_REQUEST.value() -> HttpStatus.BAD_REQUEST.name
+            ApiProperty.badRequestCode, HttpStatus.BAD_REQUEST.value() -> {
+                HttpStatus.BAD_REQUEST.name
+            }
 
-            ApiProperty.unauthorizedCode, HttpStatus.UNAUTHORIZED.value() -> HttpStatus.UNAUTHORIZED.name
+            ApiProperty.unauthorizedCode, HttpStatus.UNAUTHORIZED.value() -> {
+                HttpStatus.UNAUTHORIZED.name
+            }
 
-            ApiProperty.notFoundCode, HttpStatus.NOT_FOUND.value(), in 404 * 100 until 405 * 100 ->
+            ApiProperty.notFoundCode, HttpStatus.NOT_FOUND.value(), in 404 * 100 until 405 * 100 -> {
                 HttpStatus.NOT_FOUND
                     .name
+            }
 
-            in 400 * 100..499 * 100, in 400..499 -> HttpStatus.BAD_REQUEST.name
+            in 400 * 100..499 * 100, in 400..499 -> {
+                HttpStatus.BAD_REQUEST.name
+            }
 
-            else -> HttpStatus.INTERNAL_SERVER_ERROR.name
+            else -> {
+                HttpStatus.INTERNAL_SERVER_ERROR.name
+            }
         }
 }

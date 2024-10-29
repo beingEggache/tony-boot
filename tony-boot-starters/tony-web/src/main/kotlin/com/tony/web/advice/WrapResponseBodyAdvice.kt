@@ -70,12 +70,16 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         response: ServerHttpResponse,
     ): ApiResult<*> =
         when {
-            body == null -> ApiResult(Unit, ApiProperty.okCode)
+            body == null -> {
+                ApiResult(Unit, ApiProperty.okCode)
+            }
 
             !body::class.java
-                .isArrayLikeType() -> ApiResult(body, ApiProperty.okCode)
+                .isArrayLikeType() -> {
+                ApiResult(body, ApiProperty.okCode)
+            }
 
-            else ->
+            else -> {
                 if (body::class.java
                         .isArray
                 ) {
@@ -83,6 +87,7 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
                 } else {
                     ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.okCode)
                 }
+            }
         }
 
     override fun supports(

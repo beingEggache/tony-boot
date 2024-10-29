@@ -1,6 +1,7 @@
 dependencies {
     api(projects.tonyCore)
     api(tonyLibs.mybatisPlusBootStarter3)
+    api(tonyLibs.mybatisPlusJsqlparser)
     api(projects.tonyInterfaces)
 
     implementation(tonyLibs.hikariCP)

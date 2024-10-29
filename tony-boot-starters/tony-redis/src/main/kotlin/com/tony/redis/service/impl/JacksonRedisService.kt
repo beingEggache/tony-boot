@@ -59,13 +59,21 @@ internal class JacksonRedisService : RedisService {
 
     private fun <T : Any> Any?.jsonToObjWithTypeClass(type: Class<T>): T? =
         when {
-            this == null -> null
+            this == null -> {
+                null
+            }
 
-            type.isNumberTypes() -> toNum(type)
+            type.isNumberTypes() -> {
+                toNum(type)
+            }
 
-            type.isStringLikeType() -> toString().trimQuotes()
+            type.isStringLikeType() -> {
+                toString().trimQuotes()
+            }
 
-            type == EnumValue::class.java && this is EnumValue<*> -> this
+            type == EnumValue::class.java && this is EnumValue<*> -> {
+                this
+            }
 
             type.isTypesOrSubTypesOf(StringEnumValue::class.java) -> {
                 StringEnumCreator
@@ -79,11 +87,14 @@ internal class JacksonRedisService : RedisService {
                     .create(toString().toInt())
             }
 
-            this.isTypesOrSubTypesOf(type) -> this
+            this.isTypesOrSubTypesOf(type) -> {
+                this
+            }
 
-            else ->
+            else -> {
                 toString()
                     .trimQuotes()
                     .jsonToObj(type)
+            }
         }.asTo()
 }

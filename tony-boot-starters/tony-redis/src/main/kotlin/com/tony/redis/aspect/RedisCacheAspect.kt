@@ -224,19 +224,28 @@ internal class JacksonRedisCacheAspect : RedisCacheAspect() {
             .get<String>(cacheKey)
             ?.let { cachedValue ->
                 when {
-                    javaType.isStringLikeType() -> cachedValue
+                    javaType.isStringLikeType() -> {
+                        cachedValue
+                    }
 
-                    javaType.isNumberType() -> cachedValue.toNum(javaType.rawClass())
+                    javaType.isNumberType() -> {
+                        cachedValue.toNum(javaType.rawClass())
+                    }
 
-                    javaType.isBooleanType() -> cachedValue.toBooleanStrictOrNull()
+                    javaType.isBooleanType() -> {
+                        cachedValue.toBooleanStrictOrNull()
+                    }
 
-                    javaType.isEnumImplType ->
+                    javaType.isEnumImplType -> {
                         javaType.rawClass.enumConstants.firstOrNull {
                             cachedValue ==
                                 it.toString()
                         }
+                    }
 
-                    else -> cachedValue.jsonToObj(javaType)
+                    else -> {
+                        cachedValue.jsonToObj(javaType)
+                    }
                 }
             }
 }
