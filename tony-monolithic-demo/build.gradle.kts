@@ -45,6 +45,7 @@ configure(subprojects) {
         compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(javaVersion))
             languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
+            apiVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
             verbose.set(true)
             progressiveMode.set(true)
             // use kotlinc -X get more info.
