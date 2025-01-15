@@ -24,7 +24,7 @@
 
 package com.tony.knife4j.config
 
-import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j
+import com.github.xingfudeshi.knife4j.spring.annotations.EnableKnife4j
 import com.tony.misc.YamlPropertySourceFactory
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.models.OpenAPI

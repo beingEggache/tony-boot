@@ -100,12 +100,13 @@ internal class TraceLogFilter(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain,
-    ) = doFilterTrace(
-        request.toRepeatRead(),
-        ContentCachingResponseWrapper(response),
-        filterChain,
-        LocalDateTime.now()
-    )
+    ) =
+        doFilterTrace(
+            request.toRepeatRead(),
+            ContentCachingResponseWrapper(response),
+            filterChain,
+            LocalDateTime.now()
+        )
 
     @Throws(IOException::class, ServletException::class)
     private fun doFilterTrace(
@@ -113,35 +114,37 @@ internal class TraceLogFilter(
         response: ContentCachingResponseWrapper,
         chain: FilterChain,
         startTime: LocalDateTime,
-    ) = try {
-        chain.doFilter(request, response)
-    } finally {
-        val elapsedTime =
-            System.currentTimeMillis() -
-                startTime
-                    .toInstant()
-                    .toEpochMilli()
+    ) =
+        try {
+            chain.doFilter(request, response)
+        } finally {
+            val elapsedTime =
+                System.currentTimeMillis() -
+                    startTime
+                        .toInstant()
+                        .toEpochMilli()
 
-        log(request, response, elapsedTime)
+            log(request, response, elapsedTime)
 
-        response.copyBodyToResponse()
-    }
+            response.copyBodyToResponse()
+        }
 
     private fun log(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
         elapsedTime: Long,
-    ) = try {
-        traceLogger.traceLog(
-            request,
-            response,
-            elapsedTime,
-            requestBodyMaxSize,
-            responseBodyMaxSize
-        )
-    } catch (e: Exception) {
-        log.error(e.message, e)
-    }
+    ) =
+        try {
+            traceLogger.traceLog(
+                request,
+                response,
+                elapsedTime,
+                requestBodyMaxSize,
+                responseBodyMaxSize
+            )
+        } catch (e: Exception) {
+            log.error(e.message, e)
+        }
 
     override fun shouldNotFilter(request: HttpServletRequest) =
         request

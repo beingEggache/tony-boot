@@ -44,7 +44,8 @@ class RoleController(
         @Validated
         @RequestBody
         req: RoleAddReq,
-    ) = service.add(req)
+    ) =
+        service.add(req)
 
     @Operation(summary = "更新", description = "更新")
     @PostMapping("/sys/role/update")
@@ -52,7 +53,8 @@ class RoleController(
         @Validated
         @RequestBody
         req: RoleUpdateReq,
-    ) = service.update(req)
+    ) =
+        service.update(req)
 
     @Operation(summary = "删除", description = "删除")
     @PostMapping("/sys/role/delete")
@@ -60,7 +62,8 @@ class RoleController(
         @Validated
         @RequestBody
         req: RoleDeleteReq,
-    ) = service.delete(req)
+    ) =
+        service.delete(req)
 
     @Operation(summary = "分配模块", description = "分配模块")
     @PostMapping("/sys/role/assign-modules")
@@ -68,7 +71,8 @@ class RoleController(
         @Validated
         @RequestBody
         req: RoleAssignModulesReq,
-    ) = service.assignModules(req)
+    ) =
+        service.assignModules(req)
 
     @Operation(summary = "角色模块id列表", description = "分配模块")
     @PostMapping("/sys/role/modules")

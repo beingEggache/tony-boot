@@ -103,12 +103,13 @@ internal class ExceptionHandler : ErrorController {
     fun exception(
         e: Exception,
         response: HttpServletResponse,
-    ) = run {
-        logger.error(e.message, e)
-        // handle the json generate exception
-        response.resetBuffer()
-        errorResponse(ApiProperty.errorMsg)
-    }
+    ) =
+        run {
+            logger.error(e.message, e)
+            // handle the json generate exception
+            response.resetBuffer()
+            errorResponse(ApiProperty.errorMsg)
+        }
 
     @ExceptionHandler(BindException::class)
     fun bindingResultException(e: BindException): ApiResult<*> {

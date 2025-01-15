@@ -27,7 +27,8 @@ class EmployeeController(
         @Validated
         @RequestBody
         req: EmployeeAddReq,
-    ) = service.add(req)
+    ) =
+        service.add(req)
 
     @Operation(summary = "更新", description = "更新")
     @PostMapping("/sys/employee/update")
@@ -35,40 +36,46 @@ class EmployeeController(
         @Validated
         @RequestBody
         req: EmployeeUpdateReq,
-    ) = service.update(req)
+    ) =
+        service.update(req)
 
     @Operation(summary = "列表", description = "列表")
     @PostMapping("/sys/employee/list")
     fun list(
         @Validated
         @RequestBody req: FlattenPageQuery<EmployeeQuery>,
-    ) = service.list(req)
+    ) =
+        service.list(req)
 
     @Operation(summary = "详情", description = "详情")
     @PostMapping("/sys/employee/detail")
     fun detail(
         @Validated
         @RequestBody req: EmployeeDetailReq,
-    ) = service.detail(req)
+    ) =
+        service.detail(req)
 
     @Operation(summary = "启用,停用", description = "用户启用,停用")
     @PostMapping("/sys/employee/toggle-enabled")
     fun toggleEnabled(
         @Validated
         @RequestBody req: EmployeeToggleEnabledReq,
-    ) = service.toggleEnabled(req)
+    ) =
+        service.toggleEnabled(req)
 
     @Operation(summary = "重置密码", description = "重置密码")
     @PostMapping("/sys/employee/reset-pwd")
     fun resetPwd(
         @Validated
         @RequestBody req: EmployeeResetPwdReq,
-    ) = service.resetPwd(req)
+    ) =
+        service.resetPwd(req)
 
     @Operation(summary = "分配角色", description = "分配角色")
     @PostMapping("/sys/employee/assign-roles")
     fun assignRoles(
         @Validated
         @RequestBody req: EmployeeAssignRoleReq,
-    ) = service.assignRoles(req)
+    ) =
+        service.assignRoles(req)
 }

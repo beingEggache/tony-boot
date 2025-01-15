@@ -40,4 +40,11 @@ class TestController {
     @GetMapping("/exception")
     fun exception(): Unit =
         throw Exception("exception")
+
+    @Operation(summary = "/build")
+    @NoLoginCheck
+    @NoPermissionCheck
+    @GetMapping("/build")
+    fun build(): String =
+        "com.tony:build-script:0.1-SNAPSHOT"
 }

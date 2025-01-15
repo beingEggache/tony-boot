@@ -60,15 +60,16 @@ internal class WechatPrintWriter(
     override fun writeText(
         writer: QuickWriter,
         text: String,
-    ) = if (
-        (text.startsWith(PREFIX_CDATA) && text.endsWith(SUFFIX_CDATA)) ||
-        text.startsWith(PREFIX_MEDIA_ID) &&
-        text.endsWith(SUFFIX_MEDIA_ID)
-    ) {
-        writer.write(text)
-    } else {
-        super.writeText(writer, text)
-    }
+    ) =
+        if (
+            (text.startsWith(PREFIX_CDATA) && text.endsWith(SUFFIX_CDATA)) ||
+            text.startsWith(PREFIX_MEDIA_ID) &&
+            text.endsWith(SUFFIX_MEDIA_ID)
+        ) {
+            writer.write(text)
+        } else {
+            super.writeText(writer, text)
+        }
 
     companion object {
         private const val PREFIX_CDATA = "<![CDATA["

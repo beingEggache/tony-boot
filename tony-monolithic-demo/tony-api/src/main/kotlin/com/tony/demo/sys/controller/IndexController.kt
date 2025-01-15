@@ -67,5 +67,6 @@ class IndexController(
         @Validated
         @RequestBody
         req: ChangePwdReq,
-    ) = indexService.changePwd(req)
+    ) =
+        indexService.changePwd(req)
 }

@@ -24,7 +24,21 @@
 
 package com.tony.test.core
 
+import com.tony.utils.asToNotNull
+import com.tony.utils.jsonToObj
+import com.tony.utils.toJsonString
+import java.nio.file.Files
+import java.nio.file.Paths
+
 fun main() {
+    val json = Files.readString(Paths.get("C:\\Users\\being\\Documents\\Misc\\yalago\\InventoryV4json\\EstablishmentExtraOptions_enV4.json"))
+    val list = json.jsonToObj<List<Any>>()
+    val fold = list.fold(mutableMapOf<String, Any?>()) { map, item ->
+        val linkedHashMap = item.asToNotNull<LinkedHashMap<String, Any?>>()
+        map.putAll(linkedHashMap)
+        map
+    }
+    println(fold.toJsonString())
 }
 
 fun quickSort(list: List<Int>): List<Int> =

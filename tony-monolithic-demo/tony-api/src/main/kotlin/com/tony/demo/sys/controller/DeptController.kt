@@ -38,7 +38,8 @@ class DeptController(
         @Validated
         @RequestBody
         req: DeptAddReq,
-    ) = deptService.add(req)
+    ) =
+        deptService.add(req)
 
     @Operation(summary = "更新部门", description = "更新部门")
     @PostMapping("/sys/dept/update")
@@ -46,7 +47,8 @@ class DeptController(
         @Validated
         @RequestBody
         req: DeptUpdateReq,
-    ) = deptService.update(req)
+    ) =
+        deptService.update(req)
 
     @Operation(summary = "删除部门", description = "删除部门")
     @PostMapping("/sys/dept/delete")
@@ -54,5 +56,6 @@ class DeptController(
         @Validated
         @RequestBody
         req: DeptDeleteReq,
-    ) = deptService.delete(req)
+    ) =
+        deptService.delete(req)
 }

@@ -205,11 +205,12 @@ public data object WechatManager {
     private fun accessTokenStr(
         app: String = "",
         forceRefresh: Boolean = false,
-    ) = apiAccessTokenProvider.accessTokenStr(
-        wechatPropProvider.appId(app),
-        wechatPropProvider.appSecret(app),
-        forceRefresh
-    )
+    ) =
+        apiAccessTokenProvider.accessTokenStr(
+            wechatPropProvider.appId(app),
+            wechatPropProvider.appSecret(app),
+            forceRefresh
+        )
 
     @Suppress("unused")
     private fun wechatRedirect(

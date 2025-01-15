@@ -77,10 +77,11 @@ internal class RequestReplaceToRepeatReadFilter(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain,
-    ) = filterChain.doFilter(
-        request.toRepeatRead(),
-        response
-    )
+    ) =
+        filterChain.doFilter(
+            request.toRepeatRead(),
+            response
+        )
 
     override fun shouldNotFilter(request: HttpServletRequest) =
         request
@@ -176,11 +177,7 @@ public class RepeatReadRequestWrapper
         public companion object {
             @JvmStatic
             public fun HttpServletRequest.toRepeatRead(): RepeatReadRequestWrapper =
-                if (this is RepeatReadRequestWrapper) {
-                    this
-                } else {
-                    RepeatReadRequestWrapper(this)
-                }
+                this as? RepeatReadRequestWrapper ?: RepeatReadRequestWrapper(this)
 
             private val formPostContentTypes =
                 arrayOf(

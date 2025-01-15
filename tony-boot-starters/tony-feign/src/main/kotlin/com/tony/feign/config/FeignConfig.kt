@@ -119,18 +119,20 @@ private class FeignConfig(
     private fun unwrapResponseInterceptorProvider(
         @Nullable
         cryptoProvider: CryptoProvider?,
-    ) = UnwrapResponseInterceptorProvider(DefaultUnwrapResponseInterceptor(cryptoProvider))
+    ) =
+        UnwrapResponseInterceptorProvider(DefaultUnwrapResponseInterceptor(cryptoProvider))
 
     @Bean
     private fun feignTargeter(
         globalRequestInterceptors: List<GlobalRequestInterceptorProvider<*>>,
         globalResponseInterceptors: List<GlobalResponseInterceptorProvider<*>>,
         unwrapResponseInterceptors: List<UnwrapResponseInterceptorProvider<*>>,
-    ) = FeignTargeter(
-        globalRequestInterceptors.map { it.getObject() },
-        globalResponseInterceptors.map { it.getObject() },
-        unwrapResponseInterceptors.map { it.getObject() }
-    )
+    ) =
+        FeignTargeter(
+            globalRequestInterceptors.map { it.getObject() },
+            globalResponseInterceptors.map { it.getObject() },
+            unwrapResponseInterceptors.map { it.getObject() }
+        )
 
     @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
     @ConditionalOnMissingBean(OkHttpClient::class)

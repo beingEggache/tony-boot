@@ -1,7 +1,8 @@
 import com.tony.gradle.plugin.Build.Companion.templateProject
 
 apply(plugin = rootProject.tonyLibs.plugins.kotlinSpring.get().pluginId)
-apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)
+// https://github.com/palantir/gradle-docker/issues/801
+// apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)
 dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")

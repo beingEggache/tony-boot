@@ -93,15 +93,16 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
     override fun supports(
         returnType: MethodParameter,
         converterType: Class<out HttpMessageConverter<*>>,
-    ) = !WebContext
-        .request
-        .url
-        .path
-        .antPathMatchAny(WebContext.responseWrapExcludePatterns) &&
-        converterType.isTypesOrSubTypesOf(MappingJackson2HttpMessageConverter::class.java) &&
-        !returnType
-            .parameterType
-            .isTypesOrSubTypesOf(notSupportResponseWrapClassCollection)
+    ) =
+        !WebContext
+            .request
+            .url
+            .path
+            .antPathMatchAny(WebContext.responseWrapExcludePatterns) &&
+            converterType.isTypesOrSubTypesOf(MappingJackson2HttpMessageConverter::class.java) &&
+            !returnType
+                .parameterType
+                .isTypesOrSubTypesOf(notSupportResponseWrapClassCollection)
 
     private companion object Utils {
         @JvmStatic

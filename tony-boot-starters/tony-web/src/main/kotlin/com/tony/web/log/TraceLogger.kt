@@ -151,43 +151,45 @@ internal class DefaultTraceLogger : TraceLogger {
     private fun requestBody(
         request: RepeatReadRequestWrapper,
         requestBodyMaxSize: Long,
-    ) = if (!isTextMediaTypes(request.parsedMedia)) {
-        "[${request.contentType}]"
-    } else if (request
-            .method
-            .equals(
-                HttpMethod
-                    .POST
-                    .name(),
-                true
-            )
-    ) {
-        val bytes = request.contentAsByteArray
-        val size = bytes.size.toLong()
-        when {
-            bytes.isEmpty() -> NULL
-            size <= requestBodyMaxSize -> String(bytes)
-            else -> "[too long content, length = ${DataSize.ofBytes(size)}]"
+    ) =
+        if (!isTextMediaTypes(request.parsedMedia)) {
+            "[${request.contentType}]"
+        } else if (request
+                .method
+                .equals(
+                    HttpMethod
+                        .POST
+                        .name(),
+                    true
+                )
+        ) {
+            val bytes = request.contentAsByteArray
+            val size = bytes.size.toLong()
+            when {
+                bytes.isEmpty() -> NULL
+                size <= requestBodyMaxSize -> String(bytes)
+                else -> "[too long content, length = ${DataSize.ofBytes(size)}]"
+            }
+        } else {
+            NULL
         }
-    } else {
-        NULL
-    }
 
     private fun responseBody(
         response: ContentCachingResponseWrapper,
         responseBodyMaxSize: Long,
-    ) = if (!isTextMediaTypes(response.parsedMedia)) {
-        "[${response.contentType}]"
-    } else {
-        response.contentAsByteArray.let { bytes ->
-            val size = bytes.size.toLong()
-            when {
-                size in 1..responseBodyMaxSize -> String(bytes)
-                size >= responseBodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
-                else -> NULL
+    ) =
+        if (!isTextMediaTypes(response.parsedMedia)) {
+            "[${response.contentType}]"
+        } else {
+            response.contentAsByteArray.let { bytes ->
+                val size = bytes.size.toLong()
+                when {
+                    size in 1..responseBodyMaxSize -> String(bytes)
+                    size >= responseBodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
+                    else -> NULL
+                }
             }
         }
-    }
 
     private fun resultCode(
         responseBody: String,

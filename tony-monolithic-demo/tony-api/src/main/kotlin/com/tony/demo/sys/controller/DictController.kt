@@ -53,7 +53,8 @@ class DictController(
         @Validated
         @RequestBody
         req: DictAddReq,
-    ) = dictService.addDict(req)
+    ) =
+        dictService.addDict(req)
 
     @Operation(summary = "更新字典", description = "更新字典")
     @PostMapping("/sys/dict/update")
@@ -61,7 +62,8 @@ class DictController(
         @Validated
         @RequestBody
         req: DictUpdateReq,
-    ) = dictService.updateDict(req)
+    ) =
+        dictService.updateDict(req)
 
     @Operation(summary = "删除字典", description = "删除字典")
     @PostMapping("/sys/dict/delete")
@@ -69,7 +71,8 @@ class DictController(
         @Validated
         @RequestBody
         req: DictDeleteReq,
-    ) = dictService.deleteDict(req)
+    ) =
+        dictService.deleteDict(req)
 
     @Operation(summary = "字典类型树", description = "字典类型树")
     @PostMapping("/sys/dict-type/tree")
@@ -85,7 +88,8 @@ class DictController(
         @Validated
         @RequestBody
         req: DictTypeAddReq,
-    ) = dictService.addDictType(req)
+    ) =
+        dictService.addDictType(req)
 
     @Operation(summary = "更新典类型", description = "更新典类型")
     @PostMapping("/sys/dict-type/update")
@@ -93,7 +97,8 @@ class DictController(
         @Validated
         @RequestBody
         req: DictTypeUpdateReq,
-    ) = dictService.updateDictType(req)
+    ) =
+        dictService.updateDictType(req)
 
     @Operation(summary = "删除字典类型", description = "删除字典类型")
     @PostMapping("/sys/dict-type/delete")
@@ -101,5 +106,6 @@ class DictController(
         @Validated
         @RequestBody
         req: DictTypeDeleteReq,
-    ) = dictService.delete(req)
+    ) =
+        dictService.delete(req)
 }

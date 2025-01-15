@@ -28,7 +28,8 @@ class ModuleController(
         @Validated
         @RequestBody
         req: RowsWrapper<ModuleSubmitReq>,
-    ) = moduleService.submitAll(req)
+    ) =
+        moduleService.submitAll(req)
 
     @Operation(summary = "树", description = "树")
     @PostMapping("/sys/module/tree")
@@ -40,5 +41,6 @@ class ModuleController(
     fun list(
         @RequestBody
         req: ModuleQuery,
-    ) = moduleService.list(req)
+    ) =
+        moduleService.list(req)
 }

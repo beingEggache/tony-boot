@@ -15,5 +15,6 @@ class MobileValidator : ConstraintValidator<Mobile, CharSequence?> {
     override fun isValid(
         value: CharSequence?,
         context: ConstraintValidatorContext,
-    ) = value == null || mobileRegex.matches(value)
+    ) =
+        value == null || mobileRegex.matches(value)
 }
