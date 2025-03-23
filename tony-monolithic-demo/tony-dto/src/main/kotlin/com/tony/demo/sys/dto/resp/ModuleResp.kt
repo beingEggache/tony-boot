@@ -11,25 +11,25 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 @Schema(description = "权限响应")
 data class ModuleResp(
-    @Schema(description = "id")
+    @param:Schema(description = "id")
     val moduleId: String,
-    @Schema(description = "上级id")
+    @param:Schema(description = "上级id")
     val parentModuleId: String,
-    @Schema(description = "名称")
+    @param:Schema(description = "名称")
     val moduleName: String,
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val moduleCodeSeq: String,
-    @Schema(description = "权限值（URL、路由、控件Id）")
+    @param:Schema(description = "权限值（URL、路由、控件Id）")
     val moduleValue: String,
-    @Schema(description = "权限类型")
+    @param:Schema(description = "权限类型")
     val moduleType: ModuleType,
-    @Schema(description = "权限分组")
+    @param:Schema(description = "权限分组")
     val moduleGroup: String?,
 ) : ForestLike<ModuleResp> {
     override val code: String
         get() = moduleCodeSeq
 
-    @Schema(description = "子路由")
+    @get:Schema(description = "子路由")
     override var children: MutableList<ModuleResp> = mutableListOf()
 
     override val sort: Int

@@ -41,13 +41,13 @@ import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Positive
 
 public data class WechatQrCodeCreateReq(
-    @Max(2592000)
-    @Positive
-    @JsonProperty("expire_seconds")
+    @param:Max(2592000)
+    @param:Positive
+    @param:JsonProperty("expire_seconds")
     val expireSeconds: Int?,
-    @JsonProperty("action_name")
+    @param:JsonProperty("action_name")
     val actionName: WechatQrCodeType?,
-    @JsonProperty("action_info")
+    @param:JsonProperty("action_info")
     val actionInfo: WechatQrCodeActionInfo?,
 )
 
@@ -60,9 +60,9 @@ public data class WechatQrCodeActionInfo(
 
     @JsonInclude(JsonInclude.Include.NON_ABSENT)
     public data class Scene(
-        @JsonProperty("scene_id", namespace = "scene")
+        @param:JsonProperty("scene_id", namespace = "scene")
         val sceneId: Int?,
-        @JsonProperty("scene_str", namespace = "scene")
+        @param:JsonProperty("scene_str", namespace = "scene")
         val sceneStr: String?,
     )
 }

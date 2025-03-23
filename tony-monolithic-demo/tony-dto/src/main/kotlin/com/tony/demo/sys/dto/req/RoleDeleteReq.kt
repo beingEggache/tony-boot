@@ -13,9 +13,9 @@ import jakarta.validation.constraints.NotBlank
 @Schema(description = "删除角色请求")
 data class RoleDeleteReq(
     @get:NotBlank(message = "请选择")
-    @Schema(description = "id", required = true)
+    @param:Schema(description = "id", required = true)
     val roleId: String = "",
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 )

@@ -10,6 +10,6 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 @Schema(description = "字典值")
 data class DictValuesMapResp(
-    @Schema(description = "值映射")
+    @param:Schema(description = "值映射")
     val dictValuesMap: Map<String, Map<String, DictResp>>,
 )

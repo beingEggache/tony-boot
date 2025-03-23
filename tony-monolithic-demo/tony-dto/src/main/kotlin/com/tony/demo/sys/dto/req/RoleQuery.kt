@@ -12,9 +12,9 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(description = "角色查询")
 data class RoleQuery(
     val roleName: String = "",
-    @Schema(description = "状态")
+    @param:Schema(description = "状态")
     val enabled: Boolean? = null,
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 )

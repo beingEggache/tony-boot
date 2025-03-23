@@ -11,9 +11,9 @@ import jakarta.validation.constraints.NotBlank
  */
 @Schema(description = "员工状态切换请求")
 data class EmployeeToggleEnabledReq(
-    @Schema(description = "用户名", required = true)
+    @param:Schema(description = "用户名", required = true)
     @get:NotBlank(message = "请选择员工")
     val employeeId: String,
-    @Schema(description = "员工启用状态", required = true)
+    @param:Schema(description = "员工启用状态", required = true)
     val enabled: Boolean,
 )

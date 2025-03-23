@@ -12,10 +12,10 @@ import jakarta.validation.constraints.NotBlank
  */
 @Schema(description = "用户详情请求")
 data class EmployeeDetailReq(
-    @Schema(description = "用户ID", required = true)
+    @param:Schema(description = "用户ID", required = true)
     @get:NotBlank(message = "请选择用户")
     val employeeId: String = "",
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 )

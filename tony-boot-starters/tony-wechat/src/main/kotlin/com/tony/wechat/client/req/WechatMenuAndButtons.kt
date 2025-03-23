@@ -56,7 +56,7 @@ public sealed class WechatTypedButton(
 
 public data class WechatMenuButton(
     override val name: String,
-    @JsonProperty("sub_button")
+    @param:JsonProperty("sub_button")
     val subButton: List<WechatTypedButton>,
 ) : WechatButton(name)
 

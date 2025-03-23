@@ -13,17 +13,17 @@ import jakarta.validation.constraints.NotBlank
 @Schema(description = "新增部门请求")
 data class DeptAddReq(
     @get:NotBlank(message = "请输入名称")
-    @Schema(description = "名称", required = true)
+    @param:Schema(description = "名称", required = true)
     val deptName: String = "",
-    @Schema(description = "上级id")
+    @param:Schema(description = "上级id")
     val parentDeptId: String = "",
-    @Schema(description = "排序", required = true)
+    @param:Schema(description = "排序", required = true)
     val sort: Int = -1,
-    @Schema(description = "状态", required = true)
+    @param:Schema(description = "状态", required = true)
     val enabled: Boolean = true,
-    @Schema(description = "备注")
+    @param:Schema(description = "备注")
     val remark: String = "",
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 )

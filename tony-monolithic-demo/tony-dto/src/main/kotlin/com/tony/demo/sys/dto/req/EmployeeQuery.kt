@@ -10,14 +10,14 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 @Schema(description = "员工查询")
 data class EmployeeQuery(
-    @Schema(description = "用户名")
+    @param:Schema(description = "用户名")
     val account: String = "",
-    @Schema(description = "真实姓名")
+    @param:Schema(description = "真实姓名")
     val realName: String = "",
-    @Schema(description = "手机号")
+    @param:Schema(description = "手机号")
     val employeeMobile: String = "",
-    @Schema(description = "部门id")
+    @param:Schema(description = "部门id")
     val deptId: String = "",
-    @Schema(description = "状态")
+    @param:Schema(description = "状态")
     val enabled: Boolean? = null,
 )

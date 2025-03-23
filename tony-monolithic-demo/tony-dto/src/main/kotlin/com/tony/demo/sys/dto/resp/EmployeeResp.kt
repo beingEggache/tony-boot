@@ -10,24 +10,24 @@ import java.time.LocalDateTime
  */
 @Schema(description = "用户响应")
 data class EmployeeResp(
-    @Schema(description = "用户Id")
+    @param:Schema(description = "用户Id")
     val employeeId: String,
-    @Schema(description = "用户名")
+    @param:Schema(description = "用户名")
     val account: String,
-    @Schema(description = "用户姓名")
+    @param:Schema(description = "用户姓名")
     val realName: String,
-    @Schema(description = "用户手机号")
+    @param:Schema(description = "用户手机号")
     val employeeMobile: String,
-    @Schema(description = "创建时间")
+    @param:Schema(description = "创建时间")
     val createTime: LocalDateTime,
-    @Schema(description = "备注")
+    @param:Schema(description = "备注")
     val remark: String,
-    @Schema(description = "状态：1-启用，0-禁用")
+    @param:Schema(description = "状态：1-启用，0-禁用")
     val enabled: Boolean,
 ) {
-    @Schema(description = "部门id")
+    @get:Schema(description = "部门id")
     var deptIds: Collection<String> = setOf()
 
-    @Schema(description = "角色id")
+    @get:Schema(description = "角色id")
     var roleIds: Collection<String> = setOf()
 }

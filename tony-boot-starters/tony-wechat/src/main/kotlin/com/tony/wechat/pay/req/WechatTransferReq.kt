@@ -37,17 +37,17 @@ import com.thoughtworks.xstream.annotations.XStreamAlias
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 public data class WechatTransferReq(
     @XStreamAlias("mch_appid")
-    @JsonProperty("mch_appid")
+    @param:JsonProperty("mch_appid")
     val mchAppId: String?,
     @XStreamAlias("mchid")
-    @JsonProperty("mchid")
+    @param:JsonProperty("mchid")
     val mchId: String?,
     @XStreamAlias("nonce_str")
     val nonceStr: String,
     @XStreamAlias("partner_trade_no")
     val partnerTradeNo: String,
     @XStreamAlias("openid")
-    @JsonProperty("openid")
+    @param:JsonProperty("openid")
     val openId: String,
     @XStreamAlias("check_name")
     val checkName: String = "NO_CHECK",

@@ -14,20 +14,20 @@ import jakarta.validation.constraints.NotBlank
 @Schema(description = "新增用户请求")
 data class EmployeeAddReq(
     @get:NotBlank(message = "请输入用户名")
-    @Schema(description = "用户名", required = true)
+    @param:Schema(description = "用户名", required = true)
     val account: String = "",
     @get:NotBlank(message = "请输入姓名")
-    @Schema(description = "姓名", required = true)
+    @param:Schema(description = "姓名", required = true)
     val realName: String = "",
     @get:NotBlank(message = "请输入手机号")
     @get:Mobile
-    @Schema(description = "手机号", required = true)
+    @param:Schema(description = "手机号", required = true)
     val employeeMobile: String = "",
-    @Schema(description = "部门")
+    @param:Schema(description = "部门")
     val deptIds: Set<String> = setOf(),
-    @Schema(description = "备注")
+    @param:Schema(description = "备注")
     val remark: String = "",
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 )

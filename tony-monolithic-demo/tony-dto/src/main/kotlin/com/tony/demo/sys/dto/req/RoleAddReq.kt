@@ -17,25 +17,25 @@ data class RoleAddReq(
      * 角色名
      */
     @get:NotBlank(message = "请输入名称")
-    @Schema(description = "名称", required = true)
+    @param:Schema(description = "名称", required = true)
     val roleName: String = "",
-    @Schema(description = "排序", required = true)
+    @param:Schema(description = "排序", required = true)
     val sort: Int = -1,
     /**
      * 备注
      */
-    @Schema(description = "备注")
+    @param:Schema(description = "备注")
     val remark: String = "",
     /**
      * 状态：1-启用，0-禁用
      */
-    @NotNull
-    @Schema(description = "状态", required = true)
+    @get:NotNull
+    @param:Schema(description = "状态", required = true)
     val enabled: Boolean?,
     /**
      * 租户id
      */
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 )

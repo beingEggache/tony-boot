@@ -31,10 +31,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-@Schema(title = "测试响应标题", description = "测试响应描述")
+@param:Schema(title = "测试响应标题", description = "测试响应描述")
 data class TestResp(
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Schema(title = "测试响应时间标题", description = "测试响应时间描述", pattern = "yyyy-MM-dd HH:mm:ss")
+    @param:Schema(title = "测试响应时间标题", description = "测试响应时间描述", pattern = "yyyy-MM-dd HH:mm:ss")
     val dateTime: LocalDateTime = LocalDateTime.now(),
 )
 

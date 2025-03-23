@@ -13,11 +13,11 @@ import jakarta.validation.constraints.NotBlank
 @Schema(description = "角色分配模块请求")
 data class RoleAssignModulesReq(
     @get:NotBlank(message = "请选择角色")
-    @Schema(description = "角色Id", required = true)
+    @param:Schema(description = "角色Id", required = true)
     val roleId: String = "",
-    @Schema(description = "模块id集合", required = true)
+    @param:Schema(description = "模块id集合", required = true)
     val moduleIdList: Set<String> = setOf(),
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 )

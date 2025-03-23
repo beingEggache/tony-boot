@@ -15,40 +15,40 @@ import jakarta.validation.constraints.NotNull
  */
 @Schema(description = "模块请求")
 data class ModuleSubmitReq(
-    @NotBlank(message = "id不能为空")
-    @Schema(description = "id", required = true)
+    @get:NotBlank(message = "id不能为空")
+    @param:Schema(description = "id", required = true)
     val moduleId: String = "",
-    @Schema(description = "上级id")
+    @param:Schema(description = "上级id")
     val parentModuleId: String = "",
     /**
      * 名称
      */
-    @NotBlank(message = "名称不能为空")
-    @Schema(description = "名称", required = true)
+    @get:NotBlank(message = "名称不能为空")
+    @param:Schema(description = "名称", required = true)
     val moduleName: String = "",
     /**
      * 编码
      */
-    @NotBlank(message = "编码不能为空")
-    @Schema(description = "编码", required = true)
+    @get:NotBlank(message = "编码不能为空")
+    @param:Schema(description = "编码", required = true)
     val moduleCode: String = "",
     /**
      * 编码序列
      */
-    @NotBlank(message = "编码序列不能为空")
-    @Schema(description = "编码序列", required = true)
+    @get:NotBlank(message = "编码序列不能为空")
+    @param:Schema(description = "编码序列", required = true)
     val moduleCodeSeq: String = "",
     /**
      * 模块值（接口URL，前端路由，前端组件名）
      */
-    @NotBlank(message = "模块值不能为空")
-    @Schema(description = "模块值（接口URL，前端路由，前端组件名）", required = true)
+    @get:NotBlank(message = "模块值不能为空")
+    @param:Schema(description = "模块值（接口URL，前端路由，前端组件名）", required = true)
     val moduleValue: String = "",
     /**
      * 模块类型（1：接口，2：前端路由，3：前端组件）
      */
-    @NotNull(message = "模块类型")
-    @Schema(description = "模块类型（1：接口，2：前端路由，3：前端组件）", required = true)
+    @get:NotNull(message = "模块类型")
+    @param:Schema(description = "模块类型（1：接口，2：前端路由，3：前端组件）", required = true)
     val moduleType: ModuleType = ModuleType.ROUTE,
     /**
      * 备注
@@ -63,6 +63,6 @@ data class ModuleSubmitReq(
      */
     override val children: List<ModuleSubmitReq> = mutableListOf(),
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 ) : TreeLike<ModuleSubmitReq>

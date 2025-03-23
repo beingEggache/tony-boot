@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotBlank
  */
 @Schema(description = "删除字典请求")
 data class DictDeleteReq(
-    @Schema(description = "id", required = true)
+    @param:Schema(description = "id", required = true)
     @get:NotBlank(message = "请选择")
     val dictId: String = "",
 )

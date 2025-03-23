@@ -13,22 +13,22 @@ import jakarta.validation.constraints.NotNull
  */
 @Schema(description = "更新部门请求")
 data class DeptUpdateReq(
-    @Schema(description = "id", required = true)
+    @param:Schema(description = "id", required = true)
     @get:NotBlank(message = "请选择")
     val deptId: String = "",
-    @Schema(description = "名称", required = true)
+    @param:Schema(description = "名称", required = true)
     @get:NotBlank(message = "请输入名称")
     val deptName: String = "",
-    @Schema(description = "上级部门id")
+    @param:Schema(description = "上级部门id")
     val parentDeptId: String = "",
-    @Schema(description = "排序", required = true)
+    @param:Schema(description = "排序", required = true)
     val sort: Int = -1,
-    @NotNull
-    @Schema(description = "状态", required = true)
+    @get:NotNull
+    @param:Schema(description = "状态", required = true)
     val enabled: Boolean?,
-    @Schema(description = "备注")
+    @param:Schema(description = "备注")
     val remark: String = "",
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 )

@@ -14,6 +14,6 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class ModuleQuery(
     val moduleTypes: Collection<ModuleType> = listOf(ModuleType.ROUTE, ModuleType.COMPONENT),
     @get:AppIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val appId: String = "",
 )

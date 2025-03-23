@@ -13,12 +13,12 @@ import jakarta.validation.constraints.NotBlank
  */
 @Schema(description = "角色模块查询")
 data class RoleModuleQuery(
-    @NotBlank(message = "请选择角色")
-    @Schema(description = "角色id", required = true)
+    @get:NotBlank(message = "请选择角色")
+    @param:Schema(description = "角色id", required = true)
     val roleId: String,
-    @Schema(description = "模块类型")
+    @param:Schema(description = "模块类型")
     val moduleTypes: Collection<ModuleType> = listOf(ModuleType.NODE, ModuleType.ROUTE, ModuleType.COMPONENT),
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 )

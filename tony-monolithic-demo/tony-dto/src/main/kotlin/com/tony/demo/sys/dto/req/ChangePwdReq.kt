@@ -13,15 +13,15 @@ import jakarta.validation.constraints.NotBlank
 @Schema(description = "修改密码请求")
 data class ChangePwdReq(
     @get:NotBlank(message = "请输入原密码")
-    @Schema(description = "原密码", required = true)
+    @param:Schema(description = "原密码", required = true)
     val pwd: String,
     @get:NotBlank(message = "请输入新密码")
-    @Schema(description = "新密码", required = true)
+    @param:Schema(description = "新密码", required = true)
     val newPwd: String,
     @get:NotBlank(message = "请重复新密码")
-    @Schema(description = "重复密码", required = true)
+    @param:Schema(description = "重复密码", required = true)
     val confirmPwd: String,
     @get:UserIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val employeeId: String,
 )

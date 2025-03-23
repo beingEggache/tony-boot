@@ -13,22 +13,22 @@ import java.time.LocalDateTime
  */
 @Schema(description = "字典类型响应")
 data class DictTypeResp(
-    @Schema(description = "id")
+    @param:Schema(description = "id")
     val dictTypeId: String = "",
-    @Schema(description = "字典类型编码")
+    @param:Schema(description = "字典类型编码")
     val dictTypeCode: String = "",
-    @Schema(description = "上级id")
+    @param:Schema(description = "上级id")
     val parentDictTypeId: String = "",
-    @Schema(description = "字典类型编码序列")
+    @param:Schema(description = "字典类型编码序列")
     val dictTypeCodeSeq: String = "",
-    @Schema(description = "名称")
+    @param:Schema(description = "名称")
     val dictTypeName: String = "",
     @get:JsonIgnore(false)
-    @Schema(description = "排序")
+    @param:Schema(description = "排序")
     override val sort: Int,
-    @Schema(description = "备注")
+    @param:Schema(description = "备注")
     val remark: String = "",
-    @Schema(description = "创建时间")
+    @param:Schema(description = "创建时间")
     val createTime: LocalDateTime,
 ) : ForestLike<DictTypeResp> {
     override val code: String

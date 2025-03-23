@@ -54,7 +54,7 @@ public data class WechatPayOrderReq(
      *     微信分配的小程序ID
      */
     @XStreamAlias("appid")
-    @JsonProperty("appid")
+    @param:JsonProperty("appid")
     var appId: String?,
     /**
      * 微信支付分配的商户号
@@ -232,6 +232,6 @@ public data class WechatPayOrderReq(
      * <a href='http://qydev.weixin.qq.com/wiki/index.php?title=Userid%E4%B8%8Eopenid%E4%BA%92%E6%8D%A2%E6%8E%A5%E5%8F%A3'>企业号userid转openid接口</a>
      */
     @XStreamAlias("openid")
-    @JsonProperty("openid")
+    @param:JsonProperty("openid")
     var openId: String? = null,
 )

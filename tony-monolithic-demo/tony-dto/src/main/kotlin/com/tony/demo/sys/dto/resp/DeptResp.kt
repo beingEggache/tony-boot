@@ -13,48 +13,48 @@ import java.time.LocalDateTime
  */
 @Schema(description = "部门树形响应")
 data class DeptResp(
-    @Schema(description = "id")
+    @param:Schema(description = "id")
     val deptId: String,
     /**
      * 上级部门id
      */
-    @Schema(description = "上级id")
+    @param:Schema(description = "上级id")
     val parentDeptId: String,
     /**
      * 部门名
      */
-    @Schema(description = "名称")
+    @param:Schema(description = "名称")
     val deptName: String,
     /**
      * 部门编码
      */
-    @Schema(description = "编码")
+    @param:Schema(description = "编码")
     val deptCode: String,
     /**
      * 部门编码序列
      */
-    @Schema(description = "编码序列")
+    @param:Schema(description = "编码序列")
     val deptCodeSeq: String,
     /**
      * 排序
      */
     @get:JsonIgnore(false)
-    @Schema(description = "排序")
+    @param:Schema(description = "排序")
     override val sort: Int,
     /**
      * 备注
      */
-    @Schema(description = "备注")
+    @param:Schema(description = "备注")
     val remark: String,
     /**
      * 创建时间
      */
-    @Schema(description = "创建时间")
+    @param:Schema(description = "创建时间")
     val createTime: LocalDateTime,
     /**
      * 状态：1-启用，0-禁用
      */
-    @Schema(description = "状态：1-启用，0-禁用")
+    @param:Schema(description = "状态：1-启用，0-禁用")
     val enabled: Boolean? = null,
 ) : ForestLike<DeptResp> {
     override val code: String

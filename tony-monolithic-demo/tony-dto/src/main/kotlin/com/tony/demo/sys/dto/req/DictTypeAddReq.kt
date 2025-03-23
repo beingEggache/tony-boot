@@ -12,19 +12,19 @@ import jakarta.validation.constraints.NotBlank
  */
 @Schema(description = "新增字典类型请求")
 data class DictTypeAddReq(
-    @Schema(description = "上级id")
+    @param:Schema(description = "上级id")
     val parentDictTypeId: String = "",
-    @Schema(description = "字典类型编码", required = true)
+    @param:Schema(description = "字典类型编码", required = true)
     @get:NotBlank(message = "请输入字典类型编码")
     val dictTypeCode: String = "",
-    @Schema(description = "名称", required = true)
+    @param:Schema(description = "名称", required = true)
     @get:NotBlank(message = "请输入名称")
     val dictTypeName: String = "",
-    @Schema(description = "排序", required = true)
+    @param:Schema(description = "排序", required = true)
     val sort: Int = -1,
-    @Schema(description = "备注")
+    @param:Schema(description = "备注")
     val remark: String = "",
     @get:AppIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val appId: String = "",
 )

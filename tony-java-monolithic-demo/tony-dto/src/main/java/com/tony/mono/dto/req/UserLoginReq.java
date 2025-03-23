@@ -6,6 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+/**
+ * 用户登录请求
+ *
+ * @author tangli
+ * @date 2025/03/23 22:26
+ */
 @Schema(description = "登录请求")
 @Getter
 @Setter

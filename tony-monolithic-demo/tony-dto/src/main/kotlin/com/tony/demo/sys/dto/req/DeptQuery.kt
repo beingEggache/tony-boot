@@ -12,10 +12,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(description = "部门查询")
 data class DeptQuery(
     val deptName: String = "",
-    @Schema(description = "状态")
+    @param:Schema(description = "状态")
     val enabled: Boolean? = null,
     val excludeDeptIds: Set<String> = emptySet(),
     @get:TenantIdInject
-    @Schema(hidden = true)
+    @param:Schema(hidden = true)
     val tenantId: String = "",
 )

@@ -50,27 +50,27 @@ public open class WechatResp {
 }
 
 public data class WechatApiTokenResp(
-    @JsonProperty("access_token") val accessToken: String?,
-    @JsonProperty("expires_in") val expiresIn: Int?,
+    @param:JsonProperty("access_token") val accessToken: String?,
+    @param:JsonProperty("expires_in") val expiresIn: Int?,
 ) : WechatResp() {
     val expiresAt: LocalDateTime?
         get() = expiresIn?.let { LocalDateTime.now().plusSeconds(expiresIn.toLong()) }
 }
 
 public data class WechatUserTokenResp(
-    @JsonProperty("access_token") val accessToken: String?,
-    @JsonProperty("expires_in") val expiresIn: Int?,
-    @JsonProperty("refresh_token") val refreshToken: String?,
-    @JsonProperty("openid") val openId: String?,
-    @JsonProperty("scope") val scope: String?,
+    @param:JsonProperty("access_token") val accessToken: String?,
+    @param:JsonProperty("expires_in") val expiresIn: Int?,
+    @param:JsonProperty("refresh_token") val refreshToken: String?,
+    @param:JsonProperty("openid") val openId: String?,
+    @param:JsonProperty("scope") val scope: String?,
 ) : WechatResp() {
     val expiresAt: LocalDateTime?
         get() = expiresIn?.let { LocalDateTime.now().plusSeconds(expiresIn.toLong()) }
 }
 
 public data class WechatJsApiTicketResp(
-    @JsonProperty("ticket") val ticket: String?,
-    @JsonProperty("expires_in") val expiresIn: Int?,
+    @param:JsonProperty("ticket") val ticket: String?,
+    @param:JsonProperty("expires_in") val expiresIn: Int?,
 ) : WechatResp() {
     val expiresAt: LocalDateTime?
         get() = expiresIn?.let { LocalDateTime.now().plusSeconds(expiresIn.toLong()) }
@@ -78,37 +78,37 @@ public data class WechatJsApiTicketResp(
 
 public data class WechatQrCodeResp(
     val ticket: String?,
-    @JsonProperty("expire_seconds") val expireSeconds: Int?,
+    @param:JsonProperty("expire_seconds") val expireSeconds: Int?,
     val url: String?,
 ) : WechatResp()
 
 public data class WechatUserInfoResp(
-    @JsonProperty("subscribe") val subscribe: Int?,
-    @JsonProperty("openid") val openId: String?,
-    @JsonProperty("nickname") val nickname: String?,
-    @JsonProperty("sex") val sex: Int?,
-    @JsonProperty("language") val language: String?,
-    @JsonProperty("city") val city: String?,
-    @JsonProperty("province") val province: String?,
-    @JsonProperty("country") val country: String?,
-    @JsonProperty("headimgurl") val headImgUrl: String?,
-    @JsonProperty("subscribe_time") private val subscribeTimeValue: Long?,
-    @JsonProperty("unionid") val unionId: String?,
-    @JsonProperty("remark") val remark: String?,
-    @JsonProperty("groupid") val groupId: Int?,
-    @JsonProperty("tagid_list") val tagIdList: List<Int>?,
-    @JsonProperty("subscribe_scene") val subscribeScene: String?,
-    @JsonProperty("qr_scene") val qrScene: Int?,
-    @JsonProperty("qr_scene_str") val qrSceneStr: String?,
+    @param:JsonProperty("subscribe") val subscribe: Int?,
+    @param:JsonProperty("openid") val openId: String?,
+    @param:JsonProperty("nickname") val nickname: String?,
+    @param:JsonProperty("sex") val sex: Int?,
+    @param:JsonProperty("language") val language: String?,
+    @param:JsonProperty("city") val city: String?,
+    @param:JsonProperty("province") val province: String?,
+    @param:JsonProperty("country") val country: String?,
+    @param:JsonProperty("headimgurl") val headImgUrl: String?,
+    @param:JsonProperty("subscribe_time") private val subscribeTimeValue: Long?,
+    @param:JsonProperty("unionid") val unionId: String?,
+    @param:JsonProperty("remark") val remark: String?,
+    @param:JsonProperty("groupid") val groupId: Int?,
+    @param:JsonProperty("tagid_list") val tagIdList: List<Int>?,
+    @param:JsonProperty("subscribe_scene") val subscribeScene: String?,
+    @param:JsonProperty("qr_scene") val qrScene: Int?,
+    @param:JsonProperty("qr_scene_str") val qrSceneStr: String?,
 ) : WechatResp() {
     @get:JsonProperty("subscribe_time")
     val subscribeTime: LocalDateTime = Date((subscribeTimeValue ?: 0) * 1000).toLocalDateTime()
 }
 
 public data class WechatJsCode2SessionResp(
-    @JsonProperty("openid") val openId: String?,
-    @JsonProperty("session_key") val sessionKey: String?,
-    @JsonProperty("unionid") val unionId: String?,
+    @param:JsonProperty("openid") val openId: String?,
+    @param:JsonProperty("session_key") val sessionKey: String?,
+    @param:JsonProperty("unionid") val unionId: String?,
 ) : WechatResp()
 
 public data class WechatJsSdkConfigResp(
@@ -120,7 +120,7 @@ public data class WechatJsSdkConfigResp(
 )
 
 public data class WechatMiniProgramUserPhoneResp(
-    @JsonProperty("phone_info") val phoneInfo: WechatMiniProgramUserPhoneInfoResp?,
+    @param:JsonProperty("phone_info") val phoneInfo: WechatMiniProgramUserPhoneInfoResp?,
 ) : WechatResp()
 
 public data class WechatMiniProgramUserPhoneInfoResp(
