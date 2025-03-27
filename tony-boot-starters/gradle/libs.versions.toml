@@ -29,7 +29,7 @@ springBoot = "3.4.4"
 
 slf4j = "2.0.17"
 
-byteBuddy = "1.17.3"
+byteBuddy = "1.17.4"
 bouncycastle = "1.80"
 
 openFeign = "13.5"
@@ -42,16 +42,16 @@ fastjson = "2.0.56"
 postgresql = "42.7.5"
 mysql = "9.2.0"
 
-hikariCP = "6.2.1"
+hikariCP = "6.3.0"
 mybatis = "3.5.19"
 mybatisSpring = "3.0.4"
-mybatisPlus = "3.5.10.1"
+mybatisPlus = "3.5.11"
 
-guava = "33.4.5-jre"
+guava = "33.4.6-jre"
 
 swagger = "2.2.29"
 knife4j = "4.6.0"
-springdocStarter = "2.8.5"
+springdocStarter = "2.8.6"
 
 powerjob = "5.1.1"
 vertx = "4.5.12"
@@ -63,7 +63,7 @@ springCloudTencent = "1.13.2-2023.0.0"
 reactor = "2024.0.4"
 netty = "4.1.119.Final"
 grpc = "1.71.0"
-protobuf = "4.30.1"
+protobuf = "4.30.2"
 
 grpcSpringBoot = "3.1.0.RELEASE"
 
