@@ -24,20 +24,20 @@
 template = "0.1-SNAPSHOT"
 java = "21"
 kotlin = "2.1.20"
-spring = "6.2.5"
+spring = "6.2.6"
 springBoot = "3.4.4"
 
 slf4j = "2.0.17"
 
-byteBuddy = "1.17.4"
+byteBuddy = "1.17.5"
 bouncycastle = "1.80"
 
-openFeign = "13.5"
+openFeign = "13.6"
 lettuce = "6.5.5.RELEASE"
 
 jackson = "2.18.3"
-gson = "2.12.1"
-fastjson = "2.0.56"
+gson = "2.13.1"
+fastjson = "2.0.57"
 
 postgresql = "42.7.5"
 mysql = "9.2.0"
@@ -47,9 +47,9 @@ mybatis = "3.5.19"
 mybatisSpring = "3.0.4"
 mybatisPlus = "3.5.11"
 
-guava = "33.4.6-jre"
+guava = "33.4.8-jre"
 
-swagger = "2.2.29"
+swagger = "2.2.30"
 knife4j = "4.6.0"
 springdocStarter = "2.8.6"
 
@@ -60,9 +60,9 @@ xnio = "3.8.16.Final"
 springCloud = "2024.0.1"
 springCloudAlibaba = "2023.0.3.2"
 springCloudTencent = "1.13.2-2023.0.0"
-reactor = "2024.0.4"
-netty = "4.1.119.Final"
-grpc = "1.71.0"
+reactor = "2024.0.5"
+netty = "4.2.0.Final"
+grpc = "1.72.0"
 protobuf = "4.30.2"
 
 grpcSpringBoot = "3.1.0.RELEASE"
@@ -214,11 +214,11 @@ elApi = { module = "jakarta.el:jakarta.el-api", version = "6.0.1" }
 websocketApi = { module = "jakarta.websocket:jakarta.websocket-api", version = "2.2.0" }
 bindApi = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version = "4.0.2" }
 
-tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.5" }
+tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.6" }
 
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.5" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.18.0" }
-commonsIo = { module = "commons-io:commons-io", version = "2.18.0" }
+commonsIo = { module = "commons-io:commons-io", version = "2.19.0" }
 commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.27.1" }
 commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.1" }
 commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.17.0" }
@@ -229,11 +229,11 @@ httpcoreNio = { module = "org.apache.httpcomponents:httpcore-nio", version = "4.
 httpasyncclient = { module = "org.apache.httpcomponents:httpasyncclient", version = "4.1.5" }
 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version = "4.12.0" }
-okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.10.2" }
+okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.11.0" }
 
 javaJwt = { module = "com.auth0:java-jwt", version = "4.5.0" }
 jasypt = { module = "org.jasypt:jasypt", version = "1.9.3" }
-logstashLogbackEncoder = { module = "net.logstash.logback:logstash-logback-encoder", version = "8.0" }
+logstashLogbackEncoder = { module = "net.logstash.logback:logstash-logback-encoder", version = "8.1" }
 mybatisTypehandlersJsr310 = { module = "org.mybatis:mybatis-typehandlers-jsr310", version = "1.0.2" }
 
 xstream = { module = "com.thoughtworks.xstream:xstream", version = "1.4.21" }
@@ -251,7 +251,7 @@ snakeYaml = { module = "org.yaml:snakeyaml", version = "2.4" }
 yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version = "1.0.6" }
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
 
-aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.3" }
+aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.5" }
 gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.36.0"}
 
 [plugins]

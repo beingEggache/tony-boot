@@ -45,26 +45,26 @@ data class TestReq(
     val testStringEnum: Encoding? = null
 )
 
-@param:Schema(description = "测试登录请求")
+@Schema(description = "测试登录请求")
 data class TestLoginReq(
     @param:Schema(description = "用户名", requiredMode = Schema.RequiredMode.REQUIRED)
     @get:NotBlank(message = "请输入用户名")
     val name: String? = null
 )
 
-@param:Schema(description = "测试pattern验证")
+@Schema(description = "测试pattern验证")
 data class TestPatternReq(
     @get:Pattern(regexp = "1[0-9]{10}", message = "手机号格式不正确")
     val mobile: String?
 )
 
-@param:Schema(description = "测试移除请求注入支持")
+@Schema(description = "测试移除请求注入支持")
 data class TestRemoveInjectTestReq(
     @field:InjectRequestBodyField("int")
     val string: String? = null
 )
 
-@param:Schema(description = "测试请求注入")
+@Schema(description = "测试请求注入")
 data class TestInjectReq<T1, T2, T3, T4>(
 
     @get:InjectEmptyIfNull

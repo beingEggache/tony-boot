@@ -4,6 +4,7 @@ import com.tony.gradle.plugin.Build.Companion.templateProject
 apply(plugin = rootProject.tonyLibs.plugins.kotlinSpring.get().pluginId)
 // https://github.com/palantir/gradle-docker/issues/801
 // apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)
+// apply(plugin = "org.springframework.boot")
 dependencies {
     //while execute gradle task, use -Pprofile=prod
     if (profile() in setOf("qa", "dev")) {
@@ -15,5 +16,5 @@ dependencies {
     implementation(templateProject("web-auth")) { isChanging = true }
     implementation(project(":tony-service"))
     implementation(project(":tony-job"))
-//    implementation(Deps.SpringBoot.starterActuator)
+//    implementation(tonyLibs.springBootStarterActuator)
 }

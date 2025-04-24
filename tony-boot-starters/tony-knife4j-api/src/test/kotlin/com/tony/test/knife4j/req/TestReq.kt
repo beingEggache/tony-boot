@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 
-@param:Schema(description = "测试请求体")
+@Schema(description = "测试请求体")
 data class TestReq(
     @param:Schema(
         description = "姓名",
@@ -40,7 +40,7 @@ data class TestReq(
     val name: String,
     @param:Schema(description = "年龄", defaultValue = "16", maximum = "120", minimum = "0")
     val age: Int,
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @param:DateTimeFormat(pattern = "yyyy-MM-dd")
     @param:Schema(pattern = "yyyy-MM-dd")
     val birthDay: LocalDate,
     @param:Schema(accessMode = Schema.AccessMode.READ_ONLY)
