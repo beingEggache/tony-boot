@@ -1,6 +1,6 @@
-package com.tony.test
+package tony.test
 
-import com.tony.utils.md5
+import tony.utils.md5
 
 /**
  *

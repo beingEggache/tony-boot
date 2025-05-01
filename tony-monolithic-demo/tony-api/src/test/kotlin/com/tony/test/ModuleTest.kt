@@ -1,10 +1,10 @@
-package com.tony.test
+package tony.test
 
-import com.tony.demo.sys.dto.req.ModuleQuery
-import com.tony.demo.sys.service.ModuleService
-import com.tony.jwt.JwtToken
-import com.tony.utils.println
-import com.tony.utils.toJsonString
+import tony.demo.sys.dto.req.ModuleQuery
+import tony.demo.sys.service.ModuleService
+import tony.jwt.JwtToken
+import tony.utils.println
+import tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

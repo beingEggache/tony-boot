@@ -1,6 +1,6 @@
-package com.tony.test
+package tony.test
 
-import com.tony.demo.sys.dao.ModuleDao
+import tony.demo.sys.dao.ModuleDao
 import jakarta.annotation.Resource
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping

@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package com.tony.alipay.test
+package tony.alipay.test
 
-import com.tony.alipay.AlipayNotifyRequest
-import com.tony.utils.jsonToObj
+import tony.alipay.AlipayNotifyRequest
+import tony.utils.jsonToObj
 
 fun main() {
     val json = """{ "app_id":"123",

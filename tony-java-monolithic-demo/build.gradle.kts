@@ -1,5 +1,5 @@
-import com.tony.gradle.plugin.Build.Companion.profile
-import com.tony.gradle.plugin.Build.Companion.templateProject
+import tony.gradle.plugin.Build.Companion.profile
+import tony.gradle.plugin.Build.Companion.templateProject
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {

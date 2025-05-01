@@ -30,7 +30,7 @@ plugins {
     `maven-publish`
 }
 
-group = "com.tony"
+group = "tony"
 version = "0.1-SNAPSHOT"
 
 val versionCatalog = versionCatalogs.named("tonyLibs")
@@ -76,28 +76,28 @@ repositories {
 gradlePlugin {
     plugins {
         register("build") {
-            id = "com.tony.gradle.plugin.build"
-            implementationClass = "com.tony.gradle.plugin.Build"
+            id = "tony.gradle.plugin.build"
+            implementationClass = "tony.gradle.plugin.Build"
         }
 
         register("dep-configurations") {
-            id = "com.tony.gradle.plugin.dep-configurations"
-            implementationClass = "com.tony.gradle.plugin.DependenciesConfigurationsPlugin"
+            id = "tony.gradle.plugin.dep-configurations"
+            implementationClass = "tony.gradle.plugin.DependenciesConfigurationsPlugin"
         }
 
         register("ktlint") {
-            id = "com.tony.gradle.plugin.ktlint"
-            implementationClass = "com.tony.gradle.plugin.KtlintPlugin"
+            id = "tony.gradle.plugin.ktlint"
+            implementationClass = "tony.gradle.plugin.KtlintPlugin"
         }
 
         register("maven-publish") {
-            id = "com.tony.gradle.plugin.maven-publish"
-            implementationClass = "com.tony.gradle.plugin.MavenPublishPlugin"
+            id = "tony.gradle.plugin.maven-publish"
+            implementationClass = "tony.gradle.plugin.MavenPublishPlugin"
         }
 
         register("docker") {
-            id = "com.tony.gradle.plugin.docker"
-            implementationClass = "com.tony.gradle.plugin.DockerPlugin"
+            id = "tony.gradle.plugin.docker"
+            implementationClass = "tony.gradle.plugin.DockerPlugin"
         }
     }
 }

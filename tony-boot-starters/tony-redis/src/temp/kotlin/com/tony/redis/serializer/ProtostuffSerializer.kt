@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package com.tony.redis.serializer
+package tony.redis.serializer
 
-import com.tony.redis.serializer.wrapper.ProtoWrapper
-import com.tony.utils.isNumberTypes
+import tony.redis.serializer.wrapper.ProtoWrapper
+import tony.utils.isNumberTypes
 import io.protostuff.LinkedBuffer
 import io.protostuff.ProtobufException
 import io.protostuff.ProtostuffIOUtil

@@ -1,6 +1,6 @@
-package com.tony.test.redis.fury.serializer
+package tony.test.redis.fury.serializer
 
-import com.tony.utils.isNumberTypes
+import tony.utils.isNumberTypes
 import io.fury.Fury
 import io.fury.config.Language
 import org.slf4j.LoggerFactory

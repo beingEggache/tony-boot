@@ -1,4 +1,4 @@
-import com.tony.gradle.plugin.Build.Companion.templateProject
+import tony.gradle.plugin.Build.Companion.templateProject
 
 dependencies {
     api(templateProject("core")) { isChanging = true }

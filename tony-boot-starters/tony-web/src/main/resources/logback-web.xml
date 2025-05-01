@@ -25,7 +25,7 @@
 
 <included>
 
-    <conversionRule conversionWord="ip" class="com.tony.log.LogIpConversion" />
+    <conversionRule conversionWord="ip" class="tony.log.LogIpConversion" />
     <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="default"/>
     <springProperty scope="context" name="IP_FROM_NACOS" source="spring.cloud.nacos.discovery.ip" defaultValue=""/>
 

@@ -1,4 +1,4 @@
-import com.tony.gradle.plugin.Build.Companion.templateProject
+import tony.gradle.plugin.Build.Companion.templateProject
 
 apply(plugin = rootProject.tonyLibs.plugins.kotlinSpring.get().pluginId)
 apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)

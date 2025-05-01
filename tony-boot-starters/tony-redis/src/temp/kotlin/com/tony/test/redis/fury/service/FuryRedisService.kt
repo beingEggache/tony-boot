@@ -1,11 +1,11 @@
-package com.tony.test.redis.fury.service
+package tony.test.redis.fury.service
 
-import com.tony.redis.serializer.SerializerMode
-import com.tony.redis.service.RedisService
-import com.tony.redis.toNum
-import com.tony.test.redis.fury.serializer.FurySerializer
-import com.tony.utils.asTo
-import com.tony.utils.isNumberTypes
+import tony.redis.serializer.SerializerMode
+import tony.redis.service.RedisService
+import tony.redis.toNum
+import tony.test.redis.fury.serializer.FurySerializer
+import tony.utils.asTo
+import tony.utils.isNumberTypes
 
 /**
  * FuryRedisService is

@@ -23,9 +23,9 @@
  */
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import com.tony.gradle.plugin.Build.Companion.templateGroup
-import com.tony.gradle.plugin.Build.Companion.templatePrefix
-import com.tony.gradle.plugin.Build.Companion.templateVersion
+import tony.gradle.plugin.Build.Companion.templateGroup
+import tony.gradle.plugin.Build.Companion.templatePrefix
+import tony.gradle.plugin.Build.Companion.templateVersion
 import org.cadixdev.gradle.licenser.LicenseExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget

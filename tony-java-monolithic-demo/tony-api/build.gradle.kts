@@ -1,5 +1,5 @@
-import com.tony.gradle.plugin.Build.Companion.profile
-import com.tony.gradle.plugin.Build.Companion.templateProject
+import tony.gradle.plugin.Build.Companion.profile
+import tony.gradle.plugin.Build.Companion.templateProject
 
 apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)
 dependencies {

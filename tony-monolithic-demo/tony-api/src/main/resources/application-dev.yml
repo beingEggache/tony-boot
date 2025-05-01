@@ -17,4 +17,4 @@ logging:
     'dao': DEBUG
   group:
     'dao':
-      - 'com.tony.demo.sys.dao'
+      - 'tony.demo.sys.dao'

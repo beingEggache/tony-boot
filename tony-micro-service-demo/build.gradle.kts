@@ -1,4 +1,4 @@
-import com.tony.gradle.plugin.Build.Companion.templateProject
+import tony.gradle.plugin.Build.Companion.templateProject
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension

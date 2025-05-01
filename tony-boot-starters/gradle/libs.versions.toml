@@ -271,11 +271,11 @@ dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = 
 
 licenser = { id = "org.cadixdev.licenser", version = "0.6.1" }
 
-tonyGradleBuild = { id = "com.tony.gradle.plugin.build", version.ref="template"}
-tonyDepConfigurations = { id = "com.tony.gradle.plugin.dep-configurations", version.ref="template"}
-tonyKtlint = { id = "com.tony.gradle.plugin.ktlint", version.ref="template"}
-tonyMavenPublish = { id = "com.tony.gradle.plugin.maven-publish", version.ref="template"}
-tonyDocker = { id = "com.tony.gradle.plugin.docker", version.ref="template"}
+tonyGradleBuild = { id = "tony.gradle.plugin.build", version.ref="template"}
+tonyDepConfigurations = { id = "tony.gradle.plugin.dep-configurations", version.ref="template"}
+tonyKtlint = { id = "tony.gradle.plugin.ktlint", version.ref="template"}
+tonyMavenPublish = { id = "tony.gradle.plugin.maven-publish", version.ref="template"}
+tonyDocker = { id = "tony.gradle.plugin.docker", version.ref="template"}
 
 [bundles]
 test = ["springBootStarterTest"]

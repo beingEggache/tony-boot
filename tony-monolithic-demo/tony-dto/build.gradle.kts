@@ -1,4 +1,4 @@
-import com.tony.gradle.plugin.Build.Companion.templateProject
+import tony.gradle.plugin.Build.Companion.templateProject
 
 dependencies {
     //while execute gradle task, use -Pprofile=prod

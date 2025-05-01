@@ -1,5 +1,5 @@
-import com.tony.gradle.plugin.Build.Companion.profile
-import com.tony.gradle.plugin.Build.Companion.templateProject
+import tony.gradle.plugin.Build.Companion.profile
+import tony.gradle.plugin.Build.Companion.templateProject
 
 apply(plugin = rootProject.tonyLibs.plugins.kotlinSpring.get().pluginId)
 apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)
@@ -14,5 +14,5 @@ dependencies {
     implementation(templateProject("web-auth")) { isChanging = true }
     implementation(project(":tony-service"))
     implementation(project(":tony-job"))
-    implementation(tonyLibs.springBootStarterActuator)
+    // implementation(tonyLibs.springBootStarterActuator)
 }

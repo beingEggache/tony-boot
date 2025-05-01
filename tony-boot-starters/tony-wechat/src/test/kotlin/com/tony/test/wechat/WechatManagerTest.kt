@@ -22,21 +22,21 @@
  * SOFTWARE.
  */
 
-package com.tony.test.wechat
+package tony.test.wechat
 
-import com.tony.annotation.EnableTonyBoot
-import com.tony.annotation.redis.RedisCacheable
-import com.tony.utils.println
-import com.tony.utils.toJsonString
-import com.tony.wechat.WechatApiAccessTokenProvider
-import com.tony.wechat.WechatManager
-import com.tony.wechat.client.WechatClient
-import com.tony.wechat.client.req.WechatMenu
-import com.tony.wechat.client.req.WechatMenuButton
-import com.tony.wechat.client.req.WechatQrCodeActionInfo
-import com.tony.wechat.client.req.WechatQrCodeCreateReq
-import com.tony.wechat.client.req.WechatQrCodeType
-import com.tony.wechat.client.req.WechatScanCodeButton
+import tony.annotation.EnableTonyBoot
+import tony.annotation.redis.RedisCacheable
+import tony.utils.println
+import tony.utils.toJsonString
+import tony.wechat.WechatApiAccessTokenProvider
+import tony.wechat.WechatManager
+import tony.wechat.client.WechatClient
+import tony.wechat.client.req.WechatMenu
+import tony.wechat.client.req.WechatMenuButton
+import tony.wechat.client.req.WechatQrCodeActionInfo
+import tony.wechat.client.req.WechatQrCodeCreateReq
+import tony.wechat.client.req.WechatQrCodeType
+import tony.wechat.client.req.WechatScanCodeButton
 import org.junit.jupiter.api.Test
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest

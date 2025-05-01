@@ -1,9 +1,9 @@
-package com.tony.test
+package tony.test
 
-import com.tony.PageQuery
-import com.tony.demo.sys.dto.req.RoleAddReq
-import com.tony.demo.sys.dto.req.RoleUpdateReq
-import com.tony.demo.sys.service.RoleService
+import tony.PageQuery
+import tony.demo.sys.dto.req.RoleAddReq
+import tony.demo.sys.dto.req.RoleUpdateReq
+import tony.demo.sys.service.RoleService
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

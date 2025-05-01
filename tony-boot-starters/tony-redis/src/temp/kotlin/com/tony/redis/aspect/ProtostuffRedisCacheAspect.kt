@@ -1,7 +1,7 @@
-package com.tony.redis.aspect
+package tony.redis.aspect
 
 import com.fasterxml.jackson.databind.JavaType
-import com.tony.redis.RedisManager
+import tony.redis.RedisManager
 
 /**
  * Protostuff RedisCache实现.

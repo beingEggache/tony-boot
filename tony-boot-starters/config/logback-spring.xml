@@ -15,6 +15,5 @@
     <logger name="org.springframework.cloud.context.scope.GenericScope" level="ERROR" additivity="false"/>
     <!-- hide info end-->
 
-    <logger name="com.tony.test" level="DEBUG"/>
-    <logger name="com.tony.fus" level="DEBUG"/>
+    <logger name="tony.test" level="DEBUG"/>
 </configuration>

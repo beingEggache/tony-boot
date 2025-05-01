@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package com.tony.test.redis.fury
+package tony.test.redis.fury
 
-import com.tony.redis.RedisKeys
-import com.tony.redis.RedisManager
-import com.tony.test.redis.RedisTestIntEnum
-import com.tony.test.redis.RedisTestStringEnum
-import com.tony.test.redis.SimpleObj
-import com.tony.test.redis.TestRedisApp
+import tony.redis.RedisKeys
+import tony.redis.RedisManager
+import tony.test.redis.RedisTestIntEnum
+import tony.test.redis.RedisTestStringEnum
+import tony.test.redis.SimpleObj
+import tony.test.redis.TestRedisApp
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInfo
 import org.junit.jupiter.api.parallel.Execution
