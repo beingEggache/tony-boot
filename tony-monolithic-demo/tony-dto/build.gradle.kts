@@ -8,6 +8,6 @@ dependencies {
     implementation(templateProject("interfaces")){ isChanging = true }
     implementation(tonyLibs.springWeb)
     implementation(tonyLibs.springContext)
-    api("com.alibaba:easyexcel:4.0.3")
+    api("cn.idev.excel:fastexcel:1.2.0")
 
 }

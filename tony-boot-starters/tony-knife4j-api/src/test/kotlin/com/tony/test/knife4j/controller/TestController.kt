@@ -24,7 +24,7 @@
 
 package com.tony.test.knife4j.controller
 
-import com.alibaba.excel.EasyExcel
+import cn.idev.excel.FastExcel
 import com.tony.test.knife4j.req.TestReq
 import com.tony.test.knife4j.resp.TestExcelResp
 import com.tony.test.knife4j.resp.TestResp
@@ -61,7 +61,7 @@ class TestController {
     @PostMapping("/test3")
     fun testExcel(): ResponseEntity<ByteArray> =
         ByteArrayOutputStream().use {
-            EasyExcel
+            FastExcel
                 .write(it, TestExcelResp::class.java)
                 .sheet(0)
                 .doWrite {

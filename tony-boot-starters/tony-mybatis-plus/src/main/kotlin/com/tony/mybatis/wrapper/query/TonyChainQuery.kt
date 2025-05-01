@@ -238,7 +238,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @since 1.0.0
      */
     public fun <E> listObjThrowIfEmpty(): List<E?> =
-        baseMapper.selectObjsThrowIfEmpty<E>(wrapper)
+        baseMapper.selectObjsThrowIfEmpty(wrapper)
 
     /**
      * 当 [listObj] 为 null 或者 空时, 抛出异常.
@@ -251,7 +251,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @since 1.0.0
      */
     public fun <E> listObjThrowIfEmpty(message: String): List<E?> =
-        baseMapper.selectObjsThrowIfEmpty<E>(wrapper, message)
+        baseMapper.selectObjsThrowIfEmpty(wrapper, message)
 
     /**
      * 当 [listObj] 为 null 或者 空时, 抛出异常.
@@ -268,7 +268,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
         message: String,
         ex: (message: String, code: Int) -> BaseException,
     ): List<E?> =
-        baseMapper.selectObjsThrowIfEmpty<E>(wrapper, message, ex = ex)
+        baseMapper.selectObjsThrowIfEmpty(wrapper, message, ex = ex)
 
     /**
      * 查询单条记录.
@@ -282,7 +282,7 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @since 1.0.0
      */
     public fun <E> oneObj(): E? {
-        val list: List<E?> = listObj<E>()
+        val list: List<E?> = listObj()
         // 抄自 DefaultSqlSession#selectOne
         return if (list.size == 1) {
             list[0]

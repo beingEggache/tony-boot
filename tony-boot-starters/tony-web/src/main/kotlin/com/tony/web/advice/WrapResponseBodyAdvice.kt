@@ -85,7 +85,7 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
                 ) {
                     ApiResult(toListResult(body), ApiProperty.okCode)
                 } else {
-                    ApiResult(ListResult(body.asTo<Collection<*>>()), ApiProperty.okCode)
+                    ApiResult(ListResult(body.asTo()), ApiProperty.okCode)
                 }
             }
         }

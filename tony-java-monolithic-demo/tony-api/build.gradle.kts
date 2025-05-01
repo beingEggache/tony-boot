@@ -1,8 +1,7 @@
 import com.tony.gradle.plugin.Build.Companion.profile
 import com.tony.gradle.plugin.Build.Companion.templateProject
 
-// https://github.com/palantir/gradle-docker/issues/801
-// apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)
+apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)
 dependencies {
     //while execute gradle task, use -Pprofile=prod
     if (profile() in setOf("qa", "dev")) {

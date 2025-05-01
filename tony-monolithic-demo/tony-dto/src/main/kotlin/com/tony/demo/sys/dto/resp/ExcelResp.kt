@@ -1,6 +1,6 @@
 package com.tony.demo.sys.dto.resp
 
-import com.alibaba.excel.annotation.ExcelProperty
+import cn.idev.excel.annotation.ExcelProperty
 import java.time.LocalDate
 import org.springframework.format.annotation.DateTimeFormat
 

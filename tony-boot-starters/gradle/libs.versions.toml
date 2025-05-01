@@ -25,7 +25,7 @@ template = "0.1-SNAPSHOT"
 java = "21"
 kotlin = "2.1.20"
 spring = "6.2.6"
-springBoot = "3.4.4"
+springBoot = "3.4.5"
 
 slf4j = "2.0.17"
 
@@ -33,19 +33,19 @@ byteBuddy = "1.17.5"
 bouncycastle = "1.80"
 
 openFeign = "13.6"
-lettuce = "6.5.5.RELEASE"
+lettuce = "6.6.0.RELEASE"
 
-jackson = "2.18.3"
+jackson = "2.19.0"
 gson = "2.13.1"
 fastjson = "2.0.57"
 
 postgresql = "42.7.5"
-mysql = "9.2.0"
+mysql = "9.3.0"
 
 hikariCP = "6.3.0"
 mybatis = "3.5.19"
 mybatisSpring = "3.0.4"
-mybatisPlus = "3.5.11"
+mybatisPlus = "3.5.12"
 
 guava = "33.4.8-jre"
 
@@ -252,7 +252,7 @@ yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version =
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
 
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.5" }
-gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.36.0"}
+gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.37.0"}
 
 [plugins]
 javaPlatform = { id = "org.gradle.java-platform" }

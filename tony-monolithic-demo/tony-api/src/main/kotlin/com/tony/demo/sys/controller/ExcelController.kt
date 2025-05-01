@@ -1,6 +1,6 @@
 package com.tony.demo.sys.controller
 
-import com.alibaba.excel.EasyExcel
+import cn.idev.excel.FastExcel
 import com.tony.annotation.web.auth.NoLoginCheck
 import com.tony.demo.permission.NoPermissionCheck
 import com.tony.demo.sys.dto.resp.ExcelResp
@@ -28,7 +28,7 @@ class ExcelController {
     fun export(): ResponseEntity<ByteArray> =
         ByteArrayOutputStream()
             .use {
-                EasyExcel
+                FastExcel
                     .write(it, ExcelResp::class.java)
                     .sheet(0)
                     .doWrite {

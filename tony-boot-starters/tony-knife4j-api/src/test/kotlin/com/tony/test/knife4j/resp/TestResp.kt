@@ -24,8 +24,8 @@
 
 package com.tony.test.knife4j.resp
 
-import com.alibaba.excel.annotation.ExcelProperty
-import com.alibaba.excel.annotation.format.DateTimeFormat
+import cn.idev.excel.annotation.ExcelProperty
+import cn.idev.excel.annotation.format.DateTimeFormat
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDate

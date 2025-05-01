@@ -9,7 +9,6 @@ import com.tony.web.WebContextExtensions.appId
 import com.tony.web.WebContextExtensions.userId
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
@@ -24,8 +23,9 @@ import org.springframework.web.servlet.HandlerInterceptor
 @MustBeDocumented
 annotation class NoPermissionCheck
 
-@Component
-@Profile("prod")
+// @Component
+// @Profile("prod")
+@Suppress("unused")
 class DefaultPermissionInterceptor(
     private val employeeDao: EmployeeDao,
 ) : PermissionInterceptor {
@@ -49,8 +49,8 @@ class DefaultPermissionInterceptor(
     }
 }
 
+// @Profile("!prod")
 @Component
-@Profile("!prod")
 class NoOpPermissionInterceptor : PermissionInterceptor
 
 interface PermissionInterceptor : HandlerInterceptor

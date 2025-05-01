@@ -129,7 +129,7 @@ internal class DefaultUnwrapResponseInterceptor(
             return chain.next(invocationContext)
         }
         val hasEncrypted = !responseHeaders[ENCRYPTED_HEADER_NAME].isNullOrEmpty()
-        if (hasEncrypted && cryptoProvider == null) {
+        if (hasEncrypted && this.cryptoProvider == null) {
             logger.warn("Not support unwrap encrypted response")
             throw ApiException("Not support unwrap encrypted response", ApiProperty.badRequestCode)
         }
@@ -156,7 +156,6 @@ internal class DefaultUnwrapResponseInterceptor(
 
         val dataJsonNode = jsonNode.get(dataFieldName)
         return if (hasEncrypted && this.cryptoProvider != null) {
-            val cryptoProvider = this.cryptoProvider
             dataJsonNode
                 .toString()
                 .trimQuotes()
