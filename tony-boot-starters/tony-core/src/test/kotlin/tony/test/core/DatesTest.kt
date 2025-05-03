@@ -53,7 +53,7 @@ object DatesTest {
 
     @Test
     fun testDate(){
-        val date = Date(89, 2, 15, 12, 12, 12)
+        @Suppress("DEPRECATION") val date = Date(89, 2, 15, 12, 12, 12)
         logger.info("${"date".padEnd(padLength)}:{}", date)
 
         val dateToLocalDate = date.toLocalDate()
@@ -106,7 +106,7 @@ object DatesTest {
     }
     @Test
     fun testToString(){
-        val date = Date(89, 2, 15, 12, 12, 12)
+        @Suppress("DEPRECATION") val date = Date(89, 2, 15, 12, 12, 12)
         val localDate = LocalDate.of(1989, 3, 15)
         val localDateTime = LocalDateTime.of(1989, 3, 15, 12, 12, 12)
 
