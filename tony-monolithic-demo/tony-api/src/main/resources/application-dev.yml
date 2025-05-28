@@ -7,6 +7,9 @@ spring:
   data:
     redis:
       password: "123456"
+  cloud:
+    compatibility-verifier:
+      enabled: false
 web:
   cors:
     enabled: true
