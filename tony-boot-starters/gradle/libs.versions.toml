@@ -23,9 +23,9 @@
 [versions]
 template = "0.1-SNAPSHOT"
 java = "21"
-kotlin = "2.1.20"
-spring = "6.2.6"
-springBoot = "3.4.5"
+kotlin = "2.1.21"
+spring = "6.2.7"
+springBoot = "3.5.0"
 
 slf4j = "2.0.17"
 
@@ -49,7 +49,7 @@ mybatisPlus = "3.5.12"
 
 guava = "33.4.8-jre"
 
-swagger = "2.2.30"
+swagger = "2.2.32"
 knife4j = "4.6.0"
 springdocStarter = "2.8.8"
 
@@ -59,16 +59,16 @@ xnio = "3.8.16.Final"
 
 springCloud = "2024.0.1"
 springCloudAlibaba = "2023.0.3.2"
-springCloudTencent = "1.13.2-2023.0.0"
-reactor = "2024.0.5"
+springCloudTencent = "2.0.1.0-2023.0.3"
+reactor = "2024.0.6"
 netty = "4.2.1.Final"
-grpc = "1.72.0"
-protobuf = "4.30.2"
+grpc = "1.73.0"
+protobuf = "4.31.0"
 
 grpcSpringBoot = "3.1.0.RELEASE"
 
 lombok = "8.10"
-ktlint = "1.5.0"
+ktlint = "1.6.0"
 graalvm = "0.10.2"
 dokka = "2.0.0"
 
@@ -214,7 +214,7 @@ elApi = { module = "jakarta.el:jakarta.el-api", version = "6.0.1" }
 websocketApi = { module = "jakarta.websocket:jakarta.websocket-api", version = "2.2.0" }
 bindApi = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version = "4.0.2" }
 
-tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.6" }
+tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.7" }
 
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.5" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.18.0" }
@@ -229,7 +229,7 @@ httpcoreNio = { module = "org.apache.httpcomponents:httpcore-nio", version = "4.
 httpasyncclient = { module = "org.apache.httpcomponents:httpasyncclient", version = "4.1.5" }
 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version = "4.12.0" }
-okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.11.0" }
+okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.12.0" }
 
 javaJwt = { module = "com.auth0:java-jwt", version = "4.5.0" }
 jasypt = { module = "org.jasypt:jasypt", version = "1.9.3" }
@@ -237,7 +237,7 @@ logstashLogbackEncoder = { module = "net.logstash.logback:logstash-logback-encod
 mybatisTypehandlersJsr310 = { module = "org.mybatis:mybatis-typehandlers-jsr310", version = "1.0.2" }
 
 xstream = { module = "com.thoughtworks.xstream:xstream", version = "1.4.21" }
-xmlunitCore = { module = "org.xmlunit:xmlunit-core", version = "2.10.0" }
+xmlunitCore = { module = "org.xmlunit:xmlunit-core", version = "2.10.2" }
 
 dom4j = { module = "org.dom4j:dom4j", version = "2.1.4" }
 findbugsJsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }
