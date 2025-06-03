@@ -1,11 +1,17 @@
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
+  data:
+    jdbc:
+      repositories:
+        enabled: false
+  dao:
+    exceptiontranslation:
+      enabled: false
 mybatis-plus:
   mapper-locations: classpath*:mappers/*.mapper.xml
   configuration:
     return-instance-for-empty-row: true
-    default-enum-type-handler: com.tony.mybatis.typehandler.EnumTypeHandler
+    default-enum-type-handler: tony.mybatis.typehandler.EnumTypeHandler
   global-config:
     banner: off
-

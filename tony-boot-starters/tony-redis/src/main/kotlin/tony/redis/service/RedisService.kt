@@ -1,0 +1,97 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2023-present, tangli
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package tony.redis.service
+
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.JavaType
+import tony.redis.serializer.SerializerMode
+import tony.redis.toNum
+import tony.utils.asTo
+import tony.utils.isNumberTypes
+import tony.utils.rawClass
+
+/**
+ * RedisService is
+ * @author tangli
+ * @date 2023/06/09 19:30
+ */
+public interface RedisService :
+    RedisValueOp,
+    RedisMapOp,
+    RedisListOp {
+    /**
+     * 序列化反序列化方式
+     */
+    public val serializerMode: SerializerMode
+}
+
+public sealed interface RedisValueTransformer {
+    /**
+     * 输出转换为
+     * @param [type] 类型
+     * @return [T]?
+     * @author tangli
+     * @date 2023/09/13 19:44
+     * @since 1.0.0
+     */
+    public fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? =
+        if (type.isNumberTypes()) {
+            toNum(type)
+        } else {
+            this?.asTo()
+        }
+
+    /**
+     * 输出转换为
+     * @param [type] 类型
+     * @return [T]?
+     * @author tangli
+     * @date 2023/09/13 19:44
+     * @since 1.0.0
+     */
+    public fun <T : Any> Any?.outputTransformTo(type: JavaType): T? =
+        outputTransformTo(type.rawClass())
+
+    /**
+     * 输出转换为
+     * @param [type] 类型
+     * @return [T]?
+     * @author tangli
+     * @date 2023/09/13 19:44
+     * @since 1.0.0
+     */
+    public fun <T : Any> Any?.outputTransformTo(type: TypeReference<T>): T? =
+        outputTransformTo(type.rawClass())
+
+    /**
+     * 输入转换为
+     * @return [Any]
+     * @author tangli
+     * @date 2023/09/13 19:44
+     * @since 1.0.0
+     */
+    public fun Any.inputTransformTo(): Any =
+        this
+}

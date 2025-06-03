@@ -23,55 +23,59 @@
 [versions]
 template = "0.1-SNAPSHOT"
 java = "21"
-kotlin = "1.9.24"
-spring = "6.1.11"
-springBoot = "3.3.2"
+kotlin = "2.1.21"
+spring = "6.2.7"
+springBoot = "3.5.0"
 
-slf4j = "2.0.13"
+slf4j = "2.0.17"
 
-byteBuddy = "1.14.18"
-bouncycastle = "1.78.1"
+byteBuddy = "1.17.5"
+bouncycastle = "1.80"
 
-openFeign = "13.3"
-lettuce = "6.3.2.RELEASE"
+openFeign = "13.6"
+lettuce = "6.7.0.RELEASE"
 
-jackson = "2.17.2"
-gson = "2.11.0"
-fastjson = "2.0.52"
+jackson = "2.19.0"
+gson = "2.13.1"
+fastjson = "2.0.57"
 
-postgresql = "42.7.3"
-mysql = "9.0.0"
+postgresql = "42.7.6"
+mysql = "9.3.0"
 
-hikariCP = "5.1.0"
-mybatis = "3.5.16"
-mybatisSpring = "3.0.3"
-mybatisPlus = "3.5.7"
+hikariCP = "6.3.0"
+mybatis = "3.5.19"
+mybatisSpring = "3.0.4"
+mybatisPlus = "3.5.12"
 
-guava = "33.2.1-jre"
+guava = "33.4.8-jre"
 
-swagger = "2.2.22"
-knife4j = "4.5.0"
-springdocStarter = "2.3.0"
+swagger = "2.2.32"
+knife4j = "4.6.0"
+springdocStarter = "2.8.8"
 
-powerjob = "4.3.9"
-vertx = "4.5.8"
+powerjob = "5.1.1"
+vertx = "4.5.14"
 xnio = "3.8.16.Final"
 
-springCloud = "2023.0.2"
-springCloudAlibaba = "2023.0.1.0"
-springCloudTencent = "1.13.2-2023.0.0"
-reactor = "2023.0.8"
-netty = "4.1.111.Final"
-grpc = "1.65.1"
+springCloud = "2025.0.0"
+springCloudAlibaba = "2023.0.3.3"
+springCloudTencent = "2.0.1.0-2023.0.3"
+reactor = "2024.0.6"
+netty = "4.2.1.Final"
+grpc = "1.73.0"
+protobuf = "4.31.1"
 
-lombok = "8.6"
-ktlint = "1.3.0"
+grpcSpringBoot = "3.1.0.RELEASE"
+
+lombok = "8.10"
+ktlint = "1.6.0"
 graalvm = "0.10.2"
-dokka = "1.9.20"
+dokka = "2.0.0"
 
 [libraries]
 kotlinBom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlinStdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+annotations = { module = "org.jetbrains:annotations", version = "26.0.2" }
 
 springBom = { module = "org.springframework:spring-framework-bom", version.ref = "spring" }
 springContext = { module = "org.springframework:spring-context", version.ref = "spring" }
@@ -114,11 +118,18 @@ nettyBom = { module = "io.netty:netty-bom", version.ref = "netty" }
 
 reactorBom = { module = "io.projectreactor:reactor-bom", version.ref = "reactor" }
 
-knife4jCore = { module = "com.github.xiaoymin:knife4j-core", version.ref = "knife4j" }
-knife4jOpenapi3SpringBootStarter = { module = "com.github.xiaoymin:knife4j-openapi3-spring-boot-starter", version.ref = "knife4j" }
-knife4jOpenapi3JakartaSpringBootStarter = { module = "com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter", version.ref = "knife4j" }
-knife4jOpenapi3Ui = { module = "com.github.xiaoymin:knife4j-openapi3-ui", version.ref = "knife4j" }
-knife4jGatewaySpringBootStarter = { module = "com.github.xiaoymin:knife4j-gateway-spring-boot-starter", version.ref = "knife4j" }
+knife4jCore = { module = "com.github.xingfudeshi:knife4j-core", version.ref = "knife4j" }
+knife4jOpenapi3SpringBootStarter = { module = "com.github.xingfudeshi:knife4j-openapi3-spring-boot-starter", version.ref = "knife4j" }
+knife4jOpenapi3JakartaSpringBootStarter = { module = "com.github.xingfudeshi:knife4j-openapi3-jakarta-spring-boot-starter", version.ref = "knife4j" }
+knife4jOpenapi3Ui = { module = "com.github.xingfudeshi:knife4j-openapi3-ui", version.ref = "knife4j" }
+knife4jGatewaySpringBootStarter = { module = "com.github.xingfudeshi:knife4j-gateway-spring-boot-starter", version.ref = "knife4j" }
+
+protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
+protobufJava = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
+protobufJavalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
+protobufJavaUtil = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf" }
+protobufKotlin = { module = "com.google.protobuf:protobuf-kotlin", version.ref = "protobuf" }
+protobufKotlinLite = { module = "com.google.protobuf:protobuf-kotlin-lite", version.ref = "protobuf" }
 
 grpcBom = { module = "io.grpc:grpc-bom", version.ref = "grpc" }
 grpcApi = { module = "io.grpc:grpc-api", version.ref = "grpc" }
@@ -129,9 +140,14 @@ grpcStub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
 grpcProtobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
 grpcProtobufLite = { module = "io.grpc:grpc-protobuf-lite", version.ref = "grpc" }
 grpcNetty = { module = "io.grpc:grpc-netty", version.ref = "grpc" }
+grpcNettyShaded = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpc" }
 grpcOkhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpc" }
 
 protocGenGrpcJava = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc" }
+
+grpcSpringBootStarter = { module = "net.devh:grpc-spring-boot-starter", version.ref = "grpcSpringBoot" }
+grpcServerSpringBootStarter = { module = "net.devh:grpc-server-spring-boot-starter", version.ref = "grpcSpringBoot" }
+grpcClientSpringBootStarter = { module = "net.devh:grpc-client-spring-boot-starter", version.ref = "grpcSpringBoot" }
 
 openFeignCore = { module = "io.github.openfeign:feign-core", version.ref = "openFeign" }
 openFeignSl4j = { module = "io.github.openfeign:feign-slf4j", version.ref = "openFeign" }
@@ -155,6 +171,7 @@ mybatisPlusExtension = { module = "com.baomidou:mybatis-plus-extension", version
 mybatisPlusBootStarter = { module = "com.baomidou:mybatis-plus-boot-starter", version.ref = "mybatisPlus" }
 mybatisPlusBootStarter3 = { module = "com.baomidou:mybatis-plus-spring-boot3-starter", version.ref = "mybatisPlus" }
 mybatisPlusGenerator = { module = "com.baomidou:mybatis-plus-generator", version.ref = "mybatisPlus" }
+mybatisPlusJsqlparser = { module = "com.baomidou:mybatis-plus-jsqlparser", version.ref = "mybatisPlus" }
 
 slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 julToSlf4j = { module = "org.slf4j:jul-to-slf4j", version.ref = "slf4j" }
@@ -190,21 +207,21 @@ xnioNio = { module = "org.jboss.xnio:xnio-nio", version.ref = "xnio" }
 
 ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref="ktlint"}
 
-validationApi = { module = "jakarta.validation:jakarta.validation-api", version = "3.1.0" }
+validationApi = { module = "jakarta.validation:jakarta.validation-api", version = "3.1.1" }
 annotationApi = { module = "jakarta.annotation:jakarta.annotation-api", version = "3.0.0" }
 activationApi = { module = "jakarta.activation:jakarta.activation-api", version = "2.1.3" }
-elApi = { module = "jakarta.el:jakarta.el-api", version = "6.0.0" }
+elApi = { module = "jakarta.el:jakarta.el-api", version = "6.0.1" }
 websocketApi = { module = "jakarta.websocket:jakarta.websocket-api", version = "2.2.0" }
 bindApi = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version = "4.0.2" }
 
-tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "10.1.26" }
+tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.7" }
 
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.5" }
-commonsCodec = { module = "commons-codec:commons-codec", version = "1.17.0" }
-commonsIo = { module = "commons-io:commons-io", version = "2.16.1" }
-commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.26.2" }
-commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.0" }
-commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.14.0" }
+commonsCodec = { module = "commons-codec:commons-codec", version = "1.18.0" }
+commonsIo = { module = "commons-io:commons-io", version = "2.19.0" }
+commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.27.1" }
+commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.1" }
+commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.17.0" }
 
 httpclient = { module = "org.apache.httpcomponents:httpclient", version = "4.5.14" }
 httpcore = { module = "org.apache.httpcomponents:httpcore", version = "4.4.16" }
@@ -212,37 +229,35 @@ httpcoreNio = { module = "org.apache.httpcomponents:httpcore-nio", version = "4.
 httpasyncclient = { module = "org.apache.httpcomponents:httpasyncclient", version = "4.1.5" }
 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version = "4.12.0" }
-okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.9.0" }
+okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.12.0" }
 
-javaJwt = { module = "com.auth0:java-jwt", version = "4.4.0" }
+javaJwt = { module = "com.auth0:java-jwt", version = "4.5.0" }
 jasypt = { module = "org.jasypt:jasypt", version = "1.9.3" }
-logstashLogbackEncoder = { module = "net.logstash.logback:logstash-logback-encoder", version = "7.4" }
+logstashLogbackEncoder = { module = "net.logstash.logback:logstash-logback-encoder", version = "8.1" }
 mybatisTypehandlersJsr310 = { module = "org.mybatis:mybatis-typehandlers-jsr310", version = "1.0.2" }
 
-xstream = { module = "com.thoughtworks.xstream:xstream", version = "1.4.20" }
+xstream = { module = "com.thoughtworks.xstream:xstream", version = "1.4.21" }
+xmlunitCore = { module = "org.xmlunit:xmlunit-core", version = "2.10.2" }
 
 dom4j = { module = "org.dom4j:dom4j", version = "2.1.4" }
 findbugsJsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }
 findbugsAnnotations = { module = "com.google.code.findbugs:annotations", version = "3.0.1" }
 
 classmate = { module = "com.fasterxml:classmate", version = "1.7.0" }
-caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.1.8" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.0" }
 
-snakeYaml = { module = "org.yaml:snakeyaml", version = "2.2" }
+snakeYaml = { module = "org.yaml:snakeyaml", version = "2.4" }
 
 yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version = "1.0.6" }
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
 
-protoc = { module = "com.google.protobuf:protoc", version = "4.27.2" }
-grpcSpringBootStarter = { module = "net.devh:grpc-spring-boot-starter", version = "3.1.0.RELEASE" }
-
-aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.6.4" }
-gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.36.0"}
+aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.5" }
+gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.37.0"}
 
 [plugins]
 javaPlatform = { id = "org.gradle.java-platform" }
 versionCatalog = { id = "org.gradle.version-catalog" }
-
+protobuf = { id="com.google.protobuf", version = "0.9.4" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 kotlinNoarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin" }
@@ -251,13 +266,16 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 lombok = { id="io.freefair.lombok", version.ref = "lombok" }
 graalvm = { id="org.graalvm.buildtools.native", version.ref = "graalvm" }
 
-protobuf = { id="com.google.protobuf", version = "0.9.4" }
+gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version = "0.52.0" }
+dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = "2.0.0" }
 
-tonyGradleBuild = { id = "com.tony.gradle.plugin.build", version.ref="template"}
-tonyDepConfigurations = { id = "com.tony.gradle.plugin.dep-configurations", version.ref="template"}
-tonyKtlint = { id = "com.tony.gradle.plugin.ktlint", version.ref="template"}
-tonyMavenPublish = { id = "com.tony.gradle.plugin.maven-publish", version.ref="template"}
-tonyDocker = { id = "com.tony.gradle.plugin.docker", version.ref="template"}
+licenser = { id = "org.cadixdev.licenser", version = "0.6.1" }
+
+tonyGradleBuild = { id = "tony.gradle.plugin.build", version.ref="template"}
+tonyDepConfigurations = { id = "tony.gradle.plugin.dep-configurations", version.ref="template"}
+tonyKtlint = { id = "tony.gradle.plugin.ktlint", version.ref="template"}
+tonyMavenPublish = { id = "tony.gradle.plugin.maven-publish", version.ref="template"}
+tonyDocker = { id = "tony.gradle.plugin.docker", version.ref="template"}
 
 [bundles]
 test = ["springBootStarterTest"]

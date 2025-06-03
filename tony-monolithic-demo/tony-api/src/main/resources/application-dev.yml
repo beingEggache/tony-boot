@@ -7,12 +7,17 @@ spring:
   data:
     redis:
       password: "123456"
+  cloud:
+    compatibility-verifier:
+      enabled: false
 web:
   cors:
     enabled: true
 jwt:
   secret: 'dsfnn32SDFF&*&#bfds;;,.ks^&3@'
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    log-prefix: "mybatis"
+logging:
+  level:
+    'dao': DEBUG
+  group:
+    'dao':
+      - 'tony.demo.sys.dao'

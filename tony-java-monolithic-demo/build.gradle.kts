@@ -1,4 +1,5 @@
-import com.tony.gradle.plugin.Build
+import tony.gradle.plugin.Build.Companion.profile
+import tony.gradle.plugin.Build.Companion.templateProject
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
@@ -7,10 +8,7 @@ plugins {
 
 val javaVersion: String = rootProject.tonyLibs.versions.java.get()
 
-// copyProjectHookToGitHook(rootDir.parentFile, "pre-commit", "pre-push")
-
 configure(subprojects) {
-    group = Build.GROUP
     version = "0.1"
     repositories {
         mavenLocal()
@@ -20,7 +18,7 @@ configure(subprojects) {
 //            name = "private"
 //            isAllowInsecureProtocol = true
 //        }
-        maven(url = "https://maven.aliyun.com/repository/public")
+        maven(url = "https://maven.aliyun.com/repository/central")
         mavenCentral()
     }
 
@@ -44,7 +42,7 @@ configure(subprojects) {
         options.encoding = "UTF-8"
         options.isDeprecation = true
 //        options.isVerbose = true
-        if (Build.getProfile() != "prod") {
+        if (profile() != "prod") {
             options.isDebug = true
             options.debugOptions.debugLevel = "vars"
             options.isFork = true
@@ -61,7 +59,7 @@ configure(subprojects) {
     }
 
     dependencies {
-        add("implementation", platform(Build.templateProject("dependencies")))
+        add("implementation", platform(templateProject("dependencies")))
         add("annotationProcessor", rootProject.tonyLibs.springContextIndexer)
         add("testImplementation", rootProject.tonyLibs.bundles.test)
     }

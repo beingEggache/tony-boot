@@ -1,3 +1,5 @@
+import tony.gradle.plugin.Build.Companion.templateProject
+
 buildscript {
     repositories {
         mavenLocal()
@@ -10,7 +12,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.tony:build-script:0.1-SNAPSHOT")
+        val buildScript: String by settings
+        classpath(buildScript)
     }
 }
 
@@ -25,7 +28,7 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         register("tonyLibs") {
-            from("com.tony:tony-dependencies-catalog:0.1-SNAPSHOT")
+            from(templateProject("dependencies-catalog"))
         }
     }
 }

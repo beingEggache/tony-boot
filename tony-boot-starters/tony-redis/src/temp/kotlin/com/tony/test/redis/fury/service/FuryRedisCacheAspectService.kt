@@ -1,8 +1,8 @@
-package com.tony.test.redis.fury.service
+package tony.test.redis.fury.service
 
-import com.tony.annotation.redis.RedisCacheable
-import com.tony.test.redis.RedisTestIntEnum
-import com.tony.test.redis.RedisTestStringEnum
+import tony.annotation.redis.RedisCacheable
+import tony.test.redis.RedisTestIntEnum
+import tony.test.redis.RedisTestStringEnum
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.math.BigInteger

@@ -1,3 +1,12 @@
+ext.set("pom", true)
+apply {
+    plugin(rootProject.tonyLibs.plugins.javaPlatform.get().pluginId)
+    plugin(rootProject.tonyLibs.plugins.tonyMavenPublish.get().pluginId)
+}
+extensions.getByType<JavaPlatformExtension>().apply {
+    allowDependencies()
+}
+
 val versionCatalog = extensions.getByType<VersionCatalogsExtension>().named("tonyLibs")
 val libraryDependencies =
     versionCatalog
@@ -17,6 +26,7 @@ dependencies {
     add("api", platform(tonyLibs.reactorBom))
     add("api", platform(tonyLibs.nettyBom))
     add("api", platform(tonyLibs.jacksonBom))
+    add("api", platform(tonyLibs.grpcBom))
     add("api", platform(tonyLibs.springBootDependencies))
     add("api", platform(tonyLibs.springCloudDependencies))
 }

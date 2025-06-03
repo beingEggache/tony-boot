@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tony.db.dao.RoleDao">
+<mapper namespace="tony.demo.sys.dao.RoleDao">
 
     <insert id="insertEmployeeRoles">
         insert into sys_employee_role(employee_id, role_id, tenant_id)
@@ -30,46 +30,51 @@
         delete from sys_role_module where role_id = #{roleId} and tenant_id = #{tenantId}
     </delete>
 
-    <select id="selectRoleModules" resultType="com.tony.dto.resp.ModuleResp">
+    <select id="selectRoleModules" resultType="tony.demo.sys.dto.resp.ModuleResp">
         select
-            distinctrow
-            m.module_id,
-            m.parent_module_id,
-            m.module_name,
-            m.module_code_seq,
-            m.module_value,
-            m.module_type,
-            m.module_group
+        distinctrow
+        m.module_id,
+        m.parent_module_id,
+        m.module_name,
+        m.module_code_seq,
+        m.module_value,
+        m.module_type,
+        m.module_group
         from sys_module m
-            join sys_role_module rm on m.module_id = rm.module_id
-               and rm.role_id = #{roleId}
-               and rm.tenant_id = #{tenantId}
-               and m.module_type in <foreach open="(" close=")" collection="moduleTypes" item="moduleType" separator=",">#{moduleType}</foreach>
+        join sys_role_module rm on m.module_id = rm.module_id
+        and rm.role_id = #{roleId}
+        and rm.tenant_id = #{tenantId}
+        and m.module_type in <foreach open="(" close=")" collection="moduleTypes" item="moduleType" separator=",">#{moduleType}</foreach>
         where rm.role_id = #{roleId}
-            and rm.tenant_id = #{tenantId}
-            and m.module_type in <foreach open="(" close=")" collection="moduleTypes" item="moduleType" separator=",">#{moduleType}</foreach>
+        and rm.tenant_id = #{tenantId}
+        and m.module_type in <foreach open="(" close=")" collection="moduleTypes" item="moduleType" separator=",">#{moduleType}</foreach>
     </select>
 
-    <select id="selectEmployeeRoles" resultType="com.tony.dto.resp.RoleResp">
+    <select id="selectEmployeeRoles" resultType="tony.demo.sys.dto.resp.RoleResp">
         select
-            distinct
-            r.role_id,
-            r.role_name,
-            r.sort,
-            r.remark,
-            r.enabled,
-            r.create_time
+        distinct
+        r.role_id,
+        r.role_name,
+        r.remark,
+        r.enabled,
+        r.create_time
         from sys_role r
-                 join sys_employee_role er on r.role_id = er.role_id
-            and er.employee_id = #{employeeId}
-            and r.tenant_id = #{tenantId}
-            and er.tenant_id = #{tenantId}
-            and r.enabled = true
-            and r.deleted = false
+        join sys_employee_role er on r.role_id = er.role_id
+        and er.employee_id = #{employeeId}
+        and r.tenant_id = #{tenantId}
+        <if test="!includeBuildIn">
+            and r.build_in = false
+        </if>
+        and er.tenant_id = #{tenantId}
+        and r.enabled = true
+        and r.delete_time is null
         where er.employee_id = #{employeeId}
-          and r.tenant_id = #{tenantId}
-          and er.tenant_id = #{tenantId}
-          and r.enabled = true
-          and r.deleted = false
+        and r.tenant_id = #{tenantId}
+        <if test="!includeBuildIn">
+            and r.build_in = false
+        </if>
+        and er.tenant_id = #{tenantId}
+        and r.enabled = true
+        and r.delete_time is null
     </select>
 </mapper>

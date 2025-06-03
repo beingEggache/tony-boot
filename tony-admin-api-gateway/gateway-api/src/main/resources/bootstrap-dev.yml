@@ -6,9 +6,11 @@ spring:
       discovery:
         namespace: "dev"
     gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowed-origins: "*"
-            allowed-headers: "*"
-            allowed-methods: "*"
+      server:
+        webflux:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origins: "*"
+                allowed-headers: "*"
+                allowed-methods: "*"

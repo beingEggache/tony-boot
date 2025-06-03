@@ -1,13 +1,13 @@
-import com.tony.gradle.plugin.Build
+import tony.gradle.plugin.Build.Companion.templateProject
 
 dependencies {
-    api(Build.templateProject("core")) { isChanging = true }
-    api(Build.templateProject("mybatis-plus")) { isChanging = true }
+    api(templateProject("core")) { isChanging = true }
+    api(templateProject("mybatis-plus")) { isChanging = true }
 
     implementation(tonyLibs.mysql)
-    implementation(Build.templateProject("snowflake-id")) { isChanging = true }
-    implementation(Build.templateProject("redis")) { isChanging = true }
-    implementation(Build.templateProject("feign")) { isChanging = true }
+    implementation(templateProject("snowflake-id")) { isChanging = true }
+    implementation(templateProject("redis")) { isChanging = true }
+    implementation(templateProject("feign")) { isChanging = true }
     api(project(":tony-dto"))
     api(tonyLibs.mybatisPlusBootStarter)
     api(tonyLibs.springWeb)

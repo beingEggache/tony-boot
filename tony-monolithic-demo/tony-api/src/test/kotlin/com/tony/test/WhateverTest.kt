@@ -1,6 +1,6 @@
-package com.tony.test
+package tony.test
 
-import com.tony.utils.secureRandom
+import tony.utils.md5
 
 /**
  *
@@ -8,9 +8,10 @@ import com.tony.utils.secureRandom
  * @date 2020-11-05 11:31
  */
 fun main() {
-    val list = makeArray(100)
-
-    list.bubbleSort().forEach { println(it) }
+    val uppercase = "123456".md5().uppercase()
+    val pwd = "${uppercase}TONY_SALT".md5().uppercase()
+    println(uppercase)
+    println(pwd)
 }
 
 fun Array<Int>.bubbleSort():Array<Int> {
@@ -23,14 +24,5 @@ fun Array<Int>.bubbleSort():Array<Int> {
             }
         }
     }
-    return this;
-}
-
-private fun makeArray(size: Int): Array<Int> {
-    val set = HashSet<Int>(size)
-    repeat(size) {
-        set.add(secureRandom.nextInt(size))
-    }
-
-    return set.shuffled().toTypedArray()
+    return this
 }

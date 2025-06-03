@@ -1,15 +1,16 @@
 spring:
   cloud:
     gateway:
-      default-filters:
-        - PreserveHostHeader #发送原主机头
-        - name: RemoveResponseHeaders
-          args:
-            headers:
-              - X-B3-Trace-Id
-              - Vary
-      routes:
-        - id: tony-micro-service-demo
-          uri: lb://tony-micro-service-demo
-          predicates:
-            - Path=/demo/**
+      webflux:
+        default-filters:
+          - PreserveHostHeader #发送原主机头
+          - name: RemoveResponseHeaders
+            args:
+              headers:
+                - X-B3-Trace-Id
+                - Vary
+        routes:
+          - id: tony-micro-service-demo
+            uri: lb://tony-micro-service-demo
+            predicates:
+              - Path=/demo/**

@@ -1,4 +1,4 @@
-import com.tony.gradle.plugin.Build
+import tony.gradle.plugin.Build.Companion.templateProject
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
@@ -13,10 +13,7 @@ plugins {
 val javaVersion: String = rootProject.tonyLibs.versions.java.get()
 val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
 
-// copyProjectHookToGitHook(rootDir.parentFile, "pre-commit", "pre-push")
-
 configure(subprojects) {
-    group = Build.GROUP
     version = "0.1"
     repositories {
         mavenLocal()
@@ -26,7 +23,7 @@ configure(subprojects) {
 //            name = "private"
 //            isAllowInsecureProtocol = true
 //        }
-        maven(url = "https://maven.aliyun.com/repository/public")
+        maven(url = "https://maven.aliyun.com/repository/central")
         mavenCentral()
     }
 
@@ -48,6 +45,7 @@ configure(subprojects) {
         compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(javaVersion))
             languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
+            apiVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
             verbose.set(true)
             progressiveMode.set(true)
             // use kotlinc -X get more info.
@@ -60,13 +58,14 @@ configure(subprojects) {
                 "-Xtype-enhancement-improvements-strict-mode",
                 "-Xenhance-type-parameter-types-to-def-not-null",
                 "-Xextended-compiler-checks",
+                "-java-parameters",
                 // "-Xuse-fast-jar-file-system",
             )
         }
     }
 
     dependencies {
-        add("implementation", platform(Build.templateProject("dependencies")))
+        add("implementation", platform(templateProject("dependencies")))
         add("kapt", rootProject.tonyLibs.springContextIndexer)
         add("testImplementation", rootProject.tonyLibs.bundles.test)
     }

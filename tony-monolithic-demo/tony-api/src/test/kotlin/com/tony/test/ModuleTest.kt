@@ -1,9 +1,10 @@
-package com.tony.test
+package tony.test
 
-import com.tony.db.service.ModuleService
-import com.tony.jwt.JwtToken
-import com.tony.utils.println
-import com.tony.utils.toJsonString
+import tony.demo.sys.dto.req.ModuleQuery
+import tony.demo.sys.service.ModuleService
+import tony.jwt.JwtToken
+import tony.utils.println
+import tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -21,7 +22,7 @@ class ModuleTest {
 
     @Test
     fun test() {
-        val modules = moduleService.listRouteAndComponentModules("b066a8a6dc2a4bdbb6013043df8400b2", "Lx-Api")
+        val modules = moduleService.list(ModuleQuery())
         println(modules.toJsonString())
     }
 

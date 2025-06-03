@@ -22,11 +22,16 @@
  * SOFTWARE.
  */
 
-import com.tony.gradle.plugin.Build
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import tony.gradle.plugin.Build.Companion.templateGroup
+import tony.gradle.plugin.Build.Companion.templatePrefix
+import tony.gradle.plugin.Build.Companion.templateVersion
+import org.cadixdev.gradle.licenser.LicenseExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
 plugins {
     `version-catalog`
@@ -35,57 +40,54 @@ plugins {
     alias(tonyLibs.plugins.kotlinSpring) apply false
     alias(tonyLibs.plugins.kotlinKapt) apply false
     alias(tonyLibs.plugins.dokka)
+    alias(tonyLibs.plugins.gradleVersionsPlugin)
+    alias(tonyLibs.plugins.licenser) apply false
 }
 
-val dependenciesProjects = setOf(project("${Build.PREFIX}-dependencies"))
-val dependenciesCatalogProjects = setOf(project("${Build.PREFIX}-dependencies-catalog"))
+val dependenciesProjects = setOf(project("${templatePrefix()}-dependencies"))
+val dependenciesCatalogProjects = setOf(project("${templatePrefix()}-dependencies-catalog"))
 val libraryProjects = subprojects - dependenciesProjects - dependenciesCatalogProjects
 
 val javaVersion: String = rootProject.tonyLibs.versions.java.get()
 val kotlinVersion: String = rootProject.tonyLibs.versions.kotlin.get()
 
 configure(allprojects) {
-    group = Build.GROUP
-    version = Build.VERSION
+    group = templateGroup()
+    version = templateVersion()
     repositories {
         mavenLocal()
-
-//        val privateMavenRepoUrl: String by project
-//        maven(url = privateMavenRepoUrl) {
-//            name = "private"
-//            isAllowInsecureProtocol = true
-//        }
-
-        maven(url = "https://maven.aliyun.com/repository/public")
+        maven(url = "https://maven.aliyun.com/repository/central")
         mavenCentral()
     }
-    tasks.withType<Jar> {
-        manifest {
-            attributes["Implementation-Title"] = project.name
-            attributes["Implementation-Version"] = project.version
-        }
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    apply {
+        plugin(rootProject.tonyLibs.plugins.licenser.get().pluginId)
+    }
+
+    extensions.getByType<LicenseExtension>().apply {
+        this.setHeader(rootProject.file("LICENSE"))
+        include(
+            "**/*.java",
+            "**/*.kt",
+            "**/*.kts",
+            "**/*.xml",
+            "**/*.properties",
+            "**/*.toml",
+        )
     }
 }
 
-// copyProjectHookToGitHook(rootDir.parentFile,"pre-commit", "pre-push")
-
-configure(dependenciesProjects) {
-    ext.set("pom", true)
-    apply {
-        plugin(rootProject.tonyLibs.plugins.javaPlatform.get().pluginId)
-        plugin(rootProject.tonyLibs.plugins.tonyMavenPublish.get().pluginId)
-    }
-    extensions.getByType<JavaPlatformExtension>().apply {
-        allowDependencies()
-    }
-}
-
-configure(dependenciesCatalogProjects) {
-    ext.set("catalog", true)
-    apply {
-        plugin(rootProject.tonyLibs.plugins.versionCatalog.get().pluginId)
-        plugin(rootProject.tonyLibs.plugins.tonyMavenPublish.get().pluginId)
+tasks.withType<DependencyUpdatesTask> {
+    revision = "release"
+    checkForGradleUpdate = true
+    gradleReleaseChannel = "current"
+    checkConstraints = true
+    checkBuildEnvironmentConstraints = true
+    outputFormatter = "plain"
+    rejectVersionIf {
+        candidate
+            .version
+            .contains(Regex("alpha|beta|rc|snapshot|milestone|pre|m", RegexOption.IGNORE_CASE))
     }
 }
 
@@ -95,7 +97,6 @@ tasks.dokkaHtmlMultiModule {
 }
 
 configure(libraryProjects) {
-
     apply {
         plugin(rootProject.tonyLibs.plugins.kotlin.get().pluginId)
         plugin(rootProject.tonyLibs.plugins.kotlinSpring.get().pluginId)
@@ -106,18 +107,34 @@ configure(libraryProjects) {
         plugin(rootProject.tonyLibs.plugins.dokka.get().pluginId)
     }
 
+    tasks.withType<Jar> {
+        into("META-INF") {
+            from(rootProject.file("LICENSE"))
+        }
+        into("META-INF/maven/${project.group}/${project.name}") {
+            from(project.tasks.getByPath("generatePomFileForJarPublication"))
+            rename("pom-default.xml","pom.xml")
+        }
+        manifest {
+            attributes["Implementation-Title"] = project.name
+            attributes["Implementation-Version"] = project.version
+            attributes["Build-Jdk-Spec"] = javaVersion
+        }
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
     tasks.withType<Javadoc> {
         this.enabled = false
     }
 
     extensions.getByType<KotlinJvmProjectExtension>().apply {
-
         jvmToolchain {
             languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         }
         compilerOptions {
             jvmTarget.set(JvmTarget.fromTarget(javaVersion))
             languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
+            apiVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
             verbose.set(true)
             progressiveMode.set(true)
             // use kotlinc -X get more info.
@@ -130,6 +147,7 @@ configure(libraryProjects) {
                 "-Xtype-enhancement-improvements-strict-mode",
                 "-Xenhance-type-parameter-types-to-def-not-null",
                 "-Xextended-compiler-checks",
+                "-java-parameters",
                 // "-Xuse-fast-jar-file-system",
             )
         }
@@ -137,10 +155,20 @@ configure(libraryProjects) {
     }
 
     dependencies {
-        add("implementation", platform(project(":${Build.PREFIX}-dependencies")))
+        add("implementation", platform(project(":${templatePrefix()}-dependencies")))
         add("kapt", rootProject.tonyLibs.bundles.springBootProcessors)
         add("kaptTest", rootProject.tonyLibs.springContextIndexer)
         add("testImplementation", rootProject.tonyLibs.bundles.test)
+    }
+
+    // fix kapt additional-spring-configuration-metadata.json can not process problem
+    extensions.getByType<KaptExtension>().apply {
+        arguments {
+            arg(
+                "org.springframework.boot.configurationprocessor.additionalMetadataLocations",
+                "$projectDir/src/main/resources"
+            )
+        }
     }
 
     tasks.withType<Test> {

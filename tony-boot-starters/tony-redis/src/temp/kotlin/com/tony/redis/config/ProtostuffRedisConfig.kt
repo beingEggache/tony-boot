@@ -1,10 +1,10 @@
-package com.tony.redis.config
+package tony.redis.config
 
-import com.tony.redis.aspect.ProtostuffRedisCacheAspect
-import com.tony.redis.aspect.RedisCacheAspect
-import com.tony.redis.serializer.ProtostuffSerializer
-import com.tony.redis.service.RedisService
-import com.tony.redis.service.impl.ProtostuffRedisService
+import tony.redis.aspect.ProtostuffRedisCacheAspect
+import tony.redis.aspect.RedisCacheAspect
+import tony.redis.serializer.ProtostuffSerializer
+import tony.redis.service.RedisService
+import tony.redis.service.impl.ProtostuffRedisService
 import io.protostuff.LinkedBuffer
 import io.protostuff.runtime.RuntimeSchema
 import org.slf4j.LoggerFactory

@@ -1,5 +1,44 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+  http2:
+    enabled: true
+  servlet:
+    encoding:
+      enabled: false
+    jsp:
+      registered: false
+  ssl:
+    enabled: false
+  compression:
+    enabled: true
+    mime-types:
+      - application/json
+      - text/xml
+      - text/plain
 spring:
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
       date: yyyy-MM-dd
+    formcontent:
+      filter:
+        enabled: false
+  freemarker:
+    enabled: false
+  thymeleaf:
+    enabled: false
+  main:
+    web-application-type: servlet
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
+      - org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
+      - org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration
+      - org.springframework.boot.autoconfigure.dao.PersistenceExceptionTranslationAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  web:
+    locale-resolver: fixed

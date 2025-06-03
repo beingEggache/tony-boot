@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 TEMP=$(getopt -o \
-    r:p:n:P:N:t: --long \
-    docker-registry:,port:,project-name:,profile:,docker-org-name:,docker-org-name: \
+    r:d:p:n:P:N:t:e:o: --long \
+    docker-registry:,project-dir:,port:,project-name:,profile:,docker-org-name:,image-tag:,env-file:,overwrite-config \
      -n 'dockerBuild.bash' -- "$@")
 
 eval set -- "$TEMP"
@@ -10,11 +10,14 @@ eval set -- "$TEMP"
 while true ; do
         case "$1" in
                 -r|--docker-registry) docker_registry=$2 ; shift 2 ;;
+                -d|--project-dir) project_dir=$2 ; shift 2 ;;
                 -p|--port) port=$2 ; shift 2 ;;
                 -n|--project-name) project_name=$2 ; shift 2 ;;
                 -P|--profile) profile=$2 ; shift 2 ;;
                 -N|--docker-org-name) docker_org_name=$2 ; shift 2 ;;
                 -t|--image-tag) image_tag=$2 ; shift 2 ;;
+                -e|--env-file) env_file=$2 ; shift 2 ;;
+                -o|--overwrite-config) overwrite_config=$2 ; shift 2 ;;
                 --) shift ; break ;;
                 *) break ;;
         esac
@@ -23,6 +26,7 @@ done
 docker_org_name=${docker_org_name:=publisher}
 profile=${profile:=qa}
 image_tag=${image_tag:=latest}
+overwrite_config=${overwrite_config:=false}
 
 check_arg(){
    if [ -z "$1" ]
@@ -58,7 +62,7 @@ docker system prune -f
 docker run -d --name="${project_name}" \
 -p "${port}":"${port}" \
 -v "${dir}"/logs:/logs \
--e "PROP=-Dspring.profiles.active=${profile:=qa}" \
+-e "PROFILE=${profile}" \
 "${image_name}"
 
 run_status=$?
