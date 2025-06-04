@@ -21,14 +21,15 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+        namespace: ${spring.profiles.active:${spring.profiles.default}}
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         namespace: ${spring.cloud.nacos.discovery.namespace}
-        extension-configs:
-          - data-id: tony-gateway-routes.yml
-          - data-id: tony-gateway-routes-auth.yml
-            refresh: true
   lifecycle:
     timeout-per-shutdown-phase: 20s
+  config:
+    import:
+      - nacos:tony-gateway-routes.yml
+      - nacos:tony-gateway-routes-auth.yml
 jwt:
   secret: '4465651'

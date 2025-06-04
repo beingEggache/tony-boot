@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 class RemoveResponseHeadersGatewayFilterFactory :
-    org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory<RemoveHeaders>(
+    AbstractGatewayFilterFactory<RemoveHeaders>(
         RemoveHeaders::class.java
     ) {
     override fun apply(config: RemoveHeaders): GatewayFilter =

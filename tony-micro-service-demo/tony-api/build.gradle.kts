@@ -3,6 +3,10 @@ import tony.gradle.plugin.Build.Companion.templateProject
 
 apply(plugin = rootProject.tonyLibs.plugins.kotlinSpring.get().pluginId)
 apply(plugin = rootProject.tonyLibs.plugins.tonyDocker.get().pluginId)
+configurations.all {
+    exclude(group= "com.alibaba.nacos", module = "logback-adapter")
+    exclude(group= "com.alibaba.nacos", module = "nacos-log4j2-adapter")
+}
 dependencies {
     //while execute gradle task, use -Dprofile=prod
     if (profile() in setOf("qa", "dev")) {

@@ -2,9 +2,7 @@ spring:
   cloud:
     nacos:
       username: nacos
-      password: Nacos@ktwl
-      discovery:
-        namespace: "dev"
+      password: nacos
     gateway:
       server:
         webflux:

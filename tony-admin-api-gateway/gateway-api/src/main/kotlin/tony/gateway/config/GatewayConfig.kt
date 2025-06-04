@@ -5,6 +5,7 @@
  */
 package tony.gateway.config
 
+import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.cloud.gateway.config.conditional.ConditionalOnEnabledFilter
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
