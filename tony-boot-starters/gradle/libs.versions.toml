@@ -30,10 +30,10 @@ springBoot = "3.5.0"
 slf4j = "2.0.17"
 
 byteBuddy = "1.17.5"
-bouncycastle = "1.80"
+bouncycastle = "1.81"
 
 openFeign = "13.6"
-lettuce = "6.7.0.RELEASE"
+lettuce = "6.7.1.RELEASE"
 
 jackson = "2.19.0"
 gson = "2.13.1"
@@ -54,7 +54,7 @@ knife4j = "4.6.0"
 springdocStarter = "2.8.8"
 
 powerjob = "5.1.1"
-vertx = "4.5.14"
+vertx = "4.5.15"
 xnio = "3.8.16.Final"
 
 springCloud = "2025.0.0"
