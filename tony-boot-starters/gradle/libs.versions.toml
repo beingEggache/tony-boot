@@ -39,19 +39,19 @@ jackson = "2.19.0"
 gson = "2.13.1"
 fastjson = "2.0.57"
 
-postgresql = "42.7.6"
+postgresql = "42.7.7"
 mysql = "9.3.0"
 
 hikariCP = "6.3.0"
 mybatis = "3.5.19"
-mybatisSpring = "3.0.4"
+mybatisSpring = "3.0.5"
 mybatisPlus = "3.5.12"
 
 guava = "33.4.8-jre"
 
 swagger = "2.2.32"
 knife4j = "4.6.0"
-springdocStarter = "2.8.8"
+springdocStarter = "2.8.9"
 
 powerjob = "5.1.1"
 vertx = "4.5.15"
@@ -60,8 +60,8 @@ xnio = "3.8.16.Final"
 springCloud = "2025.0.0"
 springCloudAlibaba = "2023.0.3.3"
 springCloudTencent = "2.0.1.0-2023.0.3"
-reactor = "2024.0.6"
-netty = "4.2.1.Final"
+reactor = "2024.0.7"
+netty = "4.2.2.Final"
 grpc = "1.73.0"
 protobuf = "4.31.1"
 
@@ -214,9 +214,9 @@ elApi = { module = "jakarta.el:jakarta.el-api", version = "6.0.1" }
 websocketApi = { module = "jakarta.websocket:jakarta.websocket-api", version = "2.2.0" }
 bindApi = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version = "4.0.2" }
 
-tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.7" }
+tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.8" }
 
-commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.5" }
+commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.6.0" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.18.0" }
 commonsIo = { module = "commons-io:commons-io", version = "2.19.0" }
 commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.27.1" }
@@ -244,14 +244,14 @@ findbugsJsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2"
 findbugsAnnotations = { module = "com.google.code.findbugs:annotations", version = "3.0.1" }
 
 classmate = { module = "com.fasterxml:classmate", version = "1.7.0" }
-caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.0" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.1" }
 
 snakeYaml = { module = "org.yaml:snakeyaml", version = "2.4" }
 
 yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version = "1.0.6" }
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
 
-aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.5" }
+aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.6" }
 gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.37.0"}
 
 [plugins]

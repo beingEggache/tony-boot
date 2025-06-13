@@ -34,6 +34,9 @@ spring:
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.http.client.reactive.ClientHttpConnectorAutoConfiguration
+      - org.springframework.boot.autoconfigure.reactor.ReactorAutoConfiguration
+      - org.springframework.boot.autoconfigure.http.client.HttpClientAutoConfiguration
       - org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
       - org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
       - org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration

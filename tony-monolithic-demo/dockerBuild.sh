@@ -53,7 +53,7 @@ then
   docker rm -f "${container_id}";
 fi
 
-image_name="${docker_registry}/${docker_org_name}/${project_name}"
+image_name="${docker_registry}/${docker_org_name}/${project_name}:${image_tag}"
 # pull latest images
 docker pull "${image_name}"
 # prune docker
