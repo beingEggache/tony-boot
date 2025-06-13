@@ -42,43 +42,43 @@ check_arg "$project_name" "-n|--project-name"
 
 dir=/data/java-instances/"${project_name}"
 
-mkdir -p "${dir}"
-echo "mkdir ${dir}"
+mkdir -p "${dir}" || { echo "Failed to create directory: ${dir}"; exit 1; }
+echo "Created directory: ${dir}"
 
-container_id=$(docker ps -a | grep -w "${project_name}" | awk '{print $1}')
+container_id=$(docker ps -af "name=${project_name}" -q)
 
-if [ "$container_id" ]
+if [ -n "$container_id" ]
 then
-  echo "docker rm container_id:${container_id}"
-  docker rm -f "${container_id}";
+  echo "Removing existing container: ${container_id}"
+  docker rm -f "${container_id}" || { echo "Failed to remove container"; exit 1; }
 fi
 
 image_name="${docker_registry}/${docker_org_name}/${project_name}:${image_tag}"
-# pull latest images
-docker pull "${image_name}"
+
 # prune docker
-docker system prune -f
+echo "Cleaning up unused Docker resources"
+docker system prune -f || echo "Warning: Failed to prune Docker system"
+
+# pull latest images
+echo "Pulling image: ${image_name}"
+docker pull "${image_name}" || { echo "Failed to pull image"; exit 1; }
+
 # run the latest image
 docker run -d --name="${project_name}" \
 -p "${port}":"${port}" \
 -v "${dir}"/logs:/logs \
 -e "PROFILE=${profile}" \
-"${image_name}"
+"${image_name}" || { echo "docker run failed."; exit 1; }
 
-run_status=$?
-if [ $run_status != 0 ]
-then
-  echo "docker run failed. status:${run_status}"
-  exit 1
-fi
 
+echo "Waiting for container to start..."
 for i in {10..1}
 do
-   echo "$i"
+   echo "$i seconds remaining..."
    sleep 1
 done
 
-container_id=$(docker ps| grep "${project_name}" | awk '{print $1}')
+container_id=$(docker ps -f "name=${project_name}" -f "status=running" -q)
 
 if [ -z "$container_id" ]
 then
@@ -87,4 +87,5 @@ then
  exit 1
 fi
 
+echo "Container ${project_name} (ID: ${container_id}) started successfully"
 echo "done"

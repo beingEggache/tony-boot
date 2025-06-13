@@ -1,6 +1,15 @@
 #!/bin/sh
 set -e
 
+# 确保日志目录存在
+mkdir -p ${WORKDIR}/logs ${WORKDIR}/config ${WORKDIR}/tmp
+
+# 安装unzip工具（如果需要）
+if ! command -v unzip > /dev/null 2>&1
+then
+    apk add --no-cache unzip
+fi
+
 #-XX:+EnableDynamicAgentLoading hide "Java agent has been loaded dynamically" warning.
 # https://zhuanlan.zhihu.com/p/528949267
 # JVM 参数升级提示工具 https://jacoline.dev/inspect
@@ -8,13 +17,14 @@ set -e
 
 # 当使用nacos 时, 可把以下参数加入到 JVM_DEFAULT_OPTS 或者 JVM_OPTS 中
 #-Djava.io.tmpdir=${WORKDIR}/tmp \
-#-DJM.LOG.PATH=${WORKDIR}/log/nacos \
+#-DJM.LOG.PATH=${WORKDIR}/logs/nacos \
 #-DJM.SNAPSHOT.PATH=${WORKDIR}/tmp \
 #-Dcom.alibaba.nacos.naming.cache.dir=${WORKDIR}/tmp \
 
-opts="\
+# 默认JVM参数
+JVM_DEFAULT_OPTS="\
 -Djava.io.tmpdir=${WORKDIR}/tmp \
--DJM.LOG.PATH=${WORKDIR}/log/nacos \
+-DJM.LOG.PATH=${WORKDIR}/logs/nacos \
 -DJM.SNAPSHOT.PATH=${WORKDIR}/tmp \
 -Dcom.alibaba.nacos.naming.cache.dir=${WORKDIR}/tmp \
 -XX:SharedArchiveFile=${WORKDIR}/app.jsa \
@@ -33,7 +43,10 @@ opts="\
 -Dspring.profiles.active=${PROFILE} \
 -Dserver.port=${PORT}"
 
-if [ "${ENABLE_ERROR_LOGS}" == 'true' ]
+# 初始化opts变量
+opts="${JVM_DEFAULT_OPTS}"
+
+if [ "${ENABLE_ERROR_LOGS}" = 'true' ]
 then
     opts="\
 ${opts} \
@@ -43,7 +56,7 @@ ${opts} \
 -XX:+HeapDumpOnOutOfMemoryError"
 fi
 
-if [ "${ENABLE_GC_LOGS}" == 'true' ]
+if [ "${ENABLE_GC_LOGS}" = 'true' ]
 then
     opts="\
 ${opts} \
@@ -53,7 +66,7 @@ ${opts} \
 -Xlog:safepoint=info:file=${WORKDIR}/logs/safepoint_%t.log:utctime,level,tags:filecount=10,filesize=10M"
 fi
 
-if [ "${ENABLE_JVM_LOGS}" == 'true' ]
+if [ "${ENABLE_JVM_LOGS}" = 'true' ]
 then
     opts="\
 ${opts} \
@@ -64,26 +77,32 @@ ${opts} \
 -XX:+PrintInlining"
 fi
 
-if [ "${JVM_APPEND_OPTS}" ]
+# 处理JVM_APPEND_OPTS - 追加到opts
+if [ -n "${JVM_APPEND_OPTS}" ]
 then
-    opts="\
-${opts} \
-${JVM_APPEND_OPTS}"
+    opts="${opts} ${JVM_APPEND_OPTS}"
 fi
 
-if [ "${JVM_OPTS}" ]
+# 处理JVM_OPTS - 覆盖默认设置（如果需要）
+if [ -n "${JVM_OPTS}" ]
 then
     opts="${JVM_OPTS}"
 fi
 
 unzip_opts="-n"
-if [ "${OVERWRITE_CONFIG}" == 'true' ]
+if [ "${OVERWRITE_CONFIG}" = 'true' ]
 then
     unzip_opts="${unzip_opts} -o"
 fi
 
 # 解压配置文件 到${WORKDIR}/config
-sh -c "unzip ${unzip_opts} ${WORKDIR}/app.jar *.yml *.yaml *.properties -d ${WORKDIR}/config"
+if [ -f "${WORKDIR}/app.jar" ]
+then
+    echo "Extracting configuration files..."
+    unzip ${unzip_opts} ${WORKDIR}/app.jar *.yml *.yaml *.properties -d ${WORKDIR}/config || {
+        echo "Warning: Failed to extract configuration files. Continuing without them."
+    }
+fi
 
-echo "${opts}"
-sh -c "java ${opts} -jar ${WORKDIR}/app.jar"
+echo "Starting application with JVM options: ${opts}"
+exec java ${opts} -jar ${WORKDIR}/app.jar

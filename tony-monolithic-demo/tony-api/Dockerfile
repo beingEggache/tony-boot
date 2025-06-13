@@ -10,7 +10,10 @@ RUN java -Djarmode=tools -jar ${WORKDIR}/app.jar extract --layers --destination 
 
 FROM eclipse-temurin:21.0.7_6-jre-alpine-3.21
 
-RUN echo "Asia/Shanghai" > /etc/timezone
+# 安装时区数据并设置时区
+RUN apk add --no-cache tzdata && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ARG WORKDIR=/app
 ENV WORKDIR=${WORKDIR}
@@ -36,4 +39,4 @@ COPY --from=builder ${WORKDIR}/extracted/application/ ./
 
 RUN java -XX:ArchiveClassesAtExit=${WORKDIR}/app.jsa -Dspring.context.exit=onRefresh -jar ${WORKDIR}/app.jar
 COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["sh", "-c", "docker-entrypoint.sh"]
