@@ -1,18 +1,102 @@
-# Kotlin Spring Boot 脚手架
+# tony-boot-starters
 
-本项目是一个基于 Kotlin 和 Spring Boot 的开发脚手架集合，旨在为开发者提供一系列便捷、高效的项目模板和基础库，加速项目的开发与部署。以下是各子项目的简要介绍：
+`tony-boot-starters`Spring Boot + Kotlin. Java 21、Spring 6.2.7、Spring Boot 3.5.0 和 Kotlin 2.1.21。
 
-## tony-admin-api-gateway 网关简易脚手架
-该项目是一个简易的 API 网关脚手架，主要用于处理微服务架构中的请求路由、负载均衡、认证授权等功能，为系统提供统一的入口和管理。
+## 项目结构
 
-## tony-boot-starters 基础库封装
-此项目对常用的功能和工具进行了封装，包含统一日志记录、异常处理、响应结构、身份验证、加解密、数据访问等基础模块，帮助开发者快速搭建项目，减少重复开发工作。
+- **`tony-dependencies`**：管理项目的依赖，生成Pom, 确保子项目使用统一的依赖版本。
 
-## tony-java-monolithic-demo java 版本的单体脚手架
-这是一个 Java 版本的单体应用脚手架，为开发者提供了一个完整的单体应用开发模板，包含了项目的基本结构、依赖配置和开发规范，适用于快速开发单体应用。
 
-## tony-micro-service-demo 微服务
-该项目是一个微服务架构的示例，展示了如何使用 Kotlin 和 Spring Boot 构建和部署微服务，涵盖了服务发现、配置管理、远程调用、熔断降级等微服务相关的功能。
+- **`build-script`**：包含自定义的 Gradle 插件，用于项目的构建、发布和部署。
 
-## tony-monolithic-demo 单体脚手架
-这是一个基于 Kotlin 和 Spring Boot 的单体应用脚手架，提供了项目的基本框架和常用功能，方便开发者快速启动单体项目的开发。
+
+- **`tony-core`**：核心模快, 统一响应结构, 分页结构, 枚举及枚举验证方式, 异常.加解密工具类, 及其他文本日期工具类.
+
+
+- **`tony-interfaces`**：核心注解及接口。
+
+
+- **`tony-web`**： web 统一日志,统一异常处理, 统一响应结构, 统一枚举处理方式。
+
+
+- **`tony-web-auth`**：Web 统一身份验证处理方式。
+
+
+- **`tony-web-crypto`**：Web 加解密请求响应。
+
+
+- **`tony-mybatis-plus`**： 扩展MyBatis-Plus，增加物理删除、统一分页查询, 统一公共字段填充等。
+
+
+- **`tony-feign`**： 扩展OpenFeign, 提供统一解包,统一请求响应拦截器处理。
+
+
+- **`tony-redis`**：Redis，统一调用方式。
+
+
+- **`tony-alipay`**：支付宝 SDK，提供支付宝支付相关功能。
+
+
+- **`tony-wechat`**：微信相关功能，如微信支付等。
+
+
+- **`tony-aliyun-oss`**：集成阿里云 OSS 服务，用于文件存储。
+
+
+- **`tony-aliyun-sms`**：集成阿里云短信服务，用于发送短信。
+
+
+- **`tony-snowflake-id`**：提供雪花算法生成分布式唯一 ID 的功能。
+
+
+- **`tony-knife4j-api`**：集成 Knife4j，用于生成 API 文档，方便开发和测试人员查看和使用 API。
+
+
+- **`tony-jwt`**：集成了 JWT（JSON Web Token）。
+
+
+- **`tony-captcha`**：集成了验证码功能。
+
+## 快速开始
+### 环境要求
+- Java 21 或更高版本
+- Gradle 7.x 或更高版本
+
+### 启用 `tony-boot-starters`
+在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解，以启用 `tony-boot-starters` 的功能：
+```kotlin
+dependencies {
+    implementation("tony:tony-core:0.1-SNAPSHOT")
+}
+```
+```kotlin
+@EnableTonyBoot
+@SpringBootApplication
+class YourApplication
+
+fun main(args: Array<String>) {
+    org.springframework.boot.run(YourApplication::class.java, *args)
+}
+```
+
+### 配置依赖
+在你的项目的 `build.gradle.kts` 文件中引入所需的启动器模块，例如引入 `tony-redis` 模块：
+```kotlin
+dependencies {
+    implementation("tony:tony-redis:0.1-SNAPSHOT")
+}
+```
+
+## 配置
+### 代码风格配置
+Ktlint 使用 `.editorconfig` 定义具体的规则。
+
+### 通过 Gradle 启动 Ktlint 任务
+- **`ktlintCheck`**：检查 Kotlin 代码风格：
+```bash
+./gradlew ktlintCheck
+```
+- **`ktlintFormat`**：修复 Kotlin 代码风格：
+```bash
+./gradlew ktlintFormat
+```
