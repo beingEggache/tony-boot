@@ -99,9 +99,6 @@ spring:
 ### 4. 启动应用
 
 ```bash
-# 编译项目
-./gradlew build
-
 # 启动应用
 ./gradlew :tony-api:bootRun
 ```
