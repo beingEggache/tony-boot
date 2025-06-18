@@ -15,11 +15,14 @@
 
 ```
 tony-monolithic-demo/
-├── tony-api/          # API 接口层（控制器、RESTful API）
-├── tony-service/      # 业务逻辑层（服务实现、数据访问）
-├── tony-job/          # 定时任务模块
-├── tony-dto/          # 数据传输对象（DTO、VO、表单验证）
-└── db/                # 数据库初始化脚本
+├── tony-api/ # API 接口层（控制器、RESTful API）
+│ ├── Dockerfile # Docker 构建文件
+│ └── docker-entrypoint.sh # Docker 容器启动脚本
+├── tony-service/ # 业务逻辑层（服务实现、数据访问）
+├── tony-job/ # 定时任务模块
+├── tony-dto/ # 数据传输对象（DTO、VO、表单验证）
+├── db/ # 数据库初始化脚本
+└── dockerBuild.sh # Docker 构建和运行脚本
 ```
 
 
@@ -96,17 +99,71 @@ spring:
     port: 6379
 ```
 
-### 4. 启动应用
+### 4. 使用 Docker 构建和运行应用
+
+#### 4.1 应用 Docker 插件
+在项目的 `build.gradle.kts` 文件中应用 `tony.gradle.plugin.docker` 插件：
+```kotlin
+apply(plugin = "tony.gradle.plugin.docker")
+```
+
+#### 4.2 配置 Docker 相关信息
+Docker 相关配置可以在 `gradle.properties` 中配置，也可以直接通过命令行传递。以下是可配置的参数及其说明：
+
+| 参数名 | 说明 |
+| ---- | ---- |
+| `dockerRegistry` | Docker 镜像仓库地址 |
+| `dockerUserName` | Docker 用户名 |
+| `dockerPassword` | Docker 用户密码 |
+| `dockerNameSpace` | Docker 命名空间 |
+| `projectName` | 项目名称，若指定会覆盖默认的项目根目录名称 |
+
+**在 `gradle.properties` 中配置示例**：
+```properties
+dockerRegistry=your-docker-registry
+dockerUserName=your-docker-username
+dockerPassword=your-docker-password
+dockerNameSpace=your-docker-namespace
+projectName=your-project-name
+```
+
+**通过命令行传递参数示例**：
+```bash
+./gradlew dockerBuild -PdockerRegistry=your-docker-registry -PdockerUserName=your-docker-username -PdockerPassword=your-docker-password -PdockerNameSpace=your-docker-namespace -PprojectName=your-project-name
+```
+
+#### 4.3 构建 Docker 镜像
+使用 `dockerBuild.sh` 脚本构建 Docker 镜像，脚本支持以下参数：
+```bash
+-r|--docker-registry    # Docker 镜像仓库地址
+-d|--project-dir        # 项目目录
+-p|--port               # 应用端口
+-n|--project-name       # 项目名称
+-P|--profile            # 配置文件环境（默认为 qa）
+-N|--docker-org-name    # Docker 组织名称（默认为 publisher）
+-t|--image-tag          # Docker 镜像标签（默认为 latest）
+-e|--env-file           # 环境变量文件
+-o|--overwrite-config   # 是否覆盖配置文件（默认为 false）
+```
+
+示例命令：
+```bash
+./dockerBuild.sh -r your-docker-registry -d /path/to/project -p 8080 -n tony-monolithic-demo -P prod -N your-org -t v1.0
+```
+
+#### 4.4 运行 Docker 容器
+构建完成后，脚本会自动拉取最新镜像并启动 Docker 容器。启动成功后，容器会在后台运行。
+
+### 5. 启动应用
 
 ```bash
 # 启动应用
 ./gradlew :tony-api:bootRun
 ```
 
-### 5. 访问接口文档
+### 6. 访问接口文档
 
 启动成功后，访问：[http://localhost:8080/doc.html](http://localhost:8080/doc.html)
-
 
 ## 📄 许可证
 

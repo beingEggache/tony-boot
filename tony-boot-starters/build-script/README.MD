@@ -94,12 +94,28 @@ apply(plugin = "tony.gradle.plugin.docker")
 ```
 
 #### 配置说明
-在 `gradle.properties` 中配置 Docker 相关信息：
+Docker 相关配置可以在 `gradle.properties` 中配置，也可以直接通过命令行传递。以下是可配置的参数及其说明：
+
+| 参数名 | 说明 |
+| ---- | ---- |
+| `dockerRegistry` | Docker 镜像仓库地址 |
+| `dockerUserName` | Docker 用户名 |
+| `dockerPassword` | Docker 用户密码 |
+| `dockerNameSpace` | Docker 命名空间 |
+| `projectName` | 项目名称，若指定会覆盖默认的项目根目录名称 |
+
+**在 `gradle.properties` 中配置示例**：
 ```properties
 dockerRegistry=your-docker-registry
 dockerUserName=your-docker-username
 dockerPassword=your-docker-password
 dockerNameSpace=your-docker-namespace
+projectName=your-project-name
+```
+
+**通过命令行传递参数示例**：
+```bash
+./gradlew dockerBuild -PdockerRegistry=your-docker-registry -PdockerUserName=your-docker-username -PdockerPassword=your-docker-password -PdockerNameSpace=your-docker-namespace -PprojectName=your-project-name
 ```
 
 #### 代码示例
