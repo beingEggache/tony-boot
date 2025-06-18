@@ -68,3 +68,31 @@ private fun unwrapResponseInterceptorProvider(
 ) =
     UnwrapResponseInterceptorProvider(DefaultUnwrapResponseInterceptor(cryptoProvider))
 ```
+### OkHttp 配置
+OkHttp 客户端的连接参数，可在 `application.yml` 中进行配置：
+
+```yaml
+spring:
+  cloud:
+    openfeign:
+      okhttp:
+        callTimeout: 0  # 调用超时时间（秒）
+        connectTimeout: 10000  # 连接超时时间（秒）
+        readTimeout: 10000  # 读取超时时间（秒）
+        writeTimeout: 10000  # 写入超时时间（秒）
+        pingInterval: 10000  # 心跳间隔时间（秒）
+        retryOnConnectionFailure: true  # 是否在连接失败时重试
+        followRedirects: true  # 是否跟随重定向
+```
+
+### 请求日志 配置
+Feign 请求日志的相关属性，可在 `application.yml` 中进行配置：
+
+```yaml
+web:
+  log:
+    request:
+      enabled: true  # 是否记录请求日志
+      requestBodyMaxSize: 50KB  # 请求体最大记录长度，超过只显示 ContentType
+      responseBodyMaxSize: 50KB  # 响应体最大记录长度，超过只显示 ContentType
+```
