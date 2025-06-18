@@ -121,18 +121,37 @@ fun main(args: Array<String>) {
 - **状态映射**：将状态码转换为可读文本（如 404 → `NOT_FOUND`）
 
 
-
-
 ## 配置说明
 
-### 1. 跨域规则配置
+### 1. web
 在 `application.yml` 中设置：
 ```yaml
-tony:
-  web:
-    cors:
-      enabled: true          # 启用跨域
-      allowed-origins: "*"   # 允许所有来源（生产环境建议指定具体域名）
-      allowed-methods: "GET,POST,PUT,DELETE"
-      allowed-headers: "*"   # 允许所有请求头
+web:
+  wrapResponseBodyEnabled: true  # 是否包装返回值
+  injectRequestBodyEnabled: true  # 是否注入请求
+  wrapResponseExcludePatterns: []  # 包装返回值白名单 URL（ant pattern）
+  fillResponseNullValueEnabled: true  # 是否处理响应 JSON null 值
+```
+
+### 2. 跨域
+在 `application.yml` 中设置：
+```yaml
+web:
+  cors:
+    enabled: true          # 启用跨域
+    allowed-origins: "*"   # 允许所有来源（生产环境建议指定具体域名）
+    allowed-methods: "GET,POST,PUT,DELETE"
+    allowed-headers: "*"   # 允许所有请求头
+```
+
+### 3. 日志
+在 `application.yml` 中设置：
+```yaml
+web:
+  log:
+    trace:
+        enabled: true  # 是否记录 trace 日志
+        excludePatterns: []  # trace 日志排除 URL
+        requestBodyMaxSize: 50KB  # trace 日志请求体最大长度
+        responseBodyMaxSize: 50KB  # trace 日志响应体最大长度
 ```
