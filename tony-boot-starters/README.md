@@ -63,12 +63,6 @@
 - Gradle 7.x 或更高版本
 
 ### 启用 `tony-boot-starters`
-在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解，以启用 `tony-boot-starters` 的功能：
-```kotlin
-dependencies {
-    implementation("tony:tony-core:0.1-SNAPSHOT")
-}
-```
 ```kotlin
 @EnableTonyBoot
 @SpringBootApplication
@@ -79,7 +73,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-### 配置依赖
+### 依赖配置
 在你的项目的 `build.gradle.kts` 文件中引入所需的启动器模块，例如引入 `tony-redis` 模块：
 ```kotlin
 dependencies {

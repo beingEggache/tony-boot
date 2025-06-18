@@ -3,6 +3,28 @@
 
 `tony-web` 是基于 Spring Boot Web 扩展的核心模块，提供标准化的 Web 开发能力，集成了统一响应处理、异常封装、跨域配置及全链路日志追踪等企业级特性。模块通过 Kotlin 语法糖简化开发流程，同时深度整合 Logback 实现高效日志管理。
 
+## 如何使用
+- Java 21 或更高版本
+
+
+在 `build.gradle.kts` 中添加：
+```kotlin
+dependencies {
+    implementation("tony:tony-web:0.1-SNAPSHOT")
+}
+```
+### 启用 `tony-boot-starters`
+在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解，以启用 `tony-boot-starters` 的功能：
+```kotlin
+@EnableTonyBoot
+@SpringBootApplication
+class YourApplication
+
+fun main(args: Array<String>) {
+    org.springframework.boot.run(YourApplication::class.java, *args)
+}
+```
+
 
 ## 核心功能特性
 
@@ -99,23 +121,7 @@
 - **状态映射**：将状态码转换为可读文本（如 404 → `NOT_FOUND`）
 
 
-## 快速开始
 
-### 1. 依赖引入
-在 `build.gradle.kts` 中添加：
-```kotlin
-dependencies {
-    implementation("tony:tony-web:0.1-SNAPSHOT")
-}
-```
-
-### 2. 主类配置
-启用模块功能：
-```kotlin
-@EnableTonyBoot
-@SpringBootApplication
-class YourApplication
-```
 
 ## 配置说明
 

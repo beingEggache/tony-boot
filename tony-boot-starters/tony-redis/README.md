@@ -2,8 +2,29 @@
 
 `tony-redis` 提供统一的 Redis 操作接口和缓存注解，通过标准化的参数处理与 Jackson 类型转换机制简化 Redis 操作，并通过切面实现声明式缓存管理。
 
-
 ## 缓存注解与切面实现
+
+## 如何使用
+- Java 21 或更高版本
+
+
+在 `build.gradle.kts` 中添加：
+```kotlin
+dependencies {
+    implementation("tony:tony-redis:0.1-SNAPSHOT")
+}
+```
+### 启用 `tony-boot-starters`
+在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解，以启用 `tony-boot-starters` 的功能：
+```kotlin
+@EnableTonyBoot
+@SpringBootApplication
+class YourApplication
+
+fun main(args: Array<String>) {
+    org.springframework.boot.run(YourApplication::class.java, *args)
+}
+```
 
 ### 1. 核心注解列表
 通过 `RedisCacheAspect` 切面实现以下注解：

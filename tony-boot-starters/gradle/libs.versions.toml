@@ -29,7 +29,7 @@ springBoot = "3.5.0"
 
 slf4j = "2.0.17"
 
-byteBuddy = "1.17.5"
+byteBuddy = "1.17.6"
 bouncycastle = "1.81"
 
 openFeign = "13.6"

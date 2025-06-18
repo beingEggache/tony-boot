@@ -2,6 +2,28 @@
 
 `tony-mybatis-plus` 是基于 MyBatis-Plus 进行扩展的模块，旨在为项目提供更丰富的数据访问功能和便捷的操作方式。以下是该模块扩展功能的详细介绍。
 
+## 如何使用
+- Java 21 或更高版本
+
+
+在 `build.gradle.kts` 中添加：
+```kotlin
+dependencies {
+    implementation("tony:tony-mybatis-plus:0.1-SNAPSHOT")
+}
+```
+### 启用 `tony-boot-starters`
+在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解，以启用 `tony-boot-starters` 的功能：
+```kotlin
+@EnableTonyBoot
+@SpringBootApplication
+class YourApplication
+
+fun main(args: Array<String>) {
+    org.springframework.boot.run(YourApplication::class.java, *args)
+}
+```
+
 ## 功能特性
 ### 1. 物理删除功能
 在 `BaseDao` 接口中增加了物理删除的方法，支持根据查询条件、ID 以及 ID 列表进行物理删除操作。

@@ -1,6 +1,29 @@
 ## 概述
 `tony-web-crypto` 是一个为 Spring Boot Web 应用提供请求体解密和响应体加密功能的模块。它基于对称加密算法，支持 AES 和 DES 两种加密方式，可对请求和响应的数据进行安全处理，保护数据在传输过程中的安全性。
 
+## 如何使用
+- Java 21 或更高版本
+
+
+在 `build.gradle.kts` 中添加：
+```kotlin
+dependencies {
+    implementation("tony:tony-web-crypto:0.1-SNAPSHOT")
+}
+```
+### 启用 `tony-boot-starters`
+在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解，以启用 `tony-boot-starters` 的功能：
+```kotlin
+@EnableTonyBoot
+@SpringBootApplication
+class YourApplication
+
+fun main(args: Array<String>) {
+    org.springframework.boot.run(YourApplication::class.java, *args)
+}
+```
+
+
 ## 功能特性
 
 ### 1. 请求体解密

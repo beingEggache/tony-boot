@@ -1,6 +1,28 @@
 ## 概述
 `tony-feign` 扩展 Feign ，提供统一的响应、请求拦截器处理机制、日志记录。
 
+## 如何使用
+- Java 21 或更高版本
+
+
+在 `build.gradle.kts` 中添加：
+```kotlin
+dependencies {
+    implementation("tony:tony-feign:0.1-SNAPSHOT")
+}
+```
+### 启用 `tony-boot-starters`
+在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解，以启用 `tony-boot-starters` 的功能：
+```kotlin
+@EnableTonyBoot
+@SpringBootApplication
+class YourApplication
+
+fun main(args: Array<String>) {
+    org.springframework.boot.run(YourApplication::class.java, *args)
+}
+```
+
 ## 功能特性
 
 ### 1. 响应拦截器
