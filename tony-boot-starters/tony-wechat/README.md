@@ -1,30 +1,80 @@
 ## 概述
-`tony-wechat` 是 `tony-boot-starters` 项目中的一个模块，主要提供微信相关功能，如微信支付、微信公众号开发、微信小程序开发等。它通过集成微信的官方 API，为开发者提供了便捷的微信功能调用方式。
 
-## 如何使用
-- Java 21 或更高版本
+`tony-wechat` 是 `tony-boot-starters` 体系下的微信集成模块，支持微信公众号、小程序、微信支付等全场景服务端开发。模块封装了微信官方 API，支持多应用配置、自动 token 管理、支付签名、二维码、菜单、用户信息、消息/支付 XML 处理等，极大简化了企业级微信开发。
 
+---
 
-在 `build.gradle.kts` 中添加：
+## 主要功能
+
+### 1. 多应用配置与自动装配
+
+- 支持多公众号/小程序/商户号配置，灵活适配多业务场景。
+- 自动装配微信 API 客户端、属性提供器、token 管理器。
+
+### 2. 微信公众号/小程序能力
+
+- **签名校验**：一行代码完成微信服务器签名校验。
+- **用户信息获取**：支持 OAuth2 用户授权、用户基本信息获取。
+- **二维码生成**：支持公众号、小程序二维码生成。
+- **菜单管理**：支持自定义菜单创建、删除。
+- **JS-SDK 配置**：自动生成 JS-SDK 所需签名与参数。
+
+### 3. 微信支付能力
+
+- **统一下单**：支持 App、H5、小程序等多端微信支付统一下单。
+- **支付回调验签**：内置支付回调签名校验。
+- **支付参数生成**：一行代码生成前端所需支付参数。
+- **退款、转账**：支持退款、企业付款等扩展能力（如需可自定义扩展）。
+
+### 4. XML 消息/支付处理
+
+- 内置 XML <-> 对象转换工具，支持微信消息、支付通知等 XML 格式数据的解析与生成。
+
+### 5. 典型用法
+
+#### 微信签名验证
+
 ```kotlin
-dependencies {
-    implementation("tony:tony-wechat:0.1-SNAPSHOT")
-}
+val isValid = WechatManager.checkSignature(signature, nonce, timestamp, app)
 ```
-### 启用 `tony-boot-starters`
-在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解，以启用 `tony-boot-starters` 的功能：
+
+#### 获取用户信息
+
 ```kotlin
-@EnableTonyBoot
-@SpringBootApplication
-class YourApplication
-
-fun main(args: Array<String>) {
-    org.springframework.boot.run(YourApplication::class.java, *args)
-}
+val userInfo = WechatManager.userInfo(openId, app)
 ```
 
-### 配置微信属性
-在 `application.properties` 或 `application.yml` 中配置微信相关属性：
+#### 创建二维码
+
+```kotlin
+val qrCode = WechatManager.createQrCode(req, app)
+```
+
+#### 微信支付统一下单
+
+```kotlin
+val payReq = WechatPayManager.unifiedOrderInApp(
+    outTradeNo = "order123",
+    body = "商品描述",
+    totalAmount = 100,
+    ip = "127.0.0.1",
+    notifyUrl = "https://yourdomain.com/pay/notify",
+    app = "your_app"
+)
+```
+
+#### 支付回调验签
+
+```kotlin
+val isValid = WechatPayManager.checkSign(notifyRequest)
+```
+
+---
+
+## 配置说明
+
+在 `application.yml` 配置微信多应用参数：
+
 ```yaml
 wechat:
   token: your_token
@@ -41,32 +91,20 @@ wechat:
       mchSecretKey: app1_mch_secret_key
 ```
 
-### 使用示例
-
-#### 微信签名验证
-```kotlin
-val signature = "your_signature"
-val nonce = "your_nonce"
-val timestamp = "your_timestamp"
-val app = "your_app"
-val isValid = WechatManager.checkSignature(signature, nonce, timestamp, app)
-```
-
-#### 获取微信用户信息
-```kotlin
-val openId = "your_open_id"
-val app = "your_app"
-val userInfo = WechatManager.userInfo(openId, app)
-```
-
-#### 创建微信二维码
-```kotlin
-val req = WechatQrCodeCreateReq(...)
-val app = "your_app"
-val qrCode = WechatManager.createQrCode(req, app)
-```
+---
 
 ## 注意事项
-- 请确保你的项目中已经正确配置了微信的相关属性，包括 `appId`、`appSecret` 等。
-- 在使用微信 API 时，需要注意 API 的调用频率限制和权限要求。
-- 对于微信 XML 数据的处理，建议使用 `tony.wechat.xml` 包下的工具类进行转换。
+
+- 请确保已正确配置微信相关参数（如 appId、appSecret、mchId、mchSecretKey）。
+- 微信支付需在微信商户平台配置 IP 白名单、API 密钥等。
+- 微信接口有调用频率和权限限制，建议做好异常处理与重试机制。
+- XML 数据建议使用 `tony.wechat.xml` 包下工具类进行转换。
+
+---
+
+## 适用场景
+
+- 企业级微信公众号、小程序、微信支付服务端开发
+- 多应用、多商户号统一接入
+- 需要高效、可扩展的微信 API 封装与支付能力的项目
+

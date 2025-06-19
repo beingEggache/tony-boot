@@ -1,18 +1,49 @@
 ## 概述
-`tony-web-auth` 是 `tony-boot-starters` 项目中的一个模块，专注于提供 Web 统一身份验证处理方式。它简化了项目中身份验证的开发流程，通过集成 JWT（JSON Web Token），为应用提供了安全、便捷的身份验证机制。同时，支持灵活配置不需要登录校验的地址，方便开发人员根据实际需求进行定制。
 
-## 如何使用
-- Java 21 或更高版本
+`tony-web-auth` 是 `tony-boot-starters` 体系下的 Web 统一认证模块，专注于为 Spring Boot 应用提供安全、灵活、可扩展的身份认证与登录校验能力。支持 JWT（JSON Web Token）认证、会话扩展、免登录白名单、拦截器自定义等，极大简化了企业级 Web 项目的认证开发。
 
+---
 
-在 `build.gradle.kts` 中添加：
+## 主要功能
+
+### 1. 统一登录校验拦截
+
+- 内置 `LoginCheckInterceptor`，自动拦截所有请求，校验用户登录态。
+- 支持通过注解 `@NoLoginCheck` 标记无需登录校验的 Controller 或方法。
+- 支持配置免登录校验的 URL 白名单（`web.auth.noLoginCheckUrl`）。
+
+### 2. JWT 认证与会话管理
+
+- 默认支持 JWT 认证（需配置 `jwt.secret`），自动解析请求头中的 Token 并校验。
+- 提供 `WebSession` 接口，默认实现包括 `JwtWebSession`（JWT模式）和 `NoopWebSession`（无会话模式）。
+- 可自定义会话实现，支持多租户、扩展用户信息等。
+
+### 3. 拦截器与会话可插拔
+
+- 支持自定义登录校验拦截器：实现 `LoginCheckInterceptor` 并注入 Spring 容器即可。
+- 支持自定义会话实现：实现 `WebSession` 并注入 Spring 容器即可。
+
+### 4. 配置灵活
+
+- 通过配置文件灵活指定免登录校验的 URL。
+- 支持与 `tony-jwt`、`tony-core`、`tony-web` 等模块无缝集成。
+
+---
+
+## 快速开始
+
+### 1. 添加依赖
+
 ```kotlin
 dependencies {
     implementation("tony:tony-web-auth:0.1-SNAPSHOT")
 }
 ```
-### 启用 `tony-boot-starters`
-在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解，以启用 `tony-boot-starters` 的功能：
+
+### 2. 启用模块
+
+在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解：
+
 ```kotlin
 @EnableTonyBoot
 @SpringBootApplication
@@ -23,18 +54,65 @@ fun main(args: Array<String>) {
 }
 ```
 
-### 配置身份验证
-支持通过配置文件设置不需要登录校验的地址。在配置文件中添加以下配置：
+### 3. 配置免登录校验 URL
+
 ```yaml
 web:
   auth:
     noLoginCheckUrl:
-      - "/your-url-1"
-      - "/your-url-2"
+      - "/public/**"
+      - "/health"
 ```
 
-### 自定义拦截器
-如果默认的登录校验拦截器无法满足需求，可以自定义登录校验拦截器。只需创建一个实现 `LoginCheckInterceptor` 接口的类，并在配置类中使用 `@Bean` 注解将其注入到 Spring 容器中.
+### 4. JWT 配置（如需启用 JWT 认证）
 
-### 自定义会话实现
-项目提供了两种默认的会话实现：`NoopWebSession` 和 `JwtWebSession`。如果需要自定义会话实现，只需创建一个实现 `WebSession` 接口的类，并在配置类中使用 `@Bean` 注解将其注入到 Spring 容器中.
+```yaml
+jwt:
+  secret: "your-jwt-secret"
+```
+
+---
+
+## 进阶用法
+
+### 1. 自定义登录校验拦截器
+
+实现 `LoginCheckInterceptor`，并注入 Spring 容器：
+
+```kotlin
+@Bean
+fun customLoginCheckInterceptor(): LoginCheckInterceptor = object : LoginCheckInterceptor {
+    // 自定义 preHandle 逻辑
+}
+```
+
+### 2. 自定义会话实现
+
+实现 `WebSession`，并注入 Spring 容器：
+
+```kotlin
+@Bean
+fun customWebSession(): WebSession = object : WebSession {
+    override val userId: String get() = // 自定义获取逻辑
+    // ...
+}
+```
+
+### 3. 注解免登录校验
+
+在 Controller 或方法上加 `@NoLoginCheck`，可跳过登录校验：
+
+```kotlin
+@NoLoginCheck
+@GetMapping("/public/info")
+fun publicInfo(): String = "无需登录"
+```
+
+---
+
+## 适用场景
+
+- 需要统一登录校验、支持 JWT 的 Spring Boot Web 项目
+- 需要灵活扩展认证方式、会话管理的企业级应用
+- 需要接口免登录白名单、注解灵活控制的场景
+

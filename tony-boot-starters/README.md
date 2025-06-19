@@ -1,96 +1,83 @@
 # tony-boot-starters
 
-`tony-boot-starters`Spring Boot + Kotlin. Java 21、Spring 6.2.7、Spring Boot 3.5.0 和 Kotlin 2.1.21。
+## 项目简介
 
-## 项目结构
+`tony-boot-starters` 是一套面向企业级 Kotlin/Java 项目的 Spring Boot 扩展与集成解决方案，涵盖核心工具、分布式组件、Web 能力、安全认证、加密、第三方服务对接等常用场景。各模块均以 Starter 形式提供，开箱即用，助力团队高效开发、统一规范、快速集成。
 
-- **`tony-dependencies`**：管理项目的依赖，生成Pom, 确保子项目使用统一的依赖版本。
+---
 
+## 目录结构与模块说明
 
-- **`build-script`**：包含自定义的 Gradle 插件，用于项目的构建、发布和部署。
+| 模块名                | 说明                                                         |
+|----------------------|--------------------------------------------------------------|
+| tony-core            | 基础工具包，提供核心工具类、统一枚举序列化、异常处理等        |
+| tony-feign           | Feign 客户端增强，支持全局拦截、日志、异常、认证等            |
+| tony-interfaces      | 统一接口定义与通用响应结构                                     |
+| tony-mybatis-plus    | MyBatis-Plus 增强，自动填充、乐观锁、分页、枚举兼容等         |
+| tony-redis           | Redis Starter，支持多数据源、缓存、分布式锁、序列化等         |
+| tony-web             | Web 通用能力，包含全局异常、参数校验、统一响应、拦截器等      |
+| tony-web-auth        | Web 权限认证，支持 JWT、注解式鉴权、会话管理等                |
+| tony-web-crypto      | Web 请求体解密/响应体加密，注解驱动，支持 AES/DES             |
+| tony-wechat          | 微信公众号/小程序/支付集成，支持多应用、消息、菜单等          |
+| tony-captcha         | 图形验证码生成与校验                                           |
+| tony-alipay          | 支付宝支付能力集成                                            |
+| tony-aliyun-oss      | 阿里云 OSS 对象存储集成                                       |
+| tony-aliyun-sms      | 阿里云短信服务集成                                            |
+| tony-snowflake-id    | 分布式唯一 ID 生成器（雪花算法）                              |
+| tony-knife4j-api     | Knife4j 文档增强                                             |
+| build-script         | Gradle 插件集，统一构建、依赖、代码规范、Docker、发布等        |
+| tony-dependencies    | 依赖版本管理                                                  |
+| tony-dependencies-catalog | 依赖版本 catalog 文件                                      |
 
+---
 
-- **`tony-core`**：核心模快, 统一响应结构, 分页结构, 枚举及枚举验证方式, 异常.加解密工具类, 及其他文本日期工具类.
+## 主要亮点
 
+- **模块化设计**：各模块可独立引入，按需集成，互不强依赖
+- **全链路枚举兼容**：统一枚举序列化/反序列化，兼容 Jackson、Redis、MyBatis-Plus
+- **注解驱动**：如加密、鉴权、参数校验等均支持注解式开发
+- **多环境适配**：支持多数据源、多环境配置，适合复杂企业场景
+- **自动化构建**：内置 Gradle 插件，支持一键构建、发布、镜像、代码规范
+- **丰富的三方集成**：微信、支付宝、阿里云等主流服务一站式对接
 
-- **`tony-interfaces`**：核心注解及接口。
-
-
-- **`tony-web`**： web 统一日志,统一异常处理, 统一响应结构, 统一枚举处理方式。
-
-
-- **`tony-web-auth`**：Web 统一身份验证处理方式。
-
-
-- **`tony-web-crypto`**：Web 加解密请求响应。
-
-
-- **`tony-mybatis-plus`**： 扩展MyBatis-Plus，增加物理删除、统一分页查询, 统一公共字段填充等。
-
-
-- **`tony-feign`**： 扩展OpenFeign, 提供统一解包,统一请求响应拦截器处理。
-
-
-- **`tony-redis`**：Redis，统一调用方式。
-
-
-- **`tony-alipay`**：支付宝 SDK，提供支付宝支付相关功能。
-
-
-- **`tony-wechat`**：微信相关功能，如微信支付等。
-
-
-- **`tony-aliyun-oss`**：集成阿里云 OSS 服务，用于文件存储。
-
-
-- **`tony-aliyun-sms`**：集成阿里云短信服务，用于发送短信。
-
-
-- **`tony-snowflake-id`**：提供雪花算法生成分布式唯一 ID 的功能。
-
-
-- **`tony-knife4j-api`**：集成 Knife4j，用于生成 API 文档，方便开发和测试人员查看和使用 API。
-
-
-- **`tony-jwt`**：集成了 JWT（JSON Web Token）。
-
-
-- **`tony-captcha`**：集成了验证码功能。
+---
 
 ## 快速开始
-### 环境要求
-- Java 21 或更高版本
-- Gradle 7.x 或更高版本
 
-### 启用 `tony-boot-starters`
-```kotlin
-@EnableTonyBoot
-@SpringBootApplication
-class YourApplication
+1. 在你的 Spring Boot 项目中引入所需模块（以 Gradle 为例）：
 
-fun main(args: Array<String>) {
-    org.springframework.boot.run(YourApplication::class.java, *args)
-}
-```
+   ```kotlin
+   implementation(project(":tony-boot-starters:tony-core"))
+   implementation(project(":tony-boot-starters:tony-web"))
+   // 按需添加其他模块
+   ```
 
-### 依赖配置
-在你的项目的 `build.gradle.kts` 文件中引入所需的启动器模块，例如引入 `tony-redis` 模块：
-```kotlin
-dependencies {
-    implementation("tony:tony-redis:0.1-SNAPSHOT")
-}
-```
+2. 按各模块 README 配置相关参数，参考示例代码和注解用法。
 
-## 配置
-### 代码风格配置
-Ktlint 使用 `.editorconfig` 定义具体的规则。
+3. 享受统一、自动化的开发体验！
 
-### 通过 Gradle 启动 Ktlint 任务
-- **`ktlintCheck`**：检查 Kotlin 代码风格：
-```bash
-./gradlew ktlintCheck
-```
-- **`ktlintFormat`**：修复 Kotlin 代码风格：
-```bash
-./gradlew ktlintFormat
-```
+---
+
+## 典型场景
+
+- 企业级多模块项目的统一规范与能力扩展
+- 微服务架构下的通用组件复用
+- 快速集成第三方服务（如微信、支付宝、阿里云等）
+- 需要统一异常、响应、认证、加密、缓存等能力的项目
+
+---
+
+## 文档与支持
+
+- 各模块均内置详细 README.md，包含功能说明、配置方法、典型用法、进阶用法、注意事项等
+- 如需英文文档、定制扩展或遇到问题，欢迎 issue 反馈或联系维护者
+
+---
+
+## 贡献指南
+
+欢迎提交 PR、issue 或建议，共同完善和壮大 tony-boot-starters！
+
+---
+
+如需针对某个模块的详细说明，请查阅对应子目录下的 README.md。

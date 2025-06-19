@@ -1,4 +1,5 @@
 ## 概述
+
 `tony-build` 项目提供了一系列自定义的 Gradle 插件，用于简化项目的构建、依赖管理、代码检查和发布等流程。以下是各个插件的详细介绍、用法、配置和代码示例。
 
 ## 插件列表及使用说明
@@ -24,7 +25,6 @@ templateVersion=1.0.0
 #### 代码示例
 在 `build.gradle.kts` 中获取模板信息：
 ```kotlin
-
 group = templateGroup()
 version = templateVersion()
 ```
@@ -40,7 +40,6 @@ apply(plugin = "tony.gradle.plugin.dep-configurations")
 ```
 插件内部已经定义了一系列依赖排除规则，例如排除某些日志库、Kotlin 标准库变体等。
 
-
 ### 3. `tony.gradle.plugin.ktlint`
 #### 功能描述
 该插件集成了 Ktlint 代码检查工具，用于规范 Kotlin 代码风格。
@@ -52,7 +51,7 @@ apply(plugin = "tony.gradle.plugin.ktlint")
 ```
 
 #### 配置说明
-可以在 `.editorconfig` 中配置 具体规则, 例如:
+可以在 `.editorconfig` 中配置具体规则，例如：
 ```editorconfig
 root = true
 
@@ -77,7 +76,7 @@ ij_kotlin_name_count_to_use_star_import_for_members = 2147483647
 ij_kotlin_packages_to_use_import_on_demand = unset
 ```
 
-插件会自动在项目中添加 Ktlint 任务，可通过以下命令运行代码检查, 或者格式化：
+插件会自动在项目中添加 Ktlint 任务，可通过以下命令运行代码检查或格式化：
 ```sh
 ./gradlew ktlintCheck
 ./gradlew ktlintFormat
@@ -124,3 +123,15 @@ projectName=your-project-name
 ./gradlew dockerBuild
 ./gradlew dockerPush
 ```
+
+## 适用场景
+
+- 多模块、多环境的企业级 Kotlin/Java 项目
+- 需要统一依赖、构建、发布、镜像、代码规范的团队协作开发
+- 需要自动化 CI/CD、DevOps 流程的项目
+
+## 常见问题
+
+- **依赖冲突/排除**：如遇依赖冲突，可通过 `dep-configurations` 插件自动排除或替换。
+- **Docker 构建失败**：请确保 Dockerfile、bootJar 产物、相关参数配置正确。
+- **代码风格检查失败**：请检查 `.editorconfig` 配置和 Ktlint 规则设置。
