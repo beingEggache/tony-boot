@@ -306,7 +306,7 @@ internal class ApiCorsProcessor : DefaultCorsProcessor() {
                 Unit,
                 HttpServletResponse.SC_FORBIDDEN,
                 "Invalid CORS request"
-            ).toJsonString().toByteArray()
+            ).toJsonString().toByteArray(Charsets.UTF_8)
         }
     }
 

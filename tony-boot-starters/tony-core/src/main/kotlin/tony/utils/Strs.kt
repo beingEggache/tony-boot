@@ -45,7 +45,7 @@ import java.util.regex.Pattern
 import org.springframework.util.AntPathMatcher
 
 /**
- * 生成uuid并去掉横杠 “-”，并大写
+ * 生成uuid并去掉横杠 " - "，并大写
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:27
@@ -107,10 +107,14 @@ public fun CharSequence?.equalsIgnoreNullOrEmpty(str: CharSequence?): Boolean =
  * @date 2023/12/08 19:28
  * @since 1.0.0
  */
-public fun Map<String, Any?>.toQueryString(): String =
+public fun Map<String, Any?>.toQueryString(
+    skipNull: Boolean = true,
+    skipEmpty: Boolean = false,
+): String =
     asIterable()
-        .filter { it.value != null }
-        .joinToString("&") { "${it.key}=${it.value}" }
+        .filter { if (skipNull) it.value != null else true }
+        .filter { if (skipEmpty) !it.value.toString().isEmpty() else true }
+        .joinToString("&") { "${it.key}=${it.value ?: ""}" }
 
 /**
  * 将queryString字符串转为map， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
@@ -122,8 +126,14 @@ public fun Map<String, Any?>.toQueryString(): String =
 public fun CharSequence.queryStringToMap(): Map<String, String> =
     toString()
         .split("&")
-        .map { it.split("=") }
-        .associate { it[0] to it[1] }
+        .mapNotNull {
+            val parts = it.split("=")
+            if (parts.size == 2 && parts[0].isNotEmpty()) {
+                parts[0] to parts[1]
+            } else {
+                null // 跳过格式不正确的项
+            }
+        }.toMap()
 
 /**
  * 将queryString字符串转为对象， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
@@ -190,7 +200,7 @@ public fun CharSequence.isMobileNumber(): Boolean =
  * @since 1.0.0
  */
 public fun CharSequence.isNumber(): Boolean =
-    toString().toLongOrNull() != null || toString().toDoubleOrNull() != null
+    runCatching { toString().toBigDecimal() }.isSuccess
 
 /**
  * 字符串转数字

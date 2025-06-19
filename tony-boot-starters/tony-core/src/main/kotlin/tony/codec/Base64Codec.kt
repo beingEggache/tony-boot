@@ -57,7 +57,7 @@ public data object Base64Codec : Codec {
     public fun encodeToStringUrlSafe(src: String): String =
         Base64
             .getUrlEncoder()
-            .encodeToString(src.toByteArray())
+            .encodeToString(src.toByteArray(Charsets.UTF_8))
 
     public fun decodeToStringUrlSafe(src: String): String =
         Base64

@@ -27,8 +27,20 @@
 package tony.feign
 
 /**
- * Feign 工具
+ * Feign 工具方法集合。
+ *
+ * 适用于 Feign/OkHttp 请求体、响应体的内容读取、签名、参数排序等场景。
+ *
+ * 注意事项：
+ * - string()/jsonNode() 读取大文件/流式 body 时可能导致内存占用高，建议仅用于小型文本 body。
+ * - isTextMediaTypes 仅判断常见文本类型，如需支持更多类型可扩展 TEXT_MEDIA_TYPES。
+ * - sortRequestBody/genSign 主要用于签名和参数排序，排序规则需与服务端保持一致。
+ * - 关键方法如 Buffer 读取、JSON 解析等遇到格式错误会抛出异常，建议业务方捕获处理。
+ *
+ * @author tangli
+ * @date 2023/08/02
  */
+
 import com.fasterxml.jackson.databind.JsonNode
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -40,9 +52,11 @@ import tony.utils.md5
 import tony.utils.toJsonString
 
 /**
- * request body string
+ * 读取 RequestBody 内容为字符串。
+ * 注意：大文件/流式 body 可能导致内存占用高，仅建议用于小型文本 body。
  * @receiver [RequestBody]
- * @return
+ * @return 请求体字符串内容
+ * @throws IOException 读取失败时抛出
  */
 public fun RequestBody.string(): String =
     Buffer()
@@ -52,8 +66,10 @@ public fun RequestBody.string(): String =
         }
 
 /**
- * request body 读取成 jackson的 [JsonNode]
- * @return
+ * 读取 RequestBody 内容为 Jackson 的 [JsonNode]。
+ * 注意：大文件/流式 body 可能导致内存占用高，仅建议用于小型 JSON body。
+ * @return [JsonNode]
+ * @throws IOException/JsonParseException 读取或解析失败时抛出
  */
 public fun RequestBody.jsonNode(): JsonNode =
     Buffer()
@@ -65,7 +81,8 @@ public fun RequestBody.jsonNode(): JsonNode =
         }
 
 /**
- * Parsed media
+ * 获取 ResponseBody 的 MediaType。
+ * @return [MediaType] 或 null
  */
 @get:JvmSynthetic
 internal val ResponseBody.parsedMedia: MediaType?
@@ -79,7 +96,8 @@ internal val ResponseBody.parsedMedia: MediaType?
     }
 
 /**
- * Parsed media
+ * 获取 RequestBody 的 MediaType。
+ * @return [MediaType] 或 null
  */
 @get:JvmSynthetic
 internal val RequestBody.parsedMedia: MediaType?
@@ -93,13 +111,16 @@ internal val RequestBody.parsedMedia: MediaType?
     }
 
 /**
- * 是否字符串mime类型
+ * 判断是否为常见文本类型。
  * @param mediaType
+ * @return true 表示为常见文本类型
+ * 注意：如需支持更多类型可扩展 TEXT_MEDIA_TYPES。
  */
 @JvmSynthetic
 internal fun isTextMediaTypes(mediaType: MediaType?) =
     TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 
+// 常见文本类型集合，如需扩展可在此处添加
 private val TEXT_MEDIA_TYPES =
     listOf(
         MediaType.TEXT_XML,
@@ -110,9 +131,11 @@ private val TEXT_MEDIA_TYPES =
     )
 
 /**
- * @see [JsonNode.sortRequestBody]
- * @param timestampStr
- * @return
+ * 对请求体字符串进行字段排序，并加上 timestamp 字段。
+ * 主要用于签名场景，排序规则需与服务端保持一致。
+ * @param timestampStr 时间戳字符串
+ * @return 排序后的 JSON 字符串
+ * @throws Exception 解析或排序失败时抛出
  */
 public fun CharSequence.sortRequestBody(timestampStr: CharSequence): String =
     globalObjectMapper
@@ -120,10 +143,11 @@ public fun CharSequence.sortRequestBody(timestampStr: CharSequence): String =
         .sortRequestBody(timestampStr.toString())
 
 /**
- * 生成简单签名.
- * @param appId
- * @param secret
- * @return
+ * 生成简单签名。
+ * 规则：md5(md5(appId|secret|body)).toUpperCase()
+ * @param appId 应用ID
+ * @param secret 密钥
+ * @return 签名字符串
  */
 public fun CharSequence.genSign(
     appId: CharSequence,
@@ -134,9 +158,10 @@ public fun CharSequence.genSign(
         .uppercase()
 
 /**
- * 请求字段排序. 并将字符串加进请求.
- * @param timestampStr
- * @return
+ * 对 JsonNode 字段排序，并加上 timestamp 字段。
+ * 主要用于签名场景，排序规则需与服务端保持一致。
+ * @param timestampStr 时间戳字符串
+ * @return 排序后的 JSON 字符串
  */
 public fun JsonNode.sortRequestBody(timestampStr: CharSequence): String =
     fieldNames()

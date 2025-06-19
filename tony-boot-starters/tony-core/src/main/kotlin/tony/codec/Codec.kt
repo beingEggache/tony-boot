@@ -64,7 +64,7 @@ public sealed interface Codec {
      * @since 1.0.0
      */
     public fun encodeToByteArray(src: CharSequence): ByteArray =
-        encodeToByteArray(src.toString().toByteArray())
+        encodeToByteArray(src.toString().toByteArray(Charsets.UTF_8))
 
     /**
      * 编码到字节数组
@@ -107,7 +107,7 @@ public sealed interface Codec {
      * @since 1.0.0
      */
     public fun decodeToByteArray(src: CharSequence): ByteArray =
-        decodeToByteArray(src.toString().toByteArray())
+        decodeToByteArray(src.toString().toByteArray(Charsets.UTF_8))
 
     /**
      * 解码为字节数组

@@ -42,7 +42,7 @@ public data object HexCodec : Codec {
     override fun encodeToString(src: CharSequence): String =
         HexFormat
             .of()
-            .formatHex(src.toString().toByteArray())
+            .formatHex(src.toString().toByteArray(Charsets.UTF_8))
 
     override fun decodeToByteArray(src: CharSequence): ByteArray =
         HexFormat.of().parseHex(src)

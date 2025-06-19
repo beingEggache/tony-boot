@@ -34,6 +34,7 @@ package tony.enums
  */
 import com.fasterxml.jackson.annotation.JsonValue
 import java.io.Serializable
+import java.util.concurrent.ConcurrentHashMap
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import tony.utils.asToNotNull
@@ -73,7 +74,7 @@ public const val DEFAULT_INT_VALUE: Int = -1
 public const val DEFAULT_STRING_VALUE: String = ""
 
 @get:JvmSynthetic
-internal val creators = HashMap<Class<*>, EnumCreator<*, *>>()
+internal val creators = ConcurrentHashMap<Class<*>, EnumCreator<*, *>>()
 
 private val logger: Logger = LoggerFactory.getLogger(EnumCreator::class.java)
 

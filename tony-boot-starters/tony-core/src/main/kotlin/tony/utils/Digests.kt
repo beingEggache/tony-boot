@@ -96,7 +96,7 @@ public enum class DigestAlgorithm(
     public fun digest(src: CharSequence): String =
         MessageDigest
             .getInstance(this.name)
-            .digest(src.toString().toByteArray())
+            .digest(src.toString().toByteArray(Charsets.UTF_8))
             .encodeToString(Encoding.HEX)
 
     public companion object : StringEnumCreator(DigestAlgorithm::class.java) {

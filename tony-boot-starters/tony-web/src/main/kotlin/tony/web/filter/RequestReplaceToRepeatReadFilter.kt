@@ -39,8 +39,8 @@ import jakarta.servlet.http.HttpServletResponse
 import jakarta.servlet.http.Part
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import java.util.Collections
 import org.springframework.core.PriorityOrdered
@@ -48,7 +48,6 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 import tony.utils.antPathMatchAny
-import tony.utils.applyIf
 import tony.utils.sanitizedPath
 import tony.web.WebContext
 import tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
@@ -122,30 +121,22 @@ public class RepeatReadRequestWrapper
             initializedParts
 
         private val cachedContent =
-            ByteArrayOutputStream(
-                request
-                    .contentLength
-                    .coerceAtLeast(0)
-            ).applyIf(!isFormPost()) {
-                writeBytes(
-                    request
-                        .inputStream
-                        .readBytes()
-                )
-            }.run {
-                ByteArrayInputStream(toByteArray())
+            if (!isFormPost()) {
+                request.inputStream.readBytes()
+            } else {
+                ByteArray(0)
             }
 
         public val contentAsByteArray: ByteArray
             get() {
-                cachedContent.reset()
-                val bytes = cachedContent.readBytes()
-                cachedContent.reset()
-                return bytes
+                return cachedContent.copyOf()
             }
 
         override fun getInputStream(): ServletInputStream =
             object : ServletInputStream() {
+                private val byteArrayInputStream =
+                    ByteArrayInputStream(cachedContent)
+
                 override fun isReady() =
                     true
 
@@ -153,20 +144,20 @@ public class RepeatReadRequestWrapper
                     Unit
 
                 override fun isFinished() =
-                    cachedContent.available() == 0
+                    byteArrayInputStream.available() == 0
 
                 override fun read() =
-                    cachedContent.read()
+                    byteArrayInputStream.read()
 
                 override fun reset() =
-                    cachedContent.reset()
+                    byteArrayInputStream.reset()
 
                 override fun markSupported() =
-                    cachedContent.markSupported()
+                    byteArrayInputStream.markSupported()
             }
 
         override fun getReader(): BufferedReader =
-            cachedContent.bufferedReader(StandardCharsets.UTF_8)
+            BufferedReader(InputStreamReader(ByteArrayInputStream(cachedContent), StandardCharsets.UTF_8))
 
         private fun isFormPost() =
             contentType in formPostContentTypes &&

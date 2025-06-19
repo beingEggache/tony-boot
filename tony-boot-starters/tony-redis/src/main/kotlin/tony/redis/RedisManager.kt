@@ -69,19 +69,17 @@ public data object RedisManager {
     @JvmStatic
     public fun doInTransaction(callback: Runnable): List<Any?> {
         val redisConnection = RedisConnectionUtils.bindConnection(redisTemplate.requiredConnectionFactory, true)
-        synchronized(redisConnection) {
-            redisConnection.multi()
-            try {
-                callback.run()
-                return redisConnection.exec()
-            } catch (e: Throwable) {
-                redisConnection
-                    .isQueueing
-                    .alsoIf { redisConnection.discard() }
-                throw e
-            } finally {
-                RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
-            }
+        redisConnection.multi()
+        try {
+            callback.run()
+            return redisConnection.exec()
+        } catch (e: Throwable) {
+            redisConnection
+                .isQueueing
+                .alsoIf { redisConnection.discard() }
+            throw e
+        } finally {
+            RedisConnectionUtils.unbindConnection(redisTemplate.requiredConnectionFactory)
         }
     }
 

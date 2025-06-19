@@ -75,7 +75,7 @@ public fun ByteArray.encodeToString(encoding: Encoding): String =
  * @since 1.0.0
  */
 public fun ByteArray.encodeToByteArray(encoding: Encoding): ByteArray =
-    encoding.codec.decodeToByteArray(this)
+    encoding.codec.encodeToByteArray(this)
 
 /**
  * 解码为字符串

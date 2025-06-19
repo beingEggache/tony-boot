@@ -101,12 +101,17 @@ internal class TraceLogFilter(
         response: HttpServletResponse,
         filterChain: FilterChain,
     ) =
-        doFilterTrace(
-            request.toRepeatRead(),
-            ContentCachingResponseWrapper(response),
-            filterChain,
-            LocalDateTime.now()
-        )
+        // 优化：shouldNotFilter 前置判断，避免不必要的包装和性能损耗
+        if (shouldNotFilter(request)) {
+            filterChain.doFilter(request, response)
+        } else {
+            doFilterTrace(
+                request.toRepeatRead(),
+                ContentCachingResponseWrapper(response),
+                filterChain,
+                LocalDateTime.now()
+            )
+        }
 
     @Throws(IOException::class, ServletException::class)
     private fun doFilterTrace(
@@ -125,7 +130,7 @@ internal class TraceLogFilter(
                         .toEpochMilli()
 
             log(request, response, elapsedTime)
-
+            // 确保只调用一次 copyBodyToResponse
             response.copyBodyToResponse()
         }
 
@@ -143,7 +148,7 @@ internal class TraceLogFilter(
                 responseBodyMaxSize
             )
         } catch (e: Exception) {
-            log.error(e.message, e)
+            log.error("Trace log error", e)
         }
 
     override fun shouldNotFilter(request: HttpServletRequest) =
@@ -158,7 +163,7 @@ internal class TraceLogFilter(
 
 /**
  * TraceIdFilter
- *
+ * 负责生成和传递全链路 traceId，便于日志追踪。
  * @author tangli
  * @date 2023/05/25 19:37
  */
