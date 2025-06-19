@@ -10,8 +10,8 @@ RUN java -Djarmode=tools -jar ${WORKDIR}/app.jar extract --layers --destination 
 
 FROM eclipse-temurin:21.0.7_6-jre-alpine-3.21
 
-# 安装时区数据并设置时区
-RUN apk add --no-cache tzdata && \
+# 安装时区和 unzip 工具
+RUN apk add --no-cache tzdata unzip && \
     echo "Asia/Shanghai" > /etc/timezone && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 

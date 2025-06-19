@@ -1,27 +1,32 @@
 #!/bin/sh
 set -e
 
-# 确保日志目录存在
+# Set WORKDIR default if not set
+WORKDIR=${WORKDIR:-/app}
+
+# Ensure log, config, and tmp directories exist
+# ==================== Prepare directories ====================
+echo "==================== Preparing directories ===================="
 mkdir -p ${WORKDIR}/logs ${WORKDIR}/config ${WORKDIR}/tmp
 
-# 安装unzip工具（如果需要）
-if ! command -v unzip > /dev/null 2>&1
-then
-    apk add --no-cache unzip
-fi
+# Note: unzip should be installed in Dockerfile build stage for performance.
+# If unzip is not present, the extraction step will fail with a clear error.
 
-#-XX:+EnableDynamicAgentLoading hide "Java agent has been loaded dynamically" warning.
+# JVM parameter references:
+# -XX:+EnableDynamicAgentLoading hide "Java agent has been loaded dynamically" warning.
 # https://zhuanlan.zhihu.com/p/528949267
-# JVM 参数升级提示工具 https://jacoline.dev/inspect
-# JVM 参数词典：https://chriswhocodes.com
+# JVM parameter upgrade tool: https://jacoline.dev/inspect
+# JVM parameter dictionary: https://chriswhocodes.com
 
-# 当使用nacos 时, 可把以下参数加入到 JVM_DEFAULT_OPTS 或者 JVM_OPTS 中
-#-Djava.io.tmpdir=${WORKDIR}/tmp \
-#-DJM.LOG.PATH=${WORKDIR}/logs/nacos \
-#-DJM.SNAPSHOT.PATH=${WORKDIR}/tmp \
-#-Dcom.alibaba.nacos.naming.cache.dir=${WORKDIR}/tmp \
+# When using nacos, you can add the following parameters to JVM_DEFAULT_OPTS or JVM_OPTS
+# -Djava.io.tmpdir=${WORKDIR}/tmp \
+# -DJM.LOG.PATH=${WORKDIR}/logs/nacos \
+# -DJM.SNAPSHOT.PATH=${WORKDIR}/tmp \
+# -Dcom.alibaba.nacos.naming.cache.dir=${WORKDIR}/tmp \
 
-# 默认JVM参数
+# ==================== Assemble JVM options ====================
+echo "==================== Assembling JVM options ===================="
+# Default JVM options
 JVM_DEFAULT_OPTS="\
 -Djava.io.tmpdir=${WORKDIR}/tmp \
 -DJM.LOG.PATH=${WORKDIR}/logs/nacos \
@@ -43,7 +48,7 @@ JVM_DEFAULT_OPTS="\
 -Dspring.profiles.active=${PROFILE} \
 -Dserver.port=${PORT}"
 
-# 初始化opts变量
+# Initialize opts variable
 opts="${JVM_DEFAULT_OPTS}"
 
 if [ "${ENABLE_ERROR_LOGS}" = 'true' ]
@@ -77,13 +82,13 @@ ${opts} \
 -XX:+PrintInlining"
 fi
 
-# 处理JVM_APPEND_OPTS - 追加到opts
+# Append JVM_APPEND_OPTS if present
 if [ -n "${JVM_APPEND_OPTS}" ]
 then
     opts="${opts} ${JVM_APPEND_OPTS}"
 fi
 
-# 处理JVM_OPTS - 覆盖默认设置（如果需要）
+# Override with JVM_OPTS if present
 if [ -n "${JVM_OPTS}" ]
 then
     opts="${JVM_OPTS}"
@@ -95,14 +100,23 @@ then
     unzip_opts="${unzip_opts} -o"
 fi
 
-# 解压配置文件 到${WORKDIR}/config
+# ==================== Extract configuration files ====================
+echo "==================== Extracting configuration files ===================="
+# Extract config files (*.yml, *.yaml, *.properties) from app.jar to config dir
 if [ -f "${WORKDIR}/app.jar" ]
 then
-    echo "Extracting configuration files..."
-    unzip ${unzip_opts} ${WORKDIR}/app.jar *.yml *.yaml *.properties -d ${WORKDIR}/config || {
-        echo "Warning: Failed to extract configuration files. Continuing without them."
-    }
+    if command -v unzip > /dev/null 2>&1; then
+        echo "Extracting configuration files..."
+        unzip ${unzip_opts} ${WORKDIR}/app.jar *.yml *.yaml *.properties -d ${WORKDIR}/config || {
+            echo "Warning: Failed to extract configuration files. Continuing without them."
+        }
+    else
+        echo "Error: unzip not found. Please ensure unzip is installed in the image."
+        exit 1
+    fi
 fi
 
+# ==================== Start application ====================
+echo "==================== Starting application ===================="
 echo "Starting application with JVM options: ${opts}"
 exec java ${opts} -jar ${WORKDIR}/app.jar
