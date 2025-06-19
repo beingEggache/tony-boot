@@ -159,6 +159,7 @@ configure(libraryProjects) {
         add("kapt", rootProject.tonyLibs.bundles.springBootProcessors)
         add("kaptTest", rootProject.tonyLibs.springContextIndexer)
         add("testImplementation", rootProject.tonyLibs.bundles.test)
+        add("testRuntimeOnly", "org.junit.platform:junit-platform-launcher")
     }
 
     // fix kapt additional-spring-configuration-metadata.json can not process problem

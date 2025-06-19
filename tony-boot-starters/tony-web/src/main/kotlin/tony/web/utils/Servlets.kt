@@ -48,13 +48,17 @@ import tony.utils.ifNull
 import tony.web.WebContext
 
 /**
- * 获取请求根路径, 包含 [HttpServletRequest.getContextPath].
+ * 获取请求根路径，包含 [HttpServletRequest.getContextPath]。
  *
- * 类似 http://www.whatever.com:8080/context-path.
+ * 例如：http://www.whatever.com:8080/context-path。
  *
- * 当端口号为80或443时省略.
+ * 端口号为80或443时省略。
  *
- * @receiver [HttpServletRequest]
+ * @receiver [HttpServletRequest] 当前请求对象
+ * @return [String] 请求根路径
+ * @author tangli
+ * @date 2023/05/25 19:42
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("origin")
@@ -73,13 +77,13 @@ public val HttpServletRequest.origin: String
         }
 
 /**
- * 获取请求根路径, 包含 [HttpServletRequest.getContextPath].
+ * 获取请求根路径，包含 [HttpServletRequest.getContextPath]。
  *
- * 类似 http://www.whatever.com:8080/context-path.
+ * 例如：http://www.whatever.com:8080/context-path。
  *
- * 当端口号为80或443时省略.
+ * 端口号为80或443时省略。
  *
- * @return [String]
+ * @return [String] 请求根路径
  * @author tangli
  * @date 2024/02/06 15:10
  * @since 1.0.0
@@ -88,8 +92,13 @@ public fun origin(): String =
     WebContext.request.origin
 
 /**
- * 请求头
- * @receiver [HttpServletRequest]
+ * 获取所有请求头，返回Map结构。
+ *
+ * @receiver [HttpServletRequest] 当前请求对象
+ * @return [Map]<[String], [String]> 请求头键值对，若同名header有多个值则用逗号拼接
+ * @author tangli
+ * @date 2024/02/06 15:11
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("headers")
@@ -104,8 +113,9 @@ public val HttpServletRequest.headers: Map<String, String>
             }
 
 /**
- * 请求头
- * @return [Map]<[String], [String]>
+ * 获取所有请求头，返回Map结构。
+ *
+ * @return [Map]<[String], [String]> 请求头键值对
  * @author tangli
  * @date 2024/02/06 15:11
  * @since 1.0.0
@@ -114,8 +124,13 @@ public fun requestHeaders(): Map<String, String> =
     WebContext.request.headers
 
 /**
- * 响应头
- * @receiver [HttpServletRequest]
+ * 获取所有响应头，返回Map结构。
+ *
+ * @receiver [HttpServletResponse] 当前响应对象
+ * @return [Map]<[String], [String]> 响应头键值对，若同名header有多个值则用逗号拼接
+ * @author tangli
+ * @date 2024/02/06 15:11
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("headers")
@@ -130,8 +145,9 @@ public val HttpServletResponse.headers: Map<String, String>
             }
 
 /**
- * 响应头
- * @return [Map]<[String], [String]>
+ * 获取所有响应头，返回Map结构。
+ *
+ * @return [Map]<[String], [String]> 响应头键值对
  * @author tangli
  * @date 2024/02/06 15:11
  * @since 1.0.0
@@ -140,46 +156,38 @@ public fun responseHeaders(): Map<String, String> =
     WebContext.response?.headers.ifNull(mapOf())
 
 /**
- * 获取请求ip.
+ * 获取请求IP地址。
  *
- * 针对反向代理的情况, 会依次从 X-Real-IP, X-Forwarded-For, ip 中获取.
- * @receiver [HttpServletRequest]
+ * 优先级依次为 X-Real-IP、X-Forwarded-For、ip header，最后取 remoteAddr。
+ * 适用于反向代理、负载均衡等多层代理场景。
+ *
+ * @receiver [HttpServletRequest] 当前请求对象
+ * @return [String] 客户端真实IP
+ * @note 若 X-Forwarded-For 有多个IP，仅取第一个。
+ * @author tangli
+ * @date 2024/02/06 15:14
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("remoteIp")
 public val HttpServletRequest.remoteIp: String
-    get() {
-        getHeader("X-Real-IP")?.run {
-            if (isNotBlank() && !"unknown".equals(this, true)) {
-                return this
-            }
-        }
-        getHeader("X-Forwarded-For")?.run {
-            if (isNotBlank() && !"unknown".equals(this, true)) {
-                return this
-            }
-        }
-
-        getHeader("ip")?.run {
-            if (isNotBlank() && !"unknown".equals(this, true)) {
-                return this
-            }
-        }
-
-        remoteAddr
-            .takeIf { it.isNotBlank() && it.contains(",") }
-            ?.run {
-                return substring(0, indexOf(",")).trim { it <= ' ' }
-            }
-
-        return remoteAddr
-    }
+    get() =
+        sequenceOf(
+            getHeader("X-Real-IP"),
+            getHeader("X-Forwarded-For")?.split(",")?.firstOrNull(),
+            getHeader("ip"),
+            remoteAddr?.split(",")?.firstOrNull()
+        ).map { it?.trim() }
+            .firstOrNull { !it.isNullOrBlank() && !it.equals("unknown", ignoreCase = true) }
+            ?: remoteAddr.orEmpty()
 
 /**
- * 获取请求ip.
+ * 获取请求IP地址。
  *
- * 针对反向代理的情况, 会依次从 X-Real-IP, X-Forwarded-For, ip 中获取.
- * @return [String]
+ * 优先级依次为 X-Real-IP、X-Forwarded-For、ip header，最后取 remoteAddr。
+ * 适用于反向代理、负载均衡等多层代理场景。
+ *
+ * @return [String] 客户端真实IP
  * @author tangli
  * @date 2024/02/06 15:14
  * @since 1.0.0
@@ -188,8 +196,13 @@ public fun remoteIp(): String =
     WebContext.request.remoteIp
 
 /**
- * Url
- * @receiver [HttpServletRequest]
+ * 获取请求完整URL。
+ *
+ * @receiver [HttpServletRequest] 当前请求对象
+ * @return [URL] 请求的完整URL
+ * @author tangli
+ * @date 2024/02/06 15:14
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("url")
@@ -197,8 +210,9 @@ public val HttpServletRequest.url: URL
     get() = URI(requestURL.toString()).toURL()
 
 /**
- * url
- * @return [URL]
+ * 获取请求完整URL。
+ *
+ * @return [URL] 请求的完整URL
  * @author tangli
  * @date 2024/02/06 15:14
  * @since 1.0.0
@@ -216,16 +230,26 @@ private val TEXT_MEDIA_TYPES =
     )
 
 /**
- * 是否字符串mime类型
- * @param mediaType
- * @return
+ * 判断给定的MediaType是否为常见文本类型（如json、xml、html、plain等）。
+ *
+ * @param mediaType 需要判断的媒体类型
+ * @return [Boolean] 是否为文本类型
+ * @note 可根据实际需求扩展 TEXT_MEDIA_TYPES
+ * @author tangli
+ * @date 2024/02/06 15:15
+ * @since 1.0.0
  */
 public fun isTextMediaTypes(mediaType: MediaType?): Boolean =
     TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 
 /**
- * Is cors request a preflight request.
- * @receiver [HttpServletRequest]
+ * 判断当前请求是否为CORS预检请求（preflight）。
+ *
+ * @receiver [HttpServletRequest] 当前请求对象
+ * @return [Boolean] 是否为预检请求
+ * @author tangli
+ * @date 2024/02/06 15:15
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("isCorsPreflightRequest")
@@ -234,8 +258,9 @@ public val HttpServletRequest.isCorsPreflightRequest: Boolean
         CorsUtils.isPreFlightRequest(this)
 
 /**
- * Is cors request a preflight request.
- * @return [Boolean]
+ * 判断当前请求是否为CORS预检请求（preflight）。
+ *
+ * @return [Boolean] 是否为预检请求
  * @author tangli
  * @date 2024/02/06 15:15
  * @since 1.0.0
@@ -244,8 +269,13 @@ public fun isCorsPreflightRequest(): Boolean =
     WebContext.request.isCorsPreflightRequest
 
 /**
- * Parsed media
- * @receiver [HttpServletRequest]
+ * 获取请求的Content-Type并解析为MediaType。
+ *
+ * @receiver [HttpServletRequest] 当前请求对象
+ * @return [MediaType]? 解析后的媒体类型，若无则为null
+ * @author tangli
+ * @date 2024/02/06 15:37
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("parsedMedia")
@@ -258,8 +288,9 @@ public val HttpServletRequest.parsedMedia: MediaType?
         }
 
 /**
- * Parsed media
- * @return [MediaType]?
+ * 获取请求的Content-Type并解析为MediaType。
+ *
+ * @return [MediaType]? 解析后的媒体类型，若无则为null
  * @author tangli
  * @date 2024/02/06 15:37
  * @since 1.0.0
@@ -268,8 +299,13 @@ public fun requestParsedMedia(): MediaType? =
     WebContext.request.parsedMedia
 
 /**
- * Parsed media
- * @receiver [HttpServletResponse]
+ * 获取响应的Content-Type并解析为MediaType。
+ *
+ * @receiver [HttpServletResponse] 当前响应对象
+ * @return [MediaType]? 解析后的媒体类型，若无则为null
+ * @author tangli
+ * @date 2024/02/06 15:37
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("parsedMedia")
@@ -282,8 +318,9 @@ public val HttpServletResponse.parsedMedia: MediaType?
         }
 
 /**
- * Parsed media
- * @return [MediaType]?
+ * 获取响应的Content-Type并解析为MediaType。
+ *
+ * @return [MediaType]? 解析后的媒体类型，若无则为null
  * @author tangli
  * @date 2024/02/06 15:37
  * @since 1.0.0
@@ -292,8 +329,13 @@ public fun responseParsedMedia(): MediaType? =
     WebContext.response?.parsedMedia
 
 /**
- * Status is 1xx informational
- * @receiver [HttpServletResponse]
+ * 判断响应状态码是否为1xx（信息性响应）。
+ *
+ * @receiver [HttpServletResponse] 当前响应对象
+ * @return [Boolean] 是否为1xx状态
+ * @author tangli
+ * @date 2024/02/06 15:38
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("status1xxInformational")
@@ -304,8 +346,13 @@ public val HttpServletResponse.status1xxInformational: Boolean
             .is1xxInformational
 
 /**
- * Status is 2xx successful
- * @receiver [HttpServletResponse]
+ * 判断响应状态码是否为2xx（成功响应）。
+ *
+ * @receiver [HttpServletResponse] 当前响应对象
+ * @return [Boolean] 是否为2xx状态
+ * @author tangli
+ * @date 2024/02/06 15:38
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("status2xxSuccessful")
@@ -316,8 +363,13 @@ public val HttpServletResponse.status2xxSuccessful: Boolean
             .is2xxSuccessful
 
 /**
- * Status is 3xx redirection
- * @receiver [HttpServletResponse]
+ * 判断响应状态码是否为3xx（重定向响应）。
+ *
+ * @receiver [HttpServletResponse] 当前响应对象
+ * @return [Boolean] 是否为3xx状态
+ * @author tangli
+ * @date 2024/02/06 15:38
+ * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("status3xxRedirection")
@@ -328,12 +380,16 @@ public val HttpServletResponse.status3xxRedirection: Boolean
             .is3xxRedirection
 
 /**
- * 将二进制转为web响应
+ * 将二进制数据包装为Web响应，常用于文件下载。
  *
- * @receiver [ByteArray]
- * @param fileName   文件名
- * @param contentType mime类型
- * @return
+ * @receiver [ByteArray] 文件内容
+ * @param fileName 文件名，默认为空
+ * @param contentType 响应的媒体类型，默认为 application/octet-stream
+ * @return [ResponseEntity]<[ByteArray]> Spring Web响应对象
+ * @note contentType为octet-stream时自动设置为附件下载
+ * @author tangli
+ * @date 2024/02/06 15:39
+ * @since 1.0.0
  */
 public fun ByteArray.responseEntity(
     fileName: String = "",

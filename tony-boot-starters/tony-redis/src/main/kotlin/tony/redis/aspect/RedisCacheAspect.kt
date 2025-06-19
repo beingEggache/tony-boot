@@ -54,9 +54,16 @@ import tony.utils.secondOfTodayRest
 import tony.utils.toJavaType
 
 /**
- * 默认RedisCache实现.
+ * 默认 Redis 缓存切面实现。
  *
- * 给常规的 @Cacheable 加了过期时间.
+ * 通过 AOP 拦截 @RedisCacheable/@RedisCacheEvict 注解，实现方法级别的 Redis 缓存和自动过期。
+ * 支持 SpEL 表达式动态生成缓存 key，支持多种序列化方式（Jackson/Protostuff等）。
+ *
+ * 注意事项：
+ * - 不支持缓存返回类型为日期时间类（如 LocalDateTime、Date 等）的方法。
+ * - 若缓存 key 生成表达式或参数异常，会抛出 ApiException。
+ * - 建议业务方法幂等，避免缓存击穿带来的并发问题。
+ *
  * @author tangli
  * @date 2023/09/28 19:55
  * @since 1.0.0
@@ -66,13 +73,15 @@ public abstract class RedisCacheAspect {
     private val logger: Logger = getLogger()
 
     /**
-     * 表达式解析器
+     * SpEL 表达式解析器。
      */
     private val expressionParser = SpelExpressionParser()
 
     /**
-     * 执行删除缓存
-     * @param [joinPoint] 连接点
+     * 执行缓存删除（@RedisCacheEvict）。
+     *
+     * @param joinPoint AOP 连接点，代表被拦截的方法调用
+     * @throws ApiException 表达式解析或 key 生成异常时抛出
      * @author tangli
      * @date 2023/09/13 19:43
      * @since 1.0.0
@@ -93,10 +102,14 @@ public abstract class RedisCacheAspect {
     }
 
     /**
-     * 缓存
-     * @param [joinPoint] 连接点
-     * @param [annotation] 注解
-     * @return [Any]?
+     * 方法缓存处理（@RedisCacheable）。
+     *
+     * 先查 Redis 缓存，命中则直接返回，否则执行方法并写入缓存。
+     *
+     * @param joinPoint AOP 连接点，代表被拦截的方法调用
+     * @param annotation RedisCacheable 注解实例
+     * @return 方法执行结果或缓存值
+     * @throws ApiException 返回类型为日期时间类或表达式/key 生成异常时抛出
      * @author tangli
      * @date 2023/09/13 19:43
      * @since 1.0.0
@@ -137,11 +150,12 @@ public abstract class RedisCacheAspect {
     }
 
     /**
-     * 获取spel表达式后的结果
+     * 解析 SpEL 表达式，获取参数值或对象属性值。
      *
-     * @param expression  表达式
-     * @param paramMap 参数map
-     * @return 执行spel表达式后的结果
+     * @param expression SpEL 表达式，如 "user.id"
+     * @param paramMap 参数名到参数值的映射
+     * @return 表达式解析后的值
+     * @throws ApiException 表达式解析失败时抛出
      */
     private fun getValueFromParam(
         expression: String,
@@ -166,17 +180,30 @@ public abstract class RedisCacheAspect {
         }
     }
 
+    /**
+     * 获取缓存中的值，并根据返回类型做类型转换。
+     *
+     * 由子类实现，支持不同序列化方式。
+     *
+     * @param cacheKey 缓存 key
+     * @param javaType 返回值类型
+     * @return 缓存中的值，若无则返回 null
+     */
     protected abstract fun getCachedValueByType(
         cacheKey: String,
         javaType: JavaType,
     ): Any?
 
     /**
-     * 生成实际的缓存键名
+     * 生成实际的缓存 key。
+     *
+     * 支持 SpEL 表达式动态拼接参数，若无表达式则直接用模板 key。
+     *
      * @param arguments 方法实际参数
      * @param paramsNames 方法参数名数组
-     * @param cacheKey 缓存键名或缓存键模板
-     * @param expressions 注解上对应的SpEl表达式
+     * @param expressions 注解上的 SpEL 表达式数组
+     * @param cacheKey 缓存 key 模板
+     * @return 最终缓存 key
      */
     private fun cacheKey(
         arguments: Array<Any?>,
@@ -207,9 +234,10 @@ public abstract class RedisCacheAspect {
 }
 
 /**
- * jackson RedisCache实现.
+ * Jackson Redis 缓存切面实现。
  *
- * 给常规的 @Cacheable 加了过期时间.
+ * 支持字符串、数字、布尔、枚举、对象等多种类型的缓存序列化与反序列化。
+ *
  * @author tangli
  * @date 2023/09/28 19:55
  * @since 1.0.0
