@@ -38,7 +38,9 @@ import tony.utils.secureRandom
 /**
  * Redis 操作聚合类单例.
  *
- * @constructor Create empty Redis manager
+ * @author tangli
+ * @date 2023/09/28 19:58
+ * @since 1.0.0
  */
 public data object RedisManager {
     private val logger = LoggerFactory.getLogger(RedisManager::class.java)

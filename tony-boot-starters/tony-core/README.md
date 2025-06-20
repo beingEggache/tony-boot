@@ -51,6 +51,110 @@
 
 > 通过丰富的断言和异常体系，保障了业务代码的健壮性和可维护性。
 
+### JSON 反序列化动态值注入
+`tony-core` 提供了一套强大的 JSON 反序列化动态值注入功能，允许在 Web 请求处理中，将当前登录用户、租户、组织等上下文信息自动注入到 DTO（数据传输对象）中，极大简化了业务代码。
+
+#### 核心组件
+- **`InjectableValueSupplier`**: 值提供者接口，用于定义如何获取动态注入的值。
+- **`InjectableValuesBySupplier`**: `InjectableValues` 的实现，管理所有值提供者，并配置到 Jackson 的 `ObjectMapper` 中。
+- **`@JacksonInject`**: Jackson 官方注解，用于标记 DTO 中需要被注入的字段。
+
+#### 主要用途
+在 Web 请求中，自动将上下文信息（如用户ID、租户ID）注入到请求体绑定的 DTO 对象中，避免在 Controller 或 Service 层手动获取和设置这些值。
+
+#### 用法
+##### 1. 定义值提供者 (`InjectableValueSupplier`)
+创建一个或多个实现 `InjectableValueSupplier` 接口的 Spring Bean，每个 Bean 负责提供一种特定的上下文值。
+
+```kotlin
+@Component // 必须注册为 Spring Bean
+class UserIdInjector : InjectableValueSupplier {
+    // 注入的唯一标识符
+    override val name: String = "userId"
+    // 提供值的逻辑，通常从 WebContext 获取
+    override fun value(property: BeanProperty?, instance: Any?): Any = WebContext.userId
+}
+
+@Component
+class TenantIdInjector : InjectableValueSupplier {
+    override val name: String = "tenantId"
+    override fun value(property: BeanProperty?, instance: Any?): Any = WebContext.tenantId
+}
+```
+
+##### 2. 在 DTO 中标记注入字段
+在 DTO 中，使用 `@field:JacksonInject("...")` 注解标记需要注入的字段，注解的值必须与 `InjectableValueSupplier` 的 `name` 匹配。
+
+```kotlin
+data class CreateOrderRequest(
+    val productId: String,
+    val quantity: Int,
+
+    // 标记 createdBy 字段将由名为 "userId" 的注入器提供值
+    // 注意：被注入的字段必须声明为 lateinit var
+    @field:JacksonInject("userId")
+    lateinit var createdBy: String,
+
+    @field:JacksonInject("tenantId")
+    lateinit var tenantId: String
+)
+```
+
+##### 3. Controller 中直接使用
+当请求到达 Controller 时，`createdBy` 和 `tenantId` 字段会被自动填充，无需任何手动操作。
+
+```kotlin
+@PostMapping("/orders")
+fun createOrder(@RequestBody request: CreateOrderRequest) {
+    // 此时 request.createdBy 和 request.tenantId 已被自动注入
+    orderService.create(request)
+}
+```
+
+#### 进阶用法：自定义注入注解
+为了提高代码的可读性和可维护性，可以创建自定义的注入注解，避免硬编码字符串。
+
+##### 1. 创建自定义注解
+使用 `@JacksonAnnotationsInside` 元注解封装 `@JacksonInject`。
+
+```kotlin
+/**
+ * 自动注入当前登录用户的ID
+ */
+@Target(AnnotationTarget.FIELD, AnnotationTarget.PROPERTY)
+@Retention(AnnotationRetention.RUNTIME)
+@JacksonAnnotationsInside // 关键：告诉Jackson，这个注解内部包含了其他Jackson注解
+@JacksonInject("userId")  // 核心：实际的注入指令
+annotation class InjectUserId
+
+/**
+ * 自动注入当前租户的ID
+ */
+@Target(AnnotationTarget.FIELD, AnnotationTarget.PROPERTY)
+@Retention(AnnotationRetention.RUNTIME)
+@JacksonAnnotationsInside
+@JacksonInject("tenantId")
+annotation class InjectTenantId
+```
+
+##### 2. 在 DTO 中使用自定义注解
+DTO 的定义变得更加清晰、语义化。
+
+```kotlin
+data class CreateOrderRequest(
+    val productId: String,
+    val quantity: Int,
+
+    // 使用自定义注解，可读性更高，无硬编码
+    @field:InjectUserId
+    lateinit var createdBy: String,
+
+    @field:InjectTenantId
+    lateinit var tenantId: String
+)
+```
+> 这种自动注入机制已在框架内部自动配置，开发者只需定义 `InjectableValueSupplier` 并在 DTO 中使用注解即可。
+
 ### 枚举统一序列化与反序列化
 
 - **统一接口**：`tony-core` 定义了 `EnumValue<T>`、`IntEnumValue`、`StringEnumValue` 等全局枚举接口，所有业务枚举只需实现对应接口，即可自动支持统一的序列化与反序列化。

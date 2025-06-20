@@ -2,6 +2,20 @@
 
 `tony-web` 是基于 Spring Boot Web 的核心扩展模块，提供标准化的 Web 开发能力，包括统一响应、全局异常处理、跨域配置、全链路日志追踪、结构化日志输出等企业级特性。模块通过 Kotlin 语法糖简化开发流程，并深度整合 Logback 实现高效日志管理。
 
+## 目录
+- [如何使用](#如何使用)
+- [主要功能](#主要功能)
+  - [统一响应处理](#1-统一响应处理)
+  - [全局异常处理](#2-全局异常处理)
+  - [跨域与安全配置](#3-跨域与安全配置)
+  - [统一日志记录与全链路追踪](#4-统一日志记录与全链路追踪)
+  - [其他能力](#5-其他能力)
+  - [枚举统一序列化与反序列化](#6-枚举统一序列化与反序列化)
+- [配置说明](#配置说明)
+  - [web 配置](#1-web)
+  - [跨域配置](#2-跨域)
+  - [日志配置](#3-日志)
+
 ## 如何使用
 
 - 依赖 Java 21 或更高版本
@@ -32,9 +46,32 @@ fun main(args: Array<String>) {
 
 ### 1. 统一响应处理
 
-- **标准化响应体**：所有接口返回统一格式 `ApiResult<T>`，包含状态码、消息及数据字段。
-- **自动包装机制**：`WrapResponseBodyAdvice` 实现控制器返回值的自动封装，无需手动组装响应对象。
-- **可配置白名单**：支持配置部分接口不自动包装。
+- **`ApiResult<T>` 响应结构**: 提供标准化的响应体，所有接口默认返回统一的 `ApiResult<T>` 格式，包含 `code`、`message`、`data` 等字段，便于前后端协作和统一错误处理。
+
+- **`WrapResponseBodyAdvice` 自动包装**: 智能拦截 Controller 的返回值，自动将其封装到 `ApiResult<T>` 中。开发者只需关注业务数据返回，无需编写重复的包装代码。支持通过 `tony.web.wrap-response-exclude-patterns` 配置白名单，对特定接口（如文件下载、页面渲染）禁用自动包装。
+
+- **`NullValueBeanSerializerModifier` Null值自动处理**: 为了简化前端和其他客户端的处理逻辑，避免因 `null` 值导致客户端出现空指针等异常，框架提供了强大的 `null` 值自动处理机制。开启后，在 JSON 序列化时：
+  - `String` 类型的 `null` 值 -> `""` (空字符串)
+  - `Collection` 或 `Array` 类型的 `null` 值 -> `[]` (空数组)
+  - 其他 `Object` 类型的 `null` 值 -> `{}` (空对象)
+
+  **配置开关**: 此功能默认开启，可通过 `tony.web.fill-response-null-value-enabled` 属性进行控制。
+  ```yaml
+  tony:
+    web:
+      # true: 开启null值自动处理
+      # false: 保留原始null值
+      fill-response-null-value-enabled: true
+  ```
+  **处理前后对比**:
+  - **处理前**:
+    ```json
+    { "username": "tony", "address": null, "tags": null }
+    ```
+  - **处理后**:
+    ```json
+    { "username": "tony", "address": "", "tags": [] }
+    ```
 
 ### 2. 全局异常处理
 
