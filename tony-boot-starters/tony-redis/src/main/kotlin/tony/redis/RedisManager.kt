@@ -33,7 +33,6 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.script.RedisScript
 import tony.exception.ApiException
 import tony.utils.alsoIf
-import tony.utils.secureRandom
 
 /**
  * Redis 操作聚合类单例.
@@ -135,12 +134,12 @@ public data object RedisManager {
         redisTemplate.execute(script, keys, *args.toTypedArray())
 
     /**
-     * redis 分布式锁简单实现.
+     * redis 分布式锁简单实现，支持自旋等待，采用指数退避策略。
      *
-     * @param key
-     * @param timeout    锁过期时间
-     * @param waitTimeout 等待 / 自旋时间
-     * @return
+     * @param key 锁key
+     * @param timeout 锁过期时间（秒）
+     * @param waitTimeout 最大自旋等待时间（毫秒）
+     * @return 是否加锁成功
      */
     @JvmStatic
     public fun lockKey(
@@ -149,20 +148,18 @@ public data object RedisManager {
         waitTimeout: Long,
     ): Boolean {
         val start = System.currentTimeMillis()
+        var sleepTime = 10L // 初始自旋间隔10ms
         while (System.currentTimeMillis() - start < waitTimeout) {
             if (lockKey(key, timeout)) {
                 return true
             }
             try {
-                TimeUnit
-                    .MILLISECONDS
-                    .sleep(
-                        secureRandom
-                            .nextInt(100)
-                            .toLong()
-                    )
+                Thread.sleep(sleepTime)
+                // 指数退避，每次失败后sleep时间*1.5，最大不超过200ms
+                sleepTime = (sleepTime * 1.5).toLong().coerceAtMost(200)
             } catch (e: InterruptedException) {
                 logger.error(e.message, e)
+                Thread.currentThread().interrupt() // 恢复中断状态
             }
         }
         return false
@@ -218,27 +215,43 @@ public data object RedisManager {
         redisTemplate.getExpire(key, timeUnit)
 
     /**
-     * redis 根据 [keyPatterns] 批量删除.
+     * redis 根据 [keyPatterns] 批量删除，支持参数化 batchSize 和 count.
      *
      * @param keyPatterns 可ant匹配
-     * @return The number of keys that were removed. null when used in pipeline / transaction.
+     * @param batchSize 每次批量 DEL 的 key 数量，默认 100
+     * @param count SCAN 每次遍历的 key 数量，默认 1000
+     * @return 实际删除的 key 数量
      */
     @JvmStatic
-    public fun deleteByKeyPatterns(vararg keyPatterns: String): Long =
-        deleteByKeyPatterns(keyPatterns.asList())
+    @JvmOverloads
+    public fun deleteByKeyPatterns(
+        vararg keyPatterns: String,
+        batchSize: Int = 100,
+        count: Int = 1000,
+    ): Long =
+        deleteByKeyPatterns(keyPatterns.asList(), batchSize, count)
 
     /**
-     * redis 根据 [keyPatterns] 批量删除.
+     * redis 根据 [keyPatterns] 批量删除，支持参数化 batchSize 和 count.
      *
      * @param keyPatterns 可ant匹配
-     * @return The number of keys that were removed. null when used in pipeline / transaction.
+     * @param batchSize 每次批量 DEL 的 key 数量，默认 100
+     * @param count SCAN 每次遍历的 key 数量，默认 1000
+     * @return 实际删除的 key 数量
      */
     @JvmStatic
-    public fun deleteByKeyPatterns(keyPatterns: Collection<String>): Long {
+    @JvmOverloads
+    public fun deleteByKeyPatterns(
+        keyPatterns: Collection<String>,
+        batchSize: Int = 100,
+        count: Int = 1000,
+    ): Long {
         if (keyPatterns.isEmpty()) throw ApiException("keyPatterns must not be empty.")
         if (keyPatterns.any { it.isBlank() }) throw ApiException("keyPattern must not be blank.")
+        val args = listOf(batchSize, count)
+
         @Suppress("RedundantNullableReturnType")
-        val result: Long? = redisTemplate.execute(deleteKeyByPatternScript, keyPatterns.toList())
+        val result: Long? = redisTemplate.execute(deleteKeyByPatternScript, keyPatterns.toList(), *args.toTypedArray())
         return result ?: 0L
     }
 

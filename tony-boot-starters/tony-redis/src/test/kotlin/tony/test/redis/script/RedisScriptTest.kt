@@ -24,6 +24,8 @@
 
 package tony.test.redis.script
 
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import tony.redis.RedisManager
 import tony.redis.RedisManager.toRedisScript
 import tony.test.redis.TestRedisApp
@@ -68,6 +70,27 @@ class RedisScriptTest {
         val result =
             RedisManager.executeScript<String>(script.toRedisScript(), listOf("hello", """"aloha""""), listOf("go", "fuck", "yourself"))
         logger.info(result.toString())
+    }
+
+    @Test
+    fun `lockKey should acquire and release lock correctly`() {
+        val key = "test:lock:" + System.currentTimeMillis()
+        val timeout = 5L // 5秒
+
+        // 第一次加锁应该成功
+        val locked = RedisManager.lockKey(key, timeout)
+        assertTrue(locked, "第一次加锁应该成功")
+
+        // 第二次加锁应该失败（锁未过期）
+        val lockedAgain = RedisManager.lockKey(key, timeout)
+        assertFalse(lockedAgain, "锁未释放前不能重复加锁")
+
+        // 等待锁过期
+        Thread.sleep((timeout + 1) * 1000)
+
+        // 锁过期后可以再次加锁
+        val lockedAfterExpire = RedisManager.lockKey(key, timeout)
+        assertTrue(lockedAfterExpire, "锁过期后可以再次加锁")
     }
 
 }
