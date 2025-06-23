@@ -25,7 +25,7 @@ template = "0.1-SNAPSHOT"
 java = "21"
 kotlin = "2.1.21"
 spring = "6.2.8"
-springBoot = "3.5.0"
+springBoot = "3.5.3"
 
 slf4j = "2.0.17"
 
@@ -49,7 +49,7 @@ mybatisPlus = "3.5.12"
 
 guava = "33.4.8-jre"
 
-swagger = "2.2.33"
+swagger = "2.2.34"
 knife4j = "4.6.0"
 springdocStarter = "2.8.9"
 
@@ -237,7 +237,7 @@ logstashLogbackEncoder = { module = "net.logstash.logback:logstash-logback-encod
 mybatisTypehandlersJsr310 = { module = "org.mybatis:mybatis-typehandlers-jsr310", version = "1.0.2" }
 
 xstream = { module = "com.thoughtworks.xstream:xstream", version = "1.4.21" }
-xmlunitCore = { module = "org.xmlunit:xmlunit-core", version = "2.10.2" }
+xmlunitCore = { module = "org.xmlunit:xmlunit-core", version = "2.10.3" }
 
 dom4j = { module = "org.dom4j:dom4j", version = "2.1.4" }
 findbugsJsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }

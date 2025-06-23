@@ -1,0 +1,530 @@
+# Tony Java Monolithic Demo - Java单体应用开发规则
+
+## 项目概述
+Tony Java Monolithic Demo 是一个基于 Java + Spring Boot 的单体应用脚手架，采用分层架构设计，集成企业级开发所需的各种功能，包括用户管理、权限控制、数据访问、缓存等，适合快速开发和原型验证。
+
+## 技术栈
+- **编程语言**: Java 21
+- **构建工具**: Gradle (Kotlin DSL)
+- **核心框架**: Spring Boot 3.5.0+, Spring Framework 6.2.8+
+- **数据库**: MySQL 9.3.0, Redis
+- **ORM**: MyBatis Plus 3.5.12
+- **缓存**: Redis + Spring Cache
+- **API文档**: Knife4j 4.6.0
+- **序列化**: Jackson 2.19.1
+- **安全**: JWT, Spring Security
+- **开发工具**: Lombok 8.10
+
+## 项目结构
+
+### 模块划分
+- **tony-api**: Web层，包含控制器和配置
+- **tony-service**: 业务逻辑层，包含服务实现
+- **tony-dto**: 数据传输对象层
+
+### 分层架构
+```
+┌─────────────────────────────────────────┐
+│              tony-api                   │
+│  (Controller, Config, Interceptor)      │
+├─────────────────────────────────────────┤
+│             tony-service                │
+│        (Business Logic)                 │
+├─────────────────────────────────────────┤
+│              tony-dto                   │
+│        (Data Transfer Objects)          │
+├─────────────────────────────────────────┤
+│             Database Layer              │
+│      (MySQL, Redis, MyBatis Plus)       │
+└─────────────────────────────────────────┘
+```
+
+## 开发规范
+
+### 分层设计原则
+- **表现层**: 处理HTTP请求，参数验证，响应封装
+- **业务层**: 实现业务逻辑，事务管理
+- **数据层**: 数据访问，缓存操作
+- **DTO层**: 数据传输对象，接口契约
+
+### 包结构规范
+```
+tony-api/
+├── src/main/kotlin/tony/{项目名}/
+│   ├── config/            # 配置类
+│   ├── interceptor/       # 拦截器
+│   ├── permission/        # 权限控制
+│   ├── sys/               # 具体功能模块(系统管理)
+│   ├── └── controller/    # 控制器
+│   └── sale/              # 具体功能模块(销售管理)
+│       └── controller/    # 控制器
+├── src/main/resources/
+│   ├── application.yml    # 应用配置
+│   ├── logback-spring.xml # 日志配置
+│   └── static/            # 静态资源
+└── src/test/              # 测试代码
+
+tony-service/
+├── src/main/kotlin/tony/{项目名}/
+│   ├── {模块}/service/         # 业务服务
+│   ├── {模块}/dao/             # 数据访问
+│   ├── {模块}/po/          # 实体类
+│   └── utils/           # 工具类
+└── src/test/            # 测试代码
+
+tony-dto/
+├── src/main/kotlin/tony/{项目名}/
+│   ├── {模块}/dto/req/         # 请求对象
+│   ├── {模块}/dto/resp/        # 响应对象
+│   └── {模块}/dto/enum/        # 枚举
+└── src/test/           # 测试代码
+```
+
+### 命名规范
+- **控制器**: `{功能}Controller` (如: `UserController`)
+- **服务**: `{功能}Service` (如: `UserService`)
+- **数据访问**: `{功能}Repository` (如: `UserRepository`)
+- **映射器**: `{功能}Mapper` (如: `UserMapper`)
+- **实体**: `{功能}` (如: `User`)
+- **DTO**: `{功能}Request/Response` (如: `UserRequest`, `UserResponse`)
+
+## 代码规范
+
+### 控制器层规范
+全部使用HTTP POST方法, 及个别方法使用 GET, 手动控制. url全都写在方法上, 而不是类上, 便于查找及编辑.
+url格式: {模块}/{功能}/{方法}, 不刻板要求符合REST.
+```java
+@RequiredArgsConstructor
+@RestController
+public class UserController {
+
+    private final UserService userService;
+
+    @GetMapping("/sys/user/detail")
+    public UserResp getUser(@Validated @RequestBody UserDetailReq req {
+        UserResponse user = userService.getUser(req);
+        return user;
+    }
+
+    @PostMapping("/sys/user/create")
+    public UserResp createUser(@Validated @RequestBody UserReq req) {
+        UserResponse user = userService.createUser(req);
+        return user;
+    }
+}
+```
+
+### 服务层规范
+```java
+@RequiredArgsConstructor
+@Transactional
+@Service
+public class UserService {
+
+    private final UserDao userDao;
+
+    public UserResp getUser(UserDetailReq req) {
+        User user = userDao.selectByIdNotNull(req.id);
+        return UserResponse.from(user);
+    }
+
+    public UserResp createUser(UserReq req) {
+        // 检查用户名是否已存在
+        if (userDao.existsByUsername(req.getUsername())) {
+            throw new BusinessException("用户名已存在");
+        }
+
+        User user = User.from(request);
+        User savedUser = userDao.save(user);
+        return UserResponse.from(savedUser);
+    }
+}
+```
+
+### 数据访问层规范
+```java
+@Repository
+@Slf4j
+public class UserDao extends BaseDao<User> {
+}
+```
+
+### 实体类规范
+```java
+@TableName("sys_user")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
+
+    private String username;
+
+    private String email;
+
+    private String password;
+
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+
+    @TableLogic
+    private Boolean deleted;
+
+    public static User from(UserRequest request) {
+        return User.builder()
+            .username(request.getUsername())
+            .email(request.getEmail())
+            .password(encryptPassword(request.getPassword()))
+            .build();
+    }
+
+    private static String encryptPassword(String password) {
+        // 密码加密逻辑
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+}
+```
+
+### DTO规范
+```java
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserReq {
+
+    @NotBlank(message = "用户名不能为空")
+    @Size(min = 3, max = 20, message = "用户名长度必须在3-20之间")
+    private String username;
+
+    @NotBlank(message = "邮箱不能为空")
+    @Email(message = "邮箱格式不正确")
+    private String email;
+
+    @NotBlank(message = "密码不能为空")
+    @Size(min = 6, max = 20, message = "密码长度必须在6-20之间")
+    private String password;
+}
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserResp {
+
+    private String userId;
+    private String username;
+    private String email;
+    private LocalDateTime createTime;
+
+    public static UserResponse from(User user) {
+        return UserResponse.builder()
+            .id(user.getId())
+            .username(user.getUsername())
+            .email(user.getEmail())
+            .createTime(user.getCreateTime())
+            .build();
+    }
+}
+```
+
+## 配置管理
+
+### 应用配置
+```yaml
+server:
+  port: 10000
+spring:
+  profiles:
+    default: dev
+  application:
+    name: tony-api
+  datasource:
+    url: jdbc:mysql://localhost:3306/tony_api?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: tony_api
+    password: tony_api
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      password: "123456"
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-not-delete-value: 'null'
+      logic-delete-value: 'CURRENT_TIMESTAMP'
+  configuration:
+    default-executor-type: reuse
+```
+
+### 环境配置
+- **开发环境**: `application-dev.yml`
+- **生产环境**: `application-prod.yml`
+- **测试环境**: `application-test.yml`
+
+### 日志配置
+- 使用 Logback 进行日志管理
+- 按包和级别配置日志输出
+- 支持日志文件轮转
+- 结构化日志格式
+
+## 数据库设计
+
+### 表设计规范
+- 使用下划线命名法
+- 包含基础字段 ({表明}_id,  create_time, creator_id, creator_name, update_time, updator_id, updator_name, delete_time)
+- 使用逻辑删除
+- 合理设计索引
+
+### 实体类注解规范
+```java
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@TableName("sys_user")
+public class User {
+
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
+
+    @TableField("username")
+    private String username;
+
+    @TableField("email")
+    private String email;
+
+    @TableField("password")
+    private String password;
+
+@OrderBy
+    @TableField(
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    private LocalDateTime createTime;
+
+    @TableField(
+        fill = FieldFill.INSERT,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    private String creatorId;
+
+    @TableField(
+        fill = FieldFill.INSERT,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    private String creatorName;
+
+    @TableField(
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER,
+        update = "CURRENT_TIMESTAMP"
+    )
+    private LocalDateTime updateTime;
+
+    @TableField(
+        fill = FieldFill.UPDATE,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    private String updatorId;
+
+    @TableField(
+        fill = FieldFill.UPDATE,
+        insertStrategy = FieldStrategy.NEVER,
+        updateStrategy = FieldStrategy.NEVER
+    )
+    private String updatorName;
+
+    @TableLogic
+    private Boolean deleteTime;
+}
+```
+
+## 安全规范
+
+### 认证授权
+- 使用 JWT 进行身份认证
+- 实现基于角色的权限控制
+- 支持细粒度的权限验证
+- 提供权限拦截器
+
+### 数据安全
+- 密码使用 BCrypt 加密存储
+- 敏感数据脱敏处理
+- 输入参数验证
+- SQL注入防护
+
+### 接口安全
+- 使用 HTTPS 传输
+- 实现接口限流
+- 防止XSS攻击
+- 记录安全审计日志
+
+## 缓存策略
+
+### Redis缓存
+- 缓存热点数据
+- 实现缓存更新策略
+- 支持缓存穿透防护
+- 配置缓存过期时间
+
+### 本地缓存
+- 使用 Caffeine 本地缓存
+- 缓存配置信息
+- 减少数据库访问
+- 提升响应性能
+
+## 异常处理
+
+### 异常分类
+- **业务异常**: 业务逻辑错误
+- **系统异常**: 系统内部错误
+- **参数异常**: 参数验证错误
+- **权限异常**: 权限不足错误
+
+### 全局异常处理
+```java
+@RestControllerAdvice
+@Slf4j
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(BusinessException.class)
+    public ApiResult<Void> handleBusinessException(BusinessException e) {
+        log.warn("业务异常: {}", e.getMessage());
+        return ApiResult.error(e.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ApiResult<Void> handleValidationException(MethodArgumentNotValidException e) {
+        String message = e.getBindingResult().getFieldErrors().stream()
+            .map(FieldError::getDefaultMessage)
+            .collect(Collectors.joining(", "));
+        log.warn("参数验证失败: {}", message);
+        return ApiResult.error(400, message);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ApiResult<Void> handleException(Exception e) {
+        log.error("系统异常", e);
+        return ApiResult.error(500, "系统内部错误");
+    }
+}
+```
+
+## 测试规范
+
+### 单元测试
+- 每个业务方法都要有单元测试
+- 使用 JUnit 5 + Mockito
+- 测试覆盖率 > 80%
+- 测试用例命名清晰
+
+### 集成测试
+- 测试完整的业务流程
+- 测试数据库操作
+- 测试缓存功能
+- 使用测试容器
+
+### API测试
+- 测试所有接口
+- 验证请求参数
+- 检查响应格式
+- 测试异常场景
+
+## 性能优化
+
+### 数据库优化
+- 合理使用索引
+- 避免N+1查询问题
+- 使用分页查询
+- 优化SQL语句
+
+### 缓存优化
+- 缓存热点数据
+- 使用缓存预热
+- 实现缓存更新策略
+- 监控缓存命中率
+
+### 应用优化
+- 使用连接池
+- 合理配置线程池
+- 异步处理耗时操作
+- 优化序列化性能
+
+## 部署规范
+
+### 容器化部署
+- 使用 Docker 容器化
+- 提供 Dockerfile
+- 支持多阶段构建
+- 优化镜像大小
+
+### 环境配置
+- 开发环境: 本地开发
+- 测试环境: 集成测试
+- 生产环境: 生产部署
+
+### 监控告警
+- 集成 Spring Boot Actuator
+- 配置健康检查
+- 设置性能监控
+- 配置告警规则
+
+## 开发流程
+
+### 功能开发流程
+1. 设计数据库表结构
+2. 创建实体类和DTO
+3. 实现数据访问层
+4. 实现业务逻辑层
+5. 实现控制器层
+6. 编写单元测试
+7. 集成测试验证
+8. 性能测试优化
+
+### 代码审查
+- 代码规范检查
+- 业务逻辑审查
+- 安全漏洞检查
+- 性能问题检查
+
+### 版本管理
+- 使用语义化版本号
+- 保持向后兼容性
+- 提供升级指南
+- 支持回滚操作
+
+## Java特有规范
+
+### 注解使用
+- 使用 Lombok 减少样板代码
+- 合理使用 Spring 注解
+- 自定义注解要有明确用途
+- 注解参数要有默认值
+
+### 异常处理
+- 使用受检异常处理可恢复错误
+- 使用运行时异常处理编程错误
+- 异常信息要包含上下文
+- 避免吞掉异常
+
+### 集合使用
+- 优先使用 Java 8+ 的 Stream API
+- 合理选择集合类型
+- 注意集合的线程安全性
+- 避免在循环中修改集合
+
+### 并发处理
+- 使用 CompletableFuture 进行异步处理
+- 合理使用线程池
+- 注意线程安全问题
+- 使用 volatile 和 synchronized 关键字
