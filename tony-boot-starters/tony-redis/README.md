@@ -1,10 +1,31 @@
 ## 概述
 
-`tony-redis` 提供统一的 Redis 操作接口、声明式缓存注解与切面、灵活的缓存键生成和过期策略，支持对象自动序列化、分布式锁、批量操作等能力，极大简化分布式缓存开发。
+`tony-redis` 是 `tony-boot-starters` 体系下的 Redis 缓存集成模块，提供统一的 Redis 操作接口、声明式缓存注解与切面、灵活的缓存键生成和过期策略，支持对象自动序列化、分布式锁、批量操作、事务等能力，极大简化分布式缓存和高并发场景下的数据一致性开发。
+
+## 目录
+
+- [如何使用](#如何使用)
+- [主要功能](#主要功能)
+  - [声明式缓存注解与切面](#1-声明式缓存注解与切面)
+  - [灵活的缓存键与表达式](#2-灵活的缓存键与表达式)
+  - [多样的过期策略](#3-多样的过期策略)
+  - [RedisManager 操作聚合](#4-redismanager-操作聚合)
+  - [分布式锁与事务支持](#5-分布式锁与事务支持)
+  - [多序列化与类型安全](#6-多序列化与类型安全)
+- [配置说明](#配置说明)
+- [使用示例](#使用示例)
+- [进阶用法](#进阶用法)
+- [适用场景](#适用场景)
+- [注意事项](#注意事项)
 
 ## 如何使用
 
-- 依赖 Java 21 或更高版本
+### 环境要求
+- **Java 21** 或更高版本
+- **Spring Boot 3.x**
+- **Redis 6.x/7.x** 推荐
+
+### 添加依赖
 
 在 `build.gradle.kts` 中添加依赖：
 
@@ -14,7 +35,7 @@ dependencies {
 }
 ```
 
-### 启用 `tony-boot-starters`
+### 启用模块
 
 在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解：
 
@@ -56,11 +77,22 @@ fun main(args: Array<String>) {
 - 内置分布式锁实现，支持超时与自旋等待。
 - 支持 Redis 事务操作，保障多步操作的原子性。
 
-### 6. Jackson 序列化与类型安全
+### 6. 多序列化与类型安全
 
 - 默认采用 Jackson 进行对象序列化，支持复杂对象、泛型安全存取。
+- 支持多种序列化模式（如 JDK、STRING、FASTJSON），可自定义切换。
 
-## 注解与用法示例
+## 配置说明
+
+### 基础配置
+
+```yaml
+redis:
+  serializer-mode: JACKSON   # 支持JACKSON、JDK、STRING、FASTJSON等
+  key-prefix: "myapp"
+```
+
+## 使用示例
 
 ### 缓存注解
 
@@ -89,7 +121,7 @@ RedisManager.values.set("user:1", User("1", "张三"), 3600)
 val user: User? = RedisManager.values.get("user:1")
 
 // 原子自增
-val count: Long = RedisManager.values.increment("counter:order", 1)
+val count: Long? = RedisManager.values.increment("counter:order", 1)
 
 // 批量删除
 RedisManager.keys.delete(listOf("user:1", "user:2"))
@@ -108,13 +140,26 @@ val locked = RedisManager.lockKey("lock:order:123", 10)
 fun getOrderDetail(order: Order, user: User): OrderDetail?
 ```
 
-## 进阶特性
+## 进阶用法
 
 - 支持缓存穿透防护（可通过业务返回空对象并缓存）。
 - 支持自定义序列化模式（如切换为字符串、二进制等）。
 - 支持自定义 RedisTemplate 配置与多数据源扩展。
+- 支持 Redis 脚本执行、事务操作、分布式锁自旋等待等高级特性。
 
 ## 适用场景
 
 - 需要声明式缓存、灵活键生成、对象自动序列化的 Spring Boot 项目
 - 需要分布式锁、批量操作、事务保障的企业级应用
+- 高并发数据缓存、复杂对象与泛型数据缓存
+- 需要灵活序列化和多环境支持的项目
+
+## 注意事项
+
+1. **安全配置**：生产环境请务必设置 Redis 密码，避免未授权访问。
+2. **序列化选择**：推荐使用 JACKSON，兼容性和安全性更好。
+3. **缓存穿透**：建议对空值和异常情况做好缓存防护，避免缓存穿透。
+4. **锁粒度**：分布式锁建议按业务合理设计 key，避免死锁和性能瓶颈。
+5. **连接池配置**：高并发场景下建议合理调整连接池参数，避免连接耗尽。
+6. **数据一致性**：缓存与数据库更新需保证原子性，避免脏数据。
+7. **监控与告警**：建议结合 Redis 监控工具，及时发现和处理异常。

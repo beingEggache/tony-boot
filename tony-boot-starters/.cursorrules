@@ -132,8 +132,6 @@ tony-{module}/
 每个模块的 README.md 必须遵循以下统一结构：
 
 ````markdown
-# 模块名称
-
 ## 概述
 
 `tony-{module}` 是 `tony-boot-starters` 体系下的 {功能描述} 模块，{核心价值描述}。{主要解决的问题和适用场景}。
