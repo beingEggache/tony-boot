@@ -307,6 +307,50 @@ public inline fun <reified T> ByteArray.jsonToObj(): T =
     globalObjectMapper.readValue(this)
 
 /**
+ * json到obj.
+ * @receiver [ByteArray]
+ * @param [T] 返回类型
+ * @param [clazz] clazz
+ * @return [T]
+ * @throws [IOException]
+ * @author tangli
+ * @date 2023/09/13 19:22
+ * @since 1.0.0
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
+ */
+@Throws(IOException::class)
+public fun <T> ByteArray.jsonToObj(clazz: Class<T>): T =
+    globalObjectMapper.readValue(this, clazz)
+
+/**
+ * json到obj.
+ * @receiver [ByteArray]
+ * @param [typeReference] TypeReference
+ * @return [T]
+ * @throws [IOException]
+ * @author tangli
+ * @date 2023/11/23 19:36
+ * @since 1.0.0
+ */
+@Throws(IOException::class)
+public fun <T> ByteArray.jsonToObj(typeReference: TypeReference<T>): T =
+    globalObjectMapper.readValue(this, typeReference)
+
+/**
+ * json到obj.
+ * @receiver [ByteArray]
+ * @param [javaType] JavaType
+ * @return [T]
+ * @throws [IOException]
+ * @author tangli
+ * @date 2023/11/23 19:36
+ * @since 1.0.0
+ */
+@Throws(IOException::class)
+public fun <T> ByteArray.jsonToObj(javaType: JavaType): T =
+    globalObjectMapper.readValue(this, javaType)
+
+/**
  * json到obj
  * @receiver [InputStream]
  * @param [T] 返回类型
@@ -320,3 +364,48 @@ public inline fun <reified T> ByteArray.jsonToObj(): T =
 @Throws(IOException::class)
 public inline fun <reified T> InputStream.jsonToObj(): T =
     globalObjectMapper.readValue(this)
+
+
+/**
+ * json到obj.
+ * @receiver [InputStream]
+ * @param [T] 返回类型
+ * @param [clazz] clazz
+ * @return [T]
+ * @throws [IOException]
+ * @author tangli
+ * @date 2023/09/13 19:22
+ * @since 1.0.0
+ * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
+ */
+@Throws(IOException::class)
+public fun <T> InputStream.jsonToObj(clazz: Class<T>): T =
+    globalObjectMapper.readValue(this, clazz)
+
+/**
+ * json到obj.
+ * @receiver [InputStream]
+ * @param [typeReference] TypeReference
+ * @return [T]
+ * @throws [IOException]
+ * @author tangli
+ * @date 2023/11/23 19:36
+ * @since 1.0.0
+ */
+@Throws(IOException::class)
+public fun <T> InputStream.jsonToObj(typeReference: TypeReference<T>): T =
+    globalObjectMapper.readValue(this, typeReference)
+
+/**
+ * json到obj.
+ * @receiver [InputStream]
+ * @param [javaType] JavaType
+ * @return [T]
+ * @throws [IOException]
+ * @author tangli
+ * @date 2023/11/23 19:36
+ * @since 1.0.0
+ */
+@Throws(IOException::class)
+public fun <T> InputStream.jsonToObj(javaType: JavaType): T =
+    globalObjectMapper.readValue(this, javaType)

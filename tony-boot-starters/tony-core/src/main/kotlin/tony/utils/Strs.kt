@@ -149,6 +149,20 @@ public inline fun <reified T> CharSequence.queryStringToObj(): T =
     )
 
 /**
+ * 将queryString字符串转为对象， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
+ * @return [T]
+ * @author tangli
+ * @date 2023/12/08 19:28
+ * @since 1.0.0
+ */
+public fun <T> CharSequence.queryStringToObj(clazz: Class<T>): T =
+    globalObjectMapper.convertValue(
+        toString()
+            .queryStringToMap(),
+        clazz
+    )
+
+/**
  * 当字符串为Null 或者空字符串时 提供默认值.
  * @param [default] 默认值
  * @return [String]

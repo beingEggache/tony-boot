@@ -4,7 +4,7 @@
 Tony Monolithic Demo 是一个基于 Kotlin + Spring Boot 的单体应用脚手架，采用分层架构设计，集成企业级开发所需的各种功能，包括用户管理、权限控制、数据访问、缓存、任务调度等。
 
 ## 技术栈
-- **编程语言**: Kotlin 2.1.21
+- **编程语言**: Kotlin 2.2.0+
 - **构建工具**: Gradle (Kotlin DSL)
 - **核心框架**: Spring Boot 3.5.0+, Spring Framework 6.2.8+
 - **数据库**: MySQL 9.3.0, Redis

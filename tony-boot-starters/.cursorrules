@@ -4,7 +4,7 @@
 Tony Boot Starters 是一个基于 Spring Boot 的通用能力库集合，提供企业级应用开发所需的各种功能模块，包括核心工具、Web框架、数据访问、缓存、认证、第三方服务集成等。
 
 ## 技术栈
-- **编程语言**: Kotlin 2.1.21
+- **编程语言**: Kotlin 2.2.0+
 - **构建工具**: Gradle (Kotlin DSL)
 - **核心框架**: Spring Boot 3.5.0+, Spring Framework 6.2.8+
 - **数据库**: MySQL, PostgreSQL, Redis

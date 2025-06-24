@@ -23,7 +23,7 @@
 [versions]
 template = "0.1-SNAPSHOT"
 java = "21"
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 spring = "6.2.8"
 springBoot = "3.5.3"
 

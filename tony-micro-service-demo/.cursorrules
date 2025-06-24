@@ -4,7 +4,7 @@
 Tony Micro Service Demo 是一个基于 Spring Cloud 的微服务架构示例项目，展示微服务开发的最佳实践，包括服务注册发现、配置管理、服务间通信、负载均衡、熔断降级等功能。
 
 ## 技术栈
-- **编程语言**: Kotlin 2.1.21+
+- **编程语言**: Kotlin 2.2.0+
 - **构建工具**: Gradle (Kotlin DSL)
 - **核心框架**: Spring Boot 3.5.0+, Spring Cloud 2025.0.0
 - **微服务组件**: Spring Cloud Alibaba 2023.0.3.3
