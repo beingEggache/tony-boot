@@ -54,7 +54,7 @@ knife4j = "4.6.0"
 springdocStarter = "2.8.9"
 
 powerjob = "5.1.1"
-vertx = "4.5.15"
+vertx = "4.5.16"
 xnio = "3.8.16.Final"
 
 springCloud = "2025.0.0"
