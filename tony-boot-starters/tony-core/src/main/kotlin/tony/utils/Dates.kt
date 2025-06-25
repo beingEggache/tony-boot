@@ -42,11 +42,11 @@ import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAccessor
 import java.util.Date
 import java.util.Locale
-import java.util.WeakHashMap
+import org.springframework.util.ConcurrentReferenceHashMap
 import tony.exception.ApiException
 
 @get:JvmSynthetic
-internal val dateTimeFormatterMap: WeakHashMap<String, DateTimeFormatter> = WeakHashMap()
+internal val dateTimeFormatterMap: MutableMap<String, DateTimeFormatter> = ConcurrentReferenceHashMap()
 
 @JvmSynthetic
 internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =

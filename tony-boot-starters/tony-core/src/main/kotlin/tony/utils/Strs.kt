@@ -207,7 +207,7 @@ public fun CharSequence.isMobileNumber(): Boolean =
     mobileRegex.matches(this)
 
 /**
- * 字符串是否一个整形
+ * 字符串是否一个数字
  * @return [Boolean]
  * @author tangli
  * @date 2023/12/08 19:29
@@ -262,6 +262,9 @@ public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
 public fun CharSequence?.urlDecode(charset: Charset = Charsets.UTF_8): String =
     URLDecoder.decode(ifNullOrBlank(), charset)
 
+
+@get:JvmSynthetic
+private val lineBreakRegex: Regex = "[${System.lineSeparator()}]".toRegex()
 /**
  * 去掉字符串的换行符[System.lineSeparator]
  * @return [String]
@@ -270,7 +273,7 @@ public fun CharSequence?.urlDecode(charset: Charset = Charsets.UTF_8): String =
  * @since 1.0.0
  */
 public fun CharSequence.removeLineBreak(): String =
-    this.replace("[${System.lineSeparator()}]".toRegex(), "")
+    this.replace(lineBreakRegex, "")
 
 private val antPathMatcher = AntPathMatcher()
 
