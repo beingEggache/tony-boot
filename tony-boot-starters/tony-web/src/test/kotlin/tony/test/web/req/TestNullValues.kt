@@ -28,7 +28,6 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import tony.codec.enums.Encoding
 import java.math.BigDecimal
 import java.math.BigInteger
-import java.nio.CharBuffer
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Date
@@ -60,7 +59,6 @@ data class TestNullValues(
 
     val stringBuffer: StringBuffer? = null,
     val stringBuilder: StringBuilder? = null,
-    val charBuffer: CharBuffer? = null,
     val charSequence: CharSequence? = null,
 
     val date: Date? = null,
