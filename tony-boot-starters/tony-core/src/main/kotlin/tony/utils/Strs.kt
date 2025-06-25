@@ -262,9 +262,9 @@ public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
 public fun CharSequence?.urlDecode(charset: Charset = Charsets.UTF_8): String =
     URLDecoder.decode(ifNullOrBlank(), charset)
 
-
 @get:JvmSynthetic
 private val lineBreakRegex: Regex = "[${System.lineSeparator()}]".toRegex()
+
 /**
  * 去掉字符串的换行符[System.lineSeparator]
  * @return [String]
