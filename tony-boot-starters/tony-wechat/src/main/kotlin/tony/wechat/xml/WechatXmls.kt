@@ -81,7 +81,13 @@ internal class WechatPrintWriter(
 
 /**
  * 一个类对应一个XStream,就没有 Class Alias 冲突问题了
+ * @param [clz] clz
+ * @return [XStream]
+ * @author tangli
+ * @date 2025/06/25 09:28
+ * @since 1.0.0
  */
+@JvmSynthetic
 public fun <T> xStream(clz: Class<T>): XStream =
     xStreamMap.getOrPut(clz) {
         XStream(WechatDriver()).apply {
@@ -95,7 +101,13 @@ public fun <T> xStream(clz: Class<T>): XStream =
 
 /**
  * 针对微信的xml转换
+ * 转换为xml字符串
+ * @return [String]
+ * @author tangli
+ * @date 2025/06/25 09:27
+ * @since 1.0.0
  */
+@JvmSynthetic
 public inline fun <reified T> T?.toXmlString(): String =
     if (this == null) {
         ""
@@ -103,8 +115,41 @@ public inline fun <reified T> T?.toXmlString(): String =
         xStream(T::class.java).toXML(this)
     }
 
-/**.
+/**
  * 针对微信的xml转换
+ * 转换为xml字符串
+ * @param [type] 类型
+ * @return [String]
+ * @author tangli
+ * @date 2025/06/25 09:27
+ * @since 1.0.0
  */
+public fun <T> T?.toXmlString(type: Class<T>): String =
+    if (this == null) {
+        ""
+    } else {
+        xStream(type).toXML(this)
+    }
+
+/**
+ * 针对微信的xml转换
+ * xml到obj
+ * @return [T]
+ * @author tangli
+ * @date 2025/06/25 09:27
+ * @since 1.0.0
+ */
+@JvmSynthetic
 public inline fun <reified T> CharSequence.xmlToObj(): T =
     xStream(T::class.java).fromXML(this.toString()).asToNotNull()
+
+/**
+ * xml到obj
+ * @param [type] 类型
+ * @return [T]
+ * @author tangli
+ * @date 2025/06/25 09:28
+ * @since 1.0.0
+ */
+public fun <T> CharSequence.xmlToObj(type: Class<T>): T =
+    xStream(type).fromXML(this.toString()).asToNotNull()

@@ -1,5 +1,6 @@
 import tony.gradle.plugin.Build.Companion.templateProject
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
@@ -43,22 +44,31 @@ configure(subprojects) {
             languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         }
         compilerOptions {
-            jvmTarget.set(JvmTarget.fromTarget(javaVersion))
-            languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
-            apiVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
-            verbose.set(true)
-            progressiveMode.set(true)
+            jvmTarget = JvmTarget.fromTarget(javaVersion)
+            languageVersion = KotlinVersion.fromVersion(kotlinVersion.substring(0..2))
+            apiVersion= KotlinVersion.fromVersion(kotlinVersion.substring(0..2))
+            jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
+
+            verbose = true
+            progressiveMode = true
+            extraWarnings = true
             // use kotlinc -X get more info.
             freeCompilerArgs.addAll(
-                "-Xjsr305=strict",
-                "-Xjvm-default=all",
+                "-Xconsistent-data-class-copy-visibility",
+                "-Xno-param-assertions",
+                "-Xno-call-assertions",
+
                 "-Xlambdas=indy",
                 "-Xsam-conversions=indy",
+                "-Xstring-concat=indy-with-constants",
+
+                "-Xreport-all-warnings",
+
+                "-Xjsr305=strict",
+                "-Xenhance-type-parameter-types-to-def-not-null",
+
                 "-Xjspecify-annotations=strict",
                 "-Xtype-enhancement-improvements-strict-mode",
-                "-Xenhance-type-parameter-types-to-def-not-null",
-                "-Xextended-compiler-checks",
-                "-java-parameters",
                 // "-Xuse-fast-jar-file-system",
             )
         }

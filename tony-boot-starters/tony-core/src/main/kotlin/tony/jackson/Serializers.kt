@@ -46,7 +46,7 @@ import tony.exception.ApiException
  * 掩模转换器
  */
 @get:JvmSynthetic
-internal val maskConverters: MutableMap<Class<*>, MaskConvertFunc> =
+internal val maskConverters: MutableMap<Class<*>?, MaskConvertFunc> =
     mutableMapOf(
         MobileMaskFun::class.java to MobileMaskFun(),
         NameMaskFun::class.java to NameMaskFun()
@@ -128,8 +128,8 @@ public class MaskSerializer : JsonSerializer<Any>() {
                 .getDeclaredField(gen.outputContext.currentName)
                 .getAnnotation(MaskConverter::class.java)
 
-        val maskType = annotation.value
-        val function = maskConverters[maskType.java] ?: throw ApiException("$maskType converter not found")
+        val maskType = annotation?.value?.java
+        val function = maskConverters[maskType] ?: throw ApiException("$maskType converter not found")
         gen.writeString(function.convert(value.toString()))
     }
 

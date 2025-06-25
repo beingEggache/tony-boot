@@ -364,7 +364,7 @@ public fun JavaType.isDoubleType(): Boolean =
 public fun JavaType.isObjLikeType(): Boolean =
     isMapLikeType ||
         (!isDateTimeLikeType() && !isBooleanType() && !isEnumType) &&
-        (!isArrayType && !isNumberType() && !isStringLikeType())
+        (!isNumberType() && !isStringLikeType() && !isArrayLikeType())
 
 /**
  * 是类似字符串类型

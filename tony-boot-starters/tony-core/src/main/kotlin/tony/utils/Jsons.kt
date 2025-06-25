@@ -365,7 +365,6 @@ public fun <T> ByteArray.jsonToObj(javaType: JavaType): T =
 public inline fun <reified T> InputStream.jsonToObj(): T =
     globalObjectMapper.readValue(this)
 
-
 /**
  * json到obj.
  * @receiver [InputStream]

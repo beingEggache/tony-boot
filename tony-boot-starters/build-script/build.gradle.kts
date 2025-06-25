@@ -48,16 +48,25 @@ kotlin {
         languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
     }
     compilerOptions {
-        jvmTarget.set(JvmTarget.fromTarget(javaVersion))
-        languageVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
-        apiVersion.set(KotlinVersion.fromVersion(kotlinVersion.substring(0..2)))
-        verbose.set(true)
+        jvmTarget = JvmTarget.fromTarget(javaVersion)
+        languageVersion = KotlinVersion.fromVersion(kotlinVersion.substring(0..2))
+        apiVersion = KotlinVersion.fromVersion(kotlinVersion.substring(0..2))
+        verbose = true
         // progressiveMode.set(true)
         // use kotlinc -X get more info.
         freeCompilerArgs.addAll(
+            "-Xconsistent-data-class-copy-visibility",
+            "-Xno-param-assertions",
+            "-Xno-call-assertions",
+
+            "-Xlambdas=indy",
+            "-Xsam-conversions=indy",
+            "-Xstring-concat=indy-with-constants",
+
+            "-Xreport-all-warnings",
+
             "-Xjsr305=strict",
             "-Xjvm-default=all",
-            "-Xlambdas=indy",
         )
     }
 }
