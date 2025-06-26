@@ -67,8 +67,12 @@ public fun uuid(): String =
  */
 public fun CharSequence.isJson(): Boolean =
     try {
-        globalObjectMapper.readTree(this.toString())
-        true
+        if (isNullOrBlank()) {
+            false
+        } else {
+            globalObjectMapper.readTree(this.toString())
+            true
+        }
     } catch (_: JsonProcessingException) {
         false
     }

@@ -34,6 +34,6 @@ package tony.redis.serializer
  */
 public enum class SerializerMode {
     JACKSON,
-    PROTOSTUFF,
-    FURY,
+//    PROTOSTUFF,
+//    FURY,
 }

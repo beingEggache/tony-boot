@@ -159,7 +159,7 @@ public val secureRandom: SecureRandom = SecureRandom()
  * @since 1.0.0
  */
 public fun genRandomInt(digit: Int): Int {
-    require(digit >= 0) { "digit must be positive." }
+    require(digit > 0) { "digit must be positive." }
     if (digit == 1) {
         return secureRandom.nextInt(10)
     }
@@ -176,7 +176,7 @@ public fun genRandomInt(digit: Int): Int {
  * @since 1.0.0
  */
 public fun genRandomLong(digit: Int): Long {
-    require(digit >= 0) { "digit must be positive." }
+    require(digit > 0) { "digit must be positive." }
     if (digit == 1) {
         return secureRandom.nextLong(10)
     }
