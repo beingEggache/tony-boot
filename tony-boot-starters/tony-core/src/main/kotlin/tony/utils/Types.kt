@@ -292,7 +292,13 @@ public fun JavaType.isBooleanType(): Boolean =
  * @since 1.0.0
  */
 public fun JavaType.isNumberType(): Boolean =
-    isTypeOrSubTypeOf(Number::class.java)
+    isIntType() ||
+        isLongType() ||
+        isDoubleType() ||
+        isFloatType() ||
+        isByteType() ||
+        isShortType() ||
+        isTypeOrSubTypeOf(Number::class.java)
 
 /**
  * 是字节类型

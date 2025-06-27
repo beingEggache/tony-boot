@@ -26,17 +26,18 @@ package tony.test.utils
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.slf4j.LoggerFactory
 import tony.utils.*
 
 /**
  * Annos 工具类单元测试
- * @author tangli
- * @date 2024/06/10
+ * @author AI
+ * @date 2024/06/09
+ * @since 1.0.0
  */
-object AnnosTest {
-    private val logger = LoggerFactory.getLogger(AnnosTest::class.java)
+@DisplayName("Annos测试")
+class AnnosTest {
 
     @Retention(AnnotationRetention.RUNTIME)
     @MustBeDocumented
@@ -49,52 +50,103 @@ object AnnosTest {
         var name: String = "tony"
     }
 
-    @Test
-    @DisplayName("annotationFromSelfOrGetterOrSetter 注解查找测试")
-    fun testAnnotationFromSelfOrGetterOrSetter() {
-        logger.info("测试 annotationFromSelfOrGetterOrSetter 注解查找")
-        val field = Demo::class.java.getDeclaredField("name")
-        val anno = field.annotationFromSelfOrGetterOrSetter(MyAnno::class.java)
-        assertNotNull(anno)
-        assertEquals("field", anno?.value)
+    @Nested
+    @DisplayName("Annos.annotationFromSelfOrGetterOrSetter()测试")
+    inner class AnnotationFromSelfOrGetterOrSetterTest {
+        @Test
+        @DisplayName("Annos.annotationFromSelfOrGetterOrSetter():注解查找")
+        fun testAnnotationFromSelfOrGetterOrSetter() {
+            val field = Demo::class.java.getDeclaredField("name")
+            val anno = field.annotationFromSelfOrGetterOrSetter(MyAnno::class.java)
+            assertNotNull(anno)
+            assertEquals("field", anno?.value)
+        }
     }
 
-    @Test
-    @DisplayName("hasAnnotation 注解判定测试")
-    fun testHasAnnotation() {
-        logger.info("测试 hasAnnotation 注解判定")
-        val field = Demo::class.java.getDeclaredField("name")
-        assertTrue(field.hasAnnotation(MyAnno::class.java))
-        val method = Demo::class.java.getMethod("getName")
-        assertTrue(method.hasAnnotation(MyAnno::class.java))
-        assertFalse(Demo::class.java.hasAnnotation(MyAnno::class.java))
+    @Nested
+    @DisplayName("Annos.hasAnnotation()测试")
+    inner class HasAnnotationTest {
+        @Test
+        @DisplayName("Annos.hasAnnotation():字段注解判定")
+        fun testHasAnnotationOnField() {
+            val field = Demo::class.java.getDeclaredField("name")
+            assertTrue(field.hasAnnotation(MyAnno::class.java))
+        }
+
+        @Test
+        @DisplayName("Annos.hasAnnotation():方法注解判定")
+        fun testHasAnnotationOnMethod() {
+            val method = Demo::class.java.getMethod("getName")
+            assertTrue(method.hasAnnotation(MyAnno::class.java))
+        }
+
+        @Test
+        @DisplayName("Annos.hasAnnotation():类注解判定")
+        fun testHasAnnotationOnClass() {
+            assertFalse(Demo::class.java.hasAnnotation(MyAnno::class.java))
+        }
     }
 
-    @Test
-    @DisplayName("annotation 注解获取测试")
-    fun testAnnotation() {
-        logger.info("测试 annotation 注解获取")
-        val field = Demo::class.java.getDeclaredField("name")
-        val anno = field.annotation(MyAnno::class.java)
-        assertNotNull(anno)
-        val method = Demo::class.java.getMethod("getName")
-        val anno2 = method.annotation(MyAnno::class.java)
-        assertNotNull(anno2)
-        val anno3 = Demo::class.java.annotation(MyAnno::class.java)
-        assertNull(anno3)
+    @Nested
+    @DisplayName("Annos.annotation()测试")
+    inner class AnnotationTest {
+        @Test
+        @DisplayName("Annos.annotation():字段注解获取")
+        fun testAnnotationOnField() {
+            val field = Demo::class.java.getDeclaredField("name")
+            val anno = field.annotation(MyAnno::class.java)
+            assertNotNull(anno)
+        }
+
+        @Test
+        @DisplayName("Annos.annotation():方法注解获取")
+        fun testAnnotationOnMethod() {
+            val method = Demo::class.java.getMethod("getName")
+            val anno = method.annotation(MyAnno::class.java)
+            assertNotNull(anno)
+        }
+
+        @Test
+        @DisplayName("Annos.annotation():类注解获取")
+        fun testAnnotationOnClass() {
+            val anno = Demo::class.java.annotation(MyAnno::class.java)
+            assertNull(anno)
+        }
     }
 
-    @Test
-    @DisplayName("注解边界与异常测试")
-    fun testAnnotationEdgeCases() {
-        logger.info("测试注解工具类边界与异常")
-        // 非注解字段/方法
-        class NoAnno { var x: Int = 1; fun getter() = x }
-        val field = NoAnno::class.java.getDeclaredField("x")
-        assertNull(field.annotationFromSelfOrGetterOrSetter(MyAnno::class.java))
-        assertFalse(field.hasAnnotation(MyAnno::class.java))
-        val method = NoAnno::class.java.getMethod("getX")
-        assertNull(method.annotation(MyAnno::class.java))
-        assertFalse(method.hasAnnotation(MyAnno::class.java))
+    @Nested
+    @DisplayName("Annos边界与异常测试")
+    inner class EdgeCasesTest {
+        @Test
+        @DisplayName("Annos.annotationFromSelfOrGetterOrSetter():无注解字段")
+        fun testAnnotationFromSelfOrGetterOrSetterWithNoAnnotation() {
+            class NoAnno { var x: Int = 1 }
+            val field = NoAnno::class.java.getDeclaredField("x")
+            assertNull(field.annotationFromSelfOrGetterOrSetter(MyAnno::class.java))
+        }
+
+        @Test
+        @DisplayName("Annos.hasAnnotation():无注解字段")
+        fun testHasAnnotationWithNoAnnotation() {
+            class NoAnno { var x: Int = 1 }
+            val field = NoAnno::class.java.getDeclaredField("x")
+            assertFalse(field.hasAnnotation(MyAnno::class.java))
+        }
+
+        @Test
+        @DisplayName("Annos.annotation():无注解方法")
+        fun testAnnotationWithNoAnnotation() {
+            class NoAnno { fun getter() = 1 }
+            val method = NoAnno::class.java.getMethod("getter")
+            assertNull(method.annotation(MyAnno::class.java))
+        }
+
+        @Test
+        @DisplayName("Annos.hasAnnotation():无注解方法")
+        fun testHasAnnotationWithNoAnnotationMethod() {
+            class NoAnno { fun getter() = 1 }
+            val method = NoAnno::class.java.getMethod("getter")
+            assertFalse(method.hasAnnotation(MyAnno::class.java))
+        }
     }
-}
+} 

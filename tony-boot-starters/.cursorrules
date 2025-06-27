@@ -107,12 +107,134 @@ tony-{module}/
 
 ## 测试规范
 
+### 单元测试规范
+
+#### 测试类命名规范
+- **测试类命名**：`文件名测试`（如：`FuncsTest`）
+- **@DisplayName**：`文件名测试`（如：`@DisplayName("Funcs测试")`）
+
+#### @Nested分组规范
+- **@Nested类命名**：使用`inner class`，便于访问外部成员
+- **@DisplayName格式**：`类名/文件名.方法名()测试`
+  - 例如：`@DisplayName("Funcs.notEquals()测试")`
+  - 例如：`@DisplayName("Funcs.ifNull()测试")`
+- **推荐以"功能/场景"为分组依据**：对于功能丰富、场景多样的工具类，优先按"功能/场景"分组（如"边界情况"、"性能测试"、"toBigDecimal相关"），提升可维护性和可读性，便于参数化和扩展。若方法极为独立、测试点少，也可采用"方法名/扩展点"为分组。
+
+#### 测试方法命名规范
+- **@DisplayName格式**：`类名/文件名.方法名():分支/边界/异常/或为空`
+  - 例如：`@DisplayName("Funcs.notEquals():不相等")`
+  - 例如：`@DisplayName("Funcs.ifNull():非null值")`
+  - 例如：`@DisplayName("Funcs.throwIfTrue():条件为真")`
+
+#### 参数化测试规范
+- **适用场景**：参数条件分支众多的方法
+- **注解组合**：`@ParameterizedTest` + `@ValueSource`
+- **示例**：
+```kotlin
+@ParameterizedTest
+@ValueSource(strings = ["hello", "world", "test"])
+@DisplayName("Funcs.notEquals():不相等")
+fun testNotEqualsWhenDifferent(value: String) {
+    // 测试逻辑
+}
+```
+
+#### 测试结构规范
+```kotlin
+@DisplayName("Funcs测试")
+class FuncsTest {
+    
+    // 测试用的数据类（避免在inner class中定义data class）
+    data class TestData(var value: String = "initial")
+    
+    @Nested
+    @DisplayName("Funcs.方法名()测试")
+    inner class MethodNameTest {
+        
+        @Test
+        @DisplayName("Funcs.方法名():分支1")
+        fun testMethodNameBranch1() {
+            // 测试逻辑
+        }
+        
+        @ParameterizedTest
+        @ValueSource(strings = ["value1", "value2", "value3"])
+        @DisplayName("Funcs.方法名():参数化测试")
+        fun testMethodNameParameterized(value: String) {
+            // 测试逻辑
+        }
+    }
+}
+```
+
+#### 测试覆盖规范
+- **主功能测试**：正常流程和主要分支
+- **边界测试**：边界值、极值、空值等
+- **异常测试**：异常情况、错误输入等
+- **性能测试**：必要时进行性能验证
+- **并发测试**：必要时进行并发安全性验证
+
+#### 断言规范
+- **每个@Test只测一个分支**：避免在一个测试方法中测试多个不同场景
+- **使用合适的断言**：`assertEquals`、`assertTrue`、`assertNull`、`assertThrows`等
+- **移除无用日志**：测试中不应该有`println`等调试输出
+- **无虚增测试**：每个测试都应该有实际意义，不为了覆盖率而写无意义的测试
+
+#### 依赖管理规范
+- **Mock外部依赖**：使用Mockito等工具模拟外部服务
+- **避免真实环境**：测试不应该依赖真实的数据库、网络等
+- **测试数据隔离**：每个测试应该有独立的测试数据
+
+#### 代码质量规范
+- **中文注释**：使用中文注释，保持简洁明了
+- **方法文档**：复杂测试方法需要文档注释
+- **代码格式化**：遵循Kotlin/Java编码规范
+- **静态分析**：通过Ktlint等工具检查代码质量
+
+#### 测试执行规范
+- **快速执行**：测试应该能够快速执行完成
+- **独立执行**：测试之间不应该有依赖关系
+- **可重复执行**：测试结果应该是一致的
+- **自动化集成**：集成到CI/CD流程中
+
+### 测试包结构规范
+
+#### 测试文件组织
+```
+tony-{module}/
+├── src/test/kotlin/tony/test/{module}/
+│   ├── config/          # 配置类测试
+│   ├── annotation/      # 注解测试
+│   ├── exception/       # 异常类测试
+│   ├── utils/          # 工具类测试
+│   └── {feature}/      # 功能实现测试
+├── src/test/resources/
+│   ├── application-test.yml # 测试配置
+│   └── data/           # 测试数据文件
+└── src/test/java/      # Java测试代码（如需要）
+```
+
+#### 测试包命名规范
+- **测试包名**：`tony.test.{模块名}.{功能包名}`
+- **示例**：
+  - `tony.test.core.utils` - 核心工具类测试
+  - `tony.test.redis.service` - Redis服务测试
+  - `tony.test.web.config` - Web配置测试
+  - `tony.test.mybatis.mapper` - MyBatis映射器测试
+
+#### 测试文件命名规范
+- **测试文件命名**：`{被测试类名}Test.kt`
+- **示例**：
+  - `FuncsTest.kt` - 测试Funcs工具类
+  - `RedisServiceTest.kt` - 测试RedisService
+  - `JwtConfigTest.kt` - 测试JwtConfig配置类
+
 ### 单元测试
 - 每个公共方法都要有单元测试
 - 使用 JUnit 5 + Mockito
 - 测试覆盖率 > 80%
 - 测试用例命名清晰明了
-- 单元测试包名 tony.test.{功能名}.{模块名}
+- 单元测试包名 `tony.test.{功能名}.{模块名}`
 
 ### 集成测试
 - 测试自动配置是否正确加载

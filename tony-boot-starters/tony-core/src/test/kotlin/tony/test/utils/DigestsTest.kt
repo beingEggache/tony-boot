@@ -1,33 +1,11 @@
-/*
- * MIT License
- *
- * Copyright (c) 2023-present, tangli
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package tony.test.utils
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.slf4j.LoggerFactory
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import tony.utils.*
 
 /**
@@ -36,300 +14,393 @@ import tony.utils.*
  * @date 2024/06/09
  * @since 1.0.0
  */
-object DigestsTest {
+@DisplayName("Digests测试")
+class DigestsTest {
 
-    private val logger = LoggerFactory.getLogger(DigestsTest::class.java)
+    @Nested
+    @DisplayName("CharSequence.md5()测试")
+    inner class Md5Test {
+        @ParameterizedTest
+        @ValueSource(strings = ["hello", "world", "test", "Tony测试123!@#"])
+        @DisplayName("CharSequence.md5():正常字符串")
+        fun testMd5WithNormalString(value: String) {
+            val md5Result = value.md5()
 
-    // ==================== md5() 方法测试 ====================
+            assertNotNull(md5Result)
+            assertEquals(32, md5Result.length)
+            assertTrue(md5Result.all { it.isLetterOrDigit() })
+        }
 
-    @Test
-    @DisplayName("md5()方法测试")
-    fun testMd5() {
-        logger.info("测试md5()方法")
-        
-        val testString = "Tony测试123!@#"
-        val md5Result = testString.md5()
-        
-        logger.info("原始字符串: '{}'", testString)
-        logger.info("MD5结果: {}", md5Result)
-        
-        assertNotNull(md5Result)
-        assertTrue(md5Result.length == 32)
-        assertTrue(md5Result.all { it.isLetterOrDigit() })
-        
-        // 测试相同字符串产生相同MD5
-        val md5Result2 = testString.md5()
-        logger.info("第二次MD5结果: {}", md5Result2)
-        assertEquals(md5Result, md5Result2)
-        
-        // 测试空字符串
-        val emptyMd5 = "".md5()
-        logger.info("空字符串MD5: '{}' -> {}", "", emptyMd5)
-        assertNotNull(emptyMd5)
-        assertTrue(emptyMd5.length == 32)
+        @Test
+        @DisplayName("CharSequence.md5():相同字符串")
+        fun testMd5WithSameString() {
+            val testString = "Tony测试123!@#"
+            val md5Result1 = testString.md5()
+            val md5Result2 = testString.md5()
+            assertEquals(md5Result1, md5Result2)
+        }
+
+        @Test
+        @DisplayName("CharSequence.md5():空字符串")
+        fun testMd5WithEmptyString() {
+            val emptyMd5 = "".md5()
+            assertNotNull(emptyMd5)
+            assertEquals(32, emptyMd5.length)
+        }
+
+        @Test
+        @DisplayName("CharSequence.md5():StringBuilder")
+        fun testMd5WithStringBuilder() {
+            val stringBuilder = StringBuilder("Tony测试123!@#")
+            val md5Result = stringBuilder.md5()
+
+            assertNotNull(md5Result)
+            assertEquals(32, md5Result.length)
+        }
+
+        @Test
+        @DisplayName("CharSequence.md5():StringBuffer")
+        fun testMd5WithStringBuffer() {
+            val stringBuffer = StringBuffer("Tony测试123!@#")
+            val md5Result = stringBuffer.md5()
+
+            assertNotNull(md5Result)
+            assertEquals(32, md5Result.length)
+        }
     }
 
-    // ==================== sha1() 方法测试 ====================
+    @Nested
+    @DisplayName("CharSequence.sha1()测试")
+    inner class Sha1Test {
+        @ParameterizedTest
+        @ValueSource(strings = ["hello", "world", "test", "Tony测试123!@#"])
+        @DisplayName("CharSequence.sha1():正常字符串")
+        fun testSha1WithNormalString(value: String) {
+            val sha1Result = value.sha1()
 
-    @Test
-    @DisplayName("sha1()方法测试")
-    fun testSha1() {
-        logger.info("测试sha1()方法")
-        
-        val testString = "Tony测试123!@#"
-        val sha1Result = testString.sha1()
-        
-        logger.info("原始字符串: '{}'", testString)
-        logger.info("SHA1结果: {}", sha1Result)
-        
-        assertNotNull(sha1Result)
-        assertTrue(sha1Result.length == 40)
-        assertTrue(sha1Result.all { it.isLetterOrDigit() })
-        
-        // 测试相同字符串产生相同SHA1
-        val sha1Result2 = testString.sha1()
-        logger.info("第二次SHA1结果: {}", sha1Result2)
-        assertEquals(sha1Result, sha1Result2)
-        
-        // 测试空字符串
-        val emptySha1 = "".sha1()
-        logger.info("空字符串SHA1: '{}' -> {}", "", emptySha1)
-        assertNotNull(emptySha1)
-        assertTrue(emptySha1.length == 40)
+            assertNotNull(sha1Result)
+            assertEquals(40, sha1Result.length)
+            assertTrue(sha1Result.all { it.isLetterOrDigit() })
+        }
+
+        @Test
+        @DisplayName("CharSequence.sha1():相同字符串")
+        fun testSha1WithSameString() {
+            val testString = "Tony测试123!@#"
+            val sha1Result1 = testString.sha1()
+            val sha1Result2 = testString.sha1()
+            assertEquals(sha1Result1, sha1Result2)
+        }
+
+        @Test
+        @DisplayName("CharSequence.sha1():空字符串")
+        fun testSha1WithEmptyString() {
+            val emptySha1 = "".sha1()
+            assertNotNull(emptySha1)
+            assertEquals(40, emptySha1.length)
+        }
+
+        @Test
+        @DisplayName("CharSequence.sha1():StringBuilder")
+        fun testSha1WithStringBuilder() {
+            val stringBuilder = StringBuilder("Tony测试123!@#")
+            val sha1Result = stringBuilder.sha1()
+
+            assertNotNull(sha1Result)
+            assertEquals(40, sha1Result.length)
+        }
+
+        @Test
+        @DisplayName("CharSequence.sha1():StringBuffer")
+        fun testSha1WithStringBuffer() {
+            val stringBuffer = StringBuffer("Tony测试123!@#")
+            val sha1Result = stringBuffer.sha1()
+
+            assertNotNull(sha1Result)
+            assertEquals(40, sha1Result.length)
+        }
     }
 
-    // ==================== sha256() 方法测试 ====================
+    @Nested
+    @DisplayName("CharSequence.sha256()测试")
+    inner class Sha256Test {
+        @ParameterizedTest
+        @ValueSource(strings = ["hello", "world", "test", "Tony测试123!@#"])
+        @DisplayName("CharSequence.sha256():正常字符串")
+        fun testSha256WithNormalString(value: String) {
+            val sha256Result = value.sha256()
 
-    @Test
-    @DisplayName("sha256()方法测试")
-    fun testSha256() {
-        logger.info("测试sha256()方法")
-        
-        val testString = "Tony测试123!@#"
-        val sha256Result = testString.sha256()
-        
-        logger.info("原始字符串: '{}'", testString)
-        logger.info("SHA256结果: {}", sha256Result)
-        
-        assertNotNull(sha256Result)
-        assertTrue(sha256Result.length == 64)
-        assertTrue(sha256Result.all { it.isLetterOrDigit() })
-        
-        // 测试相同字符串产生相同SHA256
-        val sha256Result2 = testString.sha256()
-        logger.info("第二次SHA256结果: {}", sha256Result2)
-        assertEquals(sha256Result, sha256Result2)
-        
-        // 测试空字符串
-        val emptySha256 = "".sha256()
-        logger.info("空字符串SHA256: '{}' -> {}", "", emptySha256)
-        assertNotNull(emptySha256)
-        assertTrue(emptySha256.length == 64)
+            assertNotNull(sha256Result)
+            assertEquals(64, sha256Result.length)
+            assertTrue(sha256Result.all { it.isLetterOrDigit() })
+        }
+
+        @Test
+        @DisplayName("CharSequence.sha256():相同字符串")
+        fun testSha256WithSameString() {
+            val testString = "Tony测试123!@#"
+            val sha256Result1 = testString.sha256()
+            val sha256Result2 = testString.sha256()
+            assertEquals(sha256Result1, sha256Result2)
+        }
+
+        @Test
+        @DisplayName("CharSequence.sha256():空字符串")
+        fun testSha256WithEmptyString() {
+            val emptySha256 = "".sha256()
+            assertNotNull(emptySha256)
+            assertEquals(64, emptySha256.length)
+        }
+
+        @Test
+        @DisplayName("CharSequence.sha256():StringBuilder")
+        fun testSha256WithStringBuilder() {
+            val stringBuilder = StringBuilder("Tony测试123!@#")
+            val sha256Result = stringBuilder.sha256()
+
+            assertNotNull(sha256Result)
+            assertEquals(64, sha256Result.length)
+        }
+
+        @Test
+        @DisplayName("CharSequence.sha256():StringBuffer")
+        fun testSha256WithStringBuffer() {
+            val stringBuffer = StringBuffer("Tony测试123!@#")
+            val sha256Result = stringBuffer.sha256()
+
+            assertNotNull(sha256Result)
+            assertEquals(64, sha256Result.length)
+        }
     }
 
-    // ==================== DigestAlgorithm 枚举测试 ====================
+    @Nested
+    @DisplayName("DigestAlgorithm枚举测试")
+    inner class DigestAlgorithmTest {
+        @Test
+        @DisplayName("DigestAlgorithm.value():属性值")
+        fun testDigestAlgorithmValue() {
+            assertEquals("md5", DigestAlgorithm.MD5.value)
+            assertEquals("sha1", DigestAlgorithm.SHA1.value)
+            assertEquals("sha256", DigestAlgorithm.SHA256.value)
+        }
 
-    @Test
-    @DisplayName("DigestAlgorithm枚举 - value属性测试")
-    fun testDigestAlgorithmValue() {
-        logger.info("测试DigestAlgorithm枚举的value属性")
-        
-        logger.info("DigestAlgorithm.MD5.value = {}", DigestAlgorithm.MD5.value)
-        logger.info("DigestAlgorithm.SHA1.value = {}", DigestAlgorithm.SHA1.value)
-        logger.info("DigestAlgorithm.SHA256.value = {}", DigestAlgorithm.SHA256.value)
-        
-        assertEquals("md5", DigestAlgorithm.MD5.value)
-        assertEquals("sha1", DigestAlgorithm.SHA1.value)
-        assertEquals("sha256", DigestAlgorithm.SHA256.value)
+        @Test
+        @DisplayName("DigestAlgorithm.digest():MD5摘要")
+        fun testDigestAlgorithmMd5Digest() {
+            val testString = "Tony摘要测试"
+            val md5Result = DigestAlgorithm.MD5.digest(testString)
+            assertNotNull(md5Result)
+            assertEquals(32, md5Result.length)
+            assertTrue(md5Result.all { it.isLetterOrDigit() })
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.digest():SHA1摘要")
+        fun testDigestAlgorithmSha1Digest() {
+            val testString = "Tony摘要测试"
+            val sha1Result = DigestAlgorithm.SHA1.digest(testString)
+            assertNotNull(sha1Result)
+            assertEquals(40, sha1Result.length)
+            assertTrue(sha1Result.all { it.isLetterOrDigit() })
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.digest():SHA256摘要")
+        fun testDigestAlgorithmSha256Digest() {
+            val testString = "Tony摘要测试"
+            val sha256Result = DigestAlgorithm.SHA256.digest(testString)
+            assertNotNull(sha256Result)
+            assertEquals(64, sha256Result.length)
+            assertTrue(sha256Result.all { it.isLetterOrDigit() })
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.digest():空字符串")
+        fun testDigestAlgorithmDigestEmptyString() {
+            val emptyString = ""
+            val md5Result = DigestAlgorithm.MD5.digest(emptyString)
+            val sha1Result = DigestAlgorithm.SHA1.digest(emptyString)
+            val sha256Result = DigestAlgorithm.SHA256.digest(emptyString)
+
+            assertNotNull(md5Result)
+            assertNotNull(sha1Result)
+            assertNotNull(sha256Result)
+            assertEquals(32, md5Result.length)
+            assertEquals(40, sha1Result.length)
+            assertEquals(64, sha256Result.length)
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.digest():相同输入相同输出")
+        fun testDigestAlgorithmDigestConsistency() {
+            val testString = "Tony一致性测试"
+            val md5Result1 = DigestAlgorithm.MD5.digest(testString)
+            val md5Result2 = DigestAlgorithm.MD5.digest(testString)
+            assertEquals(md5Result1, md5Result2)
+
+            val sha1Result1 = DigestAlgorithm.SHA1.digest(testString)
+            val sha1Result2 = DigestAlgorithm.SHA1.digest(testString)
+            assertEquals(sha1Result1, sha1Result2)
+
+            val sha256Result1 = DigestAlgorithm.SHA256.digest(testString)
+            val sha256Result2 = DigestAlgorithm.SHA256.digest(testString)
+            assertEquals(sha256Result1, sha256Result2)
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.create():MD5创建")
+        fun testDigestAlgorithmCreateMd5() {
+            val md5Result = DigestAlgorithm.create("md5")
+            assertEquals(DigestAlgorithm.MD5, md5Result)
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.create():SHA1创建")
+        fun testDigestAlgorithmCreateSha1() {
+            val sha1Result = DigestAlgorithm.create("sha1")
+            assertEquals(DigestAlgorithm.SHA1, sha1Result)
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.create():SHA256创建")
+        fun testDigestAlgorithmCreateSha256() {
+            val sha256Result = DigestAlgorithm.create("sha256")
+            assertEquals(DigestAlgorithm.SHA256, sha256Result)
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.create():大写创建")
+        fun testDigestAlgorithmCreateUpperCase() {
+            val upperCaseResult = DigestAlgorithm.create("MD5")
+            assertEquals(DigestAlgorithm.MD5, upperCaseResult)
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.create():混合大小写")
+        fun testDigestAlgorithmCreateMixedCase() {
+            val mixedCaseResult = DigestAlgorithm.create("Md5")
+            assertEquals(DigestAlgorithm.MD5, mixedCaseResult)
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.create():无效值")
+        fun testDigestAlgorithmCreateInvalid() {
+            val invalidResult = DigestAlgorithm.create("invalid")
+            assertNull(invalidResult)
+        }
+
+        @Test
+        @DisplayName("DigestAlgorithm.create():空值")
+        fun testDigestAlgorithmCreateEmpty() {
+            val emptyResult = DigestAlgorithm.create("")
+            assertNull(emptyResult)
+        }
     }
 
-    @Test
-    @DisplayName("DigestAlgorithm枚举 - digest()方法测试")
-    fun testDigestAlgorithmDigest() {
-        logger.info("测试DigestAlgorithm枚举的digest()方法")
-        
-        val testString = "Tony摘要测试"
-        
-        // 测试MD5
-        val md5Result = DigestAlgorithm.MD5.digest(testString)
-        logger.info("MD5.digest('{}') = {}", testString, md5Result)
-        assertNotNull(md5Result)
-        assertTrue(md5Result.length == 32)
-        
-        // 测试SHA1
-        val sha1Result = DigestAlgorithm.SHA1.digest(testString)
-        logger.info("SHA1.digest('{}') = {}", testString, sha1Result)
-        assertNotNull(sha1Result)
-        assertTrue(sha1Result.length == 40)
-        
-        // 测试SHA256
-        val sha256Result = DigestAlgorithm.SHA256.digest(testString)
-        logger.info("SHA256.digest('{}') = {}", testString, sha256Result)
-        assertNotNull(sha256Result)
-        assertTrue(sha256Result.length == 64)
-    }
-
-    @Test
-    @DisplayName("DigestAlgorithm枚举 - create()方法测试")
-    fun testDigestAlgorithmCreate() {
-        logger.info("测试DigestAlgorithm枚举的create()方法")
-        
-        val md5Result = DigestAlgorithm.create("md5")
-        logger.info("DigestAlgorithm.create('md5') = {}", md5Result)
-        assertEquals(DigestAlgorithm.MD5, md5Result)
-        
-        val sha1Result = DigestAlgorithm.create("sha1")
-        logger.info("DigestAlgorithm.create('sha1') = {}", sha1Result)
-        assertEquals(DigestAlgorithm.SHA1, sha1Result)
-        
-        val sha256Result = DigestAlgorithm.create("sha256")
-        logger.info("DigestAlgorithm.create('sha256') = {}", sha256Result)
-        assertEquals(DigestAlgorithm.SHA256, sha256Result)
-        
-        // 测试大写
-        val upperCaseResult = DigestAlgorithm.create("MD5")
-        logger.info("DigestAlgorithm.create('MD5') = {}", upperCaseResult)
-        assertEquals(DigestAlgorithm.MD5, upperCaseResult)
-        
-        // 测试无效值
-        val invalidResult = DigestAlgorithm.create("invalid")
-        logger.info("DigestAlgorithm.create('invalid') = {}", invalidResult)
-        assertNull(invalidResult)
-    }
-
-    @Test
-    @DisplayName("DigestAlgorithm枚举 - values()测试")
-    fun testDigestAlgorithmValues() {
-        logger.info("测试DigestAlgorithm枚举的values()方法")
-        
-        val values = DigestAlgorithm.values()
-        logger.info("DigestAlgorithm.values() = {}", values.contentToString())
-        
-        assertEquals(3, values.size)
-        assertTrue(values.contains(DigestAlgorithm.MD5))
-        assertTrue(values.contains(DigestAlgorithm.SHA1))
-        assertTrue(values.contains(DigestAlgorithm.SHA256))
-    }
-
-    // ==================== 一致性测试 ====================
-
-    @Test
+    @Nested
     @DisplayName("摘要算法一致性测试")
-    fun testDigestConsistency() {
-        logger.info("测试摘要算法的一致性")
-        
-        val testString = "Tony一致性测试"
-        
-        // 测试MD5一致性
-        val md5Result1 = testString.md5()
-        val md5Result2 = DigestAlgorithm.MD5.digest(testString)
-        logger.info("MD5一致性测试: {} == {}", md5Result1, md5Result2)
-        assertEquals(md5Result1, md5Result2)
-        
-        // 测试SHA1一致性
-        val sha1Result1 = testString.sha1()
-        val sha1Result2 = DigestAlgorithm.SHA1.digest(testString)
-        logger.info("SHA1一致性测试: {} == {}", sha1Result1, sha1Result2)
-        assertEquals(sha1Result1, sha1Result2)
-        
-        // 测试SHA256一致性
-        val sha256Result1 = testString.sha256()
-        val sha256Result2 = DigestAlgorithm.SHA256.digest(testString)
-        logger.info("SHA256一致性测试: {} == {}", sha256Result1, sha256Result2)
-        assertEquals(sha256Result1, sha256Result2)
+    inner class DigestConsistencyTest {
+        @Test
+        @DisplayName("不同算法结果不同")
+        fun testDifferentAlgorithmsDifferentResults() {
+            val testString = "Tony算法差异测试"
+            val md5Result = testString.md5()
+            val sha1Result = testString.sha1()
+            val sha256Result = testString.sha256()
+
+            assertNotEquals(md5Result, sha1Result)
+            assertNotEquals(md5Result, sha256Result)
+            assertNotEquals(sha1Result, sha256Result)
+        }
+
+        @Test
+        @DisplayName("不同输入不同结果")
+        fun testDifferentInputsDifferentResults() {
+            val input1 = "Tony输入1"
+            val input2 = "Tony输入2"
+
+            val md5Result1 = input1.md5()
+            val md5Result2 = input2.md5()
+            assertNotEquals(md5Result1, md5Result2)
+
+            val sha1Result1 = input1.sha1()
+            val sha1Result2 = input2.sha1()
+            assertNotEquals(sha1Result1, sha1Result2)
+
+            val sha256Result1 = input1.sha256()
+            val sha256Result2 = input2.sha256()
+            assertNotEquals(sha256Result1, sha256Result2)
+        }
+
+        @Test
+        @DisplayName("扩展方法与枚举方法一致性")
+        fun testExtensionMethodConsistency() {
+            val testString = "Tony一致性测试"
+
+            // 扩展方法与枚举方法应该产生相同结果
+            val extensionMd5 = testString.md5()
+            val enumMd5 = DigestAlgorithm.MD5.digest(testString)
+            assertEquals(extensionMd5, enumMd5)
+
+            val extensionSha1 = testString.sha1()
+            val enumSha1 = DigestAlgorithm.SHA1.digest(testString)
+            assertEquals(extensionSha1, enumSha1)
+
+            val extensionSha256 = testString.sha256()
+            val enumSha256 = DigestAlgorithm.SHA256.digest(testString)
+            assertEquals(extensionSha256, enumSha256)
+        }
     }
 
-    // ==================== 边界情况测试 ====================
-
-    @Test
+    @Nested
     @DisplayName("边界情况测试")
-    fun testBoundaryCases() {
-        logger.info("测试边界情况")
-        
-        // 测试特殊字符
-        val specialChars = "!@#$%^&*()_+-=[]{}|;':\",./<>?"
-        val specialMd5 = specialChars.md5()
-        val specialSha1 = specialChars.sha1()
-        val specialSha256 = specialChars.sha256()
-        
-        logger.info("特殊字符MD5: '{}' -> {}", specialChars, specialMd5)
-        logger.info("特殊字符SHA1: '{}' -> {}", specialChars, specialSha1)
-        logger.info("特殊字符SHA256: '{}' -> {}", specialChars, specialSha256)
-        
-        assertNotNull(specialMd5)
-        assertNotNull(specialSha1)
-        assertNotNull(specialSha256)
-        
-        // 测试中文字符
-        val chineseChars = "中文测试字符"
-        val chineseMd5 = chineseChars.md5()
-        val chineseSha1 = chineseChars.sha1()
-        val chineseSha256 = chineseChars.sha256()
-        
-        logger.info("中文字符MD5: '{}' -> {}", chineseChars, chineseMd5)
-        logger.info("中文字符SHA1: '{}' -> {}", chineseChars, chineseSha1)
-        logger.info("中文字符SHA256: '{}' -> {}", chineseChars, chineseSha256)
-        
-        assertNotNull(chineseMd5)
-        assertNotNull(chineseSha1)
-        assertNotNull(chineseSha256)
-        
-        // 测试长字符串
-        val longString = "a".repeat(1000)
-        val longMd5 = longString.md5()
-        val longSha1 = longString.sha1()
-        val longSha256 = longString.sha256()
-        
-        logger.info("长字符串MD5: '{}' -> {}", longString.take(20) + "...", longMd5)
-        logger.info("长字符串SHA1: '{}' -> {}", longString.take(20) + "...", longSha1)
-        logger.info("长字符串SHA256: '{}' -> {}", longString.take(20) + "...", longSha256)
-        
-        assertNotNull(longMd5)
-        assertNotNull(longSha1)
-        assertNotNull(longSha256)
-    }
+    inner class BoundaryTest {
+        @Test
+        @DisplayName("特殊字符测试")
+        fun testSpecialCharacters() {
+            val specialChars = "!@#$%^&*()_+-=[]{}|;':\",./<>?"
+            val md5Result = specialChars.md5()
+            val sha1Result = specialChars.sha1()
+            val sha256Result = specialChars.sha256()
 
-    // ==================== 性能测试 ====================
+            assertNotNull(md5Result)
+            assertNotNull(sha1Result)
+            assertNotNull(sha256Result)
+            assertEquals(32, md5Result.length)
+            assertEquals(40, sha1Result.length)
+            assertEquals(64, sha256Result.length)
+        }
 
-    @Test
-    @DisplayName("性能测试")
-    fun testPerformance() {
-        logger.info("测试摘要算法性能")
-        
-        val testString = "Tony性能测试字符串"
-        val iterations = 1000
-        
-        // MD5性能测试
-        val md5StartTime = System.currentTimeMillis()
-        repeat(iterations) {
-            testString.md5()
+        @Test
+        @DisplayName("Unicode字符测试")
+        fun testUnicodeCharacters() {
+            val unicodeString = "中文测试🌍🚀💻"
+            val md5Result = unicodeString.md5()
+            val sha1Result = unicodeString.sha1()
+            val sha256Result = unicodeString.sha256()
+
+            assertNotNull(md5Result)
+            assertNotNull(sha1Result)
+            assertNotNull(sha256Result)
+            assertEquals(32, md5Result.length)
+            assertEquals(40, sha1Result.length)
+            assertEquals(64, sha256Result.length)
         }
-        val md5EndTime = System.currentTimeMillis()
-        val md5Duration = md5EndTime - md5StartTime
-        
-        logger.info("MD5性能测试: {}次迭代耗时 {}ms", iterations, md5Duration)
-        assertTrue(md5Duration < 1000) // 应该在1秒内完成
-        
-        // SHA1性能测试
-        val sha1StartTime = System.currentTimeMillis()
-        repeat(iterations) {
-            testString.sha1()
+
+        @Test
+        @DisplayName("长字符串测试")
+        fun testLongString() {
+            val longString = "a".repeat(10000)
+            val md5Result = longString.md5()
+            val sha1Result = longString.sha1()
+            val sha256Result = longString.sha256()
+
+            assertNotNull(md5Result)
+            assertNotNull(sha1Result)
+            assertNotNull(sha256Result)
+            assertEquals(32, md5Result.length)
+            assertEquals(40, sha1Result.length)
+            assertEquals(64, sha256Result.length)
         }
-        val sha1EndTime = System.currentTimeMillis()
-        val sha1Duration = sha1EndTime - sha1StartTime
-        
-        logger.info("SHA1性能测试: {}次迭代耗时 {}ms", iterations, sha1Duration)
-        assertTrue(sha1Duration < 1000) // 应该在1秒内完成
-        
-        // SHA256性能测试
-        val sha256StartTime = System.currentTimeMillis()
-        repeat(iterations) {
-            testString.sha256()
-        }
-        val sha256EndTime = System.currentTimeMillis()
-        val sha256Duration = sha256EndTime - sha256StartTime
-        
-        logger.info("SHA256性能测试: {}次迭代耗时 {}ms", iterations, sha256Duration)
-        assertTrue(sha256Duration < 1000) // 应该在1秒内完成
     }
-} 
+}

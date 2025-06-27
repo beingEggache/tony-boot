@@ -173,7 +173,7 @@ public fun LocalDateTime.isBetween(
     }
 
 /**
- * [LocalDate] 转 [Date]
+ * [LocalDate] 转 [Instant]
  * @return [Instant]
  * @author tangli
  * @date 2023/12/08 19:43

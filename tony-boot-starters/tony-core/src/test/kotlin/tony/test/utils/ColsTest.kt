@@ -26,81 +26,137 @@ package tony.test.utils
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.slf4j.LoggerFactory
 import tony.utils.*
 
 /**
  * Cols 工具类单元测试
- * @author tangli
- * @date 2024/06/10
+ * @author AI
+ * @date 2024/06/09
+ * @since 1.0.0
  */
-object ColsTest {
-    private val logger = LoggerFactory.getLogger(ColsTest::class.java)
+@DisplayName("Cols测试")
+class ColsTest {
 
-    @Test
-    @DisplayName("isNullOrEmpty 判空测试")
-    fun testIsNullOrEmpty() {
-        logger.info("测试 isNullOrEmpty 判空")
-        assertTrue(isNullOrEmpty(null))
-        assertTrue(isNullOrEmpty(emptyList<String>()))
-        assertFalse(isNullOrEmpty(listOf(1, 2)))
-    }
-
-    @Test
-    @DisplayName("ifEmpty 默认值测试")
-    fun testIfEmpty() {
-        logger.info("测试 ifEmpty 默认值")
-        val list: List<Int>? = null
-        val result = ifEmpty(list, listOf(1, 2))
-        assertEquals(listOf(1, 2), result)
-        val notEmpty = ifEmpty(listOf(3, 4), listOf(1, 2))
-        assertEquals(listOf(3, 4), notEmpty)
-    }
-
-    @Test
-    @DisplayName("orEmpty 空集合默认值测试")
-    fun testOrEmpty() {
-        logger.info("测试 orEmpty 空集合默认值")
-        val list: MutableList<Int>? = null
-        val result = orEmpty(list)
-        assertTrue(result.isEmpty())
-        val set: MutableSet<String>? = null
-        val setResult = orEmpty(set)
-        assertTrue(setResult.isEmpty())
-    }
-
-    @Test
-    @DisplayName("alsoIfNotEmpty 链式操作测试")
-    fun testAlsoIfNotEmpty() {
-        logger.info("测试 alsoIfNotEmpty 链式操作")
-        var called = false
-        val list = listOf(1, 2, 3)
-        val result = list.alsoIfNotEmpty {
-            called = true
+    @Nested
+    @DisplayName("Cols.isNullOrEmpty()测试")
+    inner class IsNullOrEmptyTest {
+        @Test
+        @DisplayName("Cols.isNullOrEmpty():null集合")
+        fun testIsNullOrEmptyWithNull() {
+            assertTrue(isNullOrEmpty(null))
         }
-        assertTrue(called)
-        assertEquals(list, result)
-        val empty: List<Int>? = emptyList()
-        var notCalled = true
-        val result2 = empty.alsoIfNotEmpty {
-            notCalled = false
+
+        @Test
+        @DisplayName("Cols.isNullOrEmpty():空集合")
+        fun testIsNullOrEmptyWithEmpty() {
+            assertTrue(isNullOrEmpty(emptyList<String>()))
         }
-        assertTrue(notCalled)
-        assertEquals(empty, result2)
+
+        @Test
+        @DisplayName("Cols.isNullOrEmpty():非空集合")
+        fun testIsNullOrEmptyWithNotEmpty() {
+            assertFalse(isNullOrEmpty(listOf(1, 2)))
+        }
     }
 
-    @Test
-    @DisplayName("边界与异常测试")
-    fun testEdgeCases() {
-        logger.info("测试 Cols 工具类边界与异常")
-        val nullList: List<String>? = null
-        assertTrue(isNullOrEmpty(nullList))
-        val emptySet: Set<Int>? = null
-        assertTrue(isNullOrEmpty(emptySet))
-        val notEmptySet = setOf(1)
-        assertFalse(isNullOrEmpty(notEmptySet))
-        val result = orEmpty(nullList as MutableList<String>?)
-        assertTrue(result.isEmpty())
+    @Nested
+    @DisplayName("Cols.ifEmpty()测试")
+    inner class IfEmptyTest {
+        @Test
+        @DisplayName("Cols.ifEmpty():null集合")
+        fun testIfEmptyWithNull() {
+            val list: List<Int>? = null
+            val result = ifEmpty(list, listOf(1, 2))
+            assertEquals(listOf(1, 2), result)
+        }
+
+        @Test
+        @DisplayName("Cols.ifEmpty():非空集合")
+        fun testIfEmptyWithNotEmpty() {
+            val notEmpty = ifEmpty(listOf(3, 4), listOf(1, 2))
+            assertEquals(listOf(3, 4), notEmpty)
+        }
+    }
+
+    @Nested
+    @DisplayName("Cols.orEmpty()测试")
+    inner class OrEmptyTest {
+        @Test
+        @DisplayName("Cols.orEmpty():null列表")
+        fun testOrEmptyWithNullList() {
+            val list: MutableList<Int>? = null
+            val result = orEmpty(list)
+            assertTrue(result.isEmpty())
+        }
+
+        @Test
+        @DisplayName("Cols.orEmpty():null集合")
+        fun testOrEmptyWithNullSet() {
+            val set: MutableSet<String>? = null
+            val setResult = orEmpty(set)
+            assertTrue(setResult.isEmpty())
+        }
+    }
+
+    @Nested
+    @DisplayName("Cols.alsoIfNotEmpty()测试")
+    inner class AlsoIfNotEmptyTest {
+        @Test
+        @DisplayName("Cols.alsoIfNotEmpty():非空集合")
+        fun testAlsoIfNotEmptyWithNotEmpty() {
+            var called = false
+            val list = listOf(1, 2, 3)
+            val result = list.alsoIfNotEmpty {
+                called = true
+            }
+            assertTrue(called)
+            assertEquals(list, result)
+        }
+
+        @Test
+        @DisplayName("Cols.alsoIfNotEmpty():空集合")
+        fun testAlsoIfNotEmptyWithEmpty() {
+            val empty: List<Int>? = emptyList()
+            var notCalled = true
+            val result2 = empty.alsoIfNotEmpty {
+                notCalled = false
+            }
+            assertTrue(notCalled)
+            assertEquals(empty, result2)
+        }
+    }
+
+    @Nested
+    @DisplayName("Cols边界与异常测试")
+    inner class EdgeCasesTest {
+        @Test
+        @DisplayName("Cols.isNullOrEmpty():null列表")
+        fun testIsNullOrEmptyWithNullList() {
+            val nullList: List<String>? = null
+            assertTrue(isNullOrEmpty(nullList))
+        }
+
+        @Test
+        @DisplayName("Cols.isNullOrEmpty():null集合")
+        fun testIsNullOrEmptyWithNullSet() {
+            val emptySet: Set<Int>? = null
+            assertTrue(isNullOrEmpty(emptySet))
+        }
+
+        @Test
+        @DisplayName("Cols.isNullOrEmpty():非空集合")
+        fun testIsNullOrEmptyWithNotEmptySet() {
+            val notEmptySet = setOf(1)
+            assertFalse(isNullOrEmpty(notEmptySet))
+        }
+
+        @Test
+        @DisplayName("Cols.orEmpty():null可变列表")
+        fun testOrEmptyWithNullMutableList() {
+            val result = orEmpty(null as MutableList<String>?)
+            assertTrue(result.isEmpty())
+        }
     }
 } 

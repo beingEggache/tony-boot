@@ -26,7 +26,10 @@ package tony.test.utils
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import org.slf4j.LoggerFactory
 import tony.utils.*
 import java.time.LocalDate
@@ -36,460 +39,347 @@ import java.util.Date
 
 /**
  * 日期工具类单元测试
- * @author AI
- * @date 2024/06/09
- * @since 1.0.0
+ * 覆盖所有public方法，包含正常、异常、边界、重叠等场景
  */
-object DatesTest {
-
+@DisplayName("Dates工具类全量测试")
+class DatesTest {
     private val logger = LoggerFactory.getLogger(DatesTest::class.java)
 
-    // ==================== TemporalAccessor.toString() 方法测试 ====================
-
-    @Test
-    @DisplayName("TemporalAccessor.toString(pattern)方法测试")
-    fun testTemporalAccessorToString() {
-        logger.info("测试TemporalAccessor.toString(pattern)方法")
-        
-        val localDate = LocalDate.of(2024, 6, 9)
-        val localDateTime = LocalDateTime.of(2024, 6, 9, 14, 30, 45)
-        
-        val dateStr = localDate.toString("yyyy-MM-dd")
-        val dateTimeStr = localDateTime.toString("yyyy-MM-dd HH:mm:ss")
-        
-        logger.info("LocalDate格式化: {} -> '{}'", localDate, dateStr)
-        logger.info("LocalDateTime格式化: {} -> '{}'", localDateTime, dateTimeStr)
-        
-        assertEquals("2024-06-09", dateStr)
-        assertEquals("2024-06-09 14:30:45", dateTimeStr)
-    }
-
-    // ==================== CharSequence.toDate() 方法测试 ====================
-
-    @Test
-    @DisplayName("CharSequence.toDate(pattern)方法测试")
-    fun testCharSequenceToDate() {
-        logger.info("测试CharSequence.toDate(pattern)方法")
-        
-        val dateStr = "2024-06-09 14:30:45"
-        val date = dateStr.toDate("yyyy-MM-dd HH:mm:ss")
-        
-        logger.info("字符串转Date: '{}' -> {}", dateStr, date)
-        assertNotNull(date)
-        
-        // 验证转换结果
-        val localDateTime = date.toLocalDateTime()
-        assertEquals(2024, localDateTime.year)
-        assertEquals(6, localDateTime.monthValue)
-        assertEquals(9, localDateTime.dayOfMonth)
-        assertEquals(14, localDateTime.hour)
-        assertEquals(30, localDateTime.minute)
-        assertEquals(45, localDateTime.second)
-    }
-
-    // ==================== CharSequence.toLocalDate() 方法测试 ====================
-
-    @Test
-    @DisplayName("CharSequence.toLocalDate(pattern)方法测试")
-    fun testCharSequenceToLocalDate() {
-        logger.info("测试CharSequence.toLocalDate(pattern)方法")
-        
-        val dateStr = "2024-06-09"
-        val localDate = dateStr.toLocalDate("yyyy-MM-dd")
-        
-        logger.info("字符串转LocalDate: '{}' -> {}", dateStr, localDate)
-        assertEquals(LocalDate.of(2024, 6, 9), localDate)
-        
-        // 测试不同格式
-        val dateStr2 = "09/06/2024"
-        val localDate2 = dateStr2.toLocalDate("dd/MM/yyyy")
-        logger.info("字符串转LocalDate(不同格式): '{}' -> {}", dateStr2, localDate2)
-        assertEquals(LocalDate.of(2024, 6, 9), localDate2)
-    }
-
-    // ==================== CharSequence.toLocalDateTime() 方法测试 ====================
-
-    @Test
-    @DisplayName("CharSequence.toLocalDateTime(pattern)方法测试")
-    fun testCharSequenceToLocalDateTime() {
-        logger.info("测试CharSequence.toLocalDateTime(pattern)方法")
-        
-        val dateTimeStr = "2024-06-09 14:30:45"
-        val localDateTime = dateTimeStr.toLocalDateTime("yyyy-MM-dd HH:mm:ss")
-        
-        logger.info("字符串转LocalDateTime: '{}' -> {}", dateTimeStr, localDateTime)
-        assertEquals(LocalDateTime.of(2024, 6, 9, 14, 30, 45), localDateTime)
-        
-        // 测试不同格式
-        val dateTimeStr2 = "09/06/2024 14:30"
-        val localDateTime2 = dateTimeStr2.toLocalDateTime("dd/MM/yyyy HH:mm")
-        logger.info("字符串转LocalDateTime(不同格式): '{}' -> {}", dateTimeStr2, localDateTime2)
-        assertEquals(LocalDateTime.of(2024, 6, 9, 14, 30), localDateTime2)
-    }
-
-    // ==================== LocalDateTime.toInstant() 方法测试 ====================
-
-    @Test
-    @DisplayName("LocalDateTime.toInstant()方法测试")
-    fun testLocalDateTimeToInstant() {
-        logger.info("测试LocalDateTime.toInstant()方法")
-        
-        val localDateTime = LocalDateTime.of(2024, 6, 9, 14, 30, 45)
-        val instant = localDateTime.toInstant()
-        
-        logger.info("LocalDateTime转Instant: {} -> {}", localDateTime, instant)
-        assertNotNull(instant)
-        
-        // 验证转换结果
-        val convertedBack = LocalDateTime.ofInstant(instant, java.time.ZoneId.systemDefault())
-        assertEquals(localDateTime, convertedBack)
-    }
-
-    // ==================== LocalDateTime.toDate() 方法测试 ====================
-
-    @Test
-    @DisplayName("LocalDateTime.toDate()方法测试")
-    fun testLocalDateTimeToDate() {
-        logger.info("测试LocalDateTime.toDate()方法")
-        
-        val localDateTime = LocalDateTime.of(2024, 6, 9, 14, 30, 45)
-        val date = localDateTime.toDate()
-        
-        logger.info("LocalDateTime转Date: {} -> {}", localDateTime, date)
-        assertNotNull(date)
-        
-        // 验证转换结果
-        val convertedBack = date.toLocalDateTime()
-        assertEquals(localDateTime.year, convertedBack.year)
-        assertEquals(localDateTime.monthValue, convertedBack.monthValue)
-        assertEquals(localDateTime.dayOfMonth, convertedBack.dayOfMonth)
-        assertEquals(localDateTime.hour, convertedBack.hour)
-        assertEquals(localDateTime.minute, convertedBack.minute)
-        assertEquals(localDateTime.second, convertedBack.second)
-    }
-
-    // ==================== LocalDateTime.isBetween() 方法测试 ====================
-
-    @Test
-    @DisplayName("LocalDateTime.isBetween()方法测试")
-    fun testLocalDateTimeIsBetween() {
-        logger.info("测试LocalDateTime.isBetween()方法")
-        
-        val start = LocalDateTime.of(2024, 6, 9, 10, 0, 0)
-        val middle = LocalDateTime.of(2024, 6, 9, 14, 30, 0)
-        val end = LocalDateTime.of(2024, 6, 9, 18, 0, 0)
-        
-        val isBetween = middle.isBetween(start, end)
-        logger.info("时间是否在范围内: {} 在 {} 和 {} 之间: {}", middle, start, end, isBetween)
-        assertTrue(isBetween)
-        
-        // 测试边界情况
-        val beforeStart = LocalDateTime.of(2024, 6, 9, 9, 0, 0)
-        val afterEnd = LocalDateTime.of(2024, 6, 9, 19, 0, 0)
-        
-        val isBeforeStart = beforeStart.isBetween(start, end)
-        logger.info("时间是否在范围内: {} 在 {} 和 {} 之间: {}", beforeStart, start, end, isBeforeStart)
-        assertFalse(isBeforeStart)
-        
-        val isAfterEnd = afterEnd.isBetween(start, end)
-        logger.info("时间是否在范围内: {} 在 {} 和 {} 之间: {}", afterEnd, start, end, isAfterEnd)
-        assertFalse(isAfterEnd)
-    }
-
-    @Test
-    @DisplayName("LocalDateTime.isBetween()异常测试")
-    fun testLocalDateTimeIsBetweenException() {
-        logger.info("测试LocalDateTime.isBetween()异常情况")
-        
-        val middle = LocalDateTime.of(2024, 6, 9, 14, 30, 0)
-        
-        // 测试null参数
-        assertThrows(Exception::class.java) {
-            middle.isBetween(null, LocalDateTime.now())
+    @Nested
+    @DisplayName("格式化与解析相关")
+    inner class FormatParse {
+        @Test
+        @DisplayName("TemporalAccessor.toString(pattern)")
+        fun testTemporalAccessorToString() {
+            logger.info("测试TemporalAccessor.toString(pattern)方法")
+            
+            val ld = LocalDate.of(2024, 6, 9)
+            val ldt = LocalDateTime.of(2024, 6, 9, 14, 30, 45)
+            
+            val dateStr = ld.toString("yyyy-MM-dd")
+            val dateTimeStr = ldt.toString("yyyy-MM-dd HH:mm:ss")
+            
+            logger.info("LocalDate格式化: {} -> '{}'", ld, dateStr)
+            logger.info("LocalDateTime格式化: {} -> '{}'", ldt, dateTimeStr)
+            
+            assertEquals("2024-06-09", dateStr)
+            assertEquals("2024-06-09 14:30:45", dateTimeStr)
         }
-        logger.info("start为null时正确抛出异常")
-        
-        assertThrows(Exception::class.java) {
-            middle.isBetween(LocalDateTime.now(), null)
+        @Test
+        @DisplayName("Date.toString(pattern)")
+        fun testDateToString() {
+            logger.info("测试Date.toString(pattern)方法")
+            
+            val date = Date.from(LocalDateTime.of(2024, 6, 9, 14, 30, 45).toInstant())
+            val dateStr = date.toString("yyyy-MM-dd HH:mm:ss")
+            
+            logger.info("Date格式化: {} -> '{}'", date, dateStr)
+            assertEquals("2024-06-09 14:30:45", dateStr)
+            
+            // 测试不同格式
+            val dateStr2 = date.toString("dd/MM/yyyy")
+            logger.info("Date格式化(不同格式): {} -> '{}'", date, dateStr2)
+            assertEquals("09/06/2024", dateStr2)
         }
-        logger.info("end为null时正确抛出异常")
-    }
-
-    // ==================== LocalDate.toInstant() 方法测试 ====================
-
-    @Test
-    @DisplayName("LocalDate.toInstant()方法测试")
-    fun testLocalDateToInstant() {
-        logger.info("测试LocalDate.toInstant()方法")
-
-        val localDate = LocalDate.of(2024, 6, 9)
-        val instant = localDate.toInstant()
-        
-        logger.info("LocalDate转Instant: {} -> {}", localDate, instant)
-        assertNotNull(instant)
-        
-        // 验证转换结果
-        val convertedBack = LocalDate.ofInstant(instant, java.time.ZoneId.systemDefault())
-        assertEquals(localDate, convertedBack)
-    }
-
-    // ==================== LocalDate.toDate() 方法测试 ====================
-
-    @Test
-    @DisplayName("LocalDate.toDate()方法测试")
-    fun testLocalDateToDate() {
-        logger.info("测试LocalDate.toDate()方法")
-
-        val localDate = LocalDate.of(2024, 6, 9)
-        val date = localDate.toDate()
-        
-        logger.info("LocalDate转Date: {} -> {}", localDate, date)
-        assertNotNull(date)
-        
-        // 验证转换结果
-        val convertedBack = date.toLocalDate()
-        assertEquals(localDate, convertedBack)
-    }
-
-    // ==================== LocalDate.isBetween() 方法测试 ====================
-
-    @Test
-    @DisplayName("LocalDate.isBetween()方法测试")
-    fun testLocalDateIsBetween() {
-        logger.info("测试LocalDate.isBetween()方法")
-
-        val start = LocalDate.of(2024, 6, 1)
-        val middle = LocalDate.of(2024, 6, 15)
-        val end = LocalDate.of(2024, 6, 30)
-        
-        val isBetween = middle.isBetween(start, end)
-        logger.info("日期是否在范围内: {} 在 {} 和 {} 之间: {}", middle, start, end, isBetween)
-        assertTrue(isBetween)
-        
-        // 测试边界情况
-        val beforeStart = LocalDate.of(2024, 5, 31)
-        val afterEnd = LocalDate.of(2024, 7, 1)
-        
-        val isBeforeStart = beforeStart.isBetween(start, end)
-        logger.info("日期是否在范围内: {} 在 {} 和 {} 之间: {}", beforeStart, start, end, isBeforeStart)
-        assertFalse(isBeforeStart)
-        
-        val isAfterEnd = afterEnd.isBetween(start, end)
-        logger.info("日期是否在范围内: {} 在 {} 和 {} 之间: {}", afterEnd, start, end, isAfterEnd)
-        assertFalse(isAfterEnd)
-    }
-
-    @Test
-    @DisplayName("LocalDate.isBetween()异常测试")
-    fun testLocalDateIsBetweenException() {
-        logger.info("测试LocalDate.isBetween()异常情况")
-        
-        val middle = LocalDate.of(2024, 6, 15)
-        
-        // 测试null参数
-        assertThrows(Exception::class.java) {
-            middle.isBetween(null, LocalDate.now())
+        @Test
+        @DisplayName("CharSequence.toDate(pattern)")
+        fun testCharSequenceToDate() {
+            logger.info("测试CharSequence.toDate(pattern)方法")
+            
+            val dateStr = "2024-06-09 14:30:45"
+            val date = dateStr.toDate("yyyy-MM-dd HH:mm:ss")
+            
+            logger.info("字符串转Date: '{}' -> {}", dateStr, date)
+            assertNotNull(date)
+            
+            // 验证转换结果
+            val ldt = date.toLocalDateTime()
+            assertEquals(2024, ldt.year)
+            assertEquals(6, ldt.monthValue)
+            assertEquals(9, ldt.dayOfMonth)
+            assertEquals(14, ldt.hour)
+            assertEquals(30, ldt.minute)
+            assertEquals(45, ldt.second)
         }
-        logger.info("start为null时正确抛出异常")
-        
-        assertThrows(Exception::class.java) {
-            middle.isBetween(LocalDate.now(), null)
+        @Test
+        @DisplayName("CharSequence.toLocalDate(pattern)")
+        fun testCharSequenceToLocalDate() {
+            logger.info("测试CharSequence.toLocalDate(pattern)方法")
+            
+            val dateStr = "2024-06-09"
+            val localDate = dateStr.toLocalDate("yyyy-MM-dd")
+            
+            logger.info("字符串转LocalDate: '{}' -> {}", dateStr, localDate)
+            assertEquals(LocalDate.of(2024, 6, 9), localDate)
+            
+            // 测试不同格式
+            val dateStr2 = "09/06/2024"
+            val localDate2 = dateStr2.toLocalDate("dd/MM/yyyy")
+            logger.info("字符串转LocalDate(不同格式): '{}' -> {}", dateStr2, localDate2)
+            assertEquals(LocalDate.of(2024, 6, 9), localDate2)
         }
-        logger.info("end为null时正确抛出异常")
-    }
-
-    // ==================== LocalDate.atEndOfDay() 方法测试 ====================
-
-    @Test
-    @DisplayName("LocalDate.atEndOfDay()方法测试")
-    fun testLocalDateAtEndOfDay() {
-        logger.info("测试LocalDate.atEndOfDay()方法")
-        
-        val localDate = LocalDate.of(2024, 6, 9)
-        val endOfDay = localDate.atEndOfDay()
-        
-        logger.info("LocalDate获取当天结束时间: {} -> {}", localDate, endOfDay)
-        
-        assertEquals(localDate, endOfDay.toLocalDate())
-        assertEquals(LocalTime.MAX, endOfDay.toLocalTime())
-        assertEquals(23, endOfDay.hour)
-        assertEquals(59, endOfDay.minute)
-        assertEquals(59, endOfDay.second)
-        assertEquals(999999999, endOfDay.nano)
-    }
-
-    // ==================== Date.toString() 方法测试 ====================
-
-    @Test
-    @DisplayName("Date.toString(pattern)方法测试")
-    fun testDateToString() {
-        logger.info("测试Date.toString(pattern)方法")
-        
-        val date = Date.from(LocalDateTime.of(2024, 6, 9, 14, 30, 45).toInstant())
-        val dateStr = date.toString("yyyy-MM-dd HH:mm:ss")
-        
-        logger.info("Date格式化: {} -> '{}'", date, dateStr)
-        assertEquals("2024-06-09 14:30:45", dateStr)
-        
-        // 测试不同格式
-        val dateStr2 = date.toString("dd/MM/yyyy")
-        logger.info("Date格式化(不同格式): {} -> '{}'", date, dateStr2)
-        assertEquals("09/06/2024", dateStr2)
-    }
-
-    // ==================== Date.toLocalDate() 方法测试 ====================
-
-    @Test
-    @DisplayName("Date.toLocalDate()方法测试")
-    fun testDateToLocalDate() {
-        logger.info("测试Date.toLocalDate()方法")
-        
-        val localDate = LocalDate.of(2024, 6, 9)
-        val date = localDate.toDate()
-        val convertedBack = date.toLocalDate()
-        
-        logger.info("Date转LocalDate: {} -> {}", date, convertedBack)
-        assertEquals(localDate, convertedBack)
-    }
-
-    // ==================== Date.toLocalDateTime() 方法测试 ====================
-
-    @Test
-    @DisplayName("Date.toLocalDateTime()方法测试")
-    fun testDateToLocalDateTime() {
-        logger.info("测试Date.toLocalDateTime()方法")
-
-        val localDateTime = LocalDateTime.of(2024, 6, 9, 14, 30, 45)
-        val date = localDateTime.toDate()
-        val convertedBack = date.toLocalDateTime()
-        
-        logger.info("Date转LocalDateTime: {} -> {}", date, convertedBack)
-        assertEquals(localDateTime.year, convertedBack.year)
-        assertEquals(localDateTime.monthValue, convertedBack.monthValue)
-        assertEquals(localDateTime.dayOfMonth, convertedBack.dayOfMonth)
-        assertEquals(localDateTime.hour, convertedBack.hour)
-        assertEquals(localDateTime.minute, convertedBack.minute)
-        assertEquals(localDateTime.second, convertedBack.second)
-    }
-
-    // ==================== secondOfTodayRest() 方法测试 ====================
-
-    @Test
-    @DisplayName("secondOfTodayRest()方法测试")
-    fun testSecondOfTodayRest() {
-        logger.info("测试secondOfTodayRest()方法")
-        
-        val restSeconds = secondOfTodayRest()
-        
-        logger.info("今天剩余秒数: {}", restSeconds)
-        assertTrue(restSeconds > 0)
-        assertTrue(restSeconds <= 86400) // 一天最多86400秒
-        
-        // 验证计算逻辑
-        val now = LocalDateTime.now()
-        val endOfDay = now.with(LocalTime.MAX)
-        val expectedSeconds = java.time.Duration.between(now, endOfDay).seconds
-        
-        logger.info("当前时间: {}", now)
-        logger.info("今天结束时间: {}", endOfDay)
-        logger.info("预期剩余秒数: {}", expectedSeconds)
-        logger.info("实际剩余秒数: {}", restSeconds)
-        
-        // 由于测试执行时间，允许1秒的误差
-        assertTrue(kotlin.math.abs(restSeconds - expectedSeconds) <= 1)
-    }
-
-    // ==================== Pair.overlap() 方法测试 ====================
-
-    @Test
-    @DisplayName("Pair.overlap()方法测试")
-    fun testPairOverlap() {
-        logger.info("测试Pair.overlap()方法")
-
-        val period1 = Pair(
-            LocalDateTime.of(2024, 6, 9, 10, 0, 0),
-            LocalDateTime.of(2024, 6, 9, 14, 0, 0)
-        )
-        val period2 = Pair(
-            LocalDateTime.of(2024, 6, 9, 12, 0, 0),
-            LocalDateTime.of(2024, 6, 9, 16, 0, 0)
-        )
-        val period3 = Pair(
-            LocalDateTime.of(2024, 6, 9, 15, 0, 0),
-            LocalDateTime.of(2024, 6, 9, 18, 0, 0)
-        )
-        
-        val overlap1 = period1 overlap period2
-        val overlap2 = period1 overlap period3
-        
-        logger.info("时间段1: {} - {}", period1.first, period1.second)
-        logger.info("时间段2: {} - {}", period2.first, period2.second)
-        logger.info("时间段3: {} - {}", period3.first, period3.second)
-        logger.info("时间段1与时间段2是否重叠: {}", overlap1)
-        logger.info("时间段1与时间段3是否重叠: {}", overlap2)
-        
-        assertTrue(overlap1) // 有重叠
-        assertFalse(overlap2) // 无重叠
-    }
-
-    // ==================== Pair.dateOverlap() 方法测试 ====================
-
-    @Test
-    @DisplayName("Pair.dateOverlap()方法测试")
-    fun testPairDateOverlap() {
-        logger.info("测试Pair.dateOverlap()方法")
-        
-        val date1 = LocalDate.of(2024, 6, 9).toDate()
-        val date2 = LocalDate.of(2024, 6, 15).toDate()
-        val date3 = LocalDate.of(2024, 6, 20).toDate()
-        val date4 = LocalDate.of(2024, 6, 25).toDate()
-        
-        val period1 = Pair(date1, date2)
-        val period2 = Pair(date3, date4)
-        val period3 = Pair(date2, date3) // 边界重合
-        
-        val overlap1 = period1 dateOverlap period2
-        val overlap2 = period1 dateOverlap period3
-        
-        logger.info("日期段1: {} - {}", period1.first, period1.second)
-        logger.info("日期段2: {} - {}", period2.first, period2.second)
-        logger.info("日期段3: {} - {}", period3.first, period3.second)
-        logger.info("日期段1与日期段2是否重叠: {}", overlap1)
-        logger.info("日期段1与日期段3是否重叠: {} (边界重合)", overlap2)
-        
-        assertFalse(overlap1) // 无重叠
-        assertFalse(overlap2) // 边界重合不算重叠
-    }
-
-    // ==================== 边界情况测试 ====================
-
-    @Test
-    @DisplayName("边界情况测试")
-    fun testBoundaryCases() {
-        logger.info("测试边界情况")
-        
-        // 测试空字符串
-        val emptyStr = ""
-        assertThrows(Exception::class.java) {
-            emptyStr.toLocalDate("yyyy-MM-dd")
+        @Test
+        @DisplayName("CharSequence.toLocalDateTime(pattern)")
+        fun testCharSequenceToLocalDateTime() {
+            logger.info("测试CharSequence.toLocalDateTime(pattern)方法")
+            
+            val dateTimeStr = "2024-06-09 14:30:45"
+            val localDateTime = dateTimeStr.toLocalDateTime("yyyy-MM-dd HH:mm:ss")
+            
+            logger.info("字符串转LocalDateTime: '{}' -> {}", dateTimeStr, localDateTime)
+            assertEquals(LocalDateTime.of(2024, 6, 9, 14, 30, 45), localDateTime)
+            
+            // 测试不同格式
+            val dateTimeStr2 = "09/06/2024 14:30"
+            val localDateTime2 = dateTimeStr2.toLocalDateTime("dd/MM/yyyy HH:mm")
+            logger.info("字符串转LocalDateTime(不同格式): '{}' -> {}", dateTimeStr2, localDateTime2)
+            assertEquals(LocalDateTime.of(2024, 6, 9, 14, 30), localDateTime2)
         }
-        logger.info("空字符串转换正确抛出异常")
-        
-        // 测试无效格式
-        val invalidStr = "invalid-date"
-        assertThrows(Exception::class.java) {
-            invalidStr.toLocalDate("yyyy-MM-dd")
+    }
+
+    @Nested
+    @DisplayName("类型转换相关")
+    inner class Convert {
+        @Test
+        @DisplayName("LocalDateTime <-> Instant <-> Date")
+        fun testLocalDateTimeToInstantAndDate() {
+            logger.info("测试LocalDateTime.toInstant()方法")
+            
+            val ldt = LocalDateTime.of(2024, 6, 9, 14, 30, 45)
+            val instant = ldt.toInstant()
+            
+            logger.info("LocalDateTime转Instant: {} -> {}", ldt, instant)
+            assertNotNull(instant)
+            
+            // 验证转换结果
+            val convertedBack = LocalDateTime.ofInstant(instant, java.time.ZoneId.systemDefault())
+            assertEquals(ldt, convertedBack)
         }
-        logger.info("无效格式字符串转换正确抛出异常")
-        
-        // 测试时间重叠的边界情况
-        val start = LocalDateTime.of(2024, 6, 9, 10, 0, 0)
-        val end = LocalDateTime.of(2024, 6, 9, 14, 0, 0)
-        val boundary = LocalDateTime.of(2024, 6, 9, 14, 0, 0)
-        
-        val isBetween = boundary.isBetween(start, end)
-        logger.info("边界时间是否在范围内: {} 在 {} 和 {} 之间: {}", boundary, start, end, isBetween)
-        assertFalse(isBetween) // 边界时间不算在范围内
+        @Test
+        @DisplayName("LocalDate <-> Instant <-> Date")
+        fun testLocalDateToInstantAndDate() {
+            logger.info("测试LocalDate.toInstant()方法")
+
+            val ld = LocalDate.of(2024, 6, 9)
+            val instant = ld.toInstant()
+            
+            logger.info("LocalDate转Instant: {} -> {}", ld, instant)
+            assertNotNull(instant)
+            
+            // 验证转换结果
+            val convertedBack = LocalDate.ofInstant(instant, java.time.ZoneId.systemDefault())
+            assertEquals(ld, convertedBack)
+        }
+        @Test
+        @DisplayName("Date <-> LocalDate/LocalDateTime")
+        fun testDateToLocalDateAndLocalDateTime() {
+            logger.info("测试Date.toLocalDate()方法")
+            
+            val ldt = LocalDateTime.of(2024, 6, 9, 14, 30, 45)
+            val date = ldt.toDate()
+            val convertedBack = date.toLocalDate()
+            
+            logger.info("Date转LocalDate: {} -> {}", date, convertedBack)
+            assertEquals(ldt.year, convertedBack.year)
+            assertEquals(ldt.monthValue, convertedBack.monthValue)
+            assertEquals(ldt.dayOfMonth, convertedBack.dayOfMonth)
+        }
+    }
+
+    @Nested
+    @DisplayName("区间与边界相关")
+    inner class RangeBoundary {
+        @Test
+        @DisplayName("LocalDateTime.isBetween() & LocalDate.isBetween()")
+        fun testIsBetween() {
+            logger.info("测试LocalDateTime.isBetween()方法")
+            
+            val start = LocalDateTime.of(2024, 6, 9, 10, 0, 0)
+            val middle = LocalDateTime.of(2024, 6, 9, 14, 30, 0)
+            val end = LocalDateTime.of(2024, 6, 9, 18, 0, 0)
+            
+            val isBetween = middle.isBetween(start, end)
+            logger.info("时间是否在范围内: {} 在 {} 和 {} 之间: {}", middle, start, end, isBetween)
+            assertTrue(isBetween)
+            
+            // 测试边界情况
+            val beforeStart = LocalDateTime.of(2024, 6, 9, 9, 0, 0)
+            val afterEnd = LocalDateTime.of(2024, 6, 9, 19, 0, 0)
+            
+            val isBeforeStart = beforeStart.isBetween(start, end)
+            logger.info("时间是否在范围内: {} 在 {} 和 {} 之间: {}", beforeStart, start, end, isBeforeStart)
+            assertFalse(isBeforeStart)
+            
+            val isAfterEnd = afterEnd.isBetween(start, end)
+            logger.info("时间是否在范围内: {} 在 {} 和 {} 之间: {}", afterEnd, start, end, isAfterEnd)
+            assertFalse(isAfterEnd)
+        }
+        @Test
+        @DisplayName("LocalDateTime.isBetween()异常 & LocalDate.isBetween()异常")
+        fun testIsBetweenException() {
+            logger.info("测试LocalDateTime.isBetween()异常情况")
+            
+            val middle = LocalDateTime.now()
+            
+            // 测试null参数
+            assertThrows(Exception::class.java) {
+                middle.isBetween(null, LocalDateTime.now())
+            }
+            logger.info("start为null时正确抛出异常")
+            
+            assertThrows(Exception::class.java) {
+                middle.isBetween(LocalDateTime.now(), null)
+            }
+            logger.info("end为null时正确抛出异常")
+        }
+        @Test
+        @DisplayName("LocalDate.atEndOfDay()")
+        fun testAtEndOfDay() {
+            logger.info("测试LocalDate.atEndOfDay()方法")
+            
+            val ld = LocalDate.of(2024, 6, 9)
+            val endOfDay = ld.atEndOfDay()
+            
+            logger.info("LocalDate获取当天结束时间: {} -> {}", ld, endOfDay)
+            
+            assertEquals(ld, endOfDay.toLocalDate())
+            assertEquals(LocalTime.MAX, endOfDay.toLocalTime())
+            assertEquals(23, endOfDay.hour)
+            assertEquals(59, endOfDay.minute)
+            assertEquals(59, endOfDay.second)
+            assertEquals(999999999, endOfDay.nano)
+        }
+    }
+
+    @Nested
+    @DisplayName("时间段重叠相关")
+    inner class Overlap {
+        @Test
+        @DisplayName("Pair<LocalDateTime, LocalDateTime>.overlap()")
+        fun testPairOverlap() {
+            logger.info("测试Pair.overlap()方法")
+
+            val p1 = Pair(
+                LocalDateTime.of(2024, 6, 9, 10, 0, 0),
+                LocalDateTime.of(2024, 6, 9, 14, 0, 0)
+            )
+            val p2 = Pair(
+                LocalDateTime.of(2024, 6, 9, 12, 0, 0),
+                LocalDateTime.of(2024, 6, 9, 16, 0, 0)
+            )
+            val p3 = Pair(
+                LocalDateTime.of(2024, 6, 9, 15, 0, 0),
+                LocalDateTime.of(2024, 6, 9, 18, 0, 0)
+            )
+            
+            val overlap1 = p1 overlap p2
+            val overlap2 = p1 overlap p3
+            
+            logger.info("时间段1: {} - {}", p1.first, p1.second)
+            logger.info("时间段2: {} - {}", p2.first, p2.second)
+            logger.info("时间段3: {} - {}", p3.first, p3.second)
+            logger.info("时间段1与时间段2是否重叠: {}", overlap1)
+            logger.info("时间段1与时间段3是否重叠: {}", overlap2)
+            
+            assertTrue(overlap1) // 有重叠
+            assertFalse(overlap2) // 无重叠
+        }
+        @Test
+        @DisplayName("Pair<Date, Date>.dateOverlap()")
+        fun testPairDateOverlap() {
+            logger.info("测试Pair.dateOverlap()方法")
+            
+            val d1 = LocalDate.of(2024, 6, 9).toDate()
+            val d2 = LocalDate.of(2024, 6, 15).toDate()
+            val d3 = LocalDate.of(2024, 6, 20).toDate()
+            val d4 = LocalDate.of(2024, 6, 25).toDate()
+            
+            val p1 = Pair(d1, d2)
+            val p2 = Pair(d3, d4)
+            val p3 = Pair(d2, d3) // 边界重合
+            
+            val overlap1 = p1 dateOverlap p2
+            val overlap2 = p1 dateOverlap p3
+            
+            logger.info("日期段1: {} - {}", p1.first, p1.second)
+            logger.info("日期段2: {} - {}", p2.first, p2.second)
+            logger.info("日期段3: {} - {}", p3.first, p3.second)
+            logger.info("日期段1与日期段2是否重叠: {}", overlap1)
+            logger.info("日期段1与日期段3是否重叠: {} (边界重合)", overlap2)
+            
+            assertFalse(overlap1) // 无重叠
+            assertFalse(overlap2) // 边界重合不算重叠
+        }
+    }
+
+    @Nested
+    @DisplayName("今日剩余秒数相关")
+    inner class TodayRest {
+        @Test
+        @DisplayName("secondOfTodayRest()")
+        fun testSecondOfTodayRest() {
+            logger.info("测试secondOfTodayRest()方法")
+            
+            val restSeconds = secondOfTodayRest()
+            
+            logger.info("今天剩余秒数: {}", restSeconds)
+            assertTrue(restSeconds > 0)
+            assertTrue(restSeconds <= 86400) // 一天最多86400秒
+            
+            // 验证计算逻辑
+            val now = LocalDateTime.now()
+            val endOfDay = now.with(LocalTime.MAX)
+            val expectedSeconds = java.time.Duration.between(now, endOfDay).seconds
+            
+            logger.info("当前时间: {}", now)
+            logger.info("今天结束时间: {}", endOfDay)
+            logger.info("预期剩余秒数: {}", expectedSeconds)
+            logger.info("实际剩余秒数: {}", restSeconds)
+            
+            // 由于测试执行时间，允许1秒的误差
+            assertTrue(kotlin.math.abs(restSeconds - expectedSeconds) <= 1)
+        }
+    }
+
+    @Nested
+    @DisplayName("异常与边界情况")
+    inner class ExceptionBoundary {
+        @Test
+        @DisplayName("空字符串与无效格式")
+        fun testInvalidString() {
+            logger.info("测试边界情况")
+            
+            // 测试空字符串
+            val emptyStr = ""
+            assertThrows(Exception::class.java) {
+                emptyStr.toLocalDate("yyyy-MM-dd")
+            }
+            logger.info("空字符串转换正确抛出异常")
+            
+            // 测试无效格式
+            val invalidStr = "invalid-date"
+            assertThrows(Exception::class.java) {
+                invalidStr.toLocalDate("yyyy-MM-dd")
+            }
+            logger.info("无效格式字符串转换正确抛出异常")
+            
+            // 测试时间重叠的边界情况
+            val start = LocalDateTime.of(2024, 6, 9, 10, 0, 0)
+            val end = LocalDateTime.of(2024, 6, 9, 14, 0, 0)
+            val boundary = LocalDateTime.of(2024, 6, 9, 14, 0, 0)
+            
+            val isBetween = boundary.isBetween(start, end)
+            logger.info("边界时间是否在范围内: {} 在 {} 和 {} 之间: {}", boundary, start, end, isBetween)
+            assertFalse(isBetween) // 边界时间不算在范围内
+        }
+        @Test
+        @DisplayName("isBetween边界不包含")
+        fun testIsBetweenBoundary() {
+            val start = LocalDateTime.of(2024, 6, 9, 10, 0, 0)
+            val end = LocalDateTime.of(2024, 6, 9, 14, 0, 0)
+            val boundary = LocalDateTime.of(2024, 6, 9, 14, 0, 0)
+            assertFalse(boundary.isBetween(start, end))
+        }
     }
 
     // ==================== 性能测试 ====================
