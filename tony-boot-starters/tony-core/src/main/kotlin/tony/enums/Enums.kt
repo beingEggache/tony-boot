@@ -30,7 +30,6 @@ package tony.enums
  * 全局枚举
  * @author tangli
  * @date 2023/09/13 19:16
- * @since 1.0.0
  */
 import com.fasterxml.jackson.annotation.JsonValue
 import java.io.Serializable
@@ -46,7 +45,6 @@ import tony.utils.throwIfNull
  * 已和 jackson 和 mybatis-plus 结合.
  * @author tangli
  * @date 2023/09/13 19:16
- * @since 1.0.0
  */
 public sealed interface EnumValue<T : Serializable> {
     @get:JsonValue
@@ -57,7 +55,6 @@ public sealed interface EnumValue<T : Serializable> {
  * 全局整形枚举接口.
  * @author tangli
  * @date 2023/09/13 19:16
- * @since 1.0.0
  */
 public interface IntEnumValue : EnumValue<Int>
 
@@ -65,7 +62,6 @@ public interface IntEnumValue : EnumValue<Int>
  * 全局字符串枚举接口.
  * @author tangli
  * @date 2023/09/13 19:16
- * @since 1.0.0
  */
 public interface StringEnumValue : EnumValue<String>
 
@@ -117,7 +113,6 @@ internal sealed interface EnumCreatorFactory {
  * 枚举 构建器.
  * @author tangli
  * @date 2023/09/13 19:16
- * @since 1.0.0
  */
 public abstract class EnumCreator<out E, KEY>(
     private val clazz: Class<out E>,
@@ -140,7 +135,6 @@ public abstract class EnumCreator<out E, KEY>(
  * 字符串枚举 构建器.
  * @author tangli
  * @date 2023/09/13 19:15
- * @since 1.0.0
  */
 public abstract class StringEnumCreator(
     clazz: Class<out StringEnumValue>,
@@ -159,7 +153,6 @@ public abstract class StringEnumCreator(
  * int枚举 构建器.
  * @author tangli
  * @date 2023/09/13 19:16
- * @since 1.0.0
  */
 public abstract class IntEnumCreator(
     clazz: Class<out IntEnumValue>,

@@ -28,7 +28,6 @@
  * jackson Serializers
  * @author tangli
  * @date 2023/09/13 19:18
- * @since 1.0.0
  */
 
 package tony.jackson

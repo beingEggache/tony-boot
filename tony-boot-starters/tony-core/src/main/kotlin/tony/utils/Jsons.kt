@@ -66,7 +66,6 @@ public val globalObjectMapper: ObjectMapper by lazy(LazyThreadSafetyMode.PUBLICA
  * @return [ObjectMapper]
  * @author tangli
  * @date 2023/09/13 19:19
- * @since 1.0.0
  */
 public fun createObjectMapper(): ObjectMapper =
     ObjectMapper().initialize()
@@ -79,7 +78,6 @@ public fun createObjectMapper(): ObjectMapper =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:20
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
@@ -95,7 +93,6 @@ public inline fun <reified T> CharSequence.jsonToObj(): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:20
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
@@ -111,7 +108,6 @@ public fun <T> CharSequence.jsonToObj(clazz: Class<T>): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:20
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
@@ -127,7 +123,6 @@ public fun <T> CharSequence.jsonToObj(typeReference: TypeReference<T>): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:20
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
@@ -140,7 +135,6 @@ public fun <T> CharSequence.jsonToObj(javaType: JavaType): T =
  * @return [T]
  * @author tangli
  * @date 2023/11/23 19:36
- * @since 1.0.0
  */
 public inline fun <reified T> JsonNode.convertTo(): T =
     globalObjectMapper.convertValue(this)
@@ -151,7 +145,6 @@ public inline fun <reified T> JsonNode.convertTo(): T =
  * @return [T]
  * @author tangli
  * @date 2023/11/23 19:36
- * @since 1.0.0
  */
 public fun <T> JsonNode.convertTo(clazz: Class<T>): T =
     globalObjectMapper.convertValue(this, clazz)
@@ -162,7 +155,6 @@ public fun <T> JsonNode.convertTo(clazz: Class<T>): T =
  * @return [T]
  * @author tangli
  * @date 2023/11/23 19:36
- * @since 1.0.0
  */
 public fun <T> JsonNode.convertTo(typeReference: TypeReference<T>): T =
     globalObjectMapper.convertValue(this, typeReference)
@@ -173,7 +165,6 @@ public fun <T> JsonNode.convertTo(typeReference: TypeReference<T>): T =
  * @return [T]
  * @author tangli
  * @date 2023/11/23 19:36
- * @since 1.0.0
  */
 public fun <T> JsonNode.convertTo(javaType: JavaType): T =
     globalObjectMapper.convertValue(this, javaType)
@@ -185,7 +176,6 @@ public fun <T> JsonNode.convertTo(javaType: JavaType): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:21
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
 @Throws(IOException::class)
@@ -199,7 +189,6 @@ public fun CharSequence.jsonNode(): JsonNode =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:21
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
 @Throws(IOException::class)
@@ -213,7 +202,6 @@ public fun ByteArray.jsonNode(): JsonNode =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:21
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readTree
  */
 @Throws(IOException::class)
@@ -228,7 +216,6 @@ public fun InputStream.jsonNode(): JsonNode =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:22
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString
  */
 @Throws(IOException::class)
@@ -260,7 +247,6 @@ private val jsonFactory = JsonFactory()
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:22
- * @since 1.0.0
  */
 @Throws(IOException::class)
 public fun CharSequence.getFromRootAsString(field: String): String? {
@@ -299,7 +285,6 @@ public fun CharSequence.getFromRootAsString(field: String): String? {
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:22
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
@@ -315,7 +300,6 @@ public inline fun <reified T> ByteArray.jsonToObj(): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:22
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
@@ -330,7 +314,6 @@ public fun <T> ByteArray.jsonToObj(clazz: Class<T>): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/11/23 19:36
- * @since 1.0.0
  */
 @Throws(IOException::class)
 public fun <T> ByteArray.jsonToObj(typeReference: TypeReference<T>): T =
@@ -344,7 +327,6 @@ public fun <T> ByteArray.jsonToObj(typeReference: TypeReference<T>): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/11/23 19:36
- * @since 1.0.0
  */
 @Throws(IOException::class)
 public fun <T> ByteArray.jsonToObj(javaType: JavaType): T =
@@ -358,7 +340,6 @@ public fun <T> ByteArray.jsonToObj(javaType: JavaType): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:22
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
@@ -374,7 +355,6 @@ public inline fun <reified T> InputStream.jsonToObj(): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:22
- * @since 1.0.0
  * @see com.fasterxml.jackson.databind.ObjectMapper.readValue
  */
 @Throws(IOException::class)
@@ -389,7 +369,6 @@ public fun <T> InputStream.jsonToObj(clazz: Class<T>): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/11/23 19:36
- * @since 1.0.0
  */
 @Throws(IOException::class)
 public fun <T> InputStream.jsonToObj(typeReference: TypeReference<T>): T =
@@ -403,7 +382,6 @@ public fun <T> InputStream.jsonToObj(typeReference: TypeReference<T>): T =
  * @throws [IOException]
  * @author tangli
  * @date 2023/11/23 19:36
- * @since 1.0.0
  */
 @Throws(IOException::class)
 public fun <T> InputStream.jsonToObj(javaType: JavaType): T =

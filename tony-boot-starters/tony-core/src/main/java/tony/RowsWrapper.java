@@ -34,7 +34,6 @@ import java.util.Collection;
  *
  * @author tangli
  * @date 2024/07/02 09:03
- * @since 1.0.0
  */
 @SuppressWarnings("unused")
 public class RowsWrapper<T> implements RowsWrapperLike<T>{

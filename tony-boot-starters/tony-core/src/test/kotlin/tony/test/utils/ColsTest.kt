@@ -31,10 +31,10 @@ import org.junit.jupiter.api.Test
 import tony.utils.*
 
 /**
- * Cols 工具类单元测试
- * @author AI
- * @date 2024/06/09
- * @since 1.0.0
+ * 集合 工具类单元测试
+ *
+ * @author tangli
+ * @date 2025/06/27 17:00
  */
 @DisplayName("Cols测试")
 class ColsTest {
@@ -159,4 +159,4 @@ class ColsTest {
             assertTrue(result.isEmpty())
         }
     }
-} 
+}

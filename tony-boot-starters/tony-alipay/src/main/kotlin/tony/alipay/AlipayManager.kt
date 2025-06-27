@@ -36,7 +36,6 @@ import tony.utils.urlEncode
  * 支付宝 Manager
  * @author tangli
  * @date 2023/09/12 19:05
- * @since 1.0.0
  */
 @Suppress("unused")
 public class AlipayManager(

@@ -37,7 +37,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAd
  * RequestBody 注入
  * @author tangli
  * @date 2023/09/13 19:46
- * @since 1.0.0
  */
 @RestControllerAdvice
 internal class InjectRequestBodyAdvice(

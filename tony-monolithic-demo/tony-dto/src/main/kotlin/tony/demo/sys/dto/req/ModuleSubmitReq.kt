@@ -11,7 +11,6 @@ import tony.demo.trait.TreeLike
  * 模块请求
  * @author tangli
  * @date 2024/07/05 11:30
- * @since 1.0.0
  */
 @Schema(description = "模块请求")
 data class ModuleSubmitReq(

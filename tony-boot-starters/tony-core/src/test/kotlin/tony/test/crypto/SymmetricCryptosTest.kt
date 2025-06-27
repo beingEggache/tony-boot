@@ -17,7 +17,7 @@ import tony.crypto.symmetric.encryptToString
  * SymmetricCryptos 扩展方法工具测试
  *
  * @author tangli
- * @since 1.0.0
+ * @date 2025/06/27 17:00
  */
 @DisplayName("SymmetricCryptos 扩展方法工具测试")
 class SymmetricCryptosTest {

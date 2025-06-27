@@ -67,7 +67,6 @@ import tony.misc.YamlPropertySourceFactory
  * FeignConfig
  * @author Tony
  * @date 2023/05/25 19:43
- * @since 1.0.0
  */
 @PropertySource("classpath:feign.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(value = [FeignConfigProperties::class, RequestLogProperties::class])

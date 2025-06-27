@@ -7,7 +7,6 @@ import tony.demo.annotation.TenantIdInject
  * 角色查询
  * @author tangli
  * @date 2024/07/03 13:28
- * @since 1.0.0
  */
 @Schema(description = "角色查询")
 data class RoleQuery(

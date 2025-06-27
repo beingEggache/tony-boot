@@ -9,7 +9,6 @@ import tony.demo.sys.dto.enums.ModuleType
  * 角色模块查询
  * @author tangli
  * @date 2024/07/08 11:19
- * @since 1.0.0
  */
 @Schema(description = "角色模块查询")
 data class RoleModuleQuery(

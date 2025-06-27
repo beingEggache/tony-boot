@@ -10,9 +10,9 @@ import tony.utils.*
 
 /**
  * 摘要工具类单元测试
- * @author AI
- * @date 2024/06/09
- * @since 1.0.0
+ *
+ * @author tangli
+ * @date 2025/06/27 17:00
  */
 @DisplayName("Digests测试")
 class DigestsTest {

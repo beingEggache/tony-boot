@@ -8,7 +8,6 @@ import tony.demo.annotation.UserIdInject
  * ResetPwdReq is
  * @author tangli
  * @date 2024/07/10 13:38
- * @since 1.0.0
  */
 @Schema(description = "修改密码请求")
 data class ChangePwdReq(

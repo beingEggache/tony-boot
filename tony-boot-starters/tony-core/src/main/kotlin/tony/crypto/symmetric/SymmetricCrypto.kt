@@ -31,7 +31,6 @@ import tony.codec.enums.Encoding
  * 对称 加密/解密
  * @author tangli
  * @date 2023/09/27 19:20
- * @since 1.0.0
  */
 public sealed interface SymmetricCrypto {
     /**

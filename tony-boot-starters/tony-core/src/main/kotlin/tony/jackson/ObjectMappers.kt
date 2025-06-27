@@ -27,7 +27,6 @@
  * ObjectMapper 相关
  * @author tangli
  * @date 2023/09/13 19:18
- * @since 1.0.0
  */
 
 package tony.jackson
@@ -57,7 +56,6 @@ import java.util.TimeZone
  * @return [ObjectMapper]
  * @author tangli
  * @date 2023/09/13 19:18
- * @since 1.0.0
  */
 public fun ObjectMapper.initialize(): ObjectMapper =
     apply {

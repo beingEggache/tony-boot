@@ -12,7 +12,7 @@ import tony.crypto.symmetric.Des
  * Des 对称加密工具测试
  *
  * @author tangli
- * @since 1.0.0
+ * @date 2025/06/27 17:00
  */
 @DisplayName("Des 对称加密工具测试")
 class DesTest {
@@ -101,4 +101,4 @@ class DesTest {
             assertTrue(t2 > t1)
         }
     }
-} 
+}

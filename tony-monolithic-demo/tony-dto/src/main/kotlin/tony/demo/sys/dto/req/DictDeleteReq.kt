@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank
  * 删除字典请求
  * @author tangli
  * @date 2024/07/04 10:52
- * @since 1.0.0
  */
 @Schema(description = "删除字典请求")
 data class DictDeleteReq(

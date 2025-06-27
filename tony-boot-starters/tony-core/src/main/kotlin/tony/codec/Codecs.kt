@@ -29,7 +29,6 @@ package tony.codec
  * 二进制编码工具类
  * @author tangli
  * @date 2023/09/12 19:43
- * @since 1.0.0
  */
 import tony.codec.enums.Encoding
 
@@ -39,7 +38,6 @@ import tony.codec.enums.Encoding
  * @return [String]
  * @author tangli
  * @date 2023/09/12 19:43
- * @since 1.0.0
  */
 public fun CharSequence.encodeToString(encoding: Encoding): String =
     encoding.codec.encodeToString(this)
@@ -50,7 +48,6 @@ public fun CharSequence.encodeToString(encoding: Encoding): String =
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/12 19:43
- * @since 1.0.0
  */
 public fun CharSequence.encodeToByteArray(encoding: Encoding): ByteArray =
     encoding.codec.encodeToByteArray(this)
@@ -61,7 +58,6 @@ public fun CharSequence.encodeToByteArray(encoding: Encoding): ByteArray =
  * @return [String]
  * @author tangli
  * @date 2023/09/12 19:44
- * @since 1.0.0
  */
 public fun ByteArray.encodeToString(encoding: Encoding): String =
     encoding.codec.encodeToString(this)
@@ -72,7 +68,6 @@ public fun ByteArray.encodeToString(encoding: Encoding): String =
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/12 19:44
- * @since 1.0.0
  */
 public fun ByteArray.encodeToByteArray(encoding: Encoding): ByteArray =
     encoding.codec.encodeToByteArray(this)
@@ -83,7 +78,6 @@ public fun ByteArray.encodeToByteArray(encoding: Encoding): ByteArray =
  * @return [String]
  * @author tangli
  * @date 2023/09/12 19:44
- * @since 1.0.0
  */
 public fun CharSequence.decodeToString(encoding: Encoding): String =
     encoding.codec.decodeToString(this)
@@ -94,7 +88,6 @@ public fun CharSequence.decodeToString(encoding: Encoding): String =
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/12 19:44
- * @since 1.0.0
  */
 public fun CharSequence.decodeToByteArray(encoding: Encoding): ByteArray =
     encoding.codec.decodeToByteArray(this)
@@ -105,7 +98,6 @@ public fun CharSequence.decodeToByteArray(encoding: Encoding): ByteArray =
  * @return [String]
  * @author tangli
  * @date 2023/09/12 19:44
- * @since 1.0.0
  */
 public fun ByteArray.decodeToString(encoding: Encoding): String =
     encoding.codec.decodeToString(this)
@@ -116,7 +108,6 @@ public fun ByteArray.decodeToString(encoding: Encoding): String =
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/12 19:44
- * @since 1.0.0
  */
 public fun ByteArray.decodeToByteArray(encoding: Encoding): ByteArray =
     encoding.codec.decodeToByteArray(this)

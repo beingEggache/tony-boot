@@ -11,7 +11,6 @@ import tony.utils.isNumberTypes
  * FuryRedisService is
  * @author tangli
  * @date 2024/01/25 10:04
- * @since 1.0.0
  */
 class FuryRedisService : RedisService {
     override val serializerMode: SerializerMode = SerializerMode.FURY

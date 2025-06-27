@@ -14,7 +14,7 @@ import tony.codec.HexCodec
  * Codec 接口及实现测试
  *
  * @author tangli
- * @since 1.0.0
+ * @date 2025/06/27 17:00
  */
 @DisplayName("Codec 接口及实现测试")
 class CodecTest {
@@ -169,4 +169,4 @@ class CodecTest {
             assertEquals(str, HexCodec.decodeToString(HexCodec.encodeToString(str)))
         }
     }
-} 
+}

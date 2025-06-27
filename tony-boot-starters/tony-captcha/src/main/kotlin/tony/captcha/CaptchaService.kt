@@ -37,7 +37,6 @@ import tony.redis.RedisManager
  * 验证码 服务
  * @author tangli
  * @date 2023/09/28 19:58
- * @since 1.0.0
  */
 public fun interface CaptchaService {
     /**
@@ -72,7 +71,6 @@ public open class CaptchaVo(
  * 验证码服务默认实现
  * @author tangli
  * @date 2023/09/28 19:58
- * @since 1.0.0
  */
 public class DefaultCaptchaServiceImpl : CaptchaService {
     override fun verify(vo: CaptchaVo): Boolean =
@@ -83,7 +81,6 @@ public class DefaultCaptchaServiceImpl : CaptchaService {
  * 验证码服务空实现.
  * @author tangli
  * @date 2023/09/28 19:58
- * @since 1.0.0
  */
 public class NoopCaptchaServiceImpl : CaptchaService {
     override fun verify(vo: CaptchaVo): Boolean =

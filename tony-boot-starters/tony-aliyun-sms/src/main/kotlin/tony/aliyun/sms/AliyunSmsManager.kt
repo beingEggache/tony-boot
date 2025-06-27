@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory
  * 阿里云短信 Manager
  * @author tangli
  * @date 2023/09/28 19:55
- * @since 1.0.0
  */
 public class AliyunSmsManager(
     private val accessKeyId: String,

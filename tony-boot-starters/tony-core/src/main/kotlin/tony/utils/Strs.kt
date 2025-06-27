@@ -49,7 +49,6 @@ import org.springframework.util.AntPathMatcher
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:27
- * @since 1.0.0
  */
 public fun uuid(): String =
     UUID
@@ -63,7 +62,6 @@ public fun uuid(): String =
  * @return [Boolean]
  * @author tangli
  * @date 2023/12/08 19:28
- * @since 1.0.0
  */
 public fun CharSequence.isJson(): Boolean =
     try {
@@ -82,7 +80,6 @@ public fun CharSequence.isJson(): Boolean =
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:28
- * @since 1.0.0
  */
 public fun <T> T.toQueryString(): String =
     toJsonString()
@@ -95,7 +92,6 @@ public fun <T> T.toQueryString(): String =
  * @return [Boolean]
  * @author tangli
  * @date 2023/12/08 19:28
- * @since 1.0.0
  */
 public fun CharSequence?.equalsIgnoreNullOrEmpty(str: CharSequence?): Boolean =
     if (this.isNullOrEmpty()) {
@@ -109,7 +105,6 @@ public fun CharSequence?.equalsIgnoreNullOrEmpty(str: CharSequence?): Boolean =
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:28
- * @since 1.0.0
  */
 public fun Map<String, Any?>.toQueryString(
     skipNull: Boolean = true,
@@ -125,7 +120,6 @@ public fun Map<String, Any?>.toQueryString(
  * @return [Map]<[String], [String]>
  * @author tangli
  * @date 2023/12/08 19:28
- * @since 1.0.0
  */
 public fun CharSequence.queryStringToMap(): Map<String, String> =
     toString()
@@ -144,7 +138,6 @@ public fun CharSequence.queryStringToMap(): Map<String, String> =
  * @return [T]
  * @author tangli
  * @date 2023/12/08 19:28
- * @since 1.0.0
  */
 public inline fun <reified T> CharSequence.queryStringToObj(): T =
     globalObjectMapper.convertValue(
@@ -157,7 +150,6 @@ public inline fun <reified T> CharSequence.queryStringToObj(): T =
  * @return [T]
  * @author tangli
  * @date 2023/12/08 19:28
- * @since 1.0.0
  */
 public fun <T> CharSequence.queryStringToObj(clazz: Class<T>): T =
     globalObjectMapper.convertValue(
@@ -172,7 +164,6 @@ public fun <T> CharSequence.queryStringToObj(clazz: Class<T>): T =
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:28
- * @since 1.0.0
  */
 @JvmOverloads
 public fun CharSequence?.ifNullOrBlank(default: CharSequence = ""): String =
@@ -188,7 +179,6 @@ public fun CharSequence?.ifNullOrBlank(default: CharSequence = ""): String =
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:29
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun CharSequence?.ifNullOrBlank(crossinline block: () -> String): String =
@@ -205,7 +195,6 @@ private val mobileRegex = Regex("^1[3-9][0-9]{9}$")
  * @return [Boolean]
  * @author tangli
  * @date 2023/12/08 19:29
- * @since 1.0.0
  */
 public fun CharSequence.isMobileNumber(): Boolean =
     mobileRegex.matches(this)
@@ -215,7 +204,6 @@ public fun CharSequence.isMobileNumber(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/12/08 19:29
- * @since 1.0.0
  */
 public fun CharSequence.isNumber(): Boolean =
     runCatching { toString().toBigDecimal() }.isSuccess
@@ -226,7 +214,6 @@ public fun CharSequence.isNumber(): Boolean =
  * @return [T]
  * @author tangli
  * @date 2023/12/08 19:29
- * @since 1.0.0
  */
 public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
     when (numberType) {
@@ -247,7 +234,6 @@ public fun <T : Number> CharSequence.toNumber(numberType: Class<in T>): T =
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:29
- * @since 1.0.0
  */
 @JvmOverloads
 public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
@@ -260,7 +246,6 @@ public fun CharSequence?.urlEncode(charset: Charset = Charsets.UTF_8): String =
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:29
- * @since 1.0.0
  */
 @JvmOverloads
 public fun CharSequence?.urlDecode(charset: Charset = Charsets.UTF_8): String =
@@ -274,7 +259,6 @@ private val lineBreakRegex: Regex = "[${System.lineSeparator()}]".toRegex()
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:30
- * @since 1.0.0
  */
 public fun CharSequence.removeLineBreak(): String =
     this.replace(lineBreakRegex, "")
@@ -287,7 +271,6 @@ private val antPathMatcher = AntPathMatcher()
  * @return [Boolean]
  * @author tangli
  * @date 2023/12/08 19:30
- * @since 1.0.0
  * @see AntPathMatcher.match
  */
 public fun CharSequence?.antPathMatchAny(patterns: Collection<String>?): Boolean =
@@ -301,7 +284,6 @@ private val snakeRegex = "_[a-zA-Z]".toRegex()
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:30
- * @since 1.0.0
  */
 public fun CharSequence.camelToSnakeCase(): String =
     camelRegex
@@ -314,7 +296,6 @@ public fun CharSequence.camelToSnakeCase(): String =
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:30
- * @since 1.0.0
  */
 public fun CharSequence.snakeToLowerCamelCase(): String =
     snakeRegex
@@ -330,7 +311,6 @@ public fun CharSequence.snakeToLowerCamelCase(): String =
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:30
- * @since 1.0.0
  */
 public fun CharSequence.snakeToUpperCamelCase(): String =
     snakeToLowerCamelCase()
@@ -352,7 +332,6 @@ internal val duplicateSlash: Pattern = Pattern.compile("/{2,}")
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:30
- * @since 1.0.0
  */
 public fun sanitizedPath(input: CharSequence): String =
     duplicateSlash
@@ -366,7 +345,6 @@ private val QUOTES_CHARS = arrayOf('\'', '\"')
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:30
- * @since 1.0.0
  */
 public fun CharSequence.trimQuotes(): String =
     when {

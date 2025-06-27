@@ -44,7 +44,6 @@ import tony.utils.throwIfNull
  * mybatis-plus 属性填充注解
  * @author tangli
  * @date 2023/12/08 19:26
- * @since 1.0.0
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
@@ -67,7 +66,6 @@ public enum class MetaColumn {
  * 元对象字段填充控制器抽接口，实现公共字段自动写入
  * @author tangli
  * @date 2023/12/14 19:44
- * @since 1.0.0
  */
 public interface DbMetaObjectHandler : MetaObjectHandler {
     /**
@@ -107,7 +105,6 @@ public interface DbMetaObjectHandler : MetaObjectHandler {
  * 默认元对象处理程序
  * @author tangli
  * @date 2023/12/14 19:51
- * @since 1.0.0
  */
 public open class DefaultMetaObjectHandler(
     private val apiSession: ApiSession,

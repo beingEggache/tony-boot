@@ -33,7 +33,6 @@ import org.apache.ibatis.mapping.MappedStatement
  * PhysicalDeleteById is
  * @author tangli
  * @date 2024/06/26 13:00
- * @since 1.0.0
  */
 internal class PhysicalDeleteById : AbstractMethod("physicalDeleteById") {
     override fun injectMappedStatement(

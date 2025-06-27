@@ -9,7 +9,6 @@ import tony.demo.annotation.TenantIdInject
  * 新增部门请求
  * @author tangli
  * @date 2024/07/02 11:00
- * @since 1.0.0
  */
 @Schema(description = "更新部门请求")
 data class DeptUpdateReq(

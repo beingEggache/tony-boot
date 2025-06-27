@@ -67,7 +67,6 @@ public val localIp: String =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:23
- * @since 1.0.0
  */
 public fun isPreferredAddress(address: InetAddress): Boolean {
     val useOnlySiteLocalInterfaces =

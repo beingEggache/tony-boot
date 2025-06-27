@@ -9,7 +9,6 @@ import tony.demo.trait.ForestLike
  * 字典类型响应
  * @author tangli
  * @date 2024/07/26 11:47
- * @since 1.0.0
  */
 @Schema(description = "字典类型响应")
 data class DictTypeResp(

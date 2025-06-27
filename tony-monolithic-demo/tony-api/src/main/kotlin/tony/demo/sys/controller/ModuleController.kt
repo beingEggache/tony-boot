@@ -15,7 +15,6 @@ import tony.demo.sys.service.ModuleService
  * ModuleController is
  * @author tangli
  * @date 2024/07/05 11:39
- * @since 1.0.0
  */
 @Tag(name = "模块")
 @RestController

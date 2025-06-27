@@ -36,7 +36,6 @@ import tony.enums.EnumValue
  * mybatis 枚举 转换器.
  * @author tangli
  * @date 2023/09/13 19:40
- * @since 1.0.0
  */
 public open class EnumTypeHandler<E, KEY>(
     enumClass: Class<E>,

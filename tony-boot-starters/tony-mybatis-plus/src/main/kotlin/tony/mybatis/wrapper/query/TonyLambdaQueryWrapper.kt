@@ -40,7 +40,6 @@ import tony.utils.throwIfNull
  * Lambda 语法使用 Wrapper
  * @author tangli
  * @date 2023/09/13 19:42
- * @since 1.0.0
  */
 public class TonyLambdaQueryWrapper<T : Any> :
     AbstractLambdaWrapper<T, TonyLambdaQueryWrapper<T>>,

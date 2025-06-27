@@ -66,7 +66,6 @@ import tony.utils.toJavaType
  *
  * @author tangli
  * @date 2023/09/28 19:55
- * @since 1.0.0
  */
 @Aspect
 public abstract class RedisCacheAspect {
@@ -240,7 +239,6 @@ public abstract class RedisCacheAspect {
  *
  * @author tangli
  * @date 2023/09/28 19:55
- * @since 1.0.0
  */
 internal class JacksonRedisCacheAspect : RedisCacheAspect() {
     override fun getCachedValueByType(

@@ -27,7 +27,6 @@ import tony.web.WebContext
  * DictController is
  * @author tangli
  * @date 2024/07/03 13:33
- * @since 1.0.0
  */
 @Tag(name = "字典")
 @RestController

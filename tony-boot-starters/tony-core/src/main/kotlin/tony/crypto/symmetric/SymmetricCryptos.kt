@@ -43,7 +43,6 @@ import tony.utils.string
  * @return [CharSequence]
  * @author tangli
  * @date 2023/09/27 19:19
- * @since 1.0.0
  */
 public fun CharSequence.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -60,7 +59,6 @@ public fun CharSequence.decryptToString(
  * @return [CharSequence]
  * @author tangli
  * @date 2023/09/27 19:19
- * @since 1.0.0
  */
 public fun CharSequence.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -77,7 +75,6 @@ public fun CharSequence.decryptToString(
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/27 19:19
- * @since 1.0.0
  */
 public fun CharSequence.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -102,7 +99,6 @@ public fun CharSequence.decryptToBytes(
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/27 19:18
- * @since 1.0.0
  */
 public fun CharSequence.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -123,7 +119,6 @@ public fun CharSequence.decryptToBytes(
  * @return [CharSequence]
  * @author tangli
  * @date 2023/09/27 19:17
- * @since 1.0.0
  */
 public fun ByteArray.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -140,7 +135,6 @@ public fun ByteArray.decryptToString(
  * @return [CharSequence]
  * @author tangli
  * @date 2023/09/27 19:17
- * @since 1.0.0
  */
 public fun ByteArray.decryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -157,7 +151,6 @@ public fun ByteArray.decryptToString(
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/27 19:17
- * @since 1.0.0
  */
 public fun ByteArray.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -174,7 +167,6 @@ public fun ByteArray.decryptToBytes(
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/27 19:17
- * @since 1.0.0
  */
 public fun ByteArray.decryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -195,7 +187,6 @@ public fun ByteArray.decryptToBytes(
  * @return [String]
  * @author tangli
  * @date 2023/09/27 19:16
- * @since 1.0.0
  */
 public fun CharSequence.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -212,7 +203,6 @@ public fun CharSequence.encryptToString(
  * @return [CharSequence]
  * @author tangli
  * @date 2023/09/27 19:16
- * @since 1.0.0
  */
 public fun CharSequence.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -229,7 +219,6 @@ public fun CharSequence.encryptToString(
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/27 19:16
- * @since 1.0.0
  */
 public fun CharSequence.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -254,7 +243,6 @@ public fun CharSequence.encryptToBytes(
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/27 19:17
- * @since 1.0.0
  */
 public fun CharSequence.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -275,7 +263,6 @@ public fun CharSequence.encryptToBytes(
  * @return [CharSequence]
  * @author tangli
  * @date 2023/09/27 19:17
- * @since 1.0.0
  */
 public fun ByteArray.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -292,7 +279,6 @@ public fun ByteArray.encryptToString(
  * @return [CharSequence]
  * @author tangli
  * @date 2023/09/27 19:17
- * @since 1.0.0
  */
 public fun ByteArray.encryptToString(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -309,7 +295,6 @@ public fun ByteArray.encryptToString(
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/27 19:17
- * @since 1.0.0
  */
 public fun ByteArray.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,
@@ -326,7 +311,6 @@ public fun ByteArray.encryptToBytes(
  * @return [ByteArray]
  * @author tangli
  * @date 2023/09/27 19:17
- * @since 1.0.0
  */
 public fun ByteArray.encryptToBytes(
     symmetricCryptoAlgorithm: SymmetricCryptoAlgorithm,

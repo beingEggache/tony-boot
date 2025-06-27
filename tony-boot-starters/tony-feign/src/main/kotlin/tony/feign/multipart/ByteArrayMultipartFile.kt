@@ -41,7 +41,6 @@ import org.springframework.web.multipart.MultipartFile
  * 可用来 feign 上传二进制.
  * @author tangli
  * @date 2023/09/13 19:36
- * @since 1.0.0
  */
 public class ByteArrayMultipartFile(
     private val originalFilename: String,

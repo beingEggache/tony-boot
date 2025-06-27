@@ -50,7 +50,6 @@ import tony.utils.toPageResult
  * mybatis plus [BaseMapper] 包装, 增加了一些方法.
  * @author tangli
  * @date 2023/09/13 19:37
- * @since 1.0.0
  */
 public interface BaseDao<T : Any> : BaseMapper<T> {
     /**

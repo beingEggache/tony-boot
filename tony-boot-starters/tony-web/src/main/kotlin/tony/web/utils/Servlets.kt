@@ -58,7 +58,6 @@ import tony.web.WebContext
  * @return [String] 请求根路径
  * @author tangli
  * @date 2023/05/25 19:42
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("origin")
@@ -86,7 +85,6 @@ public val HttpServletRequest.origin: String
  * @return [String] 请求根路径
  * @author tangli
  * @date 2024/02/06 15:10
- * @since 1.0.0
  */
 public fun origin(): String =
     WebContext.request.origin
@@ -98,7 +96,6 @@ public fun origin(): String =
  * @return [Map]<[String], [String]> 请求头键值对，若同名header有多个值则用逗号拼接
  * @author tangli
  * @date 2024/02/06 15:11
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("headers")
@@ -118,7 +115,6 @@ public val HttpServletRequest.headers: Map<String, String>
  * @return [Map]<[String], [String]> 请求头键值对
  * @author tangli
  * @date 2024/02/06 15:11
- * @since 1.0.0
  */
 public fun requestHeaders(): Map<String, String> =
     WebContext.request.headers
@@ -130,7 +126,6 @@ public fun requestHeaders(): Map<String, String> =
  * @return [Map]<[String], [String]> 响应头键值对，若同名header有多个值则用逗号拼接
  * @author tangli
  * @date 2024/02/06 15:11
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("headers")
@@ -150,7 +145,6 @@ public val HttpServletResponse.headers: Map<String, String>
  * @return [Map]<[String], [String]> 响应头键值对
  * @author tangli
  * @date 2024/02/06 15:11
- * @since 1.0.0
  */
 public fun responseHeaders(): Map<String, String> =
     WebContext.response?.headers.ifNull(mapOf())
@@ -166,7 +160,6 @@ public fun responseHeaders(): Map<String, String> =
  * @note 若 X-Forwarded-For 有多个IP，仅取第一个。
  * @author tangli
  * @date 2024/02/06 15:14
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("remoteIp")
@@ -190,7 +183,6 @@ public val HttpServletRequest.remoteIp: String
  * @return [String] 客户端真实IP
  * @author tangli
  * @date 2024/02/06 15:14
- * @since 1.0.0
  */
 public fun remoteIp(): String =
     WebContext.request.remoteIp
@@ -202,7 +194,6 @@ public fun remoteIp(): String =
  * @return [URL] 请求的完整URL
  * @author tangli
  * @date 2024/02/06 15:14
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("url")
@@ -215,7 +206,6 @@ public val HttpServletRequest.url: URL
  * @return [URL] 请求的完整URL
  * @author tangli
  * @date 2024/02/06 15:14
- * @since 1.0.0
  */
 public fun url(): URL =
     WebContext.request.url
@@ -237,7 +227,6 @@ private val TEXT_MEDIA_TYPES =
  * @note 可根据实际需求扩展 TEXT_MEDIA_TYPES
  * @author tangli
  * @date 2024/02/06 15:15
- * @since 1.0.0
  */
 public fun isTextMediaTypes(mediaType: MediaType?): Boolean =
     TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
@@ -249,7 +238,6 @@ public fun isTextMediaTypes(mediaType: MediaType?): Boolean =
  * @return [Boolean] 是否为预检请求
  * @author tangli
  * @date 2024/02/06 15:15
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("isCorsPreflightRequest")
@@ -263,7 +251,6 @@ public val HttpServletRequest.isCorsPreflightRequest: Boolean
  * @return [Boolean] 是否为预检请求
  * @author tangli
  * @date 2024/02/06 15:15
- * @since 1.0.0
  */
 public fun isCorsPreflightRequest(): Boolean =
     WebContext.request.isCorsPreflightRequest
@@ -275,7 +262,6 @@ public fun isCorsPreflightRequest(): Boolean =
  * @return [MediaType]? 解析后的媒体类型，若无则为null
  * @author tangli
  * @date 2024/02/06 15:37
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("parsedMedia")
@@ -293,7 +279,6 @@ public val HttpServletRequest.parsedMedia: MediaType?
  * @return [MediaType]? 解析后的媒体类型，若无则为null
  * @author tangli
  * @date 2024/02/06 15:37
- * @since 1.0.0
  */
 public fun requestParsedMedia(): MediaType? =
     WebContext.request.parsedMedia
@@ -305,7 +290,6 @@ public fun requestParsedMedia(): MediaType? =
  * @return [MediaType]? 解析后的媒体类型，若无则为null
  * @author tangli
  * @date 2024/02/06 15:37
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("parsedMedia")
@@ -323,7 +307,6 @@ public val HttpServletResponse.parsedMedia: MediaType?
  * @return [MediaType]? 解析后的媒体类型，若无则为null
  * @author tangli
  * @date 2024/02/06 15:37
- * @since 1.0.0
  */
 public fun responseParsedMedia(): MediaType? =
     WebContext.response?.parsedMedia
@@ -335,7 +318,6 @@ public fun responseParsedMedia(): MediaType? =
  * @return [Boolean] 是否为1xx状态
  * @author tangli
  * @date 2024/02/06 15:38
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("status1xxInformational")
@@ -352,7 +334,6 @@ public val HttpServletResponse.status1xxInformational: Boolean
  * @return [Boolean] 是否为2xx状态
  * @author tangli
  * @date 2024/02/06 15:38
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("status2xxSuccessful")
@@ -369,7 +350,6 @@ public val HttpServletResponse.status2xxSuccessful: Boolean
  * @return [Boolean] 是否为3xx状态
  * @author tangli
  * @date 2024/02/06 15:38
- * @since 1.0.0
  */
 @get:JvmSynthetic
 @get:JvmName("status3xxRedirection")
@@ -389,7 +369,6 @@ public val HttpServletResponse.status3xxRedirection: Boolean
  * @note contentType为octet-stream时自动设置为附件下载
  * @author tangli
  * @date 2024/02/06 15:39
- * @since 1.0.0
  */
 public fun ByteArray.responseEntity(
     fileName: String = "",

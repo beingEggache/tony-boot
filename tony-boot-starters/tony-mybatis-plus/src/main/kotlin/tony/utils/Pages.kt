@@ -45,7 +45,6 @@ import tony.PageResult
  * @return [IPage]<[T]>
  * @author tangli
  * @date 2023/09/28 19:55
- * @since 1.0.0
  */
 public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
     Page<T>().also { page ->
@@ -66,7 +65,6 @@ public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
  * @return [PageResult]
  * @author tangli
  * @date 2023/09/28 19:55
- * @since 1.0.0
  */
 public fun <T> IPage<T>?.toPageResult(): PageResult<T> =
     if (this == null) {

@@ -30,7 +30,6 @@ package tony.utils
  * 日志工具类
  * @author tangli
  * @date 2023/09/13 19:22
- * @since 1.0.0
  */
 import java.util.function.Supplier
 import org.slf4j.Logger
@@ -45,7 +44,6 @@ import org.slf4j.MDC
  * @return [String]
  * @author tangli
  * @date 2023/09/27 19:02
- * @since 1.0.0
  */
 public fun mdcPutOrGetDefault(
     key: String,
@@ -63,7 +61,6 @@ public fun mdcPutOrGetDefault(
  * @return [Logger]
  * @author tangli
  * @date 2024/02/06 13:55
- * @since 1.0.0
  */
 public fun getLogger(name: String?): Logger =
     LoggerFactory.getLogger(name)
@@ -76,7 +73,6 @@ public fun getLogger(name: String?): Logger =
  * @return [Logger]
  * @author tangli
  * @date 2024/02/06 13:57
- * @since 1.0.0
  */
 @JvmSynthetic
 public fun <T : Any> T.getLogger(): Logger =

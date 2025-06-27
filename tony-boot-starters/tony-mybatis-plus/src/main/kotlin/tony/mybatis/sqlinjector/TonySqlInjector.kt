@@ -36,7 +36,6 @@ import tony.mybatis.sqlinjector.method.PhysicalDeleteByIds
  * 自定义方法注入
  * @author tangli
  * @date 2024/06/26 12:57
- * @since 1.0.0
  */
 internal class TonySqlInjector : DefaultSqlInjector() {
     override fun getMethodList(

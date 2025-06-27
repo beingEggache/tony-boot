@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank
  * 新增字典请求
  * @author tangli
  * @date 2024/07/26 11:47
- * @since 1.0.0
  */
 @Schema(description = "更新字典请求")
 data class DictUpdateReq(

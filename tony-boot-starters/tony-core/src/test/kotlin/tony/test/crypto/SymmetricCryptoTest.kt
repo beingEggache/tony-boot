@@ -17,7 +17,7 @@ import tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
  * SymmetricCrypto 接口多态与实现测试
  *
  * @author tangli
- * @since 1.0.0
+ * @date 2025/06/27 17:00
  */
 @DisplayName("SymmetricCrypto 接口多态与实现测试")
 class SymmetricCryptoTest {
@@ -187,4 +187,4 @@ class SymmetricCryptoTest {
             }
         }
     }
-} 
+}

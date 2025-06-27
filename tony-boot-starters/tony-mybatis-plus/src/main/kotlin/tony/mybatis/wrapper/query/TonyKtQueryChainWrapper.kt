@@ -37,7 +37,6 @@ import tony.mybatis.dao.getEntityClass
  * 比如 [oneNotNull], [throwIfExists], [pageResult]
  * @author tangli
  * @date 2023/09/13 19:41
- * @since 1.0.0
  */
 public open class TonyKtQueryChainWrapper<T : Any> internal constructor(
     private val baseMapper: BaseDao<T>,

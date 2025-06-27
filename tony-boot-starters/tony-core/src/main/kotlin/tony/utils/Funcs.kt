@@ -42,7 +42,6 @@ import tony.exception.BizException
  * @return result
  * @author tangli
  * @date 2023/11/07 19:38
- * @since 1.0.0
  */
 public fun Any?.notEquals(other: Any?): Boolean =
     this != other
@@ -55,7 +54,6 @@ public fun Any?.notEquals(other: Any?): Boolean =
  * @return [T]
  * @author tangli
  * @date 2023/11/07 19:38
- * @since 1.0.0
  */
 public fun <T> T?.ifNull(default: T): T =
     this ?: default
@@ -68,7 +66,6 @@ public fun <T> T?.ifNull(default: T): T =
  * @return [T]
  * @author tangli
  * @date 2023/11/07 19:39
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun <reified T> T?.ifNull(crossinline block: () -> T): T =
@@ -82,7 +79,6 @@ public inline fun <reified T> T?.ifNull(crossinline block: () -> T): T =
  * @return [T]?
  * @author tangli
  * @date 2023/11/07 19:39
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun <T> Boolean.runIf(crossinline block: () -> T?): T? =
@@ -98,7 +94,6 @@ public inline fun <T> Boolean.runIf(crossinline block: () -> T?): T? =
  * @param [block] 回调.
  * @author tangli
  * @date 2023/11/07 19:41
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun Boolean.alsoIf(crossinline block: () -> Unit) {
@@ -115,7 +110,6 @@ public inline fun Boolean.alsoIf(crossinline block: () -> Unit) {
  * @return [R]?
  * @author tangli
  * @date 2023/11/07 19:41
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun <T, R> T.runIf(
@@ -138,7 +132,6 @@ public inline fun <T, R> T.runIf(
  * @return [R]?
  * @author tangli
  * @date 2023/11/07 19:41
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun <T, R> T.letIf(
@@ -160,7 +153,6 @@ public inline fun <T, R> T.letIf(
  * @return [this]?
  * @author tangli
  * @date 2023/11/07 19:41
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun <T> T.applyIf(
@@ -180,7 +172,6 @@ public inline fun <T> T.applyIf(
  * @return [this]?
  * @author tangli
  * @date 2023/11/07 19:41
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun <T> T.alsoIf(
@@ -265,7 +256,6 @@ public fun <T> T?.throwIfNull(
  * @return [C]
  * @author tangli
  * @date 2023/11/06 19:19
- * @since 1.0.0
  */
 @JvmOverloads
 public fun <C : Collection<T>, T : Any?> C?.throwIfEmpty(
@@ -290,7 +280,6 @@ public fun <C : Collection<T>, T : Any?> C?.throwIfEmpty(
  * @return [C]
  * @author tangli
  * @date 2023/11/06 19:19
- * @since 1.0.0
  */
 @JvmOverloads
 public fun <C : Map<*, *>> C?.throwIfEmpty(
@@ -316,7 +305,6 @@ public fun <C : Map<*, *>> C?.throwIfEmpty(
  * @return [C]
  * @author tangli
  * @date 2023/11/06 19:19
- * @since 1.0.0
  */
 @JvmOverloads
 public fun <C : CharSequence> C?.throwIfNullOrEmpty(

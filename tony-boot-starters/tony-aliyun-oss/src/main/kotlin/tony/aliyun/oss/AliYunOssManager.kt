@@ -36,7 +36,6 @@ import tony.utils.sanitizedPath
  * 阿里云oss Manager
  * @author tangli
  * @date 2023/09/28 19:53
- * @since 1.0.0
  */
 public data object AliYunOssManager {
     private val aliyunOssProperties: AliyunOssProperties by SpringContexts.getBeanByLazy()

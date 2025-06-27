@@ -93,7 +93,6 @@ public class GlobalRequestInterceptorProvider<T : RequestInterceptor>(
  * - RequestProcessor 若有状态需保证线程安全。
  * @author tangli
  * @date 2023/09/13 19:33
- * @since 1.0.0
  */
 public class UseRequestProcessorsRequestInterceptor : RequestInterceptor {
     private val logger = getLogger()

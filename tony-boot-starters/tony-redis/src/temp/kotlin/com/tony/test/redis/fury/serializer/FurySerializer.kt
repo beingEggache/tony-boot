@@ -12,7 +12,6 @@ import java.text.NumberFormat
  * FurySerializer is
  * @author tangli
  * @date 2024/01/25 09:54
- * @since 1.0.0
  */
 class FurySerializer : RedisSerializer<Any?> {
 

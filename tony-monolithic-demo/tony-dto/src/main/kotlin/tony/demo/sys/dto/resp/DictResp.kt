@@ -8,7 +8,6 @@ import java.time.LocalDateTime
  * 字典响应
  * @author tangli
  * @date 2024/07/26 11:47
- * @since 1.0.0
  */
 @Schema(description = "字典响应")
 data class DictResp(

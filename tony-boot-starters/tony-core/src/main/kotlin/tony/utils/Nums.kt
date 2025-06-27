@@ -46,7 +46,6 @@ import kotlin.math.pow
  * @return [BigDecimal]
  * @author tangli
  * @date 2023/09/13 19:23
- * @since 1.0.0
  */
 @JvmOverloads
 public fun Number?.toBigDecimal(
@@ -68,7 +67,6 @@ public fun Number?.toBigDecimal(
  * @return [R]
  * @author tangli
  * @date 2023/09/13 19:24
- * @since 1.0.0
  */
 public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
     when (numberType) {
@@ -92,7 +90,6 @@ public fun <T : Number, R : Number> T.toNumber(numberType: Class<in R>): R =
  * @return [BigDecimal]
  * @author tangli
  * @date 2023/09/13 19:24
- * @since 1.0.0
  */
 @JvmOverloads
 public fun Number?.truncToBigDecimal(
@@ -111,7 +108,6 @@ public fun Number?.truncToBigDecimal(
  * @return [String]
  * @author tangli
  * @date 2023/09/13 19:24
- * @since 1.0.0
  */
 @JvmOverloads
 public fun Number?.truncToString(
@@ -130,7 +126,6 @@ public fun Number?.truncToString(
  * @return [String]
  * @author tangli
  * @date 2023/09/13 19:24
- * @since 1.0.0
  */
 @JvmOverloads
 public fun Number?.formatToPercent(
@@ -156,7 +151,6 @@ public val secureRandom: SecureRandom = SecureRandom()
  * @return [Int]
  * @author tangli
  * @date 2023/09/13 19:25
- * @since 1.0.0
  */
 public fun genRandomInt(digit: Int): Int {
     require(digit > 0) { "digit must be positive." }
@@ -173,7 +167,6 @@ public fun genRandomInt(digit: Int): Int {
  * @return [Long]
  * @author tangli
  * @date 2023/09/13 19:25
- * @since 1.0.0
  */
 public fun genRandomLong(digit: Int): Long {
     require(digit > 0) { "digit must be positive." }

@@ -12,7 +12,7 @@ import tony.crypto.symmetric.Aes
  * Aes 对称加密工具测试
  *
  * @author tangli
- * @since 1.0.0
+ * @date 2025/06/27 17:00
  */
 @DisplayName("Aes 对称加密工具测试")
 class AesTest {
@@ -101,4 +101,4 @@ class AesTest {
             assertTrue(t2 > t1)
         }
     }
-} 
+}

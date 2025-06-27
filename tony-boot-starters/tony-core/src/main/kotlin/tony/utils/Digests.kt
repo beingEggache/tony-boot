@@ -45,7 +45,6 @@ import tony.enums.StringEnumValue
  * @return [String]
  * @author tangli
  * @date 2023/09/27 19:21
- * @since 1.0.0
  */
 public fun CharSequence.md5(): String =
     DigestAlgorithm.MD5.digest(this)
@@ -55,7 +54,6 @@ public fun CharSequence.md5(): String =
  * @return [String]
  * @author tangli
  * @date 2023/09/27 19:21
- * @since 1.0.0
  */
 public fun CharSequence.sha1(): String =
     DigestAlgorithm.SHA1.digest(this)
@@ -65,7 +63,6 @@ public fun CharSequence.sha1(): String =
  * @return [String]
  * @author tangli
  * @date 2023/09/27 19:21
- * @since 1.0.0
  */
 public fun CharSequence.sha256(): String =
     DigestAlgorithm.SHA256.digest(this)
@@ -74,7 +71,6 @@ public fun CharSequence.sha256(): String =
  * 摘要算法
  * @author tangli
  * @date 2023/09/13 19:47
- * @since 1.0.0
  */
 public enum class DigestAlgorithm(
     override val value: String,

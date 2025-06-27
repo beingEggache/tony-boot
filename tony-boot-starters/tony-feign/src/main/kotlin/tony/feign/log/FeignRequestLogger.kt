@@ -118,7 +118,6 @@ internal class FeignLogInterceptor(
  * 默认ok http 请求日志记录器
  * @author tangli
  * @date 2023/09/13 19:35
- * @since 1.0.0
  */
 internal open class DefaultFeignRequestLogger : FeignRequestLogger {
     protected val logger: Logger =
@@ -241,7 +240,6 @@ internal open class DefaultFeignRequestLogger : FeignRequestLogger {
  * Feign okhttp 请求日志记录接口.
  * @author tangli
  * @date 2023/09/13 19:35
- * @since 1.0.0
  */
 public fun interface FeignRequestLogger {
     public fun requestLog(

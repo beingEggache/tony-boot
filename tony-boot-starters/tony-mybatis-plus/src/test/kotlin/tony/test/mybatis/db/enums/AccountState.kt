@@ -34,7 +34,6 @@ import tony.enums.IntEnumValue
  * 帐户状态
  * @author tangli
  * @date 2024/07/09 09:19
- * @since 1.0.0
  */
 @Suppress("unused")
 enum class AccountState(

@@ -12,7 +12,7 @@ import tony.codec.Base64Codec
  * Base64Codec 编解码工具测试
  *
  * @author tangli
- * @since 1.0.0
+ * @date 2025/06/27 17:00
  */
 @DisplayName("Base64Codec 编解码工具测试")
 class Base64CodecTest {
@@ -157,4 +157,4 @@ class Base64CodecTest {
             assertEquals(str, Base64Codec.decodeToString(Base64Codec.encodeToString(str)))
         }
     }
-} 
+}

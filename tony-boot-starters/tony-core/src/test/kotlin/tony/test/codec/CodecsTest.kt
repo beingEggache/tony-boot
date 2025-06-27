@@ -16,7 +16,7 @@ import tony.codec.enums.Encoding
  * Codecs 编解码扩展方法测试
  *
  * @author tangli
- * @since 1.0.0
+ * @date 2025/06/27 17:00
  */
 @DisplayName("Codecs 编解码扩展方法测试")
 class CodecsTest {
@@ -220,4 +220,4 @@ class CodecsTest {
             assertEquals(str, str.encodeToString(Encoding.HEX).decodeToString(Encoding.HEX))
         }
     }
-} 
+}

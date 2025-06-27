@@ -9,7 +9,6 @@ import tech.powerjob.worker.core.processor.sdk.BasicProcessor
  * BasicProcessorDemo is
  * @author tangli
  * @date 2024/01/23 10:37
- * @since 1.0.0
  */
 @Component
 class BasicProcessorDemo : BasicProcessor {

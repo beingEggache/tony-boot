@@ -18,7 +18,6 @@ import tony.utils.throwIfEmpty
  * 模块Service
  * @author tangli
  * @date 2024/07/03 13:14
- * @since 1.0.0
  */
 @Service
 class ModuleService(

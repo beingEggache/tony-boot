@@ -32,7 +32,6 @@ import tony.id.config.IdProperties
  * id生成器
  * @author tangli
  * @date 2022/07/12 19:58
- * @since 1.0.0
  */
 public data object IdGenerator {
     @JvmSynthetic

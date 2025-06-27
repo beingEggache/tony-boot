@@ -8,7 +8,6 @@ import tony.demo.annotation.TenantIdInject
  * 删除部门请求
  * @author tangli
  * @date 2024/07/04 10:52
- * @since 1.0.0
  */
 @Schema(description = "删除部门请求")
 data class DeptDeleteReq(

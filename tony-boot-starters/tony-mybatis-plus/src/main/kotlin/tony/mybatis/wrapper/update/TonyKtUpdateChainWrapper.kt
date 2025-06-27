@@ -38,7 +38,6 @@ import tony.mybatis.dao.getEntityClass
  * TonyKtUpdateChainWrapper is
  * @author tangli
  * @date 2024/06/26 13:21
- * @since 1.0.0
  */
 public class TonyKtUpdateChainWrapper<T : Any>(
     private val baseMapper: BaseDao<T>,

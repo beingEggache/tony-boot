@@ -40,7 +40,6 @@ import java.time.LocalDate
  * TestValidateService is
  * @author tangli
  * @date 2024/06/25 17:48
- * @since 1.0.0
  */
 @Validated
 @Service

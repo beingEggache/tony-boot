@@ -9,9 +9,9 @@ Tony Boot Starters 是一个基于 Spring Boot 的通用能力库集合，提供
 - **核心框架**: Spring Boot 3.5.0+, Spring Framework 6.2.8+
 - **数据库**: MySQL, PostgreSQL, Redis
 - **ORM**: MyBatis Plus 3.5.12
-- **序列化**: Jackson 2.19.1
-- **安全**: JWT, BouncyCastle 1.81
-- **API文档**: Knife4j 4.6.0, Swagger 2.2.33
+- **序列化**: Jackson 2.19.0+
+- **安全**: JWT, BouncyCastle 1.81+
+- **API文档**: Knife4j 4.6.0, Swagger 2.2.33+
 - **微服务**: OpenFeign 13.6, Spring Cloud
 
 ## 模块结构
@@ -143,20 +143,20 @@ fun testNotEqualsWhenDifferent(value: String) {
 ```kotlin
 @DisplayName("Funcs测试")
 class FuncsTest {
-    
+
     // 测试用的数据类（避免在inner class中定义data class）
     data class TestData(var value: String = "initial")
-    
+
     @Nested
     @DisplayName("Funcs.方法名()测试")
     inner class MethodNameTest {
-        
+
         @Test
         @DisplayName("Funcs.方法名():分支1")
         fun testMethodNameBranch1() {
             // 测试逻辑
         }
-        
+
         @ParameterizedTest
         @ValueSource(strings = ["value1", "value2", "value3"])
         @DisplayName("Funcs.方法名():参数化测试")

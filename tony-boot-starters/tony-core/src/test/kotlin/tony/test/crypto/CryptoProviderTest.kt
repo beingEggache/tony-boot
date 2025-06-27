@@ -12,7 +12,7 @@ import tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
  * CryptoProvider 接口测试
  *
  * @author tangli
- * @since 1.0.0
+ * @date 2025/06/27 17:00
  */
 @DisplayName("CryptoProvider 接口测试")
 class CryptoProviderTest {
@@ -120,4 +120,4 @@ class CryptoProviderTest {
             }
         }
     }
-} 
+}

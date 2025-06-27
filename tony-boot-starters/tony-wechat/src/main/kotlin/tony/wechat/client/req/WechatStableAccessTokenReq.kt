@@ -31,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * 微信稳定访问令牌req
  * @author tangli
  * @date 2023/09/25 19:49
- * @since 1.0.0
  */
 public data class WechatStableAccessTokenReq(
     /**

@@ -41,7 +41,6 @@ import java.time.LocalDateTime
  * FeignTestConfig is
  * @author tangli
  * @date 2023/11/27 19:43
- * @since 1.0.0
  */
 @Configuration
 class FeignTestConfig {

@@ -36,7 +36,6 @@ import tony.mybatis.dao.getEntityClass
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
  * @author tangli
  * @date 2023/09/13 19:42
- * @since 1.0.0
  */
 public open class TonyLambdaQueryChainWrapper<T : Any> internal constructor(
     private val baseMapper: BaseDao<T>,

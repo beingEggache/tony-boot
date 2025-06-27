@@ -85,7 +85,6 @@ internal class WechatPrintWriter(
  * @return [XStream]
  * @author tangli
  * @date 2025/06/25 09:28
- * @since 1.0.0
  */
 @JvmSynthetic
 public fun <T> xStream(clz: Class<T>): XStream =
@@ -105,7 +104,6 @@ public fun <T> xStream(clz: Class<T>): XStream =
  * @return [String]
  * @author tangli
  * @date 2025/06/25 09:27
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun <reified T> T?.toXmlString(): String =
@@ -122,7 +120,6 @@ public inline fun <reified T> T?.toXmlString(): String =
  * @return [String]
  * @author tangli
  * @date 2025/06/25 09:27
- * @since 1.0.0
  */
 public fun <T> T?.toXmlString(type: Class<T>): String =
     if (this == null) {
@@ -137,7 +134,6 @@ public fun <T> T?.toXmlString(type: Class<T>): String =
  * @return [T]
  * @author tangli
  * @date 2025/06/25 09:27
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun <reified T> CharSequence.xmlToObj(): T =
@@ -149,7 +145,6 @@ public inline fun <reified T> CharSequence.xmlToObj(): T =
  * @return [T]
  * @author tangli
  * @date 2025/06/25 09:28
- * @since 1.0.0
  */
 public fun <T> CharSequence.xmlToObj(type: Class<T>): T =
     xStream(type).fromXML(this.toString()).asToNotNull()

@@ -8,7 +8,6 @@ import tony.demo.annotation.AppIdInject
  * DictTypeAddReq is
  * @author tangli
  * @date 2024/07/26 11:47
- * @since 1.0.0
  */
 @Schema(description = "更新字典类型请求")
 data class DictTypeUpdateReq(

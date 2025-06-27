@@ -58,7 +58,6 @@ public fun <A : Annotation> Field.selfOrGetterOrSetterHasAnnotation(annotationTy
  * @return [A]?
  * @author tangli
  * @date 2023/09/12 19:12
- * @since 1.0.0
  */
 public fun <A : Annotation> Field.annotationFromSelfOrGetterOrSetter(annotationType: Class<A>): A? =
     annotation(annotationType)
@@ -73,7 +72,6 @@ public fun <A : Annotation> Field.annotationFromSelfOrGetterOrSetter(annotationT
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/12 19:13
- * @since 1.0.0
  */
 public fun <A : Annotation> Method.hasAnnotation(annotationType: Class<A>): Boolean =
     AnnotationUtils.findAnnotation(this, annotationType) != null
@@ -86,7 +84,6 @@ public fun <A : Annotation> Method.hasAnnotation(annotationType: Class<A>): Bool
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/12 19:17
- * @since 1.0.0
  */
 public fun <A : Annotation> Class<*>.hasAnnotation(annotationType: Class<A>): Boolean =
     AnnotationUtils.findAnnotation(this, annotationType) != null
@@ -99,7 +96,6 @@ public fun <A : Annotation> Class<*>.hasAnnotation(annotationType: Class<A>): Bo
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/12 19:17
- * @since 1.0.0
  */
 public fun <A : Annotation> AnnotatedElement.hasAnnotation(annotationType: Class<A>): Boolean =
     AnnotationUtils.findAnnotation(this, annotationType) != null
@@ -112,7 +108,6 @@ public fun <A : Annotation> AnnotatedElement.hasAnnotation(annotationType: Class
  * @return [A]?
  * @author tangli
  * @date 2023/09/12 19:18
- * @since 1.0.0
  */
 public fun <A : Annotation> Method.annotation(annotationType: Class<A>): A? =
     AnnotationUtils.findAnnotation(this, annotationType)
@@ -125,7 +120,6 @@ public fun <A : Annotation> Method.annotation(annotationType: Class<A>): A? =
  * @return [A]?
  * @author tangli
  * @date 2023/09/12 19:32
- * @since 1.0.0
  */
 public fun <A : Annotation> Class<*>.annotation(annotationType: Class<A>): A? =
     AnnotationUtils.findAnnotation(this, annotationType)
@@ -138,7 +132,6 @@ public fun <A : Annotation> Class<*>.annotation(annotationType: Class<A>): A? =
  * @return [A]?
  * @author tangli
  * @date 2023/09/12 19:33
- * @since 1.0.0
  */
 public fun <A : Annotation> AnnotatedElement.annotation(annotationType: Class<A>): A? =
     AnnotationUtils.findAnnotation(this, annotationType)

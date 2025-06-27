@@ -9,7 +9,6 @@ import tony.demo.validator.annotation.Mobile
  * 新增用户请求
  * @author tangli
  * @date 2024/07/02 11:00
- * @since 1.0.0
  */
 @Schema(description = "新增用户请求")
 data class EmployeeAddReq(

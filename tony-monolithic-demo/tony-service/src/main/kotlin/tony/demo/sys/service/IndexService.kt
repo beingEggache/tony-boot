@@ -19,7 +19,6 @@ import tony.utils.throwIfTrue
  * 首页Service
  * @author tangli
  * @date 2024/07/02 10:40
- * @since 1.0.0
  */
 @Service
 class IndexService(

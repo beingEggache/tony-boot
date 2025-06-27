@@ -31,7 +31,6 @@ import tony.utils.string
  * 十六进制编解码器
  * @author tangli
  * @date 2023/09/12 19:43
- * @since 1.0.0
  */
 public data object HexCodec : Codec {
     override fun encodeToString(src: ByteArray): String =

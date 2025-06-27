@@ -61,7 +61,6 @@ internal fun dateTimeFormatterWithDefaultOptions(pattern: String) =
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:42
- * @since 1.0.0
  */
 public fun TemporalAccessor.toString(pattern: CharSequence): String =
     dateTimeFormatterMap
@@ -74,7 +73,6 @@ public fun TemporalAccessor.toString(pattern: CharSequence): String =
  * @return [Date]
  * @author tangli
  * @date 2023/12/08 19:42
- * @since 1.0.0
  */
 @JvmSynthetic
 internal fun TemporalAccessor.toDate(): Date =
@@ -90,7 +88,6 @@ internal fun TemporalAccessor.toDate(): Date =
  * @return [Date]
  * @author tangli
  * @date 2023/12/08 19:42
- * @since 1.0.0
  */
 public fun CharSequence.toDate(pattern: CharSequence): Date =
     dateTimeFormatterMap
@@ -105,7 +102,6 @@ public fun CharSequence.toDate(pattern: CharSequence): Date =
  * @return [LocalDate]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun CharSequence.toLocalDate(pattern: CharSequence): LocalDate =
     dateTimeFormatterMap
@@ -122,7 +118,6 @@ public fun CharSequence.toLocalDate(pattern: CharSequence): LocalDate =
  * @return [LocalDateTime]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun CharSequence.toLocalDateTime(pattern: CharSequence): LocalDateTime =
     dateTimeFormatterMap
@@ -138,7 +133,6 @@ public fun CharSequence.toLocalDateTime(pattern: CharSequence): LocalDateTime =
  * @return [Instant]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun LocalDateTime.toInstant(): Instant =
     Instant.from(atZone(ZoneId.systemDefault()))
@@ -148,7 +142,6 @@ public fun LocalDateTime.toInstant(): Instant =
  * @return [Date]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun LocalDateTime.toDate(): Date =
     Date.from(toInstant())
@@ -160,7 +153,6 @@ public fun LocalDateTime.toDate(): Date =
  * @return [Boolean]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun LocalDateTime.isBetween(
     start: LocalDateTime?,
@@ -177,7 +169,6 @@ public fun LocalDateTime.isBetween(
  * @return [Instant]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun LocalDate.toInstant(): Instant =
     atStartOfDay(ZoneId.systemDefault()).toInstant()
@@ -187,7 +178,6 @@ public fun LocalDate.toInstant(): Instant =
  * @return [Date]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun LocalDate.toDate(): Date =
     Date.from(toInstant())
@@ -199,7 +189,6 @@ public fun LocalDate.toDate(): Date =
  * @return [Boolean]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun LocalDate.isBetween(
     start: LocalDate?,
@@ -216,7 +205,6 @@ public fun LocalDate.isBetween(
  * @return [LocalDateTime]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun LocalDate.atEndOfDay(): LocalDateTime =
     LocalDateTime.of(this, LocalTime.MAX)
@@ -227,7 +215,6 @@ public fun LocalDate.atEndOfDay(): LocalDateTime =
  * @return [String]
  * @author tangli
  * @date 2023/12/08 19:40
- * @since 1.0.0
  */
 public fun Date.toString(pattern: CharSequence): String =
     dateTimeFormatterMap
@@ -240,7 +227,6 @@ public fun Date.toString(pattern: CharSequence): String =
  * @return [LocalDate]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun Date.toLocalDate(): LocalDate =
     LocalDate.ofInstant(toInstant(), ZoneId.systemDefault())
@@ -250,7 +236,6 @@ public fun Date.toLocalDate(): LocalDate =
  * @return [LocalDateTime]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun Date.toLocalDateTime(): LocalDateTime =
     LocalDateTime.ofInstant(toInstant(), ZoneId.systemDefault())
@@ -260,7 +245,6 @@ public fun Date.toLocalDateTime(): LocalDateTime =
  * @return [Long]
  * @author tangli
  * @date 2023/12/08 19:43
- * @since 1.0.0
  */
 public fun secondOfTodayRest(): Long =
     ChronoUnit.SECONDS.between(
@@ -274,7 +258,6 @@ public fun secondOfTodayRest(): Long =
  * @return [Boolean]
  * @author tangli
  * @date 2023/12/04 19:33
- * @since 1.0.0
  */
 public infix fun <T : TemporalAccessor> Pair<T, T>.overlap(timePeriod: Pair<T, T>): Boolean =
     TimePeriod(this.first, this.second).overlapWith(TimePeriod(timePeriod.first, timePeriod.second))
@@ -285,7 +268,6 @@ public infix fun <T : TemporalAccessor> Pair<T, T>.overlap(timePeriod: Pair<T, T
  * @return [Boolean]
  * @author tangli
  * @date 2023/12/04 19:33
- * @since 1.0.0
  */
 public infix fun <T : Date> Pair<T, T>.dateOverlap(timePeriod: Pair<T, T>): Boolean =
     TimePeriod(this.first, this.second).overlapWith(TimePeriod(timePeriod.first, timePeriod.second))
@@ -294,7 +276,6 @@ public infix fun <T : Date> Pair<T, T>.dateOverlap(timePeriod: Pair<T, T>): Bool
  * 时间段
  * @author tangli
  * @date 2023/12/08 19:44
- * @since 1.0.0
  */
 internal class TimePeriod {
     private val start: Date

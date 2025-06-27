@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.OptBoolean
  * TentantIdInject is
  * @author tangli
  * @date 2024/07/03 14:10
- * @since 1.0.0
  */
 
 @Target(

@@ -48,7 +48,9 @@ import java.util.concurrent.atomic.AtomicLong
 
 /**
  * Nums工具类全量单元测试
- * 覆盖所有public方法，包含正常、异常、边界、溢出、舍入、随机性、null等场景
+ *
+ * @author tangli
+ * @date 2025/06/27 17:00
  */
 @DisplayName("Nums工具类全量测试")
 class NumsTest {

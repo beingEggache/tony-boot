@@ -31,7 +31,6 @@ import tony.utils.string
  * base64编解码器
  * @author tangli
  * @date 2023/09/12 19:43
- * @since 1.0.0
  */
 public data object Base64Codec : Codec {
     override fun encodeToByteArray(src: ByteArray): ByteArray =

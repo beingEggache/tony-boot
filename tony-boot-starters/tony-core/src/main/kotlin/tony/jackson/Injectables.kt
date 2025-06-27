@@ -28,7 +28,6 @@ package tony.jackson
  * Jackson 注入
  * @author tangli
  * @date 2023/09/28 19:16
- * @since 1.0.0
  */
 import com.fasterxml.jackson.databind.BeanProperty
 import com.fasterxml.jackson.databind.DeserializationContext
@@ -49,7 +48,6 @@ import tony.utils.getLogger
  *
  * @author tangli
  * @date 2023/09/28 19:16
- * @since 1.0.0
  */
 public class InjectableValuesBySupplier(
     private val values: Map<String, InjectableValueSupplier>,
@@ -75,7 +73,6 @@ public class InjectableValuesBySupplier(
  * Jackson 注入 Supplier.
  * @author tangli
  * @date 2023/09/13 19:17
- * @since 1.0.0
  */
 public interface InjectableValueSupplier {
     public val name: String
@@ -90,7 +87,6 @@ public interface InjectableValueSupplier {
  * 抽象Jackson 注入 Supplier.
  * @author tangli
  * @date 2023/09/13 19:18
- * @since 1.0.0
  */
 public abstract class AbstractInjectableValueSupplier(
     override val name: String,

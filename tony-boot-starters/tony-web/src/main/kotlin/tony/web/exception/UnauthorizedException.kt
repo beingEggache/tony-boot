@@ -31,7 +31,6 @@ import tony.exception.ApiException
  * 未经授权异常
  * @author tangli
  * @date 2023/10/24 19:08
- * @since 1.0.0
  */
 public class UnauthorizedException(
     override val message: String?,

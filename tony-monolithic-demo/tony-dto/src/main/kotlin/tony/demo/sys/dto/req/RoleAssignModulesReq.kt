@@ -8,7 +8,6 @@ import tony.demo.annotation.TenantIdInject
  * 角色分配模块req
  * @author tangli
  * @date 2024/07/05 16:01
- * @since 1.0.0
  */
 @Schema(description = "角色分配模块请求")
 data class RoleAssignModulesReq(

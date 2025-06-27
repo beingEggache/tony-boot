@@ -30,7 +30,6 @@ import tony.utils.string
  * 编解码器
  * @author tangli
  * @date 2023/09/12 19:45
- * @since 1.0.0
  */
 public sealed interface Codec {
     /**

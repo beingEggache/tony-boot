@@ -9,7 +9,6 @@ import tony.mybatis.dao.BaseDao
  * 部门 dao
  * @author tangli
  * @date 2024/07/05 11:09
- * @since 1.0.0
  */
 interface DeptDao : BaseDao<Dept> {
     /**

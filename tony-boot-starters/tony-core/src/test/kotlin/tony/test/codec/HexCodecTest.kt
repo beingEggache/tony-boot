@@ -35,7 +35,9 @@ import tony.codec.HexCodec
 
 /**
  * HexCodec 单元测试
- * 覆盖编码、解码、边界、特殊字符、性能等场景
+ *
+ * @author tangli
+ * @date 2025/06/27 17:00
  */
 @DisplayName("HexCodec全量测试")
 class HexCodecTest {

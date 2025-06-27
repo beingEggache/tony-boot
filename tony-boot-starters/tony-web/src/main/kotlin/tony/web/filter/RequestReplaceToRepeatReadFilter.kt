@@ -28,7 +28,6 @@ package tony.web.filter
  * 重复读取请求包装器 相关
  * @author tangli
  * @date 2023/09/28 19:03
- * @since 1.0.0
  */
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ReadListener
@@ -57,7 +56,6 @@ import tony.web.utils.isCorsPreflightRequest
  * 可重复读请求过滤器.
  * @author tangli
  * @date 2023/09/13 19:47
- * @since 1.0.0
  */
 internal class RequestReplaceToRepeatReadFilter(
     /**
@@ -96,7 +94,6 @@ internal class RequestReplaceToRepeatReadFilter(
  * 可重复读请求包装器.
  * @author tangli
  * @date 2023/09/28 19:03
- * @since 1.0.0
  */
 public class RepeatReadRequestWrapper
     @Throws(IOException::class)

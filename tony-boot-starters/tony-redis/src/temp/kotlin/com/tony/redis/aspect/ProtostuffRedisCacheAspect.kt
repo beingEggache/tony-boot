@@ -9,7 +9,6 @@ import tony.redis.RedisManager
  * 给常规的 @Cacheable 加了过期时间.
  * @author tangli
  * @date 2023/09/28 19:55
- * @since 1.0.0
  */
 internal class ProtostuffRedisCacheAspect : RedisCacheAspect() {
     override fun getCachedValueByType(

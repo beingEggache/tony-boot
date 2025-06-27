@@ -27,7 +27,6 @@ import tony.utils.throwIfTrue
  * 字典Service
  * @author tangli
  * @date 2024/07/26 11:36
- * @since 1.0.0
  */
 @Service
 class DictService(

@@ -35,9 +35,9 @@ import tony.utils.*
 
 /**
  * 函数式编程工具类单元测试
- * @author AI
- * @date 2024/06/09
- * @since 1.0.0
+ *
+ * @author tangli
+ * @date 2025/06/27 17:00
  */
 @DisplayName("Funcs测试")
 class FuncsTest {
@@ -58,7 +58,7 @@ class FuncsTest {
             val otherValue = if (value == "hello") "world" else "hello"
             assertTrue(value.notEquals(otherValue))
         }
-        
+
         @ParameterizedTest
         @ValueSource(ints = [123, 456, 789])
         @DisplayName("Funcs.notEquals():数字不相等")
@@ -66,14 +66,14 @@ class FuncsTest {
             val otherValue = value + 1
             assertTrue(value.notEquals(otherValue))
         }
-        
+
         @Test
         @DisplayName("Funcs.notEquals():null值")
         fun testNotEqualsWithNull() {
             assertTrue(null.notEquals("test"))
             assertTrue("test".notEquals(null))
         }
-        
+
         @Test
         @DisplayName("Funcs.notEquals():相等")
         fun testNotEqualsWhenEqual() {
@@ -93,7 +93,7 @@ class FuncsTest {
             val result = value.ifNull("default")
             assertEquals(value, result)
         }
-        
+
         @ParameterizedTest
         @ValueSource(ints = [100, 200, 300])
         @DisplayName("Funcs.ifNull():数字类型非null")
@@ -101,7 +101,7 @@ class FuncsTest {
             val result = value.ifNull(999)
             assertEquals(value, result)
         }
-        
+
         @Test
         @DisplayName("Funcs.ifNull():null值")
         fun testIfNullWithNullValue() {
@@ -109,7 +109,7 @@ class FuncsTest {
             val result = nullValue.ifNull("default")
             assertEquals("default", result)
         }
-        
+
         @Test
         @DisplayName("Funcs.ifNull():数字类型null")
         fun testIfNullWithNumberType() {
@@ -127,20 +127,20 @@ class FuncsTest {
         @DisplayName("Funcs.ifNull():非null值回调")
         fun testIfNullCallbackWithNonNullValue(value: String) {
             var callbackCount = 0
-            val result = value.ifNull { 
+            val result = value.ifNull {
                 callbackCount++
                 "default"
             }
             assertEquals(value, result)
             assertEquals(0, callbackCount)
         }
-        
+
         @Test
         @DisplayName("Funcs.ifNull():null值回调")
         fun testIfNullCallbackWithNullValue() {
             var callbackCount = 0
             val nullValue: String? = null
-            val result = nullValue.ifNull { 
+            val result = nullValue.ifNull {
                 callbackCount++
                 "default"
             }
@@ -156,7 +156,7 @@ class FuncsTest {
         @DisplayName("Funcs.runIf():条件为真")
         fun testRunIfWhenConditionTrue() {
             var executionCount = 0
-            val result = true.runIf { 
+            val result = true.runIf {
                 executionCount++
                 "executed"
             }
@@ -167,7 +167,7 @@ class FuncsTest {
         @DisplayName("Funcs.runIf():条件为假")
         fun testRunIfWhenConditionFalse() {
             var executionCount = 0
-            val result = false.runIf { 
+            val result = false.runIf {
                 executionCount++
                 "not executed"
             }
@@ -183,7 +183,7 @@ class FuncsTest {
         @DisplayName("Funcs.alsoIf():条件为真")
         fun testAlsoIfWhenConditionTrue() {
             var executionCount = 0
-            true.alsoIf { 
+            true.alsoIf {
                 executionCount++
             }
             assertEquals(1, executionCount)
@@ -192,7 +192,7 @@ class FuncsTest {
         @DisplayName("Funcs.alsoIf():条件为假")
         fun testAlsoIfWhenConditionFalse() {
             var executionCount = 0
-            false.alsoIf { 
+            false.alsoIf {
                 executionCount++
             }
             assertEquals(0, executionCount)
@@ -207,7 +207,7 @@ class FuncsTest {
         @DisplayName("Funcs.runIf():对象条件为真")
         fun testObjectRunIfWhenConditionTrue(value: String) {
             var executionCount = 0
-            val result = value.runIf(true) { 
+            val result = value.runIf(true) {
                 executionCount++
                 this.uppercase()
             }
@@ -219,7 +219,7 @@ class FuncsTest {
         fun testObjectRunIfWhenConditionFalse() {
             val testObject = "test"
             var executionCount = 0
-            val result = testObject.runIf(false) { 
+            val result = testObject.runIf(false) {
                 executionCount++
                 this.uppercase()
             }
@@ -236,7 +236,7 @@ class FuncsTest {
         @DisplayName("Funcs.letIf():条件为真")
         fun testLetIfWhenConditionTrue(value: String) {
             var executionCount = 0
-            val result = value.letIf(true) { 
+            val result = value.letIf(true) {
                 executionCount++
                 it.uppercase()
             }
@@ -248,7 +248,7 @@ class FuncsTest {
         fun testLetIfWhenConditionFalse() {
             val testObject = "test"
             var executionCount = 0
-            val result = testObject.letIf(false) { 
+            val result = testObject.letIf(false) {
                 executionCount++
                 it.uppercase()
             }
@@ -266,7 +266,7 @@ class FuncsTest {
         fun testApplyIfWhenConditionTrue(newValue: String) {
             val testObject = TestData()
             var executionCount = 0
-            val result = testObject.applyIf(true) { 
+            val result = testObject.applyIf(true) {
                 executionCount++
                 this.value = newValue
             }
@@ -278,7 +278,7 @@ class FuncsTest {
         fun testApplyIfWhenConditionFalse() {
             val testObject = TestData()
             var executionCount = 0
-            val result = testObject.applyIf(false) { 
+            val result = testObject.applyIf(false) {
                 executionCount++
                 this.value = "not modified"
             }
@@ -296,7 +296,7 @@ class FuncsTest {
         fun testObjectAlsoIfWhenConditionTrue(newValue: String) {
             val testObject = TestData()
             var executionCount = 0
-            val result = testObject.alsoIf(true) { 
+            val result = testObject.alsoIf(true) {
                 executionCount++
                 it.value = newValue
             }
@@ -308,7 +308,7 @@ class FuncsTest {
         fun testObjectAlsoIfWhenConditionFalse() {
             val testObject = TestData()
             var executionCount = 0
-            val result = testObject.alsoIf(false) { 
+            val result = testObject.alsoIf(false) {
                 executionCount++
                 it.value = "not modified"
             }
@@ -361,15 +361,15 @@ class FuncsTest {
         fun testComplexConditionsNormalFlow(testString: String) {
             var executionCount = 0
             val result = testString
-                .runIf(testString.length > 3) { 
+                .runIf(testString.length > 3) {
                     executionCount++
                     this.uppercase()
                 }
-                ?.runIf(testString.contains("o")) { 
+                ?.runIf(testString.contains("o")) {
                     executionCount++
                     this + "!"
                 }
-            
+
             when {
                 testString.length > 3 && testString.contains("o") -> {
                     assertEquals(testString.uppercase() + "!", result)
@@ -385,33 +385,33 @@ class FuncsTest {
                 }
             }
         }
-        
+
         @Test
         @DisplayName("Funcs.复杂条件组合:调试test参数")
         fun testComplexConditionsDebug() {
             val testString = "test"
             var executionCount = 0
-            
+
             println("testString: $testString")
             println("testString.length: ${testString.length}")
             println("testString.length > 3: ${testString.length > 3}")
             println("testString.contains('o'): ${testString.contains("o")}")
-            
-            val firstResult = testString.runIf(testString.length > 3) { 
+
+            val firstResult = testString.runIf(testString.length > 3) {
                 executionCount++
                 println("First runIf executed, executionCount: $executionCount")
                 this.uppercase()
             }
             println("First result: $firstResult")
-            
-            val result = firstResult?.runIf(testString.contains("o")) { 
+
+            val result = firstResult?.runIf(testString.contains("o")) {
                 executionCount++
                 println("Second runIf executed, executionCount: $executionCount")
                 this + "!"
             }
             println("Final result: $result")
             println("Final executionCount: $executionCount")
-            
+
             assertNull(result)
             assertEquals(1, executionCount)
         }
@@ -427,11 +427,11 @@ class FuncsTest {
             val person = Person()
             var executionCount = 0
             val result = person
-                .applyIf(true) { 
+                .applyIf(true) {
                     executionCount++
                     this.name = name
                 }
-                .applyIf(true) { 
+                .applyIf(true) {
                     executionCount++
                     this.age = 25
                 }
@@ -445,11 +445,11 @@ class FuncsTest {
             val person = Person()
             var executionCount = 0
             val result = person
-                .applyIf(false) { 
+                .applyIf(false) {
                     executionCount++
                     this.name = "Tony"
                 }
-                .applyIf(false) { 
+                .applyIf(false) {
                     executionCount++
                     this.age = 25
                 }

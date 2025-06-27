@@ -30,7 +30,6 @@ package tony.redis
  * Redis 相关.
  * @author tangli
  * @date 2023/09/28 19:56
- * @since 1.0.0
  */
 import org.springframework.core.io.ClassPathResource
 import org.springframework.data.redis.core.HashOperations

@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank
  * 登录请求
  * @author tangli
  * @date 2025/03/23 22:18
- * @since 1.0.0
  */
 @Schema(description = "登录请求")
 data class LoginReq(

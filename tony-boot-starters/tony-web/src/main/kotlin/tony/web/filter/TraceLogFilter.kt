@@ -28,7 +28,6 @@ package tony.web.filter
  * 跟踪日志过滤器
  * @author tangli
  * @date 2023/09/13 19:48
- * @since 1.0.0
  */
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
@@ -57,7 +56,6 @@ import tony.web.utils.isCorsPreflightRequest
  * 跟踪日志过滤器
  * @author tangli
  * @date 2023/09/13 19:48
- * @since 1.0.0
  */
 internal class TraceLogFilter(
     private val traceLogger: TraceLogger,

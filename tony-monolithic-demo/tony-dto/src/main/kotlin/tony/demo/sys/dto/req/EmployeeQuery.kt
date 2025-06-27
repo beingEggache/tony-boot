@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema
  * 员工查询
  * @author tangli
  * @date 2024/07/02 11:00
- * @since 1.0.0
  */
 @Schema(description = "员工查询")
 data class EmployeeQuery(

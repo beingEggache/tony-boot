@@ -31,10 +31,9 @@ import org.junit.jupiter.api.Test
 import tony.utils.*
 
 /**
- * Annos 工具类单元测试
- * @author AI
- * @date 2024/06/09
- * @since 1.0.0
+ * 注解 工具类单元测试
+ * @author tangli
+ * @date 2025/06/27 17:00
  */
 @DisplayName("Annos测试")
 class AnnosTest {
@@ -149,4 +148,4 @@ class AnnosTest {
             assertFalse(method.hasAnnotation(MyAnno::class.java))
         }
     }
-} 
+}

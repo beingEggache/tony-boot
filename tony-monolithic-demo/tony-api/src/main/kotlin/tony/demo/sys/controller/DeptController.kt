@@ -17,7 +17,6 @@ import tony.demo.sys.service.DeptService
  * DeptController is
  * @author tangli
  * @date 2024/07/03 13:33
- * @since 1.0.0
  */
 @Tag(name = "部门")
 @RestController

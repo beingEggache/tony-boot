@@ -39,7 +39,6 @@ import tony.utils.alsoIf
  *
  * @author tangli
  * @date 2023/09/28 19:58
- * @since 1.0.0
  */
 public data object RedisManager {
     private val logger = LoggerFactory.getLogger(RedisManager::class.java)

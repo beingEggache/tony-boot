@@ -46,7 +46,6 @@ import java.util.Date
  * @return [Class]
  * @author tangli
  * @date 2023/09/13 19:27
- * @since 1.0.0
  */
 public fun Type.rawClass(): Class<*> =
     when (this) {
@@ -60,7 +59,6 @@ public fun Type.rawClass(): Class<*> =
  * @return [JavaType]
  * @author tangli
  * @date 2023/09/13 19:27
- * @since 1.0.0
  */
 public fun Type.toJavaType(): JavaType =
     TypeFactory.defaultInstance().constructType(this)
@@ -71,7 +69,6 @@ public fun Type.toJavaType(): JavaType =
  * @return [JavaType]
  * @author tangli
  * @date 2023/09/13 19:27
- * @since 1.0.0
  */
 public fun <T : Collection<*>> Type.toCollectionJavaType(collectionType: Class<T>): JavaType =
     TypeFactory
@@ -84,7 +81,6 @@ public fun <T : Collection<*>> Type.toCollectionJavaType(collectionType: Class<T
  * @return [Type]
  * @author tangli
  * @date 2023/09/13 19:28
- * @since 1.0.0
  */
 @JvmOverloads
 public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
@@ -100,7 +96,6 @@ public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
  * @return [Type]
  * @author tangli
  * @date 2023/09/13 19:28
- * @since 1.0.0
  */
 @JvmOverloads
 public fun Class<*>.typeParamOfSuperInterface(
@@ -126,7 +121,6 @@ internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:29
- * @since 1.0.0
  */
 public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
     types.any { this.isTypeOrSubTypeOf(it) }
@@ -137,7 +131,6 @@ public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:29
- * @since 1.0.0
  */
 public fun Class<*>.isTypesOrSubTypesOf(typeCollection: Collection<Class<*>?>): Boolean =
     typeCollection.any { this.isTypeOrSubTypeOf(it) }
@@ -165,7 +158,6 @@ private val numberTypeCollection: List<Class<*>?> =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:29
- * @since 1.0.0
  */
 public fun Class<*>.isNumberTypes(): Boolean =
     isTypesOrSubTypesOf(numberTypeCollection)
@@ -175,7 +167,6 @@ public fun Class<*>.isNumberTypes(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:29
- * @since 1.0.0
  */
 public fun Class<*>.isStringLikeType(): Boolean =
     this.isTypesOrSubTypesOf(
@@ -187,7 +178,6 @@ public fun Class<*>.isStringLikeType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun Class<*>.isArrayLikeType(): Boolean =
     this.isTypeOrSubTypeOf(Collection::class.java) ||
@@ -199,7 +189,6 @@ public fun Class<*>.isArrayLikeType(): Boolean =
  * @return [Class]<[T]>
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun <T> TypeReference<T>.rawClass(): Class<T> =
     when (type) {
@@ -212,7 +201,6 @@ public fun <T> TypeReference<T>.rawClass(): Class<T> =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun <T> TypeReference<T>.isStringLikeType(): Boolean =
     rawClass().isTypesOrSubTypesOf(
@@ -226,7 +214,6 @@ public fun <T> TypeReference<T>.isStringLikeType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun <T> TypeReference<T>.isNumberTypes(): Boolean =
     rawClass().isNumberTypes()
@@ -236,7 +223,6 @@ public fun <T> TypeReference<T>.isNumberTypes(): Boolean =
  * @return [Class]<[T]>
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun <T> JavaType.rawClass(): Class<T> =
     rawClass.asToNotNull()
@@ -247,7 +233,6 @@ public fun <T> JavaType.rawClass(): Class<T> =
  * @return [JavaType]
  * @author tangli
  * @date 2023/09/13 19:27
- * @since 1.0.0
  */
 public fun <T : Collection<*>> JavaType.toCollectionJavaType(collectionType: Class<T>): JavaType =
     TypeFactory
@@ -259,7 +244,6 @@ public fun <T : Collection<*>> JavaType.toCollectionJavaType(collectionType: Cla
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun JavaType.isDateTimeLikeType(): Boolean =
     isTypeOrSubTypeOf(Date::class.java) || isTypeOrSubTypeOf(TemporalAccessor::class.java)
@@ -269,7 +253,6 @@ public fun JavaType.isDateTimeLikeType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun JavaType.isArrayLikeType(): Boolean =
     isArrayType || isCollectionLikeType
@@ -279,7 +262,6 @@ public fun JavaType.isArrayLikeType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun JavaType.isBooleanType(): Boolean =
     isTypeOrSubTypeOf(Boolean::class.javaObjectType) || isTypeOrSubTypeOf(Boolean::class.javaPrimitiveType)
@@ -289,7 +271,6 @@ public fun JavaType.isBooleanType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun JavaType.isNumberType(): Boolean =
     isIntType() ||
@@ -305,7 +286,6 @@ public fun JavaType.isNumberType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun JavaType.isByteType(): Boolean =
     isTypeOrSubTypeOf(Byte::class.javaObjectType) || isTypeOrSubTypeOf(Byte::class.javaPrimitiveType)
@@ -315,7 +295,6 @@ public fun JavaType.isByteType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun JavaType.isShortType(): Boolean =
     isTypeOrSubTypeOf(Short::class.javaObjectType) || isTypeOrSubTypeOf(Short::class.javaPrimitiveType)
@@ -325,7 +304,6 @@ public fun JavaType.isShortType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun JavaType.isIntType(): Boolean =
     isTypeOrSubTypeOf(Int::class.javaObjectType) || isTypeOrSubTypeOf(Int::class.javaPrimitiveType)
@@ -335,7 +313,6 @@ public fun JavaType.isIntType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun JavaType.isLongType(): Boolean =
     isTypeOrSubTypeOf(Long::class.javaObjectType) || isTypeOrSubTypeOf(Long::class.javaPrimitiveType)
@@ -345,7 +322,6 @@ public fun JavaType.isLongType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun JavaType.isFloatType(): Boolean =
     isTypeOrSubTypeOf(Float::class.javaObjectType) || isTypeOrSubTypeOf(Float::class.javaPrimitiveType)
@@ -355,7 +331,6 @@ public fun JavaType.isFloatType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:30
- * @since 1.0.0
  */
 public fun JavaType.isDoubleType(): Boolean =
     isTypeOrSubTypeOf(Double::class.javaObjectType) || isTypeOrSubTypeOf(Double::class.javaPrimitiveType)
@@ -365,7 +340,6 @@ public fun JavaType.isDoubleType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:31
- * @since 1.0.0
  */
 public fun JavaType.isObjLikeType(): Boolean =
     isMapLikeType ||
@@ -377,7 +351,6 @@ public fun JavaType.isObjLikeType(): Boolean =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:31
- * @since 1.0.0
  */
 public fun JavaType.isStringLikeType(): Boolean =
     isTypeOrSubTypeOf(CharSequence::class.java) ||

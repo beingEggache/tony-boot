@@ -8,7 +8,6 @@ import tony.demo.sys.dto.enums.ModuleType
  * ModuleQuery is
  * @author tangli
  * @date 2024/07/08 11:06
- * @since 1.0.0
  */
 @Schema(description = "模块查询")
 data class ModuleQuery(

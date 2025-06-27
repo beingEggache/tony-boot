@@ -9,7 +9,6 @@ import tony.demo.annotation.TenantIdInject
  * 新增角色请求
  * @author tangli
  * @date 2024/07/04 11:07
- * @since 1.0.0
  */
 @Schema(description = "更新角色请求")
 data class RoleUpdateReq(

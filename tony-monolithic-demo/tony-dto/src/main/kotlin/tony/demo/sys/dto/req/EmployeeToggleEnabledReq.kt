@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank
  * 员工状态切换请求
  * @author tangli
  * @date 2024/07/03 10:53
- * @since 1.0.0
  */
 @Schema(description = "员工状态切换请求")
 data class EmployeeToggleEnabledReq(

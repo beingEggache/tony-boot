@@ -48,7 +48,6 @@ import tony.wechat.client.resp.WechatUserTokenResp
  * 微信 Manager
  * @author tangli
  * @date 2023/09/28 19:05
- * @since 1.0.0
  */
 public data object WechatManager {
     private val wechatClient: WechatClient by SpringContexts.getBeanByLazy()

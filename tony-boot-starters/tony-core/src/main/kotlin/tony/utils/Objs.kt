@@ -48,7 +48,6 @@ public fun <T> T?.println(): Unit =
  * @return [E]?
  * @author tangli
  * @date 2024/02/06 13:56
- * @since 1.0.0
  */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asTo(): E? where E : Any =
@@ -62,7 +61,6 @@ public fun <E> Any?.asTo(): E? where E : Any =
  * @return [E]
  * @author tangli
  * @date 2024/02/06 13:57
- * @since 1.0.0
  */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any?.asToDefault(default: E): E where E : Any =
@@ -75,7 +73,6 @@ public fun <E> Any?.asToDefault(default: E): E where E : Any =
  * @param [E] 目标类型
  * @author tangli
  * @date 2024/02/06 13:57
- * @since 1.0.0
  */
 @Suppress("UNCHECKED_CAST")
 public fun <E> Any.asToNotNull(): E where E : Any =
@@ -87,7 +84,6 @@ public fun <E> Any.asToNotNull(): E where E : Any =
  * @return [Boolean]
  * @author tangli
  * @date 2023/09/13 19:25
- * @since 1.0.0
  */
 public fun Any.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
     types.any { this::class.java.isTypeOrSubTypeOf(it) }
@@ -97,7 +93,6 @@ public fun Any.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
  * @return [T]
  * @author tangli
  * @date 2023/09/25 19:11
- * @since 1.0.0
  * @see [com.fasterxml.jackson.databind.ObjectMapper.convertValue]
  */
 @JvmSynthetic
@@ -111,7 +106,6 @@ public inline fun <reified T> Any?.copyTo(): T =
  * @return [T]
  * @author tangli
  * @date 2023/09/25 19:13
- * @since 1.0.0
  * @see [com.fasterxml.jackson.databind.ObjectMapper.convertValue]
  */
 public fun <T> Any?.copyTo(targetType: Class<T>): T =
@@ -122,7 +116,6 @@ public fun <T> Any?.copyTo(targetType: Class<T>): T =
  * @return [Boolean]
  * @author tangli
  * @date 2024/01/15 10:13
- * @since 1.0.0
  */
 public fun Any?.notBlank(): Boolean =
     if (this == null) {

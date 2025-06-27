@@ -47,7 +47,6 @@ internal val ENTITY_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
  * 实际类别
  * @author tangli
  * @date 2023/09/28 19:54
- * @since 1.0.0
  */
 @JvmSynthetic
 internal fun <T : Any> BaseDao<T>.actualClass() =
@@ -68,7 +67,6 @@ internal fun <T : Any> BaseDao<T>.actualClass() =
  * @return [Class]<[T]>
  * @author tangli
  * @date 2023/09/28 19:53
- * @since 1.0.0
  */
 @JvmSynthetic
 internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =

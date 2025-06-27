@@ -19,10 +19,10 @@ import java.util.*
 import kotlin.jvm.java
 
 /**
- * tony-core jackson 扩展点测试（遮蔽、null序列化、injectable）
+ * jackson 扩展点测试
  *
  * @author tangli
- * @since 1.0.0
+ * @date 2025/06/27 17:00
  */
 @DisplayName("tony-core jackson 扩展点测试")
 class JacksonTest {

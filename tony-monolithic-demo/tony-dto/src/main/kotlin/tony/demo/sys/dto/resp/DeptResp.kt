@@ -9,7 +9,6 @@ import tony.demo.trait.ForestLike
  * 部门树形响应
  * @author tangli
  * @date 2024/07/03 13:18
- * @since 1.0.0
  */
 @Schema(description = "部门树形响应")
 data class DeptResp(

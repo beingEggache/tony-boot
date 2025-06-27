@@ -59,7 +59,6 @@ internal val logger: Logger = LoggerFactory.getLogger("tony.utils.Reflects")
  * @return [PropertyDescriptor]?
  * @author tangli
  * @date 2023/09/13 19:25
- * @since 1.0.0
  */
 public fun AnnotatedElement.descriptor(): PropertyDescriptor? =
     when (this) {
@@ -73,7 +72,6 @@ public fun AnnotatedElement.descriptor(): PropertyDescriptor? =
  * @return [Method]?
  * @author tangli
  * @date 2023/09/13 19:26
- * @since 1.0.0
  */
 public fun AnnotatedElement.getter(): Method? =
     getterCache.getOrPut(this) { this.descriptor()?.readMethod }
@@ -83,7 +81,6 @@ public fun AnnotatedElement.getter(): Method? =
  * @return [Method]?
  * @author tangli
  * @date 2023/09/13 19:26
- * @since 1.0.0
  */
 public fun AnnotatedElement.setter(): Method? =
     setterCache.getOrPut(this) { this.descriptor()?.writeMethod }
@@ -93,7 +90,6 @@ public fun AnnotatedElement.setter(): Method? =
  * @return [Field]?
  * @author tangli
  * @date 2023/09/13 19:26
- * @since 1.0.0
  */
 public fun AnnotatedElement.field(): Field? =
     when (this) {
@@ -108,7 +104,6 @@ public fun AnnotatedElement.field(): Field? =
  * @param [value] 价值
  * @author tangli
  * @date 2023/09/13 19:26
- * @since 1.0.0
  */
 public fun AnnotatedElement.setValueFirstUseSetter(
     instance: Any?,
@@ -139,7 +134,6 @@ public fun AnnotatedElement.setValueFirstUseSetter(
  * @return [Any]?
  * @author tangli
  * @date 2023/09/13 19:27
- * @since 1.0.0
  */
 public fun AnnotatedElement.getValueFirstUseGetter(instance: Any?): Any? {
     if (instance == null) {

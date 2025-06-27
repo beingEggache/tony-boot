@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.RequestBody
  * MethodCrypto is
  * @author tangli
  * @date 2023/12/06 19:16
- * @since 1.0.0
  */
 interface FeignCryptoTestApi {
 

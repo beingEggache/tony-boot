@@ -32,7 +32,6 @@ import org.gradle.api.initialization.Settings
  * Build is
  * @author tangli
  * @date 2023/11/08 19:00
- * @since 1.0.0
  */
 class Build : Plugin<Project> {
     override fun apply(target: Project) = Unit

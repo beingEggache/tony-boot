@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema
  * InfoResp is
  * @author tangli
  * @date 2024/07/02 13:33
- * @since 1.0.0
  */
 data class InfoResp(
     @param:Schema(description = "用户id")

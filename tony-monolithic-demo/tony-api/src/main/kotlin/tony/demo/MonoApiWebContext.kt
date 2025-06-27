@@ -7,7 +7,6 @@ import tony.web.WebContext
  * MonoApiWebContext is
  * @author tangli
  * @date 2024/07/11 09:06
- * @since 1.0.0
  */
 data object MonoApiWebContext {
     const val TENANT_ID_HEADER_NAME: String = "X-Tenant-ID"

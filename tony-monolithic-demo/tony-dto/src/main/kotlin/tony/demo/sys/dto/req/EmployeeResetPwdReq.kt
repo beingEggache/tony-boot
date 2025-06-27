@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank
  * 员工重置密码需求
  * @author tangli
  * @date 2025/03/23 22:17
- * @since 1.0.0
  */
 @Schema(description = "重置用户密码请求")
 data class EmployeeResetPwdReq(

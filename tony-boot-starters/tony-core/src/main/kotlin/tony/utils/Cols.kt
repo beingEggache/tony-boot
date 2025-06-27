@@ -30,7 +30,6 @@ package tony.utils
  * 集合 工具类, 只提供给Java.
  * @author tangli
  * @date 2023/09/12 19:53
- * @since 1.0.0
  */
 
 /**
@@ -39,7 +38,6 @@ package tony.utils
  * @return [Boolean]
  * @author tangli
  * @date 2024/01/18 13:55
- * @since 1.0.0
  */
 public fun isNullOrEmpty(cols: Collection<*>?): Boolean =
     cols.isNullOrEmpty()
@@ -51,7 +49,6 @@ public fun isNullOrEmpty(cols: Collection<*>?): Boolean =
  * @return [C]
  * @author tangli
  * @date 2024/01/18 13:55
- * @since 1.0.0
  */
 public fun <C : Collection<T>, T : Any?> ifEmpty(
     cols: C?,
@@ -65,7 +62,6 @@ public fun <C : Collection<T>, T : Any?> ifEmpty(
  * @return [C]
  * @author tangli
  * @date 2024/01/18 13:58
- * @since 1.0.0
  */
 @JvmSynthetic
 public inline fun <C : Collection<T>?, T : Any?> C.alsoIfNotEmpty(crossinline block: (C) -> Unit): C =
@@ -82,7 +78,6 @@ public inline fun <C : Collection<T>?, T : Any?> C.alsoIfNotEmpty(crossinline bl
  * @return [C]
  * @author tangli
  * @date 2024/01/18 13:59
- * @since 1.0.0
  */
 public fun <C : MutableList<T>, T : Any?> orEmpty(cols: C?): C =
     ifEmpty(cols, mutableListOf<T>().asToNotNull())
@@ -93,7 +88,6 @@ public fun <C : MutableList<T>, T : Any?> orEmpty(cols: C?): C =
  * @return [C]
  * @author tangli
  * @date 2024/01/18 13:59
- * @since 1.0.0
  */
 public fun <C : MutableSet<T>, T : Any?> orEmpty(cols: C?): C =
     ifEmpty(cols, mutableSetOf<T>().asToNotNull())

@@ -12,7 +12,7 @@ import tony.enums.*
  * 枚举工具类与扩展测试
  *
  * @author tangli
- * @since 1.0.0
+ * @date 2025/06/27 17:00
  */
 @DisplayName("枚举工具类与扩展测试")
 class EnumsTest {

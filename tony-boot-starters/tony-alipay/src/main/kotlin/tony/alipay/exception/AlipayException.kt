@@ -38,7 +38,6 @@ import tony.exception.ApiException
  * 支付宝 异常
  * @author tangli
  * @date 2023/09/12 19:59
- * @since 1.0.0
  */
 public class AlipayException(
     override val message: String? = "",

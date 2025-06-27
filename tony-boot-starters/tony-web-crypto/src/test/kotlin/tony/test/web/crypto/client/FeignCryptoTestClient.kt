@@ -32,7 +32,6 @@ import org.springframework.cloud.openfeign.FeignClient
  * MethodCryptoClient is
  * @author tangli
  * @date 2023/12/06 19:23
- * @since 1.0.0
  */
 @FeignUnwrapResponse
 @FeignClient(name = "methodCryptoClient", url = "http://localhost:10000")
