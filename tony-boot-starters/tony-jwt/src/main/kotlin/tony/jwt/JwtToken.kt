@@ -57,7 +57,6 @@ public data object JwtToken {
      * @return [String]
      * @author tangli
      * @date 2023/09/28 19:50
-     * @since 1.0.0
      */
     @SafeVarargs
     @JvmStatic
@@ -78,7 +77,6 @@ public data object JwtToken {
      * @return [DecodedJWT]
      * @author tangli
      * @date 2023/09/28 19:50
-     * @since 1.0.0
      */
     @JvmStatic
     public fun parse(jwt: String): DecodedJWT =

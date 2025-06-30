@@ -69,7 +69,6 @@ internal class ExceptionHandler : ErrorController {
      * @param [e] e
      * @author tangli
      * @date 2023/09/13 19:45
-     * @since 1.0.0
      */
     @ExceptionHandler(BizException::class)
     fun bizException(e: BizException) =
@@ -80,7 +79,6 @@ internal class ExceptionHandler : ErrorController {
      * @param [e] e
      * @author tangli
      * @date 2023/09/13 19:45
-     * @since 1.0.0
      */
     @ExceptionHandler(ApiException::class)
     fun apiException(e: ApiException) =
@@ -97,7 +95,6 @@ internal class ExceptionHandler : ErrorController {
      * @param [response] 响应
      * @author tangli
      * @date 2023/09/13 19:46
-     * @since 1.0.0
      */
     @ExceptionHandler(Exception::class)
     fun exception(
@@ -231,7 +228,6 @@ internal class ExceptionHandler : ErrorController {
      * @return [ApiResult]<*>
      * @author tangli
      * @date 2023/10/24 19:27
-     * @since 1.0.0
      */
     private fun errorResponse(
         msg: String = "",

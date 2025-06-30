@@ -51,7 +51,6 @@ public data object CaptchaManager {
      * @return [CaptchaVo]
      * @author tangli
      * @date 2023/09/28 19:57
-     * @since 1.0.0
      */
     @JvmStatic
     @JvmOverloads
@@ -81,7 +80,6 @@ public data object CaptchaManager {
      * @return [R]
      * @author tangli
      * @date 2023/09/28 19:57
-     * @since 1.0.0
      */
     @JvmStatic
     @JvmOverloads

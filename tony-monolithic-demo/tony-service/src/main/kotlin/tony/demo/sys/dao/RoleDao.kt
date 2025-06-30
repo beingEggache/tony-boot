@@ -16,7 +16,6 @@ interface RoleDao : BaseDao<Role> {
      * @return [Int]
      * @author tangli
      * @date 2024/07/05 11:02
-     * @since 1.0.0
      */
     fun insertEmployeeRoles(
         @Param("employeeId")
@@ -34,7 +33,6 @@ interface RoleDao : BaseDao<Role> {
      * @return [Int]
      * @author tangli
      * @date 2024/07/05 11:07
-     * @since 1.0.0
      */
     fun deleteEmployeeRoles(
         @Param("employeeId")
@@ -50,7 +48,6 @@ interface RoleDao : BaseDao<Role> {
      * @return [Int]
      * @author tangli
      * @date 2024/07/05 11:07
-     * @since 1.0.0
      */
     fun deleteEmployeesRole(
         @Param("roleId")
@@ -67,7 +64,6 @@ interface RoleDao : BaseDao<Role> {
      * @return [List]<[RoleResp]>
      * @author tangli
      * @date 2024/07/26 11:07
-     * @since 1.0.0
      */
     fun selectEmployeeRoles(
         @Param("employeeId")
@@ -85,7 +81,6 @@ interface RoleDao : BaseDao<Role> {
      * @return [List]<[RoleResp]>
      * @author tangli
      * @date 2024/07/26 11:07
-     * @since 1.0.0
      */
     fun selectEmployeeRoles(
         employeeId: String,
@@ -104,7 +99,6 @@ interface RoleDao : BaseDao<Role> {
      * @return [Boolean]
      * @author tangli
      * @date 2024/07/26 11:15
-     * @since 1.0.0
      */
     fun selectEmployeeHasBuildInRole(
         employeeId: String,
@@ -124,7 +118,6 @@ interface RoleDao : BaseDao<Role> {
      * @return [Int]
      * @author tangli
      * @date 2024/07/05 14:20
-     * @since 1.0.0
      */
     fun insertRoleModules(
         @Param("roleId")
@@ -142,7 +135,6 @@ interface RoleDao : BaseDao<Role> {
      * @return [Int]
      * @author tangli
      * @date 2024/07/05 14:22
-     * @since 1.0.0
      */
     fun deleteRoleModules(
         @Param("roleId")
@@ -157,7 +149,6 @@ interface RoleDao : BaseDao<Role> {
      * @return [List]<[ModuleResp]>
      * @author tangli
      * @date 2024/07/05 14:43
-     * @since 1.0.0
      */
     fun selectRoleModules(
         @Param("roleId")

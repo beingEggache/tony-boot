@@ -30,7 +30,6 @@ class DeptService(
      * @return [List]<[DeptResp]>
      * @author tangli
      * @date 2024/07/04 14:38
-     * @since 1.0.0
      */
     fun tree(req: DeptQuery): List<DeptResp> =
         dao
@@ -50,7 +49,6 @@ class DeptService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/04 14:39
-     * @since 1.0.0
      */
     fun add(req: DeptAddReq) {
         val name = req.deptName
@@ -90,7 +88,6 @@ class DeptService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/04 14:39
-     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     fun update(req: DeptUpdateReq) {
@@ -149,7 +146,6 @@ class DeptService(
      * @param [req] 绿色
      * @author tangli
      * @date 2024/07/04 14:39
-     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     fun delete(req: DeptDeleteReq) {

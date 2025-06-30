@@ -103,10 +103,10 @@ data class CreateOrderRequest(
     val productId: String,
     val quantity: Int,
 
-    // 标记 createdBy 字段将由名为 "userId" 的注入器提供值
+    // 标记 creatorId 字段将由名为 "userId" 的注入器提供值
     // 注意：被注入的字段必须声明为 lateinit var
     @field:JacksonInject("userId")
-    lateinit var createdBy: String,
+    lateinit var creatorId: String,
 
     @field:JacksonInject("tenantId")
     lateinit var tenantId: String
@@ -114,12 +114,12 @@ data class CreateOrderRequest(
 ```
 
 ##### 3. Controller 中直接使用
-当请求到达 Controller 时，`createdBy` 和 `tenantId` 字段会被自动填充，无需任何手动操作。
+当请求到达 Controller 时，`creatorId` 和 `tenantId` 字段会被自动填充，无需任何手动操作。
 
 ```kotlin
 @PostMapping("/orders")
 fun createOrder(@RequestBody request: CreateOrderRequest) {
-    // 此时 request.createdBy 和 request.tenantId 已被自动注入
+    // 此时 request.creatorId 和 request.tenantId 已被自动注入
     orderService.create(request)
 }
 ```
@@ -160,7 +160,7 @@ data class CreateOrderRequest(
 
     // 使用自定义注解，可读性更高，无硬编码
     @field:InjectUserId
-    lateinit var createdBy: String,
+    lateinit var creatorId: String,
 
     @field:InjectTenantId
     lateinit var tenantId: String

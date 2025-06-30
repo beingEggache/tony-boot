@@ -45,7 +45,6 @@ public fun interface CaptchaService {
      * @return [Boolean]
      * @author tangli
      * @date 2023/09/28 19:58
-     * @since 1.0.0
      */
     public fun verify(vo: CaptchaVo): Boolean
 }

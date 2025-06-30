@@ -57,7 +57,6 @@ public data object AliYunOssManager {
      * @return [String]
      * @author tangli
      * @date 2023/09/28 19:53
-     * @since 1.0.0
      */
     @JvmStatic
     @JvmOverloads

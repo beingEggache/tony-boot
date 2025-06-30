@@ -64,7 +64,6 @@ public data object RedisManager {
      * @return [List]<[Any]?>
      * @author tangli
      * @date 2023/09/28 19:58
-     * @since 1.0.0
      */
     @JvmStatic
     public fun doInTransaction(callback: Runnable): List<Any?> {
@@ -100,7 +99,6 @@ public data object RedisManager {
      * @return [Boolean]
      * @author tangli
      * @date 2023/09/28 19:59
-     * @since 1.0.0
      */
     @JvmStatic
     public fun lockKey(

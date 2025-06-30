@@ -83,7 +83,6 @@ public interface WechatClient {
      * @return [WechatApiTokenResp]
      * @author tangli
      * @date 2023/09/26 19:15
-     * @since 1.0.0
      */
     @PostMapping("/cgi-bin/stable_token")
     public fun stableAccessToken(

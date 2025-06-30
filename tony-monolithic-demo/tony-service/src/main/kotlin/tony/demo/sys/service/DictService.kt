@@ -38,7 +38,6 @@ class DictService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/29 15:38
-     * @since 1.0.0
      */
     fun addDict(req: DictAddReq) {
         val po = req.copyTo<Dict>()
@@ -65,7 +64,6 @@ class DictService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/29 15:38
-     * @since 1.0.0
      */
     fun updateDict(req: DictUpdateReq) {
         val po = req.copyTo<Dict>()
@@ -91,7 +89,6 @@ class DictService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/29 15:38
-     * @since 1.0.0
      */
     fun deleteDict(req: DictDeleteReq) {
         val id = req.dictId
@@ -106,7 +103,6 @@ class DictService(
      * @return [PageResult]<[DictResp]>
      * @author tangli
      * @date 2024/07/29 15:38
-     * @since 1.0.0
      */
     fun dictList(req: PageQueryLike<DictQuery>): PageResult<DictResp> =
         dictDao
@@ -122,7 +118,6 @@ class DictService(
      * @return [Map]<[String], [DictResp]>
      * @author tangli
      * @date 2024/07/29 15:39
-     * @since 1.0.0
      */
     fun dictValuesMap(appId: String): DictValuesMapResp {
         val dictTypes =
@@ -171,7 +166,6 @@ class DictService(
      * @return [List]<[DictTypeResp]>
      * @author tangli
      * @date 2024/07/26 13:07
-     * @since 1.0.0
      */
     fun dictTypeTree(req: DictTypeQuery): List<DictTypeResp> =
         dictTypeDao
@@ -189,7 +183,6 @@ class DictService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/26 13:08
-     * @since 1.0.0
      */
     fun addDictType(req: DictTypeAddReq) {
         val name = req.dictTypeName
@@ -234,7 +227,6 @@ class DictService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/26 13:08
-     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     fun updateDictType(req: DictTypeUpdateReq) {
@@ -294,7 +286,6 @@ class DictService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/04 14:39
-     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     fun delete(req: DictTypeDeleteReq) {

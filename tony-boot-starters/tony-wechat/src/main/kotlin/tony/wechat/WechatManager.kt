@@ -63,7 +63,6 @@ public data object WechatManager {
      * @return [Boolean]
      * @author tangli
      * @date 2023/09/28 19:05
-     * @since 1.0.0
      */
     @JvmOverloads
     @JvmStatic

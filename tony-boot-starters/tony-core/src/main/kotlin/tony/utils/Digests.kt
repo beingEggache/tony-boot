@@ -87,7 +87,6 @@ public enum class DigestAlgorithm(
      * @return [String]
      * @author tangli
      * @date 2023/09/27 19:21
-     * @since 1.0.0
      */
     public fun digest(src: CharSequence): String =
         MessageDigest

@@ -32,7 +32,6 @@ class IndexService(
      * @return [String] id
      * @author tangli
      * @date 2024/07/04 14:37
-     * @since 1.0.0
      */
     fun login(req: LoginReq): String {
         val salt =
@@ -59,7 +58,6 @@ class IndexService(
      * @return [InfoResp]
      * @author tangli
      * @date 2024/07/04 14:38
-     * @since 1.0.0
      */
     fun info(
         employeeId: String,
@@ -108,7 +106,6 @@ class IndexService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/10 13:47
-     * @since 1.0.0
      */
     fun changePwd(req: ChangePwdReq) {
         val newPwd = req.newPwd

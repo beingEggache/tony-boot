@@ -40,7 +40,6 @@ class EmployeeService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/09 09:08
-     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     fun add(req: EmployeeAddReq) {
@@ -73,7 +72,6 @@ class EmployeeService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/09 09:08
-     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     fun update(req: EmployeeUpdateReq) {
@@ -94,7 +92,6 @@ class EmployeeService(
      * @return [EmployeeResp]
      * @author tangli
      * @date 2024/07/09 10:41
-     * @since 1.0.0
      */
     fun detail(req: EmployeeDetailReq): EmployeeResp {
         val id = req.employeeId
@@ -121,7 +118,6 @@ class EmployeeService(
      * @return [PageResultLike]<[EmployeeResp]>
      * @author tangli
      * @date 2024/07/04 14:43
-     * @since 1.0.0
      */
     fun list(req: PageQueryLike<EmployeeQuery>): PageResult<EmployeeResp> =
         employeeDao.selectEmployeeByQuery(req.query, req.toPage()).toPageResult()
@@ -131,7 +127,6 @@ class EmployeeService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/05 11:15
-     * @since 1.0.0
      */
     fun toggleEnabled(req: EmployeeToggleEnabledReq) {
         val employee =
@@ -148,7 +143,6 @@ class EmployeeService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/05 11:15
-     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     fun assignRoles(req: EmployeeAssignRoleReq) {
@@ -170,7 +164,6 @@ class EmployeeService(
      * @param [req] 绿色
      * @author tangli
      * @date 2024/07/09 09:33
-     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     fun resetPwd(req: EmployeeResetPwdReq) {

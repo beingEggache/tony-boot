@@ -120,7 +120,7 @@ class AuthController {
 
     @PostMapping("/login")
     @NoLoginCheck
-    fun login(@RequestBody loginRequest: LoginRequest): ApiResult<LoginResponse> {
+    fun login(@RequestBody loginRequest: LoginRequest): LoginResponse {
         // 验证用户名密码
         val user = userService.authenticate(loginRequest.username, loginRequest.password)
 
@@ -131,7 +131,7 @@ class AuthController {
             "role" to user.role
         )
 
-        return ApiResult.success(LoginResponse(token, user))
+        return LoginResponse(token, user)
     }
 }
 ```

@@ -12,7 +12,6 @@ interface ModuleDao : BaseDao<Module> {
      * @return [List]<[ModuleResp]>
      * @author tangli
      * @date 2024/07/26 11:21
-     * @since 1.0.0
      */
     fun selectByAppId(appId: String): List<ModuleResp> =
         ktQuery()

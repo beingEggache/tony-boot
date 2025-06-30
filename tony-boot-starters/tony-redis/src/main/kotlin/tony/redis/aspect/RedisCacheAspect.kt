@@ -83,7 +83,6 @@ public abstract class RedisCacheAspect {
      * @throws ApiException 表达式解析或 key 生成异常时抛出
      * @author tangli
      * @date 2023/09/13 19:43
-     * @since 1.0.0
      */
     @After("@annotation($PROJECT_GROUP.annotation.redis.RedisCacheEvict.Container)")
     public fun doCacheEvict(joinPoint: JoinPoint) {
@@ -111,7 +110,6 @@ public abstract class RedisCacheAspect {
      * @throws ApiException 返回类型为日期时间类或表达式/key 生成异常时抛出
      * @author tangli
      * @date 2023/09/13 19:43
-     * @since 1.0.0
      */
     @Around("@annotation(annotation)")
     public fun doCacheable(

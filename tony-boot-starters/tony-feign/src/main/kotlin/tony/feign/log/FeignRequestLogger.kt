@@ -131,7 +131,6 @@ internal open class DefaultFeignRequestLogger : FeignRequestLogger {
      * @param [elapsedTime] 执行时间
      * @author Tony
      * @date 2023/09/12 19:10
-     * @since 1.0.0
      */
     override fun requestLog(
         connection: Connection?,

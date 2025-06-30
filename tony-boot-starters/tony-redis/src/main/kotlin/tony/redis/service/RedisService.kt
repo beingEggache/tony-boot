@@ -77,7 +77,6 @@ public sealed interface RedisValueTransformer {
      * @return 转换后的对象，失败时抛出异常
      * @author tangli
      * @date 2023/09/13 19:44
-     * @since 1.0.0
      */
     public fun <T : Any> Any?.outputTransformTo(type: Class<T>): T? =
         if (type.isNumberTypes()) {
@@ -93,7 +92,6 @@ public sealed interface RedisValueTransformer {
      * @see com.fasterxml.jackson.databind.JavaType
      * @author tangli
      * @date 2023/09/13 19:44
-     * @since 1.0.0
      */
     public fun <T : Any> Any?.outputTransformTo(type: JavaType): T? =
         outputTransformTo(type.rawClass())
@@ -105,7 +103,6 @@ public sealed interface RedisValueTransformer {
      * @see com.fasterxml.jackson.core.type.TypeReference
      * @author tangli
      * @date 2023/09/13 19:44
-     * @since 1.0.0
      */
     public fun <T : Any> Any?.outputTransformTo(type: TypeReference<T>): T? =
         outputTransformTo(type.rawClass())
@@ -115,7 +112,6 @@ public sealed interface RedisValueTransformer {
      * @return 可序列化的对象，数字类型原样返回，其它类型序列化为字符串
      * @author tangli
      * @date 2023/09/13 19:44
-     * @since 1.0.0
      */
     public fun Any.inputTransformTo(): Any =
         this

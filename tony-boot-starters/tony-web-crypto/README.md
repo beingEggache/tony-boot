@@ -108,9 +108,9 @@ class UserController {
 
     @DecryptRequestBody
     @PostMapping("/create")
-    fun createUser(@RequestBody user: UserDTO): ApiResult<User> {
+    fun createUser(@RequestBody user: UserDTO): User {
         // 请求体会自动解密
-        return ApiResult.success(userService.create(user))
+        return userService.create(user)
     }
 }
 ```
@@ -120,9 +120,9 @@ class UserController {
 ```kotlin
 @EncryptResponseBody
 @GetMapping("/{id}")
-fun getUser(@PathVariable id: String): ApiResult<User> {
+fun getUser(@PathVariable id: String): User {
     // 响应体会自动加密
-    return ApiResult.success(userService.getById(id))
+    return userService.getById(id)
 }
 ```
 
@@ -132,10 +132,10 @@ fun getUser(@PathVariable id: String): ApiResult<User> {
 @DecryptRequestBody
 @EncryptResponseBody
 @PostMapping("/secure")
-fun secureApi(@RequestBody request: SecureRequest): ApiResult<SecureResponse> {
+fun secureApi(@RequestBody request: SecureRequest): SecureResponse {
     // 请求体自动解密，响应体自动加密
     val response = processSecureData(request)
-    return ApiResult.success(response)
+    return response
 }
 ```
 

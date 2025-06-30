@@ -93,7 +93,6 @@ public interface DbMetaObjectHandler : MetaObjectHandler {
      * @param [withInsertFill] true 插入填充, false 更新填充,
      * @author tangli
      * @date 2023/12/14 19:43
-     * @since 1.0.0
      */
     public fun fill(
         metaObject: MetaObject,

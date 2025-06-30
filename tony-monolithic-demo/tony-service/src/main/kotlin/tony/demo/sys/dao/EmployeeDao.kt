@@ -24,7 +24,6 @@ interface EmployeeDao : BaseDao<Employee> {
      * @return [PageDTO]<[EmployeeResp]>
      * @author tangli
      * @date 2024/07/08 16:05
-     * @since 1.0.0
      */
     fun selectEmployeeByQuery(
         @Param("query")
@@ -41,7 +40,6 @@ interface EmployeeDao : BaseDao<Employee> {
      * @return [List]<[ModuleResp]>
      * @author tangli
      * @date 2024/07/09 14:03
-     * @since 1.0.0
      */
     fun selectEmployeeModulesByEmployeeIdAndAppId(
         @Param("employeeId")

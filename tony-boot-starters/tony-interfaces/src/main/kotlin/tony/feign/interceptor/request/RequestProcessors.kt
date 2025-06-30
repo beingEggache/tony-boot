@@ -52,7 +52,6 @@ public fun interface RequestProcessor {
      * @param [template] RequestTemplate
      * @author tangli
      * @date 2023/09/28 19:46
-     * @since 1.0.0
      */
     public operator fun invoke(template: RequestTemplate)
 }

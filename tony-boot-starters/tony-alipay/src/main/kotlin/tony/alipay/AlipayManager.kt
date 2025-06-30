@@ -56,7 +56,6 @@ public class AlipayManager(
      * @return [Boolean]
      * @author tangli
      * @date 2023/09/12 19:05
-     * @since 1.0.0
      */
     public fun notifySignCheck(params: Map<String, String?>): Boolean {
         val requestAppId = params["app_id"]
@@ -82,7 +81,6 @@ public class AlipayManager(
      * @return [String]
      * @author tangli
      * @date 2023/09/12 19:05
-     * @since 1.0.0
      */
     public fun appOrderAndPayGenParams(
         totalAmount: String,

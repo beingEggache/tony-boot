@@ -42,7 +42,6 @@ public data object RedisKeys {
      * @return [String]
      * @author tangli
      * @date 2023/09/28 19:56
-     * @since 1.0.0
      */
     @JvmStatic
     public fun genKey(

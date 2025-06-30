@@ -145,7 +145,7 @@ web:
 @RequestMapping("/api")
 class DemoController {
     @GetMapping("/hello")
-    fun hello(): String = "world" // 自动包装为 ApiResult
+    fun hello(): Map<String,String> = mapOf("hello" to "world") // 自动包装为 ApiResult
 }
 ```
 

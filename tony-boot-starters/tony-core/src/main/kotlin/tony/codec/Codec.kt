@@ -38,7 +38,6 @@ public sealed interface Codec {
      * @return [String]
      * @author tangli
      * @date 2023/09/12 19:45
-     * @since 1.0.0
      */
     public fun encodeToString(src: CharSequence): String =
         encodeToByteArray(src).string()
@@ -49,7 +48,6 @@ public sealed interface Codec {
      * @return [String]
      * @author tangli
      * @date 2023/09/12 19:45
-     * @since 1.0.0
      */
     public fun encodeToString(src: ByteArray): String =
         encodeToByteArray(src).string()
@@ -60,7 +58,6 @@ public sealed interface Codec {
      * @return [ByteArray]
      * @author tangli
      * @date 2023/09/12 19:45
-     * @since 1.0.0
      */
     public fun encodeToByteArray(src: CharSequence): ByteArray =
         encodeToByteArray(src.toString().toByteArray(Charsets.UTF_8))
@@ -71,7 +68,6 @@ public sealed interface Codec {
      * @return [ByteArray]
      * @author tangli
      * @date 2023/09/12 19:45
-     * @since 1.0.0
      */
     public fun encodeToByteArray(src: ByteArray): ByteArray
 
@@ -81,7 +77,6 @@ public sealed interface Codec {
      * @return [String]
      * @author tangli
      * @date 2023/09/12 19:45
-     * @since 1.0.0
      */
     public fun decodeToString(src: CharSequence): String =
         decodeToByteArray(src).string()
@@ -92,7 +87,6 @@ public sealed interface Codec {
      * @return [String]
      * @author tangli
      * @date 2023/09/12 19:45
-     * @since 1.0.0
      */
     public fun decodeToString(src: ByteArray): String =
         decodeToByteArray(src).string()
@@ -103,7 +97,6 @@ public sealed interface Codec {
      * @return [ByteArray]
      * @author tangli
      * @date 2023/09/12 19:45
-     * @since 1.0.0
      */
     public fun decodeToByteArray(src: CharSequence): ByteArray =
         decodeToByteArray(src.toString().toByteArray(Charsets.UTF_8))
@@ -114,7 +107,6 @@ public sealed interface Codec {
      * @return [ByteArray]
      * @author tangli
      * @date 2023/09/12 19:45
-     * @since 1.0.0
      */
     public fun decodeToByteArray(src: ByteArray): ByteArray
 }

@@ -28,7 +28,6 @@ class ModuleService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/05 16:33
-     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     fun submitAll(req: RowsWrapper<ModuleSubmitReq>) {
@@ -48,7 +47,6 @@ class ModuleService(
      * @return [List]<[ModuleResp]>
      * @author tangli
      * @date 2024/07/05 16:33
-     * @since 1.0.0
      */
     fun tree(appId: String): List<ModuleResp> =
         moduleDao
@@ -65,7 +63,6 @@ class ModuleService(
      * @return [List]<[ModuleResp]>
      * @author tangli
      * @date 2024/07/08 10:40
-     * @since 1.0.0
      */
     fun list(query: ModuleQuery): List<ModuleResp> =
         moduleDao

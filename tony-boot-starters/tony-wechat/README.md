@@ -123,9 +123,9 @@ class WechatController {
         @RequestParam nonce: String,
         @RequestParam timestamp: String,
         @RequestParam(required = false) app: String = ""
-    ): ApiResult<Boolean> {
+    ): MonoResult<Boolean> {
         val isValid = WechatManager.checkSignature(signature, nonce, timestamp, app)
-        return ApiResult.success(isValid)
+        return isValid.ofMonoResult
     }
 }
 ```
@@ -137,9 +137,8 @@ class WechatController {
 fun getUserInfo(
     @PathVariable openId: String,
     @RequestParam(required = false) app: String = ""
-): ApiResult<WechatUserInfoResp> {
-    val userInfo = WechatManager.userInfo(openId, app)
-    return ApiResult.success(userInfo)
+): WechatUserInfoResp {
+    return WechatManager.userInfo(openId, app)
 }
 ```
 
@@ -151,8 +150,7 @@ fun createQrCode(
     @RequestBody req: WechatQrCodeCreateReq,
     @RequestParam(required = false) app: String = ""
 ): ApiResult<WechatQrCodeResp> {
-    val qrCode = WechatManager.createQrCode(req, app)
-    return ApiResult.success(qrCode)
+    return WechatManager.createQrCode(req, app)
 }
 ```
 
@@ -163,9 +161,8 @@ fun createQrCode(
 fun miniProgramLogin(
     @RequestParam code: String,
     @RequestParam(required = false) app: String = ""
-): ApiResult<WechatJsCode2SessionResp> {
-    val session = WechatManager.jsCode2Session(code, app)
-    return ApiResult.success(session)
+): WechatJsCode2SessionResp {
+    return WechatManager.jsCode2Session(code, app)
 }
 ```
 
@@ -178,8 +175,8 @@ fun miniProgramLogin(
 fun unifiedOrder(
     @RequestBody orderRequest: CreateOrderRequest,
     @RequestParam(required = false) app: String = ""
-): ApiResult<WechatPayOrderResp> {
-    val payReq = WechatPayManager.unifiedOrderInApp(
+): WechatPayOrderResp {
+    val payResp = WechatPayManager.unifiedOrderInApp(
         outTradeNo = orderRequest.orderNo,
         body = orderRequest.description,
         totalAmount = orderRequest.amount,
@@ -187,7 +184,7 @@ fun unifiedOrder(
         notifyUrl = "https://yourdomain.com/pay/notify",
         app = app
     )
-    return ApiResult.success(payReq)
+    return payResp
 }
 ```
 
@@ -221,15 +218,13 @@ fun payNotify(@RequestBody notifyXml: String): String {
 fun createMenu(
     @RequestBody menu: WechatMenu,
     @RequestParam(required = false) app: String = ""
-): ApiResult<WechatResp> {
-    val result = WechatManager.createMenu(menu, app)
-    return ApiResult.success(result)
+): WechatResp {
+    return WechatManager.createMenu(menu, app)
 }
 
 @DeleteMapping("/menu")
-fun deleteMenu(@RequestParam(required = false) app: String = ""): ApiResult<WechatResp> {
-    val result = WechatManager.deleteMenu(app)
-    return ApiResult.success(result)
+fun deleteMenu(@RequestParam(required = false) app: String = ""): WechatResp {
+    return WechatManager.deleteMenu(app)
 }
 ```
 

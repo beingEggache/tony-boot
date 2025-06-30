@@ -58,7 +58,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [Int] 影响行数
      * @author tangli
      * @date 2024/06/26 13:13
-     * @since 1.0.0
      */
     public fun physicalDelete(
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
@@ -70,7 +69,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [Int] 影响行数
      * @author tangli
      * @date 2024/06/26 13:17
-     * @since 1.0.0
      */
     public fun physicalDeleteById(id: Serializable): Int
 
@@ -80,7 +78,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [Int] 影响行数
      * @author tangli
      * @date 2024/06/26 13:18
-     * @since 1.0.0
      */
     public fun physicalDeleteByIds(
         @Param(Constants.COLL) idList: Collection<*>,
@@ -92,7 +89,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [T]
      * @author tangli
      * @date 2023/09/13 19:38
-     * @since 1.0.0
      */
     public fun selectByIdNotNull(id: Serializable): T =
         selectById(id).throwIfNull()
@@ -104,7 +100,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [T]
      * @author tangli
      * @date 2023/09/13 19:38
-     * @since 1.0.0
      */
     public fun selectByIdNotNull(
         id: Serializable,
@@ -120,7 +115,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [T]
      * @author tangli
      * @date 2023/09/13 19:38
-     * @since 1.0.0
      */
     public fun selectByIdNotNull(
         id: Serializable,
@@ -137,7 +131,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [T]
      * @author tangli
      * @date 2023/09/13 19:38
-     * @since 1.0.0
      */
     public fun selectByIdNotNull(
         id: Serializable,
@@ -155,7 +148,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [T]
      * @author tangli
      * @date 2023/09/13 19:38
-     * @since 1.0.0
      */
     public fun selectByIdNotNull(
         id: Serializable,
@@ -175,7 +167,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [T]
      * @author tangli
      * @date 2023/11/06 19:03
-     * @since 1.0.0
      */
     public fun selectOneNotNull(
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
@@ -209,7 +200,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [List]<[E]>
      * @author tangli
      * @date 2023/11/06 19:12
-     * @since 1.0.0
      */
     public fun <E> selectObjsThrowIfEmpty(
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
@@ -230,7 +220,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [List]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/11/06 19:12
-     * @since 1.0.0
      */
     public fun selectMapsThrowIfEmpty(
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>,
@@ -247,7 +236,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [PageResultLike]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
-     * @since 1.0.0
      */
     public fun selectPageResult(
         page: PageQueryLike<*>,
@@ -262,7 +250,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [PageResultLike]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/10/23 19:42
-     * @since 1.0.0
      */
     public fun selectMapPageResult(
         page: PageQueryLike<*>,
@@ -292,7 +279,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [TonyQueryChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
-     * @since 1.0.0
      */
     public fun query(): TonyQueryChainWrapper<T> =
         TonyQueryChainWrapper(this)
@@ -303,7 +289,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [TonyLambdaQueryChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
-     * @since 1.0.0
      */
     public fun lambdaQuery(): TonyLambdaQueryChainWrapper<T> =
         TonyLambdaQueryChainWrapper(this)
@@ -314,7 +299,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [TonyKtQueryChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
-     * @since 1.0.0
      */
     @JvmSynthetic
     public fun ktQuery(): TonyKtQueryChainWrapper<T> =
@@ -326,7 +310,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [KtUpdateChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
-     * @since 1.0.0
      */
     @JvmSynthetic
     public fun ktUpdate(): TonyKtUpdateChainWrapper<T> =
@@ -337,7 +320,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [UpdateChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:40
-     * @since 1.0.0
      */
     public fun update(): UpdateChainWrapper<T> =
         UpdateChainWrapper(this)
@@ -348,7 +330,6 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * @return [LambdaUpdateChainWrapper]<[T]>
      * @author tangli
      * @date 2023/09/13 19:40
-     * @since 1.0.0
      */
     public fun lambdaUpdate(): LambdaUpdateChainWrapper<T> =
         LambdaUpdateChainWrapper(this)

@@ -19,7 +19,6 @@ interface DeptDao : BaseDao<Dept> {
      * @return [Int]
      * @author tangli
      * @date 2024/07/05 11:09
-     * @since 1.0.0
      */
     fun insertEmployeeDepts(
         @Param("employeeId")
@@ -37,7 +36,6 @@ interface DeptDao : BaseDao<Dept> {
      * @return [Int]
      * @author tangli
      * @date 2024/07/05 11:10
-     * @since 1.0.0
      */
     fun deleteEmployeeDepts(
         @Param("employeeId")
@@ -53,7 +51,6 @@ interface DeptDao : BaseDao<Dept> {
      * @return [Int]
      * @author tangli
      * @date 2024/07/05 11:10
-     * @since 1.0.0
      */
     fun deleteEmployeesDept(
         @Param("deptId")
@@ -68,7 +65,6 @@ interface DeptDao : BaseDao<Dept> {
      * @return [List]<[DeptResp]>
      * @author tangli
      * @date 2024/07/09 10:35
-     * @since 1.0.0
      */
     fun selectEmployeeDepts(
         @Param("employeeId")

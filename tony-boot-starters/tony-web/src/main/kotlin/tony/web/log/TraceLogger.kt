@@ -68,7 +68,6 @@ public fun interface TraceLogger {
      * @param [responseBodyMaxSize] 响应体最大尺寸
      * @author tangli
      * @date 2024/08/13 15:53
-     * @since 1.0.0
      */
     public fun traceLog(
         request: RepeatReadRequestWrapper,

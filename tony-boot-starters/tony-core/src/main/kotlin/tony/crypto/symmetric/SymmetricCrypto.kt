@@ -41,7 +41,6 @@ public sealed interface SymmetricCrypto {
      * @return [ByteArray]
      * @author tangli
      * @date 2023/09/27 19:20
-     * @since 1.0.0
      */
     public fun decrypt(
         src: ByteArray,
@@ -59,7 +58,6 @@ public sealed interface SymmetricCrypto {
      * @return [ByteArray]
      * @author tangli
      * @date 2023/09/27 19:20
-     * @since 1.0.0
      */
     public fun decrypt(
         src: ByteArray,
@@ -75,7 +73,6 @@ public sealed interface SymmetricCrypto {
      * @return [ByteArray]
      * @author tangli
      * @date 2023/09/27 19:20
-     * @since 1.0.0
      */
     public fun encrypt(
         src: ByteArray,
@@ -94,7 +91,6 @@ public sealed interface SymmetricCrypto {
      * @return [ByteArray]
      * @author tangli
      * @date 2023/09/27 19:20
-     * @since 1.0.0
      */
     public fun encrypt(
         src: ByteArray,
@@ -110,7 +106,6 @@ public sealed interface SymmetricCrypto {
      * @return [ByteArray]
      * @author tangli
      * @date 2023/09/27 19:20
-     * @since 1.0.0
      */
     public fun crypto(
         src: ByteArray,

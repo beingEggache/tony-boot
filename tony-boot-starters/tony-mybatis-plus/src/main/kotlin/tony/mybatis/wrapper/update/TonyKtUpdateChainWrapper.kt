@@ -97,7 +97,6 @@ public class TonyKtUpdateChainWrapper<T : Any>(
      * @return [Boolean]
      * @author tangli
      * @date 2024/06/26 13:27
-     * @since 1.0.0
      */
     public fun physicalRemove(): Boolean =
         SqlHelper.retBool(baseMapper.physicalDelete(wrapper))

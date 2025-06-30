@@ -35,7 +35,6 @@ class RoleService(
      * @return [PageResult]<[RoleResp]>
      * @author tangli
      * @date 2024/07/04 14:35
-     * @since 1.0.0
      */
     fun list(req: PageQueryLike<RoleQuery>): PageResult<RoleResp> =
         dao
@@ -52,7 +51,6 @@ class RoleService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/04 14:36
-     * @since 1.0.0
      */
     fun add(req: RoleAddReq) {
         val name = req.roleName
@@ -78,7 +76,6 @@ class RoleService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/04 14:36
-     * @since 1.0.0
      */
     fun update(req: RoleUpdateReq) {
         val id = req.roleId
@@ -103,7 +100,6 @@ class RoleService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/04 14:36
-     * @since 1.0.0
      */
     fun delete(req: RoleDeleteReq) {
         val id = req.roleId
@@ -125,7 +121,6 @@ class RoleService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/05 16:05
-     * @since 1.0.0
      */
     @Transactional(rollbackFor = [Throwable::class])
     fun assignModules(req: RoleAssignModulesReq) {
@@ -141,7 +136,6 @@ class RoleService(
      * @param [req] 请求
      * @author tangli
      * @date 2024/07/05 16:05
-     * @since 1.0.0
      */
     fun listRoleModules(req: RoleModuleQuery): Collection<ModuleResp> =
         dao.selectRoleModules(req.roleId, req.moduleTypes, req.tenantId)

@@ -50,7 +50,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [T]
      * @author tangli
      * @date 2023/10/23 19:50
-     * @since 1.0.0
      */
     public fun oneNotNull(): T =
         baseMapper.selectOneNotNull(wrapper)
@@ -61,7 +60,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [T]
      * @author tangli
      * @date 2023/10/23 19:50
-     * @since 1.0.0
      */
     public fun oneNotNull(message: String): T =
         baseMapper.selectOneNotNull(wrapper, message)
@@ -72,7 +70,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [T]
      * @author tangli
      * @date 2023/10/23 19:50
-     * @since 1.0.0
      */
     public fun oneNotNull(
         message: String,
@@ -85,7 +82,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @author tangli
      * @date 2023/10/23 19:49
-     * @since 1.0.0
      */
     public fun throwIfExists(message: String) {
         exists().throwIfTrue(message, ApiProperty.notFoundCode)
@@ -97,7 +93,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [ex] 异常类型
      * @author tangli
      * @date 2023/10/23 19:49
-     * @since 1.0.0
      */
     public fun throwIfExists(
         message: String,
@@ -111,7 +106,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [message] 消息
      * @author tangli
      * @date 2023/10/23 19:49
-     * @since 1.0.0
      */
     public fun throwIfNotExists(message: String) {
         exists().throwIfFalse(message, ApiProperty.notFoundCode)
@@ -123,7 +117,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @param [ex] 异常类型
      * @author tangli
      * @date 2023/10/23 19:49
-     * @since 1.0.0
      */
     public fun throwIfNotExists(
         message: String,
@@ -138,7 +131,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[R]>
      * @author tangli
      * @date 2023/11/22 19:23
-     * @since 1.0.0
      */
     public fun <R> list(transformer: java.util.function.Function<T, R>): List<R> {
         var list: MutableList<R> = Collections.emptyList()
@@ -159,7 +151,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[T]>
      * @author tangli
      * @date 2023/11/06 19:19
-     * @since 1.0.0
      */
     public fun listThrowIfEmpty(): List<T> =
         baseMapper.selectListThrowIfEmpty(wrapper)
@@ -172,7 +163,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[T]>
      * @author tangli
      * @date 2023/11/06 19:19
-     * @since 1.0.0
      */
     public fun listThrowIfEmpty(message: String): List<T> =
         baseMapper.selectListThrowIfEmpty(wrapper, message)
@@ -186,7 +176,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[T]>
      * @author tangli
      * @date 2023/11/06 19:19
-     * @since 1.0.0
      */
     public fun listThrowIfEmpty(
         message: String,
@@ -200,7 +189,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [PageResultLike]<[T]>
      * @author tangli
      * @date 2023/10/23 19:49
-     * @since 1.0.0
      */
     public fun pageResult(page: PageQueryLike<*>): PageResultLike<T> =
         baseMapper.selectPageResult(page, wrapper)
@@ -211,7 +199,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [PageResultLike]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/10/23 19:49
-     * @since 1.0.0
      */
     public fun mapPageResult(page: PageQueryLike<*>): PageResultLike<Map<String, Any?>> =
         baseMapper.selectMapPageResult(page, wrapper)
@@ -223,7 +210,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[E]?>
      * @author tangli
      * @date 2023/10/23 19:48
-     * @since 1.0.0
      */
     public fun <E> listObj(): List<E?> =
         baseMapper.selectObjs<E>(wrapper)
@@ -235,7 +221,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[E]?>
      * @author tangli
      * @date 2023/10/23 19:48
-     * @since 1.0.0
      */
     public fun <E> listObjThrowIfEmpty(): List<E?> =
         baseMapper.selectObjsThrowIfEmpty(wrapper)
@@ -248,7 +233,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[E]?>
      * @author tangli
      * @date 2023/10/23 19:48
-     * @since 1.0.0
      */
     public fun <E> listObjThrowIfEmpty(message: String): List<E?> =
         baseMapper.selectObjsThrowIfEmpty(wrapper, message)
@@ -262,7 +246,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[E]?>
      * @author tangli
      * @date 2023/10/23 19:48
-     * @since 1.0.0
      */
     public fun <E> listObjThrowIfEmpty(
         message: String,
@@ -279,7 +262,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [E]?
      * @author tangli
      * @date 2023/10/23 19:48
-     * @since 1.0.0
      */
     public fun <E> oneObj(): E? {
         val list: List<E?> = listObj()
@@ -300,7 +282,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [E]
      * @author tangli
      * @date 2023/10/23 19:47
-     * @since 1.0.0
      */
     public fun <E> oneObjNotNull(): E =
         oneObj<E>().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
@@ -311,7 +292,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [E]
      * @author tangli
      * @date 2023/10/23 19:46
-     * @since 1.0.0
      */
     public fun <E> oneObjNotNull(message: String): E =
         oneObj<E>().throwIfNull(message, ApiProperty.notFoundCode)
@@ -323,7 +303,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [E]
      * @author tangli
      * @date 2023/10/23 19:46
-     * @since 1.0.0
      */
     public fun <E> oneObjNotNull(
         message: String,
@@ -336,7 +315,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/10/23 19:50
-     * @since 1.0.0
      */
     public fun listMap(): List<Map<String, Any?>> =
         baseMapper.selectMaps(wrapper)
@@ -347,7 +325,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/10/23 19:50
-     * @since 1.0.0
      */
     public fun listMapThrowIfEmpty(): List<Map<String, Any?>> =
         baseMapper.selectMapsThrowIfEmpty(wrapper)
@@ -358,7 +335,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/10/23 19:50
-     * @since 1.0.0
      */
     public fun listMapThrowIfEmpty(message: String): List<Map<String, Any?>> =
         baseMapper.selectMapsThrowIfEmpty(wrapper, message)
@@ -370,7 +346,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [List]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/10/23 19:50
-     * @since 1.0.0
      */
     public fun listMapThrowIfEmpty(
         message: String,
@@ -384,7 +359,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [Map]<[String], [Any]?>?
      * @author tangli
      * @date 2023/10/23 19:51
-     * @since 1.0.0
      */
     public fun oneMap(): Map<String, Any?>? {
         val list = listMap()
@@ -405,7 +379,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [Map]<[String], [Any]?>
      * @author tangli
      * @date 2023/09/13 19:41
-     * @since 1.0.0
      */
     public fun oneMapNotNull(): Map<String, Any?> =
         oneMap().throwIfNull(ApiProperty.notFoundMessage, ApiProperty.notFoundCode)
@@ -416,7 +389,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [Map]<[String], [Any]>
      * @author tangli
      * @date 2023/09/13 19:40
-     * @since 1.0.0
      */
     public fun oneMapNotNull(message: String): Map<String, Any?> =
         oneMap().throwIfNull(message, ApiProperty.notFoundCode)
@@ -428,7 +400,6 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
      * @return [Map]<[String], [Any]>
      * @author tangli
      * @date 2023/09/13 19:40
-     * @since 1.0.0
      */
     public fun oneMapNotNull(
         message: String,

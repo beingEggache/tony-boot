@@ -51,7 +51,6 @@ public data object IdGenerator {
      * @return [String]
      * @author tangli
      * @date 2023/09/28 19:59
-     * @since 1.0.0
      */
     @JvmStatic
     public fun nextIdStr(): String =
@@ -62,7 +61,6 @@ public data object IdGenerator {
      * @return [Number]
      * @author tangli
      * @date 2023/09/28 19:59
-     * @since 1.0.0
      */
     @JvmStatic
     public fun nextId(): Number =

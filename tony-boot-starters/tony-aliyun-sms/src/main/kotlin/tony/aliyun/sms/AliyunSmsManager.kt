@@ -70,7 +70,6 @@ public class AliyunSmsManager(
      * @return [SendSmsResponse]?
      * @author tangli
      * @date 2023/09/28 19:55
-     * @since 1.0.0
      */
     public fun send(
         mobile: String,

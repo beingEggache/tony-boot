@@ -89,8 +89,8 @@ fun main(args: Array<String>) {
 @RestController
 class UserController(private val userDao: UserDao) {
     @PostMapping("/user/page")
-    fun page(@RequestBody query: PageQuery): ApiResult<PageResult<User>> {
-        return ApiResult.success(userDao.selectPageResult(query))
+    fun page(@RequestBody query: PageQuery): PageResult<User> {
+        return userDao.selectPageResult(query)
     }
 }
 ```
@@ -129,7 +129,11 @@ class Role {
 ```kotlin
 enum class Status(override val value: Int) : IntEnumValue {
     ENABLED(1), DISABLED(0);
-    companion object : IntEnumCreator<Status>(Status::class.java)
+    companion object : IntEnumCreator<Status>(Status::class.java){
+        @JvmStatic
+        @JsonCreator
+        override fun create(value: Int): Status? = super.create(value)
+    }
 }
 ```
 
