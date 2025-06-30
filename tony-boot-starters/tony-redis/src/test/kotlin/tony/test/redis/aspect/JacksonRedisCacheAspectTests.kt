@@ -17,6 +17,7 @@ import tony.test.redis.util.TestStringEnum
 import java.math.BigDecimal
 import tony.redis.RedisManager
 import tony.test.redis.TestRedisApplication
+import tony.utils.asTo
 
 /**
  * JacksonRedisCacheAspect 切面功能测试
@@ -65,9 +66,9 @@ class JacksonRedisCacheAspectTests {
             is SimpleObj? -> service.cacheObj(key, value)
             is TestIntEnum? -> service.cacheIntEnum(key, value)
             is TestStringEnum? -> service.cacheStringEnum(key, value)
-            is List<*>? -> service.cacheList(key, value as List<Any?>?)
-            is Map<*, *>? -> service.cacheMap(key, value as Map<String, Any?>?)
-            else -> throw IllegalArgumentException("不支持的类型: ${value?.javaClass}")
+            is List<*>? -> service.cacheList(key, value.asTo())
+            is Map<*, *>? -> service.cacheMap(key, value.asTo())
+            else -> throw IllegalArgumentException("不支持的类型: ${value.javaClass}")
         }
         assertBlock(value, result)
         // get: key, value（必须与 set 完全一致，才能命中缓存）
@@ -80,9 +81,9 @@ class JacksonRedisCacheAspectTests {
             is SimpleObj? -> service.cacheObj(key, value)
             is TestIntEnum? -> service.cacheIntEnum(key, value)
             is TestStringEnum? -> service.cacheStringEnum(key, value)
-            is List<*>? -> service.cacheList(key, value as List<Any?>?)
-            is Map<*, *>? -> service.cacheMap(key, value as Map<String, Any?>?)
-            else -> throw IllegalArgumentException("不支持的类型: ${value?.javaClass}")
+            is List<*>? -> service.cacheList(key, value.asTo())
+            is Map<*, *>? -> service.cacheMap(key, value.asTo())
+            else -> throw IllegalArgumentException("不支持的类型: ${value.javaClass}")
         }
         assertBlock(value, cached)
     }
