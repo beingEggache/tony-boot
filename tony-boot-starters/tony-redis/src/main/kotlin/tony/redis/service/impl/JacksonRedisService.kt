@@ -45,7 +45,8 @@ internal class JacksonRedisService : RedisService {
 
     override fun Any.inputTransformTo(): Any =
         if (this::class.java
-                .isNumberTypes()
+                .isNumberTypes() ||
+            this::class.java.isStringLikeType()
         ) {
             this
         } else {

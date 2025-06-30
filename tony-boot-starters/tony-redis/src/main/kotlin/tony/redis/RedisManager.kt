@@ -31,8 +31,14 @@ import org.slf4j.LoggerFactory
 import org.springframework.data.redis.core.RedisConnectionUtils
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.script.RedisScript
+import org.springframework.data.redis.serializer.RedisSerializer
 import tony.exception.ApiException
+import tony.redis.RedisManager.keys
 import tony.utils.alsoIf
+import tony.utils.asTo
+import tony.utils.asToNotNull
+import tony.utils.isStringLikeType
+import tony.utils.trimQuotes
 
 /**
  * Redis 操作聚合类单例.
@@ -122,13 +128,27 @@ public data object RedisManager {
      * @return The return value of the script or null if RedisScript.getResultType() is null,
      * likely indicating a throw-away status reply (i.e. "OK")
      */
+    @Suppress("UNNECESSARY_SAFE_CALL")
     @JvmStatic
     public fun <T> executeScript(
         script: RedisScript<T>,
         keys: List<String>,
         args: List<Any?>,
     ): T? =
-        redisTemplate.execute(script, keys, *args.toTypedArray())
+        redisTemplate
+            .execute(
+                script,
+                redisTemplate.valueSerializer,
+                redisTemplate.stringSerializer.asToNotNull<RedisSerializer<T>>(),
+                keys,
+                *args.toTypedArray()
+            )?.let {
+                if (!it::class.java.isStringLikeType()) {
+                    it
+                } else {
+                    it.toString().trimQuotes()
+                }
+            }.asTo()
 
     /**
      * redis 分布式锁简单实现，支持自旋等待，采用指数退避策略。

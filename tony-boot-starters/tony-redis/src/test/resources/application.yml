@@ -1,8 +1,4 @@
 spring:
-  application:
-        name: tony-cache
   data:
     redis:
-      password: '123456'
-redis:
-  serializerMode: JACKSON
+      port: 6380

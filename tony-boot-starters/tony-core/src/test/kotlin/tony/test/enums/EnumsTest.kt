@@ -1,12 +1,21 @@
 package tony.test.enums
 
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertNotNull
+import org.junit.jupiter.api.assertNull
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import tony.enums.*
+import tony.enums.DEFAULT_INT_VALUE
+import tony.enums.DEFAULT_STRING_VALUE
+import tony.enums.EnumCreator
+import tony.enums.IntEnumCreator
+import tony.enums.IntEnumValue
+import tony.enums.StringEnumCreator
+import tony.enums.StringEnumValue
 
 /**
  * 枚举工具类与扩展测试

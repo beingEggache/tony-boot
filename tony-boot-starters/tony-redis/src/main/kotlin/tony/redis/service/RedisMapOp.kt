@@ -238,7 +238,6 @@ public sealed interface RedisMapSetOp : RedisValueTransformer {
         key: String,
         hashKey: String,
         value: T,
-    ) {
+    ): Boolean =
         hashOp.putIfAbsent(key, hashKey, value.inputTransformTo())
-    }
 }

@@ -2,57 +2,41 @@ package tony.test.codec
 
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import tony.codec.Base64Codec
-import tony.codec.Codec
-import tony.codec.HexCodec
 
 /**
- * Codec 接口及实现测试
+ * Base64Codec 编解码工具测试
  *
  * @author tangli
  * @date 2025/06/27 17:00
  */
-@DisplayName("Codec 接口及实现测试")
-class CodecTest {
+@DisplayName("Base64Codec 编解码工具测试")
+class Base64CodecTest {
 
     @Nested
-    @DisplayName("Codec 实例与类型")
-    inner class CodecInstances {
+    @DisplayName("标准Base64编码解码")
+    inner class StandardBase64 {
         @Test
-        @DisplayName("Base64Codec/HexCodec 实例校验")
-        fun testCodecInstances() {
-            val base64 = Base64Codec
-            val hex = HexCodec
-            assertNotNull(base64)
-            assertNotNull(hex)
-            assertTrue(base64 is Codec)
-            assertTrue(hex is Codec)
-        }
-    }
-
-    @Nested
-    @DisplayName("Base64 编解码功能")
-    inner class Base64CodecFeature {
-        @Test
-        @DisplayName("字符串Base64编解码")
-        fun testStringEncodeDecode() {
-            val str = "Hello, World! 你好，世界！"
+        @DisplayName("字符串标准Base64编码解码")
+        fun testEncodeDecodeString() {
+            val str = "Hello, World!"
             val encoded = Base64Codec.encodeToString(str)
             val decoded = Base64Codec.decodeToString(encoded)
             assertEquals(str, decoded)
         }
 
         @Test
-        @DisplayName("字节数组Base64编解码")
-        fun testByteArrayEncodeDecode() {
-            val bytes = "Test Data 测试".toByteArray(Charsets.UTF_8)
+        @DisplayName("字节数组标准Base64编码解码")
+        fun testEncodeDecodeBytes() {
+            val bytes = "Hello, 世界!".toByteArray(Charsets.UTF_8)
             val encoded = Base64Codec.encodeToString(bytes)
             val decoded = Base64Codec.decodeToByteArray(encoded)
             assertArrayEquals(bytes, decoded)
@@ -60,39 +44,48 @@ class CodecTest {
     }
 
     @Nested
-    @DisplayName("Hex 编解码功能")
-    inner class HexCodecFeature {
+    @DisplayName("URL安全Base64编码解码")
+    inner class UrlSafeBase64 {
         @Test
-        @DisplayName("字符串Hex编解码")
-        fun testStringEncodeDecode() {
-            val str = "Hello, World! 你好，世界！"
-            val encoded = HexCodec.encodeToString(str)
-            val decoded = HexCodec.decodeToString(encoded)
+        @DisplayName("字符串URL安全Base64编码解码")
+        fun testUrlSafeEncodeDecodeString() {
+            val str = "Hello, 世界!http://www.baidu.com?a=1&b=2"
+            val encoded = Base64Codec.encodeToStringUrlSafe(str)
+            val decoded = Base64Codec.decodeToStringUrlSafe(encoded)
             assertEquals(str, decoded)
-        }
-
-        @Test
-        @DisplayName("字节数组Hex编解码")
-        fun testByteArrayEncodeDecode() {
-            val bytes = "Test Data 测试".toByteArray(Charsets.UTF_8)
-            val encoded = HexCodec.encodeToString(bytes)
-            val decoded = HexCodec.decodeToByteArray(encoded)
-            assertArrayEquals(bytes, decoded)
+            // URL安全校验
+            assertFalse(encoded.contains('+'))
+            assertFalse(encoded.contains('/'))
+            assertFalse(encoded.contains('='))
         }
     }
 
     @Nested
-    @DisplayName("空输入与边界场景")
-    inner class EmptyAndBoundary {
+    @DisplayName("标准Base64与URL安全Base64对比")
+    inner class StandardVsUrlSafe {
+        @Test
+        @DisplayName("标准Base64与URL安全Base64结果不同且均可解码")
+        fun testStandardVsUrlSafe() {
+            val str = "http://www.baidu.com?a=1&b=2 Hello, 世界!"
+            val standard = Base64Codec.encodeToString(str)
+            val urlSafe = Base64Codec.encodeToStringUrlSafe(str)
+            assertNotEquals(standard, urlSafe)
+            assertEquals(str, Base64Codec.decodeToString(standard))
+            assertEquals(str, Base64Codec.decodeToStringUrlSafe(urlSafe))
+        }
+    }
+
+    @Nested
+    @DisplayName("边界与异常场景")
+    inner class BoundaryCases {
         @Test
         @DisplayName("空字符串和空字节数组")
         fun testEmptyInputs() {
             val emptyStr = ""
             val emptyBytes = ByteArray(0)
             assertEquals(emptyStr, Base64Codec.decodeToString(Base64Codec.encodeToString(emptyStr)))
-            assertEquals(emptyStr, HexCodec.decodeToString(HexCodec.encodeToString(emptyStr)))
+            assertEquals(emptyStr, Base64Codec.decodeToStringUrlSafe(Base64Codec.encodeToStringUrlSafe(emptyStr)))
             assertArrayEquals(emptyBytes, Base64Codec.decodeToByteArray(Base64Codec.encodeToString(emptyBytes)))
-            assertArrayEquals(emptyBytes, HexCodec.decodeToByteArray(HexCodec.encodeToString(emptyBytes)))
         }
 
         @Test
@@ -104,9 +97,6 @@ class CodecTest {
             assertEquals(one, Base64Codec.decodeToString(Base64Codec.encodeToString(one)))
             assertEquals(two, Base64Codec.decodeToString(Base64Codec.encodeToString(two)))
             assertEquals(three, Base64Codec.decodeToString(Base64Codec.encodeToString(three)))
-            assertEquals(one, HexCodec.decodeToString(HexCodec.encodeToString(one)))
-            assertEquals(two, HexCodec.decodeToString(HexCodec.encodeToString(two)))
-            assertEquals(three, HexCodec.decodeToString(HexCodec.encodeToString(three)))
         }
     }
 
@@ -118,7 +108,7 @@ class CodecTest {
         fun testSpecialCharacters() {
             val special = "!@#￥%……&*()_+-=[]{}|;':\",./<>?`~"
             assertEquals(special, Base64Codec.decodeToString(Base64Codec.encodeToString(special)))
-            assertEquals(special, HexCodec.decodeToString(HexCodec.encodeToString(special)))
+            assertEquals(special, Base64Codec.decodeToStringUrlSafe(Base64Codec.encodeToStringUrlSafe(special)))
         }
 
         @Test
@@ -126,7 +116,7 @@ class CodecTest {
         fun testChineseCharacters() {
             val chinese = "中文测试：你好世界！"
             assertEquals(chinese, Base64Codec.decodeToString(Base64Codec.encodeToString(chinese)))
-            assertEquals(chinese, HexCodec.decodeToString(HexCodec.encodeToString(chinese)))
+            assertEquals(chinese, Base64Codec.decodeToStringUrlSafe(Base64Codec.encodeToStringUrlSafe(chinese)))
         }
     }
 
@@ -138,7 +128,7 @@ class CodecTest {
         fun testLargeString() {
             val large = "A".repeat(10000)
             assertEquals(large, Base64Codec.decodeToString(Base64Codec.encodeToString(large)))
-            assertEquals(large, HexCodec.decodeToString(HexCodec.encodeToString(large)))
+            assertEquals(large, Base64Codec.decodeToStringUrlSafe(Base64Codec.encodeToStringUrlSafe(large)))
         }
 
         @Test
@@ -153,8 +143,8 @@ class CodecTest {
             }
             val t2 = System.currentTimeMillis()
             repeat(iterations) {
-                val encoded = HexCodec.encodeToString(str)
-                HexCodec.decodeToString(encoded)
+                val encoded = Base64Codec.encodeToStringUrlSafe(str)
+                Base64Codec.decodeToStringUrlSafe(encoded)
             }
             val t3 = System.currentTimeMillis()
             assertTrue(t2 > t1 && t3 > t2)
@@ -166,10 +156,9 @@ class CodecTest {
     inner class ParameterizedCases {
         @ParameterizedTest
         @ValueSource(strings = ["abc", "123", "!@#", "中文", "", "A", "AB", "ABC", "A B C", "\n\t\r"])
-        @DisplayName("参数化字符串Base64/Hex编解码")
-        fun testParamCodec(str: String) {
+        @DisplayName("参数化字符串标准Base64编码解码")
+        fun testParamStandardBase64(str: String) {
             assertEquals(str, Base64Codec.decodeToString(Base64Codec.encodeToString(str)))
-            assertEquals(str, HexCodec.decodeToString(HexCodec.encodeToString(str)))
         }
     }
 }

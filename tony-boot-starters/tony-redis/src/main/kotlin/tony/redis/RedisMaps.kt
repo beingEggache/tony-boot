@@ -141,7 +141,7 @@ public data object RedisMaps {
         key: String,
         hashKey: String,
         value: T,
-    ): Unit =
+    ): Boolean =
         redisService.putIfAbsent(key, hashKey, value)
 
     /**
