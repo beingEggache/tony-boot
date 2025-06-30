@@ -41,6 +41,8 @@
 - 版本定义在 `gradle/libs.versions.toml` 文件中
 - 避免硬编码版本号
 
+### 禁止使用 * 号的 import，所有 import 必须显式指定类或函数名。
+
 ## 架构原则
 
 ### 分层架构

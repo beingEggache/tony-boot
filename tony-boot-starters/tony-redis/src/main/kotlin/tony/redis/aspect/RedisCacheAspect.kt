@@ -84,7 +84,10 @@ public abstract class RedisCacheAspect {
      * @author tangli
      * @date 2023/09/13 19:43
      */
-    @After("@annotation($PROJECT_GROUP.annotation.redis.RedisCacheEvict.Container)")
+    @After(
+        "@annotation($PROJECT_GROUP.annotation.redis.RedisCacheEvict.Container) || " +
+            "@annotation($PROJECT_GROUP.annotation.redis.RedisCacheEvict)"
+    )
     public fun doCacheEvict(joinPoint: JoinPoint) {
         val arguments = joinPoint.args
         val methodSignature = joinPoint.signature.asToNotNull<MethodSignature>()
