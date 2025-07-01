@@ -1,0 +1,681 @@
+# Tony Boot Starters - 通用能力库开发规则
+
+## 项目概述
+Tony Boot Starters 是一个基于 Spring Boot 的通用能力库集合，提供企业级应用开发所需的各种功能模块，包括核心工具、Web框架、数据访问、缓存、认证、第三方服务集成等。
+
+## 技术栈
+- **编程语言**: Kotlin 2.2.0+
+- **构建工具**: Gradle (Kotlin DSL)
+- **核心框架**: Spring Boot 3.5.0+, Spring Framework 6.2.8+
+- **数据库**: MySQL, PostgreSQL, Redis
+- **ORM**: MyBatis Plus 3.5.12
+- **序列化**: Jackson 2.19.0+
+- **安全**: JWT, BouncyCastle 1.81+
+- **API文档**: Knife4j 4.6.0, Swagger 2.2.33+
+- **微服务**: OpenFeign 13.6, Spring Cloud
+
+## 模块结构
+
+### 核心模块
+- **tony-core**: 核心工具类和通用功能
+- **tony-interfaces**: 接口定义和常量
+- **tony-dependencies**: 依赖版本管理
+- **tony-dependencies-catalog**: 依赖目录
+
+### Web相关模块
+- **tony-web**: Web框架和通用组件
+- **tony-web-auth**: Web认证和授权
+- **tony-web-crypto**: Web加密解密
+- **tony-knife4j-api**: API文档集成
+
+### 数据访问模块
+- **tony-mybatis-plus**: MyBatis Plus增强
+- **tony-redis**: Redis缓存集成
+- **tony-snowflake-id**: 雪花ID生成器
+
+### 第三方服务模块
+- **tony-aliyun-oss**: 阿里云对象存储
+- **tony-aliyun-sms**: 阿里云短信服务
+- **tony-alipay**: 支付宝支付集成
+- **tony-wechat**: 微信服务集成
+- **tony-captcha**: 验证码服务
+
+### 微服务模块
+- **tony-feign**: OpenFeign服务调用
+- **tony-jwt**: JWT认证服务
+
+## 开发规范
+
+### 模块开发原则
+- **单一职责**: 每个模块只负责一个特定功能
+- **低耦合**: 模块间依赖最小化
+- **高内聚**: 模块内部功能紧密相关
+- **可复用**: 设计为可复用的组件
+
+### 包结构规范
+```
+tony-{module}/
+├── src/main/kotlin/tony/{module}/
+│   ├── config/          # 配置类
+│   ├── annotation/      # 自定义注解
+│   ├── exception/       # 异常类
+│   ├── utils/          # 工具类
+│   └── {feature}/      # 功能实现
+├── src/main/resources/
+│   ├── META-INF/       # Spring Boot自动配置
+│   └── application.yml # 默认配置
+└── src/test/           # 测试代码
+```
+
+### 自动配置规范
+- 使用 `@Configuration` 和 `@ConditionalOnClass` 实现自动配置
+- 配置类放在 `config` 包下
+- 提供默认配置和自定义配置选项
+- 使用 `@EnableConfigurationProperties` 绑定配置属性
+
+### 依赖管理
+- 使用 Version Catalog 统一管理版本
+- 模块间依赖通过 `api()` 暴露公共接口
+- 实现依赖通过 `implementation()` 隐藏内部实现
+- 测试依赖使用 `testImplementation()`
+
+## 代码规范
+
+### 注释规范
+
+#### 注释语言规范
+- **主要语言**: 使用中文注释，保持简洁明了
+- **国际化**: 注释内容使用简体中文，便于中文开发者理解
+- **简洁性**: 注释内容精炼，避免冗余和重复
+
+#### 文件级注释
+
+##### 文件说明注释
+```kotlin
+@file:JvmName("ApiResults")
+
+/**
+ * 全局响应统一结构.
+ *
+ * @author tangli
+ * @date 2021/12/6 10:51
+ */
+```
+
+#### 类级注释
+
+##### 标准格式
+```kotlin
+/**
+ * 全局响应统一结构.
+ *
+ * @param T 响应体对象类型. 不支持 [Boolean] ,[CharSequence], [Number], [Enum].
+ *
+ * @author tangli
+ * @date 2021/12/6 10:51
+ */
+public data class ApiResult<T>
+```
+
+##### 工具类注释
+```kotlin
+/**
+ * 核心工具类
+ *
+ * @author tangli
+ * @date 2022/09/29 19:20
+ */
+```
+
+##### 注释要素
+- **功能描述**: 简洁说明类的主要功能
+- **泛型参数**: 详细说明泛型参数的含义和限制
+- **作者信息**: `@author` 标签标注作者
+- **创建时间**: `@date` 标签标注创建时间
+
+#### 方法级注释
+
+##### 扩展函数注释
+```kotlin
+/**
+ * Not equal
+ * @param other
+ * @return result
+ * @author tangli
+ * @date 2023/11/07 19:38
+ */
+public fun Any?.notEquals(other: Any?): Boolean =
+    this != other
+
+/**
+ * 如果为null, 提供默认值.
+ * @receiver [T]?
+ * @param [T] 自身类型
+ * @param [default] 默认值
+ * @return [T]
+ * @author tangli
+ * @date 2023/11/07 19:38
+ */
+public fun <T> T?.ifNull(default: T): T =
+    this ?: default
+```
+
+##### 复杂方法注释
+```kotlin
+/**
+ * 拉平对象成 [FlattenApiResult], 将所有字段拉到最外层显示.
+ *
+ * 比如
+ * ```
+ * {
+ *   "code": 20000,
+ *   "data": {
+ *     "name": "Tony",
+ *     "age": 18
+ *   }
+ * }
+ * ```
+ * 变成
+ * ```
+ * {
+ *   "code": 20000,
+ *   "name": "Tony",
+ *   "age": 18
+ * }
+ * ```
+ *
+ * @return [ApiResultLike]<[T]>
+ * @author tangli
+ * @date 2023/09/13 19:31
+ */
+public fun <T> T.flattenResult(): ApiResultLike<T>
+```
+
+##### 参数说明风格
+```kotlin
+/**
+ * 当[this]为真时,抛出[BizException]异常.
+ *
+ * 异常信息为[message], 异常代码为[code],默认为[ApiProperty.preconditionFailedCode]
+ *
+ * @param message 异常信息
+ * @param code 异常代码
+ * @param ex 异常类型
+ */
+```
+
+#### 行内注释
+
+##### 复杂逻辑注释
+```kotlin
+init {
+    val template = "%s type can not be the first parameter.Please use ApiResult.of(result) instead."
+
+    when (data) {
+        is Boolean -> throw ApiException(String.format(template, "Boolean"))
+        is CharSequence -> throw ApiException(String.format(template, "CharSequence"))
+        is Number -> throw ApiException(String.format(template, "Number"))
+        is Enum<*> -> throw ApiException(String.format(template, "Enum"))
+    }
+}
+```
+
+##### 配置相关注释
+```kotlin
+/**
+ * 排除路径模式.
+ *
+ * 全局框架处理层面白名单, 比如不经过全局响应结构包装, 不记录请求日志的 url.
+ *
+ * 一般默认包含 文档地址, 及对应的静态文件地址.
+ *
+ * @param [prefix] 前缀
+ * @return [Set]<[String]>
+ * @author tangli
+ * @date 2024/02/07 09:27
+ */
+```
+
+#### 测试注释
+
+##### 测试类注释
+```kotlin
+/**
+ * 函数式编程工具类单元测试
+ *
+ * @author tangli
+ * @date 2025/06/27 17:00
+ */
+@DisplayName("Funcs测试")
+class FuncsTest
+```
+
+##### 测试方法注释
+```kotlin
+@ParameterizedTest
+@ValueSource(strings = ["hello", "world", "test"])
+@DisplayName("Funcs.notEquals():不相等")
+fun testNotEqualsWhenDifferent(value: String) {
+    // 测试逻辑
+}
+```
+
+#### 注释规范特点
+
+##### 一致性
+- **格式统一**: 所有注释都遵循相同的KDoc格式规范
+- **标签使用**: 统一使用 `@author`, `@date`, `@param`, `@return` 等标签
+- **命名规范**: 注释中的类名、方法名使用方括号 `[]` 包围
+
+##### 实用性
+- **简洁明了**: 注释更加简洁，直接说明功能
+- **示例保留**: 复杂功能仍然保留具体的使用示例
+- **重点突出**: 突出核心功能和重要参数
+
+##### 可维护性
+- **版本信息**: 使用 `@date` 标签跟踪修改历史
+- **作者追踪**: 通过 `@author` 标签明确责任人
+- **类型安全**: 使用方括号标注类型，提高可读性
+
+#### 注释最佳实践
+
+##### 应该做的
+- ✅ 为所有公共API提供简洁的中文注释
+- ✅ 使用KDoc格式编写文档注释
+- ✅ 保留复杂功能的使用示例
+- ✅ 说明参数和返回值的含义
+- ✅ 标注重要的使用注意事项
+
+##### 不应该做的
+- ❌ 过度解释显而易见的代码
+- ❌ 使用过时或不准确的信息
+- ❌ 注释过于冗长或重复
+- ❌ 忽略更新注释导致信息过时
+
+#### 注释工具支持
+
+##### KDoc生成
+- 使用Dokka工具自动生成API文档
+- 支持HTML、Markdown等多种格式
+- 集成到构建流程中
+
+##### IDE支持
+- IntelliJ IDEA对KDoc有良好的支持
+- 提供代码补全和格式化功能
+- 支持注释模板和快捷键
+
+### 命名规范
+- **模块名**: `tony-{功能名}` (如: `tony-core`, `tony-redis`)
+- **包名**: `tony.{功能名}` (如: `tony.core`, `tony.redis`)
+- **配置类**: `{功能名}Config` (如: `RedisConfig`, `JwtConfig`)
+- **注解**: `@Enable{功能名}` (如: `@EnableTonyBoot`)
+
+### 配置属性规范
+- 使用 `@ConfigurationProperties` 绑定配置
+- 配置前缀使用 `tony.{功能名}` (如: `tony.redis`, `tony.jwt`)
+- 提供合理的默认值
+- 支持环境变量覆盖
+
+### 异常处理规范
+- 定义模块特定的异常类
+- 继承自 `BaseException`
+- 提供有意义的错误信息
+- 包含错误码和错误描述
+
+### 日志规范
+- 使用 SLF4J 进行日志记录
+- 不同级别日志合理使用
+- 敏感信息不记录日志
+- 提供调试信息用于问题排查
+
+## 测试规范
+
+### 单元测试规范
+
+#### 测试类命名规范
+- **测试类命名**：`文件名测试`（如：`FuncsTest`）
+- **@DisplayName**：`文件名测试`（如：`@DisplayName("Funcs测试")`）
+
+#### @Nested分组规范
+- **@Nested类命名**：使用`inner class`，便于访问外部成员
+- **@DisplayName格式**：`类名/文件名.方法名()测试`
+  - 例如：`@DisplayName("Funcs.notEquals()测试")`
+  - 例如：`@DisplayName("Funcs.ifNull()测试")`
+- **推荐以"功能/场景"为分组依据**：对于功能丰富、场景多样的工具类，优先按"功能/场景"分组（如"边界情况"、"性能测试"、"toBigDecimal相关"），提升可维护性和可读性，便于参数化和扩展。若方法极为独立、测试点少，也可采用"方法名/扩展点"为分组。
+
+#### 测试方法命名规范
+- **@DisplayName格式**：`类名/文件名.方法名():分支/边界/异常/或为空`
+  - 例如：`@DisplayName("Funcs.notEquals():不相等")`
+  - 例如：`@DisplayName("Funcs.ifNull():非null值")`
+  - 例如：`@DisplayName("Funcs.throwIfTrue():条件为真")`
+
+#### 参数化测试规范
+- **适用场景**：参数条件分支众多的方法
+- **注解组合**：`@ParameterizedTest` + `@ValueSource`
+- **示例**：
+```kotlin
+@ParameterizedTest
+@ValueSource(strings = ["hello", "world", "test"])
+@DisplayName("Funcs.notEquals():不相等")
+fun testNotEqualsWhenDifferent(value: String) {
+    // 测试逻辑
+}
+```
+
+#### 测试结构规范
+```kotlin
+@DisplayName("Funcs测试")
+class FuncsTest {
+
+    // 测试用的数据类（避免在inner class中定义data class）
+    data class TestData(var value: String = "initial")
+
+    @Nested
+    @DisplayName("Funcs.方法名()测试")
+    inner class MethodNameTest {
+
+        @Test
+        @DisplayName("Funcs.方法名():分支1")
+        fun testMethodNameBranch1() {
+            // 测试逻辑
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = ["value1", "value2", "value3"])
+        @DisplayName("Funcs.方法名():参数化测试")
+        fun testMethodNameParameterized(value: String) {
+            // 测试逻辑
+        }
+    }
+}
+```
+
+#### 测试覆盖规范
+- **主功能测试**：正常流程和主要分支
+- **边界测试**：边界值、极值、空值等
+- **异常测试**：异常情况、错误输入等
+- **性能测试**：必要时进行性能验证
+- **并发测试**：必要时进行并发安全性验证
+
+#### 断言规范
+- **每个@Test只测一个分支**：避免在一个测试方法中测试多个不同场景
+- **使用合适的断言**：`assertEquals`、`assertTrue`、`assertNull`、`assertThrows`等
+- **移除无用日志**：测试中不应该有`println`等调试输出
+- **无虚增测试**：每个测试都应该有实际意义，不为了覆盖率而写无意义的测试
+
+#### 依赖管理规范
+- **Mock外部依赖**：使用Mockito等工具模拟外部服务
+- **避免真实环境**：测试不应该依赖真实的数据库、网络等
+- **测试数据隔离**：每个测试应该有独立的测试数据
+
+#### 代码质量规范
+- **中文注释**：使用中文注释，保持简洁明了
+- **方法文档**：复杂测试方法需要文档注释
+- **代码格式化**：遵循Kotlin/Java编码规范
+- **静态分析**：通过Ktlint等工具检查代码质量
+- **字段注入**：测试类中不要使用 `@Autowired` 注解，应该使用构造函数注入或 `@Resource` 注解
+
+#### 测试执行规范
+- **快速执行**：测试应该能够快速执行完成
+- **独立执行**：测试之间不应该有依赖关系
+- **可重复执行**：测试结果应该是一致的
+- **自动化集成**：集成到CI/CD流程中
+
+### 测试包结构规范
+
+#### 测试文件组织
+```
+tony-{module}/
+├── src/test/kotlin/tony/test/{module}/
+│   ├── config/          # 配置类测试
+│   ├── annotation/      # 注解测试
+│   ├── exception/       # 异常类测试
+│   ├── utils/          # 工具类测试
+│   └── {feature}/      # 功能实现测试
+├── src/test/resources/
+│   ├── application-test.yml # 测试配置
+│   └── data/           # 测试数据文件
+└── src/test/java/      # Java测试代码（如需要）
+```
+
+#### 测试包命名规范
+- **测试包名**：`tony.test.{模块名}.{功能包名}`
+- **示例**：
+  - `tony.test.core.utils` - 核心工具类测试
+  - `tony.test.redis.service` - Redis服务测试
+  - `tony.test.web.config` - Web配置测试
+  - `tony.test.mybatis.mapper` - MyBatis映射器测试
+
+#### 测试文件命名规范
+- **测试文件命名**：`{被测试类名}Test.kt`
+- **示例**：
+  - `FuncsTest.kt` - 测试Funcs工具类
+  - `RedisServiceTest.kt` - 测试RedisService
+  - `JwtConfigTest.kt` - 测试JwtConfig配置类
+
+### 单元测试
+- 每个公共方法都要有单元测试
+- 使用 JUnit 5 + Mockito
+- 测试覆盖率 > 80%
+- 测试用例命名清晰明了
+- 单元测试包名 `tony.test.{功能名}.{模块名}`
+
+### 集成测试
+- 测试自动配置是否正确加载
+- 测试配置属性是否正确绑定
+- 测试与其他模块的集成
+- 使用 `@SpringBootTest` 进行集成测试
+
+### 测试数据
+- 使用测试专用的配置文件
+- 提供测试用的数据源
+- 测试完成后清理测试数据
+- 使用 `@TestConfiguration` 提供测试配置
+
+## 文档规范
+
+### README.md 结构模板
+
+每个模块的 README.md 必须遵循以下统一结构：
+
+````markdown
+## 概述
+
+`tony-{module}` 是 `tony-boot-starters` 体系下的 {功能描述} 模块，{核心价值描述}。{主要解决的问题和适用场景}。
+
+## 目录
+
+- [如何使用](#如何使用)
+- [主要功能](#主要功能)
+  - [功能点1](#1-功能点1)
+  - [功能点2](#2-功能点2)
+  - [功能点3](#3-功能点3)
+- [配置说明](#配置说明)
+- [使用示例](#使用示例)
+- [进阶用法](#进阶用法)
+- [适用场景](#适用场景)
+- [注意事项](#注意事项)
+
+## 如何使用
+
+### 环境要求
+- **Java 21** 或更高版本
+- **Spring Boot 3.x**
+- **其他依赖**: {具体版本要求}
+
+### 添加依赖
+
+在 `build.gradle.kts` 中添加依赖：
+
+```kotlin
+dependencies {
+    implementation("tony:tony-{module}:0.1-SNAPSHOT")
+}
+```
+
+### 启用模块
+
+在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解：
+
+```kotlin
+@EnableTonyBoot
+@SpringBootApplication
+class YourApplication
+
+fun main(args: Array<String>) {
+    org.springframework.boot.run(YourApplication::class.java, *args)
+}
+```
+
+## 主要功能
+
+### 1. 功能点1
+
+- **核心特性描述**：详细说明该功能的核心价值和实现方式
+- **技术实现**：简要说明技术实现原理
+- **使用场景**：适用的具体业务场景
+
+### 2. 功能点2
+
+- **功能描述**：详细的功能说明
+- **配置选项**：相关的配置参数说明
+- **代码示例**：简单的使用示例
+
+### 3. 功能点3
+
+- **高级特性**：复杂功能的详细说明
+- **扩展能力**：可扩展和自定义的部分
+- **最佳实践**：推荐的使用方式
+
+## 配置说明
+
+### 基础配置
+
+```yaml
+tony:
+  {module}:
+    enabled: true
+    # 其他配置项
+```
+
+## 使用示例
+
+### 基础用法
+
+```kotlin
+// 基础使用示例代码
+```
+
+### 进阶用法
+
+```kotlin
+// 进阶使用示例代码
+```
+
+## 进阶用法
+
+### 自定义扩展
+
+```kotlin
+// 自定义扩展示例
+```
+````
+
+### 模块文档
+- 每个模块都要有 README.md
+- 说明模块的功能和使用方法
+- 提供配置示例和代码示例
+- 说明依赖关系和版本要求
+
+### API文档
+- 公共接口要有详细的文档注释
+- 使用 KDoc 格式编写文档
+- 提供参数说明和返回值说明
+- 包含使用示例和注意事项
+
+### 配置文档
+- 列出所有配置属性
+- 说明每个属性的作用
+- 提供默认值和取值范围
+- 包含配置示例
+
+## 发布规范
+
+### 版本管理
+- 使用语义化版本号 (如: 1.2.3)
+- 主版本号: 不兼容的API修改
+- 次版本号: 向下兼容的功能性新增
+- 修订号: 向下兼容的问题修正
+
+### 发布流程
+- 代码审查通过
+- 所有测试通过
+- 文档更新完成
+- 版本号更新
+- 发布到 Maven 仓库
+
+### 兼容性
+- 保持向后兼容性
+- 废弃的功能要标记 `@Deprecated`
+- 提供迁移指南
+- 支持多个版本并存
+
+## 性能优化
+
+### 启动性能
+- 使用条件注解避免不必要的配置加载
+- 延迟初始化非关键组件
+- 优化依赖扫描范围
+- 使用 Spring Boot 的懒加载机制
+
+### 运行时性能
+- 合理使用缓存
+- 避免重复计算
+- 优化数据库查询
+- 使用连接池管理资源
+
+### 内存优化
+- 避免内存泄漏
+- 合理使用对象池
+- 及时释放资源
+- 监控内存使用情况
+
+## 安全规范
+
+### 数据安全
+- 敏感数据加密存储
+- 传输数据使用HTTPS
+- 输入数据验证和过滤
+- 防止SQL注入和XSS攻击
+
+### 认证授权
+- 使用JWT进行身份认证
+- 实现细粒度的权限控制
+- 支持多种认证方式
+- 提供安全的密码策略
+
+### 配置安全
+- 敏感配置使用环境变量
+- 生产环境配置加密
+- 访问日志记录
+- 定期安全审计
+
+## 监控和运维
+
+### 健康检查
+- 提供健康检查端点
+- 检查关键组件的状态
+- 提供详细的健康信息
+- 支持自定义健康检查
+
+### 指标监控
+- 集成 Micrometer 指标收集
+- 提供业务指标监控
+- 支持 Prometheus 格式
+- 配置告警规则
+
+### 日志管理
+- 结构化日志输出
+- 支持日志聚合
+- 提供日志查询接口
+- 配置日志轮转策略
