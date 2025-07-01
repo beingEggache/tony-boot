@@ -40,6 +40,7 @@ import java.util.function.Predicate;
 /**
  * Global page response structure.
  *
+ * @param <T> rows 的实际类型.
  * @author tangli
  * @date 2021/12/6 10:51
  */

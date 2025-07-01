@@ -106,7 +106,6 @@ public data object SpringContexts : ApplicationContext by ApplicationContextHold
          * @return [Lazy]
          * @author tangli
          * @date 2023/09/13 19:32
-         * @since 1.0.0
          * @see [Environment.getProperty]
          */
         @JvmSynthetic

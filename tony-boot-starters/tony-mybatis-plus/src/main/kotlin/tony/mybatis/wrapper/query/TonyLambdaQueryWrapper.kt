@@ -37,7 +37,7 @@ import tony.utils.throwIfNull
 
 /**
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.
- * Lambda 语法使用 Wrapper
+ * @param [T] 实体类型
  * @author tangli
  * @date 2023/09/13 19:42
  */

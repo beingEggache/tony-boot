@@ -44,9 +44,10 @@ import tony.utils.getLogger
 /**
  * 全局请求拦截器 Provider。
  *
- * 用于手动注册全局 RequestInterceptor，避免自动注册带来的副作用。
+ * 用于手动注册全局 [RequestInterceptor]，避免自动注册带来的副作用。
  * 适用场景：需要灵活控制拦截器注册时机和范围。
- * @param obj 具体的 RequestInterceptor 实例
+ * @param [T] [RequestInterceptor] 类型
+ * @param obj 具体的 [RequestInterceptor] 实例
  * @author tangli
  * @date 2023/08/02 19:00
  */

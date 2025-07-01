@@ -36,6 +36,7 @@ import java.util.Collection;
 /**
  * Global page request structure.
  *
+ * @param <T> query类型
  * @author tangli
  * @date 2021/12/6 10:51
  */

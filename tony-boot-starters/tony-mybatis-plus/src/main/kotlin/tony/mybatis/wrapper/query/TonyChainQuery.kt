@@ -39,6 +39,7 @@ import tony.utils.throwIfTrue
 
 /**
  * 链式查询.
+ * @param [T] 实体类型
  * @author tangli
  * @date 2023/08/11 19:18
  */

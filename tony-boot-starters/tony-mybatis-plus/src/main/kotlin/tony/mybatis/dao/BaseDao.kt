@@ -48,6 +48,7 @@ import tony.utils.toPageResult
 
 /**
  * mybatis plus [BaseMapper] 包装, 增加了一些方法.
+ * @param [T] 对应实体
  * @author tangli
  * @date 2023/09/13 19:37
  */

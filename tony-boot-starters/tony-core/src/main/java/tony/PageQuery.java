@@ -32,7 +32,7 @@ import java.util.Collections;
 /**
  * Java Query请求包装
  *
- * @param <T>
+ * @param <T> query 类型
  * @author tangli
  * @date 2023/07/11 19:21
  * @see PageQueryLike

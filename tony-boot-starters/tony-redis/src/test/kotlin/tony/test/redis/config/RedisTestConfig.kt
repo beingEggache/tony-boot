@@ -38,7 +38,7 @@ import redis.embedded.RedisServer
  * 使用 embedded-redis 提供测试环境，确保在 Spring 容器初始化前启动 Redis 服务
  *
  * @author tony
- * @since 2024-01-01
+ * @date 2025/07/01 17:00
  */
 @TestConfiguration
 @TestPropertySource(locations = ["classpath:application.yml"])

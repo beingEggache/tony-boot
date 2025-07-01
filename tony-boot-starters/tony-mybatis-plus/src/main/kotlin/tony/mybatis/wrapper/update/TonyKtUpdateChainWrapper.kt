@@ -36,6 +36,7 @@ import tony.mybatis.dao.getEntityClass
 
 /**
  * TonyKtUpdateChainWrapper is
+ * @param [T] 实体类型
  * @author tangli
  * @date 2024/06/26 13:21
  */

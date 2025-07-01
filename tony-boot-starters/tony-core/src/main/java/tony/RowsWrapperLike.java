@@ -32,6 +32,7 @@ import java.util.Collection;
 /**
  * Global collection wrapper.
  *
+ * @param <T> 内容类型
  * @author tangli
  * @date 2021/12/6 10:51
  */
