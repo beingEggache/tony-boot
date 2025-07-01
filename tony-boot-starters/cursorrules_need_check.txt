@@ -1,0 +1,92 @@
+# CursorRules for tony-boot-starters
+
+## 1. 目录结构与模块化
+
+- 每个 starter 模块必须采用如下标准结构：
+  - `build.gradle.kts`（独立构建脚本）
+  - `README.md`（详细模块说明）
+  - `src/main/java` 或 `src/main/kotlin`（主代码，推荐 Kotlin）
+  - `src/main/resources`（资源文件，如配置、META-INF 等）
+  - `src/test/java` 或 `src/test/kotlin`（测试代码）
+  - `src/test/resources`（测试资源）
+- 辅助目录如 `config`、`githooks`、`gradle`、`build-script` 用于通用配置、钩子、构建工具等。
+
+## 2. 文档与注释规范
+
+- 每个模块必须有 `README.md`，内容包括：
+  - 概述/定位
+  - 主要功能
+  - 依赖与环境要求
+  - 配置方法（含 `application.yml` 示例）
+  - 典型用法（代码片段）
+  - 进阶用法/扩展点
+  - 适用场景
+  - 注意事项/最佳实践
+- 注释风格：
+  - 关键类、方法、配置项需有中英文注释，突出用途、参数、返回值、异常说明
+  - 示例代码注释清晰，便于开发者理解和复用
+- 注释模板（Kotlin KDoc/Java Javadoc）：
+  ```kotlin
+  /**
+   * 简要描述（用途/功能）
+   * @param xxx 参数说明
+   * @return 返回值说明
+   * @throws XxxException 异常说明
+   * 示例: ...
+   */
+  ```
+  ```java
+  /**
+   * 简要描述（用途/功能）
+   * @param xxx 参数说明
+   * @return 返回值说明
+   * @throws XxxException 异常说明
+   */
+  ```
+
+## 3. starter 自动装配规范
+
+- 遵循 Spring Boot Starter 标准：
+  - 自动装配类加 `@Configuration`
+  - 条件装配用 `@ConditionalOnXxx`
+  - 配置属性类用 `@ConfigurationProperties(prefix = "xxx")`，并加 `@EnableConfigurationProperties`
+  - 自动装配入口注册于 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` 或 `spring.factories`
+  - 支持 `@EnableTonyBoot` 等统一入口注解
+  - Bean 注册自动化，减少手动配置
+  - 支持多环境配置、可扩展点（如 SPI、回调、事件等）
+
+## 4. 代码风格与规范
+
+- 推荐 Kotlin 优先，兼容 Java
+- 工具类多为 object/静态方法，便于直接调用
+- 统一异常体系（如 `ApiException`、`BizException`、`BaseException`）
+- 统一响应结构（如 `ApiResult`、`MonoResult`、`PageResult`）
+- 枚举序列化/反序列化、注解驱动、工具类沉淀（如 `Cols`、`Strs`、`Dates`、`Jsons` 等）
+- 命名规范：驼峰命名、包名小写、类名大写
+- 代码分层清晰，职责单一，便于维护和扩展
+
+## 5. 测试用例规范
+
+- 测试代码与主代码分离，位于 `src/test/java|kotlin`
+- 推荐使用 JUnit5/Kotest，测试类命名以 `XxxTest` 结尾
+- 测试方法应覆盖：
+  - 典型输入/输出
+  - 异常/边界场景
+  - 配置项生效/失效
+  - 自动装配/Bean 注册正确性
+- 支持 Mock、集成测试、环境隔离
+- 测试用例应有注释，说明测试目的、输入、预期输出
+
+## 6. 依赖与构建规范
+
+- 统一使用 Gradle 构建，依赖版本集中管理（如 `tony-dependencies`、`libs.versions.toml`）
+- 支持一键构建、发布、镜像、代码规范检查（如 `build-script`、`checkDependenciesVersion.sh`）
+- 推荐使用 githooks 约束提交规范，保障代码质量
+
+## 7. 最佳实践与通用约定
+
+- 强调模块化、解耦、可插拔，starter 可独立引入
+- 注解驱动开发，提升灵活性与可扩展性
+- 配置项文档化，便于查阅和复用
+- 典型场景覆盖企业级多模块、微服务、三方服务集成、统一异常/认证/加密/缓存等
+- 鼓励贡献、PR、Issue，持续完善生态 
