@@ -239,7 +239,7 @@ mybatisTypehandlersJsr310 = { module = "org.mybatis:mybatis-typehandlers-jsr310"
 xstream = { module = "com.thoughtworks.xstream:xstream", version = "1.4.21" }
 xmlunitCore = { module = "org.xmlunit:xmlunit-core", version = "2.10.3" }
 
-dom4j = { module = "org.dom4j:dom4j", version = "2.1.4" }
+dom4j = { module = "org.dom4j:dom4j", version = "2.2.0" }
 findbugsJsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2" }
 findbugsAnnotations = { module = "com.google.code.findbugs:annotations", version = "3.0.1" }
 
