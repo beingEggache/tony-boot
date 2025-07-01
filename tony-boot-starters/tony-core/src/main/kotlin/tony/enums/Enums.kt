@@ -43,6 +43,7 @@ import tony.utils.throwIfNull
 /**
  * 全局枚举接口.
  * 已和 jackson 和 mybatis-plus 结合.
+ * @param [T] 枚举值类型.
  * @author tangli
  * @date 2023/09/13 19:16
  */
