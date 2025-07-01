@@ -167,40 +167,6 @@ object TestDataGenerator {
     ): ObjWithMap = ObjWithMap(name, map)
 
     /**
-     * 创建包含对象列表的对象
-     *
-     * @param name 名称
-     * @param list 对象列表
-     * @return 包含对象列表的对象 [ObjWithObjList]
-     * @author tony
-     * @date 2025-06-30 14:00
-     */
-    fun createObjWithObjList(
-        name: String = "对象列表",
-        list: List<SimpleObj> = listOf(
-            createSimpleObj("对象1", 20),
-            createSimpleObj("对象2", 30)
-        )
-    ): ObjWithObjList = ObjWithObjList(name, list)
-
-    /**
-     * 创建包含对象Map的对象
-     *
-     * @param name 名称
-     * @param map Map对象
-     * @return 包含对象Map的对象 [ObjWithObjMap]
-     * @author tony
-     * @date 2025-06-30 14:00
-     */
-    fun createObjWithObjMap(
-        name: String = "对象Map",
-        map: Map<String, ObjWithObjList> = mapOf(
-            "group1" to createObjWithObjList("组1"),
-            "group2" to createObjWithObjList("组2")
-        )
-    ): ObjWithObjMap = ObjWithObjMap(name, map)
-
-    /**
      * 创建大对象（用于性能测试）
      *
      * @return 大对象 [LargeTestObject]
@@ -217,94 +183,6 @@ object TestDataGenerator {
             "version" to "1.0.0",
             "created" to System.currentTimeMillis(),
             "tags" to listOf("large", "test", "performance")
-        )
-    )
-
-    /**
-     * 创建基本类型数据
-     *
-     * @return 基本类型数据的Map
-     * @author tony
-     * @date 2025-06-30 14:00
-     */
-    fun createBasicTypes(): Map<String, Any?> = mapOf(
-        "string" to "测试字符串",
-        "int" to 123,
-        "long" to 123456789L,
-        "double" to 3.14159,
-        "boolean" to true,
-        "null" to null
-    )
-
-    /**
-     * 创建集合类型数据
-     *
-     * @return 集合类型数据的Map
-     * @author tony
-     * @date 2025-06-30 14:00
-     */
-    fun createCollectionTypes(): Map<String, Any> = mapOf(
-        "list" to listOf(1, 2, 3, 4, 5),
-        "set" to setOf("a", "b", "c"),
-        "map" to mapOf("key1" to "value1", "key2" to "value2"),
-        "emptyList" to emptyList<String>(),
-        "emptySet" to emptySet<String>(),
-        "emptyMap" to emptyMap<String, String>()
-    )
-
-    /**
-     * 创建特殊字符数据
-     *
-     * @return 包含特殊字符的字符串Map
-     * @author tony
-     * @date 2025-06-30 14:00
-     */
-    fun createSpecialCharacters(): Map<String, String> = mapOf(
-        "chinese" to "中文字符",
-        "emoji" to "😀🎉🚀",
-        "special" to "!@#$%^&*()_+-=[]{}|;':\",./<>?",
-        "newline" to "换行\n制表符\t",
-        "unicode" to "Unicode字符: \u4e2d\u6587",
-        "empty" to "",
-        "whitespace" to "  空格  "
-    )
-
-    /**
-     * 创建字符串枚举测试数据
-     * @return [Map]<[String], [StringEnumValue]>
-     * @author tangli
-     * @date 2025/06/30 13:59
-     */
-    fun createStringEnumData(): Map<String, StringEnumValue> = mapOf(
-        "yes" to TestStringEnum.YES,
-        "no" to TestStringEnum.NO,
-        "unknown" to TestStringEnum.UNKNOWN
-    )
-
-    /**
-     * 创建整数枚举测试数据
-     * @return [Map]<[String], [IntEnumValue]>
-     * @author tangli
-     * @date 2025/06/30 13:59
-     */
-    fun createIntEnumData(): Map<String, IntEnumValue> = mapOf(
-        "active" to TestIntEnum.ACTIVE,
-        "inactive" to TestIntEnum.INACTIVE,
-        "pending" to TestIntEnum.PENDING
-    )
-
-    /**
-     * 创建混合枚举数据
-     * @return [Map]<[String], [Any]>
-     * @author tangli
-     * @date 2025/06/30 14:00
-     */
-    fun createMixedEnumData(): Map<String, Any> = mapOf(
-        "stringEnum" to TestStringEnum.YES,
-        "intEnum" to TestIntEnum.ACTIVE,
-        "mixed" to mapOf(
-            "string" to TestStringEnum.NO,
-            "int" to TestIntEnum.INACTIVE
         )
     )
 }
@@ -423,16 +301,6 @@ data class ObjWithMap(
 data class ObjWithObjList(
     val name: String,
     val list: List<SimpleObj>
-)
-
-/**
- * 包含对象Map的对象
- * @author tangli
- * @date 2025/06/30 14:00
- */
-data class ObjWithObjMap(
-    val name: String,
-    val map: Map<String, ObjWithObjList>
 )
 
 /**

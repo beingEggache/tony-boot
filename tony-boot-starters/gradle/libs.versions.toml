@@ -102,7 +102,7 @@ springBootStarterDataRedisReactive = { module = "org.springframework.boot:spring
 springBootConfigurationProcessor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "springBoot" }
 springBootAutoconfigureProcessor = { module = "org.springframework.boot:spring-boot-autoconfigure-processor", version.ref = "springBoot" }
 springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
-springBootGradlePlugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot"}
+springBootGradlePlugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot" }
 
 springCloudTencentDependencies = { module = "com.tencent.cloud:spring-cloud-tencent-dependencies", version.ref = "springCloudTencent" }
 springCloudAlibabaDenpendencies = { module = "com.alibaba.cloud:spring-cloud-alibaba-dependencies", version.ref = "springCloudAlibaba" }
@@ -205,7 +205,7 @@ vertxBridgeCommon = { module = "io.vertx:vertx-bridge-common", version.ref = "ve
 xnioApi = { module = "org.jboss.xnio:xnio-api", version.ref = "xnio" }
 xnioNio = { module = "org.jboss.xnio:xnio-nio", version.ref = "xnio" }
 
-ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref="ktlint"}
+ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 
 validationApi = { module = "jakarta.validation:jakarta.validation-api", version = "3.1.1" }
 annotationApi = { module = "jakarta.annotation:jakarta.annotation-api", version = "3.0.0" }
@@ -252,30 +252,32 @@ yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version =
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
 
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.6" }
-gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.37.0"}
+gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.37.0" }
+
+embeddedRedis = { module = "com.github.codemonstur:embedded-redis", version = "1.4.3" }
 
 [plugins]
 javaPlatform = { id = "org.gradle.java-platform" }
 versionCatalog = { id = "org.gradle.version-catalog" }
-protobuf = { id="com.google.protobuf", version = "0.9.4" }
+protobuf = { id = "com.google.protobuf", version = "0.9.4" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinSpring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
 kotlinNoarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin" }
 kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-lombok = { id="io.freefair.lombok", version.ref = "lombok" }
-graalvm = { id="org.graalvm.buildtools.native", version.ref = "graalvm" }
+lombok = { id = "io.freefair.lombok", version.ref = "lombok" }
+graalvm = { id = "org.graalvm.buildtools.native", version.ref = "graalvm" }
 
 gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version = "0.52.0" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version = "2.0.0" }
 
 licenser = { id = "org.cadixdev.licenser", version = "0.6.1" }
 
-tonyGradleBuild = { id = "tony.gradle.plugin.build", version.ref="template"}
-tonyDepConfigurations = { id = "tony.gradle.plugin.dep-configurations", version.ref="template"}
-tonyKtlint = { id = "tony.gradle.plugin.ktlint", version.ref="template"}
-tonyMavenPublish = { id = "tony.gradle.plugin.maven-publish", version.ref="template"}
-tonyDocker = { id = "tony.gradle.plugin.docker", version.ref="template"}
+tonyGradleBuild = { id = "tony.gradle.plugin.build", version.ref = "template" }
+tonyDepConfigurations = { id = "tony.gradle.plugin.dep-configurations", version.ref = "template" }
+tonyKtlint = { id = "tony.gradle.plugin.ktlint", version.ref = "template" }
+tonyMavenPublish = { id = "tony.gradle.plugin.maven-publish", version.ref = "template" }
+tonyDocker = { id = "tony.gradle.plugin.docker", version.ref = "template" }
 
 [bundles]
 test = ["springBootStarterTest"]

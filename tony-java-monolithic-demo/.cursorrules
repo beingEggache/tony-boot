@@ -101,7 +101,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/sys/user/detail")
-    public UserResp getUser(@Validated @RequestBody UserDetailReq req {
+    public UserResp getUser(@Validated @RequestBody UserDetailReq req) {
         UserResponse user = userService.getUser(req);
         return user;
     }
@@ -146,48 +146,6 @@ public class UserService {
 @Repository
 @Slf4j
 public class UserDao extends BaseDao<User> {
-}
-```
-
-### 实体类规范
-```java
-@TableName("sys_user")
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class User {
-
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
-
-    private String username;
-
-    private String email;
-
-    private String password;
-
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
-    @TableLogic
-    private Boolean deleted;
-
-    public static User from(UserRequest request) {
-        return User.builder()
-            .username(request.getUsername())
-            .email(request.getEmail())
-            .password(encryptPassword(request.getPassword()))
-            .build();
-    }
-
-    private static String encryptPassword(String password) {
-        // 密码加密逻辑
-        return BCrypt.hashpw(password, BCrypt.gensalt());
-    }
 }
 ```
 
@@ -281,7 +239,7 @@ mybatis-plus:
 - 使用逻辑删除
 - 合理设计索引
 
-### 实体类注解规范
+### 实体类规范
 ```java
 @NoArgsConstructor
 @AllArgsConstructor
@@ -290,19 +248,19 @@ mybatis-plus:
 @TableName("sys_user")
 public class User {
 
-    @TableId(type = IdType.ASSIGN_ID)
+    @TableId
     private Long id;
 
-    @TableField("username")
+    @TableField
     private String username;
 
-    @TableField("email")
+    @TableField
     private String email;
 
-    @TableField("password")
+    @TableField
     private String password;
 
-@OrderBy
+    @OrderBy
     @TableField(
         insertStrategy = FieldStrategy.NEVER,
         updateStrategy = FieldStrategy.NEVER
@@ -390,35 +348,6 @@ public class User {
 - **系统异常**: 系统内部错误
 - **参数异常**: 参数验证错误
 - **权限异常**: 权限不足错误
-
-### 全局异常处理
-```java
-@RestControllerAdvice
-@Slf4j
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(BusinessException.class)
-    public ApiResult<Void> handleBusinessException(BusinessException e) {
-        log.warn("业务异常: {}", e.getMessage());
-        return ApiResult.error(e.getCode(), e.getMessage());
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiResult<Void> handleValidationException(MethodArgumentNotValidException e) {
-        String message = e.getBindingResult().getFieldErrors().stream()
-            .map(FieldError::getDefaultMessage)
-            .collect(Collectors.joining(", "));
-        log.warn("参数验证失败: {}", message);
-        return ApiResult.error(400, message);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ApiResult<Void> handleException(Exception e) {
-        log.error("系统异常", e);
-        return ApiResult.error(500, "系统内部错误");
-    }
-}
-```
 
 ## 测试规范
 

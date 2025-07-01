@@ -28,11 +28,11 @@ import com.baomidou.mybatisplus.annotation.DbType
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor
-import tony.id.IdGenerator
 import org.mybatis.spring.annotation.MapperScan
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import tony.id.IdGenerator
 
 @Configuration
 @ComponentScan(
