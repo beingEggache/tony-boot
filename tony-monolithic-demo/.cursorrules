@@ -161,6 +161,8 @@ db/
 - **禁止跨层直接依赖**（如 Controller 不能直接依赖 DAO）。
 - 具体命名规则见各层规范。
 
+AI生成代码时需遵循本节所有约定
+
 ---
 
 ## 注释规范
@@ -180,34 +182,40 @@ db/
  * @date 创建日期 yyyy/MM/dd HH:mm
  */
 ```
+AI生成代码时需遵循本节所有约定
+
 ---
 
 ## 枚举使用规范
 
-- 枚举类实现统一接口（如 IntEnumValue），包含唯一 value 字段。
-- 常量全大写，注释完整，推荐加 @JsonEnumDefaultValue 标记默认值。
-- 示例：
+- 所有枚举实现统一接口（如EnumValue<T>），value字段唯一，需有默认值
+- 用表格区分Int/String实现差异
+
+| 类型   | 接口              | value类型 | 默认值常量           | Creator基类         |
+|--------|-------------------|-----------|---------------------|---------------------|
+| Int    | IntEnumValue      | Int       | DEFAULT_INT_VALUE   | IntEnumCreator      |
+| String | StringEnumValue   | String    | DEFAULT_STRING_VALUE| StringEnumCreator   |
+
+**标准模板：**
 ```kotlin
-enum class AccountStateEnum(
-    @get:JsonValue
-    override val value: Int,
-) : IntEnumValue {
-    /** 需修改密码 */
-    INIT(0),
-    /** 正常 */
-    NORMAL(1),
-    /** 未知 */
+enum class ExampleEnum(override val value: Int) : IntEnumValue {
+    VALUE1(1),
+    VALUE2(2),
     @JsonEnumDefaultValue
-    UNUSED(-1),
-    ;
-    companion object {
+    UNUSED(DEFAULT_INT_VALUE),
+    @JsonEnumDefaultValue UNUSED(DEFAULT_INT_VALUE);
+    companion object : IntEnumCreator(ExampleEnum::class.java) {
         @JsonCreator
         @JvmStatic
-        fun create(value: Int): AccountStateEnum =
-            values().find { it.value == value } ?: UNUSED
+        override fun create(value: Int) = super.create(value)
     }
 }
 ```
+- value字段加@JsonValue，companion object加@JsonCreator/@JvmStatic
+- 禁止无value字段、无默认值、无接口实现
+
+AI生成代码时需遵循本节所有约定
+
 ---
 
 ## 导入规范
@@ -220,6 +228,8 @@ import org.springframework.util.AntPathMatcher
 import {company}.{projectName}.core.ApiResult
 // ❌ import java.util.*  // 禁止
 ```
+AI生成代码时需遵循本节所有约定
+
 ---
 
 ## 异常使用规范
@@ -232,6 +242,8 @@ if (startDate > endDate) {
     throw BizException("开始时间不能晚于结束时间")
 }
 ```
+AI生成代码时需遵循本节所有约定
+
 ---
 
 ## 实体层与数据库表规范
@@ -373,6 +385,8 @@ class {EntityName} {
     var tenantId: String = ""
 }
 ```
+AI生成代码时需遵循本节所有约定
+
 ---
 
 ### 2. 数据库表规范
@@ -428,6 +442,8 @@ CREATE TABLE `{table_name}` (
     KEY idx_{table}_name(`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='{表说明}';
 ```
+AI生成代码时需遵循本节所有约定
+
 ---
 
 ## DTO 层规范
@@ -538,6 +554,8 @@ data class DemoInjectReq(
 建议所有自动注入字段均采用此方式，普通业务字段不应使用 Jackson 注入相关注解。
 如需注入其他上下文信息，可在项目内自行扩展类似注解，保持注入 key 与后端一致，避免分散和重复配置。
 
+AI生成代码时需遵循本节所有约定
+
 ---
 
 #### 6.2 响应 DTO
@@ -559,6 +577,9 @@ data class EmployeeResp(
 )
 ```
 所有字段应明确默认值和可空性，避免序列化/反序列化歧义
+
+AI生成代码时需遵循本节所有约定
+
 ---
 
 ## DAO 层规范
@@ -601,6 +622,8 @@ interface EmployeeDao : BaseMapper<Employee>
 ### 7. 其他规范
 - DAO 层不直接返回 Map、List<Map> 等弱类型结构，优先返回实体类或类型安全的 DTO。
 - 如需扩展自定义方法，建议在接口中声明，具体 SQL 实现放在 XML 文件中。
+
+AI生成代码时需遵循本节所有约定
 
 ---
 
@@ -673,6 +696,8 @@ class EmployeeServiceImpl(
 - Service 层不得包含与 Controller、Web、配置等无关的依赖。
 - 业务异常建议统一抛出自定义异常类型，便于全局处理。
 - Service 层方法参数、返回值应尽量使用类型安全的 DTO 或实体类。
+
+AI生成代码时需遵循本节所有约定
 
 ---
 
@@ -770,6 +795,8 @@ class EmployeeController(
 - 异常建议统一抛出自定义异常类型，便于全局处理。
 - Controller 层方法参数、返回值应尽量使用类型安全的 DTO。
 
+AI生成代码时需遵循本节所有约定
+
 ---
 
 ## Config 规范
@@ -795,3 +822,5 @@ class {ProjectName}WebConfig {
     }
 }
 ```
+
+AI生成代码时需遵循本节所有约定
