@@ -1,0 +1,666 @@
+# tony-boot-starters 项目 CursorRules
+
+## 项目概述
+
+tony-boot-starters 是一套面向企业级 Kotlin/Java 项目的 Spring Boot 扩展与集成解决方案，涵盖核心工具、分布式组件、Web 能力、安全认证、加密、第三方服务对接等常用场景。各模块均以 Starter 形式提供，开箱即用，助力团队高效开发、统一规范、快速集成。
+
+## 核心原则
+
+- **模块化设计**: 各模块可独立引入，按需集成，互不强依赖
+- **Kotlin 优先**: 主要使用 Kotlin 开发，保持 Java 互操作性
+- **自动化构建**: 内置 Gradle 插件，支持一键构建、发布、代码规范
+- **统一规范**: 统一的目录结构、命名规范、注释风格
+
+---
+
+## 目录结构规范
+
+### Starter 模块标准结构
+
+每个 starter 模块必须采用如下标准结构：
+```
+tony-[module-name]/
+├── build.gradle.kts                   # 模块独立构建脚本
+├── README.md                          # 模块详细说明文档
+├── src/
+│   ├── main/
+│   │   ├── kotlin/                    # Kotlin 源码（主要）
+│   │   │   └── tony/
+│   │   │       └── [module-name]/     # 模块包名
+│   │   ├── java/                      # Java 源码（可选，用于互操作）
+│   │   └── resources/                 # 资源文件
+│   │       ├── META-INF/
+│   │       │   └── spring/
+│   │       │       └── org.springframework.boot.autoconfigure.AutoConfiguration.imports
+│   │       └── [module-name].config.yml # 配置示例（可选）
+│   └── test/
+│       ├── kotlin/                    # Kotlin 测试源码（主要）
+│       │   └── tony/
+│       │       └── test/              # 测试包名
+│       │           └── [module-name]/ # 对应模块测试
+│       ├── java/                      # Java 测试源码（可选）
+│       └── resources/                 # 测试资源
+```
+
+### 源码包结构规范
+
+```
+src/main/kotlin/tony/[module-name]/
+├── config/                           # 配置类（包含自动装配）
+│   ├── [Module]AutoConfiguration.kt
+│   └── [Module]Properties.kt
+├── service/                          # 服务类
+├── utils/                            # 工具类
+├── exception/                        # 异常类
+└── [其他业务包]/
+```
+
+### 测试包结构与命名规范
+- 测试包结构应与主业务包结构一致，如 `tony.test.[module-name]`。
+- 测试类命名以 `Tests` 结尾，基础测试类以 `Base` 开头，测试应用类以 `Test` 开头。
+- 按功能模块组织测试文件，如 `utils/`、`service/`、`config/` 等。
+
+### 关键特点
+
+**Kotlin 为主，Java 互操作：**
+- 主要源码使用 Kotlin 编写
+- 保留 `src/main/java` 目录用于 Java 互操作场景
+- 测试代码也以 Kotlin 为主，保留 Java 测试选项
+
+**配置文件（可选）：**
+- 配置文件不是必须的，主要用于常用配置的默认值处理
+- 配置文件命名：`[module-name].config.yml`
+
+**测试目录特点：**
+- 测试包统一使用 `tony.test.[module-name]` 结构
+- 测试类命名以 `Tests` 结尾：`[Module]Tests.kt`
+- 基础测试类命名：`Base[Module]Test.kt`
+- 测试应用类命名：`Test[Module]Application.kt`
+- 按功能模块组织测试文件，如 `utils/`、`service/`、`config/` 等
+
+### 命名规范
+
+**目录命名：**
+- 模块目录：`tony-[module-name]`（小写字母和连字符）
+- 包名：`tony.[module-name]`（小写字母和点号）
+- 测试包：`tony.test.[module-name]`
+
+**文件命名：**
+- Kotlin 文件：PascalCase，如 `ApiResult.kt`、`Strs.kt`
+- 测试文件：以 `Tests` 结尾，如 `StrsTest.kt`、`RedisValuesTests.kt`
+- 基础测试类：以 `Base` 开头，如 `BaseRedisTest.kt`
+- 测试应用类：以 `Test` 开头，如 `TestRedisApplication.kt`
+- 配置文件：`[module-name].config.yml`
+
+### 资源文件规范
+
+```
+src/main/resources/
+├── META-INF/
+│   └── spring/
+│       └── org.springframework.boot.autoconfigure.AutoConfiguration.imports
+└── [module-name].config.yml          # 配置示例（可选）
+```
+
+### 测试资源规范
+
+```
+src/test/resources/
+└── [测试相关配置文件]                # 仅测试需要的配置
+```
+
+### 模块化原则
+
+- **独立性**: 每个 starter 模块可独立引入
+- **标准化**: 统一目录结构，便于维护
+- **可测试性**: 完整的测试目录结构，支持单元测试和集成测试
+- **文档化**: 每个模块必须有完整的 README.md
+
+AI生成代码时需遵循本节所有约定
+
+---
+
+
+
+## 自动装配规范
+
+- 每个功能模块单独配置类，命名为 `[Module]Config`，包路径 `tony.[module].config`
+- 推荐注解组合：`@Configuration` + `@EnableConfigurationProperties([Module]Properties::class)` + `@ConditionalOnProperty` + `@ConditionalOnMissingBean`
+- 属性类用 `@ConfigurationProperties` + `data class`，字段建议有Kotlin默认值
+- 每个自动装配类需注册到 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`，每行一个全限定类名
+- 支持条件装配，允许用户自定义Bean覆盖
+- 如有特殊场景，可选用 `@ConditionalOnClass`、`@ConditionalOnBean`、`@AutoConfigureBefore/After` 等注解
+
+**标准模板：**
+```kotlin
+@Configuration
+@EnableConfigurationProperties(DemoProperties::class)
+@ConditionalOnProperty(prefix = "tony.demo", name = ["enabled"], havingValue = "true", matchIfMissing = true)
+class DemoConfig(val properties: DemoProperties) {
+
+    @ConditionalOnMissingBean(DemoService::class)
+    @Bean
+    fun demoService() = DemoService(properties)
+}
+
+@ConfigurationProperties(prefix = "tony.demo")
+data class DemoProperties(
+    val enabled: Boolean = true,
+    val name: String = "default"
+)
+```
+
+**注册示例：**
+```
+tony.demo.config.DemoConfig
+```
+
+**常见错误/禁止事项：**
+- ❌ 在自动装配类中直接写业务逻辑
+- ❌ 跨模块直接依赖
+- ❌ 忽略注册AutoConfiguration.imports
+
+
+### 统一入口注解
+
+**启用注解：**
+- 使用 `@EnableTonyBoot` 作为统一入口
+- 支持一键启用所有 tony-boot-starters 功能
+
+AI生成代码时需遵循本节所有约定
+
+---
+
+## 注释规范
+- 所有公共类、方法、属性、异常等必须有注释，描述功能、参数、返回值、异常等关键信息。
+- 推荐统一使用标准注释模板，简洁明了。
+```kotlin
+/**
+ * 类/方法/属性功能描述
+ *
+ * 详细说明/代码示例/场景说明
+ *
+ * @param [paramName] 参数说明
+ * @return [ReturnType] 返回值说明
+ * @throws [ExceptionType] 异常说明
+ * @author 作者
+ * @date 创建日期 yyyy/MM/dd HH:mm
+ */
+```
+---
+
+### 可选注释的元素：
+- 私有方法（复杂逻辑建议注释）
+- 内部类（功能复杂时建议注释）
+- 常量（含义不明确时建议注释）
+
+AI生成代码时需遵循本节所有约定
+
+---
+
+
+## Java 互操作注意事项
+- 工具类文件可用 `@file:JvmName` 提供Java友好类名。
+- 关键API可用 `@JvmStatic`、`@JvmOverloads` 提供静态方法和重载。
+- Kotlin扩展/内部API可用 `@JvmSynthetic` 隐藏，避免Java调用。
+- 类型别名可用于简化复杂泛型。
+```kotlin
+@file:JvmName("Strs")
+object Strs {
+    @JvmStatic fun isBlank(str: String?): Boolean = str == null || str.isBlank()
+}
+```
+---
+
+## 枚举规范
+
+### 1. 枚举接口体系
+
+**基础接口：**
+```kotlin
+public sealed interface EnumValue<T : Serializable> {
+    @get:JsonValue
+    public val value: T?
+}
+```
+
+**具体接口：**
+```kotlin
+public interface IntEnumValue : EnumValue<Int>
+public interface StringEnumValue : EnumValue<String>
+```
+
+**默认值常量：**
+```kotlin
+public const val DEFAULT_INT_VALUE: Int = -1
+public const val DEFAULT_STRING_VALUE: String = ""
+```
+
+### 2. 枚举实现规范
+
+- 所有枚举实现统一接口（如EnumValue<T>），value字段唯一，需有默认值
+- 用表格区分Int/String实现差异
+
+| 类型   | 接口              | value类型 | 默认值常量           | Creator基类         |
+|--------|-------------------|-----------|---------------------|---------------------|
+| Int    | IntEnumValue      | Int       | DEFAULT_INT_VALUE   | IntEnumCreator      |
+| String | StringEnumValue   | String    | DEFAULT_STRING_VALUE| StringEnumCreator   |
+
+**标准模板：**
+```kotlin
+enum class ExampleEnum(override val value: Int) : IntEnumValue {
+    VALUE1(1),
+    VALUE2(2),
+    @JsonEnumDefaultValue
+    UNUSED(DEFAULT_INT_VALUE),
+    @JsonEnumDefaultValue UNUSED(DEFAULT_INT_VALUE);
+    companion object : IntEnumCreator(ExampleEnum::class.java) {
+        @JsonCreator
+        @JvmStatic
+        override fun create(value: Int) = super.create(value)
+    }
+}
+```
+- value字段加@JsonValue，companion object加@JsonCreator/@JvmStatic
+- 禁止无value字段、无默认值、无接口实现
+
+AI生成代码时需遵循本节所有约定
+
+---
+
+
+## 测试编写规范
+
+### 1. 测试文件结构规范
+
+**测试文件命名：**
+- 单元测试：`[ClassName]Test.kt`
+- 集成测试：`[Module]IntegrationTest.kt`
+- 基础测试类：`Base[Module]Test.kt`
+- 测试应用：`Test[Module]Application.kt`
+- 测试配置：`[Module]TestConfig.kt`
+
+**测试包结构：**
+```
+src/test/kotlin/tony/test/
+├── [module-name]/                    # 模块测试包
+│   ├── config/                       # 测试配置
+│   ├── util/                         # 测试工具
+│   └── [ClassName]Test.kt            # 具体测试类
+└── utils/                            # 通用工具测试
+    └── [UtilsClass]Test.kt
+```
+
+### 2. 测试类组织规范
+
+**测试类注解：**
+```kotlin
+/**
+ * 测试类描述
+ * @author tangli
+ * @date 创建日期
+ */
+@DisplayName("测试类名称")
+class [ClassName]Test {
+    // 测试方法
+}
+```
+
+**嵌套测试结构：**
+```kotlin
+@Nested
+@DisplayName("功能模块测试")
+inner class [Feature]Test {
+    @Test
+    @DisplayName("具体测试场景")
+    fun test[Scenario]() {
+        // 测试逻辑
+    }
+}
+```
+
+### 3. 测试方法编写规范
+
+**单元测试方法：**
+```kotlin
+@Test
+@DisplayName("方法名():测试场景描述")
+fun test[MethodName][Scenario]() {
+    // Given - 准备测试数据
+    val input = "test"
+
+    // When - 执行被测试方法
+    val result = input.methodName()
+
+    // Then - 验证结果
+    assertEquals(expected, result)
+}
+```
+
+**参数化测试：**
+```kotlin
+@ParameterizedTest
+@ValueSource(strings = ["value1", "value2", "value3"])
+@DisplayName("方法名():参数化测试")
+fun test[MethodName]With[Type](value: String) {
+    val result = value.methodName()
+    assertTrue(result.isValid())
+}
+```
+
+**异常测试：**
+```kotlin
+@Test
+@DisplayName("方法名():异常情况")
+fun test[MethodName]WithException() {
+    assertThrows<IllegalArgumentException> {
+        methodName(invalidInput)
+    }
+}
+```
+
+### 4. 集成测试规范
+
+**基础测试类：**
+```kotlin
+@SpringBootTest(
+    classes = [TestModuleApplication::class],
+    webEnvironment = SpringBootTest.WebEnvironment.NONE
+)
+@ActiveProfiles("test")
+@TestPropertySource(locations = ["classpath:application.yml"])
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+abstract class Base[Module]Test {
+
+    @BeforeEach
+    fun setUp() {
+        // 测试前准备
+        cleanupTestData()
+    }
+
+    protected fun cleanupTestData() {
+        // 清理测试数据
+    }
+
+    protected fun generateTestKey(prefix: String = "test"): String =
+        "$prefix:${System.currentTimeMillis()}:${Thread.currentThread().id}"
+}
+```
+
+**测试应用配置：**
+```kotlin
+@SpringBootApplication
+@EnableTonyBoot
+@Import([Module]TestConfig::class)
+class Test[Module]Application
+```
+
+### 5. 测试数据管理规范
+
+**测试数据类：**
+```kotlin
+data class TestData(
+    val name: String,
+    val age: Int,
+    val city: String?
+)
+```
+
+**测试数据生成：**
+```kotlin
+object TestDataGenerator {
+    fun generateUser() = TestData("Tony", 30, "Shanghai")
+    fun generateUserList(count: Int) = (1..count).map {
+        TestData("User$it", 20 + it, "City$it")
+    }
+}
+```
+
+### 6. 断言使用规范
+
+**基本断言：**
+```kotlin
+import org.junit.jupiter.api.assertEquals
+import org.junit.jupiter.api.assertTrue
+import org.junit.jupiter.api.assertFalse
+import org.junit.jupiter.api.assertNotNull
+import org.junit.jupiter.api.assertNull
+import org.junit.jupiter.api.assertThrows
+
+assertEquals(expected, actual)
+assertTrue(condition)
+assertFalse(condition)
+assertNotNull(value)
+assertNull(value)
+assertThrows<ExceptionType> { code }
+```
+
+**自定义断言消息：**
+```kotlin
+assert(condition) {
+    "详细错误信息: 期望值=$expected, 实际值=$actual"
+}
+```
+
+### 7. 测试资源管理规范
+
+**测试配置文件：**
+- `src/test/resources/application.yml` - 测试环境配置
+- `src/test/resources/logback-test.xml` - 测试日志配置
+
+**测试数据文件：**
+- `src/test/resources/data/` - 测试数据文件
+- `src/test/resources/sql/` - 测试SQL脚本
+
+### 8. 测试覆盖范围规范
+
+**必须测试的场景：**
+- 正常流程测试
+- 边界条件测试
+- 异常情况测试
+- 空值/空集合测试
+- 参数化测试（多种输入）
+
+**可选测试场景：**
+- 性能测试（如适用）
+- 并发安全测试（如适用）
+- 集成测试（复杂模块）
+
+---
+
+
+## 导入规范
+
+- 导入顺序：标准库（java.*, kotlin.*）→ 第三方库（com.*, org.*, io.*）→ 项目内部（tony.*）
+- 禁止通配符导入（如import java.util.*）
+- 每类导入之间空一行，按字母顺序排列
+- 只导入实际用到的类，避免重复导入
+- 静态方法、类型别名导入与普通导入同样规范
+
+**标准示例：**
+```kotlin
+import java.util.UUID
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import tony.ApiResult
+import tony.utils.getLogger
+```
+
+**常见错误/禁止事项：**
+- ❌ import java.util.*
+- ❌ import tony.*
+- ❌ 重复导入同一类
+
+AI生成代码时需遵循本节所有约定
+
+---
+
+
+## 注释规范
+
+- 所有公共类、方法、属性、异常必须有注释，描述功能、参数、返回值、异常等关键信息
+- 复杂私有方法、内部类、常量建议注释
+- 推荐统一使用如下模板：
+```kotlin
+/**
+ * 功能描述
+ *
+ * @param [paramName] 参数说明
+ * @return [ReturnType] 返回值说明
+ * @throws [ExceptionType] 异常说明
+ * @author 作者
+ * @date yyyy/MM/dd HH:mm
+ */
+```
+
+AI生成代码时需遵循本节所有约定
+
+---
+
+## 异常抛出规范
+
+- 优先用工具函数抛出异常，如throwIfNull、throwIfTrue等
+- 复杂场景可直接抛出自定义异常
+- 所有自定义异常继承BaseException，分ApiException/BizException
+
+**标准结构：**
+```kotlin
+open class BaseException(message: String?, val code: Int, cause: Throwable? = null) : RuntimeException(message, cause)
+open class ApiException(message: String?, code: Int = ApiProperty.errorCode, cause: Throwable? = null) : BaseException(message, code, cause)
+open class BizException(message: String, code: Int = ApiProperty.preconditionFailedCode) : BaseException(message, code)
+```
+**工具函数示例：**
+```kotlin
+value.throwIfNull("不能为空")
+condition.throwIfTrue("条件不满足")
+```
+**常见错误/禁止事项：**
+- ❌ 直接抛出RuntimeException
+- ❌ 不用工具函数直接抛出简单异常
+
+AI生成代码时需遵循本节所有约定
+
+---
+
+
+## 文档规范
+
+### README.md 结构模板
+
+每个模块的 README.md 必须遵循以下统一结构：
+
+````markdown
+## 概述
+
+`tony-{module}` 是 `tony-boot-starters` 体系下的 {功能描述} 模块，{核心价值描述}。{主要解决的问题和适用场景}。
+
+## 目录
+
+- [如何使用](#如何使用)
+- [主要功能](#主要功能)
+  - [功能点1](#1-功能点1)
+  - [功能点2](#2-功能点2)
+  - [功能点3](#3-功能点3)
+- [配置说明](#配置说明)
+- [使用示例](#使用示例)
+- [进阶用法](#进阶用法)
+- [适用场景](#适用场景)
+- [注意事项](#注意事项)
+
+## 如何使用
+
+### 环境要求
+- **Java 21** 或更高版本
+- **Spring Boot 3.x**
+- **其他依赖**: {具体版本要求}
+
+### 添加依赖
+
+在 `build.gradle.kts` 中添加依赖：
+
+```kotlin
+dependencies {
+    implementation("tony:tony-{module}:0.1-SNAPSHOT")
+}
+```
+
+### 启用模块
+
+在 Spring Boot 应用主类上添加 `@EnableTonyBoot` 注解：
+
+```kotlin
+@EnableTonyBoot
+@SpringBootApplication
+class YourApplication
+
+fun main(args: Array<String>) {
+    org.springframework.boot.run(YourApplication::class.java, *args)
+}
+```
+
+## 主要功能
+
+### 1. 功能点1
+
+- **核心特性描述**：详细说明该功能的核心价值和实现方式
+- **技术实现**：简要说明技术实现原理
+- **使用场景**：适用的具体业务场景
+
+### 2. 功能点2
+
+- **功能描述**：详细的功能说明
+- **配置选项**：相关的配置参数说明
+- **代码示例**：简单的使用示例
+
+### 3. 功能点3
+
+- **高级特性**：复杂功能的详细说明
+- **扩展能力**：可扩展和自定义的部分
+- **最佳实践**：推荐的使用方式
+
+## 配置说明
+
+### 基础配置
+
+```yaml
+tony:
+  {module}:
+    enabled: true
+    # 其他配置项
+```
+
+## 使用示例
+
+### 基础用法
+
+```kotlin
+// 基础使用示例代码
+```
+
+### 进阶用法
+
+```kotlin
+// 进阶使用示例代码
+```
+
+## 进阶用法
+
+### 自定义扩展
+
+```kotlin
+// 自定义扩展示例
+```
+````
+AI生成代码时需遵循本节所有约定
+
+---
+### 模块文档
+- 每个模块都要有 README.md
+- 说明模块的功能和使用方法
+- 提供配置示例和代码示例
+- 说明依赖关系和版本要求
+
+### 配置文档
+- 列出所有配置属性
+- 说明每个属性的作用
+- 提供默认值和取值范围
+- 包含配置示例
