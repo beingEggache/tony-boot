@@ -2,15 +2,18 @@
 
 ### 项目概述
 
-基于 **Kotlin + Spring Boot 3.5.0+** 的高性能 Web 应用开发脚手架，集成主流企业级技术栈与最佳实践。该项目采用分层架构设计，支持模块化扩展，适用于所有对外对内提供 HTTP 接口的 Web 项目。
+基于 **Kotlin + Spring Boot 3.5.0+** 的高性能 Web 应用开发脚手架，集成主流企业级技术栈与最佳实践。该项目采用分层架构设计，支持模块化扩展，适用于所有对外对内提供
+HTTP 接口的 Web 项目。
 
 **核心特点：**
+
 - **分层清晰**：API、Service、DTO、SDK 四层核心架构
 - **规范统一**：统一的命名规范和目录结构
 - **易于扩展**：预留微服务接口，支持平滑升级
 - **SDK 支持**：支持 Feign、Dubbo 等 RPC 接口
 
 **命名说明：**
+
 - `{company}` 为公司名或组织名，如 `tony`、`powerjob`、`com.umbrella` 等
 - `{projectName}` 为项目名称，反映具体业务领域，如 `house-sale`、`order-system` 等
 - 包路径使用项目名称的驼峰命名
@@ -18,6 +21,7 @@
 ### 1. 项目根目录结构
 
 #### 1.1 标准项目结构
+
 ```
 {project-name}/
 ├── {company}-api/              # API 接口层模块（必需）
@@ -43,6 +47,7 @@
 #### 2.1 {company}-api 模块结构
 
 **单体应用配置：**
+
 ```
 {company}-api/
 ├── src/main/
@@ -64,6 +69,7 @@
 ```
 
 **微服务应用配置：**
+
 ```
 {company}-api/
 ├── src/main/
@@ -83,6 +89,7 @@
 ```
 
 #### 2.2 {company}-service 模块结构
+
 ```
 {company}-service/
 ├── src/main/
@@ -99,6 +106,7 @@
 ```
 
 #### 2.3 {company}-dto 模块结构
+
 ```
 {company}-dto/
 ├── src/main/
@@ -115,6 +123,7 @@
 ```
 
 #### 2.4 {company}-sdk 模块结构（可选）
+
 ```
 {company}-sdk/
 ├── src/main/
@@ -126,6 +135,7 @@
 ```
 
 #### 2.5 db 目录结构
+
 ```
 db/
 ├── db.base.table.mysql.sql                  # 基础表结构（MySQL）
@@ -136,15 +146,18 @@ db/
 ### 3. 包结构规范
 
 #### 3.1 包命名规范
+
 - **根包**：`{company}.{projectName}`
 - **模块包**：`{company}.{projectName}.{module}`
 - **功能包**：`{company}.{projectName}.{module}.{function}`
 
 #### 3.2 服务接口规范
+
 - **有 SDK 层**：服务接口定义在 `{company}-sdk` 模块的 `service` 包中
 - **无 SDK 层**：只有服务实现在 `{company}-service` 模块的 `service.impl` 包中
 
 #### 3.3 配置文件规范
+
 - **单体应用**：
     - `application.yml` 作为主配置文件（必需）
     - `application-{env}.yml` 作为环境特定配置（必需）
@@ -154,14 +167,14 @@ db/
     - 本地 `application-{env}.yml` 仅包含本地开发配置（可选）
 
 #### 3.4 模块命名规范
+
 - 使用业务领域名称，如 `sys`、`user`、`order` 等
 - 模块名使用小写字母，多个单词用点分隔
 
 #### 3.5 类命名规范
+
 - **禁止跨层直接依赖**（如 Controller 不能直接依赖 DAO）。
 - 具体命名规则见各层规范。
-
-
 
 ---
 
@@ -169,6 +182,7 @@ db/
 
 - 所有公共类、方法、属性、异常等【必须】有注释，描述功能、参数、返回值、异常等关键信息。
 - 推荐统一使用标准注释模板，简洁明了。
+
 ```kotlin
 /**
  * 类/方法/属性功能描述
@@ -183,7 +197,6 @@ db/
  */
 ```
 
-
 ---
 
 ## 枚举使用规范
@@ -191,19 +204,23 @@ db/
 - 所有枚举实现统一接口（如EnumValue<T>），value字段唯一，需有默认值
 - 用表格区分Int/String实现差异
 
-| 类型   | 接口              | value类型 | 默认值常量           | Creator基类         |
-|--------|-------------------|-----------|---------------------|---------------------|
-| Int    | IntEnumValue      | Int       | DEFAULT_INT_VALUE   | IntEnumCreator      |
-| String | StringEnumValue   | String    | DEFAULT_STRING_VALUE| StringEnumCreator   |
+| 类型     | 接口              | value类型 | 默认值常量                | Creator基类         |
+|--------|-----------------|---------|----------------------|-------------------|
+| Int    | IntEnumValue    | Int     | DEFAULT_INT_VALUE    | IntEnumCreator    |
+| String | StringEnumValue | String  | DEFAULT_STRING_VALUE | StringEnumCreator |
 
 **标准模板：**
+
 ```kotlin
 enum class ExampleEnum(override val value: Int) : IntEnumValue {
     VALUE1(1),
     VALUE2(2),
+
     @JsonEnumDefaultValue
     UNUSED(DEFAULT_INT_VALUE),
-    @JsonEnumDefaultValue UNUSED(DEFAULT_INT_VALUE);
+    @JsonEnumDefaultValue
+    UNUSED(DEFAULT_INT_VALUE);
+
     companion object : IntEnumCreator(ExampleEnum::class.java) {
         @JsonCreator
         @JvmStatic
@@ -211,10 +228,9 @@ enum class ExampleEnum(override val value: Int) : IntEnumValue {
     }
 }
 ```
+
 - value字段加@JsonValue，companion object加@JsonCreator/@JvmStatic
 - 禁止无value字段、无默认值、无接口实现
-
-
 
 ---
 
@@ -222,6 +238,7 @@ enum class ExampleEnum(override val value: Int) : IntEnumValue {
 
 - 导入顺序：标准库 → 第三方库 → 项目内部。
 - 禁止通配符导入，所有导入必须为显式导入。
+
 ```kotlin
 import java.util.UUID
 import org.springframework.util.AntPathMatcher
@@ -229,20 +246,19 @@ import {company}.{projectName}.core.ApiResult
 // ❌ import java.util.*  // 禁止
 ```
 
-
 ---
 
 ## 异常使用规范
 
 - 推荐优先使用工具函数进行参数和业务校验。
 - 复杂业务场景可直接抛出自定义异常（如 BizException）。
+
 ```kotlin
 value.throwIfNull("值不能为空")
 if (startDate > endDate) {
     throw BizException("开始时间不能晚于结束时间")
 }
 ```
-
 
 ---
 
@@ -251,30 +267,39 @@ if (startDate > endDate) {
 ### 1. 实体层规范
 
 #### 1.1 目录与包结构
+
 - 实体类统一放置于 `{company}-{service}/src/main/kotlin/{company}/{projectName}/{module}/po` 目录下。
 - 包命名遵循 `{company}.{projectName}.{module}.po`。
 
 #### 1.2 命名规范
+
 - 类名采用大驼峰命名，如 `Employee`、`Dept`。
 - 字段名采用小驼峰命名，如 `employeeId`、`deptName`。
 
 #### 1.3 注解与映射及字段规范
+
 - 必须使用 `@TableName` 指定表名。
 - 主键字段必须使用 `@TableId`，类型为字符串。
 - 字段映射使用 `@TableField`，如有逻辑删除用 `@TableLogic`。
 - 审计字段（如 createTime、updateTime、creatorId、creatorName、updatorId、updatorName）需加注解，自动填充策略需明确，具体如下：
     - `createTime`：`@OrderBy`，`@TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)`
-    - `creatorId`：`@MybatisPlusMetaProperty(MetaColumn.USER_ID)`，`@TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)`
-    - `creatorName`：`@MybatisPlusMetaProperty(MetaColumn.USER_NAME, relativeProp = "creatorId")`，`@TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)`
-    - `updateTime`：`@TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER, update = "CURRENT_TIMESTAMP")`
-    - `updatorId`：`@TableField(fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)`
-    - `updatorName`：`@TableField(fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)`
+    - `creatorId`：`@MybatisPlusMetaProperty(MetaColumn.USER_ID)`，
+      `@TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)`
+    - `creatorName`：`@MybatisPlusMetaProperty(MetaColumn.USER_NAME, relativeProp = "creatorId")`，
+      `@TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)`
+    - `updateTime`：
+      `@TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER, update = "CURRENT_TIMESTAMP")`
+    - `updatorId`：
+      `@TableField(fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)`
+    - `updatorName`：
+      `@TableField(fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)`
 - 逻辑删除字段为 `deleteTime: LocalDateTime?`，用 `@TableLogic` 标注。
 - 租户字段 `tenantId` 可选。
 - 时间字段只有审计字段（如 createTime、updateTime）使用数据库 timestamp 类型，其他业务时间字段根据实际业务选择类型。
 - 所有字段应明确默认值和可空性，避免序列化/反序列化歧义
 
 #### 1.4 代码示例
+
 ```kotlin
 package {company}.{projectName}.{module}.po
 
@@ -294,13 +319,13 @@ import {company}.mybatis.MybatisPlusMetaProperty
  * @author xxx
  * @date yyyy-MM-dd
  */
-@TableName("{table_name}")
+@TableName("{table}")
 class {EntityName} {
     /**
      * 主键
      */
     @TableId
-    var id: String = ""
+    var {entityName}Id: String = ""
 
     // 业务字段...
 
@@ -386,33 +411,35 @@ class {EntityName} {
 }
 ```
 
-
 ---
 
 ### 2. 数据库表规范
 
 #### 2.1 表命名规范
+
 - 表名统一小写，单词间用下划线分隔。
 - 表名前缀为模块名，如 `sys_employee`。
 - 关联表命名为 `{table1}_{table2}`。
 
 #### 2.2 字段命名规范
+
 - 字段名小写，单词间下划线分隔。
 - 主键字段为字符串类型，命名如 `employee_id`。
 - 布尔类型字段用 tinyint，命名如 `enabled`。
-- 审计字段包括：`create_time`、`update_time`、`creator_id`、`creator_name`、`updator_id`、`updator_name`。
-- 逻辑删除字段为 `delete_time`，类型 timestamp。
+- 审计字段包括：`create_time`、`update_time`、`creator_id`、`creator_name`、`updator_id`、`updator_name`、`delete_time`。
+- 逻辑删除字段为 `delete_time`
 - 租户字段 `tenant_id` 可选。
-- 时间字段只有审计字段使用 timestamp，其他业务时间字段根据实际业务选择类型。
+- 时间字段只有审计字段使用 timestamp。
 
 #### 2.3 字段类型规范
-- 主键/id：`varchar(50)` 或 `varchar(32)`，不可为 int。
+
+- 主键/id：`varchar(50)` 或 `varchar(32)`
 - 布尔类型：`tinyint`。
 - 时间字段（仅审计字段）：`timestamp`。
-- 其他字段类型根据实际业务需求选择。
 - 所有字段应明确默认值和可空性
 
 #### 2.4 索引规范
+
 - 主键索引必须。
 - 业务唯一性字段建议加唯一索引。
 - 查询频繁字段建议加普通索引。
@@ -424,52 +451,60 @@ class {EntityName} {
     - 复合索引：`KEY idx_{table}_{field1}_{field2}(field1, field2)`
 
 #### 2.5 表结构示例
+
 ```sql
-CREATE TABLE `{table_name}` (
-    `id` varchar(50) NOT NULL COMMENT '主键',
+CREATE TABLE `{table}`
+(
+    `{table}_id`           varchar(50) NOT NULL COMMENT '主键',
     -- 业务字段...
-    `enabled` tinyint NOT NULL DEFAULT '1' COMMENT '状态：1-启用，0-禁用',
-    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `enabled`      tinyint     NOT NULL DEFAULT '1' COMMENT '状态：1-启用，0-禁用',
+    `create_time`  timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `creator_id`   varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
     `creator_name` varchar(30) NOT NULL DEFAULT '' COMMENT '创建人名称',
-    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `updator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '更新人',
+    `update_time`  timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `updator_id`   varchar(32) NOT NULL DEFAULT '' COMMENT '更新人',
     `updator_name` varchar(30) NOT NULL DEFAULT '' COMMENT '更新人名称',
-    `delete_time` timestamp NULL DEFAULT NULL COMMENT '删除标记：!null-已删除，null-未删除',
-    `tenant_id` varchar(32) NOT NULL DEFAULT '' COMMENT '租户id',
-    PRIMARY KEY (`id`),
+    `delete_time`  timestamp   NULL     DEFAULT NULL COMMENT '删除标记：!null-已删除，null-未删除',
+    `tenant_id`    varchar(32) NOT NULL DEFAULT '' COMMENT '租户id',
+    PRIMARY KEY (`{table}_id`),
     UNIQUE KEY uk_{table}_code(`code`),
     KEY idx_{table}_name(`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='{表说明}';
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='{表说明}';
 ```
-
 
 ---
 
 ## DTO 层规范
 
 ### 1. 目录与包结构
+
 - DTO 类统一放置于 `{company}-dto/src/main/kotlin/{company}/{projectName}/{module}/dto` 目录下。
 - 包命名遵循 `{company}.{projectName}.{module}.dto`。
 - 按用途细分为 `req`（请求）、`resp`（响应）、`enums`（枚举）等子包。
 
 ### 2. 命名规范
+
 - DTO 类名采用大驼峰命名，后缀体现用途，如 `EmployeeAddReq`、`EmployeeResp`。
 - 字段名采用小驼峰命名。
 - 枚举类名采用大驼峰命名，后缀为 `Enum`，如 `AccountStateEnum`。
 
 ### 3. 结构规范
+
 - 请求 DTO 放于 `req` 包，响应 DTO 放于 `resp` 包，枚举放于 `enums` 包。
 - DTO 只包含与接口传输相关的字段，不包含业务逻辑。
 - DTO 字段应有必要的注释，描述字段含义和单位（如有）。
 - DTO 不得包含任何数据库、ORM、业务相关注解。
 
 ### 4. 注解与校验规范
+
 - 请求 DTO 字段应根据需要加校验注解（如 `@NotNull`、`@Size`、`@Pattern` 等）。
 - 可选字段应加 `@field:Null` 或 `@field:NotBlank` 等注解，避免直接在类上加。
 - DTO 类及字段应加 Swagger 注解（如 `@Schema`），描述字段含义、示例、约束等。
 
 ### 5. 枚举实现规范
+
 - 枚举类统一放于 `enums` 包。
 - 枚举需实现 `IntEnumValue` 或 `StringEnumValue` 接口，value 字段为唯一标识。
 - 推荐加 `@JsonEnumDefaultValue` 标记默认值。
@@ -477,6 +512,7 @@ CREATE TABLE `{table_name}` (
 - 枚举常量全大写，注释完整。
 
 #### 代码示例
+
 ```kotlin
 package {company}.{projectName}.{module}.dto.enums
 
@@ -511,6 +547,7 @@ enum class AccountStateEnum(
 ### 6. DTO 示例
 
 #### 6.1 请求 DTO
+
 ```kotlin
 package {company}.{projectName}.{module}.dto.req
 
@@ -529,8 +566,10 @@ data class EmployeeAddReq(
 )
 ```
 
-DTO 层如需在反序列化时自动注入上下文信息（如当前用户ID、租户ID等），可直接在字段上使用 `@JacksonInject("key")` 注解，key 需与后端注册一致。
-为提升可读性和一致性，**建议在具体项目中自行封装自定义注解**（如 `@UserIdInject`），底层组合 `@JacksonInject` 并指定标准 key。这样可避免手写字符串 key，提升注入字段声明的可维护性和语义清晰度。
+DTO 层如需在反序列化时自动注入上下文信息（如当前用户ID、租户ID等），可直接在字段上使用 `@JacksonInject("key")` 注解，key
+需与后端注册一致。
+为提升可读性和一致性，**建议在具体项目中自行封装自定义注解**（如 `@UserIdInject`），底层组合 `@JacksonInject` 并指定标准
+key。这样可避免手写字符串 key，提升注入字段声明的可维护性和语义清晰度。
 
 例如：
 
@@ -554,11 +593,10 @@ data class DemoInjectReq(
 建议所有自动注入字段均采用此方式，普通业务字段不应使用 Jackson 注入相关注解。
 如需注入其他上下文信息，可在项目内自行扩展类似注解，保持注入 key 与后端一致，避免分散和重复配置。
 
-
-
 ---
 
 #### 6.2 响应 DTO
+
 ```kotlin
 package {company}.{projectName}.{module}.dto.resp
 
@@ -576,32 +614,36 @@ data class EmployeeResp(
     val enabled: Boolean?
 )
 ```
+
 所有字段应明确默认值和可空性，避免序列化/反序列化歧义
-
-
 
 ---
 
 ## DAO 层规范
 
 ### 1. 目录与包结构
+
 - DAO 类统一放置于 `{company}-service/src/main/kotlin/{company}/{projectName}/{module}/dao` 目录下。
 - 包命名遵循 `{company}.{projectName}.{module}.dao`。
 
 ### 2. 命名规范
+
 - DAO 类名采用大驼峰命名，后缀为 `Dao`，如 `EmployeeDao`、`DeptDao`。
 
 ### 3. 继承与接口规范
+
 - DAO 必须继承 MyBatis-Plus 的 `BaseMapper<Entity>` 接口。
 - 不允许自定义无实际用途的空接口。
 - DAO 只负责数据访问，不包含业务逻辑。
 
 ### 4. SQL 映射规范
+
 - **不建议**在 DAO 接口上使用 `@Select`、`@Update`、`@Delete`、`@Insert` 等内嵌 SQL 注解。
 - 所有自定义 SQL 建议统一放在 XML 映射文件中，XML 文件路径与 DAO 包路径一致，命名为 `{Entity}Dao.xml`。
 - XML 映射文件应与 DAO 接口方法一一对应，SQL 语句需加注释，保持可读性和可维护性。
 
 ### 5. 依赖与职责
+
 - 禁止在 DAO 层引入 Service、Controller、DTO 等非持久化相关依赖。
 - DAO 层只做数据持久化相关操作，不得包含任何业务逻辑、参数校验、事务控制等代码。
 
@@ -620,39 +662,43 @@ interface EmployeeDao : BaseMapper<Employee>
 ```
 
 ### 7. 其他规范
+
 - DAO 层不直接返回 Map、List<Map> 等弱类型结构，优先返回实体类或类型安全的 DTO。
 - 如需扩展自定义方法，建议在接口中声明，具体 SQL 实现放在 XML 文件中。
-
-
 
 ---
 
 ## Service 层规范
 
 ### 1. 目录与包结构
+
 - Service 相关类统一放置于 `{company}-service/src/main/kotlin/{company}/{projectName}/{module}/service` 目录下。
 - 包命名遵循 `{company}.{projectName}.{module}.service`。
-- 若有 SDK 层，服务接口放在 `{company}-sdk`，Service 层只保留实现（`impl` 包）；无 SDK 层时，接口与实现均在 Service 层，接口在 `service` 包，具体实现放在 `service.impl` 包。
+- 若有 SDK 层，服务接口放在 `{company}-sdk`，Service 层只保留实现（`impl` 包）；无 SDK 层时，接口与实现均在 Service 层，接口在
+  `service` 包，具体实现放在 `service.impl` 包。
 
 ### 2. 命名规范
+
 - 服务接口名以 `Service` 结尾，如 `EmployeeService`。
 - 实现类名以 `ServiceImpl` 结尾，如 `EmployeeServiceImpl`。
 
 ### 3. 接口与实现规范
+
 - 服务接口定义业务功能方法，不涉及具体实现。
 - 实现类需实现对应接口，并加 `@Service` 注解。
 - 实现类放于 `service.impl` 包，接口放于 `service` 包（或 SDK 层）。
 - **实现类不可继承 MyBatis-Plus 的 `ServiceImpl`，所有业务逻辑和数据访问需显式实现。**
 
 ### 4. 依赖注入与职责
+
 - 实现类通过构造器注入 DAO（推荐使用构造器注入）。
 - Service 层只负责业务逻辑，不直接操作 Controller、DTO、Web 层对象。
 - 不得在 Service 层直接操作数据库连接、事务等，统一通过 DAO 层访问数据。
 
-
 ### 5. 代码示例
 
 #### 5.1 无 SDK 层（接口+实现）
+
 ```kotlin
 package {company}.{projectName}.{module}.service
 
@@ -690,27 +736,30 @@ class EmployeeServiceImpl(
 ```
 
 #### 5.2 有 SDK 层
+
 - 服务接口定义在 SDK 层，Service 层只实现接口，结构同上。
 
 ### 6. 其他规范
+
 - Service 层不得包含与 Controller、Web、配置等无关的依赖。
 - 业务异常建议统一抛出自定义异常类型，便于全局处理。
 - Service 层方法参数、返回值应尽量使用类型安全的 DTO 或实体类。
-
-
 
 ---
 
 ## Controller 规范
 
 ### 1. 目录与包结构
+
 - Controller 类统一放置于 `{company}-api/src/main/kotlin/{company}/{projectName}/{module}/controller` 目录下。
 - 包命名遵循 `{company}.{projectName}.{module}.controller`。
 
 ### 2. 命名规范
+
 - Controller 类名以 `Controller` 结尾，如 `EmployeeController`。
 
 ### 3. 注解与接口规范
+
 - 必须使用 `@RestController` 注解标记类。
 - 路由注解（`@PostMapping`、`@GetMapping` 等）**只放在方法上**，不放在类上。
 - 绝大多数接口统一使用 `@PostMapping`，仅极个别需求使用 `@GetMapping`。
@@ -719,15 +768,18 @@ class EmployeeServiceImpl(
 - 支持接口分组、权限、限流等需求时，可加相关注解（如 `@Tag`、`@PreAuthorize`、`@RateLimiter` 等）。
 
 ### 4. Swagger/OpenAPI 规范
+
 - Controller 类和方法必须加 Swagger 注解（如 `@Tag`、`@Operation`、`@Parameter`、`@RequestBody`、`@Schema` 等），用于接口文档自动生成。
 - 注解需描述接口用途、参数、返回值、示例等。
 
 ### 5. 参数与返回值规范
+
 - 入参、出参均应使用类型安全的 DTO，不直接暴露实体类。
 - 分页请求参数应统一使用 tony-core 中定义的分页 DTO，除非有极其特殊需求。
 - 返回值直接返回数据对象，由 tony-web 统一包装，无需显式返回 `ApiResult<T>`。
 
 ### 6. 依赖与职责
+
 - Controller 只负责接收请求、参数校验、调用 Service 层、返回结果，不包含业务逻辑。
 - 不得直接操作 DAO、数据库、配置等。
 - 不得包含与业务无关的工具方法。
@@ -791,36 +843,37 @@ class EmployeeController(
 ```
 
 ### 8. 其他规范
+
 - Controller 不得包含与 Service无关的依赖。
 - 异常建议统一抛出自定义异常类型，便于全局处理。
 - Controller 层方法参数、返回值应尽量使用类型安全的 DTO。
-
-
 
 ---
 
 ## Config 规范
 
 ### 1. 目录与包结构
+
 - 配置类统一放置于 `{company}-api/src/main/kotlin/{company}/{projectName}/config` 目录下。
 - 包命名遵循 `{company}.{projectName}.config`。
 
 ### 2. 命名规范
+
 - 配置类名以 `Config` 结尾，如 `{ProjectName}WebConfig`。
 - Web 上下文常量类名以 `WebContext` 结尾，如 `{ProjectName}WebContext`。
 
 ### 3. 配置内容范围
+
 - 只负责权限控制、项目特有的业务相关配置、上下文注入等。
 
 ### 4. 如需支持 DTO 字段自动注入，应注册自定义注入器（如 EmployeeIdInjector），并与 DTO 层注入 key 保持一致。
+
 ```kotlin
 @Configuration
-class {ProjectName}WebConfig {
+class {ProjectName }WebConfig {
     @Bean
     fun employeeIdInjector(): EmployeeIdInjector {
         return EmployeeIdInjector()
     }
 }
 ```
-
-
