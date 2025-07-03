@@ -167,7 +167,7 @@ AI生成代码时需遵循本节所有约定
 
 ## 注释规范
 
-- 所有公共类、方法、属性、异常等必须有注释，描述功能、参数、返回值、异常等关键信息。
+- 所有公共类、方法、属性、异常等【必须】有注释，描述功能、参数、返回值、异常等关键信息。
 - 推荐统一使用标准注释模板，简洁明了。
 ```kotlin
 /**
@@ -701,7 +701,7 @@ AI生成代码时需遵循本节所有约定
 
 ---
 
-## Controller 层规范
+## Controller 规范
 
 ### 1. 目录与包结构
 - Controller 类统一放置于 `{company}-api/src/main/kotlin/{company}/{projectName}/{module}/controller` 目录下。
@@ -791,7 +791,7 @@ class EmployeeController(
 ```
 
 ### 8. 其他规范
-- Controller 层不得包含与 Service、DAO、配置等无关的依赖。
+- Controller 不得包含与 Service无关的依赖。
 - 异常建议统一抛出自定义异常类型，便于全局处理。
 - Controller 层方法参数、返回值应尽量使用类型安全的 DTO。
 
