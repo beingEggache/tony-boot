@@ -16,6 +16,7 @@ HTTP 接口的 Web 项目。
 
 - `{company}` 为公司名或组织名，如 `tony`、`powerjob`、`com.umbrella` 等
 - `{projectName}` 为项目名称，反映具体业务领域，如 `house-sale`、`order-system` 等
+- `{module}` 为项目模块名称，反映模块的某一功能，如 `sys`、`sale` 等
 - 包路径使用项目名称的驼峰命名
 
 ### 1. 项目根目录结构
@@ -494,7 +495,6 @@ CREATE TABLE `{table}`
 
 - 请求 DTO 放于 `req` 包，响应 DTO 放于 `resp` 包，枚举放于 `enums` 包。
 - DTO 只包含与接口传输相关的字段，不包含业务逻辑。
-- DTO 字段应有必要的注释，描述字段含义和单位（如有）。
 - DTO 不得包含任何数据库、ORM、业务相关注解。
 
 ### 4. 注解与校验规范
@@ -509,7 +509,6 @@ CREATE TABLE `{table}`
 - 枚举需实现 `IntEnumValue` 或 `StringEnumValue` 接口，value 字段为唯一标识。
 - 推荐加 `@JsonEnumDefaultValue` 标记默认值。
 - 枚举需实现 companion object 并支持 JSON 反序列化。
-- 枚举常量全大写，注释完整。
 
 #### 代码示例
 
