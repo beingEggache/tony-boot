@@ -4,7 +4,7 @@
 
 - **模块化设计**: 各模块可独立引入，按需集成，互不强依赖
 - **Kotlin 优先**: 主要使用 Kotlin 开发，保持 Java 互操作性
-- **自动化构建**: 内置 Gradle 插件，支持一键构建、发布、代码规范
+- **自动化构建**: 内置 Gradle 插件，一键构建、发布、代码规范
 - **统一规范**: 【必须】遵从统一的目录结构、命名规范、注释风格
 
 ---
@@ -43,7 +43,7 @@ tony-[module-name]/
 ```
 src/main/kotlin/tony/[module-name]/
 ├── config/                           # 配置类（包含自动装配）
-│   ├── [Module]AutoConfiguration.kt
+│   ├── [Module]Config.kt
 │   └── [Module]Properties.kt
 ├── service/                          # 服务类
 ├── utils/                            # 工具类
@@ -89,8 +89,6 @@ src/test/kotlin/tony/test/
 - **标准化**: 【必须】统一目录结构，便于维护
 - **可测试性**: 完整的测试目录结构，支持单元测试和集成测试
 - **文档化**: 每个模块【必须】有完整的 README.md
-
-AI生成代码时需遵循本节所有约定
 
 ---
 
@@ -143,8 +141,6 @@ tony.[module].config.[Module]Config
 - 使用 `@EnableTonyBoot` 作为统一入口
 - 支持一键启用所有 tony-boot-starters 功能
 
-AI生成代码时需遵循本节所有约定
-
 ---
 
 ## 注释规范
@@ -163,8 +159,6 @@ AI生成代码时需遵循本节所有约定
  * @date 创建日期 yyyy/MM/dd HH:mm
  */
 ```
-
-AI生成代码时需遵循本节所有约定
 
 ---
 
@@ -209,8 +203,6 @@ enum class ExampleEnum(override val value: Int) : IntEnumValue {
 ```
 - value字段加@JsonValue，companion object加@JsonCreator/@JvmStatic
 - 禁止无value字段、无默认值、无接口实现
-
-AI生成代码时需遵循本节所有约定
 
 ---
 
@@ -333,7 +325,6 @@ import org.springframework.util.AntPathMatcher
 import {company}.{projectName}.core.ApiResult
 // ❌ import java.util.*  // 禁止
 ```
-AI生成代码时需遵循本节所有约定
 
 ---
 
@@ -353,8 +344,6 @@ open class BizException(message: String, code: Int = ApiProperty.preconditionFai
 value.throwIfNull("不能为空")
 condition.throwIfTrue("条件不满足")
 ```
-
-AI生成代码时需遵循本节所有约定
 
 ---
 
@@ -428,7 +417,6 @@ class YourApplication
 ## 进阶用法
 
 ````
-AI生成代码时需遵循本节所有约定
 
 ---
 ### 模块文档

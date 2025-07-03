@@ -161,7 +161,7 @@ db/
 - **禁止跨层直接依赖**（如 Controller 不能直接依赖 DAO）。
 - 具体命名规则见各层规范。
 
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -182,7 +182,7 @@ AI生成代码时需遵循本节所有约定
  * @date 创建日期 yyyy/MM/dd HH:mm
  */
 ```
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -214,7 +214,7 @@ enum class ExampleEnum(override val value: Int) : IntEnumValue {
 - value字段加@JsonValue，companion object加@JsonCreator/@JvmStatic
 - 禁止无value字段、无默认值、无接口实现
 
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -228,7 +228,7 @@ import org.springframework.util.AntPathMatcher
 import {company}.{projectName}.core.ApiResult
 // ❌ import java.util.*  // 禁止
 ```
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -242,7 +242,7 @@ if (startDate > endDate) {
     throw BizException("开始时间不能晚于结束时间")
 }
 ```
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -385,7 +385,7 @@ class {EntityName} {
     var tenantId: String = ""
 }
 ```
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -442,7 +442,7 @@ CREATE TABLE `{table_name}` (
     KEY idx_{table}_name(`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='{表说明}';
 ```
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -554,7 +554,7 @@ data class DemoInjectReq(
 建议所有自动注入字段均采用此方式，普通业务字段不应使用 Jackson 注入相关注解。
 如需注入其他上下文信息，可在项目内自行扩展类似注解，保持注入 key 与后端一致，避免分散和重复配置。
 
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -578,7 +578,7 @@ data class EmployeeResp(
 ```
 所有字段应明确默认值和可空性，避免序列化/反序列化歧义
 
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -623,7 +623,7 @@ interface EmployeeDao : BaseMapper<Employee>
 - DAO 层不直接返回 Map、List<Map> 等弱类型结构，优先返回实体类或类型安全的 DTO。
 - 如需扩展自定义方法，建议在接口中声明，具体 SQL 实现放在 XML 文件中。
 
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -697,7 +697,7 @@ class EmployeeServiceImpl(
 - 业务异常建议统一抛出自定义异常类型，便于全局处理。
 - Service 层方法参数、返回值应尽量使用类型安全的 DTO 或实体类。
 
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -795,7 +795,7 @@ class EmployeeController(
 - 异常建议统一抛出自定义异常类型，便于全局处理。
 - Controller 层方法参数、返回值应尽量使用类型安全的 DTO。
 
-AI生成代码时需遵循本节所有约定
+
 
 ---
 
@@ -823,4 +823,4 @@ class {ProjectName}WebConfig {
 }
 ```
 
-AI生成代码时需遵循本节所有约定
+
