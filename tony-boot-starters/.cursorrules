@@ -2,10 +2,18 @@
 
 ## 核心原则
 
-- **模块化设计**: 各模块可独立引入，按需集成，互不强依赖
-- **Kotlin 优先**: 主要使用 Kotlin 开发，保持 Java 互操作性
-- **自动化构建**: 内置 Gradle 插件，一键构建、发布、代码规范
-- **统一规范**: 【必须】遵从统一的目录结构、命名规范、注释风格
+- **模块化设计**: 独立、按需集成。
+- **Kotlin 优先**: 主要使用 Kotlin，兼容 Java。
+- **自动化构建**: 使用 Gradle。遵从统一的目录
+- **统一规范**: 【必须】遵循此文件定义的规约。
+
+## 命名约定
+
+| 类别 (Category) | 格式 (Format)      | 占位符 (Placeholder) | 示例 (Example)           |
+|---------------|------------------|-------------------|------------------------|
+| 模块名           | 全小写，中划线分隔        | `{module}`        | `redis`, `web-support` |
+| 模块主类前缀        | 模块名 `PascalCase` | `{Module}`        | `Redis`, `WebSupport`  |
+| 包名            | 模块名去中划线          | `{package-name}`  | `redis`, `websupport`  |
 
 ---
 
@@ -16,147 +24,47 @@
 每个 starter 模块【必须】采用如下标准结构：
 
 ```
-tony-[module-name]/
+tony-{module}/
 ├── build.gradle.kts                   # 模块独立构建脚本
 ├── README.md                          # 模块详细说明文档
-├── src/
-│   ├── main/
-│   │   ├── kotlin/                    # Kotlin 源码（主要）
-│   │   │   └── tony/
-│   │   │       └── [module-name]/     # 模块包名
-│   │   ├── java/                      # Java 源码（可选，用于互操作）
-│   │   └── resources/                 # 资源文件
-│   │       ├── META-INF/
-│   │       │   └── spring/
-│   │       │       └── org.springframework.boot.autoconfigure.AutoConfiguration.imports
-│   │       └── [module-name].config.yml # 配置示例（可选）
-│   └── test/
-│       ├── kotlin/                    # Kotlin 测试源码（主要）
-│       │   └── tony/
-│       │       └── test/              # 测试包名
-│       │           └── [module-name]/ # 对应模块测试
-│       ├── java/                      # Java 测试源码（可选）
-│       └── resources/                 # 测试资源
+└── src/
+    ├── main/
+    │   ├── kotlin/
+    │   │   └── tony/{package-name}/    # 模块主包 (例如: tony/websupport)
+    │   │       ├── config/             # 配置包
+    │   │       │   ├── {Module}Config.kt
+    │   │       │   └── {Module}Properties.kt
+    │   │       ├── service/            # 服务类包 (可选)
+    │   │       ├── utils/              # 工具类包 (可选)
+    │   │       ├── exception/          # 异常类包 (可选)
+    │   │       └── [其他包].../         # 其他包, 根据用户需求添加 (可选)
+    │   │
+    │   ├── java/                       # Java 源码（可选，用于互操作）
+    │   └── resources/
+    │       ├── META-INF/
+    │       │   └── spring/
+    │       │       └── org.springframework.boot.autoconfigure.AutoConfiguration.imports
+    │       └── {module}.config.yml # 配置示例（可选）
+    └── test/
+        ├── kotlin/
+        │   └── tony/test/{package-name}/      # 模块测试包
+        │       ├── {ClassName}Test...         # 各类单元测试
+        │       ├── config/                    # 测试配置包 (可选)
+        │       │   └── {Module}TestConfig.kt  # 测试配置类 (可选)
+        │       ├── [Module]BaseTest.kt        # 基础测试类 (可选)
+        │       ├── {Module}IntegrationTest.kt # 集成测试类 (可选)
+        │       └── {Module}TestApplication.kt # 测试启动类 (可选)
+        ├── java/                       # Java 测试源码（可选）
+        └── resources/                  # 测试资源
 ```
-
-### 源码包结构规范
-
-```
-src/main/kotlin/tony/[module-name]/
-├── config/                           # 配置类（包含自动装配）
-│   ├── [Module]Config.kt
-│   └── [Module]Properties.kt
-├── service/                          # 服务类
-├── utils/                            # 工具类
-├── exception/                        # 异常类
-└── [其他业务包]/
-```
-
-**测试包结构：**
-
-```
-src/test/kotlin/tony/test/
-├── [module-name]/                    # 模块测试包
-│   ├── config/                       # 测试配置
-│   ├── util/                         # 测试工具
-│   └── [ClassName]Test.kt            # 具体测试类
-└── utils/                            # 通用工具测试
-    └── [UtilsClass]Test.kt
-```
-
-### 关键特点
-
-**Kotlin 为主，Java 互操作：**
-
-- 主要源码使用 Kotlin 编写
-- 保留 `src/main/java` 目录用于 Java 互操作场景
-- 测试代码也以 Kotlin 为主，保留 Java 测试选项
-
-**配置文件（可选）：**
-
-- 配置文件不是必须的，主要用于常用配置的默认值处理
-- 配置文件命名：`[module-name].config.yml`
-
-### 命名规范
-
-**文件命名：**
-
-- Kotlin 文件：PascalCase，如 `ApiResult.kt`、`Strs.kt`
-- 配置文件：`[module-name].config.yml`
-- 单元测试：`[ClassName]Test.kt`
-- 集成测试：`[Module]IntegrationTest.kt`
-- 测试应用：`Test[Module]Application.kt`
-- 测试配置：`Test[Module]Config.kt`
-
-### 模块化原则
-
-- **独立性**: 每个 starter 模块可独立引入
-- **标准化**: 【必须】统一目录结构，便于维护
-- **可测试性**: 完整的测试目录结构，支持单元测试和集成测试
-- **文档化**: 每个模块【必须】有完整的 README.md
-
----
-
-## 自动装配规范
-
-- 每个功能模块单独配置类，【必须】命名为 `[Module]Config`，包路径【必须】为 `tony.[module].config`
-- 推荐注解组合：`@Configuration` + `@EnableConfigurationProperties([Module]Properties::class)` +
-  `@ConditionalOnProperty` + `@ConditionalOnMissingBean`
-- 属性类用 `@ConfigurationProperties` + `data class`，字段建议有Kotlin默认值
-- 每个自动装配类【必须】注册到 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
-  ，每行一个全限定类名
-- 支持条件装配，允许用户自定义Bean覆盖
-- 如有特殊场景，可选用 `@ConditionalOnClass`、`@ConditionalOnBean`、`@AutoConfigureBefore/After` 等注解
-
-**标准模板：**
-
-```kotlin
-@Configuration
-@EnableConfigurationProperties(DemoProperties::class)
-@ConditionalOnProperty(prefix = "tony.[module]", name = ["enabled"], havingValue = "true", matchIfMissing = true) // 可选,并不一定每个都需要
-class [Module]Config(val properties: [Module]Properties) {
-
-    @ConditionalOnMissingBean([Module] Service ::class)
-    @Bean
-    fun [module]Service() = [Module]Service(properties)
-}
-
-@ConfigurationProperties(prefix = "tony.[module]")
-data class [Module]Properties(
-val enabled: Boolean = true,
-val name: String = "default"
-)
-```
-
-### 资源文件规范
-
-```
-src/main/resources/
-├── META-INF/
-│   └── spring/
-│       └── org.springframework.boot.autoconfigure.AutoConfiguration.imports
-└── [module-name].config.yml          # 配置示例（可选）
-```
-
-**注册示例：**
-
-```
-tony.[module].config.[Module]Config
-```
-
-### 统一入口注解
-
-**启用注解：**
-
-- 使用 `@EnableTonyBoot` 作为统一入口
-- 支持一键启用所有 tony-boot-starters 功能
 
 ---
 
 ## 注释规范
 
 - 所有公共类、方法、属性、异常等【必须】有注释，描述功能、参数、返回值、异常等关键信息。
-- 推荐统一使用标准注释模板，简洁明了。
+- 所有类、方法、字段、DTO 属性等都【必须】根据具体情况使用如下标准注释模板，不能只写一句话。
+- @date 字段请自动填入生成代码时的当前系统时间，格式为 yyyy/MM/dd HH:mm。
 
 ```kotlin
 /**
@@ -168,7 +76,7 @@ tony.[module].config.[Module]Config
  * @return [ReturnType] 返回值说明
  * @throws [ExceptionType] 异常说明
  * @author 作者
- * @date 创建日期 yyyy/MM/dd HH:mm
+ * @date 2025/07/04 14:00 （此处为生成时系统时间）
  */
 ```
 
@@ -194,7 +102,6 @@ object Strs {
 ## 枚举使用规范
 
 - 所有枚举实现统一接口（如EnumValue<T>），value字段唯一，需有默认值
-- 用表格区分Int/String实现差异
 
 | 类型     | 接口              | value类型 | 默认值常量                | Creator基类         |
 |--------|-----------------|---------|----------------------|-------------------|
@@ -209,8 +116,6 @@ enum class ExampleEnum(override val value: Int) : IntEnumValue {
     VALUE2(2),
 
     @JsonEnumDefaultValue
-    UNUSED(DEFAULT_INT_VALUE),
-    @JsonEnumDefaultValue
     UNUSED(DEFAULT_INT_VALUE);
 
     companion object : IntEnumCreator(ExampleEnum::class.java) {
@@ -221,8 +126,58 @@ enum class ExampleEnum(override val value: Int) : IntEnumValue {
 }
 ```
 
-- value字段加@JsonValue，companion object加@JsonCreator/@JvmStatic
-- 禁止无value字段、无默认值、无接口实现
+##### 【强制】枚举字段类型规范
+
+- 所有具有明确枚举语义的字段, 【必须】直接使用对应的枚举类型，**禁止**使用原始类型（如 `Int`、`String`）。
+
+```kotlin
+// 正确
+var encoding: Encoding = Encoding.HEX
+
+// 错误
+var encoding: String = "HEX"
+
+```
+
+---
+
+## 自动装配规范
+
+- 每个功能模块单独配置类，【必须】命名为 `{Module}Config`，包路径【必须】为 `tony.{module}.config`
+- 推荐注解组合：`@Configuration` + `@EnableConfigurationProperties({Module}Properties::class)` +
+  `@ConditionalOnProperty` + `@ConditionalOnMissingBean`
+- 属性类用 `@ConfigurationProperties` + `data class`，字段建议有Kotlin默认值
+- 每个自动装配类【必须】注册到 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
+  ，每行一个全限定类名
+
+**标准模板：**
+
+```kotlin
+@Configuration
+@EnableConfigurationProperties({Module} Properties ::class)
+@ConditionalOnProperty(prefix = "tony.{module}", name = ["enabled"], havingValue = "true", matchIfMissing = true) // 可选,并不一定每个都需要
+class {Module}Config(val properties: {Module}Properties) {
+
+    @ConditionalOnMissingBean({Module}Service ::class)
+    @Bean
+    fun {module}Service() = {Module}Service(properties)
+}
+
+@ConfigurationProperties(prefix = "tony.{module}")
+data class {Module}Properties(
+    val enabled: Boolean = true,
+    val name: String = "default",
+)
+```
+
+---
+
+### 统一入口注解
+
+**启用注解：**
+
+- 使用 `@EnableTonyBoot` 作为统一入口
+- 支持一键启用所有 tony-boot-starters 功能
 
 ---
 
@@ -234,7 +189,7 @@ enum class ExampleEnum(override val value: Int) : IntEnumValue {
 
 ```kotlin
 @DisplayName("测试类名称")
-class [ClassName]Test {
+class {ClassName}Test {
     // 测试方法
 }
 ```
@@ -244,12 +199,12 @@ class [ClassName]Test {
 ```kotlin
 @Nested
 @DisplayName("功能模块测试")
-inner class [Feature]Test {
+inner class {Feature}Test {
     @Test
     @DisplayName("具体测试场景")
-    fun test[Scenario]() {
-    // 测试逻辑
-}
+    fun test{Scenario}() {
+        // 测试逻辑
+    }
 }
 ```
 
@@ -260,7 +215,7 @@ inner class [Feature]Test {
 ```kotlin
 @Test
 @DisplayName("方法名():测试场景描述")
-fun test[MethodName][Scenario]() {
+fun test{MethodName}{Scenario}() {
     // Given - 准备测试数据
     val input = "test"
 
@@ -278,7 +233,7 @@ fun test[MethodName][Scenario]() {
 @ParameterizedTest
 @ValueSource(strings = ["value1", "value2", "value3"])
 @DisplayName("方法名():参数化测试")
-fun test[MethodName]With[Type](value: String) {
+fun test{MethodName}With{Type}(value: String) {
     val result = value.methodName()
     assertTrue(result.isValid())
 }
@@ -289,7 +244,7 @@ fun test[MethodName]With[Type](value: String) {
 ```kotlin
 @Test
 @DisplayName("方法名():异常情况")
-fun test[MethodName]WithException() {
+fun test{MethodName}WithException() {
     assertThrows<IllegalArgumentException> {
         methodName(invalidInput)
     }
@@ -302,13 +257,13 @@ fun test[MethodName]WithException() {
 
 ```kotlin
 @SpringBootTest(
-    classes = [Test[Module] Application ::class],
+    classes = [{Module}TestApplication ::class],
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
 @ActiveProfiles("test")
 @TestPropertySource(locations = ["classpath:application.yml"])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-abstract class Base[Module]Test {
+abstract class {Module}BaseTest {
     // 一些方便测试的基础方法.
 }
 ```
@@ -318,8 +273,8 @@ abstract class Base[Module]Test {
 ```kotlin
 @SpringBootApplication
 @EnableTonyBoot
-@Import([Module] TestConfig ::class)
-class Test[Module]Application
+@Import({Module}TestConfig ::class)
+class {Module}TestApplication
 ```
 
 ### 4. 断言使用规范
@@ -333,14 +288,6 @@ class Test[Module]Application
 - 正常流程测试
 - 边界条件测试
 - 异常情况测试
-- 空值/空集合测试
-- 参数化测试（多种输入）
-
-**可选测试场景：**
-
-- 性能测试（如适用）
-- 并发安全测试（如适用）
-- 集成测试（复杂模块）
 
 ---
 
@@ -442,6 +389,11 @@ class YourApplication
 
 ## 配置说明
 
+- 列出所有配置属性
+- 说明每个属性的作用
+- 提供默认值和取值范围
+- 包含配置示例
+
 ### 基础配置
 
 ## 使用示例
@@ -453,17 +405,3 @@ class YourApplication
 ````
 
 ---
-
-### 模块文档
-
-- 每个模块都要有 README.md
-- 说明模块的功能和使用方法
-- 提供配置示例和代码示例
-- 说明依赖关系和版本要求
-
-### 配置文档
-
-- 列出所有配置属性
-- 说明每个属性的作用
-- 提供默认值和取值范围
-- 包含配置示例

@@ -2,21 +2,22 @@
 
 ### 项目概述
 
-基于 **Kotlin + Spring Boot 3.5.0+** 的高性能 Web 应用开发脚手架，集成主流企业级技术栈与最佳实践。该项目采用分层架构设计，支持模块化扩展，适用于所有对外对内提供
-HTTP 接口的 Web 项目。
-
 **核心特点：**
 
-- **分层清晰**：API、Service、DTO、SDK 四层核心架构
-- **规范统一**：统一的命名规范和目录结构
-- **易于扩展**：预留微服务接口，支持平滑升级
-- **SDK 支持**：支持 Feign、Dubbo 等 RPC 接口
+- **Kotlin 优先**: 主要使用 Kotlin，兼容 Java。
+- **自动化构建**: 使用 Gradle。遵从统一的目录
+- **统一规范**: 【必须】遵循此文件定义的规约。
 
 **命名说明：**
 
-- `{company}` 为公司名或组织名，如 `tony`、`powerjob`、`com.umbrella` 等
-- `{projectName}` 为项目名称，反映具体业务领域，如 `house-sale`、`order-system` 等
-- `{module}` 为项目模块名称，反映模块的某一功能，如 `sys`、`sale` 等
+| 类别 (Category) | 格式 (Format) | 占位符 (Placeholder) | 示例 (Example)               |
+|---------------|-------------|-------------------|----------------------------|
+| 公司/组织名        | 全小写         | `{company}`       | `tony`, `powerjob`         |
+| 项目名 (包路径)     | 全小写         | `{projectName}`   | `demo`, `ordersystem`      |
+| 模块名           | 全小写         | `{module}`        | `sys`, `sale`              |
+| 模块名           | 首大写         | `{Module}`        | `Sys`, `Sale`              |
+| 包路径           | `.` 分隔，全小写  | -                 | `tony.demo.sys.controller` |
+
 - 项目根目录名（如 monolithic-demo）可包含中划线（-）和多个单词，用于目录区分和可读性。
   Java/Kotlin 包名仅允许全小写英文字母，不允许中划线、特殊字符，且通常只取一层（如 demo）。
 
@@ -24,10 +25,11 @@ HTTP 接口的 Web 项目。
 
   例如：tony-monolithic-demo 项目下，包名为 tony.demo.sale，而不是 tony.monolithic.demo.sale 或 tony.monolithic-demo.sale。
 
-
 ### 1. 项目根目录结构
 
 #### 1.1 标准项目结构
+
+项目结构【必须】遵循以下范式，并使用上表定义的占位符。
 
 ```
 {project-name}/
@@ -125,7 +127,8 @@ db/
 ```
 
 #### 2.6 包结构约定
-- 代码包名与目录结构一致，均为 {company}.{projectName}.{module}[.{function}]，全部小写。
+
+- 代码包名与目录结构一致，均为 {company}.{projectName}.{module}.{function}，全部小写。
 - 例如：tony.demo.sale.controller
 
 ---
@@ -135,6 +138,7 @@ db/
 - 所有公共类、方法、属性、异常等【必须】有注释，描述功能、参数、返回值、异常等关键信息。
 - 所有类、方法、字段、DTO 属性等都【必须】根据具体情况使用如下标准注释模板，不能只写一句话。
 - @date 字段请自动填入生成代码时的当前系统时间，格式为 yyyy/MM/dd HH:mm。
+
 ```kotlin
 /**
  * 类/方法/属性功能描述
@@ -154,7 +158,6 @@ db/
 ## 枚举使用规范
 
 - 所有枚举实现统一接口（如EnumValue<T>），value字段唯一，需有默认值
-- 用表格区分Int/String实现差异
 
 | 类型     | 接口              | value类型 | 默认值常量                | Creator基类         |
 |--------|-----------------|---------|----------------------|-------------------|
@@ -179,15 +182,10 @@ enum class ExampleEnum(override val value: Int) : IntEnumValue {
 }
 ```
 
-- value字段加@JsonValue，companion object加@JsonCreator/@JvmStatic
-- 禁止无value字段、无默认值、无接口实现
-
 ##### 【强制】枚举字段类型规范
 
-- 所有具有明确枚举语义的业务字段（如岗位类型、状态、性别等），在实体类（PO）、DTO（请求/响应）中【必须】直接使用对应的枚举类型（如 `PostTypeEnum`），**禁止**使用原始类型（如 `Int`、`String`）。
-- 枚举类型需实现统一的 EnumValue 接口，支持与数据库/JSON的自动映射。
-- 仅在与历史表结构或三方接口强制兼容时，才允许保留原始类型，并需在注释中说明原因。
-- 违反此规范的代码视为不合规，需整改。
+- 所有具有明确枚举语义的业务字段（如岗位类型、状态、性别等），在实体类（PO）、DTO（请求/响应）中【必须】直接使用对应的枚举类型（如
+  `PostTypeEnum`），**禁止**使用原始类型（如 `Int`、`String`）。
 
 ```kotlin
 // 正确
@@ -270,7 +268,7 @@ import {company}.mybatis.MybatisPlusMetaProperty
 class {EntityName} {
 
     @TableId
-    var {entityName}Id: String = ""
+    var {entityName} Id : String = ""
 
     // 业务字段...
 
@@ -373,7 +371,7 @@ class {EntityName} {
 ```sql
 CREATE TABLE `{table}`
 (
-    `{table}_id`           varchar(50) NOT NULL COMMENT '主键',
+    `{table}_id`   varchar(50) NOT NULL COMMENT '主键',
     -- 业务字段...
     `enabled`      tinyint     NOT NULL DEFAULT '1' COMMENT '状态：1-启用，0-禁用',
     `create_time`  timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -385,8 +383,8 @@ CREATE TABLE `{table}`
     `delete_time`  timestamp   NULL     DEFAULT NULL COMMENT '删除标记：!null-已删除，null-未删除',
     `tenant_id`    varchar(32) NOT NULL DEFAULT '' COMMENT '租户id',
     PRIMARY KEY (`{table}_id`),
-    UNIQUE KEY uk_{table}_code(`code`),
-    KEY idx_{table}_name(`name`)
+    UNIQUE KEY uk_{table} _code(`code`),
+    KEY idx_{table} _name(`name`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='{表说明}';
@@ -395,7 +393,6 @@ CREATE TABLE `{table}`
 ---
 
 ## DTO 层规范
-
 
 ### 1. 注解与校验规范
 
@@ -448,7 +445,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import javax.validation.constraints.NotBlank
 
 @Schema(description = "新增员工请求")
-data class EmployeeAddReq(
+data class {EntityName}AddReq(
     @field:NotBlank(message = "姓名不能为空")
     @Schema(description = "员工姓名", example = "张三")
     val realName: String,
@@ -496,7 +493,7 @@ package {company}.{projectName}.{module}.dto.resp
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "员工详情响应")
-data class EmployeeResp(
+data class {EntityName}Resp(
     @Schema(description = "员工ID")
     val employeeId: String,
     @Schema(description = "员工姓名")
@@ -528,7 +525,6 @@ data class EmployeeResp(
 
 - 禁止在 DAO 层引入 Service、Controller、DTO 等非持久化相关依赖。
 - DAO 层只做数据持久化相关操作，不得包含任何业务逻辑、参数校验、事务控制等代码。
-
 
 ### 4. 其他规范
 
