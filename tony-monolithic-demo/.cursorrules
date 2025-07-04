@@ -169,8 +169,6 @@ enum class ExampleEnum(override val value: Int) : IntEnumValue {
     VALUE2(2),
 
     @JsonEnumDefaultValue
-    UNUSED(DEFAULT_INT_VALUE),
-    @JsonEnumDefaultValue
     UNUSED(DEFAULT_INT_VALUE);
 
     companion object : IntEnumCreator(ExampleEnum::class.java) {
