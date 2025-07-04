@@ -59,7 +59,7 @@ xnio = "3.8.16.Final"
 
 springCloud = "2025.0.0"
 springCloudAlibaba = "2023.0.3.3"
-springCloudTencent = "2.0.1.0-2023.0.3"
+springCloudTencent = "2.0.2.0-2024.0.1"
 reactor = "2024.0.7"
 netty = "4.2.2.Final"
 grpc = "1.73.0"

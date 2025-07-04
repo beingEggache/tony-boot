@@ -39,13 +39,13 @@ class EmployeeController(
     ) =
         service.update(req)
 
-    @Operation(summary = "列表", description = "列表")
+    @Operation(summary = "分页列表", description = "分页列表")
     @PostMapping("/sys/employee/list")
-    fun list(
+    fun pageList(
         @Validated
         @RequestBody req: FlattenPageQuery<EmployeeQuery>,
     ) =
-        service.list(req)
+        service.pageList(req)
 
     @Operation(summary = "详情", description = "详情")
     @PostMapping("/sys/employee/detail")

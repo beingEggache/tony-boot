@@ -66,9 +66,9 @@ tony-monolithic-demo/
 
 ```bash
 # 以 MySQL 为例
-mysql -u root -p < db/userAndDatabaseBase.init.mysql.sql
-mysql -u root -p your_database_name < db/table.init.mysql.sql
-mysql -u root -p your_database_name < db/data.init.mysql.sql
+mysql -u root -p < db.init.mysql.sql
+mysql -u root -p your_database_name < db/db.init.table.mysql.sql
+mysql -u root -p your_database_name < db/db.init.data.mysql.sql
 ```
 
 ### 3. 配置项目

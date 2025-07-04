@@ -119,7 +119,7 @@ class EmployeeService(
      * @author tangli
      * @date 2024/07/04 14:43
      */
-    fun list(req: PageQueryLike<EmployeeQuery>): PageResult<EmployeeResp> =
+    fun pageList(req: PageQueryLike<EmployeeQuery>): PageResult<EmployeeResp> =
         employeeDao.selectEmployeeByQuery(req.query, req.toPage()).toPageResult()
 
     /**

@@ -28,7 +28,7 @@ import tony.demo.sys.service.RoleService
 class RoleController(
     private val service: RoleService,
 ) {
-    @Operation(summary = "列表", description = "列表")
+    @Operation(summary = "分页列表", description = "分页列表")
     @PostMapping("/sys/role/list")
     fun tree(
         @Validated

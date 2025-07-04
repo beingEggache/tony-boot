@@ -186,3 +186,26 @@ CREATE TABLE `sys_role_module`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE `sale_post`
+(
+    `post_id`      varchar(50) COLLATE utf8mb4_general_ci  NOT NULL COMMENT '岗位ID',
+    `post_name`    varchar(50) COLLATE utf8mb4_general_ci  NOT NULL COMMENT '岗位名称',
+    `post_code`    varchar(50) COLLATE utf8mb4_general_ci  NOT NULL COMMENT '岗位编码',
+    `sort`         int                                     NOT NULL DEFAULT '0' COMMENT '排序',
+    `remark`       varchar(200) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '备注',
+    `enabled`      tinyint                                 NOT NULL DEFAULT '1' COMMENT '状态：1-启用，0-禁用',
+    `create_time`  timestamp                               NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `creator_id`   varchar(32) COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '创建人',
+    `creator_name` varchar(30) COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '创建人名称',
+    `update_time`  timestamp                               NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `updator_id`   varchar(32) COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '更新人',
+    `updator_name` varchar(30) COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '更新人名称',
+    `delete_time`  timestamp                               NULL     DEFAULT NULL COMMENT '删除标记：!null-已删除，null-未删除',
+    `tenant_id`    varchar(32) COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '租户id',
+    PRIMARY KEY (`post_id`),
+    UNIQUE KEY uk_sale_post_code(`post_code`),
+    KEY idx_sale_post_name(`post_name`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='销售岗位';
