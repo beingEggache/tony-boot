@@ -4,7 +4,6 @@
 
 - **模块化设计**: 独立、按需集成。
 - **Kotlin 优先**: 主要使用 Kotlin，兼容 Java。
-- **自动化构建**: 使用 Gradle。遵从统一的目录
 - **统一规范**: 【必须】遵循此文件定义的规约。
 
 ## 命名约定
@@ -54,8 +53,8 @@ tony-{module}/
         │       ├── [Module]BaseTest.kt        # 基础测试类 (可选)
         │       ├── {Module}IntegrationTest.kt # 集成测试类 (可选)
         │       └── {Module}TestApplication.kt # 测试启动类 (可选)
-        ├── java/                       # Java 测试源码（可选）
-        └── resources/                  # 测试资源
+        ├── java/                              # Java 测试源码（可选）
+        └── resources/                         # 测试资源
 ```
 
 ---
@@ -63,8 +62,6 @@ tony-{module}/
 ## 注释规范
 
 - 所有公共类、方法、属性、异常等【必须】有注释，描述功能、参数、返回值、异常等关键信息。
-- 所有类、方法、字段、DTO 属性等都【必须】根据具体情况使用如下标准注释模板，不能只写一句话。
-- @date 字段请自动填入生成代码时的当前系统时间，格式为 yyyy/MM/dd HH:mm。
 
 ```kotlin
 /**
@@ -84,10 +81,9 @@ tony-{module}/
 
 ## Java 互操作注意事项
 
-- 工具类文件可用 `@file:JvmName` 提供Java友好类名。
-- 关键API可用 `@JvmStatic`、`@JvmOverloads` 提供静态方法和重载。
+- 工具类文件【必须】使用 `@file:JvmName` 提供Java友好类名。
+- 关键API【必须】使用 `@JvmStatic`、`@JvmOverloads` 提供静态方法和重载。
 - Kotlin扩展/内部API可用 `@JvmSynthetic` 隐藏，避免Java调用。
-- 类型别名可用于简化复杂泛型。
 
 ```kotlin
 @file:JvmName("Strs")
@@ -143,10 +139,6 @@ var encoding: String = "HEX"
 
 ## 自动装配规范
 
-- 每个功能模块单独配置类，【必须】命名为 `{Module}Config`，包路径【必须】为 `tony.{module}.config`
-- 推荐注解组合：`@Configuration` + `@EnableConfigurationProperties({Module}Properties::class)` +
-  `@ConditionalOnProperty` + `@ConditionalOnMissingBean`
-- 属性类用 `@ConfigurationProperties` + `data class`，字段建议有Kotlin默认值
 - 每个自动装配类【必须】注册到 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
   ，每行一个全限定类名
 
@@ -176,8 +168,7 @@ data class {Module}Properties(
 
 **启用注解：**
 
-- 使用 `@EnableTonyBoot` 作为统一入口
-- 支持一键启用所有 tony-boot-starters 功能
+- 【必须】使用 `@EnableTonyBoot` 作为统一入口
 
 ---
 
@@ -293,13 +284,11 @@ class {Module}TestApplication
 
 ## 导入规范
 
-- 导入顺序：标准库 → 第三方库 → 项目内部。
 - 【禁止】通配符导入，所有导入必须为显式导入。
 
 ```kotlin
 import java.util.UUID
 import org.springframework.util.AntPathMatcher
-import {company}.{projectName}.core.ApiResult
 // ❌ import java.util.*  // 禁止
 ```
 

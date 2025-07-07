@@ -59,7 +59,7 @@ xnio = "3.8.16.Final"
 
 springCloud = "2025.0.0"
 springCloudAlibaba = "2023.0.3.3"
-springCloudTencent = "2.0.2.0-2024.0.1"
+springCloudTencent = "2.0.2.1-2024.0.1"
 reactor = "2024.0.7"
 netty = "4.2.2.Final"
 grpc = "1.73.0"
@@ -214,7 +214,7 @@ elApi = { module = "jakarta.el:jakarta.el-api", version = "6.0.1" }
 websocketApi = { module = "jakarta.websocket:jakarta.websocket-api", version = "2.2.0" }
 bindApi = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version = "4.0.2" }
 
-tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.8" }
+tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.9" }
 
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.6.0" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.18.0" }
@@ -228,7 +228,7 @@ httpcore = { module = "org.apache.httpcomponents:httpcore", version = "4.4.16" }
 httpcoreNio = { module = "org.apache.httpcomponents:httpcore-nio", version = "4.4.16" }
 httpasyncclient = { module = "org.apache.httpcomponents:httpasyncclient", version = "4.1.5" }
 
-okhttp = { module = "com.squareup.okhttp3:okhttp", version = "4.12.0" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version = "5.0.0" }
 okioJvm = { module = "com.squareup.okio:okio-jvm", version = "3.15.0" }
 
 javaJwt = { module = "com.auth0:java-jwt", version = "4.5.0" }
