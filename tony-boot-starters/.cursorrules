@@ -347,7 +347,7 @@ class YourApplication
 | 配置属性 | `{Module}Properties` | `config`    | 配置属性定义、默认值设置              |
 | 服务类  | `{Module}Service`    | `service`   | 业务逻辑实现、构造器注入              |
 | 工具类  | `{Module}Utils`      | `utils`     | 静态工具方法、Java互操作            |
-| 异常类  | `{Module}Exception`  | `exception` | 自定义异常、继承BaseException     |
+| 异常类  | `{Module}Exception`  | `exception` | 自定义异常、继承ApiException      |
 | 测试类  | `{ClassName}Test`    | `test`      | 单元测试、集成测试、Given-When-Then |
 
 ### 7.3 常见错误模式
