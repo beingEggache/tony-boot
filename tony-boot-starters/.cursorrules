@@ -40,7 +40,6 @@ data class MessageSendReq(  // 缺少 public
 **规则说明：**
 - 所有 public 类、方法、属性必须显式声明 `public` 修饰符
 - 所有方法除返回 Unit 外，必须显式声明返回类型
-- 所有 public 属性必须显式声明类型
 - 内部使用的 private 成员可以省略类型声明
 
 ### 1.3 占位符规范
@@ -69,7 +68,6 @@ tony-{module}/
     │   │       ├── config/             # 配置包
     │   │       │   ├── {Module}Config.kt
     │   │       │   └── {Module}Properties.kt
-    │   │       ├── service/            # 服务类包（可选）
     │   │       ├── utils/              # 工具类包（可选）
     │   │       ├── exception/          # 异常类包（可选）
     │   │       └── [其他包].../         # 其他包（可选）
@@ -93,7 +91,6 @@ tony-{module}/
 ### 2.2 包结构约定
 - **主包路径**：`tony.{package-name}`
 - **配置包**：`tony.{package-name}.config`
-- **服务包**：`tony.{package-name}.service`
 - **工具包**：`tony.{package-name}.utils`
 - **异常包**：`tony.{package-name}.exception`
 
@@ -196,17 +193,12 @@ public object Strs {
 
 ### 3.5 异常处理规范
 🔴 **必须**：优先使用工具函数抛出异常
-🔴 **必须**：所有自定义异常继承 ApiException
+🔴 **必须**：所有自定义异常继承 tony.exception.ApiException
 
 ```kotlin
 // 工具函数示例
 value.throwIfNull("值不能为空")
 condition.throwIfTrue("条件不满足")
-
-// 异常分类
-public open class BaseException(public val message: String?, public val code: Int, public val cause: Throwable? = null) : RuntimeException(message, cause)
-public open class ApiException(public val message: String?, public val code: Int = ApiProperty.errorCode, public val cause: Throwable? = null) : BaseException(message, code, cause)
-public open class BizException(public val message: String, public val code: Int = ApiProperty.preconditionFailedCode) : BaseException(message, code)
 ```
 
 ---
@@ -256,7 +248,6 @@ public class YourApplication
 ## 5. 测试规范
 
 ### 5.1 测试类组织规范
-🔴 **必须**：使用 `@DisplayName` 注解
 
 ```kotlin
 @DisplayName("测试类名称")
@@ -276,20 +267,12 @@ class {ClassName}Test {
 
 ### 5.2 测试方法规范
 🔴 **必须**：所有测试断言使用 org.junit.jupiter.api 包下的方法。
-🔴 **必须**：使用 Given-When-Then 结构
 
 ```kotlin
 @Test
 @DisplayName("方法名():测试场景描述")
 fun test{MethodName}{Scenario}() {
-    // Given - 准备测试数据
-    val input = "test"
-
-    // When - 执行被测试方法
-    val result = input.methodName()
-
-    // Then - 验证结果
-    assertEquals(expected, result)
+    // 测试逻辑
 }
 ```
 
@@ -349,7 +332,6 @@ public class YourApplication
 ## 主要功能
 - 功能点1
 - 功能点2
-- 功能点3
 
 ## 配置说明
 | 配置项 | 说明 | 默认值 | 必填 |
@@ -382,8 +364,6 @@ public class YourApplication
 |------|----------------------|-------------|---------------------------|
 | 配置类  | `{Module}Config`     | `config`    | 自动装配配置、条件注解、Bean注册        |
 | 配置属性 | `{Module}Properties` | `config`    | 配置属性定义、默认值设置              |
-| 服务类  | `{Module}Service`    | `service`   | 业务逻辑实现、构造器注入              |
-| 工具类  | `{Module}Utils`      | `utils`     | 静态工具方法、Java互操作            |
 | 异常类  | `{Module}Exception`  | `exception` | 自定义异常、继承ApiException      |
 | 测试类  | `{ClassName}Test`    | `test`      | 单元测试、集成测试、Given-When-Then |
 
