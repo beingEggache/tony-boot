@@ -3,9 +3,9 @@
 ## 1. 项目概述
 
 ### 1.1 核心特点
-- **Kotlin 优先**：主要使用 Kotlin，兼容 Java
-- **模块化架构**：API、Service、DTO、SDK 分层设计
-- **统一规范**：严格遵循本文档定义的开发规约
+- **Kotlin 优先**：主要使用 Kotlin，兼容 Java。
+- **模块化架构**：API、Service、DTO、SDK 分层设计。
+- **统一规范**：严格遵循本文档定义的开发规约。
 
 ### 1.2 占位符规范
 
@@ -20,8 +20,8 @@
 | `{Entity}`      | 实体类名（首大写）  | `Employee`     |
 | `{table}`       | 数据库表名（小写）  | `sys_employee` |
 
-**包路径格式：** `{company}.{projectName}.{module}`
-**示例：** `tony.demo.sys.controller`
+**包路径格式：** `{company}.{projectName}.{module}`。
+**示例：** `tony.demo.sys.controller`。
 
 ---
 
@@ -49,10 +49,10 @@
 ```
 
 ### 2.2 包结构约定
-- **API 模块：** `{company}.{projectName}.{module}.controller`
-- **Service 模块：** `{company}.{projectName}.{module}.service.impl`（实现）
-- **DTO 模块：** `{company}.{projectName}.{module}.dto.{req|resp|query|enums}`
-- **SDK 模块：** `{company}.{projectName}.{module}.service`（服务接口）
+- **API 模块：** `{company}.{projectName}.{module}.controller`。
+- **Service 模块：** `{company}.{projectName}.{module}.service.impl`（实现）。
+- **DTO 模块：** `{company}.{projectName}.{module}.dto.{req|resp|query|enums}`。
+- **SDK 模块：** `{company}.{projectName}.{module}.service`（服务接口）。
 
 ### 2.3 核心文件结构
 
@@ -138,7 +138,7 @@ db/
 ## 3. 核心开发规范
 
 ### 3.1 注释规范
-🔴 **必须**：所有公共类、方法、属性必须有注释
+🔴 **必须**：所有公共类、方法、属性必须有注释。
 
 ```kotlin
 /**
@@ -155,7 +155,7 @@ db/
 ```
 
 ### 3.2 导入规范
-🔴 **必须**：禁止通配符导入，显式导入所有依赖
+🔴 **必须**：禁止通配符导入，显式导入所有依赖。
 
 ```kotlin
 import java.util.UUID
@@ -164,7 +164,7 @@ import org.springframework.web.bind.annotation.PostMapping
 ```
 
 ### 3.3 枚举规范
-🔴 **必须**：所有枚举实现统一接口，支持默认值
+🔴 **必须**：所有枚举实现统一接口，支持默认值。
 
 ```kotlin
 // Int 类型枚举
@@ -200,7 +200,7 @@ enum class GenderEnum(override val value: String) : StringEnumValue {
 }
 ```
 
-**必须**：业务字段使用枚举类型，禁止使用原始类型
+**必须**：业务字段使用枚举类型，禁止使用原始类型。
 
 ```kotlin
 // ✅ 正确
@@ -217,7 +217,7 @@ var gender: String = "MALE"
 ## 4. 数据层规范
 
 ### 4.1 实体类规范
-🔴 **必须**：使用 MyBatis-Plus 注解，包含审计字段
+🔴 **必须**：使用 MyBatis-Plus 注解，包含审计字段。
 
 ```kotlin
 @TableName("{table}")
@@ -258,7 +258,7 @@ class {Entity} {
 ```
 
 ### 4.2 数据库表规范
-🔴 **必须**：表名小写，下划线分隔，包含审计字段
+🔴 **必须**：表名小写，下划线分隔，包含审计字段。
 
 ```sql
 CREATE TABLE `{table}` (
@@ -277,8 +277,8 @@ CREATE TABLE `{table}` (
 ```
 
 ### 4.3 DAO 层规范
-🔴 **必须**：继承 BaseDao，使用 XML 映射文件
-🔴 **禁止**：在接口上使用 @Select、@Update 等注解
+🔴 **必须**：继承 BaseDao，使用 XML 映射文件。
+🔴 **禁止**：在接口上使用 @Select、@Update 等注解。
 
 ```kotlin
 interface {Module}Dao : BaseDao<{Entity}> {
@@ -292,7 +292,7 @@ interface {Module}Dao : BaseDao<{Entity}> {
 ## 5. 业务层规范
 
 ### 5.1 DTO 规范
-🔴 **必须**：请求/响应/查询 DTO 分离，使用校验注解
+🔴 **必须**：请求/响应/查询 DTO 分离，使用校验注解。
 
 ```kotlin
 // 请求 DTO
@@ -330,7 +330,7 @@ data class {Entity}Query(
 ```
 
 ### 5.2 Service 层规范
-**建议**：根据项目需要选择接口与实现分离
+**建议**：根据项目需要选择接口与实现分离。
 
 #### 5.2.1 有 SDK 层的情况
 ```kotlin
@@ -383,7 +383,7 @@ class {Entity}Service(
 }
 ```
 
-**禁止**：Service 实现类继承 MyBatis-Plus 的 `ServiceImpl`
+**禁止**：Service 实现类继承 MyBatis-Plus 的 `ServiceImpl`。
 
 ### 5.3 Controller 规范
 🔴 **必须**：使用 `@RestController`，路由注解只放在方法上。
@@ -424,7 +424,7 @@ class {Module}Controller(
 ## 6. 配置规范
 
 ### 6.1 Web 配置
-🔴 **建议**：注册上下文注入器，支持 DTO 字段自动注入
+🔴 **建议**：注册上下文注入器，支持 DTO 字段自动注入。
 
 ```kotlin
 @Configuration
@@ -438,7 +438,7 @@ class {ProjectName}WebConfig {
 ```
 
 ### 6.2 自定义注入注解
-🔴 **建议**：封装自定义注解，避免手写字符串 key
+🔴 **建议**：封装自定义注解，避免手写字符串 key。
 
 ```kotlin
 @Target(AnnotationTarget.FIELD)
@@ -459,9 +459,9 @@ data class DemoReq(
 ## 7. 快速参考
 
 ### 7.1 规则优先级
-- 🔴 **必须**：违反将导致编译错误或运行时异常
-- **建议**：推荐遵循，提高代码质量
-- 🟢 **可选**：根据项目需要选择
+- 🔴 **必须**：违反将导致编译错误或运行时异常。
+- **建议**：推荐遵循，提高代码质量。
+- 🟢 **可选**：根据项目需要选择。
 
 ### 7.2 核心规则速查表
 
@@ -475,17 +475,17 @@ data class DemoReq(
 | DTO            | `{Entity}AddReq`/`{Entity}Resp`/`{Entity}Query` | `dto.req`/`dto.resp`/`dto.query` | 数据传输、校验注解、Swagger文档         |
 
 ### 7.3 常见错误模式
-- ❌ 在 DAO 接口使用 `@Select` 注解
-- ❌ Controller 类上使用路由注解
-- ❌ 使用通配符导入
-- ❌ 实体类字段使用原始类型而非枚举
-- ❌ 缺少必要的注释
-- ❌ 违反命名规范
+- ❌ 在 DAO 接口使用 `@Select` 注解。
+- ❌ Controller 类上使用路由注解。
+- ❌ 使用通配符导入。
+- ❌ 实体类字段使用原始类型而非枚举。
+- ❌ 缺少必要的注释。
+- ❌ 违反命名规范。
 
 ### 7.4 最佳实践清单
-- ✅ 使用构造器注入依赖
-- ✅ 完整的参数校验
-- ✅ 规范的 Swagger 注解
-- ✅ 类型安全的 DTO 设计
-- ✅ 清晰的业务逻辑分层
-- ✅ 完整的项目骨架文件
+- ✅ 使用构造器注入依赖。
+- ✅ 完整的参数校验。
+- ✅ 规范的 Swagger 注解。
+- ✅ 类型安全的 DTO 设计。
+- ✅ 清晰的业务逻辑分层。
+- ✅ 完整的项目骨架文件。

@@ -3,9 +3,9 @@
 ## 1. 项目概述
 
 ### 1.1 核心特点
-- **模块化架构**：API、Service、DTO、DAO、PO 等分层设计
-- **Lombok 推荐**：DTO/PO 推荐使用 `@Getter @Setter`
-- **统一规范**：严格遵循本文档定义的开发规约
+- **模块化架构**：API、Service、DTO、DAO、PO 等分层设计。
+- **Lombok 推荐**：DTO/PO 推荐使用 `@Getter @Setter`。
+- **统一规范**：严格遵循本文档定义的开发规约。
 
 ### 1.2 占位符规范
 
@@ -20,8 +20,8 @@
 | `{Entity}`      | 实体类名（首字母大写） | `Employee`     |
 | `{table}`       | 数据库表名（小写）   | `sys_employee` |
 
-**包路径格式：** `{company}.{projectName}.{module}`
-**示例：** `tony.demo.sys.controller`
+**包路径格式：** `{company}.{projectName}.{module}`。
+**示例：** `tony.demo.sys.controller`。
 
 ---
 
@@ -49,10 +49,10 @@
 ```
 
 ### 2.2 包结构约定
-- **API 模块：** `{company}.{projectName}.{module}.controller`
-- **Service 模块：** `{company}.{projectName}.{module}.service.impl`（实现）
-- **DTO 模块：** `{company}.{projectName}.{module}.dto.{req|resp|query|enums}`
-- **SDK 模块：** `{company}.{projectName}.{module}.service`（服务接口）
+- **API 模块：** `{company}.{projectName}.{module}.controller`。
+- **Service 模块：** `{company}.{projectName}.{module}.service.impl`（实现）。
+- **DTO 模块：** `{company}.{projectName}.{module}.dto.{req|resp|query|enums}`。
+- **SDK 模块：** `{company}.{projectName}.{module}.service`（服务接口）。
 
 ### 2.3 核心文件结构
 
@@ -137,7 +137,7 @@ db/
 ## 3. 核心开发规范
 
 ### 3.1 注释规范
-🔴 **必须**：所有 public 类、方法、属性必须有注释
+🔴 **必须**：所有 public 类、方法、属性必须有注释。
 
 ```java
 /**
@@ -153,7 +153,7 @@ db/
 ```
 
 ### 3.2 导入规范
-🔴 **必须**：禁止通配符导入，所有导入必须为显式导入
+🔴 **必须**：禁止通配符导入，所有导入必须为显式导入。
 
 ```java
 import java.util.UUID;
@@ -164,7 +164,7 @@ import org.springframework.util.AntPathMatcher;
 ---
 
 ### 3.3 枚举规范
-🔴 **必须**：所有枚举实现统一接口，支持默认值
+🔴 **必须**：所有枚举实现统一接口，支持默认值。
 
 ```java
 @Schema(description = "状态枚举")
@@ -199,7 +199,7 @@ public enum GenderEnum implements StringEnumValue {
 }
 ```
 
-🔴 **必须**：业务字段使用枚举类型，禁止使用原始类型
+🔴 **必须**：业务字段使用枚举类型，禁止使用原始类型。
 
 ```java
 // ✅ 正确
@@ -216,8 +216,9 @@ public String status = "MALE";
 ## 4. 数据层规范
 
 ### 4.1 实体类规范
-🔴 **必须**：使用 MyBatis-Plus 注解，包含审计字段
-🔴 **建议**：PO 类推荐使用 Lombok `@Getter @Setter`
+🔴 **必须**：使用 MyBatis-Plus 注解，包含审计字段。
+
+🔴 **建议**：PO 类推荐使用 Lombok `@Getter @Setter`。
 
 ```java
 @Getter
@@ -259,7 +260,7 @@ public class {Entity} {
 ```
 
 ### 4.2 数据库表规范
-🔴 **必须**：表名小写，下划线分隔，包含审计字段
+🔴 **必须**：表名小写，下划线分隔，包含审计字段。
 
 ```sql
 CREATE TABLE `{table}` (
@@ -280,8 +281,9 @@ CREATE TABLE `{table}` (
 ---
 
 ### 4.3 DAO 层规范
-🔴 **必须**：继承 BaseDao，使用 XML 映射文件
-🔴 **禁止**：在接口上使用 @Select、@Update 等注解
+🔴 **必须**：继承 BaseDao，使用 XML 映射文件。
+
+🔴 **禁止**：在接口上使用 @Select、@Update 等注解。
 
 ```java
 public interface {Entity}Dao extends BaseDao<{Entity}> {
@@ -294,8 +296,9 @@ public interface {Entity}Dao extends BaseDao<{Entity}> {
 ## 5. 业务层规范
 
 ### 5.1 DTO 规范
-🔴 **必须**：请求/响应/查询 DTO 分离，使用校验注解
-🔴 **建议**：DTO 类推荐使用 Lombok `@Getter @Setter`
+🔴 **必须**：请求/响应/查询 DTO 分离，使用校验注解。
+
+**建议**：DTO 类推荐使用 Lombok `@Getter @Setter`。
 
 ```java
 @Getter
@@ -337,8 +340,9 @@ public class {Entity}Query {
 ```
 
 ### 5.2 Service 层规范
-🔴 **建议**：根据项目需要选择接口与实现分离
-🔴 **必须**：Bean 注入用 `@RequiredArgsConstructor` + `private final` 字段
+**建议**：根据项目需要选择接口与实现分离。
+
+🔴 **必须**：Bean 注入用 `@RequiredArgsConstructor` + `private final` 字段。
 
 #### 5.2.1 有 SDK 层的情况
 
@@ -384,7 +388,7 @@ public class {Entity}Service {
 }
 ```
 
-**禁止**：Service 实现类继承 MyBatis-Plus 的 `ServiceImpl`
+**禁止**：Service 实现类继承 MyBatis-Plus 的 `ServiceImpl`。
 
 ### 5.3 Controller 规范
 🔴 **必须**：使用 `@RestController`，路由注解只放在方法上。
@@ -427,7 +431,7 @@ public class {Entity}Controller {
 ## 6. 配置规范
 
 ### 6.1 Web 配置
-🔴 **建议**：注册上下文注入器，支持 DTO 字段自动注入
+**建议**：注册上下文注入器，支持 DTO 字段自动注入。
 
 ```java
 @Configuration
@@ -440,7 +444,7 @@ public class {ProjectName}WebConfig {
 ```
 
 ### 6.2 自定义注入注解
-🔴 **建议**：封装自定义注解，避免手写字符串 key
+**建议**：封装自定义注解，避免手写字符串 key。
 
 ```java
 @Target(ElementType.FIELD)
@@ -454,9 +458,9 @@ public @interface UserIdInject { }
 ## 7. 快速参考
 
 ### 7.1 规则优先级
-- 🔴 **必须**：违反将导致编译错误或运行时异常
-- **建议**：推荐遵循，提高代码质量
-- 🟢 **可选**：根据项目需要选择
+- 🔴 **必须**：违反将导致编译错误或运行时异常。
+- **建议**：推荐遵循，提高代码质量。
+- 🟢 **可选**：根据项目需要选择。
 
 ### 7.2 核心规则速查表
 
@@ -470,20 +474,20 @@ public @interface UserIdInject { }
 | DTO            | `{Entity}AddReq`/`{Entity}Resp`/`{Entity}Query` | `dto.req`/`dto.resp`/`dto.query` | 数据传输、校验注解、Swagger文档         |
 
 ### 7.3 常见错误模式
-- ❌ 在 DAO 接口使用 `@Select` 注解
-- ❌ Controller 类上使用路由注解
-- ❌ 使用通配符导入
-- ❌ 实体类字段使用原始类型而非枚举
-- ❌ 缺少必要的注释
-- ❌ 违反命名规范
-- ❌ Bean 注入未用 @RequiredArgsConstructor + private final
+- ❌ 在 DAO 接口使用 `@Select` 注解。
+- ❌ Controller 类上使用路由注解。
+- ❌ 使用通配符导入。
+- ❌ 实体类字段使用原始类型而非枚举。
+- ❌ 缺少必要的注释。
+- ❌ 违反命名规范。
+- ❌ Bean 注入未用 @RequiredArgsConstructor + private final。
 
 ### 7.4 最佳实践清单
-- ✅ 推荐使用 Lombok
-- ✅ Bean 注入用 @RequiredArgsConstructor + private final
-- ✅ 完整的参数校验
-- ✅ 规范的 Swagger 注解
-- ✅ 类型安全的 DTO 设计
-- ✅ 清晰的业务逻辑分层
-- ✅ 完整的项目骨架文件
+- ✅ 推荐使用 Lombok。
+- ✅ Bean 注入用 @RequiredArgsConstructor + private final。
+- ✅ 完整的参数校验。
+- ✅ 规范的 Swagger 注解。
+- ✅ 类型安全的 DTO 设计。
+- ✅ 清晰的业务逻辑分层。
+- ✅ 完整的项目骨架文件。
 

@@ -3,13 +3,13 @@
 ## 1. 项目概述
 
 ### 1.1 核心特点
-- **模块化设计**：独立、按需集成
-- **Kotlin 优先**：主要使用 Kotlin，兼容 Java
-- **Explicit API**：严格遵循 Kotlin Explicit API 标准
-- **统一规范**：严格遵循本文档定义的开发规约
+- **模块化设计**：独立、按需集成。
+- **Kotlin 优先**：主要使用 Kotlin，兼容 Java。
+- **Explicit API**：严格遵循 Kotlin Explicit API 标准。
+- **统一规范**：严格遵循本文档定义的开发规约。
 
 ### 1.2 Explicit API 标准
-🔴 **必须**：遵循 Kotlin Explicit API 标准
+🔴 **必须**：遵循 Kotlin Explicit API 标准。
 
 ```kotlin
 // ✅ 正确 - 显式声明 public 和返回类型
@@ -38,9 +38,9 @@ data class MessageSendReq(  // 缺少 public
 ```
 
 **规则说明：**
-- 所有 public 类、方法、属性必须显式声明 `public` 修饰符
-- 所有方法除返回 Unit 外，必须显式声明返回类型
-- 内部使用的 private 成员可以省略类型声明
+- 所有 public 类、方法、属性必须显式声明 `public` 修饰符。
+- 所有方法除返回 Unit 外，必须显式声明返回类型。
+- 内部使用的 private 成员可以省略类型声明。
 
 ### 1.3 占位符规范
 
@@ -55,7 +55,7 @@ data class MessageSendReq(  // 缺少 public
 ## 2. 模块结构规范
 
 ### 2.1 标准模块结构
-🔴 **必须**：每个 starter 模块采用如下标准结构
+🔴 **必须**：每个 starter 模块采用如下标准结构。
 
 ```
 tony-{module}/
@@ -99,7 +99,7 @@ tony-{module}/
 ## 3. 核心开发规范
 
 ### 3.1 注释规范
-🔴 **必须**：所有公共类、方法、属性必须有注释
+🔴 **必须**：所有公共类、方法、属性必须有注释。
 
 ```kotlin
 /**
@@ -116,7 +116,7 @@ tony-{module}/
 ```
 
 ### 3.2 导入规范
-🔴 **必须**：禁止通配符导入，显式导入所有依赖
+🔴 **必须**：禁止通配符导入，显式导入所有依赖。
 
 ```kotlin
 import java.util.UUID
@@ -125,7 +125,7 @@ import org.springframework.util.AntPathMatcher
 ```
 
 ### 3.3 枚举规范
-🔴 **必须**：所有枚举实现统一接口，支持默认值
+🔴 **必须**：所有枚举实现统一接口，支持默认值。
 
 ```kotlin
 // Int 类型枚举
@@ -161,7 +161,7 @@ public enum class EncodingEnum(public override val value: String) : StringEnumVa
 }
 ```
 
-🔴 **必须**：业务字段使用枚举类型，禁止使用原始类型
+🔴 **必须**：业务字段使用枚举类型，禁止使用原始类型。
 
 ```kotlin
 // ✅ 正确
@@ -174,8 +174,9 @@ public var encoding: String = "HEX"
 ```
 
 ### 3.4 Java 互操作规范
-🔴 **必须**：工具类使用 `@file:JvmName` 提供 Java 友好类名
-🔴**必须**：关键 API 使用 `@JvmStatic`、`@JvmOverloads`
+🔴 **必须**：工具类使用 `@file:JvmName` 提供 Java 友好类名。
+
+🔴 **必须**：关键 API 使用 `@JvmStatic`、`@JvmOverloads`。
 
 ```kotlin
 @file:JvmName("Strs")
@@ -192,8 +193,9 @@ public object Strs {
 ```
 
 ### 3.5 异常处理规范
-🔴 **必须**：优先使用工具函数抛出异常
-🔴 **必须**：所有自定义异常继承 tony.exception.ApiException
+🔴 **必须**：优先使用工具函数抛出异常。
+
+🔴 **必须**：所有自定义异常继承 tony.exception.ApiException。
 
 ```kotlin
 // 工具函数示例
@@ -206,7 +208,7 @@ condition.throwIfTrue("条件不满足")
 ## 4. 自动装配规范
 
 ### 4.1 配置类规范
-🔴 **必须**：注册到 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
+🔴 **必须**：注册到 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`。
 
 ```kotlin
 @Configuration
@@ -223,7 +225,7 @@ public class {Module}Config(public val properties: {Module}Properties) {
 ```
 
 ### 4.2 配置属性规范
-🔴 **必须**：使用 `@ConfigurationProperties` 注解
+🔴 **必须**：使用 `@ConfigurationProperties` 注解。
 
 ```kotlin
 @ConfigurationProperties(prefix = "tony.{module}")
@@ -235,7 +237,7 @@ public data class {Module}Properties(
 ```
 
 ### 4.3 统一入口注解
-🔴 **必须**：使用 `@EnableTonyBoot` 作为统一入口
+🔴 **必须**：使用 `@EnableTonyBoot` 作为统一入口。
 
 ```kotlin
 @EnableTonyBoot
@@ -277,7 +279,7 @@ fun test{MethodName}{Scenario}() {
 ```
 
 ### 5.3 集成测试规范
-🔴 **必须**：使用 `@SpringBootTest` 和 `@EnableTonyBoot`
+🔴 **必须**：使用 `@SpringBootTest` 和 `@EnableTonyBoot`。
 
 ```kotlin
 @SpringBootTest(
@@ -302,7 +304,7 @@ class {Module}TestApplication
 ## 6. 文档规范
 
 ### 6.1 README.md 结构模板
-🔴 **必须**：每个模块的 README.md 遵循统一结构
+🔴 **必须**：每个模块的 README.md 遵循统一结构。
 
 ````markdown
 ## 概述
@@ -354,9 +356,11 @@ public class YourApplication
 ## 7. 快速参考
 
 ### 7.1 规则优先级
-- 🔴 **必须**：违反将导致编译错误或运行时异常
-- **建议**：推荐遵循，提高代码质量
-- 🟢 **可选**：根据项目需要选择
+- 🔴 **必须**：违反将导致编译错误或运行时异常。
+
+- **建议**：推荐遵循，提高代码质量。
+
+- 🟢 **可选**：根据项目需要选择。
 
 ### 7.2 核心规则速查表
 
@@ -368,21 +372,21 @@ public class YourApplication
 | 测试类  | `{ClassName}Test`    | `test`      | 单元测试、集成测试、Given-When-Then |
 
 ### 7.3 常见错误模式
-- ❌ 省略 public 修饰符
-- ❌ 省略方法返回类型（除 Unit 外）
-- ❌ 省略属性类型声明
-- ❌ 未注册到 AutoConfiguration.imports
-- ❌ 工具类未提供 Java 友好性
-- ❌ 枚举字段使用原始类型
-- ❌ 使用通配符导入
-- ❌ 缺少必要的注释
+- ❌ 省略 public 修饰符。
+- ❌ 省略方法返回类型（除 Unit 外）。
+- ❌ 省略属性类型声明。
+- ❌ 未注册到 AutoConfiguration.imports。
+- ❌ 工具类未提供 Java 友好性。
+- ❌ 枚举字段使用原始类型。
+- ❌ 使用通配符导入。
+- ❌ 缺少必要的注释。
 
 ### 7.4 最佳实践清单
-- ✅ 严格遵循 Explicit API 标准
-- ✅ 模块化设计，独立集成
-- ✅ 完整的自动装配配置
-- ✅ Java 互操作友好性
-- ✅ 完整的测试覆盖
-- ✅ 规范的文档结构
-- ✅ 类型安全的枚举使用
-- ✅ 清晰的包结构组织
+- ✅ 严格遵循 Explicit API 标准。
+- ✅ 模块化设计，独立集成。
+- ✅ 完整的自动装配配置。
+- ✅ Java 互操作友好性。
+- ✅ 完整的测试覆盖。
+- ✅ 规范的文档结构。
+- ✅ 类型安全的枚举使用。
+- ✅ 清晰的包结构组织。
