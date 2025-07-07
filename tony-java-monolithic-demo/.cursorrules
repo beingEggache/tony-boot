@@ -3,22 +3,22 @@
 ## 1. 项目概述
 
 ### 1.1 核心特点
-- **Kotlin 优先**：主要使用 Kotlin，兼容 Java
-- **模块化架构**：API、Service、DTO、SDK 分层设计
+- **模块化架构**：API、Service、DTO、DAO、PO 等分层设计
+- **Lombok 推荐**：DTO/PO 推荐使用 `@Getter @Setter`
 - **统一规范**：严格遵循本文档定义的开发规约
 
 ### 1.2 占位符规范
 
-| 占位符             | 说明         | 示例             |
-|-----------------|------------|----------------|
-| `{company}`     | 公司/组织名（小写） | `tony`         |
-| `{projectName}` | 项目名（小写）    | `demo`         |
-| `{ProjectName}` | 项目名（首大写）   | `Demo`         |
-| `{module}`      | 模块名（小写）    | `sys`          |
-| `{Module}`      | 模块名（首大写）   | `Sys`          |
-| `{entity}`      | 实体类名（小写）   | `employee`     |
-| `{Entity}`      | 实体类名（首大写）  | `Employee`     |
-| `{table}`       | 数据库表名（小写）  | `sys_employee` |
+| 占位符             | 说明          | 示例             |
+|-----------------|-------------|----------------|
+| `{company}`     | 公司/组织名（小写）  | `tony`         |
+| `{projectName}` | 项目名（小写）     | `demo`         |
+| `{ProjectName}` | 项目名（首字母大写）  | `Demo`         |
+| `{module}`      | 模块名（小写）     | `sys`          |
+| `{Module}`      | 模块名（首字母大写）  | `Sys`          |
+| `{entity}`      | 实体类名（小写）    | `employee`     |
+| `{Entity}`      | 实体类名（首字母大写） | `Employee`     |
+| `{table}`       | 数据库表名（小写）   | `sys_employee` |
 
 **包路径格式：** `{company}.{projectName}.{module}`
 **示例：** `tony.demo.sys.controller`
@@ -60,14 +60,14 @@
 ```
 {company}-api/
 ├── src/main/
-│   ├── kotlin/{company}/{projectName}/
-│   │   ├── {ProjectName}WebApp.kt           # 主应用启动类
+│   ├── java/{company}/{projectName}/
+│   │   ├── {ProjectName}WebApp.java           # 主应用启动类
 │   │   ├── config/                          # 配置类包
-│   │   │   ├── {ProjectName}WebConfig.kt    # Web 配置类
-│   │   │   └── {ProjectName}WebContext.kt   # Web 上下文常量（可选）
+│   │   │   ├── {ProjectName}WebConfig.java    # Web 配置类
+│   │   │   └── {ProjectName}WebContext.java   # Web 上下文常量（可选）
 │   │   └── {module}/                        # 业务模块包
 │   │       └── controller/                  # 控制器包
-│   │           └── {Module}Controller.kt    # 控制器类
+│   │           └── {Module}Controller.java    # 控制器类
 │   └── resources/
 │       ├── application.yml                  # 主配置文件
 │       └── logback-spring.xml               # 日志配置
@@ -81,15 +81,15 @@
 ```
 {company}-service/
 ├── src/main/
-│   ├── kotlin/{company}/{projectName}/
+│   ├── java/{company}/{projectName}/
 │   │   └── {module}/                        # 业务模块包
 │   │       ├── service/                     # 服务包
 │   │       │   └── impl/                    # 服务实现包
-│   │       │       └── {Module}Service.kt   # 服务实现类
+│   │       │       └── {Module}Service.java   # 服务实现类
 │   │       ├── dao/                         # 数据访问包
-│   │       │   └── {Module}Dao.kt           # 数据访问接口
+│   │       │   └── {Module}Dao.java           # 数据访问接口
 │   │       └── po/                          # 持久化对象包
-│   │           └── {Entity}.kt              # 持久化对象类
+│   │           └── {Entity}.java              # 持久化对象类
 │   └── resources/
 │       └── mappers/                         # MyBatis 映射文件目录
 │           └── {Module}Dao.xml              # SQL 映射文件
@@ -100,17 +100,17 @@
 ```
 {company}-dto/
 ├── src/main/
-│   └── kotlin/{company}/{projectName}/
+│   └── java/{company}/{projectName}/
 │       └── {module}/                        # 业务模块包
 │           └── dto/                         # DTO 包
 │               ├── req/                     # 请求 DTO 包
-│               │   └── {Entity}AddReq.kt    # 请求 DTO 类
+│               │   └── {Entity}AddReq.java    # 请求 DTO 类
 │               ├── resp/                    # 响应 DTO 包
-│               │   └── {Entity}Resp.kt      # 响应 DTO 类
+│               │   └── {Entity}Resp.java      # 响应 DTO 类
 │               ├── query/                   # 查询 DTO 包
-│               │   └── {Entity}Query.kt     # 查询 DTO 类
+│               │   └── {Entity}Query.java     # 查询 DTO 类
 │               └── enums/                   # 枚举包
-│                   └── {BusinessConcept}Enum.kt # 枚举类
+│                   └── {BusinessConcept}Enum.java # 枚举类
 └── build.gradle.kts                         # 模块构建配置
 ```
 
@@ -118,10 +118,10 @@
 ```
 {company}-sdk/
 ├── src/main/
-│   └── kotlin/{company}/{projectName}/
+│   └── java/{company}/{projectName}/
 │       └── {module}/                        # 业务模块包
 │           └── service/                     # 服务接口包
-│               └── I{Module}Service.kt      # 服务接口类
+│               └── I{Module}Service.java      # 服务接口类
 └── build.gradle.kts                         # 模块构建配置
 ```
 
@@ -132,84 +132,83 @@ db/
 ├── db.init.table.mysql.sql                  # 初始化表结构（MySQL）
 └── db.init.data.mysql.sql                   # 初始化数据（MySQL）
 ```
-
 ---
 
 ## 3. 核心开发规范
 
 ### 3.1 注释规范
-🔴 **必须**：所有公共类、方法、属性必须有注释
+🔴 **必须**：所有 public 类、方法、属性必须有注释
 
-```kotlin
+```java
 /**
  * 功能描述
- *
  * 详细说明/使用场景
  *
- * @param [paramName] 参数说明
- * @return [ReturnType] 返回值说明
- * @throws [ExceptionType] 异常说明
+ * @param paramName 参数说明
+ * @return 返回值说明
+ * @throws ExceptionType 异常说明
  * @author 作者
  * @date 2025/07/04 14:00 （此处为生成时系统时间）
  */
 ```
 
 ### 3.2 导入规范
-🔴 **必须**：禁止通配符导入，显式导入所有依赖
+🔴 **必须**：禁止通配符导入，所有导入必须为显式导入
 
-```kotlin
-import java.util.UUID
-import org.springframework.web.bind.annotation.PostMapping
-// ❌ import java.util.*  // 禁止
+```java
+import java.util.UUID;
+import org.springframework.util.AntPathMatcher;
+// ❌ import java.util.*;  // 禁止
 ```
+
+---
 
 ### 3.3 枚举规范
 🔴 **必须**：所有枚举实现统一接口，支持默认值
 
-```kotlin
-// Int 类型枚举
+```java
 @Schema(description = "状态枚举")
-enum class StatusEnum(override val value: Int) : IntEnumValue {
+public enum StatusEnum implements IntEnumValue {
     ENABLED(1),
     DISABLED(0),
-
     @JsonEnumDefaultValue
     UNUSED(DEFAULT_INT_VALUE);
 
-    companion object : IntEnumCreator(StatusEnum::class.java) {
-        @JsonCreator
-        @JvmStatic
-        override fun create(value: Int) = super.create(value)
-    }
-}
+    private final int value;
+    StatusEnum(int value) { this.value = value; }
+    @Override public int getValue() { return value; }
 
-// String 类型枚举
+    @JsonCreator
+    public static StatusEnum create(int value) { /* ... */ }
+}
+```
+```java
 @Schema(description = "性别枚举")
-enum class GenderEnum(override val value: String) : StringEnumValue {
+public enum GenderEnum implements StringEnumValue {
     MALE("MALE"),
     FEMALE("FEMALE"),
-
     @JsonEnumDefaultValue
     UNUSED(DEFAULT_STRING_VALUE);
 
-    companion object : StringEnumCreator(GenderEnum::class.java) {
-        @JsonCreator
-        @JvmStatic
-        override fun create(value: String) = super.create(value)
-    }
+    private final String value;
+    GenderEnum(String value) { this.value = value; }
+    @Override public String getValue() { return value; }
+
+    @JsonCreator
+    public static GenderEnum create(String value) { /* ... */ }
 }
 ```
 
-**必须**：业务字段使用枚举类型，禁止使用原始类型
+🔴 **必须**：业务字段使用枚举类型，禁止使用原始类型
 
-```kotlin
+```java
 // ✅ 正确
-var status: StatusEnum = StatusEnum.ENABLED
-var gender: GenderEnum = GenderEnum.MALE
+public StatusEnum status = StatusEnum.ENABLED;
+public GenderEnum gender = GenderEnum.MALE;
 
 // ❌ 错误
-var status: Int = 1
-var gender: String = "MALE"
+public int status = 1;
+public String status = "MALE";
 ```
 
 ---
@@ -218,42 +217,44 @@ var gender: String = "MALE"
 
 ### 4.1 实体类规范
 🔴 **必须**：使用 MyBatis-Plus 注解，包含审计字段
+🔴 **建议**：PO 类推荐使用 Lombok `@Getter @Setter`
 
-```kotlin
+```java
+@Getter
+@Setter
 @TableName("{table}")
-class {Entity} {
+public class {Entity} {
     @TableId
-    var {entity}Id: String = ""
+    private String {entity}Id;
 
     // 业务字段...
 
-    // 审计字段（标准模板）
     @OrderBy
     @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
-    var createTime: LocalDateTime = LocalDateTime.now()
+    private LocalDateTime createTime = LocalDateTime.now();
 
     @MybatisPlusMetaProperty(MetaColumn.USER_ID)
     @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
-    var creatorId: String = ""
+    private String creatorId = "";
 
     @MybatisPlusMetaProperty(MetaColumn.USER_NAME, relativeProp = "creatorId")
     @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
-    var creatorName: String = ""
+    private String creatorName = "";
 
     @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER, update = "CURRENT_TIMESTAMP")
-    var updateTime: LocalDateTime = LocalDateTime.now()
+    private LocalDateTime updateTime = LocalDateTime.now();
 
     @TableField(fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
-    var updatorId: String = ""
+    private String updatorId = "";
 
     @TableField(fill = FieldFill.UPDATE, insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
-    var updatorName: String = ""
+    private String updatorName = "";
 
     @TableLogic
-    var deleteTime: LocalDateTime? = null
+    private LocalDateTime deleteTime;
 
     @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
-    var tenantId: String = ""
+    private String tenantId = "";
 }
 ```
 
@@ -276,14 +277,15 @@ CREATE TABLE `{table}` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='{表说明}';
 ```
 
+---
+
 ### 4.3 DAO 层规范
 🔴 **必须**：继承 BaseDao，使用 XML 映射文件
 🔴 **禁止**：在接口上使用 @Select、@Update 等注解
 
-```kotlin
-interface {Module}Dao : BaseDao<{Entity}> {
-    // 自定义方法声明
-    fun findByCondition(condition: String): List<{Entity}>
+```java
+public interface {Entity}Dao extends BaseDao<{Entity}> {
+    List<{Entity}> findByCondition(String name, Integer status);
 }
 ```
 
@@ -293,93 +295,92 @@ interface {Module}Dao : BaseDao<{Entity}> {
 
 ### 5.1 DTO 规范
 🔴 **必须**：请求/响应/查询 DTO 分离，使用校验注解
+🔴 **建议**：DTO 类推荐使用 Lombok `@Getter @Setter`
 
-```kotlin
-// 请求 DTO
+```java
+@Getter
+@Setter
 @Schema(description = "新增{Entity}请求")
-data class {Entity}AddReq(
-    @field:NotBlank(message = "名称不能为空")
-    @Schema(description = "名称", example = "示例")
-    val name: String,
+public class {Entity}AddReq {
+    @NotBlank(message = "姓名不能为空")
+    @Schema(description = "姓名", example = "张三")
+    private String name;
 
-    @field:NotNull(message = "状态不能为空")
+    @NotNull(message = "状态不能为空")
     @Schema(description = "状态")
-    val status: StatusEnum
-)
-
-// 响应 DTO
-@Schema(description = "{Entity}详情响应")
-data class {Entity}Resp(
+    private StatusEnum status;
+}
+```
+```java
+@Getter
+@Setter
+@Schema(description = "员工{Entity}响应")
+public class {Entity}Resp {
     @Schema(description = "ID")
-    val id: String,
-    @Schema(description = "名称")
-    val name: String,
+    private String id;
+    @Schema(description = "姓名")
+    private String name;
     @Schema(description = "状态")
-    val status: StatusEnum
-)
-
-// 查询 DTO
-@Schema(description = "{Entity}查询请求")
-data class {Entity}Query(
-    @Schema(description = "名称（模糊查询）")
-    val name: String? = null,
-
+    private StatusEnum status;
+}
+```
+```java
+@Getter
+@Setter
+@Schema(description = "员工查询请求")
+public class {Entity}Query {
+    @Schema(description = "姓名（模糊查询）")
+    private String name;
     @Schema(description = "状态")
-    val status: StatusEnum? = null,
-)
+    private StatusEnum status;
+}
 ```
 
 ### 5.2 Service 层规范
-**建议**：根据项目需要选择接口与实现分离
+🔴 **建议**：根据项目需要选择接口与实现分离
+🔴 **必须**：Bean 注入用 `@RequiredArgsConstructor` + `private final` 字段
 
 #### 5.2.1 有 SDK 层的情况
-```kotlin
-// SDK 层接口
-interface I{Module}Service {
-    fun add(req: {Entity}AddReq): String
-    fun detail(id: String): {Entity}Resp
-    fun query(req: PageQuery<{Entity}Query>): PageResult<{Entity}Resp>
-}
 
+```java
+// SDK 层接口
+public interface I{Entity}Service {
+    String add({Entity}AddReq req);
+    {Entity}Resp detail(String id);
+    PageResult<{Entity}Resp> query(PageQuery<{Entity}Query> req);
+}
+```
+```java
 // Service 层实现
 @Service
-class {Module}Service(
-    private val {module}Dao: {Module}Dao
-) : I{Module}Service {
+@RequiredArgsConstructor
+public class {Entity}Service implements I{Entity}Service {
+    private final {Entity}Dao {entity}Dao;
 
-    override fun add(req: {Entity}AddReq): String {
-        // 业务逻辑实现
-    }
+    @Override
+    public String add({Entity}AddReq req) { /* ... */ }
 
-    override fun detail(id: String): {Entity}Resp {
-        // 业务逻辑实现
-    }
+    @Override
+    public EmployeeResp detail(String id) { /* ... */ }
 
-    override fun query(req: PageQuery<{Entity}Query>): PageResult<{Entity}Resp> {
-        // 查询逻辑实现
-    }
+    @Override
+    public PageResult<{Entity}Resp> query(PageQuery<{Entity}Query> req) { /* ... */ }
 }
 ```
 
 #### 5.2.2 无 SDK 层的情况
-```kotlin
+```java
 // 直接在 Service 层实现
 @Service
-class {Entity}Service(
-    private val {entity}Dao: {Entity}Dao
-) {
+@RequiredArgsConstructor
+public class {Entity}Service {
+    private final {Entity}Dao {entity}Dao;
 
-    fun add(req: {Entity}AddReq): String {
-        // 业务逻辑实现
-    }
+    public String add({Entity}AddReq req) { /* ... */ }
 
-    fun detail(id: String): {Entity}Resp {
-        // 业务逻辑实现
-    }
+    public EmployeeResp detail(String id) { /* ... */ }
 
-    fun query(req: PageQuery<{Entity}Query>): PageResult<{Entity}Resp> {
-        // 查询逻辑实现
-    }
+    public PageResult<{Entity}Resp> query(PageQuery<{Entity}Query> req) { /* ... */ }
 }
 ```
 
@@ -392,29 +393,31 @@ class {Entity}Service(
 
 🔴 **必须**： 方法参数校验统一使用 `@Validated`。
 
-```kotlin
+🔴 **必须**：Bean 注入用 `@RequiredArgsConstructor` + `private final` 字段。
+
+```java
 @RestController
-@Tag(name = "{Module}管理", description = "{Module}相关接口")
-class {Module}Controller(
-    private val {module}Service: {Module}Service
-) {
+@Tag(name = "{Entity}管理", description = "{Entity}相关接口")
+@RequiredArgsConstructor
+public class {Entity}Controller {
+    private final {Entity}Service {entity}Service;
 
     @PostMapping("/add")
-    @Operation(summary = "新增{Entity}", description = "新增{Entity}信息")
-    fun add(@Validated @RequestBody req: {Entity}AddReq): String {
-        return {module}Service.add(req)
+    @Operation(summary = "新增{entity}", description = "新增{entity}信息")
+    public String add(@Validated @RequestBody {Entity}AddReq req) {
+        return employeeService.add(req);
     }
 
     @PostMapping("/detail")
-    @Operation(summary = "根据ID查询", description = "根据ID查询{Entity}详情")
-    fun detail(@Validated @RequestBody req: IdReq): {Entity}Resp {
-        return {module}Service.detail(req.id)
+    @Operation(summary = "根据ID查询", description = "根据ID查询{entity}详情")
+    public {Entity}Resp detail(@Validated @RequestBody IdReq req) {
+        return {entity}Service.detail(req.getId());
     }
 
     @PostMapping("/query")
-    @Operation(summary = "查询{Entity}列表", description = "分页查询{Entity}列表")
-    fun query(@Validated @RequestBody req: {Entity}Query): PageResult<{Entity}Resp> {
-        return {module}Service.query(req)
+    @Operation(summary = "查询{entity}列表", description = "分页查询{etity}列表")
+    public PageResult<{Entity}Resp> query(@Validated @RequestBody PageQuery<{Entity}Query> req) {
+        return {entity}Service.query(req);
     }
 }
 ```
@@ -426,13 +429,12 @@ class {Module}Controller(
 ### 6.1 Web 配置
 🔴 **建议**：注册上下文注入器，支持 DTO 字段自动注入
 
-```kotlin
+```java
 @Configuration
-class {ProjectName}WebConfig {
-
+public class {ProjectName}WebConfig {
     @Bean
-    fun userIdInjector(): UserIdInjector {
-        return UserIdInjector()
+    public UserIdInjector userIdInjector() {
+        return new UserIdInjector();
     }
 }
 ```
@@ -440,18 +442,11 @@ class {ProjectName}WebConfig {
 ### 6.2 自定义注入注解
 🔴 **建议**：封装自定义注解，避免手写字符串 key
 
-```kotlin
-@Target(AnnotationTarget.FIELD)
-@Retention(AnnotationRetention.RUNTIME)
+```java
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
 @JacksonInject("userId")
-annotation class UserIdInject
-
-// 使用
-data class DemoReq(
-    val name: String,
-    @get:UserIdInject
-    val userId: String? = null
-)
+public @interface UserIdInject { }
 ```
 
 ---
@@ -481,11 +476,14 @@ data class DemoReq(
 - ❌ 实体类字段使用原始类型而非枚举
 - ❌ 缺少必要的注释
 - ❌ 违反命名规范
+- ❌ Bean 注入未用 @RequiredArgsConstructor + private final
 
 ### 7.4 最佳实践清单
-- ✅ 使用构造器注入依赖
+- ✅ 推荐使用 Lombok
+- ✅ Bean 注入用 @RequiredArgsConstructor + private final
 - ✅ 完整的参数校验
 - ✅ 规范的 Swagger 注解
 - ✅ 类型安全的 DTO 设计
 - ✅ 清晰的业务逻辑分层
 - ✅ 完整的项目骨架文件
+
