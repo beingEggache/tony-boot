@@ -46,7 +46,6 @@ import java.io.IOException
 import okhttp3.RequestBody
 import okio.Buffer
 import org.springframework.http.MediaType
-import tony.utils.globalObjectMapper
 import tony.utils.jsonNode
 import tony.utils.md5
 import tony.utils.toJsonString
