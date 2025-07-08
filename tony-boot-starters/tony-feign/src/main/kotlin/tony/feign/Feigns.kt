@@ -67,37 +67,6 @@ public fun RequestBody.byteArray(): ByteArray =
         }
 
 /**
- * 读取 RequestBody 内容为字符串。
- * 注意：大文件/流式 body 可能导致内存占用高，仅建议用于小型文本 body。
- * @receiver [RequestBody]
- * @return 请求体字符串内容
- * @throws IOException 读取失败时抛出
- */
-@Throws(IOException::class)
-public fun RequestBody.string(): String =
-    Buffer()
-        .let { buffer ->
-            writeTo(buffer)
-            String(buffer.readByteArray())
-        }
-
-/**
- * 读取 RequestBody 内容为 Jackson 的 [JsonNode]。
- * 注意：大文件/流式 body 可能导致内存占用高，仅建议用于小型 JSON body。
- * @return [JsonNode]
- * @throws IOException/JsonParseException 读取或解析失败时抛出
- */
-@Throws(IOException::class)
-public fun RequestBody.jsonNode(): JsonNode =
-    Buffer()
-        .let { buffer ->
-            writeTo(buffer)
-            buffer
-                .readByteArray()
-                .jsonNode()
-        }
-
-/**
  * 解析媒体类型
  * @param [contentType] 内容类型
  * @return [MediaType]?
@@ -139,9 +108,7 @@ private val TEXT_MEDIA_TYPES =
  * @throws Exception 解析或排序失败时抛出
  */
 public fun CharSequence.sortRequestBody(timestampStr: CharSequence): String =
-    globalObjectMapper
-        .readTree(this.toString())
-        .sortRequestBody(timestampStr.toString())
+    jsonNode().sortRequestBody(timestampStr.toString())
 
 /**
  * 生成简单签名。
