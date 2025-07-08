@@ -277,14 +277,12 @@ CREATE TABLE `{table}` (
 ```
 
 ### 4.3 DAO 层规范
-🔴 **必须**：继承 BaseDao，使用 XML 映射文件。
-🔴 **禁止**：在接口上使用 @Select、@Update 等注解。
+- 🔴 **必须**：继承 `tony.mybatis.dao.BaseDao`，使用 XML 映射文件。
+- 🔴 **禁止**：在接口上使用 `@Select`、`@Update` 等注解。
 
 ```kotlin
-interface {Module}Dao : BaseDao<{Entity}> {
-    // 自定义方法声明
-    fun findByCondition(condition: String): List<{Entity}>
-}
+import tony.mybatis.dao.BaseDao
+interface {Module}Dao : BaseDao<{Entity}>
 ```
 
 ---
@@ -386,11 +384,9 @@ class {Entity}Service(
 **禁止**：Service 实现类继承 MyBatis-Plus 的 `ServiceImpl`。
 
 ### 5.3 Controller 规范
-🔴 **必须**：使用 `@RestController`，路由注解只放在方法上。
-
-🔴 **必须**：统一使用 `@PostMapping` + `@RequestBody`。
-
-🔴 **必须**： 方法参数校验统一使用 `@Validated`。
+- 🔴 **必须**：使用 `@RestController`，路由注解只放在方法上。
+- 🔴 **必须**：统一使用 `@PostMapping` + `@RequestBody`。
+- 🔴 **必须**： 方法参数校验统一使用 `@Validated`。
 
 ```kotlin
 @RestController

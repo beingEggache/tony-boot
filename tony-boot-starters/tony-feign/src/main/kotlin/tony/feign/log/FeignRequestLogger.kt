@@ -41,14 +41,13 @@ import org.slf4j.Logger
 import org.springframework.http.HttpStatus
 import org.springframework.util.unit.DataSize
 import tony.TRACE_ID_HEADER_NAME
+import tony.feign.byteArray
 import tony.feign.isTextMediaTypes
 import tony.feign.okhttp.interceptor.NetworkInterceptor
-import tony.feign.parsedMedia
-import tony.feign.string
+import tony.feign.parseMediaType
 import tony.utils.getLogger
 import tony.utils.ifNullOrBlank
 import tony.utils.mdcPutOrGetDefault
-import tony.utils.removeLineBreak
 import tony.utils.toInstant
 
 /**
@@ -81,14 +80,8 @@ internal class FeignLogInterceptor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val startTime = LocalDateTime.now()
-        val request = chain.request()
-        val response = chain.proceed(request)
-        val elapsedTime =
-            System.currentTimeMillis() -
-                startTime
-                    .toInstant()
-                    .toEpochMilli()
 
+        val request = chain.request()
         val headers =
             request
                 .headers
@@ -101,6 +94,13 @@ internal class FeignLogInterceptor(
                 .newBuilder()
                 .headers(headers)
                 .build()
+
+        val response = chain.proceed(newRequest)
+        val elapsedTime =
+            System.currentTimeMillis() -
+                startTime
+                    .toInstant()
+                    .toEpochMilli()
 
         feignRequestLogger.requestLog(
             chain.connection(),
@@ -158,6 +158,7 @@ internal open class DefaultFeignRequestLogger : FeignRequestLogger {
             request
                 .headers
                 .names()
+                .sortedBy { it }
                 .associateWith {
                     request.header(it)
                 }.entries
@@ -166,38 +167,34 @@ internal open class DefaultFeignRequestLogger : FeignRequestLogger {
             response
                 .headers
                 .names()
+                .sortedBy { it }
                 .associateWith {
                     response.header(it)
                 }.entries
                 .joinToString(";;") { "${it.key}:${it.value}" }
         val requestBody =
             request.body?.run {
-                val size = contentLength()
-                if (size > requestBodyMaxSize) {
-                    "[too long content, length = ${DataSize.ofBytes(size)}]"
-                } else if (isTextMediaTypes(parsedMedia)) {
-                    string()
-                } else {
-                    "[${contentType()}]"
-                }
+                body(
+                    byteArray(),
+                    contentType().toString(),
+                    requestBodyMaxSize
+                )
             }
+
         val responseBody =
             response
                 .peekBody(
                     (
                         response
                             .body
-                            ?.contentLength() ?: 0
+                            .contentLength()
                     ).coerceAtLeast(0)
                 ).run {
-                    val size = contentLength()
-                    if (size > responseBodyMaxSize) {
-                        "[too long content, length = ${DataSize.ofBytes(size)}]"
-                    } else if (isTextMediaTypes(parsedMedia)) {
-                        string()
-                    } else {
-                        "[${contentType()}]"
-                    }
+                    body(
+                        bytes(),
+                        contentType().toString(),
+                        responseBodyMaxSize
+                    )
                 }
 
         val remoteIp =
@@ -205,24 +202,44 @@ internal open class DefaultFeignRequestLogger : FeignRequestLogger {
                 ?.socket()
                 ?.inetAddress
                 ?.hostAddress
-        val logStr =
-            """
-            |$elapsedTime|
-            |$resultCode|
-            |${HttpStatus.valueOf(response.code).name}|
-            |$protocol|
-            |$httpMethod|
-            |$origin|
-            |$path|
-            |$query|
-            |$requestHeaders|
-            |$responseHeaders|
-            |$requestBody|
-            |$responseBody|
-            |$remoteIp
-            """.trimMargin()
-        logger.trace(logStr.removeLineBreak())
+
+        val logMessage =
+            buildString {
+                append("$elapsedTime|")
+                append("$resultCode|")
+                append("${HttpStatus.valueOf(response.code).name}|")
+                append("$protocol|")
+                append("$httpMethod|")
+                append("$origin|")
+                append("$path|")
+                append("$query|")
+                append("$requestHeaders|")
+                append("$responseHeaders|")
+                append("$requestBody|")
+                append("$responseBody|")
+                append(remoteIp)
+            }
+
+        logger.trace(logMessage)
     }
+
+    private fun body(
+        contentByteArray: ByteArray,
+        contentType: String,
+        bodyMaxSize: Long,
+    ) =
+        if (!isTextMediaTypes(parseMediaType(contentType))) {
+            "[$contentType]"
+        } else {
+            contentByteArray.let { bytes ->
+                val size = bytes.size.toLong()
+                when {
+                    size in 1..bodyMaxSize -> String(bytes)
+                    size >= bodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
+                    else -> "[null]"
+                }
+            }
+        }
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected val URL.origin: String

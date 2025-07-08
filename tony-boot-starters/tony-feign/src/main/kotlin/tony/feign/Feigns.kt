@@ -42,8 +42,8 @@ package tony.feign
  */
 
 import com.fasterxml.jackson.databind.JsonNode
+import java.io.IOException
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import okio.Buffer
 import org.springframework.http.MediaType
 import tony.utils.globalObjectMapper
@@ -55,9 +55,25 @@ import tony.utils.toJsonString
  * 读取 RequestBody 内容为字符串。
  * 注意：大文件/流式 body 可能导致内存占用高，仅建议用于小型文本 body。
  * @receiver [RequestBody]
+ * @return 请求体byteArray
+ * @throws IOException 读取失败时抛出
+ */
+@Throws(IOException::class)
+public fun RequestBody.byteArray(): ByteArray =
+    Buffer()
+        .let { buffer ->
+            writeTo(buffer)
+            buffer.readByteArray()
+        }
+
+/**
+ * 读取 RequestBody 内容为字符串。
+ * 注意：大文件/流式 body 可能导致内存占用高，仅建议用于小型文本 body。
+ * @receiver [RequestBody]
  * @return 请求体字符串内容
  * @throws IOException 读取失败时抛出
  */
+@Throws(IOException::class)
 public fun RequestBody.string(): String =
     Buffer()
         .let { buffer ->
@@ -71,6 +87,7 @@ public fun RequestBody.string(): String =
  * @return [JsonNode]
  * @throws IOException/JsonParseException 读取或解析失败时抛出
  */
+@Throws(IOException::class)
 public fun RequestBody.jsonNode(): JsonNode =
     Buffer()
         .let { buffer ->
@@ -81,33 +98,17 @@ public fun RequestBody.jsonNode(): JsonNode =
         }
 
 /**
- * 获取 ResponseBody 的 MediaType。
- * @return [MediaType] 或 null
+ * 解析媒体类型
+ * @param [contentType] 内容类型
+ * @return [MediaType]?
+ * @author tangli
+ * @date 2025/07/08 10:38
  */
-@get:JvmSynthetic
-internal val ResponseBody.parsedMedia: MediaType?
-    get() {
-        val contentTypeStr = contentType()?.toString()
-        return if (contentTypeStr.isNullOrBlank()) {
-            null
-        } else {
-            MediaType.parseMediaType(contentTypeStr)
-        }
-    }
-
-/**
- * 获取 RequestBody 的 MediaType。
- * @return [MediaType] 或 null
- */
-@get:JvmSynthetic
-internal val RequestBody.parsedMedia: MediaType?
-    get() {
-        val contentTypeStr = contentType()?.toString()
-        return if (contentTypeStr.isNullOrBlank()) {
-            null
-        } else {
-            MediaType.parseMediaType(contentTypeStr)
-        }
+public fun parseMediaType(contentType: String?): MediaType? =
+    if (contentType.isNullOrBlank()) {
+        null
+    } else {
+        MediaType.parseMediaType(contentType)
     }
 
 /**

@@ -48,9 +48,9 @@ import tony.utils.ifNull
 import tony.web.WebContext
 
 /**
- * 获取请求根路径，包含 [HttpServletRequest.getContextPath]。
+ * 获取请求根路径。
  *
- * 例如：http://www.whatever.com:8080/context-path。
+ * 例如：http://www.whatever.com:8080。
  *
  * 端口号为80或443时省略。
  *
@@ -68,17 +68,13 @@ public val HttpServletRequest.origin: String
             val protocol = url.protocol
             val host = url.host
             val port = url.port
-            val contextPath =
-                WebContext
-                    .request
-                    .contextPath
-            "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}$contextPath"
+            "$protocol://$host${if (port == 80 || port == 443 || port < 0) "" else ":$port"}"
         }
 
 /**
- * 获取请求根路径，包含 [HttpServletRequest.getContextPath]。
+ * 获取请求根路径。
  *
- * 例如：http://www.whatever.com:8080/context-path。
+ * 例如：http://www.whatever.com:8080。
  *
  * 端口号为80或443时省略。
  *
@@ -103,8 +99,9 @@ public val HttpServletRequest.headers: Map<String, String>
     get() =
         headerNames
             .asSequence()
-            .associateWith {
-                getHeaders(it)
+            .sortedBy { it }
+            .associateWith { headerName ->
+                getHeaders(headerName)
                     .toList()
                     .joinToString(",")
             }
@@ -133,8 +130,9 @@ public val HttpServletResponse.headers: Map<String, String>
     get() =
         headerNames
             .asSequence()
-            .associateWith {
-                getHeaders(it)
+            .sortedBy { it }
+            .associateWith { headerName ->
+                getHeaders(headerName)
                     .toList()
                     .joinToString(",")
             }
@@ -256,60 +254,18 @@ public fun isCorsPreflightRequest(): Boolean =
     WebContext.request.isCorsPreflightRequest
 
 /**
- * 获取请求的Content-Type并解析为MediaType。
- *
- * @receiver [HttpServletRequest] 当前请求对象
- * @return [MediaType]? 解析后的媒体类型，若无则为null
+ * 解析媒体类型
+ * @param [contentType] 内容类型
+ * @return [MediaType]?
  * @author tangli
- * @date 2024/02/06 15:37
+ * @date 2025/07/08 10:38
  */
-@get:JvmSynthetic
-@get:JvmName("parsedMedia")
-public val HttpServletRequest.parsedMedia: MediaType?
-    get() =
-        if (contentType.isNullOrBlank()) {
-            null
-        } else {
-            MediaType.parseMediaType(contentType)
-        }
-
-/**
- * 获取请求的Content-Type并解析为MediaType。
- *
- * @return [MediaType]? 解析后的媒体类型，若无则为null
- * @author tangli
- * @date 2024/02/06 15:37
- */
-public fun requestParsedMedia(): MediaType? =
-    WebContext.request.parsedMedia
-
-/**
- * 获取响应的Content-Type并解析为MediaType。
- *
- * @receiver [HttpServletResponse] 当前响应对象
- * @return [MediaType]? 解析后的媒体类型，若无则为null
- * @author tangli
- * @date 2024/02/06 15:37
- */
-@get:JvmSynthetic
-@get:JvmName("parsedMedia")
-public val HttpServletResponse.parsedMedia: MediaType?
-    get() =
-        if (contentType.isNullOrBlank()) {
-            null
-        } else {
-            MediaType.parseMediaType(contentType)
-        }
-
-/**
- * 获取响应的Content-Type并解析为MediaType。
- *
- * @return [MediaType]? 解析后的媒体类型，若无则为null
- * @author tangli
- * @date 2024/02/06 15:37
- */
-public fun responseParsedMedia(): MediaType? =
-    WebContext.response?.parsedMedia
+public fun parseMediaType(contentType: String?): MediaType? =
+    if (contentType.isNullOrBlank()) {
+        null
+    } else {
+        MediaType.parseMediaType(contentType)
+    }
 
 /**
  * 判断响应状态码是否为1xx（信息性响应）。

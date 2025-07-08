@@ -32,21 +32,20 @@ package tony.web.log
  */
 import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.Logger
-import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.util.unit.DataSize
 import org.springframework.web.util.ContentCachingResponseWrapper
 import tony.ApiProperty
 import tony.utils.getFromRootAsString
 import tony.utils.getLogger
-import tony.utils.removeLineBreak
 import tony.web.WebContext
 import tony.web.filter.RepeatReadRequestWrapper
 import tony.web.log.`#Const`.NULL
 import tony.web.log.`#Const`.logger
 import tony.web.utils.headers
 import tony.web.utils.isTextMediaTypes
-import tony.web.utils.parsedMedia
+import tony.web.utils.origin
+import tony.web.utils.parseMediaType
 import tony.web.utils.remoteIp
 import tony.web.utils.status1xxInformational
 import tony.web.utils.status2xxSuccessful
@@ -102,16 +101,23 @@ internal class DefaultTraceLogger : TraceLogger {
         requestBodyMaxSize: Long,
         responseBodyMaxSize: Long,
     ) {
-        val requestBody = requestBody(request, requestBodyMaxSize)
-        val responseBody = responseBody(response, responseBodyMaxSize)
+        val requestBody =
+            body(
+                request.contentAsByteArray,
+                request.contentType,
+                requestBodyMaxSize
+            )
+        val responseBody =
+            body(
+                response.contentAsByteArray,
+                response.contentType,
+                responseBodyMaxSize
+            )
         val resultCode = resultCode(responseBody, response)
         val resultStatus = resultStatus(resultCode)
         val protocol = request.scheme
         val httpMethod = request.method
-        val origin =
-            request
-                .requestURL
-                ?.toString() ?: ""
+        val origin = request.origin
         val path =
             request
                 .requestURI
@@ -128,63 +134,38 @@ internal class DefaultTraceLogger : TraceLogger {
                 .entries
                 .joinToString(";;") { "${it.key}:${it.value}" }
         val remoteIp = request.remoteIp
-        val logStr =
-            """
-            |$elapsedTime|
-            |$resultCode|
-            |$resultStatus|
-            |$protocol|
-            |$httpMethod|
-            |$origin|
-            |$path|
-            |$query|
-            |$requestHeaders|
-            |$responseHeaders|
-            |$requestBody|
-            |$responseBody|
-            |$remoteIp
-            """.trimMargin()
-        logger.trace(logStr.removeLineBreak())
+        val logMessage =
+            buildString {
+                append("$elapsedTime|")
+                append("$resultCode|")
+                append("$resultStatus|")
+                append("$protocol|")
+                append("$httpMethod|")
+                append("$origin|")
+                append("$path|")
+                append("$query|")
+                append("$requestHeaders|")
+                append("$responseHeaders|")
+                append("$requestBody|")
+                append("$responseBody|")
+                append(remoteIp)
+            }
+        logger.trace(logMessage)
     }
 
-    private fun requestBody(
-        request: RepeatReadRequestWrapper,
-        requestBodyMaxSize: Long,
+    private fun body(
+        contentByteArray: ByteArray,
+        contentType: String,
+        bodyMaxSize: Long,
     ) =
-        if (!isTextMediaTypes(request.parsedMedia)) {
-            "[${request.contentType}]"
-        } else if (request
-                .method
-                .equals(
-                    HttpMethod
-                        .POST
-                        .name(),
-                    true
-                )
-        ) {
-            val bytes = request.contentAsByteArray
-            val size = bytes.size.toLong()
-            when {
-                bytes.isEmpty() -> NULL
-                size <= requestBodyMaxSize -> String(bytes)
-                else -> "[too long content, length = ${DataSize.ofBytes(size)}]"
-            }
+        if (!isTextMediaTypes(parseMediaType(contentType))) {
+            "[$contentType]"
         } else {
-            NULL
-        }
-
-    private fun responseBody(
-        response: ContentCachingResponseWrapper,
-        responseBodyMaxSize: Long,
-    ) =
-        if (!isTextMediaTypes(response.parsedMedia)) {
-            "[${response.contentType}]"
-        } else {
-            response.contentAsByteArray.let { bytes ->
+            contentByteArray.let { bytes ->
                 val size = bytes.size.toLong()
                 when {
-                    size in 1..responseBodyMaxSize -> String(bytes)
-                    size >= responseBodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
+                    size in 1..bodyMaxSize -> String(bytes)
+                    size >= bodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
                     else -> NULL
                 }
             }

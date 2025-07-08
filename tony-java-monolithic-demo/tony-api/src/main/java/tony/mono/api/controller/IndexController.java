@@ -8,6 +8,7 @@ import tony.jwt.JwtToken;
 import tony.mono.db.po.User;
 import tony.mono.db.service.UserService;
 import tony.mono.dto.req.UserLoginReq;
+import tony.web.WebContext;
 import tony.web.utils.Servlets;
 import io.swagger.v3.oas.annotations.Operation;
 import kotlin.Pair;
@@ -107,13 +108,13 @@ public class IndexController {
     @NoLoginCheck
     @PostMapping("/request-parsed-media")
     public MediaType requestParsedMedia(){
-        return Servlets.requestParsedMedia();
+        return Servlets.parseMediaType(WebContext.request().getContentType());
     }
 
     @Operation(summary = "responseParsedMedia")
     @NoLoginCheck
     @PostMapping("/response-parsed-media")
     public MediaType responseParsedMedia(){
-        return Servlets.responseParsedMedia();
+        return Servlets.parseMediaType(WebContext.response().getContentType());
     }
 }

@@ -137,7 +137,7 @@ db/
 ## 3. 核心开发规范
 
 ### 3.1 注释规范
-🔴 **必须**：所有 public 类、方法、属性必须有注释。
+🔴 **必须**：所有 `public` 类、方法、属性必须有注释。
 
 ```java
 /**
@@ -216,9 +216,8 @@ public String status = "MALE";
 ## 4. 数据层规范
 
 ### 4.1 实体类规范
-🔴 **必须**：使用 MyBatis-Plus 注解，包含审计字段。
-
-🔴 **建议**：PO 类推荐使用 Lombok `@Getter @Setter`。
+- 🔴 **必须**：使用 MyBatis-Plus 注解，包含审计字段。
+- 🔴 **建议**：PO 类推荐使用 Lombok `@Getter @Setter`。
 
 ```java
 @Getter
@@ -281,13 +280,12 @@ CREATE TABLE `{table}` (
 ---
 
 ### 4.3 DAO 层规范
-🔴 **必须**：继承 BaseDao，使用 XML 映射文件。
-
-🔴 **禁止**：在接口上使用 @Select、@Update 等注解。
+- 🔴 **必须**：继承 `tony.mybatis.dao.BaseDao`，使用 XML 映射文件。
+- 🔴 **禁止**：在接口上使用 `@Select`、`@Update` 等注解。
 
 ```java
+import tony.mybatis.dao.BaseDao;
 public interface {Entity}Dao extends BaseDao<{Entity}> {
-    List<{Entity}> findByCondition(String name, Integer status);
 }
 ```
 
@@ -391,13 +389,10 @@ public class {Entity}Service {
 **禁止**：Service 实现类继承 MyBatis-Plus 的 `ServiceImpl`。
 
 ### 5.3 Controller 规范
-🔴 **必须**：使用 `@RestController`，路由注解只放在方法上。
-
-🔴 **必须**：统一使用 `@PostMapping` + `@RequestBody`。
-
-🔴 **必须**： 方法参数校验统一使用 `@Validated`。
-
-🔴 **必须**：Bean 注入用 `@RequiredArgsConstructor` + `private final` 字段。
+- 🔴 **必须**：使用 `@RestController`，路由注解只放在方法上。
+- 🔴 **必须**：统一使用 `@PostMapping` + `@RequestBody`。
+- 🔴 **必须**： 方法参数校验统一使用 `@Validated`。
+- 🔴 **必须**：Bean 注入用 `@RequiredArgsConstructor` + `private final` 字段。
 
 ```java
 @RestController
@@ -480,11 +475,11 @@ public @interface UserIdInject { }
 - ❌ 实体类字段使用原始类型而非枚举。
 - ❌ 缺少必要的注释。
 - ❌ 违反命名规范。
-- ❌ Bean 注入未用 @RequiredArgsConstructor + private final。
+- ❌ Bean 注入未用 `@RequiredArgsConstructor` + `private final`。
 
 ### 7.4 最佳实践清单
 - ✅ 推荐使用 Lombok。
-- ✅ Bean 注入用 @RequiredArgsConstructor + private final。
+- ✅ Bean 注入用 `@RequiredArgsConstructor` + `private final`。
 - ✅ 完整的参数校验。
 - ✅ 规范的 Swagger 注解。
 - ✅ 类型安全的 DTO 设计。
