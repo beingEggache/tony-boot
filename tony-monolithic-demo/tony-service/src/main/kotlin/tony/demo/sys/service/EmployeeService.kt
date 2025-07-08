@@ -8,10 +8,10 @@ import tony.PageResultLike
 import tony.demo.sys.dao.DeptDao
 import tony.demo.sys.dao.EmployeeDao
 import tony.demo.sys.dao.RoleDao
+import tony.demo.sys.dto.query.EmployeeQuery
 import tony.demo.sys.dto.req.EmployeeAddReq
 import tony.demo.sys.dto.req.EmployeeAssignRoleReq
 import tony.demo.sys.dto.req.EmployeeDetailReq
-import tony.demo.sys.dto.req.EmployeeQuery
 import tony.demo.sys.dto.req.EmployeeResetPwdReq
 import tony.demo.sys.dto.req.EmployeeToggleEnabledReq
 import tony.demo.sys.dto.req.EmployeeUpdateReq

@@ -6,9 +6,9 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import tony.demo.sys.dto.query.DeptQuery
 import tony.demo.sys.dto.req.DeptAddReq
 import tony.demo.sys.dto.req.DeptDeleteReq
-import tony.demo.sys.dto.req.DeptQuery
 import tony.demo.sys.dto.req.DeptUpdateReq
 import tony.demo.sys.dto.resp.DeptResp
 import tony.demo.sys.service.DeptService

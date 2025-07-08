@@ -5,9 +5,9 @@ import com.github.houbb.pinyin.util.PinyinHelper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import tony.demo.sys.dao.DeptDao
+import tony.demo.sys.dto.query.DeptQuery
 import tony.demo.sys.dto.req.DeptAddReq
 import tony.demo.sys.dto.req.DeptDeleteReq
-import tony.demo.sys.dto.req.DeptQuery
 import tony.demo.sys.dto.req.DeptUpdateReq
 import tony.demo.sys.dto.resp.DeptResp
 import tony.demo.sys.po.Dept

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO
 import org.apache.ibatis.annotations.Param
 import tony.demo.sys.dto.enums.ModuleType
-import tony.demo.sys.dto.req.EmployeeQuery
+import tony.demo.sys.dto.query.EmployeeQuery
 import tony.demo.sys.dto.resp.EmployeeResp
 import tony.demo.sys.dto.resp.ModuleResp
 import tony.demo.sys.po.Employee

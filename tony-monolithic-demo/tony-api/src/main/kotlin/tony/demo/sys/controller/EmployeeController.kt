@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import tony.FlattenPageQuery
+import tony.demo.sys.dto.query.EmployeeQuery
 import tony.demo.sys.dto.req.EmployeeAddReq
 import tony.demo.sys.dto.req.EmployeeAssignRoleReq
 import tony.demo.sys.dto.req.EmployeeDetailReq
-import tony.demo.sys.dto.req.EmployeeQuery
 import tony.demo.sys.dto.req.EmployeeResetPwdReq
 import tony.demo.sys.dto.req.EmployeeToggleEnabledReq
 import tony.demo.sys.dto.req.EmployeeUpdateReq

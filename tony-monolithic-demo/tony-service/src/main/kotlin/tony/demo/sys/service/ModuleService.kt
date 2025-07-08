@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import tony.RowsWrapper
 import tony.demo.sys.dao.ModuleDao
 import tony.demo.sys.dto.enums.ModuleType
-import tony.demo.sys.dto.req.ModuleQuery
+import tony.demo.sys.dto.query.ModuleQuery
 import tony.demo.sys.dto.req.ModuleSubmitReq
 import tony.demo.sys.dto.resp.ModuleResp
 import tony.demo.sys.po.Module

@@ -6,12 +6,12 @@ import tony.PageQueryLike
 import tony.PageResult
 import tony.demo.sys.dao.DictDao
 import tony.demo.sys.dao.DictTypeDao
+import tony.demo.sys.dto.query.DictQuery
+import tony.demo.sys.dto.query.DictTypeQuery
 import tony.demo.sys.dto.req.DictAddReq
 import tony.demo.sys.dto.req.DictDeleteReq
-import tony.demo.sys.dto.req.DictQuery
 import tony.demo.sys.dto.req.DictTypeAddReq
 import tony.demo.sys.dto.req.DictTypeDeleteReq
-import tony.demo.sys.dto.req.DictTypeQuery
 import tony.demo.sys.dto.req.DictTypeUpdateReq
 import tony.demo.sys.dto.req.DictUpdateReq
 import tony.demo.sys.dto.resp.DictResp

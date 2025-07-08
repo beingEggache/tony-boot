@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import tony.FlattenPageQuery
 import tony.PageResult
+import tony.demo.sys.dto.query.RoleQuery
 import tony.demo.sys.dto.req.RoleAddReq
 import tony.demo.sys.dto.req.RoleAssignModulesReq
 import tony.demo.sys.dto.req.RoleDeleteReq
 import tony.demo.sys.dto.req.RoleModuleQuery
-import tony.demo.sys.dto.req.RoleQuery
 import tony.demo.sys.dto.req.RoleUpdateReq
 import tony.demo.sys.dto.resp.ModuleResp
 import tony.demo.sys.dto.resp.RoleResp

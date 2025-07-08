@@ -1,4 +1,4 @@
-package tony.demo.sys.dto.req
+package tony.demo.sys.dto.query
 
 import io.swagger.v3.oas.annotations.media.Schema
 import tony.demo.annotation.AppIdInject

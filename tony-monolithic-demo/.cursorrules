@@ -381,6 +381,16 @@ class {Entity}Service(
 }
 ```
 
+#### 5.2.3 异常处理规范
+🔴 **必须**：优先使用工具函数抛出异常。
+
+🔴 **必须**：所有业务异常抛出 tony.exception.BizException。
+```kotlin
+// 工具函数示例
+value.throwIfNull("值不能为空")
+condition.throwIfTrue("条件不满足")
+```
+
 **禁止**：Service 实现类继承 MyBatis-Plus 的 `ServiceImpl`。
 
 ### 5.3 Controller 规范

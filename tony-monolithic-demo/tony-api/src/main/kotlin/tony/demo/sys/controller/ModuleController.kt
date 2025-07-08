@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import tony.RowsWrapper
-import tony.demo.sys.dto.req.ModuleQuery
+import tony.demo.sys.dto.query.ModuleQuery
 import tony.demo.sys.dto.req.ModuleSubmitReq
 import tony.demo.sys.service.ModuleService
 
