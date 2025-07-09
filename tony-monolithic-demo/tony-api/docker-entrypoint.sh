@@ -6,7 +6,6 @@ WORKDIR=${WORKDIR:-/app}
 
 # Ensure log, config, and tmp directories exist
 # ==================== Prepare directories ====================
-echo "==================== Preparing directories ===================="
 mkdir -p ${WORKDIR}/logs ${WORKDIR}/config ${WORKDIR}/tmp
 
 # Note: unzip should be installed in Dockerfile build stage for performance.
@@ -25,7 +24,6 @@ mkdir -p ${WORKDIR}/logs ${WORKDIR}/config ${WORKDIR}/tmp
 # -Dcom.alibaba.nacos.naming.cache.dir=${WORKDIR}/tmp \
 
 # ==================== Assemble JVM options ====================
-echo "==================== Assembling JVM options ===================="
 # Default JVM options
 JVM_DEFAULT_OPTS="\
 -Djava.io.tmpdir=${WORKDIR}/tmp \
@@ -33,6 +31,8 @@ JVM_DEFAULT_OPTS="\
 -DJM.SNAPSHOT.PATH=${WORKDIR}/tmp \
 -Dcom.alibaba.nacos.naming.cache.dir=${WORKDIR}/tmp \
 -XX:SharedArchiveFile=${WORKDIR}/app.jsa \
+-XX:+TieredCompilation \
+-XX:TieredStopAtLevel=1 \
 -XX:+EnableDynamicAgentLoading \
 -XX:+SegmentedCodeCache \
 -XX:+UseStringDeduplication \
@@ -45,6 +45,8 @@ JVM_DEFAULT_OPTS="\
 -XX:GuaranteedSafepointInterval=0 \
 -XX:+SafepointTimeout \
 -XX:SafepointTimeoutDelay=1000 \
+-Djava.awt.headless=true \
+-Dfile.encoding=UTF-8 \
 -Dspring.profiles.active=${PROFILE} \
 -Dserver.port=${PORT}"
 
@@ -101,7 +103,6 @@ then
 fi
 
 # ==================== Extract configuration files ====================
-echo "==================== Extracting configuration files ===================="
 # Extract config files (*.yml, *.yaml, *.properties) from app.jar to config dir
 if [ -f "${WORKDIR}/app.jar" ]
 then
@@ -117,6 +118,6 @@ then
 fi
 
 # ==================== Start application ====================
-echo "==================== Starting application ===================="
-echo "Starting application with JVM options: ${opts}"
+echo "Starting application with JVM options:"
+echo "${opts}" | sed 's/ -/\n-/g' | sed 's/^[[:space:]]*//'
 exec java ${opts} -jar ${WORKDIR}/app.jar

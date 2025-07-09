@@ -38,6 +38,7 @@ import tony.utils.asToNotNull
  * @author tangli
  * @date 2021/12/6 10:51
  */
+@Suppress("JavaDefaultMethodsNotOverriddenByDelegation")
 public data object SpringContexts : ApplicationContext by ApplicationContextHolder.springContext {
     /**
      * 惰性获取 根据 bean类型获取 bean
@@ -97,6 +98,7 @@ public data object SpringContexts : ApplicationContext by ApplicationContextHold
      *
      * 委托给 [ApplicationContext.getEnvironment].
      */
+    @Suppress("JavaDefaultMethodsNotOverriddenByDelegation")
     public data object Env : Environment by SpringContexts.environment {
         /**
          * 惰性 从[Environment]中获取属性

@@ -13,9 +13,7 @@ import tony.demo.permission.PermissionInterceptor
 import tony.web.WebContext
 
 fun main(args: Array<String>) {
-    runApplication<MonoApiWebApp>(*args) {
-        setHeadless(true)
-    }
+    runApplication<MonoApiWebApp>(*args)
 }
 
 // @Profile(value = ["!prod"])
