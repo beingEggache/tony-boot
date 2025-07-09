@@ -49,7 +49,7 @@ import tony.web.crpto.EncryptResponseBodyAdvice
             .Type
             .SERVLET
 )
-@ConditionalOnExpression("\${web.crypto.enabled:false}")
+@ConditionalOnExpression("\${web.crypto.enabled:true}")
 @Configuration(proxyBeanMethods = false)
 internal class WebCryptoConfig {
     @Resource
