@@ -221,7 +221,7 @@ commonsCodec = { module = "commons-codec:commons-codec", version = "1.18.0" }
 commonsIo = { module = "commons-io:commons-io", version = "2.19.0" }
 commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.27.1" }
 commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.1" }
-commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.17.0" }
+commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.18.0" }
 
 httpclient = { module = "org.apache.httpcomponents:httpclient", version = "4.5.14" }
 httpcore = { module = "org.apache.httpcomponents:httpcore", version = "4.4.16" }

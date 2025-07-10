@@ -305,7 +305,7 @@ public interface {Entity}Dao extends BaseDao<{Entity}> {
 public class {Entity}AddReq {
     @NotBlank(message = "姓名不能为空")
     @Schema(description = "姓名", example = "张三")
-    private String name;
+    private String {entity}Name;
 
     @NotNull(message = "状态不能为空")
     @Schema(description = "状态")
@@ -318,9 +318,9 @@ public class {Entity}AddReq {
 @Schema(description = "员工{Entity}响应")
 public class {Entity}Resp {
     @Schema(description = "ID")
-    private String id;
+    private String {entity}Id;
     @Schema(description = "姓名")
-    private String name;
+    private String {entity}Name;
     @Schema(description = "状态")
     private StatusEnum status;
 }
@@ -331,7 +331,7 @@ public class {Entity}Resp {
 @Schema(description = "员工查询请求")
 public class {Entity}Query {
     @Schema(description = "姓名（模糊查询）")
-    private String name;
+    private String {entity}Name;
     @Schema(description = "状态")
     private StatusEnum status;
 }
@@ -348,7 +348,7 @@ public class {Entity}Query {
 // SDK 层接口
 public interface I{Entity}Service {
     String add({Entity}AddReq req);
-    {Entity}Resp detail(String id);
+    {Entity}Resp detail(String {entity}Id);
     PageResult<{Entity}Resp> query(PageQuery<{Entity}Query> req);
 }
 ```
@@ -363,7 +363,7 @@ public class {Entity}Service implements I{Entity}Service {
     public String add({Entity}AddReq req) { /* ... */ }
 
     @Override
-    public EmployeeResp detail(String id) { /* ... */ }
+    public EmployeeResp detail(String {entity}Id) { /* ... */ }
 
     @Override
     public PageResult<{Entity}Resp> query(PageQuery<{Entity}Query> req) { /* ... */ }
@@ -380,7 +380,7 @@ public class {Entity}Service {
 
     public String add({Entity}AddReq req) { /* ... */ }
 
-    public EmployeeResp detail(String id) { /* ... */ }
+    public EmployeeResp detail(String {entity}Id) { /* ... */ }
 
     public PageResult<{Entity}Resp> query(PageQuery<{Entity}Query> req) { /* ... */ }
 }
@@ -425,8 +425,8 @@ public class {Entity}Controller {
 
     @PostMapping("/detail")
     @Operation(summary = "根据ID查询", description = "根据ID查询{entity}详情")
-    public {Entity}Resp detail(@Validated @RequestBody IdReq req) {
-        return {entity}Service.detail(req.getId());
+    public {Entity}Resp detail(@Validated @RequestBody WrappedReq<String> req) {
+        return {entity}Service.detail(req.getValue());
     }
 
     @PostMapping("/query")

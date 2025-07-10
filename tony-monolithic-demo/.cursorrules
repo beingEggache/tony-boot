@@ -182,7 +182,8 @@ enum class StatusEnum(override val value: Int) : IntEnumValue {
         override fun create(value: Int) = super.create(value)
     }
 }
-
+```
+```kotlin
 // String 类型枚举
 @Schema(description = "性别枚举")
 enum class GenderEnum(override val value: String) : StringEnumValue {
@@ -298,29 +299,31 @@ interface {Module}Dao : BaseDao<{Entity}>
 data class {Entity}AddReq(
     @field:NotBlank(message = "名称不能为空")
     @Schema(description = "名称", example = "示例")
-    val name: String,
+    val {entity}Name: String,
 
     @field:NotNull(message = "状态不能为空")
     @Schema(description = "状态")
     val status: StatusEnum
 )
-
+```
+```kotlin
 // 响应 DTO
 @Schema(description = "{Entity}详情响应")
 data class {Entity}Resp(
     @Schema(description = "ID")
-    val id: String,
+    val {entity}Id: String,
     @Schema(description = "名称")
-    val name: String,
+    val {entity}Name: String,
     @Schema(description = "状态")
     val status: StatusEnum
 )
-
+```
+```kotlin
 // 查询 DTO
 @Schema(description = "{Entity}查询请求")
 data class {Entity}Query(
     @Schema(description = "名称（模糊查询）")
-    val name: String? = null,
+    val {entity}Name: String? = null,
 
     @Schema(description = "状态")
     val status: StatusEnum? = null,
@@ -335,10 +338,11 @@ data class {Entity}Query(
 // SDK 层接口
 interface I{Module}Service {
     fun add(req: {Entity}AddReq): String
-    fun detail(id: String): {Entity}Resp
+    fun detail({entity}Id: String): {Entity}Resp
     fun query(req: PageQuery<{Entity}Query>): PageResult<{Entity}Resp>
 }
-
+```
+```kotlin
 // Service 层实现
 @Service
 class {Module}Service(
@@ -349,7 +353,7 @@ class {Module}Service(
         // 业务逻辑实现
     }
 
-    override fun detail(id: String): {Entity}Resp {
+    override fun detail({entity}Id: String): {Entity}Resp {
         // 业务逻辑实现
     }
 
@@ -371,7 +375,7 @@ class {Entity}Service(
         // 业务逻辑实现
     }
 
-    fun detail(id: String): {Entity}Resp {
+    fun detail({entity}Id: String): {Entity}Resp {
         // 业务逻辑实现
     }
 
@@ -417,8 +421,8 @@ class {Module}Controller(
 
     @PostMapping("/detail")
     @Operation(summary = "根据ID查询", description = "根据ID查询{Entity}详情")
-    fun detail(@Validated @RequestBody req: IdReq): {Entity}Resp {
-        return {module}Service.detail(req.id)
+    fun detail(@Validated @RequestBody req: WrappedReq<String>): {Entity}Resp {
+        return {module}Service.detail(req.value)
     }
 
     @PostMapping("/query")
