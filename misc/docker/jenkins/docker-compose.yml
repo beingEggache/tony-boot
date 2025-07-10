@@ -1,0 +1,27 @@
+services:
+  jenkins:
+    container_name: jenkins
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        UID: $UID
+        GID: $GID
+        USER_NAME: $USER_NAME
+        GROUP_NAME: $GROUP_NAME
+    image: $GROUP_NAME/jenkins
+    user: $UID:$GID
+    group_add:
+      - $GID
+    ports:
+      - "9000:8080"
+      - "50000:50000"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - ~/.ssh:/home/$USER_NAME/.ssh
+      - ./.gradle:/home/$USER_NAME/.gradle
+    environment:
+      - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
+    

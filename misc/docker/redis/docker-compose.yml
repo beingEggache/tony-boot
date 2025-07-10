@@ -1,0 +1,32 @@
+networks:
+  backend:
+    external: true
+    driver: bridge
+services:
+  redis:
+    container_name: redis
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "6379:6379"
+    configs:
+      - source: redis-config
+        target: /etc/redis/redis.conf
+        #uid: "103"
+        #gid: "103"
+        #mode: 0440
+    volumes:
+      - ./data:/data
+    networks:
+      - backend
+    develop:
+      watch:
+        - path: ./conf/redis.conf
+          target: /etc/redis/redis.conf
+          action: sync+restart
+    command: redis-server /etc/redis/redis.conf --appendonly yes
+configs:
+  redis-config:
+    file: ./conf/redis.conf

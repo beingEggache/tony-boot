@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+    redis:
+        container_name: redis
+        image: redis:6.2.6-alpine
+        ports:
+            - "6379:6379"
+        volumes:
+            - /usr/local/data/redis/data:/data
+            - /usr/local/data/redis/conf/redis.conf:/etc/redis/redis.conf
+            - /etc/localtime:/etc/localtime:ro
+            - /etc/timezone:/etc/timezone:ro
+        command: redis-server /etc/redis/redis.conf --appendonly yes
+

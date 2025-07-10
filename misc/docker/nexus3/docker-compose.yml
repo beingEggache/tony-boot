@@ -1,0 +1,23 @@
+services:
+  nexus3:
+    container_name: nexus3
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        UID: $UID
+        GID: $GID
+        USER_NAME: $USER_NAME
+        GROUP_NAME: $GROUP_NAME
+    image: $GROUP_NAME/nexus3
+    user: $UID:$GID
+    group_add:
+      - $GID
+    ports:
+      - '8081:8081'
+      - '8082:8082'
+    volumes:
+      - ./nexus-data:/nexus-data
+    environment:
+      - INSTALL4J_ADD_VM_PARAMS=-Xms1024m -Xmx1024m -XX:MaxDirectMemorySize=2048m
+      

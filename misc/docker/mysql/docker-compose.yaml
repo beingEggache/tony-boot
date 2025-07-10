@@ -1,0 +1,24 @@
+networks:
+  backend:
+    external: true
+    driver: bridge
+volumes:
+  vlm_data_mysql:
+    external: true
+services:
+  mysql:
+    container_name: mysql
+    restart: always
+    image: mysql:8.0.42-debian
+    env_file:
+      - ./mysql.env
+    volumes:
+      - vlm_data_mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
+      - ./mysql/mysqld.cnf:/etc/mysql/conf.d/custom.cnf:cached
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+
+
