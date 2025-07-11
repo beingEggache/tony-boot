@@ -1,39 +1,44 @@
 # Web 项目开发规范
 
+---
+## 规则等级说明
+- 🔴 **必须**：项目强制要求。
+- 🟡 **建议**：推荐遵循，提高代码质量。
+- 🟢 **可选**：根据项目需要选择。
+---
+
 ## 1. 项目概述
 
-### 1.1 核心特点
+---
+###  核心特点
 - **Kotlin 优先**：主要使用 Kotlin，兼容 Java。
-- **模块化架构**：API、Service、DTO、SDK 分层设计。
 - **统一规范**：严格遵循本文档定义的开发规约。
+- **模块化架构**：API、Service、DTO、SDK 分层设计。
+---
+###  占位符规范
 
-### 1.2 占位符规范
-
-| 占位符             | 说明         | 示例             |
-|-----------------|------------|----------------|
-| `{company}`     | 公司/组织名（小写） | `tony`         |
-| `{projectName}` | 项目名（小写）    | `demo`         |
-| `{ProjectName}` | 项目名（首大写）   | `Demo`         |
-| `{module}`      | 模块名（小写）    | `sys`          |
-| `{Module}`      | 模块名（首大写）   | `Sys`          |
-| `{entity}`      | 实体类名（小写）   | `employee`     |
-| `{Entity}`      | 实体类名（首大写）  | `Employee`     |
-| `{table}`       | 数据库表名（小写）  | `sys_employee` |
-
-**包路径格式：** `{company}.{projectName}.{module}`。
-**示例：** `tony.demo.sys.controller`。
-
+| 占位符             | 说明                             | 示例                                      |
+|-----------------|--------------------------------|-----------------------------------------|
+| `{company}`     | 公司/组织名（全小写）                    | `tony`                                  |
+| `{projectName}` | 项目名（小写驼峰）                      | `demo`                                  |
+| `{ProjectName}` | 项目名（大写驼峰）                      | `Demo`、`byteDance`                      |
+| `{module}`      | 模块名（全小写）                       | `sys`、`housemanage`                     |
+| `{Module}`      | 模块名（首大写）                       | `Sys`、`houseManage`                     |
+| `{entity}`      | 实体类名（小写驼峰）                     | `employee`、`saleOrder`                  |
+| `{Entity}`      | 实体类名（大写驼峰）                     | `Employee`、`SaleOrder`                  |
+| `{table}`       | 数据库表名（全小写模块名+小写snake_case实体类名） | `sys_employee`、`housemanage_sale_order` |
 ---
 
 ## 2. 项目结构规范
 
-### 2.1 标准模块结构
+---
+###  标准模块结构
 ```
 {project-name}/
 ├── {company}-api/              # Web 层：控制器、配置、启动类、Docker 文件
 ├── {company}-service/          # 业务层：服务实现、DAO、PO
 ├── {company}-dto/              # 数据传输：请求/响应/查询 DTO、枚举
-├── {company}-sdk/              # 接口层：服务接口（可选）
+├── {company}-sdk/              # 接口层：服务接口（🟡 当使用微服务架构需要对外提供接口jar包时, 请选择接口与实现分离。）
 ├── db/                         # 数据库脚本
 ├── build.gradle.kts            # 根项目构建配置
 ├── settings.gradle.kts         # 项目设置文件
@@ -47,16 +52,11 @@
 ├── .gitattributes              # Git 属性配置
 └── dockerBuild.sh              # Docker 构建脚本
 ```
+---
+###  核心文件结构
 
-### 2.2 包结构约定
-- **API 模块：** `{company}.{projectName}.{module}.controller`。
-- **Service 模块：** `{company}.{projectName}.{module}.service.impl`（实现）。
-- **DTO 模块：** `{company}.{projectName}.{module}.dto.{req|resp|query|enums}`。
-- **SDK 模块：** `{company}.{projectName}.{module}.service`（服务接口）。
-
-### 2.3 核心文件结构
-
-#### 2.3.1 API 模块文件
+---
+####  API 模块文件
 ```
 {company}-api/
 ├── src/main/
@@ -76,8 +76,8 @@
 ├── docker-entrypoint.sh                     # Docker 启动脚本
 └── build.gradle.kts                         # 模块构建配置
 ```
-
-#### 2.3.2 Service 模块文件
+---
+####  Service 模块文件
 ```
 {company}-service/
 ├── src/main/
@@ -95,8 +95,8 @@
 │           └── {Module}Dao.xml              # SQL 映射文件
 └── build.gradle.kts                         # 模块构建配置
 ```
-
-#### 2.3.3 DTO 模块文件
+---
+####  DTO 模块文件
 ```
 {company}-dto/
 ├── src/main/
@@ -113,8 +113,8 @@
 │                   └── {BusinessConcept}Enum.kt # 枚举类
 └── build.gradle.kts                         # 模块构建配置
 ```
-
-#### 2.3.4 SDK 模块文件（可选）
+---
+####  SDK 模块文件（🟡 当使用微服务架构需要对外提供接口jar包时, 请选择接口与实现分离。）
 ```
 {company}-sdk/
 ├── src/main/
@@ -124,21 +124,21 @@
 │               └── I{Module}Service.kt      # 服务接口类
 └── build.gradle.kts                         # 模块构建配置
 ```
-
-#### 2.3.5 数据库脚本文件
+---
+####  数据库脚本文件
 ```
 db/
 ├── db.init.mysql.sql                        # 初始化用户、数据库（MySQL）
 ├── db.init.table.mysql.sql                  # 初始化表结构（MySQL）
 └── db.init.data.mysql.sql                   # 初始化数据（MySQL）
 ```
-
 ---
 
 ## 3. 核心开发规范
 
-### 3.1 注释规范
-🔴 **必须**：所有公共类、方法、属性必须有注释。
+---
+###  注释规范
+🔴 所有公共类、接口、方法、属性、变量必须有注释。
 
 ```kotlin
 /**
@@ -153,18 +153,18 @@ db/
  * @date 2025/07/04 14:00 （此处为生成时系统时间）
  */
 ```
-
-### 3.2 导入规范
-🔴 **必须**：禁止通配符导入，显式导入所有依赖。
+---
+###  导入规范
+🔴 禁止通配符导入，显式导入所有依赖。
 
 ```kotlin
 import java.util.UUID
 import org.springframework.web.bind.annotation.PostMapping
 // ❌ import java.util.*  // 禁止
 ```
-
-### 3.3 枚举规范
-🔴 **必须**：所有枚举实现统一接口，支持默认值。
+---
+###  枚举规范
+🔴 枚举值命名全大写, 所有枚举实现统一接口，支持默认值。
 
 ```kotlin
 // Int 类型枚举
@@ -201,7 +201,7 @@ enum class GenderEnum(override val value: String) : StringEnumValue {
 }
 ```
 
-**必须**：业务字段使用枚举类型，禁止使用原始类型。
+🔴 业务字段使用枚举类型，禁止使用原始类型。
 
 ```kotlin
 // ✅ 正确
@@ -212,14 +212,14 @@ var gender: GenderEnum = GenderEnum.MALE
 var status: Int = 1
 var gender: String = "MALE"
 ```
-
 ---
 
 ## 4. 数据层规范
 
-### 4.1 实体类规范
-🔴 **必须**：使用 MyBatis-Plus 注解，包含审计字段。
-
+---
+###  实体类规范
+- 🔴 使用 MyBatis-Plus 注解，包含审计字段。
+- 🔴 字段顺序（主键、外键(其他表主键id)、业务字段、审计字段）。
 ```kotlin
 @TableName("{table}")
 class {Entity} {
@@ -257,10 +257,10 @@ class {Entity} {
     var tenantId: String = ""
 }
 ```
-
-### 4.2 数据库表规范
-🔴 **必须**：表名小写，下划线分隔，包含审计字段。
-
+---
+###  数据库表规范
+- 🔴 表字段顺序（主键、外键(其他表主键id)、业务字段、审计字段）。
+- 🔴 字段命名统一为小写+下划线, 表注释、字段注释必填。
 ```sql
 CREATE TABLE `{table}` (
     `{table}_id` varchar(50) NOT NULL COMMENT '主键',
@@ -276,22 +276,29 @@ CREATE TABLE `{table}` (
     PRIMARY KEY (`{table}_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='{表说明}';
 ```
-
-### 4.3 DAO 层规范
-- 🔴 **必须**：继承 `tony.mybatis.dao.BaseDao`，使用 XML 映射文件。
+- 🔴 主键索引：`PRIMARY KEY ({field})`。
+- 🔴 唯一索引：`UNIQUE KEY uk_{table}_{field}(field)`。
+- 🔴 普通索引：`KEY idx_{table}_{field}(field)`。
+- 🔴 复合索引：`KEY idx_{table}_{field1}_{field2}(field1, field2)`。
+---
+###  DAO 层规范
+- 🔴 继承 `tony.mybatis.dao.BaseDao`，使用 XML 映射文件。
 - 🔴 **禁止**：在接口上使用 `@Select`、`@Update` 等注解。
 
 ```kotlin
 import tony.mybatis.dao.BaseDao
 interface {Module}Dao : BaseDao<{Entity}>
 ```
-
 ---
 
 ## 5. 业务层规范
 
-### 5.1 DTO 规范
-🔴 **必须**：请求/响应/查询 DTO 分离，使用校验注解。
+---
+###  DTO 规范
+- 🔴 请求({Entity}{Action}Req)/响应({Entity}{Action}Resp)/查询({Entity}{Action}Query) DTO 分离，使用校验注解。
+- 🔴 字段全部加上 `@Schema` 注解，便于自动生成文档。
+- 🔴 字段顺序（主键、外键(其他表主键id)、业务字段、审计字段）。
+- 🔴 dto-po, po-dto 互转建议使用`Objs`下的扩展方法`copyTo()`。
 
 ```kotlin
 // 请求 DTO
@@ -303,7 +310,7 @@ data class {Entity}AddReq(
 
     @field:NotNull(message = "状态不能为空")
     @Schema(description = "状态")
-    val status: StatusEnum
+    val status: StatusEnum,
 )
 ```
 ```kotlin
@@ -315,7 +322,7 @@ data class {Entity}Resp(
     @Schema(description = "名称")
     val {entity}Name: String,
     @Schema(description = "状态")
-    val status: StatusEnum
+    val status: StatusEnum,
 )
 ```
 ```kotlin
@@ -329,11 +336,12 @@ data class {Entity}Query(
     val status: StatusEnum? = null,
 )
 ```
-
-### 5.2 Service 层规范
-**建议**：根据项目需要选择接口与实现分离。
-
-#### 5.2.1 有 SDK 层的情况
+---
+###  Service 层规范
+- 🟡 当微服务架构需要对外提供接口jar包时, 请选择接口与实现分离。
+- 🔴 当接口逻辑里包含多行 增/删/改逻辑时请使用事务。
+---
+####  有 SDK 层的情况
 ```kotlin
 // SDK 层接口
 interface I{Module}Service {
@@ -362,13 +370,13 @@ class {Module}Service(
     }
 }
 ```
-
-#### 5.2.2 无 SDK 层的情况
+---
+####  无 SDK 层的情况
 ```kotlin
 // 直接在 Service 层实现
 @Service
 class {Entity}Service(
-    private val {entity}Dao: {Entity}Dao
+    private val {entity}Dao: {Entity}Dao,
 ) {
 
     fun add(req: {Entity}AddReq): String {
@@ -384,10 +392,10 @@ class {Entity}Service(
     }
 }
 ```
-
-#### 5.2.3 异常处理规范
-- 🔴 **必须**：优先使用工具函数抛出异常。
-- 🔴 **必须**：所有业务异常抛出 `tony.exception.BizException`。
+---
+####  异常处理规范
+- 🔴 优先使用`tony.utils.Funcs`下的工具函数抛出异常。
+- 🔴 所有业务异常抛出 `tony.exception.BizException`。
 - 🔴 **禁止**：直接抛出 `RuntimeException`或其他`Exception`的子类。
 ```kotlin
 // ✅ 正确
@@ -399,18 +407,21 @@ throw BizException("业务异常")
 throw RuntimeException("业务异常")
 ```
 
-**禁止**：Service 实现类继承 MyBatis-Plus 的 `ServiceImpl`。
+🔴 **禁止**：Service 实现类继承 MyBatis-Plus 的 `ServiceImpl`。
 
-### 5.3 Controller 规范
-- 🔴 **必须**：使用 `@RestController`，路由注解只放在方法上。
-- 🔴 **必须**：统一使用 `@PostMapping` + `@RequestBody`。
-- 🔴 **必须**： 方法参数校验统一使用 `@Validated`。
+---
+###  Controller 规范
+- 🔴 使用 `@RestController`，路由注解只放在方法上。
+- 🔴 统一使用 `@PostMapping` + `@RequestBody`。
+- 🔴 方法参数校验统一使用 `@Validated`。
+- 🔴 当引入`tony-web`依赖, 而且`web.wrap-response-body-enabled`配置值为`true`时,正常情况下会包装成`ApiResult<T>`。
+- 🔴 只做参数校验和调用 Service，禁止写业务逻辑。
 
 ```kotlin
 @RestController
 @Tag(name = "{Module}管理", description = "{Module}相关接口")
 class {Module}Controller(
-    private val {module}Service: {Module}Service
+    private val {module}Service: {Module}Service,
 ) {
 
     @PostMapping("/add")
@@ -432,13 +443,13 @@ class {Module}Controller(
     }
 }
 ```
-
 ---
 
 ## 6. 配置规范
 
-### 6.1 Web 配置
-🔴 **建议**：注册上下文注入器，支持 DTO 字段自动注入。
+---
+###  Web 配置
+🔴 注册上下文注入器，支持 DTO 字段自动注入。
 
 ```kotlin
 @Configuration
@@ -450,9 +461,9 @@ class {ProjectName}WebConfig {
     }
 }
 ```
-
-### 6.2 自定义注入注解
-🔴 **建议**：封装自定义注解，避免手写字符串 key。
+---
+###  自定义注入注解
+🟡 封装自定义注解，避免手写字符串 key。
 
 ```kotlin
 @Target(AnnotationTarget.FIELD)
@@ -464,39 +475,17 @@ annotation class UserIdInject
 data class DemoReq(
     val name: String,
     @get:UserIdInject
-    val userId: String? = null
+    val userId: String? = null,
 )
 ```
-
 ---
 
 ## 7. 快速参考
-
-### 7.1 规则优先级
-- 🔴 **必须**：违反将导致编译错误或运行时异常。
-- **建议**：推荐遵循，提高代码质量。
-- 🟢 **可选**：根据项目需要选择。
-
-### 7.2 核心规则速查表
-
-| 层级             | 类名格式                                            | 包路径                              | 职责与要求                       |
-|----------------|-------------------------------------------------|----------------------------------|-----------------------------|
-| Controller     | `{Module}Controller`                            | `controller`                     | 接收请求、参数校验、调用Service、返回结果    |
-| Service        | `{Module}Service`                               | `service.impl`                   | 业务逻辑实现、构造器注入、不继承ServiceImpl |
-| Service接口(SDK) | `I{Module}Service`                              | `service`                        | 业务接口定义、无注解                  |
-| DAO            | `{Module}Dao`                                   | `dao`                            | 数据访问、继承BaseDao、使用XML映射      |
-| PO             | `{Entity}`                                      | `po`                             | 实体映射、MyBatis-Plus注解、审计字段    |
-| DTO            | `{Entity}AddReq`/`{Entity}Resp`/`{Entity}Query` | `dto.req`/`dto.resp`/`dto.query` | 数据传输、校验注解、Swagger文档         |
-
-### 7.3 常见错误模式
 - ❌ 在 DAO 接口使用 `@Select` 注解。
 - ❌ Controller 类上使用路由注解。
 - ❌ 使用通配符导入。
 - ❌ 实体类字段使用原始类型而非枚举。
-- ❌ 缺少必要的注释。
 - ❌ 违反命名规范。
-
-### 7.4 最佳实践清单
 - ✅ 使用构造器注入依赖。
 - ✅ 完整的参数校验。
 - ✅ 规范的 Swagger 注解。

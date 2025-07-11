@@ -1,61 +1,34 @@
 # tony-boot-starters 项目开发规范
 
+---
+## 规则等级说明
+- 🔴 **必须**：项目强制要求。
+- 🟡 **建议**：推荐遵循，提高代码质量。
+- 🟢 **可选**：根据项目需要选择。
+---
+
 ## 1. 项目概述
 
-### 1.1 核心特点
-- **模块化设计**：独立、按需集成。
+---
+### 核心特点
 - **Kotlin 优先**：主要使用 Kotlin，兼容 Java。
-- **Explicit API**：严格遵循 Kotlin Explicit API 标准。
 - **统一规范**：严格遵循本文档定义的开发规约。
-
-### 1.2 Explicit API 标准
-🔴 **必须**：遵循 Kotlin Explicit API 标准。
-
-```kotlin
-// ✅ 正确 - 显式声明 public 和返回类型
-public fun sendMessage(req: MessageSendReq): MessageSendResp {
-    return MessageSendResp("msg_1", true)
-}
-
-public val appId: String = "test-app-id"
-
-public data class MessageSendReq(
-    public val receiveId: String,
-    public val content: String,
-)
-
-// ❌ 错误 - 省略 public 修饰符或返回类型
-fun sendMessage(req: MessageSendReq) {  // 缺少 public 和返回类型
-    return MessageSendResp("msg_1", true)
-}
-
-val appId = "test-app-id"  // 缺少 public 和类型声明
-
-data class MessageSendReq(  // 缺少 public
-    val receiveId: String,  // 缺少 public
-    val content: String,    // 缺少 public
-)
-```
-
-**规则说明：**
-- 所有 public 类、方法、属性必须显式声明 `public` 修饰符。
-- 所有方法除返回 Unit 外，必须显式声明返回类型。
-- 内部使用的 private 成员可以省略类型声明。
-
-### 1.3 占位符规范
+- **模块化设计**：独立、按需集成。
+---
+### 占位符规范
 
 | 占位符              | 说明              | 示例                    |
 |------------------|-----------------|-----------------------|
 | `{module}`       | 模块名（小写，中划线分隔）   | `redis`、`web-support` |
 | `{Module}`       | 模块名（PascalCase） | `Redis`、`WebSupport`  |
 | `{package-name}` | 包名（模块名去中划线）     | `redis`、`websupport`  |
-
 ---
 
 ## 2. 模块结构规范
 
-### 2.1 标准模块结构
-🔴 **必须**：每个 starter 模块采用如下标准结构。
+---
+### 标准模块结构
+🔴 每个 starter 模块采用如下标准结构。
 
 ```
 tony-{module}/
@@ -64,42 +37,80 @@ tony-{module}/
 └── src/
     ├── main/
     │   ├── kotlin/
-    │   │   └── tony/{package-name}/    # 模块主包
-    │   │       ├── config/             # 配置包
+    │   │   └── tony/{package-name}/          # 模块主包
+    │   │       ├── config/                   # 配置包
     │   │       │   ├── {Module}Config.kt
-    │   │       │   └── {Module}Properties.kt
-    │   │       ├── utils/              # 工具类包（可选）
-    │   │       ├── exception/          # 异常类包（可选）
-    │   │       └── [其他包].../         # 其他包（可选）
-    │   ├── java/                       # Java 源码（可选）
+    │   │       │   └── {Module}Properties.kt # 配置 （可选）
+    │   │       ├── utils/                    # 工具类包（可选）
+    │   │       ├── exception/                # 异常类包（可选）
+    │   │       └── [其他包].../               # 其他包（可选）
+    │   ├── java/                             # Java 源码（可选）
     │   └── resources/
     │       ├── META-INF/
     │       │   └── spring/
     │       │       └── org.springframework.boot.autoconfigure.AutoConfiguration.imports
-    │       └── {module}.config.yml     # 配置示例（可选）
+    │       └── {module}.config.yml     # 默认配置（可选）
     └── test/
         ├── kotlin/
-        │   └── tony/test/{package-name}/  # 模块测试包
-        │       ├── {ClassName}Test.kt     # 单元测试
-        │       ├── config/                # 测试配置包（可选）
-        │       ├── {Module}BaseTest.kt    # 基础测试类（可选）
+        │   └── tony/test/{package-name}/      # 模块测试包
+        │       ├── {ClassName}Test.kt         # 单元测试
+        │       ├── config/                    # 测试配置包（可选）
+        │       ├── {Module}BaseTest.kt        # 基础测试类（可选）
         │       └── {Module}TestApplication.kt # 测试启动类（可选）
-        ├── java/                          # Java 测试源码（可选）
-        └── resources/                     # 测试资源
+        ├── java/                              # Java 测试源码（可选）
+        └── resources/                         # 测试资源
 ```
+---
+### 构建脚本规范
+🔴 子模块的 `build.gradle.kts` 只包含依赖声明，不包含插件配置。
 
-### 2.2 包结构约定
-- **主包路径**：`tony.{package-name}`
-- **配置包**：`tony.{package-name}.config`
-- **工具包**：`tony.{package-name}.utils`
-- **异常包**：`tony.{package-name}.exception`
+**标准格式**：
+```kotlin
+dependencies {
+    api(projects.tonyCore)
+    implementation(tonyLibs.springBootStarterWeb)
+    testImplementation(tonyLibs.springBootStarterTest)
+}
+```
+🔴 **禁止**：其他任何配置。
 
+---
+### 默认配置规范
+🟢 需要覆盖 Spring Boot 或其他 starter 默认配置时，创建 `{module}.config.yml` 并在 `{Module}Config` 类上添加 `@PropertySource` 注解。
+
+**标准格式**：
+```kotlin
+@PropertySource("classpath:{module}.config.yml", factory = YamlPropertySourceFactory::class) //可选
+@EnableConfigurationProperties({Module}Properties::class)
+@Configuration
+public class {Module}Config(public val properties: {Module}Properties) {
+    // 配置逻辑
+}
+```
 ---
 
 ## 3. 核心开发规范
 
-### 3.1 注释规范
-🔴 **必须**：所有公共类、方法、属性必须有注释。
+---
+### Explicit API 标准
+🔴 所有 public 类、方法、属性必须显式声明 `public` 修饰符和返回类型。
+
+```kotlin
+// ✅ 正确
+public fun sendMessage(req: MessageSendReq): MessageSendResp {
+    return MessageSendResp("msg_1", true)
+}
+
+public val appId: String = "test-app-id"
+
+// ❌ 错误
+fun sendMessage(req: MessageSendReq) {  // 缺少 public 和返回类型
+    return MessageSendResp("msg_1", true)
+}
+```
+---
+### 注释规范
+🔴 所有公共类、接口、方法、属性、变量必须有注释。
 
 ```kotlin
 /**
@@ -114,18 +125,18 @@ tony-{module}/
  * @date 2025/07/04 14:00 （此处为生成时系统时间）
  */
 ```
-
-### 3.2 导入规范
-🔴 **必须**：禁止通配符导入，显式导入所有依赖。
+---
+### 导入规范
+🔴 禁止通配符导入，显式导入所有依赖。
 
 ```kotlin
 import java.util.UUID
 import org.springframework.util.AntPathMatcher
 // ❌ import java.util.*  // 禁止
 ```
-
-### 3.3 枚举规范
-🔴 **必须**：所有枚举实现统一接口，支持默认值。
+---
+### 枚举规范
+🔴 枚举值命名全大写, 所有枚举实现统一接口，支持默认值。
 
 ```kotlin
 // Int 类型枚举
@@ -161,7 +172,7 @@ public enum class EncodingEnum(public override val value: String) : StringEnumVa
 }
 ```
 
-🔴 **必须**：业务字段使用枚举类型，禁止使用原始类型。
+🔴 业务字段使用枚举类型，禁止使用原始类型。
 
 ```kotlin
 // ✅ 正确
@@ -172,17 +183,13 @@ public var encoding: EncodingEnum = EncodingEnum.HEX
 public var status: Int = 1
 public var encoding: String = "HEX"
 ```
-
-### 3.4 Java 互操作规范
-🔴 **必须**：工具类使用 `@file:JvmName` 提供 Java 友好类名。
-
-🔴 **必须**：关键 API 使用 `@JvmStatic`、`@JvmOverloads`。
+---
+### Java 互操作规范
+🔴 工具类使用 `@file:JvmName` 提供 Java 友好类名, 关键 API 使用 `@JvmStatic`、`@JvmOverloads`。
 
 ```kotlin
 @file:JvmName("Strs")
 public object Strs {
-    @JvmStatic
-    public fun isBlank(str: String?): Boolean = str == null || str.isBlank()
 
     @JvmStatic
     @JvmOverloads
@@ -191,66 +198,58 @@ public object Strs {
     }
 }
 ```
-
-### 3.5 异常处理规范
-🔴 **必须**：优先使用工具函数抛出异常。
-
-🔴 **必须**：所有自定义异常继承 tony.exception.ApiException。
+---
+### 异常处理规范
+🔴 优先使用工具函数抛出异常, 所有自定义异常继承 tony.exception.ApiException。
 
 ```kotlin
 // 工具函数示例
 value.throwIfNull("值不能为空")
 condition.throwIfTrue("条件不满足")
 ```
-
 ---
 
 ## 4. 自动装配规范
 
-### 4.1 配置类规范
-🔴 **必须**：注册到 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`。
+---
+### 配置类及配置属性规范
+🔴 注册到 `AutoConfiguration.imports`, 使用 `@EnableConfigurationProperties`。
+
+🟢 `tony.{module}.enabled` 属性与 `@ConditionalOnProperty` 配合使用，控制模块是否启用。仅对影响整体逻辑的模块使用，工具类模块无需配置。
 
 ```kotlin
+@ConditionalOnProperty(prefix = "tony.{module}", name = ["enabled"], havingValue = "true", matchIfMissing = true)  // 🟢 影响整体逻辑时添加
+@EnableConfigurationProperties({Module}Properties::class) // 🟢 当需要配置项时添加.
 @Configuration
-@EnableConfigurationProperties({Module}Properties::class)
-@ConditionalOnProperty(prefix = "tony.{module}", name = ["enabled"], havingValue = "true", matchIfMissing = true)
-public class {Module}Config(public val properties: {Module}Properties) {
-
-    @ConditionalOnMissingBean({Module}Service::class)
-    @Bean
-    public fun {module}Service(): {Module}Service {
-        return {Module}Service(properties)
-    }
+public class {Module}Config(public val properties: {Module}Properties){
+    // ...
 }
 ```
-
-### 4.2 配置属性规范
-🔴 **必须**：使用 `@ConfigurationProperties` 注解。
-
+🟢 当需要配置项时添加.
 ```kotlin
 @ConfigurationProperties(prefix = "tony.{module}")
 public data class {Module}Properties(
-    public val enabled: Boolean = true,
+    public val enabled: Boolean = true,  // 🟢 影响整体逻辑时添加
     public val name: String = "default",
     public val timeout: Duration = Duration.ofSeconds(30),
 )
 ```
-
-### 4.3 统一入口注解
-🔴 **必须**：使用 `@EnableTonyBoot` 作为统一入口。
+---
+### 统一入口注解
+🔴 使用 `@EnableTonyBoot` 作为统一入口。
 
 ```kotlin
 @EnableTonyBoot
 @SpringBootApplication
 public class YourApplication
 ```
-
 ---
 
 ## 5. 测试规范
 
-### 5.1 测试类组织规范
-
+---
+### 测试类组织规范
+🔴 所有测试断言使用 org.junit.jupiter.api 包下的方法。
 ```kotlin
 @DisplayName("测试类名称")
 class {ClassName}Test {
@@ -259,27 +258,16 @@ class {ClassName}Test {
     @DisplayName("功能模块测试")
     inner class {Feature}Test {
         @Test
-        @DisplayName("具体测试场景")
+        @DisplayName("方法名():测试场景描述")
         fun test{Scenario}() {
             // 测试逻辑
         }
     }
 }
 ```
-
-### 5.2 测试方法规范
-🔴 **必须**：所有测试断言使用 org.junit.jupiter.api 包下的方法。
-
-```kotlin
-@Test
-@DisplayName("方法名():测试场景描述")
-fun test{MethodName}{Scenario}() {
-    // 测试逻辑
-}
-```
-
-### 5.3 集成测试规范
-🔴 **必须**：使用 `@SpringBootTest` 和 `@EnableTonyBoot`。
+---
+### 集成测试规范
+🔴 使用 `@SpringBootTest` 和 `@EnableTonyBoot`。
 
 ```kotlin
 @SpringBootTest(
@@ -292,19 +280,20 @@ fun test{MethodName}{Scenario}() {
 abstract class {Module}BaseTest {
     // 基础测试方法
 }
-
+```
+```kotlin
 @SpringBootApplication
 @EnableTonyBoot
 @Import({Module}TestConfig::class)
 class {Module}TestApplication
 ```
-
 ---
 
 ## 6. 文档规范
 
-### 6.1 README.md 结构模板
-🔴 **必须**：每个模块的 README.md 遵循统一结构。
+---
+### README.md 结构模板
+🔴 每个模块的 README.md 遵循统一结构。
 
 ````markdown
 ## 概述
@@ -312,10 +301,6 @@ class {Module}TestApplication
 `tony-{module}` 是 `tony-boot-starters` 体系下的 {功能描述} 模块，{核心价值描述}。
 
 ## 如何使用
-
-### 环境要求
-- **Java 21** 或更高版本
-- **Spring Boot 3.x**
 
 ### 添加依赖
 ```kotlin
@@ -336,42 +321,22 @@ public class YourApplication
 - 功能点2
 
 ## 配置说明
-| 配置项                   | 说明   | 默认值  | 必填 |
-|-----------------------|------|------|----|
-| tony.{module}.enabled | 是否启用 | true | 否  |
+
+| 配置项                   | 说明  | 默认值     | 必填 |
+|-----------------------|-----|---------|----|
+| tony.{module}.option1 | 选项1 | true    | 否  |
+| tony.{module}.option2 | 选项2 | 1       | 否  |
+| tony.{module}.option3 | 选项3 | 'hello' | 否  |
 
 ## 使用示例
 ### 基础用法
 ```kotlin
 // 使用示例代码
 ```
-
-## 注意事项
-- 注意事项1
-- 注意事项2
 ````
-
 ---
 
 ## 7. 快速参考
-
-### 7.1 规则优先级
-- 🔴 **必须**：违反将导致编译错误或运行时异常。
-
-- **建议**：推荐遵循，提高代码质量。
-
-- 🟢 **可选**：根据项目需要选择。
-
-### 7.2 核心规则速查表
-
-| 层级   | 类名格式                 | 包路径         | 职责与要求                     |
-|------|----------------------|-------------|---------------------------|
-| 配置类  | `{Module}Config`     | `config`    | 自动装配配置、条件注解、Bean注册        |
-| 配置属性 | `{Module}Properties` | `config`    | 配置属性定义、默认值设置              |
-| 异常类  | `{Module}Exception`  | `exception` | 自定义异常、继承ApiException      |
-| 测试类  | `{ClassName}Test`    | `test`      | 单元测试、集成测试、Given-When-Then |
-
-### 7.3 常见错误模式
 - ❌ 省略 public 修饰符。
 - ❌ 省略方法返回类型（除 Unit 外）。
 - ❌ 省略属性类型声明。
@@ -379,9 +344,6 @@ public class YourApplication
 - ❌ 工具类未提供 Java 友好性。
 - ❌ 枚举字段使用原始类型。
 - ❌ 使用通配符导入。
-- ❌ 缺少必要的注释。
-
-### 7.4 最佳实践清单
 - ✅ 严格遵循 Explicit API 标准。
 - ✅ 模块化设计，独立集成。
 - ✅ 完整的自动装配配置。
