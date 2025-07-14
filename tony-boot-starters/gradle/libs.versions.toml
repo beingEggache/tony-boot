@@ -244,7 +244,7 @@ findbugsJsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.2"
 findbugsAnnotations = { module = "com.google.code.findbugs:annotations", version = "3.0.1" }
 
 classmate = { module = "com.fasterxml:classmate", version = "1.7.0" }
-caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.1" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.2" }
 
 snakeYaml = { module = "org.yaml:snakeyaml", version = "2.4" }
 

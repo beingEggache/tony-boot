@@ -12,8 +12,6 @@ mkdir -p ${WORKDIR}/logs ${WORKDIR}/config ${WORKDIR}/tmp
 # If unzip is not present, the extraction step will fail with a clear error.
 
 # JVM parameter references:
-# -XX:+EnableDynamicAgentLoading hide "Java agent has been loaded dynamically" warning.
-# https://zhuanlan.zhihu.com/p/528949267
 # JVM parameter upgrade tool: https://jacoline.dev/inspect
 # JVM parameter dictionary: https://chriswhocodes.com
 
@@ -32,19 +30,12 @@ JVM_DEFAULT_OPTS="\
 -Dcom.alibaba.nacos.naming.cache.dir=${WORKDIR}/tmp \
 -XX:SharedArchiveFile=${WORKDIR}/app.jsa \
 -XX:+TieredCompilation \
--XX:TieredStopAtLevel=1 \
--XX:+EnableDynamicAgentLoading \
 -XX:+SegmentedCodeCache \
 -XX:+UseStringDeduplication \
--XX:+UnlockDiagnosticVMOptions \
--XX:+UnlockExperimentalVMOptions \
 -XX:-OmitStackTraceInFastThrow \
 -XX:+AlwaysPreTouch \
 -XX:+DisableExplicitGC \
 -XX:+UseCompressedOops \
--XX:GuaranteedSafepointInterval=0 \
--XX:+SafepointTimeout \
--XX:SafepointTimeoutDelay=1000 \
 -Djava.awt.headless=true \
 -Dfile.encoding=UTF-8 \
 -Dspring.profiles.active=${PROFILE} \
