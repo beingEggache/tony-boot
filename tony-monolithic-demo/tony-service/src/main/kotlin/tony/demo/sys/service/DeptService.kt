@@ -66,7 +66,8 @@ class DeptService(
                     .ktQuery()
                     .eq(Dept::deptId, parentId)
                     .select(Dept::deptCodeSeq)
-                    .oneObjNotNull<String>("上级不存在") + "-"
+                    .oneObjNotNull<String>("上级不存在") +
+                    "-"
             } else {
                 ""
             }
@@ -116,10 +117,12 @@ class DeptService(
                     .ktQuery()
                     .eq(Dept::deptId, parentId)
                     .select(Dept::deptCodeSeq)
-                    .oneObjNotNull<String>("上级不存在") + "-"
+                    .oneObjNotNull<String>("上级不存在") +
+                    "-"
             } else {
                 ""
-            } + po.deptCode
+            } +
+                po.deptCode
 
         val children =
             dao

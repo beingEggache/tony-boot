@@ -209,7 +209,8 @@ class DictService(
                     .ktQuery()
                     .eq(DictType::dictTypeId, parentId)
                     .select(DictType::dictTypeCodeSeq)
-                    .oneObjNotNull<String>("上级不存在") + "-"
+                    .oneObjNotNull<String>("上级不存在") +
+                    "-"
             } else {
                 ""
             }
@@ -258,10 +259,12 @@ class DictService(
                     .ktQuery()
                     .eq(DictType::dictTypeId, parentId)
                     .select(DictType::dictTypeCodeSeq)
-                    .oneObjNotNull<String>("上级不存在") + "-"
+                    .oneObjNotNull<String>("上级不存在") +
+                    "-"
             } else {
                 ""
-            } + po.dictTypeCode
+            } +
+                po.dictTypeCode
 
         val children =
             dictTypeDao

@@ -75,25 +75,25 @@ fun main(args: Array<String>) {
 2025-06-16 15:25:24.816|应用名|traceId|855|20000|OK|http|POST|http://localhost:10000/excel/export|/excel/export|[null]|Origin:http://localhost:10000;;Cookie:Hm_lvt_eb21166668bf766b9d059a6fd1c10777=1722416148,1723021790,1723085642,1723176832; Idea-ef978a62=3027d474-5a9e-433c-b49d-6ab8bd2e9abb; ASP.NET_SessionId=v54ku32pcuvp4cvypq2sy1fo; Theme=standard;;Request-Origion:Knife4j;;Accept:*/*;;Connection:keep-alive;;Referer:http://localhost:10000/doc.html;;User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0;;Sec-Fetch-Site:same-origin;;Sec-Fetch-Dest:empty;;Host:localhost:10000;;Accept-Encoding:gzip, deflate, br, zstd;;DNT:1;;X-Access-Token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzAxNzAxNDIsImV4cCI6MTc2MTcwNjE0MiwidXNlcklkIjoiOTI1MzA1NDA3NTUyNSJ9.HrV_BkxLU9t-nSjAklefGO1wgT_SozwnVFfNgbN7aHA;;Sec-Fetch-Mode:cors;;sec-ch-ua:"Microsoft Edge";v="137", "Chromium";v="137", "Not/A)Brand";v="24";;sec-ch-ua-mobile:?0;;sec-ch-ua-platform:"Windows";;Accept-Language:zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6;;Content-Length:0;;Content-Type:application/x-www-form-urlencoded|Content-Disposition:attachment; filename="test.xlsx";;Vary:Origin,Access-Control-Request-Method,Access-Control-Request-Headers;;X-B3-Trace-Id:CE206007BD6A4E5D9ACC70BB2B2A91AD;;Content-Type:application/octet-stream;;Content-Length:3916|[null]|[application/octet-stream]|172.24.0.1|172.24.0.4
 ```
 
-| 字段                | 说明                   |
-|---------------------|------------------------|
-| 时间                | 日志时间戳             |
-| 应用名              | 当前服务名             |
-| traceId             | 全链路追踪ID           |
-| 耗时(ms)            | 请求耗时（毫秒）       |
-| 状态码              | HTTP响应码             |
-| 状态                | HTTP状态文本           |
-| 协议                | http/https             |
-| 方法                | 请求方法（GET/POST等） |
-| 源地址              | 请求完整URL            |
-| 路径                | 请求路径               |
-| 查询参数            | URL参数                |
-| 请求头              | 请求头部（多对分号分隔）|
-| 响应头              | 响应头部（多对分号分隔）|
-| 请求体              | 请求体内容             |
-| 响应体              | 响应体内容             |
-| 客户端IP            | 发起请求的客户端IP      |
-| 服务端IP            | 当前服务IP             |
+| 字段      | 说明              |
+|---------|-----------------|
+| 时间      | 日志时间戳           |
+| 应用名     | 当前服务名           |
+| traceId | 全链路追踪ID         |
+| 耗时(ms)  | 请求耗时（毫秒）        |
+| 状态码     | HTTP响应码         |
+| 状态      | HTTP状态文本        |
+| 协议      | http/https      |
+| 方法      | 请求方法（GET/POST等） |
+| 源地址     | 请求完整URL         |
+| 路径      | 请求路径            |
+| 查询参数    | URL参数           |
+| 请求头     | 请求头部（多对分号分隔）    |
+| 响应头     | 响应头部（多对分号分隔）    |
+| 请求体     | 请求体内容           |
+| 响应体     | 响应体内容           |
+| 客户端IP   | 发起请求的客户端IP      |
+| 服务端IP   | 当前服务IP          |
 
 ### 5. 枚举自动转换
 - **EnumIntValueConverterFactory/EnumStringValueConverterFactory**：支持枚举类型在 Controller 参数、DTO、表单、JSON、缓存、数据库等场景自动转换。
@@ -140,6 +140,12 @@ web:
 ## 使用示例
 
 ### Controller 返回值自动包装
+
+**包装行为**：
+- ✅ 普通对象、集合、数组类型
+- ✅ 数组、列表集合类型会被包装为 `ListResult`（如 `IntArray`、`List<User>` → `ListResult<Int>`、 `ListResult<User>`）
+- ❌ 基本类型、字符串、数字、枚举、时间类型：直接返回，不包装
+
 ```kotlin
 @RestController
 @RequestMapping("/api")
@@ -165,17 +171,10 @@ enum class Status(@get:JsonValue override val value: String) : StringEnumValue {
 }
 ```
 
-## 进阶用法
-- 支持自定义异常体系，扩展全局异常处理器。
-- 支持自定义日志格式、脱敏、异步落盘等。
-- 支持复杂跨域、白名单、请求体多次读取等高级场景。
-
 ## 适用场景
 - 需要统一响应、异常、日志、跨域、枚举转换的企业级 Web 项目
 - 追求高规范、易维护、易扩展的 Spring Boot Web 应用
 
 ## 注意事项
 1. **日志安全**：敏感信息建议脱敏处理，避免泄露。
-2. **异常体系**：建议统一异常处理，便于全局监控和定位。
-3. **自动包装白名单**：如需返回原始数据（如文件流），请配置白名单。
-4. **枚举转换**：枚举需实现 Creator 并加 @JsonCreator 注解。
+2. **枚举转换**：枚举需实现 Creator 并加 @JsonCreator 注解。
