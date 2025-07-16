@@ -24,7 +24,7 @@
 
 package tony.web.auth
 
-import tony.SpringContexts.getBeanByLazy
+import tony.core.SpringContexts.getBeanByLazy
 import tony.web.WebContext
 import tony.web.WebSession
 

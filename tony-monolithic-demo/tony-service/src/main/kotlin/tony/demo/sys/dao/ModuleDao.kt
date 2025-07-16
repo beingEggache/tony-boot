@@ -1,9 +1,9 @@
 package tony.demo.sys.dao
 
+import tony.core.utils.copyTo
 import tony.demo.sys.dto.resp.ModuleResp
 import tony.demo.sys.po.Module
 import tony.mybatis.dao.BaseDao
-import tony.utils.copyTo
 
 interface ModuleDao : BaseDao<Module> {
     /**

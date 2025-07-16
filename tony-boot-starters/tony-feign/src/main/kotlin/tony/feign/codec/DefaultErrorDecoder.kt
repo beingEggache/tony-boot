@@ -26,7 +26,7 @@ package tony.feign.codec
 
 import feign.Response
 import feign.codec.ErrorDecoder
-import tony.exception.ApiException
+import tony.core.exception.ApiException
 
 /**
  * Feign 错误默认解析器.

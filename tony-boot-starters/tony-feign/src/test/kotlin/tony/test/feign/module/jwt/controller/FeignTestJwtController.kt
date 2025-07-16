@@ -24,15 +24,15 @@
 
 package tony.test.feign.module.jwt.controller
 
-import tony.MonoResult.Companion.ofMonoResult
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 import tony.annotation.web.auth.NoLoginCheck
+import tony.core.model.MonoResult.Companion.ofMonoResult
 import tony.jwt.JwtToken
 import tony.test.feign.dto.LoginReq
 import tony.test.feign.dto.Person
 import tony.test.feign.module.jwt.api.FeignJwtTestApi
-import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @Validated

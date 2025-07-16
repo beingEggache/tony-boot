@@ -32,9 +32,6 @@
  */
 package tony.test.feign.module.file.controller
 
-import tony.ApiResult
-import tony.annotation.web.auth.NoLoginCheck
-import tony.test.feign.module.file.api.FeignFileTestApi
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
@@ -42,6 +39,9 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
+import tony.annotation.web.auth.NoLoginCheck
+import tony.core.model.ApiResult
+import tony.test.feign.module.file.api.FeignFileTestApi
 import java.nio.file.Paths
 
 @NoLoginCheck

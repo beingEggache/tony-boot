@@ -32,8 +32,8 @@
  */
 package tony.test.feign.exception
 
-import tony.ApiProperty
-import tony.exception.BizException
+import tony.core.ApiProperty
+import tony.core.exception.BizException
 
 class SignInvalidException @JvmOverloads constructor(
     override val message: String,

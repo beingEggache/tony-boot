@@ -27,7 +27,7 @@ package tony.mybatis.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
-import tony.misc.YamlPropertySourceFactory
+import tony.core.misc.YamlPropertySourceFactory
 import tony.mybatis.sqlinjector.TonySqlInjector
 
 /**

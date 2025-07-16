@@ -24,13 +24,13 @@
 
 package tony.test.web.crypto
 
-import tony.test.web.crypto.client.FeignCryptoTestClient
-import tony.utils.getLogger
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cloud.openfeign.EnableFeignClients
+import tony.core.utils.getLogger
+import tony.test.web.crypto.client.FeignCryptoTestClient
 
 @EnableFeignClients
 @SpringBootTest(classes = [TestWebCryptoApp::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)

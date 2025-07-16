@@ -24,7 +24,7 @@
 
 package tony.redis
 
-import tony.SpringContexts.Env
+import tony.core.SpringContexts.Env
 
 /**
  * redis key 操作静态单例.

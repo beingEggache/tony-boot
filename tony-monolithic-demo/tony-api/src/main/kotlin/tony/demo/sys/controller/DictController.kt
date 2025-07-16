@@ -6,8 +6,8 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import tony.FlattenPageQuery
-import tony.PageResult
+import tony.core.model.FlattenPageQuery
+import tony.core.model.PageResult
 import tony.demo.MonoApiWebContext.appId
 import tony.demo.sys.dto.query.DictQuery
 import tony.demo.sys.dto.query.DictTypeQuery

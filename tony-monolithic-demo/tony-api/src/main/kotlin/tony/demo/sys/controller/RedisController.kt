@@ -5,9 +5,9 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import tony.MonoResult
-import tony.MonoResult.Companion.ofMonoResult
 import tony.annotation.web.auth.NoLoginCheck
+import tony.core.model.MonoResult
+import tony.core.model.MonoResult.Companion.ofMonoResult
 import tony.demo.permission.NoPermissionCheck
 import tony.demo.sys.dto.req.WrappedReq
 import tony.redis.RedisManager

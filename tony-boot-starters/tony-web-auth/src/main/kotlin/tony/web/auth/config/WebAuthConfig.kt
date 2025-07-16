@@ -34,9 +34,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.PriorityOrdered
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import tony.SpringContexts
+import tony.core.SpringContexts
+import tony.core.utils.getLogger
 import tony.jwt.config.JwtProperties
-import tony.utils.getLogger
 import tony.web.WebContext
 import tony.web.WebSession
 import tony.web.auth.JwtWebSession

@@ -43,8 +43,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.cors.CorsUtils
-import tony.utils.applyIf
-import tony.utils.ifNull
+import tony.core.utils.applyIf
+import tony.core.utils.ifNull
 import tony.web.WebContext
 
 /**

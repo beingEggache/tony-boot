@@ -3,7 +3,7 @@ package tony.demo.sys.dto.resp
 import com.fasterxml.jackson.annotation.JsonIgnore
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDateTime
-import tony.demo.trait.ForestLike
+import tony.core.model.ForestLike
 
 /**
  * 字典类型响应
@@ -32,8 +32,7 @@ data class DictTypeResp(
 ) : ForestLike<DictTypeResp> {
     override val code: String
         get() = dictTypeCodeSeq
-
-    override var children: MutableList<DictTypeResp> = mutableListOf()
-
+    override val children: MutableCollection<DictTypeResp>
+        get() = mutableListOf()
     val title = dictTypeName
 }

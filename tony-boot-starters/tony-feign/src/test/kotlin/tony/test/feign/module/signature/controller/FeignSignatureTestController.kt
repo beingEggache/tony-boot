@@ -24,14 +24,14 @@
 
 package tony.test.feign.module.signature.controller
 
-import tony.annotation.web.auth.NoLoginCheck
-import tony.exception.ApiException
-import tony.exception.BizException
-import tony.test.feign.dto.Person
-import tony.test.feign.module.signature.api.FeignSignatureTestApi
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import tony.annotation.web.auth.NoLoginCheck
+import tony.core.exception.ApiException
+import tony.core.exception.BizException
+import tony.test.feign.dto.Person
+import tony.test.feign.module.signature.api.FeignSignatureTestApi
 
 @RestController
 @Validated

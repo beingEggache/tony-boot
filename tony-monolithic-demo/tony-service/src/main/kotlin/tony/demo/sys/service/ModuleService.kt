@@ -2,17 +2,17 @@ package tony.demo.sys.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import tony.RowsWrapper
+import tony.core.model.RowsWrapper
+import tony.core.utils.copyTo
+import tony.core.utils.listToTree
+import tony.core.utils.throwIfEmpty
+import tony.core.utils.treeToList
 import tony.demo.sys.dao.ModuleDao
 import tony.demo.sys.dto.enums.ModuleType
 import tony.demo.sys.dto.query.ModuleQuery
 import tony.demo.sys.dto.req.ModuleSubmitReq
 import tony.demo.sys.dto.resp.ModuleResp
 import tony.demo.sys.po.Module
-import tony.demo.trait.listAndSetChildren
-import tony.demo.trait.treeToList
-import tony.utils.copyTo
-import tony.utils.throwIfEmpty
 
 /**
  * 模块Service
@@ -55,7 +55,7 @@ class ModuleService(
             .orderByDesc(Module::moduleCode)
             .list()
             .map { it.copyTo<ModuleResp>() }
-            .listAndSetChildren()
+            .listToTree()
 
     /**
      * 列表

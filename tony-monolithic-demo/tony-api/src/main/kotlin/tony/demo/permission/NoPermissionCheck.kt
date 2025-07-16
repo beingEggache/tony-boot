@@ -5,10 +5,10 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
+import tony.core.exception.BizException
 import tony.demo.MonoApiWebContext.tenantId
 import tony.demo.sys.dao.EmployeeDao
 import tony.demo.sys.dto.enums.ModuleType
-import tony.exception.BizException
 import tony.web.WebContext
 import tony.web.auth.WebContextExtensions.appId
 import tony.web.auth.WebContextExtensions.userId

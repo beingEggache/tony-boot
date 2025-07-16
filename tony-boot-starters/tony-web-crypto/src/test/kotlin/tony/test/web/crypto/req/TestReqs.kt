@@ -24,9 +24,9 @@
 
 package tony.test.web.crypto.req
 
-import tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import tony.core.crypto.symmetric.enums.SymmetricCryptoAlgorithm
 
 /**
  * TestReqs is

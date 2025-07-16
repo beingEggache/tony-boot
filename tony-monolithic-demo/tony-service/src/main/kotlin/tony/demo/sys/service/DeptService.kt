@@ -4,6 +4,9 @@ import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum
 import com.github.houbb.pinyin.util.PinyinHelper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import tony.core.utils.copyTo
+import tony.core.utils.genRandomInt
+import tony.core.utils.listToTree
 import tony.demo.sys.dao.DeptDao
 import tony.demo.sys.dto.query.DeptQuery
 import tony.demo.sys.dto.req.DeptAddReq
@@ -11,9 +14,6 @@ import tony.demo.sys.dto.req.DeptDeleteReq
 import tony.demo.sys.dto.req.DeptUpdateReq
 import tony.demo.sys.dto.resp.DeptResp
 import tony.demo.sys.po.Dept
-import tony.demo.trait.listAndSetChildren
-import tony.utils.copyTo
-import tony.utils.genRandomInt
 
 /**
  * 角色Service
@@ -42,7 +42,7 @@ class DeptService(
             .list()
             .map {
                 it.copyTo<DeptResp>()
-            }.listAndSetChildren()
+            }.listToTree()
 
     /**
      * 新增

@@ -25,7 +25,7 @@
 package tony.redis.serializer
 
 import tony.redis.serializer.wrapper.ProtoWrapper
-import tony.utils.isNumberTypes
+import tony.core.utils.isNumberTypes
 import io.protostuff.LinkedBuffer
 import io.protostuff.ProtobufException
 import io.protostuff.ProtostuffIOUtil

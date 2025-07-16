@@ -26,12 +26,12 @@ package tony.wechat
 
 import org.springframework.http.MediaType
 import org.springframework.validation.annotation.Validated
-import tony.SpringContexts
-import tony.codec.Base64Codec
-import tony.utils.jsonToObj
-import tony.utils.sha1
-import tony.utils.string
-import tony.utils.urlEncode
+import tony.core.SpringContexts
+import tony.core.codec.Base64Codec
+import tony.core.utils.jsonToObj
+import tony.core.utils.sha1
+import tony.core.utils.string
+import tony.core.utils.urlEncode
 import tony.wechat.client.WechatClient
 import tony.wechat.client.req.WechatMenu
 import tony.wechat.client.req.WechatMiniProgramQrCodeCreateReq

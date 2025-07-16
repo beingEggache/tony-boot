@@ -27,15 +27,15 @@ package tony.mybatis.wrapper.query
 import com.baomidou.mybatisplus.extension.conditions.query.ChainQuery
 import java.util.Collections
 import org.apache.ibatis.exceptions.TooManyResultsException
-import tony.ApiProperty
-import tony.PageQueryLike
-import tony.PageResultLike
-import tony.exception.BaseException
+import tony.core.ApiProperty
+import tony.core.exception.BaseException
+import tony.core.model.PageQueryLike
+import tony.core.model.PageResultLike
+import tony.core.utils.throwIfFalse
+import tony.core.utils.throwIfNull
+import tony.core.utils.throwIfTrue
 import tony.mybatis.dao.BaseDao
 import tony.mybatis.dao.getEntityClass
-import tony.utils.throwIfFalse
-import tony.utils.throwIfNull
-import tony.utils.throwIfTrue
 
 /**
  * 链式查询.

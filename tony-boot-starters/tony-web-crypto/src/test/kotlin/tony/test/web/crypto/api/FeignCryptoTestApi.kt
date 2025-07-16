@@ -24,11 +24,11 @@
 
 package tony.test.web.crypto.api
 
-import tony.MonoResult
-import tony.test.web.crypto.req.TestReq
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import tony.core.model.MonoResult
+import tony.test.web.crypto.req.TestReq
 
 /**
  * MethodCrypto is

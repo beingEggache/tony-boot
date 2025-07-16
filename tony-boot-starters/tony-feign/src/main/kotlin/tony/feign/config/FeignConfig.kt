@@ -48,7 +48,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.lang.Nullable
 import org.springframework.util.unit.DataSize
-import tony.crypto.CryptoProvider
+import tony.core.crypto.CryptoProvider
+import tony.core.misc.YamlPropertySourceFactory
 import tony.feign.FeignTargeter
 import tony.feign.codec.DefaultErrorDecoder
 import tony.feign.interceptor.request.GlobalRequestInterceptorProvider
@@ -61,7 +62,6 @@ import tony.feign.log.FeignLogInterceptor
 import tony.feign.log.FeignRequestLogger
 import tony.feign.okhttp.interceptor.AppInterceptor
 import tony.feign.okhttp.interceptor.NetworkInterceptor
-import tony.misc.YamlPropertySourceFactory
 
 /**
  * FeignConfig
@@ -92,14 +92,14 @@ private class FeignConfig(
 
     @ConditionalOnMissingBean(FeignRequestLogger::class)
     @ConditionalOnExpression(
-        "\${spring.cloud.openfeign.okhttp.enabled:true} and \${web.log.request.enabled:true}"
+        $$"${spring.cloud.openfeign.okhttp.enabled:true} and ${web.log.request.enabled:true}"
     )
     @Bean
     private fun feignRequestLogger(): FeignRequestLogger =
         DefaultFeignRequestLogger()
 
     @ConditionalOnExpression(
-        "\${spring.cloud.openfeign.okhttp.enabled:true} and \${web.log.request.enabled:true}"
+        $$"${spring.cloud.openfeign.okhttp.enabled:true} and ${web.log.request.enabled:true}"
     )
     @Bean
     private fun feignLogInterceptor(feignRequestLogger: FeignRequestLogger) =
@@ -133,7 +133,7 @@ private class FeignConfig(
             unwrapResponseInterceptors.map { it.getObject() }
         )
 
-    @ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
+    @ConditionalOnExpression($$"${spring.cloud.openfeign.okhttp.enabled:true}")
     @ConditionalOnMissingBean(OkHttpClient::class)
     @Bean
     private fun okHttpClient(
@@ -174,7 +174,7 @@ private data class FeignConfigProperties(
     val followRedirects: Boolean,
 )
 
-@ConditionalOnExpression("\${spring.cloud.openfeign.okhttp.enabled:true}")
+@ConditionalOnExpression($$"${spring.cloud.openfeign.okhttp.enabled:true}")
 @ConditionalOnBean(OkHttpClient::class)
 @ConfigurationProperties(prefix = "web.log.request")
 private data class RequestLogProperties(

@@ -65,13 +65,13 @@ internal class PhysicalDelete : AbstractMethod("physicalDelete") {
         val sgEs = """<bind name="_sgEs_" value="ew.sqlSegment != null and ew.sqlSegment != ''"/>"""
         val andSqlSegment =
             SqlScriptUtils.convertIf(
-                " AND \${$WRAPPER_SQLSEGMENT}",
+                $$" AND ${$$WRAPPER_SQLSEGMENT}",
                 "_sgEs_ and $WRAPPER_NONEMPTYOFNORMAL",
                 true
             )
         val lastSqlSegment =
             SqlScriptUtils.convertIf(
-                " \${$WRAPPER_SQLSEGMENT}",
+                $$" ${$$WRAPPER_SQLSEGMENT}",
                 "_sgEs_ and $WRAPPER_EMPTYOFNORMAL",
                 true
             )

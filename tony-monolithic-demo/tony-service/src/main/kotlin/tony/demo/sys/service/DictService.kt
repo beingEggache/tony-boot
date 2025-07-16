@@ -2,8 +2,11 @@ package tony.demo.sys.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import tony.PageQueryLike
-import tony.PageResult
+import tony.core.model.PageQueryLike
+import tony.core.model.PageResult
+import tony.core.utils.copyTo
+import tony.core.utils.listToTree
+import tony.core.utils.throwIfTrue
 import tony.demo.sys.dao.DictDao
 import tony.demo.sys.dao.DictTypeDao
 import tony.demo.sys.dto.query.DictQuery
@@ -19,9 +22,6 @@ import tony.demo.sys.dto.resp.DictTypeResp
 import tony.demo.sys.dto.resp.DictValuesMapResp
 import tony.demo.sys.po.Dict
 import tony.demo.sys.po.DictType
-import tony.demo.trait.listAndSetChildren
-import tony.utils.copyTo
-import tony.utils.throwIfTrue
 
 /**
  * 字典Service
@@ -176,7 +176,7 @@ class DictService(
             .list()
             .map {
                 it.copyTo<DictTypeResp>()
-            }.listAndSetChildren()
+            }.listToTree()
 
     /**
      * 新增字典类型

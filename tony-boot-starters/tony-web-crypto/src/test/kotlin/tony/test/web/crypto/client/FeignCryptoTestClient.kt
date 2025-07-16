@@ -24,9 +24,9 @@
 
 package tony.test.web.crypto.client
 
+import org.springframework.cloud.openfeign.FeignClient
 import tony.annotation.feign.FeignUnwrapResponse
 import tony.test.web.crypto.api.FeignCryptoTestApi
-import org.springframework.cloud.openfeign.FeignClient
 
 /**
  * MethodCryptoClient is

@@ -1,6 +1,6 @@
 package tony.mono.api;
 
-import tony.annotation.EnableTonyBoot;
+import tony.core.annotation.EnableTonyBoot;
 import tony.mono.db.config.DbConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

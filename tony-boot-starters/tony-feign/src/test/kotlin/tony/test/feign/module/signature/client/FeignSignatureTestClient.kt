@@ -24,6 +24,9 @@
 
 package tony.test.feign.module.signature.client
 
+import org.springframework.cloud.openfeign.FeignClient
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import tony.annotation.feign.FeignUnwrapResponse
 import tony.annotation.feign.FeignUseGlobalInterceptor
 import tony.annotation.feign.RequestProcessors
@@ -31,9 +34,6 @@ import tony.annotation.web.auth.NoLoginCheck
 import tony.test.feign.config.SignatureRequestProcessor
 import tony.test.feign.dto.Person
 import tony.test.feign.module.signature.api.FeignSignatureTestApi
-import org.springframework.cloud.openfeign.FeignClient
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 
 @FeignUnwrapResponse
 @FeignUseGlobalInterceptor

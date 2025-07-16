@@ -24,7 +24,7 @@
 
 package tony.test.knife4j
 
-import tony.annotation.EnableTonyBoot
+import tony.core.annotation.EnableTonyBoot
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @EnableTonyBoot

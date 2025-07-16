@@ -35,7 +35,7 @@ import com.thoughtworks.xstream.io.xml.XppDriver
 import java.io.Writer
 import java.util.Collections
 import java.util.WeakHashMap
-import tony.utils.asToNotNull
+import tony.core.utils.asToNotNull
 
 private val xStreamMap = WeakHashMap<Class<*>, XStream>()
 private val processedClz: MutableSet<Class<*>> = Collections.newSetFromMap(WeakHashMap())

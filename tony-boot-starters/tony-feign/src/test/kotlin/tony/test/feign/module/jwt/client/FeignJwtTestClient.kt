@@ -24,12 +24,12 @@
 
 package tony.test.feign.module.jwt.client
 
+import org.springframework.cloud.openfeign.FeignClient
 import tony.annotation.feign.FeignUnwrapResponse
 import tony.annotation.feign.FeignUseGlobalInterceptor
 import tony.annotation.feign.RequestProcessors
 import tony.test.feign.config.AddTokenRequestProcessor
 import tony.test.feign.module.jwt.api.FeignJwtTestApi
-import org.springframework.cloud.openfeign.FeignClient
 
 @RequestProcessors(RequestProcessors.Value(AddTokenRequestProcessor::class))
 @FeignUnwrapResponse

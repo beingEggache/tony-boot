@@ -24,7 +24,7 @@
 
 package tony.test.web.auth
 
-import tony.annotation.EnableTonyBoot
+import tony.core.annotation.EnableTonyBoot
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 

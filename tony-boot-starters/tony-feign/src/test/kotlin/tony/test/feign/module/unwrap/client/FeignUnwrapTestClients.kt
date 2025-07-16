@@ -24,9 +24,9 @@
 
 package tony.test.feign.module.unwrap.client
 
+import org.springframework.cloud.openfeign.FeignClient
 import tony.annotation.feign.FeignUnwrapResponse
 import tony.test.feign.module.unwrap.api.FeignUnwrapTestApi
-import org.springframework.cloud.openfeign.FeignClient
 
 @FeignUnwrapResponse
 @FeignClient(name = "feignWithUnwrapTestClient", url = "http://localhost:10005")

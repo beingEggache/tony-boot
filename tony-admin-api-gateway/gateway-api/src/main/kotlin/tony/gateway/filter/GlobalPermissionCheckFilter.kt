@@ -11,7 +11,7 @@ import org.springframework.core.Ordered
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
-import tony.ApiResult
+import tony.core.model.ApiResult
 import tony.gateway.config.GatewayRouteConfigProperties
 import tony.gateway.utils.jsonBody
 

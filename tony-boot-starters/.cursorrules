@@ -200,7 +200,7 @@ public object Strs {
 ```
 ---
 ### 异常处理规范
-🔴 优先使用工具函数抛出异常, 所有自定义异常继承 tony.exception.ApiException。
+🔴 优先使用工具函数抛出异常, 所有自定义异常继承 tony.core.exception.ApiException。
 
 ```kotlin
 // 工具函数示例

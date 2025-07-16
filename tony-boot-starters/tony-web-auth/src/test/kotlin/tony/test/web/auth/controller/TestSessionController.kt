@@ -24,7 +24,7 @@
 
 package tony.test.web.auth.controller
 
-import tony.ApiResult
+import tony.core.model.ApiResult
 import tony.annotation.web.auth.NoLoginCheck
 import tony.jwt.JwtToken
 import tony.test.web.auth.req.TestLoginReq

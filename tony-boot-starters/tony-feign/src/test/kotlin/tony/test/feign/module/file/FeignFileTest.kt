@@ -32,18 +32,18 @@
  */
 package tony.test.feign.module.file
 
-import tony.ApiProperty
-import tony.exception.BizException
-import tony.feign.multipart.ByteArrayMultipartFile
-import tony.test.feign.module.file.client.FeignFileTestClient
-import tony.utils.getLogger
-import tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
+import tony.core.ApiProperty
+import tony.core.exception.BizException
+import tony.core.utils.getLogger
+import tony.core.utils.toJsonString
+import tony.feign.multipart.ByteArrayMultipartFile
+import tony.test.feign.module.file.client.FeignFileTestClient
 
 @Execution(ExecutionMode.CONCURRENT)
 @SpringBootTest(

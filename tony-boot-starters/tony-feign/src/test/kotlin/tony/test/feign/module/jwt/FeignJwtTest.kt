@@ -24,18 +24,18 @@
 
 package tony.test.feign.module.jwt
 
-import tony.test.feign.config.mockWebAttributes
-import tony.test.feign.dto.LoginReq
-import tony.test.feign.dto.Person
-import tony.test.feign.module.jwt.client.FeignJwtTestClient
-import tony.utils.getLogger
-import tony.utils.ifNullOrBlank
-import tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import org.springframework.boot.test.context.SpringBootTest
+import tony.core.utils.getLogger
+import tony.core.utils.ifNullOrBlank
+import tony.core.utils.toJsonString
+import tony.test.feign.config.mockWebAttributes
+import tony.test.feign.dto.LoginReq
+import tony.test.feign.dto.Person
+import tony.test.feign.module.jwt.client.FeignJwtTestClient
 
 @Execution(ExecutionMode.CONCURRENT)
 @SpringBootTest(

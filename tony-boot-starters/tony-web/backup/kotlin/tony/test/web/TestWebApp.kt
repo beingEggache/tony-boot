@@ -25,8 +25,8 @@
 package tony.test.web
 
 import com.fasterxml.jackson.databind.BeanProperty
-import tony.annotation.EnableTonyBoot
-import tony.jackson.InjectableValueSupplier
+import tony.core.annotation.EnableTonyBoot
+import tony.core.jackson.InjectableValueSupplier
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean

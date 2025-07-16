@@ -24,11 +24,11 @@
 
 package tony.test.feign.module.jwt.api
 
-import tony.MonoResult
-import tony.test.feign.dto.LoginReq
-import tony.test.feign.dto.Person
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import tony.core.model.MonoResult
+import tony.test.feign.dto.LoginReq
+import tony.test.feign.dto.Person
 
 interface FeignJwtTestApi {
 

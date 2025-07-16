@@ -39,10 +39,10 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
-import tony.misc.YamlPropertySourceFactory
+import tony.core.misc.YamlPropertySourceFactory
 
 @EnableKnife4j
-@ConditionalOnExpression("\${knife4j.enable:true}")
+@ConditionalOnExpression($$"${knife4j.enable:true}")
 @PropertySource("classpath:knife4j.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(Knife4jExtensionProperties::class)
 @Configuration(proxyBeanMethods = false)

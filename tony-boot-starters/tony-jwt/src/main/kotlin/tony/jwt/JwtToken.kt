@@ -29,9 +29,9 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
 import java.time.LocalDateTime
 import java.util.Date
-import tony.SpringContexts
+import tony.core.SpringContexts
+import tony.core.utils.toDate
 import tony.jwt.config.JwtProperties
-import tony.utils.toDate
 
 /**
  * jwt 单例类.

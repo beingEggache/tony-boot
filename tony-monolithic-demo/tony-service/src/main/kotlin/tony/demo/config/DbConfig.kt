@@ -14,10 +14,10 @@ import org.springframework.context.annotation.Lazy
 import org.springframework.context.annotation.PropertySource
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import tony.ApiSession
+import tony.core.misc.YamlPropertySourceFactory
 import tony.demo.sys.dao.EmployeeDao
 import tony.demo.sys.po.Employee
 import tony.id.IdGenerator
-import tony.misc.YamlPropertySourceFactory
 import tony.mybatis.DefaultMetaObjectHandler
 import tony.mybatis.MetaColumn
 
@@ -34,7 +34,6 @@ class DbConfig {
         return interceptor
     }
 
-    @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     private fun metaObjectHandler(
         apiSession: ApiSession,

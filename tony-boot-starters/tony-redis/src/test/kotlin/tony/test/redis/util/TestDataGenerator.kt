@@ -26,15 +26,14 @@ package tony.test.redis.util
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
-import tony.enums.IntEnumCreator
-import tony.enums.IntEnumValue
-import tony.enums.StringEnumCreator
-import tony.enums.StringEnumValue
-import tony.utils.uuid
+import tony.core.enums.IntEnumCreator
+import tony.core.enums.IntEnumValue
+import tony.core.enums.StringEnumCreator
+import tony.core.enums.StringEnumValue
+import tony.core.utils.uuid
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.LocalDateTime
-import java.util.UUID
 
 /**
  * 测试数据生成器

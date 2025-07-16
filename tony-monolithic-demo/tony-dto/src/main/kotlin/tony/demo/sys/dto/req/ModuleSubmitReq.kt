@@ -3,9 +3,9 @@ package tony.demo.sys.dto.req
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import tony.core.model.TreeLike
 import tony.demo.annotation.TenantIdInject
 import tony.demo.sys.dto.enums.ModuleType
-import tony.demo.trait.TreeLike
 
 /**
  * 模块请求
@@ -60,7 +60,7 @@ data class ModuleSubmitReq(
     /**
      * 子模块
      */
-    override val children: List<ModuleSubmitReq> = mutableListOf(),
+    override val children: MutableCollection<ModuleSubmitReq> = mutableListOf(),
     @get:TenantIdInject
     @param:Schema(hidden = true)
     val tenantId: String = "",

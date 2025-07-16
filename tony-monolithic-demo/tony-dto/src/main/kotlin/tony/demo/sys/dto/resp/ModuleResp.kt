@@ -1,8 +1,8 @@
 package tony.demo.sys.dto.resp
 
 import io.swagger.v3.oas.annotations.media.Schema
+import tony.core.model.ForestLike
 import tony.demo.sys.dto.enums.ModuleType
-import tony.demo.trait.ForestLike
 
 /**
  *
@@ -30,7 +30,7 @@ data class ModuleResp(
         get() = moduleCodeSeq
 
     @get:Schema(description = "子路由")
-    override var children: MutableList<ModuleResp> = mutableListOf()
+    override val children: MutableCollection<ModuleResp> = mutableListOf()
 
     override val sort: Int
         get() = 0

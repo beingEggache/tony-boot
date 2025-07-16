@@ -55,15 +55,15 @@ import org.springframework.web.cors.DefaultCorsProcessor
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.filter.CorsFilter
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import tony.ApiResult
-import tony.jackson.InjectableValueSupplier
-import tony.jackson.InjectableValuesBySupplier
-import tony.jackson.NullValueBeanSerializerModifier
-import tony.misc.YamlPropertySourceFactory
-import tony.utils.asTo
-import tony.utils.createObjectMapper
-import tony.utils.getLogger
-import tony.utils.toJsonString
+import tony.core.jackson.InjectableValueSupplier
+import tony.core.jackson.InjectableValuesBySupplier
+import tony.core.jackson.NullValueBeanSerializerModifier
+import tony.core.misc.YamlPropertySourceFactory
+import tony.core.model.ApiResult
+import tony.core.utils.asTo
+import tony.core.utils.createObjectMapper
+import tony.core.utils.getLogger
+import tony.core.utils.toJsonString
 import tony.web.advice.ExceptionHandler
 import tony.web.advice.WrapResponseBodyAdvice
 import tony.web.converter.EnumIntValueConverterFactory
@@ -120,7 +120,7 @@ private class WebConfig(
         }
     }
 
-    @ConditionalOnExpression("\${web.log.trace.enabled:true}")
+    @ConditionalOnExpression($$"${web.log.trace.enabled:true}")
     @Bean
     private fun requestReplaceToRepeatReadFilter() =
         RequestReplaceToRepeatReadFilter(traceLogProperties.excludePatterns)
@@ -130,12 +130,12 @@ private class WebConfig(
         TraceIdFilter()
 
     @ConditionalOnMissingBean(TraceLogger::class)
-    @ConditionalOnExpression("\${web.log.trace.enabled:true}")
+    @ConditionalOnExpression($$"${web.log.trace.enabled:true}")
     @Bean
     private fun defaultTraceLogger(): TraceLogger =
         DefaultTraceLogger()
 
-    @ConditionalOnExpression("\${web.log.trace.enabled:true}")
+    @ConditionalOnExpression($$"${web.log.trace.enabled:true}")
     @Bean
     private fun traceLogFilter(traceLogger: TraceLogger): TraceLogFilter =
         TraceLogFilter(
@@ -145,7 +145,7 @@ private class WebConfig(
             traceLogProperties.responseBodyMaxSize.toBytes()
         )
 
-    @ConditionalOnExpression("\${web.wrap-response-body-enabled:true}")
+    @ConditionalOnExpression($$"${web.wrap-response-body-enabled:true}")
     @Bean
     private fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice =
         WrapResponseBodyAdvice()
@@ -154,7 +154,7 @@ private class WebConfig(
     private fun exceptionHandler() =
         ExceptionHandler()
 
-    @ConditionalOnExpression("\${web.cors.enabled:true}")
+    @ConditionalOnExpression($$"${web.cors.enabled:true}")
     @Bean
     private fun corsFilter(): CorsFilter {
         val corsConfiguration =

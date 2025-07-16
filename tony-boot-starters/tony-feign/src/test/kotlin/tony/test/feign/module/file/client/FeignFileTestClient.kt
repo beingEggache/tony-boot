@@ -24,8 +24,8 @@
 
 package tony.test.feign.module.file.client
 
-import tony.test.feign.module.file.api.FeignFileTestApi
 import org.springframework.cloud.openfeign.FeignClient
+import tony.test.feign.module.file.api.FeignFileTestApi
 
 @FeignClient(name = "feignFileTestClient", url = "http://localhost:10002")
 interface FeignFileTestClient : FeignFileTestApi

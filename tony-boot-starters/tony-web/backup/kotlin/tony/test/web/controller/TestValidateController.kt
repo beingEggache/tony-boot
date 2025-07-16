@@ -26,7 +26,7 @@ package tony.test.web.controller
 
 import tony.PageQuery
 import tony.codec.enums.Encoding
-import tony.enums.validate.RangedStringEnum
+import tony.core.enums.validate.RangedStringEnum
 import tony.test.web.req.TestPatternReq
 import tony.test.web.req.TestQuery
 import tony.test.web.req.TestReq

@@ -4,8 +4,8 @@ import tony.redis.serializer.SerializerMode
 import tony.redis.service.RedisService
 import tony.redis.toNum
 import tony.test.redis.fury.serializer.FurySerializer
-import tony.utils.asTo
-import tony.utils.isNumberTypes
+import tony.core.utils.asTo
+import tony.core.utils.isNumberTypes
 
 /**
  * FuryRedisService is

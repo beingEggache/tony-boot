@@ -24,15 +24,15 @@
 
 package tony.test.feign.module.signature
 
-import tony.test.feign.dto.Person
-import tony.test.feign.module.signature.client.FeignSignatureTestClient
-import tony.utils.println
-import tony.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import org.springframework.boot.test.context.SpringBootTest
+import tony.core.utils.println
+import tony.core.utils.toJsonString
+import tony.test.feign.dto.Person
+import tony.test.feign.module.signature.client.FeignSignatureTestClient
 
 @Execution(ExecutionMode.CONCURRENT)
 @SpringBootTest(

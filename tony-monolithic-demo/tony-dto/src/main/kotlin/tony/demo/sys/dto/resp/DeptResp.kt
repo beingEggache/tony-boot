@@ -3,7 +3,7 @@ package tony.demo.sys.dto.resp
 import com.fasterxml.jackson.annotation.JsonIgnore
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDateTime
-import tony.demo.trait.ForestLike
+import tony.core.model.ForestLike
 
 /**
  * 部门树形响应

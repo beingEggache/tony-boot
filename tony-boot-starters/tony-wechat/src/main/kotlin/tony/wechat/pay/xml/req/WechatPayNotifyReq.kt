@@ -27,8 +27,8 @@ package tony.wechat.pay.xml.req
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamConverter
 import java.util.function.Consumer
-import tony.exception.BaseException
-import tony.utils.getLogger
+import tony.core.exception.BaseException
+import tony.core.utils.getLogger
 import tony.wechat.pay.xml.resp.WechatPayNotifyResp
 import tony.wechat.xml.XStreamCDataConverter
 import tony.wechat.xml.toXmlString

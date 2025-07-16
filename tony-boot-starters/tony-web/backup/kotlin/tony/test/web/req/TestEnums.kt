@@ -26,10 +26,10 @@ package tony.test.web.req
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
-import tony.enums.DEFAULT_INT_VALUE
-import tony.enums.EnumCreator
-import tony.enums.IntEnumValue
-import tony.enums.StringEnumValue
+import tony.core.enums.DEFAULT_INT_VALUE
+import tony.core.enums.EnumCreator
+import tony.core.enums.IntEnumValue
+import tony.core.enums.StringEnumValue
 
 enum class TestIntEnum(
     override val value: Int

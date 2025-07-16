@@ -35,10 +35,10 @@ package tony.mybatis.dao
 
 import java.lang.reflect.Proxy
 import java.util.concurrent.ConcurrentHashMap
-import tony.utils.asToNotNull
-import tony.utils.isTypesOrSubTypesOf
-import tony.utils.rawClass
-import tony.utils.typeParamOfSuperInterface
+import tony.core.utils.asToNotNull
+import tony.core.utils.isTypesOrSubTypesOf
+import tony.core.utils.rawClass
+import tony.core.utils.typeParamOfSuperInterface
 
 @get:JvmSynthetic
 internal val ENTITY_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()

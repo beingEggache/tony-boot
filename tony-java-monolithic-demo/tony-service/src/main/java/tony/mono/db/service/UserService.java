@@ -1,7 +1,7 @@
 package tony.mono.db.service;
 
-import tony.PageQueryLike;
-import tony.PageResultLike;
+import tony.core.model.PageQueryLike;
+import tony.core.model.PageResultLike;
 import tony.mono.db.dao.UserDao;
 import tony.mono.db.po.User;
 import tony.mono.dto.req.UserLoginReq;

@@ -1,6 +1,6 @@
 package tony.test
 
-import tony.annotation.EnableTonyBoot
+import tony.core.annotation.EnableTonyBoot
 import tony.demo.config.DbConfig
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Import

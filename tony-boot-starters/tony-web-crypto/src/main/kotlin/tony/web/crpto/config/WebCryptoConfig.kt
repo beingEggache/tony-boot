@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
-import tony.crypto.CryptoProvider
+import tony.core.crypto.CryptoProvider
 import tony.web.crpto.DecryptRequestBodyAdvice
 import tony.web.crpto.DefaultDecryptRequestBodyAdvice
 import tony.web.crpto.DefaultEncryptResponseBodyAdvice
@@ -49,7 +49,7 @@ import tony.web.crpto.EncryptResponseBodyAdvice
             .Type
             .SERVLET
 )
-@ConditionalOnExpression("\${web.crypto.enabled:true}")
+@ConditionalOnExpression($$"${web.crypto.enabled:true}")
 @Configuration(proxyBeanMethods = false)
 internal class WebCryptoConfig {
     @Resource

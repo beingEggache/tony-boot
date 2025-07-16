@@ -26,9 +26,9 @@ package tony.test.mybatis.db.enums
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
-import tony.enums.DEFAULT_INT_VALUE
-import tony.enums.IntEnumCreator
-import tony.enums.IntEnumValue
+import tony.core.enums.DEFAULT_INT_VALUE
+import tony.core.enums.IntEnumCreator
+import tony.core.enums.IntEnumValue
 
 /**
  * 帐户状态

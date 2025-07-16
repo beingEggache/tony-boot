@@ -2,9 +2,13 @@ package tony.demo.sys.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import tony.PageQueryLike
-import tony.PageResult
-import tony.PageResultLike
+import tony.core.model.PageQueryLike
+import tony.core.model.PageResult
+import tony.core.model.PageResultLike
+import tony.core.utils.alsoIfNotEmpty
+import tony.core.utils.copyTo
+import tony.core.utils.md5
+import tony.core.utils.uuid
 import tony.demo.sys.dao.DeptDao
 import tony.demo.sys.dao.EmployeeDao
 import tony.demo.sys.dao.RoleDao
@@ -17,12 +21,8 @@ import tony.demo.sys.dto.req.EmployeeToggleEnabledReq
 import tony.demo.sys.dto.req.EmployeeUpdateReq
 import tony.demo.sys.dto.resp.EmployeeResp
 import tony.demo.sys.po.Employee
-import tony.utils.alsoIfNotEmpty
-import tony.utils.copyTo
-import tony.utils.md5
-import tony.utils.toPage
-import tony.utils.toPageResult
-import tony.utils.uuid
+import tony.mybatis.utils.toPage
+import tony.mybatis.utils.toPageResult
 
 /**
  * 员工Service

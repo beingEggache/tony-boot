@@ -34,7 +34,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
 import tony.annotation.web.auth.NoLoginCheck
-import tony.utils.hasAnnotation
+import tony.core.utils.hasAnnotation
 import tony.web.WebContext
 import tony.web.auth.WebContextExtensions.webSession
 

@@ -34,7 +34,7 @@ import tony.test.redis.RedisTestIntEnum
 import tony.test.redis.RedisTestStringEnum
 import tony.test.redis.SimpleObj
 import tony.test.redis.TestRedisApp
-import tony.utils.toJsonString
+import tony.core.utils.toJsonString
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode

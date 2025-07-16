@@ -30,7 +30,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import org.apache.ibatis.type.BaseTypeHandler
 import org.apache.ibatis.type.JdbcType
-import tony.enums.EnumValue
+import tony.core.enums.EnumValue
 
 /**
  * mybatis 枚举 转换器.

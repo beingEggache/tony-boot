@@ -24,7 +24,7 @@
 
 package tony.web.crpto
 
-import tony.ApiResultLike
+import tony.core.model.ApiResultLike
 
 /**
  * 加密请求响应结构

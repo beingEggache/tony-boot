@@ -24,15 +24,15 @@
 
 package tony.test.web.crypto
 
-import tony.annotation.EnableTonyBoot
-import tony.codec.enums.Encoding
-import tony.crypto.CryptoProvider
-import tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
-import tony.web.crpto.config.WebCryptoConfig
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
+import tony.core.annotation.EnableTonyBoot
+import tony.core.codec.enums.Encoding
+import tony.core.crypto.CryptoProvider
+import tony.core.crypto.symmetric.enums.SymmetricCryptoAlgorithm
+import tony.web.crpto.config.WebCryptoConfig
 
 @EnableTonyBoot
 @Import(WebCryptoConfig::class)

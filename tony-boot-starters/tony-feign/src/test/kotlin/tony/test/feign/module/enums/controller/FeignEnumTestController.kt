@@ -26,16 +26,16 @@ package tony.test.feign.module.enums.controller
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
-import tony.annotation.web.auth.NoLoginCheck
-import tony.enums.EnumCreator
-import tony.enums.IntEnumValue
-import tony.enums.StringEnumValue
-import tony.utils.toJsonString
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import tony.annotation.web.auth.NoLoginCheck
+import tony.core.enums.EnumCreator
+import tony.core.enums.IntEnumValue
+import tony.core.enums.StringEnumValue
+import tony.core.utils.toJsonString
 
 @NoLoginCheck
 @Validated

@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import tony.FlattenPageQuery
+import tony.core.model.FlattenPageQuery
 import tony.demo.sys.dto.query.EmployeeQuery
 import tony.demo.sys.dto.req.EmployeeAddReq
 import tony.demo.sys.dto.req.EmployeeAssignRoleReq

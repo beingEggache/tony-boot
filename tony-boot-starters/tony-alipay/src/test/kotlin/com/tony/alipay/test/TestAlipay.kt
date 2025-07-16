@@ -25,7 +25,7 @@
 package tony.alipay.test
 
 import tony.alipay.AlipayNotifyRequest
-import tony.utils.jsonToObj
+import tony.core.utils.jsonToObj
 
 fun main() {
     val json = """{ "app_id":"123",

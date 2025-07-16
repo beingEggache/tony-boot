@@ -32,14 +32,14 @@
  */
 package tony.test.feign.module.enums
 
-import tony.test.feign.module.enums.client.FeignTestEnumClient
-import tony.test.feign.module.enums.controller.EnumTest
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Lazy
+import tony.test.feign.module.enums.client.FeignTestEnumClient
+import tony.test.feign.module.enums.controller.EnumTest
 
 @Execution(ExecutionMode.CONCURRENT)
 @SpringBootTest(

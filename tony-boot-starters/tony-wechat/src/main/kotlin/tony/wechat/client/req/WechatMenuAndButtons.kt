@@ -33,9 +33,9 @@ package tony.wechat.client.req
  */
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import tony.enums.StringEnumCreator
-import tony.enums.StringEnumValue
-import tony.utils.asTo
+import tony.core.enums.StringEnumCreator
+import tony.core.enums.StringEnumValue
+import tony.core.utils.asTo
 
 public data class WechatMenu(
     val button: List<WechatButton>,

@@ -12,14 +12,14 @@ import org.springframework.core.Ordered
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
-import tony.ApiProperty
-import tony.ApiResult
+import tony.core.ApiProperty
+import tony.core.model.ApiResult
+import tony.core.utils.ifNullOrBlank
 import tony.gateway.TOKEN_HEADER_NAME
 import tony.gateway.USER_ID_HEADER_NAME
 import tony.gateway.config.GatewayRouteConfigProperties
 import tony.gateway.utils.jsonBody
 import tony.jwt.JwtToken
-import tony.utils.ifNullOrBlank
 
 @Component
 class GlobalTokenCheckFilter(

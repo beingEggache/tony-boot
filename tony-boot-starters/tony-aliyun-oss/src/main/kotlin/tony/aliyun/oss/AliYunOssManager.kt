@@ -28,9 +28,9 @@ import com.aliyun.oss.OSS
 import com.aliyun.oss.OSSClientBuilder
 import com.aliyun.oss.model.ObjectMetadata
 import java.io.InputStream
-import tony.SpringContexts
 import tony.aliyun.oss.config.AliyunOssProperties
-import tony.utils.sanitizedPath
+import tony.core.SpringContexts
+import tony.core.utils.sanitizedPath
 
 /**
  * 阿里云oss Manager

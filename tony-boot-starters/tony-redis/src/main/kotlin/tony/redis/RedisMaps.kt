@@ -28,7 +28,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import java.util.Date
 import java.util.concurrent.TimeUnit
-import tony.utils.asTo
+import tony.core.utils.asTo
 
 /**
  * redis hash操作单例.

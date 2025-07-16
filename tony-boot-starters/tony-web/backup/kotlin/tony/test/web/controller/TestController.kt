@@ -24,10 +24,10 @@
 
 package tony.test.web.controller
 
-import tony.crypto.symmetric.enums.SymmetricCryptoAlgorithm
-import tony.enums.validate.RangedIntEnum
-import tony.exception.ApiException
-import tony.exception.BizException
+import tony.core.crypto.symmetric.enums.SymmetricCryptoAlgorithm
+import tony.core.enums.validate.RangedIntEnum
+import tony.core.exception.ApiException
+import tony.core.exception.BizException
 import tony.test.web.req.TestDateTimesReq
 import tony.test.web.req.TestIntEnum
 import tony.test.web.req.TestNullValues

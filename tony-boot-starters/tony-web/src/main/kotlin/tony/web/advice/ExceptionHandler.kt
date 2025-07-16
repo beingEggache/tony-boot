@@ -43,14 +43,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.HandlerMethodValidationException
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import org.springframework.web.servlet.resource.NoResourceFoundException
-import tony.ApiProperty
-import tony.ApiResult
-import tony.ERROR_CODE_HEADER_NAME
-import tony.exception.ApiException
-import tony.exception.BizException
-import tony.utils.asToDefault
-import tony.utils.getLogger
-import tony.utils.ifNullOrBlank
+import tony.core.ApiProperty
+import tony.core.ERROR_CODE_HEADER_NAME
+import tony.core.exception.ApiException
+import tony.core.exception.BizException
+import tony.core.model.ApiResult
+import tony.core.utils.asToDefault
+import tony.core.utils.getLogger
+import tony.core.utils.ifNullOrBlank
 import tony.web.WebContext
 
 /**
@@ -201,7 +201,7 @@ internal class ExceptionHandler : ErrorController {
             HttpStatus.NOT_FOUND.value()
         )
 
-    @RequestMapping("\${server.error.path:\${error.path:/error}}")
+    @RequestMapping($$"${server.error.path:${error.path:/error}}")
     fun error() =
         run {
             WebContext.response?.status = HttpStatus.OK.value()

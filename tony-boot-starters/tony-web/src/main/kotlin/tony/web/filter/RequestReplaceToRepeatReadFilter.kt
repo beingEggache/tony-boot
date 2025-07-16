@@ -46,8 +46,8 @@ import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
-import tony.utils.antPathMatchAny
-import tony.utils.sanitizedPath
+import tony.core.utils.antPathMatchAny
+import tony.core.utils.sanitizedPath
 import tony.web.WebContext
 import tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
 import tony.web.utils.isCorsPreflightRequest

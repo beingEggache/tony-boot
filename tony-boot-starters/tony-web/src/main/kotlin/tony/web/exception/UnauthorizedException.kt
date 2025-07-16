@@ -24,8 +24,8 @@
 
 package tony.web.exception
 
-import tony.ApiProperty
-import tony.exception.ApiException
+import tony.core.ApiProperty
+import tony.core.exception.ApiException
 
 /**
  * 未经授权异常

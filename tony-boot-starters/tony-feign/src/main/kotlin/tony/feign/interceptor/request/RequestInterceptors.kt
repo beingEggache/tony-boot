@@ -36,10 +36,10 @@ import feign.RequestInterceptor
 import feign.RequestTemplate
 import java.util.concurrent.ConcurrentHashMap
 import org.springframework.beans.factory.ObjectProvider
-import tony.SpringContexts
 import tony.annotation.feign.RequestProcessors
-import tony.utils.annotation
-import tony.utils.getLogger
+import tony.core.SpringContexts
+import tony.core.utils.annotation
+import tony.core.utils.getLogger
 
 /**
  * 全局请求拦截器 Provider。

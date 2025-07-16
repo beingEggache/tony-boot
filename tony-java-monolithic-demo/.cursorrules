@@ -298,7 +298,7 @@ public interface {Entity}Dao extends BaseDao<{Entity}> {
 - 🔴 请求({Entity}{Action}Req)/响应({Entity}{Action}Resp)/查询({Entity}{Action}Query) DTO 分离，使用校验注解。
 - 🔴 字段全部加上 `@Schema` 注解，便于自动生成文档。
 - 🔴 字段顺序（主键、外键(其他表主键id)、业务字段、审计字段）。
-- 🔴 dto-po, po-dto 互转建议使用`tony.utils.Objs.copyTo(targetType: Class<T>)` 方法。
+- 🔴 dto-po, po-dto 互转建议使用`tony.core.utils.Objs.copyTo(targetType: Class<T>)` 方法。
 - 🟡 DTO 类推荐使用 Lombok `@Getter @Setter`。
 
 ```java
@@ -390,8 +390,8 @@ public class {Entity}Service {
 ```
 ---
 ####  异常处理规范
-- 🔴 优先使用`tony.utils.Funcs`下的工具函数抛出异常。
-- 🔴 所有业务异常抛出 `tony.exception.BizException`。
+- 🔴 优先使用`tony.core.utils.Funcs`下的工具函数抛出异常。
+- 🔴 所有业务异常抛出 `tony.core.exception.BizException`。
 - 🔴 **禁止**：直接抛出 `RuntimeException`或其他`Exception`的子类。
 ```java
 // ✅ 正确

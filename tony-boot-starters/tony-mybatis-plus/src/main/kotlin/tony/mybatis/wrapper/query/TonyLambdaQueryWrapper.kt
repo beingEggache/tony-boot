@@ -33,7 +33,7 @@ import com.baomidou.mybatisplus.core.metadata.TableInfoHelper
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Predicate
-import tony.utils.throwIfNull
+import tony.core.utils.throwIfNull
 
 /**
  * mybatis plus 对应对象的包装, 用来适配一些 kotlin dao方法.

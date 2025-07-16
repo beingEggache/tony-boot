@@ -8,7 +8,7 @@ package tony.gateway.utils
 import org.springframework.http.MediaType
 import org.springframework.http.server.reactive.ServerHttpResponse
 import reactor.core.publisher.Mono
-import tony.utils.globalObjectMapper
+import tony.core.utils.globalObjectMapper
 
 fun ServerHttpResponse.jsonBody(obj: Any?): Mono<Void> =
     run {

@@ -31,13 +31,13 @@ import org.slf4j.LoggerFactory
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestPropertySource
-import tony.enums.IntEnumValue
-import tony.enums.StringEnumValue
+import tony.core.enums.IntEnumValue
+import tony.core.enums.StringEnumValue
+import tony.core.utils.jsonToObj
+import tony.core.utils.toJsonString
 import tony.redis.RedisManager
 import tony.redis.service.RedisService
 import tony.test.redis.util.TestDataGenerator
-import tony.utils.jsonToObj
-import tony.utils.toJsonString
 
 /**
  * Redis 测试基类

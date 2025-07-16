@@ -2,7 +2,7 @@ package tony.test.redis
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Import
-import tony.annotation.EnableTonyBoot
+import tony.core.annotation.EnableTonyBoot
 import tony.test.redis.config.RedisTestConfig
 
 /**

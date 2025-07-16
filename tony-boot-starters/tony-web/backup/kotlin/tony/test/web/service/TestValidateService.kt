@@ -25,8 +25,8 @@
 package tony.test.web.service
 
 import tony.test.web.req.TestReq
-import tony.utils.getLogger
-import tony.utils.toJsonString
+import tony.core.utils.getLogger
+import tony.core.utils.toJsonString
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Future
 import jakarta.validation.constraints.Max

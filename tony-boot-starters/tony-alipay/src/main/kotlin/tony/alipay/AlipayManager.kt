@@ -30,7 +30,7 @@ import com.alipay.api.domain.AlipayTradeAppPayModel
 import com.alipay.api.internal.util.AlipaySignature
 import com.alipay.api.request.AlipayTradeAppPayRequest
 import tony.alipay.exception.AlipayException
-import tony.utils.urlEncode
+import tony.core.utils.urlEncode
 
 /**
  * 支付宝 Manager

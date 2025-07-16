@@ -3,8 +3,8 @@ package tony.demo.config
 import com.fasterxml.jackson.databind.BeanProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import tony.core.jackson.InjectableValueSupplier
 import tony.demo.MonoApiWebContext.tenantId
-import tony.jackson.InjectableValueSupplier
 import tony.web.WebContext
 import tony.web.auth.WebContextExtensions.userId
 

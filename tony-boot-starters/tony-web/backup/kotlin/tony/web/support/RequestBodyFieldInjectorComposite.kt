@@ -24,9 +24,9 @@
 
 package tony.web.support
 
-import tony.annotation.web.support.InjectRequestBodyField
-import tony.utils.annotationFromSelfOrGetterOrSetter
-import tony.utils.selfOrGetterOrSetterHasAnnotation
+import tony.core.annotation.web.support.InjectRequestBodyField
+import tony.core.utils.annotationFromSelfOrGetterOrSetter
+import tony.core.utils.selfOrGetterOrSetterHasAnnotation
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap

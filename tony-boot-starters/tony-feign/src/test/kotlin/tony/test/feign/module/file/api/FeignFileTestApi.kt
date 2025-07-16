@@ -24,13 +24,13 @@
 
 package tony.test.feign.module.file.api
 
-import tony.ApiResult
-import tony.annotation.web.auth.NoLoginCheck
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.multipart.MultipartFile
+import tony.annotation.web.auth.NoLoginCheck
+import tony.core.model.ApiResult
 
 interface FeignFileTestApi {
 

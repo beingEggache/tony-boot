@@ -27,7 +27,7 @@ package tony.redis
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import java.util.concurrent.TimeUnit
-import tony.utils.asTo
+import tony.core.utils.asTo
 
 /**
  * redis value 操作单例.

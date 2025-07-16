@@ -32,19 +32,19 @@ import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper
 import com.baomidou.mybatisplus.extension.kotlin.KtUpdateChainWrapper
 import java.io.Serializable
 import org.apache.ibatis.annotations.Param
-import tony.ApiProperty
-import tony.PageQueryLike
-import tony.PageResultLike
-import tony.exception.BaseException
-import tony.exception.BizException
+import tony.core.ApiProperty
+import tony.core.exception.BaseException
+import tony.core.exception.BizException
+import tony.core.model.PageQueryLike
+import tony.core.model.PageResultLike
+import tony.core.utils.throwIfEmpty
+import tony.core.utils.throwIfNull
+import tony.mybatis.utils.toPage
+import tony.mybatis.utils.toPageResult
 import tony.mybatis.wrapper.query.TonyKtQueryChainWrapper
 import tony.mybatis.wrapper.query.TonyLambdaQueryChainWrapper
 import tony.mybatis.wrapper.query.TonyQueryChainWrapper
 import tony.mybatis.wrapper.update.TonyKtUpdateChainWrapper
-import tony.utils.throwIfEmpty
-import tony.utils.throwIfNull
-import tony.utils.toPage
-import tony.utils.toPageResult
 
 /**
  * mybatis plus [BaseMapper] 包装, 增加了一些方法.

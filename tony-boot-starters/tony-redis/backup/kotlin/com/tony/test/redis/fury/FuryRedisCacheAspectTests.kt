@@ -13,8 +13,8 @@ import tony.test.redis.TestRedisApp
 import tony.test.redis.fury.service.FuryRedisCacheAspectService
 import tony.test.redis.protostuff.service.ProtostuffRedisCacheAspectService
 import tony.test.redis.protostuff.service.ProtostuffRedisCacheAspectService.Companion.cacheKeyTemplate
-import tony.utils.getLogger
-import tony.utils.toJsonString
+import tony.core.utils.getLogger
+import tony.core.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

@@ -27,11 +27,11 @@ package tony.captcha
 import com.wf.captcha.SpecCaptcha
 import java.util.concurrent.TimeUnit
 import java.util.function.Supplier
-import tony.SpringContexts
+import tony.core.SpringContexts
+import tony.core.utils.throwIfFalse
+import tony.core.utils.uuid
 import tony.redis.RedisManager
 import tony.redis.RedisValues
-import tony.utils.throwIfFalse
-import tony.utils.uuid
 
 /**
  * 验证码服务 单例类.

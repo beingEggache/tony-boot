@@ -32,12 +32,12 @@
  */
 package tony.test.feign.module.enums.client
 
-import tony.test.feign.module.enums.controller.EnumTest
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
+import tony.test.feign.module.enums.controller.EnumTest
 
 @FeignClient(name = "feignTestEnumClient", url = "http://localhost:10001")
 interface FeignTestEnumClient {

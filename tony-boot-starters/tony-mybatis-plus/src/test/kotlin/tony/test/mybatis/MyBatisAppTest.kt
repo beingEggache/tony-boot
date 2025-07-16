@@ -26,17 +26,17 @@ package tony.test.mybatis
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import tony.ApiSession
-import tony.PageQuery
-import tony.annotation.EnableTonyBoot
+import tony.core.model.PageQuery
+import tony.core.annotation.EnableTonyBoot
 import tony.mybatis.DbMetaObjectHandler
 import tony.mybatis.DefaultMetaObjectHandler
 import tony.test.mybatis.db.config.DbConfig
 import tony.test.mybatis.db.dao.EmployeeDao
 import tony.test.mybatis.db.po.Employee
-import tony.utils.genRandomInt
-import tony.utils.getLogger
-import tony.utils.md5
-import tony.utils.toJsonString
+import tony.core.utils.genRandomInt
+import tony.core.utils.getLogger
+import tony.core.utils.md5
+import tony.core.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.MethodOrderer

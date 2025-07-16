@@ -3,7 +3,7 @@ package tony.config
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
-import tony.misc.YamlPropertySourceFactory
+import tony.core.misc.YamlPropertySourceFactory
 
 /**
  * PowerJobConfig is

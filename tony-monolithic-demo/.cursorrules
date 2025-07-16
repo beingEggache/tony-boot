@@ -394,8 +394,8 @@ class {Entity}Service(
 ```
 ---
 ####  异常处理规范
-- 🔴 优先使用`tony.utils.Funcs`下的工具函数抛出异常。
-- 🔴 所有业务异常抛出 `tony.exception.BizException`。
+- 🔴 优先使用`tony.core.utils.Funcs`下的工具函数抛出异常。
+- 🔴 所有业务异常抛出 `tony.core.exception.BizException`。
 - 🔴 **禁止**：直接抛出 `RuntimeException`或其他`Exception`的子类。
 ```kotlin
 // ✅ 正确

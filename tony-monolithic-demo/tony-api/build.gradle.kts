@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.testImplementation
 import tony.gradle.plugin.Build.Companion.profile
 import tony.gradle.plugin.Build.Companion.templateProject
 
@@ -15,4 +16,6 @@ dependencies {
     implementation(project(":tony-service"))
     implementation(project(":tony-job"))
     // implementation(tonyLibs.springBootStarterActuator)
+
+    testImplementation(tonyLibs.bundles.test)
 }

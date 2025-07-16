@@ -24,8 +24,8 @@ configure(subprojects) {
 //            name = "private"
 //            isAllowInsecureProtocol = true
 //        }
-        maven(url = "https://maven.aliyun.com/repository/central")
         mavenCentral()
+        maven(url = "https://maven.aliyun.com/repository/central")
     }
 
     apply {

@@ -24,11 +24,11 @@
 
 package tony.test.feign.module.unwrap
 
-import tony.annotation.EnableTonyBoot
-import tony.test.feign.config.FeignTestConfig
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Import
+import tony.core.annotation.EnableTonyBoot
+import tony.test.feign.config.FeignTestConfig
 
 @Import(FeignTestConfig::class)
 @EnableFeignClients

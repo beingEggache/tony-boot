@@ -24,8 +24,8 @@
 
 package tony.wechat
 
-import tony.SpringContexts
-import tony.exception.ApiException
+import tony.core.SpringContexts
+import tony.core.exception.ApiException
 import tony.wechat.client.WechatClient
 import tony.wechat.client.req.WechatStableAccessTokenReq
 import tony.wechat.client.resp.WechatUserTokenResp

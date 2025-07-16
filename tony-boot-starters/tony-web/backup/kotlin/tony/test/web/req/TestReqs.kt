@@ -24,11 +24,11 @@
 
 package tony.test.web.req
 
-import tony.annotation.web.support.InjectEmptyIfNull
-import tony.annotation.web.support.InjectRequestBodyField
+import tony.core.annotation.web.support.InjectEmptyIfNull
+import tony.core.annotation.web.support.InjectRequestBodyField
 import tony.codec.enums.Encoding
-import tony.enums.validate.RangedIntEnum
-import tony.enums.validate.RangedStringEnum
+import tony.core.enums.validate.RangedIntEnum
+import tony.core.enums.validate.RangedStringEnum
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull

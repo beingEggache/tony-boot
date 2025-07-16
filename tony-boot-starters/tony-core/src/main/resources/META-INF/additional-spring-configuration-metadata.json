@@ -3,64 +3,64 @@
     "groups": [
         {
             "name": "core",
-            "type": "tony.ApiProperty",
-            "sourceType": "tony.ApiProperty"
+            "type": "tony.core.ApiProperty",
+            "sourceType": "tony.core.ApiProperty"
         }
     ],
     "properties": [
         {
             "name": "core.ok-code",
             "type": "java.lang.Integer",
-            "sourceType": "tony.ApiProperty",
+            "sourceType": "tony.core.ApiProperty",
             "description": "全局成功返回码.",
             "defaultValue": 20000
         },
         {
             "name": "core.ok-msg",
             "type": "java.lang.String",
-            "sourceType": "tony.ApiProperty",
+            "sourceType": "tony.core.ApiProperty",
             "description": "全局成功返回消息.",
             "defaultValue": "操作成功"
         },
         {
             "name": "core.unauthorized-code",
             "type": "java.lang.Integer",
-            "sourceType": "tony.ApiProperty",
+            "sourceType": "tony.core.ApiProperty",
             "description": "全局未认证返回码.",
             "defaultValue": 40100
         },
         {
             "name": "core.internal-server-error-code",
             "type": "java.lang.Integer",
-            "sourceType": "tony.ApiProperty",
+            "sourceType": "tony.core.ApiProperty",
             "description": "全局错误返回码.",
             "defaultValue": 50000
         },
         {
             "name": "core.internal-server-error-msg",
             "type": "java.lang.String",
-            "sourceType": "tony.ApiProperty",
+            "sourceType": "tony.core.ApiProperty",
             "description": "全局错误返回消息.",
             "defaultValue": "访客太多，请稍后重试"
         },
         {
             "name": "core.bad-request-code",
             "type": "java.lang.Integer",
-            "sourceType": "tony.ApiProperty",
+            "sourceType": "tony.core.ApiProperty",
             "description": "全局错误请求码. 一般是请求不合法, 比如 http 方法不对应等.",
             "defaultValue": 40000
         },
         {
             "name": "core.bad-request-msg",
             "type": "java.lang.String",
-            "sourceType": "tony.ApiProperty",
+            "sourceType": "tony.core.ApiProperty",
             "description": "全局错误请求返回消息. 一般是请求不合法, 比如 http 方法不对应等.",
             "defaultValue": "请求有误，请检查后输入"
         },
         {
             "name": "core.precondition-failed-code",
             "type": "java.lang.Integer",
-            "sourceType": "tony.ApiProperty",
+            "sourceType": "tony.core.ApiProperty",
             "description": "全局校验不通过返回码.",
             "defaultValue": 40010
         }

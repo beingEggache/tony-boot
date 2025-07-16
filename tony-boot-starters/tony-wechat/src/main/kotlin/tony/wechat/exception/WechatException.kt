@@ -31,8 +31,8 @@
  */
 package tony.wechat.exception
 
-import tony.ApiProperty
-import tony.exception.ApiException
+import tony.core.ApiProperty
+import tony.core.exception.ApiException
 
 public class WechatException
     internal constructor(

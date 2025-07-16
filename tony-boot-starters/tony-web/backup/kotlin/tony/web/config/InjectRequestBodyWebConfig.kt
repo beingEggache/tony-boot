@@ -30,7 +30,7 @@ package tony.web.config
  * @author tangli
  * @date 2023/05/25 19:35
  */
-import tony.utils.getLogger
+import tony.core.utils.getLogger
 import tony.web.advice.InjectRequestBodyAdvice
 import tony.web.support.RequestBodyFieldInjector
 import tony.web.support.RequestBodyFieldInjectorComposite

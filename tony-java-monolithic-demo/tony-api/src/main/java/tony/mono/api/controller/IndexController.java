@@ -1,8 +1,8 @@
 package tony.mono.api.controller;
 
-import tony.MonoResult;
-import tony.PageQuery;
-import tony.PageResultLike;
+import tony.core.model.MonoResult;
+import tony.core.model.PageQuery;
+import tony.core.model.PageResultLike;
 import tony.annotation.web.auth.NoLoginCheck;
 import tony.jwt.JwtToken;
 import tony.mono.db.po.User;

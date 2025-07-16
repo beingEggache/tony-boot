@@ -26,12 +26,11 @@
 
 package tony.wechat
 
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.Instant
 import java.util.UUID
-import tony.utils.jsonToObj
-import tony.utils.md5
-import tony.utils.toJsonString
+import tony.core.utils.jsonToObj
+import tony.core.utils.md5
+import tony.core.utils.toJsonString
 import tony.wechat.client.resp.WechatResp
 import tony.wechat.exception.WechatException
 
@@ -45,7 +44,7 @@ internal fun genNonceStr() =
 
 @JvmSynthetic
 internal fun genTimeStamp() =
-    LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+    Instant.now().epochSecond
 
 @JvmSynthetic
 internal fun <T> T.toQueryString(

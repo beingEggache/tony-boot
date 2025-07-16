@@ -4,8 +4,11 @@ import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum
 import com.github.houbb.pinyin.util.PinyinHelper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import tony.PageQueryLike
-import tony.PageResult
+import tony.core.model.PageQueryLike
+import tony.core.model.PageResult
+import tony.core.utils.alsoIfNotEmpty
+import tony.core.utils.copyTo
+import tony.core.utils.genRandomInt
 import tony.demo.sys.dao.RoleDao
 import tony.demo.sys.dto.query.RoleQuery
 import tony.demo.sys.dto.req.RoleAddReq
@@ -16,9 +19,6 @@ import tony.demo.sys.dto.req.RoleUpdateReq
 import tony.demo.sys.dto.resp.ModuleResp
 import tony.demo.sys.dto.resp.RoleResp
 import tony.demo.sys.po.Role
-import tony.utils.alsoIfNotEmpty
-import tony.utils.copyTo
-import tony.utils.genRandomInt
 
 /**
  * 角色Service

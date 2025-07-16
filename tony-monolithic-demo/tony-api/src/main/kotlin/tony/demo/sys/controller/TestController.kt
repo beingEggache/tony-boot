@@ -7,8 +7,8 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import tony.annotation.web.auth.NoLoginCheck
+import tony.core.utils.toString
 import tony.demo.permission.NoPermissionCheck
-import tony.utils.toString
 
 @RestController
 @Validated

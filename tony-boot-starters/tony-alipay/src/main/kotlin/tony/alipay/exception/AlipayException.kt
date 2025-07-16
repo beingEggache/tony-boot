@@ -31,8 +31,8 @@
  */
 package tony.alipay.exception
 
-import tony.ApiProperty
-import tony.exception.ApiException
+import tony.core.ApiProperty
+import tony.core.exception.ApiException
 
 /**
  * 支付宝 异常
