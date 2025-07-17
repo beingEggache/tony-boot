@@ -26,6 +26,7 @@ package tony.core.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import tony.core.utils.Cols;
 import tony.core.utils.Objs;
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +46,7 @@ import java.util.function.Predicate;
  * @date 2021/12/6 10:51
  */
 @SuppressWarnings("unused")
+@Schema(name = "全局分页响应统一结构")
 @JsonPropertyOrder(value = {"page", "size", "total", "pages", "hasNext", "rows"})
 public interface PageResultLike<T> extends RowsWrapperLike<T> {
 
@@ -53,6 +55,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return current page.
      */
+    @Schema(description = "当前页")
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     long getPage();
 
@@ -61,6 +64,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return page item size.
      */
+    @Schema(description = "每页条数")
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     long getSize();
 
@@ -69,6 +73,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return page total pages.
      */
+    @Schema(description = "总页数")
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     default long getPages(){
         return Math.ceilDiv(getTotal(), getSize());
@@ -79,6 +84,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return total item count.
      */
+    @Schema(description = "总条数")
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     long getTotal();
 
@@ -87,6 +93,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return has next page.
      */
+    @Schema(description = "总条数")
     default boolean getHasNext(){
         return getRows().size() < getSize();
     }

@@ -1,6 +1,7 @@
 package tony.core.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import io.swagger.v3.oas.annotations.media.Schema
 import tony.core.utils.ifNullOrBlank
 
 /**
@@ -26,6 +27,7 @@ public interface ForestLike<T : ForestLike<T>> : TreeLike<T> {
      * @author tangli
      * @date 2025/07/16 11:39
      */
+    @get:Schema(hidden = true)
     @get:JsonIgnore
     public val splitter: String
         get() = "-"
@@ -37,6 +39,7 @@ public interface ForestLike<T : ForestLike<T>> : TreeLike<T> {
      * @author tangli
      * @date 2025/07/16 11:40
      */
+    @get:Schema(hidden = true)
     @get:JsonIgnore
     public val isRoot: Boolean
         get() = !code.ifNullOrBlank().contains(splitter)

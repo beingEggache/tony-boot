@@ -24,6 +24,7 @@
 
 package tony.core.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,6 +37,7 @@ import java.util.Collection;
  * @author tangli
  * @date 2021/12/6 10:51
  */
+@Schema(name = "全局列表请求统一结构")
 @SuppressWarnings("unused")
 public interface RowsWrapperLike<T> {
 
@@ -44,6 +46,7 @@ public interface RowsWrapperLike<T> {
      *
      * @return 集合对象
      */
+    @Schema(description = "列表")
     @NotNull
     Collection<@Valid T> getRows();
 }

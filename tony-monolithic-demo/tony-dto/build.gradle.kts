@@ -1,9 +1,12 @@
+import tony.gradle.plugin.Build.Companion.profile
 import tony.gradle.plugin.Build.Companion.templateProject
 
 dependencies {
     //while execute gradle task, use -Pprofile=prod
+    if (profile() in setOf("qa", "dev")) {
+        api(tonyLibs.swaggerV3AnnotaionJakarta)
+    }
     api(tonyLibs.validationApi)
-    api(tonyLibs.swaggerV3AnnotaionJakarta)
     implementation(templateProject("core")){ isChanging = true }
     implementation(templateProject("interfaces")){ isChanging = true }
     implementation(tonyLibs.springWeb)

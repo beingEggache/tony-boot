@@ -12,6 +12,7 @@ dependencies {
     api(tonyLibs.jacksonModuleParameterNames)
 
     implementation(tonyLibs.bcprovJdk18On)
+    compileOnly(tonyLibs.swaggerV3AnnotaionJakarta)
 //    compileOnly(tonyLibs.findbugsJsr305)
 //    compileOnly(tonyLibs.findbugsAnnotations)
 }

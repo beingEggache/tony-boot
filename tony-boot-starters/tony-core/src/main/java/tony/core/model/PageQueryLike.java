@@ -27,6 +27,7 @@ package tony.core.model;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.jetbrains.annotations.NotNull;
@@ -40,6 +41,7 @@ import java.util.Collection;
  * @author tangli
  * @date 2021/12/6 10:51
  */
+@Schema(name = "全局分页请求统一结构")
 @JsonPropertyOrder(value = {"page", "size", "query", "ascs", "descs"})
 public interface PageQueryLike<T> {
 
@@ -49,6 +51,7 @@ public interface PageQueryLike<T> {
      *
      * @return query.
      */
+    @Schema(description = "查询对象、值")
     @Valid
     @JsonSetter(nulls = Nulls.AS_EMPTY, contentNulls = Nulls.AS_EMPTY)
     T getQuery();
@@ -58,6 +61,7 @@ public interface PageQueryLike<T> {
      *
      * @return current page.
      */
+    @Schema(description = "当前页")
     @Positive(message = "页码请输入正数")
     long getPage();
 
@@ -66,6 +70,7 @@ public interface PageQueryLike<T> {
      *
      * @return size per page.
      */
+    @Schema(description = "每页条数")
     @Positive(message = "每页数量请输入正数")
     long getSize();
 
@@ -74,6 +79,7 @@ public interface PageQueryLike<T> {
      *
      * @return asc fields.
      */
+    @Schema(description = "升序排序字段")
     @NotNull
     @JsonSetter(nulls = Nulls.AS_EMPTY)
     Collection<? extends CharSequence> getAscs();
@@ -83,6 +89,7 @@ public interface PageQueryLike<T> {
      *
      * @return desc fields.
      */
+    @Schema(description = "降序排序字段")
     @NotNull
     @JsonSetter(nulls = Nulls.AS_EMPTY)
     Collection<? extends CharSequence> getDescs();
