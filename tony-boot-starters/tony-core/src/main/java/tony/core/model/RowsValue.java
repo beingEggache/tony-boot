@@ -36,7 +36,7 @@ import java.util.Collection;
  * @date 2024/07/02 09:03
  */
 @SuppressWarnings("unused")
-public class RowsWrapper<T> implements RowsWrapperLike<T>{
+public class RowsValue<T> implements RowsLike<T> {
 
     private Collection<@Valid T> rows;
 

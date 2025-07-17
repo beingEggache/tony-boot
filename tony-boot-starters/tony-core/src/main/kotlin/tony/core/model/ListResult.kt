@@ -13,7 +13,7 @@ import tony.core.utils.asTo
  */
 public data class ListResult<T>(
     private val rows: Collection<T>?,
-) : RowsWrapperLike<T> {
+) : RowsLike<T> {
     public constructor(array: Array<*>) : this(array.asList().asTo())
     public constructor(byteArray: ByteArray) : this(byteArray.asList().asTo())
     public constructor(shortArray: ShortArray) : this(shortArray.asList().asTo())

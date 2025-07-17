@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import tony.core.model.RowsWrapper
+import tony.core.model.RowsValue
 import tony.demo.sys.dto.query.ModuleQuery
 import tony.demo.sys.dto.req.ModuleSubmitReq
 import tony.demo.sys.service.ModuleService
@@ -26,7 +26,7 @@ class ModuleController(
     fun submitAll(
         @Validated
         @RequestBody
-        req: RowsWrapper<ModuleSubmitReq>,
+        req: RowsValue<ModuleSubmitReq>,
     ) =
         moduleService.submitAll(req)
 

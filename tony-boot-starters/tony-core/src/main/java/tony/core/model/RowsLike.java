@@ -39,7 +39,7 @@ import java.util.Collection;
  */
 @Schema(name = "列表请求统一结构")
 @SuppressWarnings("unused")
-public interface RowsWrapperLike<T> {
+public interface RowsLike<T> {
 
     /**
      * 返回包装集合对象.

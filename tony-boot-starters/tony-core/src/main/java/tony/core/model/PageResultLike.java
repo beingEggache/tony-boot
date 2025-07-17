@@ -48,7 +48,7 @@ import java.util.function.Predicate;
 @SuppressWarnings("unused")
 @Schema(name = "分页响应统一结构")
 @JsonPropertyOrder(value = {"page", "size", "total", "pages", "hasNext", "rows"})
-public interface PageResultLike<T> extends RowsWrapperLike<T> {
+public interface PageResultLike<T> extends RowsLike<T> {
 
     /**
      * current page.
