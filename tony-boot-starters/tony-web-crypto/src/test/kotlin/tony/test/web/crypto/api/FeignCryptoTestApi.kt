@@ -27,7 +27,7 @@ package tony.test.web.crypto.api
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import tony.core.model.MonoResult
+import tony.core.model.StringMonoResult
 import tony.test.web.crypto.req.TestReq
 
 /**
@@ -44,7 +44,7 @@ interface FeignCryptoTestApi {
     fun exception()
 
     @PostMapping("/method/test/crypto-mono")
-    fun mono(): MonoResult<String>
+    fun mono(): StringMonoResult
 
     @PostMapping("/method/test/crypto-string")
     fun string(): String

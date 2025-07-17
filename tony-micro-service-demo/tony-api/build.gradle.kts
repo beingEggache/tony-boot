@@ -8,10 +8,14 @@ configurations.all {
     exclude(group= "com.alibaba.nacos", module = "nacos-log4j2-adapter")
 }
 dependencies {
-    //while execute gradle task, use -Dprofile=prod
+    //while execute gradle task, use -Pprofile=prod
     if (profile() in setOf("qa", "dev")) {
         implementation(templateProject("knife4j-api")) { isChanging = true }
         implementation(tonyLibs.knife4jOpenapi3Ui)
+        implementation(tonyLibs.swaggerV3AnnotaionJakarta)
+        implementation(tonyLibs.springdocOpenapiKotlin)
+    } else {
+        compileOnly(tonyLibs.swaggerV3AnnotaionJakarta)
     }
 
     implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")

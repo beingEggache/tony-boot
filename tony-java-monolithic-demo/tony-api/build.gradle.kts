@@ -7,6 +7,9 @@ dependencies {
     if (profile() in setOf("qa", "dev")) {
         implementation(templateProject("knife4j-api")) { isChanging = true }
         implementation(tonyLibs.knife4jOpenapi3Ui)
+        implementation(tonyLibs.swaggerV3AnnotaionJakarta)
+    } else {
+        compileOnly(tonyLibs.swaggerV3AnnotaionJakarta)
     }
     implementation(templateProject("web")) { isChanging = true }
     implementation(templateProject("web-auth")) { isChanging = true }

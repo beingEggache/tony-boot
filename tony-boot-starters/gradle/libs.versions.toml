@@ -60,7 +60,7 @@ xnio = "3.8.16.Final"
 springCloud = "2025.0.0"
 springCloudAlibaba = "2023.0.3.3"
 springCloudTencent = "2.0.2.1-2024.0.1"
-reactor = "2024.0.7"
+reactor = "2024.0.8"
 netty = "4.2.3.Final"
 grpc = "1.73.0"
 protobuf = "4.31.1"
@@ -191,6 +191,7 @@ swaggerV3ModelsJakarta = { module = "io.swagger.core.v3:swagger-models-jakarta",
 springdocStarterCommon = { module = "org.springdoc:springdoc-openapi-starter-common", version.ref = "springdocStarter" }
 springdocStarterWebmvcApi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-api", version.ref = "springdocStarter" }
 springdocStarterWebmvcUi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdocStarter" }
+springdocOpenapiKotlin = { module = "org.springdoc:springdoc-openapi-kotlin", version = "1.8.0" }
 
 powerjobWorkerSpringBootStarter = { module = "tech.powerjob:powerjob-worker-spring-boot-starter", version.ref = "powerjob" }
 powerjobWorker = { module = "tech.powerjob:powerjob-worker", version.ref = "powerjob" }
@@ -250,7 +251,7 @@ snakeYaml = { module = "org.yaml:snakeyaml", version = "2.4" }
 
 yitterIdgenerator = { module = "com.github.yitter:yitter-idgenerator", version = "1.0.6" }
 easyCaptcha = { module = "com.github.whvcse:easy-captcha", version = "1.6.2" }
-poiOoxml = { module = "org.apache.poi:poi-ooxml", version = "5.4.0" }
+poiOoxml = { module = "org.apache.poi:poi-ooxml", version = "5.4.1" }
 
 aliyunJavaSdkCore = { module = "com.aliyun:aliyun-java-sdk-core", version = "4.7.6" }
 gradleDocker = { module = "com.palantir.gradle.docker:gradle-docker", version = "0.37.0" }

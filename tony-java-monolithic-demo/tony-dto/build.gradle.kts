@@ -5,6 +5,8 @@ dependencies {
     //while execute gradle task, use -Pprofile=prod
     if (profile() in setOf("qa", "dev")) {
         api(tonyLibs.swaggerV3AnnotaionJakarta)
+    } else {
+        compileOnly(tonyLibs.swaggerV3AnnotaionJakarta)
     }
     api(tonyLibs.validationApi)
     implementation(templateProject("core")){ isChanging = true }

@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController
 import tony.annotation.web.crypto.DecryptRequestBody
 import tony.annotation.web.crypto.EncryptResponseBody
 import tony.core.exception.BizException
-import tony.core.model.MonoResult.Companion.ofMonoResult
+import tony.core.model.MonoResultLike.Companion.ofMonoResult
 import tony.test.web.crypto.api.FeignCryptoTestApi
 import tony.test.web.crypto.req.TestReq
 

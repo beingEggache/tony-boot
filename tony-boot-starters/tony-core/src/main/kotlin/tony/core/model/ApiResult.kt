@@ -38,9 +38,7 @@ import tony.core.exception.ApiException
 import tony.core.exception.BaseException
 import tony.core.exception.BizException
 import tony.core.model.ApiResult.Companion.message
-import tony.core.model.MonoResult.Companion.ofMonoResult
-
-public typealias ApiMonoResult<T> = ApiResult<MonoResult<T>>
+import tony.core.model.MonoResultLike.Companion.ofMonoResult
 
 /**
  * 拉平对象成 [tony.core.model.FlattenApiResult], 将所有字段拉到最外层显示.
@@ -141,7 +139,7 @@ public data class ApiResult<T>
                 ApiResult(Unit, ApiProperty.okCode, message)
 
             /**
-             * 用 [MonoResult] 包装 [Boolean]
+             * 用 [BooleanMonoResult] 包装 [Boolean]
              * @param value Boolean
              */
             @JvmOverloads
@@ -149,23 +147,23 @@ public data class ApiResult<T>
             public fun of(
                 value: Boolean,
                 message: CharSequence = ApiProperty.defaultOkMessage,
-            ): ApiMonoResult<Boolean> =
+            ): ApiResult<BooleanMonoResult> =
                 ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
 
             /**
-             * 用 [MonoResult] 包装 [CharSequence]
+             * 用 [StringMonoResult] 包装 [CharSequence]
              * @param value CharSequence
              */
             @JvmOverloads
             @JvmStatic
-            public fun <E : CharSequence> of(
-                value: E,
+            public fun of(
+                value: String,
                 message: CharSequence = ApiProperty.defaultOkMessage,
-            ): ApiMonoResult<E> =
+            ): ApiResult<StringMonoResult> =
                 ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
 
             /**
-             * 用 [MonoResult] 包装 [Number]
+             * 用 [NumberMonoResult] 包装 [Number]
              * @param value Number
              */
             @JvmOverloads
@@ -173,11 +171,11 @@ public data class ApiResult<T>
             public fun <E : Number> of(
                 value: E,
                 message: CharSequence = ApiProperty.defaultOkMessage,
-            ): ApiMonoResult<E> =
+            ): ApiResult<NumberMonoResult> =
                 ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
 
             /**
-             * 用 [MonoResult] 包装 [Enum]
+             * 用 [EnumMonoResult] 包装 [Enum]
              * @param value Enum
              */
             @JvmOverloads
@@ -185,7 +183,7 @@ public data class ApiResult<T>
             public fun <E : Enum<*>> of(
                 value: E,
                 message: CharSequence = ApiProperty.defaultOkMessage,
-            ): ApiMonoResult<E> =
+            ): ApiResult<EnumMonoResult> =
                 ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
         }
     }

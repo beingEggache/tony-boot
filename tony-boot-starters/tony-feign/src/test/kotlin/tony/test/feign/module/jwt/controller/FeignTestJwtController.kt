@@ -28,7 +28,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import tony.annotation.web.auth.NoLoginCheck
-import tony.core.model.MonoResult.Companion.ofMonoResult
+import tony.core.model.MonoResultLike.Companion.ofMonoResult
 import tony.jwt.JwtToken
 import tony.test.feign.dto.LoginReq
 import tony.test.feign.dto.Person

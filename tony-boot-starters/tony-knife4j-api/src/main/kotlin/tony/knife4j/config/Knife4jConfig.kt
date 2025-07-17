@@ -77,6 +77,16 @@ private class Knife4jExtensionConfig(
                     .map { annotation ->
                         annotation.annotationClass
                     }.contains(Operation::class)
+            }.addOpenApiCustomizer { openApi ->
+                openApi.components?.schemas?.forEach { (_, schema) ->
+                    schema.properties
+                        ?.filterValues { propertySchema ->
+                            propertySchema.`$ref`.isNullOrEmpty() && propertySchema.types.isNullOrEmpty()
+                        }?.keys
+                        ?.forEach { key ->
+                            schema.properties?.remove(key)
+                        }
+                }
             }.build()
     }
 }

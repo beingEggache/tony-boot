@@ -38,6 +38,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper
 import tony.core.ApiProperty
 import tony.core.utils.getFromRootAsString
 import tony.core.utils.getLogger
+import tony.core.utils.removeLineBreak
 import tony.web.WebContext
 import tony.web.filter.RepeatReadRequestWrapper
 import tony.web.log.`#Const`.NULL
@@ -164,7 +165,7 @@ internal class DefaultTraceLogger : TraceLogger {
             contentByteArray.let { bytes ->
                 val size = bytes.size.toLong()
                 when {
-                    size in 1..bodyMaxSize -> String(bytes)
+                    size in 1..bodyMaxSize -> String(bytes).removeLineBreak()
                     size >= bodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
                     else -> NULL
                 }

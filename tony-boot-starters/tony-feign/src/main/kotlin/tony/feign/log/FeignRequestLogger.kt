@@ -44,6 +44,7 @@ import tony.core.TRACE_ID_HEADER_NAME
 import tony.core.utils.getLogger
 import tony.core.utils.ifNullOrBlank
 import tony.core.utils.mdcPutOrGetDefault
+import tony.core.utils.removeLineBreak
 import tony.core.utils.toInstant
 import tony.feign.byteArray
 import tony.feign.isTextMediaTypes
@@ -234,7 +235,7 @@ internal open class DefaultFeignRequestLogger : FeignRequestLogger {
             contentByteArray.let { bytes ->
                 val size = bytes.size.toLong()
                 when {
-                    size in 1..bodyMaxSize -> String(bytes)
+                    size in 1..bodyMaxSize -> String(bytes).removeLineBreak()
                     size >= bodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
                     else -> "[null]"
                 }

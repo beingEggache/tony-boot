@@ -26,14 +26,14 @@ package tony.test.feign.module.jwt.api
 
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import tony.core.model.MonoResult
+import tony.core.model.StringMonoResult
 import tony.test.feign.dto.LoginReq
 import tony.test.feign.dto.Person
 
 interface FeignJwtTestApi {
 
     @PostMapping("/test/login")
-    fun login(@RequestBody req: LoginReq): MonoResult<String>
+    fun login(@RequestBody req: LoginReq): StringMonoResult
 
     @PostMapping("/test/after-login")
     fun doAfterLogin(@RequestBody person: Person): Person

@@ -46,7 +46,7 @@ import java.util.function.Predicate;
  * @date 2021/12/6 10:51
  */
 @SuppressWarnings("unused")
-@Schema(name = "全局分页响应统一结构")
+@Schema(name = "分页响应统一结构")
 @JsonPropertyOrder(value = {"page", "size", "total", "pages", "hasNext", "rows"})
 public interface PageResultLike<T> extends RowsWrapperLike<T> {
 
@@ -93,7 +93,7 @@ public interface PageResultLike<T> extends RowsWrapperLike<T> {
      *
      * @return has next page.
      */
-    @Schema(description = "总条数")
+    @Schema(description = "是否有下一页")
     default boolean getHasNext(){
         return getRows().size() < getSize();
     }

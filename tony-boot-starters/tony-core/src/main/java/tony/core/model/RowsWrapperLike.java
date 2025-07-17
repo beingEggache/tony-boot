@@ -37,7 +37,7 @@ import java.util.Collection;
  * @author tangli
  * @date 2021/12/6 10:51
  */
-@Schema(name = "全局列表请求统一结构")
+@Schema(name = "列表请求统一结构")
 @SuppressWarnings("unused")
 public interface RowsWrapperLike<T> {
 
