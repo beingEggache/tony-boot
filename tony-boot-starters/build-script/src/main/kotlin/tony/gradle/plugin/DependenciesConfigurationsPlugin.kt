@@ -44,6 +44,9 @@ class DependenciesConfigurationsPlugin : Plugin<Project> {
             exclude(group = "tech.powerjob", module = "powerjob-remote-impl-akka")
 
             exclude(group = "org.springdoc", module = "springdoc-openapi-starter-webflux-ui")
+            exclude(group = "io.swagger.core.v3", module = "swagger-annotations")
+            exclude(group = "io.swagger.core.v3", module = "swagger-core")
+            exclude(group = "io.swagger.core.v3", module = "swagger-models")
             exclude(group = "org.webjars", module = "swagger-ui")
             exclude(group = "org.webjars", module = "webjars-locator-core")
 

@@ -24,7 +24,7 @@
 template = "0.1-SNAPSHOT"
 java = "21"
 kotlin = "2.2.0"
-spring = "6.2.8"
+spring = "6.2.9"
 springBoot = "3.5.3"
 
 slf4j = "2.0.17"

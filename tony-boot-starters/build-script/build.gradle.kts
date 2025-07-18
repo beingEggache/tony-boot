@@ -60,7 +60,6 @@ kotlin {
             "-Xno-call-assertions",
 
             "-Xlambdas=indy",
-            "-Xsam-conversions=indy",
             "-Xstring-concat=indy-with-constants",
 
             "-Xreport-all-warnings",
