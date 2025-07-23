@@ -1,94 +1,67 @@
 package tony.core.model
 
-import io.swagger.v3.oas.annotations.media.Schema
+import java.time.temporal.Temporal
 
 /**
- * 简单值响应统一结构。
- *
- * 避免重复定义简单值响应包装类.
+ * [T]响应包装类
  * @author tangli
- * @date 2025/07/17 09:32
+ * @date 2025/07/17 10:15
  */
-@Schema(name = "简单值响应统一结构")
-public sealed interface MonoResultLike<out T> {
-    @get:Schema(description = "结果")
-    public val result: T?
+public data class MonoResult<T> private constructor(
+    private val result: T?,
+) : MonoResultLike<T> {
+    override fun getResult(): T? =
+        result
 
     public companion object {
         /**
          * 包装成简单值响应统一结构.
-         * @return [BooleanMonoResult]
+         * @return [MonoResult]
          * @author tangli
          * @date 2025/07/17 10:21
          */
         @JvmStatic
-        public fun Boolean.ofMonoResult(): BooleanMonoResult =
-            BooleanMonoResult(this)
+        public fun Boolean.ofMonoResult(): MonoResultLike<Boolean> =
+            MonoResult(this)
 
         /**
          * 包装成简单值响应统一结构.
-         * @return [StringMonoResult]
+         * @return [MonoResult]
          * @author tangli
          * @date 2025/07/17 10:21
          */
         @JvmStatic
-        public fun String.ofMonoResult(): StringMonoResult =
-            StringMonoResult(this)
+        public fun String.ofMonoResult(): MonoResultLike<String> =
+            MonoResult(this)
 
         /**
          * 包装成简单值响应统一结构.
-         * @return [NumberMonoResult]
+         * @return [MonoResult]
          * @author tangli
          * @date 2025/07/17 10:21
          */
         @JvmStatic
-        public fun <E : Number> E.ofMonoResult(): NumberMonoResult =
-            NumberMonoResult(this)
+        public fun <E : Number> E.ofMonoResult(): MonoResultLike<E> =
+            MonoResult(this)
 
         /**
          * 包装成简单值响应统一结构.
-         * @return [EnumMonoResult]
+         * @return [MonoResult]
          * @author tangli
          * @date 2025/07/17 10:21
          */
         @JvmStatic
-        public fun <E : Enum<*>> E.ofMonoResult(): EnumMonoResult =
-            EnumMonoResult(this)
+        public fun <E : Enum<*>> E.ofMonoResult(): MonoResultLike<E> =
+            MonoResult(this)
+
+        /**
+         * 包装成简单值响应统一结构.
+         * @return [Temporal]
+         * @author tangli
+         * @date 2025/07/17 10:21
+         */
+        @JvmStatic
+        public fun <E : Temporal> E.ofMonoResult(): MonoResultLike<E> =
+            MonoResult(this)
     }
 }
-
-/**
- * [Boolean]响应包装类
- * @author tangli
- * @date 2025/07/17 10:15
- */
-public data class BooleanMonoResult(
-    override val result: Boolean?,
-) : MonoResultLike<Boolean>
-
-/**
- * [String]响应包装类
- * @author tangli
- * @date 2025/07/17 10:15
- */
-public data class StringMonoResult(
-    override val result: String?,
-) : MonoResultLike<String>
-
-/**
- * [Number]响应包装类
- * @author tangli
- * @date 2025/07/17 10:15
- */
-public data class NumberMonoResult(
-    override val result: Number?,
-) : MonoResultLike<Number>
-
-/**
- * [Enum]响应包装类
- * @author tangli
- * @date 2025/07/17 10:15
- */
-public data class EnumMonoResult(
-    override val result: Enum<*>?,
-) : MonoResultLike<Enum<*>>

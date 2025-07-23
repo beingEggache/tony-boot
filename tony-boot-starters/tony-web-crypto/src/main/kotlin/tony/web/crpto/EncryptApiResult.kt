@@ -34,7 +34,7 @@ import tony.core.model.ApiResultLike
  */
 internal data class EncryptApiResult(
     private val code: Int,
-    private val message: CharSequence,
+    private val message: String,
     private val data: String,
 ) : ApiResultLike<String> {
     override fun getData(): String =
@@ -43,6 +43,6 @@ internal data class EncryptApiResult(
     override fun getCode(): Int =
         code
 
-    override fun getMessage(): CharSequence =
+    override fun getMessage(): String =
         message
 }

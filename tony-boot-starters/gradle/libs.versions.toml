@@ -35,14 +35,14 @@ bouncycastle = "1.81"
 openFeign = "13.6"
 lettuce = "6.7.1.RELEASE"
 
-jackson = "2.19.1"
+jackson = "2.19.2"
 gson = "2.13.1"
 fastjson = "2.0.57"
 
 postgresql = "42.7.7"
 mysql = "9.3.0"
 
-hikariCP = "6.3.0"
+hikariCP = "6.3.1"
 mybatis = "3.5.19"
 mybatisSpring = "3.0.5"
 mybatisPlus = "3.5.12"
@@ -59,7 +59,7 @@ xnio = "3.8.16.Final"
 
 springCloud = "2025.0.0"
 springCloudAlibaba = "2023.0.3.3"
-springCloudTencent = "2.0.2.1-2024.0.1"
+springCloudTencent = "2.0.2.2-2024.0.1"
 reactor = "2024.0.8"
 netty = "4.2.3.Final"
 grpc = "1.73.0"
@@ -68,7 +68,7 @@ protobuf = "4.31.1"
 grpcSpringBoot = "3.1.0.RELEASE"
 
 lombok = "8.10"
-ktlint = "1.7.0"
+ktlint = "1.7.1"
 graalvm = "0.10.2"
 dokka = "2.0.0"
 
@@ -219,7 +219,7 @@ tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = 
 
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.6.0" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.18.0" }
-commonsIo = { module = "commons-io:commons-io", version = "2.19.0" }
+commonsIo = { module = "commons-io:commons-io", version = "2.20.0" }
 commonsCompress = { module = "org.apache.commons:commons-compress", version = "1.27.1" }
 commonsPool2 = { module = "org.apache.commons:commons-pool2", version = "2.12.1" }
 commonsLang3 = { module = "org.apache.commons:commons-lang3", version = "3.18.0" }

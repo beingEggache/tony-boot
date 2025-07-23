@@ -13,7 +13,6 @@ import jakarta.validation.constraints.NotNull;
  * @author tangli
  * @date 2025/07/17 09:32
  */
-@Schema(name = "简单值请求统一结构")
 public interface MonoValueLike<T> {
 
     @Valid

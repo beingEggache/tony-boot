@@ -25,7 +25,6 @@
 package tony.core.codec.enums
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import tony.core.codec.Base64Codec
 import tony.core.codec.Codec
 import tony.core.codec.HexCodec
@@ -42,9 +41,8 @@ public enum class Encoding(
     @JvmField
     public val codec: Codec,
 ) : StringEnumValue {
-    @JsonEnumDefaultValue
-    BASE64("base64", Base64Codec),
-    HEX("hex", HexCodec),
+    BASE64("BASE64", Base64Codec),
+    HEX("HEX", HexCodec),
     ;
 
     public companion object : StringEnumCreator(Encoding::class.java) {

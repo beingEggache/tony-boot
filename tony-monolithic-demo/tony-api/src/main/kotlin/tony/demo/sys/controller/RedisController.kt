@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import tony.annotation.web.auth.NoLoginCheck
-import tony.core.model.MonoResultLike.Companion.ofMonoResult
+import tony.core.model.MonoResult.Companion.ofMonoResult
+import tony.core.model.MonoResultLike
 import tony.core.model.MonoValue
-import tony.core.model.StringMonoResult
 import tony.demo.permission.NoPermissionCheck
 import tony.redis.RedisManager
 
@@ -40,6 +40,6 @@ class RedisController {
         @Validated
         @RequestBody
         req: MonoValue<String>,
-    ): StringMonoResult? =
+    ): MonoResultLike<String>? =
         RedisManager.values.get<String>(req.value!!)?.ofMonoResult()
 }

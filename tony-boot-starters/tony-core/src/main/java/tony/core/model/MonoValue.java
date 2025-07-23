@@ -22,6 +22,7 @@ public class MonoValue<T> implements MonoValueLike<T> {
         this.value = value;
     }
 
+
     @SuppressWarnings("unchecked")
     @Override
     public T getValue() {

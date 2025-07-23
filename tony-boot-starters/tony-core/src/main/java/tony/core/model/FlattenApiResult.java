@@ -34,19 +34,19 @@ import org.jetbrains.annotations.NotNull;
  * @date 2023/09/27 19:06
  */
 @SuppressWarnings("unused")
-class FlattenApiResult<T> implements ApiResultLike<T> {
+public class FlattenApiResult<T> implements ApiResultLike<T> {
 
     @JsonUnwrapped
     private T data;
 
     private int code;
 
-    private CharSequence message;
+    private String message;
 
-    public FlattenApiResult() {
+    FlattenApiResult() {
     }
 
-    public FlattenApiResult(final T data, final int code, final CharSequence message) {
+    FlattenApiResult(final T data, final int code, final String message) {
         this.data = data;
         this.code = code;
         this.message = message;
@@ -71,11 +71,11 @@ class FlattenApiResult<T> implements ApiResultLike<T> {
     }
 
     @Override
-    public @NotNull CharSequence getMessage() {
+    public @NotNull String getMessage() {
         return message;
     }
 
-    public void setMessage(final CharSequence message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 }

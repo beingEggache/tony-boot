@@ -51,7 +51,7 @@ import tony.core.utils.isTypesOrSubTypesOf
 import tony.core.utils.rawClass
 import tony.core.utils.toCollectionJavaType
 import tony.core.utils.toJavaType
-import tony.core.utils.typeParamOfSuperClass
+import tony.core.utils.typeParam
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.math.BigDecimal
@@ -122,7 +122,7 @@ class TypesTest {
         @DisplayName("Class.typeParamOfSuperClass():获取父类泛型参数")
         fun testTypeParamOfSuperClass() {
             val genericClass = StringGenericClass()
-            val type = genericClass.javaClass.typeParamOfSuperClass()
+            val type = genericClass.javaClass.typeParam()
             assertEquals(String::class.java, type)
         }
 
@@ -130,7 +130,7 @@ class TypesTest {
         @DisplayName("Class.typeParamOfSuperClass():指定索引")
         fun testTypeParamOfSuperClassWithIndex() {
             val genericClass = StringGenericClass()
-            val type = genericClass.javaClass.typeParamOfSuperClass(0)
+            val type = genericClass.javaClass.typeParam(0)
             assertEquals(String::class.java, type)
         }
 

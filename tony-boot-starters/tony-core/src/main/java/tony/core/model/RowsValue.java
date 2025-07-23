@@ -28,6 +28,7 @@ import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Global collection wrapper
@@ -38,7 +39,7 @@ import java.util.Collection;
 @SuppressWarnings("unused")
 public class RowsValue<T> implements RowsLike<T> {
 
-    private Collection<@Valid T> rows;
+    private Collection<@Valid T> rows = Collections.emptyList();
 
     public void setRows(Collection<T> rows) {
         this.rows = rows;
@@ -48,5 +49,11 @@ public class RowsValue<T> implements RowsLike<T> {
     @Override
     public Collection<T> getRows() {
         return rows;
+    }
+
+    public RowsValue(){}
+
+    public RowsValue(Collection<T> rows) {
+        this.rows = rows;
     }
 }

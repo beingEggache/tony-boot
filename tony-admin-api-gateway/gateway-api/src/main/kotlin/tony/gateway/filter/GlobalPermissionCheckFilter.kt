@@ -30,7 +30,7 @@ class GlobalPermissionCheckFilter(
             return chain.filter(exchange)
         }
         // TODO check permission
-        return exchange.response.jsonBody(ApiResult(Unit, 40300, "未经许可的访问"))
+        return exchange.response.jsonBody(ApiResult.of(Unit, 40300, "未经许可的访问"))
     }
 
     override fun getOrder(): Int =

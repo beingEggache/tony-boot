@@ -27,10 +27,10 @@ package tony.core.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
-import tony.core.utils.Cols;
-import tony.core.utils.Objs;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tony.core.utils.Cols;
+import tony.core.utils.Objs;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -46,7 +46,6 @@ import java.util.function.Predicate;
  * @date 2021/12/6 10:51
  */
 @SuppressWarnings("unused")
-@Schema(name = "分页响应统一结构")
 @JsonPropertyOrder(value = {"page", "size", "total", "pages", "hasNext", "rows"})
 public interface PageResultLike<T> extends RowsLike<T> {
 
@@ -55,7 +54,7 @@ public interface PageResultLike<T> extends RowsLike<T> {
      *
      * @return current page.
      */
-    @Schema(description = "当前页")
+    @Schema(description = "当前页", defaultValue = "1")
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     long getPage();
 
@@ -64,7 +63,7 @@ public interface PageResultLike<T> extends RowsLike<T> {
      *
      * @return page item size.
      */
-    @Schema(description = "每页条数")
+    @Schema(description = "每页条数", defaultValue = "10")
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     long getSize();
 
@@ -73,9 +72,9 @@ public interface PageResultLike<T> extends RowsLike<T> {
      *
      * @return page total pages.
      */
-    @Schema(description = "总页数")
+    @Schema(description = "总页数", defaultValue = "10")
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
-    default long getPages(){
+    default long getPages() {
         return Math.ceilDiv(getTotal(), getSize());
     }
 
@@ -84,7 +83,7 @@ public interface PageResultLike<T> extends RowsLike<T> {
      *
      * @return total item count.
      */
-    @Schema(description = "总条数")
+    @Schema(description = "总条数", defaultValue = "100")
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     long getTotal();
 
@@ -93,8 +92,8 @@ public interface PageResultLike<T> extends RowsLike<T> {
      *
      * @return has next page.
      */
-    @Schema(description = "是否有下一页")
-    default boolean getHasNext(){
+    @Schema(description = "是否有下一页", defaultValue = "true")
+    default boolean getHasNext() {
         return getRows().size() < getSize();
     }
 
@@ -110,7 +109,7 @@ public interface PageResultLike<T> extends RowsLike<T> {
     default <R, E extends PageResultLike<R>> E map(final Function<T, R> transform) {
         final Collection<? extends T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
         return Objs.asToNotNull(
-            new PageResult<>(
+            PageResult.of(
                 rows.stream().map(transform).toList(),
                 getPage(),
                 getSize(),
@@ -130,7 +129,7 @@ public interface PageResultLike<T> extends RowsLike<T> {
     default <E extends PageResultLike<T>> E onEach(final Consumer<T> action) {
         final Collection<? extends T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
         return Objs.asToNotNull(
-            new PageResult<>(
+            PageResult.of(
                 rows.stream().peek(action).toList(),
                 getPage(),
                 getSize(),

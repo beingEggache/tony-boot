@@ -141,15 +141,21 @@ public data object WebContext {
 
     @get:JvmSynthetic
     internal val responseWrapExcludePatterns by lazy(LazyThreadSafetyMode.PUBLICATION) {
-        val set =
+        fun excludePatterns(prefix: String = ""): Set<String> =
             setOf(
-                *excludePathPatterns(contextPath).toTypedArray(),
+                *excludePathPatterns(prefix).toTypedArray(),
                 *webProperties
                     .wrapResponseExcludePatterns
-                    .map { sanitizedPath("$contextPath/$it") }
+                    .map { sanitizedPath("$prefix/$it") }
                     .toTypedArray()
             )
+
+        val set = excludePatterns(contextPath)
         logger.info("Response Wrap Exclude Pattern are: $set")
+        SpringContexts.Env.addDynamicProperty(
+            "dynamic.wrapResponseExcludePatterns",
+            excludePatterns()
+        )
         set
     }
 

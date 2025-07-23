@@ -27,7 +27,10 @@ package tony.core
 import org.springframework.beans.factory.getBean
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
+import org.springframework.context.ConfigurableApplicationContext
+import org.springframework.core.env.ConfigurableEnvironment
 import org.springframework.core.env.Environment
+import org.springframework.core.env.MapPropertySource
 import tony.core.utils.asToNotNull
 
 /**
@@ -85,11 +88,11 @@ public data object SpringContexts : ApplicationContext by ApplicationContextHold
         @set:JvmSynthetic
         @field:JvmSynthetic
         @JvmStatic
-        internal lateinit var springContext: ApplicationContext
+        internal lateinit var springContext: ConfigurableApplicationContext
 
         @JvmSynthetic
         override fun setApplicationContext(applicationContext: ApplicationContext) {
-            springContext = applicationContext
+            springContext = applicationContext.asToNotNull()
         }
     }
 
@@ -99,7 +102,14 @@ public data object SpringContexts : ApplicationContext by ApplicationContextHold
      * 委托给 [ApplicationContext.getEnvironment].
      */
     @Suppress("JavaDefaultMethodsNotOverriddenByDelegation")
-    public data object Env : Environment by SpringContexts.environment {
+    public data object Env : ConfigurableEnvironment by SpringContexts.environment.asToNotNull() {
+        private val dynamicProperties = mutableMapOf<String, Any>()
+
+        init {
+            val dynamicPropertySource = MapPropertySource("dynamic", dynamicProperties)
+            propertySources.addLast(dynamicPropertySource)
+        }
+
         /**
          * 惰性 从[Environment]中获取属性
          * @param [T] 属性类型
@@ -119,5 +129,19 @@ public data object SpringContexts : ApplicationContext by ApplicationContextHold
             lazy(LazyThreadSafetyMode.PUBLICATION) {
                 getProperty(key, T::class.java, defaultValue)
             }
+
+        /**
+         * 添加动态属性
+         * @param [key] 键
+         * @param [value] 值
+         * @author tangli
+         * @date 2025/07/22 10:28
+         */
+        public fun addDynamicProperty(
+            key: String,
+            value: Any,
+        ) {
+            dynamicProperties.put(key, value)
+        }
     }
 }

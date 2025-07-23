@@ -11,7 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import tony.core.enums.DEFAULT_INT_VALUE
 import tony.core.enums.DEFAULT_STRING_VALUE
-import tony.core.enums.EnumCreator
 import tony.core.enums.IntEnumCreator
 import tony.core.enums.IntEnumValue
 import tony.core.enums.StringEnumCreator
@@ -29,10 +28,13 @@ class EnumsTest {
     // 测试用枚举
     enum class TestIntEnum(override val value: Int) : IntEnumValue {
         ONE(1), TWO(2), THREE(3), DEFAULT(DEFAULT_INT_VALUE);
+
         companion object : IntEnumCreator(TestIntEnum::class.java)
     }
+
     enum class TestStringEnum(override val value: String) : StringEnumValue {
         HELLO("hello"), WORLD("world"), TONY("tony"), DEFAULT(DEFAULT_STRING_VALUE);
+
         companion object : StringEnumCreator(TestStringEnum::class.java) {
             override fun create(value: String): StringEnumValue? {
                 return super.create(value.lowercase())
@@ -51,6 +53,7 @@ class EnumsTest {
             assertEquals(DEFAULT_INT_VALUE, TestIntEnum.DEFAULT.value)
             assertTrue(TestIntEnum.ONE is IntEnumValue)
         }
+
         @Test
         @DisplayName("StringEnumValue接口功能")
         fun testStringEnumValue() {
@@ -73,6 +76,7 @@ class EnumsTest {
             assertNull(TestIntEnum.create(999))
             assertEquals(TestIntEnum.DEFAULT, TestIntEnum.create(DEFAULT_INT_VALUE))
         }
+
         @Test
         @DisplayName("StringEnumCreator创建器")
         fun testStringEnumCreator() {
@@ -83,16 +87,6 @@ class EnumsTest {
             assertEquals(TestStringEnum.DEFAULT, TestStringEnum.create(DEFAULT_STRING_VALUE))
             // 大小写不敏感
             assertEquals(TestStringEnum.HELLO, TestStringEnum.create("HELLO"))
-        }
-        @Test
-        @DisplayName("EnumCreator基类功能")
-        fun testEnumCreatorBase() {
-            val intCreator = EnumCreator.creatorOf<TestIntEnum, Int>(TestIntEnum::class.java)
-            val stringCreator = EnumCreator.creatorOf<TestStringEnum, String>(TestStringEnum::class.java)
-            assertNotNull(intCreator)
-            assertNotNull(stringCreator)
-            assertEquals(TestIntEnum.ONE, intCreator.create(1))
-            assertEquals(TestStringEnum.HELLO, stringCreator.create("hello"))
         }
     }
 
@@ -107,6 +101,7 @@ class EnumsTest {
             assertEquals(DEFAULT_INT_VALUE, TestIntEnum.DEFAULT.value)
             assertEquals(DEFAULT_STRING_VALUE, TestStringEnum.DEFAULT.value)
         }
+
         @Test
         @DisplayName("枚举值唯一性")
         fun testEnumValueUniqueness() {
@@ -130,6 +125,7 @@ class EnumsTest {
             val stringValue = stringEnum.value
             assertEquals(stringEnum, TestStringEnum.create(stringValue))
         }
+
         @Test
         @DisplayName("边界情况")
         fun testEdgeCases() {
@@ -153,6 +149,7 @@ class EnumsTest {
             val t2 = System.currentTimeMillis()
             assertTrue(t2 > t1)
         }
+
         @Test
         @DisplayName("并发安全测试")
         fun testConcurrency() {
@@ -187,6 +184,7 @@ class EnumsTest {
                 assertNull(result)
             }
         }
+
         @ParameterizedTest
         @ValueSource(strings = ["hello", "world", "tony", "", "HELLO", "invalid"])
         @DisplayName("参数化StringEnum创建")

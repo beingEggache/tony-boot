@@ -33,12 +33,13 @@
 
 package tony.mybatis.dao
 
+import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Proxy
+import java.lang.reflect.Type
 import java.util.concurrent.ConcurrentHashMap
 import tony.core.utils.asToNotNull
 import tony.core.utils.isTypesOrSubTypesOf
 import tony.core.utils.rawClass
-import tony.core.utils.typeParamOfSuperInterface
 
 @get:JvmSynthetic
 internal val ENTITY_CLASS_MAP = ConcurrentHashMap<Class<*>, Class<*>>()
@@ -74,3 +75,24 @@ internal fun <T : Any> BaseDao<T>.getEntityClass(): Class<T> =
         .getOrPut(this::class.java) {
             actualClass().typeParamOfSuperInterface(BaseDao::class.java).rawClass()
         }.asToNotNull()
+
+/**
+ * 获取接口的泛型参数
+ * @param [type] 类型
+ * @param [index] 类型位置, 默认第一个
+ * @return [Type]
+ * @author tangli
+ * @date 2023/09/13 19:28
+ */
+internal fun Class<*>.typeParamOfSuperInterface(
+    type: Class<*>,
+    index: Int = 0,
+): Type {
+    val genericInterfaces = this.genericInterfaces
+    val matchedInterface =
+        genericInterfaces.firstOrNull {
+            it.rawClass().name == type.typeName
+        } ?: throw IllegalStateException("$this does not implement the $type")
+    check(matchedInterface !is Class<*>) { "${matchedInterface.typeName} constructed without actual type information" }
+    return matchedInterface.asToNotNull<ParameterizedType>().actualTypeArguments[index]
+}

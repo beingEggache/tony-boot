@@ -34,7 +34,7 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
             val httpStatus = ex.statusCode
             response.statusCode = httpStatus
             response.jsonBody(
-                ApiResult(
+                ApiResult.of(
                     Unit,
                     httpStatus.value(),
                     ex.reason ?: ""
@@ -42,7 +42,7 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
             )
         } else {
             response.jsonBody(
-                ApiResult(
+                ApiResult.of(
                     Unit,
                     ApiProperty.errorCode,
                     ApiProperty.errorMsg

@@ -90,7 +90,7 @@ internal sealed class EnumValueConverter<out E, K>(
     where E : EnumValue<K>,
           K : Serializable {
     private val creator: EnumCreator<E, K> =
-        EnumCreator.creatorOf(enumType)
+        EnumCreator.getCreator(enumType).asToNotNull()
 
     /**
      * 将 source 字符串转换为 value 类型，子类需实现

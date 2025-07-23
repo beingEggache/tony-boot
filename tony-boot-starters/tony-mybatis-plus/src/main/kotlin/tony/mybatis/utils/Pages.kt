@@ -39,6 +39,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import java.util.Collections
 import tony.core.model.PageQueryLike
 import tony.core.model.PageResult
+import tony.core.model.PageResultLike
 import tony.core.utils.asToNotNull
 import tony.core.utils.camelToSnakeCase
 
@@ -68,15 +69,16 @@ public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
  * @author tangli
  * @date 2023/09/28 19:55
  */
-public fun <T> IPage<T>?.toPageResult(): PageResult<T> =
+public fun <T> IPage<T>?.toPageResult(): PageResultLike<T> =
     if (this == null) {
         EMPTY_PAGE_RESULT
     } else {
-        PageResult(records, current, size, total)
+        PageResult.of(records, current, size, total)
     }.asToNotNull()
 
 /**
  * 空分页结构.
  * @return
  */
-private val EMPTY_PAGE_RESULT: PageResult<*> = PageResult<Nothing>(Collections.emptyList(), 1L, 0L, 0L)
+private val EMPTY_PAGE_RESULT =
+    PageResult.of<Any>(Collections.emptyList(), 1L, 0L, 0L)

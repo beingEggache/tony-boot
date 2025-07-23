@@ -623,13 +623,6 @@ class StrsTest {
             val patterns = listOf("/api/**")
             assertFalse(nullPath.antPathMatchAny(patterns))
         }
-
-        @Test
-        @DisplayName("Strs.antPathMatchAny():null模式")
-        fun testAntPathMatchAnyWithNullPatterns() {
-            val path = "/api/users/123"
-            assertFalse(path.antPathMatchAny(null))
-        }
     }
 
     @Nested

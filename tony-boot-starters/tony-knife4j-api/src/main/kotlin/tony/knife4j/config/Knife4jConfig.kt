@@ -25,7 +25,6 @@
 package tony.knife4j.config
 
 import com.github.xingfudeshi.knife4j.spring.annotations.EnableKnife4j
-import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Contact
 import io.swagger.v3.oas.models.info.Info
@@ -33,13 +32,18 @@ import io.swagger.v3.oas.models.responses.ApiResponses
 import org.slf4j.LoggerFactory
 import org.springdoc.core.models.GroupedOpenApi
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
+import org.springframework.http.HttpStatus
 import tony.core.misc.YamlPropertySourceFactory
+import tony.knife4j.customizers.EnumValueCustomizer
+import tony.knife4j.customizers.FlattenPropertiesOpenApiCustomizer
+import tony.knife4j.customizers.WrapResponseBodyOperationCustomizer
 
 @EnableKnife4j
 @ConditionalOnExpression($$"${knife4j.enable:true}")
@@ -68,27 +72,27 @@ private class Knife4jExtensionConfig(
         return GroupedOpenApi
             .builder()
             .group("default")
+            .addOpenApiCustomizer(FlattenPropertiesOpenApiCustomizer())
             .addOperationCustomizer { operation, _ ->
-                operation.responses = ApiResponses().addApiResponse("200", operation.responses["200"])
+                val okStrValue = HttpStatus.OK.value().toString()
+                operation.responses = ApiResponses().addApiResponse(okStrValue, operation.responses[okStrValue])
                 operation
-            }.addOpenApiMethodFilter {
-                it
-                    .annotations
-                    .map { annotation ->
-                        annotation.annotationClass
-                    }.contains(Operation::class)
-            }.addOpenApiCustomizer { openApi ->
-                openApi.components?.schemas?.forEach { (_, schema) ->
-                    schema.properties
-                        ?.filterValues { propertySchema ->
-                            propertySchema.`$ref`.isNullOrEmpty() && propertySchema.types.isNullOrEmpty()
-                        }?.keys
-                        ?.forEach { key ->
-                            schema.properties?.remove(key)
-                        }
-                }
             }.build()
     }
+
+    @Bean
+    private fun enumValueCustomizer(): EnumValueCustomizer =
+        EnumValueCustomizer()
+
+    @ConditionalOnProperty(
+        prefix = "web",
+        value = ["wrap-response-body-enabled"],
+        havingValue = "true",
+        matchIfMissing = true
+    )
+    @Bean
+    private fun wrapResponseBodyOperationCustomizer(): WrapResponseBodyOperationCustomizer =
+        WrapResponseBodyOperationCustomizer()
 }
 
 @ConfigurationProperties(prefix = "knife4j.extension")

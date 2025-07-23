@@ -40,6 +40,7 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.temporal.TemporalAccessor
 import java.util.Date
+import org.springframework.core.ResolvableType
 
 /**
  * Returns the Type object representing the class or interface that declared this type.
@@ -51,7 +52,7 @@ public fun Type.rawClass(): Class<*> =
     when (this) {
         is Class<*> -> this
         is ParameterizedType -> this.rawType.asToNotNull()
-        else -> error("Ain't gonna happen.")
+        else -> error("${this::class.java} doesn't support")
     }
 
 /**
@@ -83,37 +84,20 @@ public fun <T : Collection<*>> Type.toCollectionJavaType(collectionType: Class<T
  * @date 2023/09/13 19:28
  */
 @JvmOverloads
-public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
-    val superClass = this.genericSuperclass
-    check(superClass !is Class<*>) { "${superClass.typeName} constructed without actual type information" }
-    return superClass.asToNotNull<ParameterizedType>().actualTypeArguments[index]
-}
-
-/**
- * 获取接口的泛型参数
- * @param [type] 类型
- * @param [index] 类型位置, 默认第一个
- * @return [Type]
- * @author tangli
- * @date 2023/09/13 19:28
- */
-@JvmOverloads
-public fun Class<*>.typeParamOfSuperInterface(
-    type: Class<*>,
-    index: Int = 0,
-): Type {
-    val genericInterfaces = this.genericInterfaces
-    val matchedInterface =
-        genericInterfaces.firstOrNull {
-            it.rawClass().name == type.typeName
-        } ?: throw IllegalStateException("$this does not implement the $type")
-    check(matchedInterface !is Class<*>) { "${matchedInterface.typeName} constructed without actual type information" }
-    return matchedInterface.asToNotNull<ParameterizedType>().actualTypeArguments[index]
-}
+public fun Type.typeParam(index: Int = 0): Type =
+    ResolvableType.forType(this).getGeneric(index).type
 
 @JvmSynthetic
 internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
     (this == type) || type?.isAssignableFrom(this) == true
+
+@JvmSynthetic
+internal fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
+    types.any { this.isTypeOrSubTypeOf(it) }
+
+@JvmSynthetic
+internal fun Class<*>.isTypesOrSubTypesOf(typeCollection: Collection<Class<*>?>): Boolean =
+    typeCollection.any { this.isTypeOrSubTypeOf(it) }
 
 /**
  * 检查 是否 是某些类型 或某些类型的子类
@@ -122,8 +106,12 @@ internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
  * @author tangli
  * @date 2023/09/13 19:29
  */
-public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
-    types.any { this.isTypeOrSubTypeOf(it) }
+public fun Type.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
+    when (this) {
+        is Class<*> -> types.any { this.isTypeOrSubTypeOf(it) }
+        is ParameterizedType -> types.any { this.rawClass().isTypeOrSubTypeOf(it) }
+        else -> false
+    }
 
 /**
  * 检查 是否 是某些类型 或某些类型的子类
@@ -132,8 +120,12 @@ public fun Class<*>.isTypesOrSubTypesOf(vararg types: Class<*>?): Boolean =
  * @author tangli
  * @date 2023/09/13 19:29
  */
-public fun Class<*>.isTypesOrSubTypesOf(typeCollection: Collection<Class<*>?>): Boolean =
-    typeCollection.any { this.isTypeOrSubTypeOf(it) }
+public fun Type.isTypesOrSubTypesOf(typeCollection: Collection<Class<*>?>): Boolean =
+    when (this) {
+        is Class<*> -> typeCollection.any { this.isTypeOrSubTypeOf(it) }
+        is ParameterizedType -> typeCollection.any { this.rawClass().isTypeOrSubTypeOf(it) }
+        else -> false
+    }
 
 private val numberTypeCollection: List<Class<*>?> =
     listOf(
@@ -159,7 +151,7 @@ private val numberTypeCollection: List<Class<*>?> =
  * @author tangli
  * @date 2023/09/13 19:29
  */
-public fun Class<*>.isNumberTypes(): Boolean =
+public fun Type.isNumberTypes(): Boolean =
     isTypesOrSubTypesOf(numberTypeCollection)
 
 /**
@@ -168,7 +160,7 @@ public fun Class<*>.isNumberTypes(): Boolean =
  * @author tangli
  * @date 2023/09/13 19:29
  */
-public fun Class<*>.isStringLikeType(): Boolean =
+public fun Type.isStringLikeType(): Boolean =
     this.isTypesOrSubTypesOf(
         CharSequence::class.java
     )
@@ -179,10 +171,62 @@ public fun Class<*>.isStringLikeType(): Boolean =
  * @author tangli
  * @date 2023/09/13 19:30
  */
-public fun Class<*>.isArrayLikeType(): Boolean =
-    this.isTypeOrSubTypeOf(Collection::class.java) ||
-        this::class.java.isArray ||
-        this.isArray
+public fun Type.isArrayLikeType(): Boolean =
+    this.isTypesOrSubTypesOf(Collection::class.java) ||
+        this.isArrayType()
+
+/**
+ * 是否时间类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:30
+ */
+public fun Type.isDateTimeLikeType(): Boolean =
+    this.isTypesOrSubTypesOf(Date::class.java) ||
+        this.isTypesOrSubTypesOf(TemporalAccessor::class.java)
+
+/**
+ * 是否简单类型([Number], [String], [Date], [Boolean], [Enum])
+ * @return [Boolean]
+ * @author tangli
+ * @date 2025/07/23 09:35
+ */
+public fun Type.isSimpleType(): Boolean =
+    this.isStringLikeType() ||
+        this.isNumberTypes() ||
+        this.isBooleanType() ||
+        this.isDateTimeLikeType() ||
+        rawClass().isEnum
+
+/**
+ * 是否数组类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:30
+ */
+public fun Type.isArrayType(): Boolean =
+    this::class.java.isArray ||
+        rawClass().isArray
+
+/**
+ * 是否[Boolean]类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:30
+ */
+public fun Type.isBooleanType(): Boolean =
+    this == Boolean::class.java ||
+        this == Boolean::class.javaPrimitiveType
+
+/**
+ * 是否[Void]类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:30
+ */
+public fun Type.isVoidLikeType(): Boolean =
+    this == Void.TYPE ||
+        this == Unit::class.java
 
 /**
  * 原始类

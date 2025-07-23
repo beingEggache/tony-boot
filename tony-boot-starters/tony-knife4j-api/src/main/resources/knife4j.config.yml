@@ -1,7 +1,18 @@
+springdoc:
+  default-flat-param-object: on
+  disable-i18n: on
+  enable-spring-security: off
+  enable-data-rest: off
+  default-support-form-data: on
+  nullable-request-parameter-enabled: on
+  enable-hateoas: off
+  show-spring-cloud-functions: off
 knife4j:
   enable: on
   setting:
     enable-host: on
     enable-dynamic-parameter: on
     enable-reload-cache-parameter: on
-    swagger-model-name: "实体管理"
+    enable-response-code: off
+    enable-swagger-models: on
+    enable-version: on

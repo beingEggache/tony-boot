@@ -48,6 +48,7 @@ import tony.core.ERROR_CODE_HEADER_NAME
 import tony.core.exception.ApiException
 import tony.core.exception.BizException
 import tony.core.model.ApiResult
+import tony.core.model.ApiResultLike
 import tony.core.utils.asToDefault
 import tony.core.utils.getLogger
 import tony.core.utils.ifNullOrBlank
@@ -109,7 +110,7 @@ internal class ExceptionHandler : ErrorController {
         }
 
     @ExceptionHandler(BindException::class)
-    fun bindingResultException(e: BindException): ApiResult<*> {
+    fun bindingResultException(e: BindException): ApiResultLike<*> {
         val hasTypeMismatch = e.allErrors.any { it.code == TypeMismatchException.ERROR_CODE }
         val nonNullTypeNull = e.allErrors.any { it.code.isNullOrBlank() }
         if (hasTypeMismatch) {
@@ -232,8 +233,8 @@ internal class ExceptionHandler : ErrorController {
     private fun errorResponse(
         msg: String = "",
         code: Int = ApiProperty.errorCode,
-    ): ApiResult<*> {
+    ): ApiResultLike<*> {
         WebContext.response?.addHeader(ERROR_CODE_HEADER_NAME, code.toString())
-        return ApiResult(Unit, code, msg)
+        return ApiResult.of(Unit, code, msg)
     }
 }

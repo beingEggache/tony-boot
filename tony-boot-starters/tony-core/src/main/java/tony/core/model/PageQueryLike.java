@@ -41,7 +41,6 @@ import java.util.Collection;
  * @author tangli
  * @date 2021/12/6 10:51
  */
-@Schema(name = "分页请求统一结构")
 @JsonPropertyOrder(value = {"page", "size", "query", "ascs", "descs"})
 public interface PageQueryLike<T> {
 

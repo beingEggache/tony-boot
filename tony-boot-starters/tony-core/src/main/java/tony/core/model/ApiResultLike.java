@@ -25,6 +25,7 @@
 package tony.core.model;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.jetbrains.annotations.NotNull;
 import tony.core.ApiProperty;
 
@@ -45,6 +46,7 @@ public interface ApiResultLike<T> {
      *
      * @return data.
      */
+    @Schema(description = "数据")
     T getData();
 
     /**
@@ -52,6 +54,7 @@ public interface ApiResultLike<T> {
      *
      * @return code.
      */
+    @Schema(description = "结果码", defaultValue = "20000")
     int getCode();
 
     /**
@@ -59,14 +62,16 @@ public interface ApiResultLike<T> {
      *
      * @return message.
      */
+    @Schema(description = "消息", defaultValue = "操作成功")
     @NotNull
-    CharSequence getMessage();
+    String getMessage();
 
     /**
      * 是否成功
      *
      * @return boolean
      */
+    @Schema(description = "成功")
     default boolean getSuccess() {
         return Objects.equals(getCode(), ApiProperty.okCode());
     }

@@ -33,8 +33,8 @@ package tony.web.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.BeanUtils
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -120,7 +120,7 @@ private class WebConfig(
         }
     }
 
-    @ConditionalOnExpression($$"${web.log.trace.enabled:true}")
+    @ConditionalOnProperty(prefix = "web.log.trace", value = ["enabled"], havingValue = "true", matchIfMissing = true)
     @Bean
     private fun requestReplaceToRepeatReadFilter() =
         RequestReplaceToRepeatReadFilter(traceLogProperties.excludePatterns)
@@ -130,12 +130,12 @@ private class WebConfig(
         TraceIdFilter()
 
     @ConditionalOnMissingBean(TraceLogger::class)
-    @ConditionalOnExpression($$"${web.log.trace.enabled:true}")
+    @ConditionalOnProperty(prefix = "web.log.trace", value = ["enabled"], havingValue = "true", matchIfMissing = true)
     @Bean
     private fun defaultTraceLogger(): TraceLogger =
         DefaultTraceLogger()
 
-    @ConditionalOnExpression($$"${web.log.trace.enabled:true}")
+    @ConditionalOnProperty(prefix = "web.log.trace", value = ["enabled"], havingValue = "true", matchIfMissing = true)
     @Bean
     private fun traceLogFilter(traceLogger: TraceLogger): TraceLogFilter =
         TraceLogFilter(
@@ -145,7 +145,12 @@ private class WebConfig(
             traceLogProperties.responseBodyMaxSize.toBytes()
         )
 
-    @ConditionalOnExpression($$"${web.wrap-response-body-enabled:true}")
+    @ConditionalOnProperty(
+        prefix = "web",
+        value = ["wrap-response-body-enabled"],
+        havingValue = "true",
+        matchIfMissing = true
+    )
     @Bean
     private fun wrapResponseBodyAdvice(): WrapResponseBodyAdvice =
         WrapResponseBodyAdvice()
@@ -154,7 +159,7 @@ private class WebConfig(
     private fun exceptionHandler() =
         ExceptionHandler()
 
-    @ConditionalOnExpression($$"${web.cors.enabled:true}")
+    @ConditionalOnProperty(prefix = "web.cors", value = ["enabled"], havingValue = "true", matchIfMissing = true)
     @Bean
     private fun corsFilter(): CorsFilter {
         val corsConfiguration =
@@ -302,11 +307,13 @@ internal class ApiCorsProcessor : DefaultCorsProcessor() {
     private companion object {
         @JvmStatic
         val invalidCorsRequestResponseByteArray by lazy(LazyThreadSafetyMode.NONE) {
-            ApiResult(
-                Unit,
-                HttpServletResponse.SC_FORBIDDEN,
-                "Invalid CORS request"
-            ).toJsonString().toByteArray(Charsets.UTF_8)
+            ApiResult
+                .of(
+                    Unit,
+                    HttpServletResponse.SC_FORBIDDEN,
+                    "Invalid CORS request"
+                ).toJsonString()
+                .toByteArray(Charsets.UTF_8)
         }
     }
 

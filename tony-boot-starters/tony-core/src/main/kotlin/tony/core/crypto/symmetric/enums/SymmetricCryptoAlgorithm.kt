@@ -25,7 +25,6 @@
 package tony.core.crypto.symmetric.enums
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import tony.core.crypto.symmetric.Aes
 import tony.core.crypto.symmetric.Des
 import tony.core.crypto.symmetric.SymmetricCrypto
@@ -42,9 +41,8 @@ public enum class SymmetricCryptoAlgorithm(
     @JvmField
     public val algorithm: SymmetricCrypto,
 ) : StringEnumValue {
-    @JsonEnumDefaultValue
-    AES("aes", Aes),
-    DES("des", Des),
+    AES("AES", Aes),
+    DES("DES", Des),
     ;
 
     public companion object : StringEnumCreator(SymmetricCryptoAlgorithm::class.java) {

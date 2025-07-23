@@ -33,12 +33,18 @@
 
 package tony.core.model
 
+import java.time.temporal.Temporal
 import tony.core.ApiProperty
 import tony.core.exception.ApiException
 import tony.core.exception.BaseException
 import tony.core.exception.BizException
 import tony.core.model.ApiResult.Companion.message
-import tony.core.model.MonoResultLike.Companion.ofMonoResult
+import tony.core.model.MonoResult.Companion.ofMonoResult
+import tony.core.utils.isArrayLikeType
+import tony.core.utils.isBooleanType
+import tony.core.utils.isDateTimeLikeType
+import tony.core.utils.isNumberTypes
+import tony.core.utils.isStringLikeType
 
 /**
  * 拉平对象成 [tony.core.model.FlattenApiResult], 将所有字段拉到最外层显示.
@@ -61,13 +67,18 @@ import tony.core.model.MonoResultLike.Companion.ofMonoResult
  *   "age": 18
  * }
  * ```
- *
+ * @param [code] 消息码
+ * @param [message] 消息
  * @return [ApiResultLike]<[T]>
  * @author tangli
  * @date 2023/09/13 19:31
  */
-public fun <T> T.flattenResult(): ApiResultLike<T> =
-    FlattenApiResult(this, ApiProperty.okCode, ApiProperty.defaultOkMessage)
+@JvmOverloads
+public fun <T> T.flattenResult(
+    code: Int = ApiProperty.okCode,
+    message: String = ApiProperty.defaultOkMessage,
+): FlattenApiResult<T> =
+    FlattenApiResult(this, code, message)
 
 /**
  * 全局响应统一结构.
@@ -78,30 +89,18 @@ public fun <T> T.flattenResult(): ApiResultLike<T> =
  * @date 2021/12/6 10:51
  */
 public data class ApiResult<T>
-    @JvmOverloads
-    constructor(
+    private constructor(
         private val data: T?,
         private val code: Int = ApiProperty.okCode,
-        private val message: CharSequence = ApiProperty.defaultOkMessage,
+        private val message: String = ApiProperty.defaultOkMessage,
     ) : ApiResultLike<T> {
-        init {
-            val template = "%s type can not be the first parameter.Please use ApiResult.of(result) instead."
-
-            when (data) {
-                is Boolean -> throw ApiException(String.format(template, "Boolean"))
-                is CharSequence -> throw ApiException(String.format(template, "CharSequence"))
-                is Number -> throw ApiException(String.format(template, "Number"))
-                is Enum<*> -> throw ApiException(String.format(template, "Enum"))
-            }
-        }
-
         override fun getData(): T? =
             data
 
         override fun getCode(): Int =
             code
 
-        override fun getMessage(): CharSequence =
+        override fun getMessage(): String =
             message
 
         /**
@@ -135,55 +134,233 @@ public data class ApiResult<T>
              */
             @JvmOverloads
             @JvmStatic
-            public fun message(message: CharSequence = ApiProperty.defaultOkMessage): ApiResult<Unit> =
+            public fun message(message: String = ApiProperty.defaultOkMessage): ApiResultLike<Unit> =
                 ApiResult(Unit, ApiProperty.okCode, message)
 
             /**
-             * 用 [BooleanMonoResult] 包装 [Boolean]
+             * 用 [MonoResultLike] 包装 [Boolean]
              * @param value Boolean
+             * @param [message] 消息
              */
             @JvmOverloads
             @JvmStatic
             public fun of(
                 value: Boolean,
-                message: CharSequence = ApiProperty.defaultOkMessage,
-            ): ApiResult<BooleanMonoResult> =
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<MonoResultLike<Boolean>> =
                 ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
 
             /**
-             * 用 [StringMonoResult] 包装 [CharSequence]
+             * 用 [MonoResultLike] 包装 [CharSequence]
              * @param value CharSequence
+             * @param [message] 消息
              */
             @JvmOverloads
             @JvmStatic
             public fun of(
                 value: String,
-                message: CharSequence = ApiProperty.defaultOkMessage,
-            ): ApiResult<StringMonoResult> =
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<MonoResultLike<String>> =
                 ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
 
             /**
-             * 用 [NumberMonoResult] 包装 [Number]
+             * 用 [MonoResultLike] 包装 [Number]
              * @param value Number
+             * @param [message] 消息
              */
             @JvmOverloads
             @JvmStatic
             public fun <E : Number> of(
                 value: E,
-                message: CharSequence = ApiProperty.defaultOkMessage,
-            ): ApiResult<NumberMonoResult> =
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<MonoResultLike<Number>> =
                 ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
 
             /**
-             * 用 [EnumMonoResult] 包装 [Enum]
+             * 用 [MonoResultLike] 包装 [Enum]
              * @param value Enum
+             * @param [message] 消息
              */
             @JvmOverloads
             @JvmStatic
             public fun <E : Enum<*>> of(
                 value: E,
-                message: CharSequence = ApiProperty.defaultOkMessage,
-            ): ApiResult<EnumMonoResult> =
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<MonoResultLike<Enum<*>>> =
                 ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
+
+            /**
+             * 用 [MonoResultLike] 包装 [value]
+             * @param value
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun <E : Temporal> of(
+                value: E,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<MonoResultLike<Temporal>> =
+                ApiResult(value.ofMonoResult(), ApiProperty.okCode, message)
+
+            /**
+             * 用 [ListResult] 包装 [value]
+             * @param value
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun <E> of(
+                value: Collection<E>,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<ListResult<E>> =
+                ApiResult(ListResult(value), ApiProperty.okCode, message)
+
+            /**
+             * 用 [ListResult] 包装 [array]
+             * @param array
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun <E> of(
+                array: Array<E>,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<ListResult<E>> =
+                ApiResult(ListResult(array), ApiProperty.okCode, message)
+
+            /**
+             * 用 [ListResult] 包装 [array]
+             * @param array
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun of(
+                array: ByteArray,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<ListResult<Byte>> =
+                ApiResult(ListResult(array), ApiProperty.okCode, message)
+
+            /**
+             * 用 [ListResult] 包装 [array]
+             * @param array
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun of(
+                array: ShortArray,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<ListResult<Short>> =
+                ApiResult(ListResult(array), ApiProperty.okCode, message)
+
+            /**
+             * 用 [ListResult] 包装 [array]
+             * @param array
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun of(
+                array: IntArray,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<ListResult<Int>> =
+                ApiResult(ListResult(array), ApiProperty.okCode, message)
+
+            /**
+             * 用 [ListResult] 包装 [array]
+             * @param array
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun of(
+                array: LongArray,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<ListResult<Long>> =
+                ApiResult(ListResult(array), ApiProperty.okCode, message)
+
+            /**
+             * 用 [ListResult] 包装 [array]
+             * @param array
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun of(
+                array: FloatArray,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<ListResult<Float>> =
+                ApiResult(ListResult(array), ApiProperty.okCode, message)
+
+            /**
+             * 用 [ListResult] 包装 [array]
+             * @param array
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun of(
+                array: DoubleArray,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<ListResult<Double>> =
+                ApiResult(ListResult(array), ApiProperty.okCode, message)
+
+            /**
+             * 用 [ListResult] 包装 [array]
+             * @param array
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun of(
+                array: BooleanArray,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<ListResult<Boolean>> =
+                ApiResult(ListResult(array), ApiProperty.okCode, message)
+
+            /**
+             * 用 [ListResult] 包装 [array]
+             * @param array
+             * @param [message] 消息
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun of(
+                array: CharArray,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<ListResult<Char>> =
+                ApiResult(ListResult(array), ApiProperty.okCode, message)
+
+            /**
+             * 构造方法
+             * @param [data] 数据
+             * @param [code] 编码
+             * @param [message] 消息
+             * @return [ApiResultLike]<[T]>
+             * @author tangli
+             * @date 2025/07/23 16:20
+             */
+            @JvmOverloads
+            @JvmStatic
+            public fun <T> of(
+                data: T?,
+                code: Int = ApiProperty.okCode,
+                message: String = ApiProperty.defaultOkMessage,
+            ): ApiResultLike<T> {
+                val template = "%s type can not be the first parameter.Please use ApiResult.of(result) instead."
+                if (data != null) {
+                    val clazz = data::class.java
+                    when {
+                        clazz.isBooleanType() -> throw ApiException(String.format(template, "Boolean"))
+                        clazz.isStringLikeType() -> throw ApiException(String.format(template, "CharSequence"))
+                        clazz.isNumberTypes() -> throw ApiException(String.format(template, "Number"))
+                        clazz.isEnum -> throw ApiException(String.format(template, "Enum"))
+                        clazz.isDateTimeLikeType() -> throw ApiException(String.format(template, "Temporal"))
+                        clazz.isArrayLikeType() -> throw ApiException(String.format(template, "Collection"))
+                    }
+                }
+                return ApiResult(data, code, message)
+            }
         }
     }

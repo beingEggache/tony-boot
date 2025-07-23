@@ -37,6 +37,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 import tony.core.ApiProperty
 import tony.core.misc.notSupportResponseWrapClassCollection
 import tony.core.model.ApiResult
+import tony.core.model.ApiResultLike
 import tony.core.model.ListResult
 import tony.core.utils.antPathMatchAny
 import tony.core.utils.asTo
@@ -68,24 +69,24 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         selectedConverterType: Class<out HttpMessageConverter<*>>,
         request: ServerHttpRequest,
         response: ServerHttpResponse,
-    ): ApiResult<*> =
+    ): ApiResultLike<*> =
         when {
             body == null -> {
-                ApiResult(Unit, ApiProperty.okCode)
+                ApiResult.of(Unit, ApiProperty.okCode)
             }
 
             !body::class.java
                 .isArrayLikeType() -> {
-                ApiResult(body, ApiProperty.okCode)
+                ApiResult.of(body, ApiProperty.okCode)
             }
 
             else -> {
                 if (body::class.java
                         .isArray
                 ) {
-                    ApiResult(toListResult(body), ApiProperty.okCode)
+                    ApiResult.of(toListResult(body), ApiProperty.okCode)
                 } else {
-                    ApiResult(ListResult(body.asTo()), ApiProperty.okCode)
+                    ApiResult.of(ListResult(body.asTo()), ApiProperty.okCode)
                 }
             }
         }

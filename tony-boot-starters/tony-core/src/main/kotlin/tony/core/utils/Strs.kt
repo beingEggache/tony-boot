@@ -274,7 +274,18 @@ private val antPathMatcher = AntPathMatcher()
  * @see AntPathMatcher.match
  */
 public fun CharSequence?.antPathMatchAny(patterns: Collection<String>?): Boolean =
-    patterns?.any { antPathMatcher.match(it, ifNullOrBlank()) } == true
+    patterns?.any { antPathMatcher.match(it, this.ifNullOrBlank()) } == true
+
+/**
+ * 字符串 ant 匹配
+ * @param [patterns] 图案
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/12/08 19:30
+ * @see AntPathMatcher.match
+ */
+public fun CharSequence?.antPathMatchAny(vararg patterns: String?): Boolean =
+    patterns.any { antPathMatcher.match(it.ifNullOrBlank(), this.ifNullOrBlank()) }
 
 private val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
 private val snakeRegex = "_[a-zA-Z]".toRegex()
