@@ -31,7 +31,8 @@ public data class PageResult<T> private constructor(
     override fun getTotal(): Long =
         total
 
-    public companion object {
+    @Suppress("ClassName")
+    public companion object `-Companion` {
         /**
          * @see [PageResult]
          */

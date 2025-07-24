@@ -54,7 +54,8 @@ public annotation class RedisCacheable(
      */
     val expire: Long = TODAY_END,
 ) {
-    public companion object {
+    @Suppress("ClassName")
+    public companion object `-Companion` {
         public const val TODAY_END: Long = -3L
     }
 }

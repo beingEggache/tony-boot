@@ -40,7 +40,6 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.temporal.TemporalAccessor
 import java.util.Date
-import org.springframework.core.ResolvableType
 
 /**
  * Returns the Type object representing the class or interface that declared this type.
@@ -77,15 +76,18 @@ public fun <T : Collection<*>> Type.toCollectionJavaType(collectionType: Class<T
         .constructCollectionLikeType(collectionType, this.toJavaType())
 
 /**
- * 返回范型参数的  [Type]
+ * 返回父类范型参数的  [Type]
  * @param [index] 范型参数索引, 默认为第一个,也就是 0.
  * @return [Type]
  * @author tangli
  * @date 2023/09/13 19:28
  */
 @JvmOverloads
-public fun Type.typeParam(index: Int = 0): Type =
-    ResolvableType.forType(this).getGeneric(index).type
+public fun Class<*>.typeParamOfSuperClass(index: Int = 0): Type {
+    val superClass = this.genericSuperclass
+    check(superClass !is Class<*>) { "${superClass.typeName} constructed without actual type information" }
+    return superClass.asToNotNull<ParameterizedType>().actualTypeArguments[index]
+}
 
 @JvmSynthetic
 internal fun Class<*>.isTypeOrSubTypeOf(type: Class<*>?): Boolean =
@@ -146,6 +148,16 @@ private val numberTypeCollection: List<Class<*>?> =
     )
 
 /**
+ * 是否[Boolean]类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:30
+ */
+public fun Type.isBooleanType(): Boolean =
+    this == Boolean::class.java ||
+        this == Boolean::class.javaPrimitiveType
+
+/**
  * 是否数字类型
  * @return [Boolean]
  * @author tangli
@@ -153,6 +165,26 @@ private val numberTypeCollection: List<Class<*>?> =
  */
 public fun Type.isNumberTypes(): Boolean =
     isTypesOrSubTypesOf(numberTypeCollection)
+
+/**
+ * 是否数组类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:30
+ */
+public fun Type.isArrayType(): Boolean =
+    this::class.java.isArray ||
+        rawClass().isArray
+
+/**
+ * 是否列表或数组类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:30
+ */
+public fun Type.isArrayLikeType(): Boolean =
+    this.isTypesOrSubTypesOf(Collection::class.java) ||
+        this.isArrayType()
 
 /**
  * 是否字符串类型
@@ -164,16 +196,6 @@ public fun Type.isStringLikeType(): Boolean =
     this.isTypesOrSubTypesOf(
         CharSequence::class.java
     )
-
-/**
- * 是否列表或数组类型
- * @return [Boolean]
- * @author tangli
- * @date 2023/09/13 19:30
- */
-public fun Type.isArrayLikeType(): Boolean =
-    this.isTypesOrSubTypesOf(Collection::class.java) ||
-        this.isArrayType()
 
 /**
  * 是否时间类型
@@ -197,26 +219,6 @@ public fun Type.isSimpleType(): Boolean =
         this.isBooleanType() ||
         this.isDateTimeLikeType() ||
         rawClass().isEnum
-
-/**
- * 是否数组类型
- * @return [Boolean]
- * @author tangli
- * @date 2023/09/13 19:30
- */
-public fun Type.isArrayType(): Boolean =
-    this::class.java.isArray ||
-        rawClass().isArray
-
-/**
- * 是否[Boolean]类型
- * @return [Boolean]
- * @author tangli
- * @date 2023/09/13 19:30
- */
-public fun Type.isBooleanType(): Boolean =
-    this == Boolean::class.java ||
-        this == Boolean::class.javaPrimitiveType
 
 /**
  * 是否[Void]类型
@@ -284,33 +286,6 @@ public fun <T : Collection<*>> JavaType.toCollectionJavaType(collectionType: Cla
         .constructCollectionLikeType(collectionType, this)
 
 /**
- * 是类似日期时间类型
- * @return [Boolean]
- * @author tangli
- * @date 2023/09/13 19:30
- */
-public fun JavaType.isDateTimeLikeType(): Boolean =
-    isTypeOrSubTypeOf(Date::class.java) || isTypeOrSubTypeOf(TemporalAccessor::class.java)
-
-/**
- * 是类似数组类型
- * @return [Boolean]
- * @author tangli
- * @date 2023/09/13 19:30
- */
-public fun JavaType.isArrayLikeType(): Boolean =
-    isArrayType || isCollectionLikeType
-
-/**
- * 是布尔类型
- * @return [Boolean]
- * @author tangli
- * @date 2023/09/13 19:30
- */
-public fun JavaType.isBooleanType(): Boolean =
-    isTypeOrSubTypeOf(Boolean::class.javaObjectType) || isTypeOrSubTypeOf(Boolean::class.javaPrimitiveType)
-
-/**
  * 是数字类型
  * @return [Boolean]
  * @author tangli
@@ -324,6 +299,15 @@ public fun JavaType.isNumberType(): Boolean =
         isByteType() ||
         isShortType() ||
         isTypeOrSubTypeOf(Number::class.java)
+
+/**
+ * 是布尔类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:30
+ */
+public fun JavaType.isBooleanType(): Boolean =
+    isTypeOrSubTypeOf(Boolean::class.javaObjectType) || isTypeOrSubTypeOf(Boolean::class.javaPrimitiveType)
 
 /**
  * 是字节类型
@@ -380,15 +364,13 @@ public fun JavaType.isDoubleType(): Boolean =
     isTypeOrSubTypeOf(Double::class.javaObjectType) || isTypeOrSubTypeOf(Double::class.javaPrimitiveType)
 
 /**
- * 是类似obj类型
+ * 是类似日期时间类型
  * @return [Boolean]
  * @author tangli
- * @date 2023/09/13 19:31
+ * @date 2023/09/13 19:30
  */
-public fun JavaType.isObjLikeType(): Boolean =
-    isMapLikeType ||
-        (!isDateTimeLikeType() && !isBooleanType() && !isEnumType) &&
-        (!isNumberType() && !isStringLikeType() && !isArrayLikeType())
+public fun JavaType.isDateTimeLikeType(): Boolean =
+    isTypeOrSubTypeOf(Date::class.java) || isTypeOrSubTypeOf(TemporalAccessor::class.java)
 
 /**
  * 是类似字符串类型
@@ -400,3 +382,23 @@ public fun JavaType.isStringLikeType(): Boolean =
     isTypeOrSubTypeOf(CharSequence::class.java) ||
         isTypeOrSubTypeOf(Char::class.javaObjectType) ||
         isTypeOrSubTypeOf(Char::class.javaPrimitiveType)
+
+/**
+ * 是类似数组类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:30
+ */
+public fun JavaType.isArrayLikeType(): Boolean =
+    isArrayType || isCollectionLikeType
+
+/**
+ * 是类似obj类型
+ * @return [Boolean]
+ * @author tangli
+ * @date 2023/09/13 19:31
+ */
+public fun JavaType.isObjLikeType(): Boolean =
+    isMapLikeType ||
+        (!isDateTimeLikeType() && !isBooleanType() && !isEnumType) &&
+        (!isNumberType() && !isStringLikeType() && !isArrayLikeType())

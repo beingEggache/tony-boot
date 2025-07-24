@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import tony.annotation.web.auth.NoLoginCheck
-import tony.core.model.MonoResult.Companion.ofMonoResult
+import tony.core.model.MonoResult.`-Companion`.ofMonoResult
 import tony.core.model.MonoResultLike
 import tony.core.model.MonoValue
 import tony.demo.permission.NoPermissionCheck

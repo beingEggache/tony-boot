@@ -8,7 +8,6 @@ import org.springdoc.core.customizers.GlobalOperationCustomizer
 import org.springdoc.core.customizers.ParameterCustomizer
 import org.springdoc.core.customizers.PropertyCustomizer
 import org.springframework.core.MethodParameter
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.method.HandlerMethod
 import tony.core.enums.EnumValue
@@ -24,8 +23,9 @@ import tony.core.utils.toJavaType
  * @author tangli
  * @date 2025/07/21 14:52
  */
-public class EnumValueCustomizer :
-    ParameterCustomizer,
+internal class EnumValueCustomizer(
+    private val defaultResponseName: String = "200",
+) : ParameterCustomizer,
     PropertyCustomizer,
     GlobalOperationCustomizer {
     override fun customize(
@@ -60,8 +60,8 @@ public class EnumValueCustomizer :
         val returnClass = handlerMethod.returnType.parameterType
         if (returnClass.isTypesOrSubTypesOf(IntEnumValue::class.java)) {
             operation
-                .responses[HttpStatus.OK.value().toString()]
-                ?.content[MediaType.ALL_VALUE]
+                .responses[defaultResponseName]
+                ?.content[MediaType.APPLICATION_JSON_VALUE]
                 ?.schema
                 ?.apply {
                     types = setOfNotNull("integer")
@@ -69,8 +69,8 @@ public class EnumValueCustomizer :
                 }
         } else if (returnClass.isTypesOrSubTypesOf(StringEnumValue::class.java)) {
             operation
-                .responses[HttpStatus.OK.value().toString()]
-                ?.content[MediaType.ALL_VALUE]
+                .responses[defaultResponseName]
+                ?.content[MediaType.APPLICATION_JSON_VALUE]
                 ?.schema
                 ?.apply {
                     types = setOfNotNull("string")

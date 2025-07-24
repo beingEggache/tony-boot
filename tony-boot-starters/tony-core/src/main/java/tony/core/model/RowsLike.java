@@ -24,6 +24,8 @@
 
 package tony.core.model;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +48,7 @@ public interface RowsLike<T> {
      * @return 集合对象
      */
     @Schema(description = "列表")
+    @JsonSetter(nulls = Nulls.AS_EMPTY, contentNulls = Nulls.AS_EMPTY)
     @NotNull
     Collection<@Valid T> getRows();
 }

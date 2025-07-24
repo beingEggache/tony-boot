@@ -77,7 +77,8 @@ public enum class WechatQrCodeType(
     QR_LIMIT_STR_SCENE("QR_LIMIT_STR_SCENE"),
     ;
 
-    public companion object : EnumCreator<WechatQrCodeType, String>(WechatQrCodeType::class.java) {
+    @Suppress("ClassName")
+    public companion object `-Companion` : EnumCreator<WechatQrCodeType, String>(WechatQrCodeType::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: String): WechatQrCodeType? =

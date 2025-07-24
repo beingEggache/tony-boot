@@ -94,7 +94,8 @@ public enum class DigestAlgorithm(
             .digest(src.toString().toByteArray(Charsets.UTF_8))
             .encodeToString(Encoding.HEX)
 
-    public companion object : StringEnumCreator(DigestAlgorithm::class.java) {
+    @Suppress("ClassName")
+    public companion object `-Companion` : StringEnumCreator(DigestAlgorithm::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: String): StringEnumValue? =

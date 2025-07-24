@@ -42,7 +42,7 @@ import tony.feign.genSign
 import tony.feign.sortRequestBody
 import tony.test.feign.config.FeignTestConfig
 import tony.test.feign.exception.SignInvalidException
-import tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
+import tony.web.filter.RepeatReadRequestWrapper.`-Companion`.toRepeatRead
 import java.time.LocalDateTime
 
 @Import(FeignTestConfig::class)

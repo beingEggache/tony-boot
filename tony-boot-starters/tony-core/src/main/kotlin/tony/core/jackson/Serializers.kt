@@ -64,7 +64,8 @@ internal val maskConverters: MutableMap<Class<*>?, MaskConvertFunc> =
 public annotation class MaskConverter(
     val value: KClass<out MaskConvertFunc>,
 ) {
-    public companion object {
+    @Suppress("ClassName")
+    public companion object `-Companion` {
         public fun getMaskFun(clazz: Class<*>): MaskConvertFunc =
             maskConverters[clazz] ?: throw ApiException("$clazz converter not found")
     }
@@ -132,10 +133,12 @@ public class MaskSerializer : JsonSerializer<Any>() {
         gen.writeString(function.convert(value.toString()))
     }
 
-    public companion object {
+    @Suppress("ClassName")
+    public companion object `-Companion` {
         @JvmStatic
         private val logger = LoggerFactory.getLogger(MaskSerializer::class.java)
 
+        @JvmStatic
         public fun registerMaskFun(
             maskType: Class<*>,
             maskFun: MaskConvertFunc,

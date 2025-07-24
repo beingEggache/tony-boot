@@ -38,8 +38,8 @@ import tony.core.ApiProperty
 import tony.core.exception.ApiException
 import tony.core.exception.BaseException
 import tony.core.exception.BizException
-import tony.core.model.ApiResult.Companion.message
-import tony.core.model.MonoResult.Companion.ofMonoResult
+import tony.core.model.ApiResult.`-Companion`.message
+import tony.core.model.MonoResult.`-Companion`.ofMonoResult
 import tony.core.utils.isArrayLikeType
 import tony.core.utils.isBooleanType
 import tony.core.utils.isDateTimeLikeType
@@ -127,7 +127,8 @@ public data class ApiResult<T>
                 data
             }
 
-        public companion object {
+        @Suppress("ClassName")
+        public companion object `-Companion` {
             /**
              * 只返回消息
              * @param message 默认为 [ApiProperty.defaultOkMessage]

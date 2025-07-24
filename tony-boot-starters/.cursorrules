@@ -148,7 +148,8 @@ public enum class StatusEnum(public override val value: Int) : IntEnumValue {
     @JsonEnumDefaultValue
     UNUSED(DEFAULT_INT_VALUE);
 
-    public companion object : IntEnumCreator(StatusEnum::class.java) {
+    @Suppress("ClassName")
+    public companion object `-Companion` : IntEnumCreator(StatusEnum::class.java) {
         @JsonCreator
         @JvmStatic
         public override fun create(value: Int): StatusEnum = super.create(value)
@@ -164,7 +165,8 @@ public enum class EncodingEnum(public override val value: String) : StringEnumVa
     @JsonEnumDefaultValue
     UNUSED(DEFAULT_STRING_VALUE);
 
-    public companion object : StringEnumCreator(EncodingEnum::class.java) {
+    @Suppress("ClassName")
+    public companion object `-Companion` : StringEnumCreator(EncodingEnum::class.java) {
         @JsonCreator
         @JvmStatic
         public override fun create(value: String): EncodingEnum = super.create(value)

@@ -1,5 +1,6 @@
 springdoc:
   default-flat-param-object: on
+  default-produces-media-type: "application/json"
   disable-i18n: on
   enable-spring-security: off
   enable-data-rest: off

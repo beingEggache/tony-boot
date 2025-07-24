@@ -1,5 +1,7 @@
 package tony.core.model;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -11,5 +13,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 public interface MonoResultLike<T> {
     @Schema(description = "结果")
+    @JsonSetter(nulls = Nulls.AS_EMPTY, contentNulls = Nulls.AS_EMPTY)
     T getResult();
 }

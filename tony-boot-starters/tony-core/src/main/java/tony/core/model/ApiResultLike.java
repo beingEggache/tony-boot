@@ -25,6 +25,8 @@
 package tony.core.model;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.jetbrains.annotations.NotNull;
 import tony.core.ApiProperty;
@@ -47,6 +49,7 @@ public interface ApiResultLike<T> {
      * @return data.
      */
     @Schema(description = "数据")
+    @JsonSetter(nulls = Nulls.AS_EMPTY, contentNulls = Nulls.AS_EMPTY)
     T getData();
 
     /**
@@ -54,7 +57,7 @@ public interface ApiResultLike<T> {
      *
      * @return code.
      */
-    @Schema(description = "结果码", defaultValue = "20000")
+    @Schema(description = "返回码", defaultValue = "20000")
     int getCode();
 
     /**

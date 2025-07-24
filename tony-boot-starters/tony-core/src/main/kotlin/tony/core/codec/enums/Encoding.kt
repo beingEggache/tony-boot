@@ -45,7 +45,8 @@ public enum class Encoding(
     HEX("HEX", HexCodec),
     ;
 
-    public companion object : StringEnumCreator(Encoding::class.java) {
+    @Suppress("ClassName")
+    public companion object `-Companion` : StringEnumCreator(Encoding::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: String): StringEnumValue? =

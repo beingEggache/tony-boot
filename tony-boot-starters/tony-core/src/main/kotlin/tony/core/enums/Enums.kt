@@ -157,7 +157,8 @@ public abstract class EnumCreator<out E, KEY>(
     public fun enumValues(includeJsonEnumDefaultValue: Boolean): List<KEY> =
         enumValues(clazz, includeJsonEnumDefaultValue)
 
-    public companion object : EnumCreatorFactory {
+    @Suppress("ClassName")
+    public companion object `-Companion` : EnumCreatorFactory {
         @JvmStatic
         override fun <T, R> creatorOf(clazz: Class<T>): EnumCreator<T, R> where T : EnumValue<R>, R : Serializable =
             super.getCreator(clazz).asToNotNull()
@@ -175,7 +176,8 @@ public abstract class StringEnumCreator(
     /**
      * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
      */
-    public companion object : EnumCreatorFactory {
+    @Suppress("ClassName")
+    public companion object `-Companion` : EnumCreatorFactory {
         @JvmStatic
         override fun getCreator(clazz: Class<*>): StringEnumCreator =
             super.getCreator(clazz).asToNotNull()
@@ -193,7 +195,8 @@ public abstract class IntEnumCreator(
     /**
      * jackson 解析枚举时需要一个静态方法产生对应枚举. 相关对象继承这个类并将方法标记为 [JvmStatic] 即可.
      */
-    public companion object : EnumCreatorFactory {
+    @Suppress("ClassName")
+    public companion object `-Companion` : EnumCreatorFactory {
         @JvmStatic
         override fun getCreator(clazz: Class<*>): IntEnumCreator =
             super.getCreator(clazz).asToNotNull()

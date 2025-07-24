@@ -9,7 +9,9 @@ import io.swagger.v3.oas.models.media.Schema
 import java.lang.reflect.Type
 import java.util.Optional
 import kotlin.jvm.java
+import org.slf4j.Logger
 import org.springdoc.core.customizers.GlobalOperationComponentsCustomizer
+import org.springframework.core.PriorityOrdered
 import org.springframework.core.ResolvableType
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -21,20 +23,27 @@ import tony.core.model.MonoResultLike
 import tony.core.model.RowsLike
 import tony.core.utils.antPathMatchAny
 import tony.core.utils.asTo
+import tony.core.utils.getLogger
 import tony.core.utils.isArrayType
 import tony.core.utils.isSimpleType
 import tony.core.utils.isTypesOrSubTypesOf
 import tony.core.utils.isVoidLikeType
 import tony.core.utils.rawClass
-import tony.core.utils.typeParam
 import tony.knife4j.utils.SchemaParameterizedType
+import tony.knife4j.utils.isDownloadType
+import tony.knife4j.utils.typeParam
 
 /**
  * 包装响应 Schema
  * @author tangli
  * @date 2025/07/23 11:40
  */
-public class WrapResponseBodyOperationCustomizer : GlobalOperationComponentsCustomizer {
+internal class WrapResponseBodyOperationCustomizer(
+    private val defaultResponseName: String = "200",
+) : GlobalOperationComponentsCustomizer,
+    PriorityOrdered {
+    private val logger: Logger = getLogger()
+
     override fun customize(
         operation: Operation,
         components: Components,
@@ -44,7 +53,7 @@ public class WrapResponseBodyOperationCustomizer : GlobalOperationComponentsCust
             return operation
         }
 
-        val response = operation.responses["200"] ?: return operation
+        val response = operation.responses.get(defaultResponseName) ?: return operation
         val type = ResolvableType.forMethodReturnType(handlerMethod.method).type
         val returnType =
             if (type.isTypesOrSubTypesOf(
@@ -60,25 +69,27 @@ public class WrapResponseBodyOperationCustomizer : GlobalOperationComponentsCust
         if (
             (response.content == null && !returnType.isVoidLikeType()) ||
             returnType.isTypesOrSubTypesOf(ApiResultLike::class.java) ||
-            returnType.isSimpleType()
+            returnType.isSimpleType() ||
+            isDownloadType(returnType)
         ) {
             return operation
         }
+
         if (returnType.isVoidLikeType()) {
             response.content =
                 Content().addMediaType(
-                    MediaType.ALL_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE,
                     io.swagger.v3.oas.models.media
                         .MediaType()
                 )
         }
 
-        val mediaType = response.content[MediaType.ALL_VALUE] ?: return operation
+        val mediaType = response.content[MediaType.APPLICATION_JSON_VALUE] ?: return operation
         val parameterizedType =
             if (returnType.isVoidLikeType()) {
                 SchemaParameterizedType(
                     ApiResultLike::class.java,
-                    Any::class.java
+                    Void::class.java
                 )
             } else if (returnType.isTypesOrSubTypesOf(MonoResultLike::class.java)) {
                 SchemaParameterizedType(
@@ -104,7 +115,7 @@ public class WrapResponseBodyOperationCustomizer : GlobalOperationComponentsCust
                     returnType
                 )
             }
-        val newSchema = generateSchema(parameterizedType, components)
+        val newSchema = generateSchema(parameterizedType, components) ?: return operation
         mediaType.schema =
             Schema<Any>().apply {
                 `$ref` = "#/components/schemas/${newSchema.name}"
@@ -123,15 +134,20 @@ public class WrapResponseBodyOperationCustomizer : GlobalOperationComponentsCust
     private fun generateSchema(
         apiResultType: Type,
         components: Components,
-    ): Schema<*> {
-        val resolveAsResolvedSchema =
+    ): Schema<*>? {
+        val resolvedSchema =
             ModelConverters
                 .getInstance()
                 .resolveAsResolvedSchema(AnnotatedType(apiResultType))
-        resolveAsResolvedSchema.referencedSchemas.forEach { (name, schema) ->
+        if (resolvedSchema == null) {
+            logger.warn("Unable to resolve schema for $apiResultType")
+        }
+
+        resolvedSchema?.referencedSchemas?.forEach { (name, schema) ->
             components.schemas.putIfAbsent(name, schema)
         }
-        return resolveAsResolvedSchema.schema
+
+        return resolvedSchema?.schema
     }
 
     private fun isInWrapResponseExcludePatterns(handlerMethod: HandlerMethod): Boolean {
@@ -145,4 +161,7 @@ public class WrapResponseBodyOperationCustomizer : GlobalOperationComponentsCust
             requestMapping?.path?.any { it.antPathMatchAny(wrapResponseExcludePatterns) } == true
         return isInWrapResponseExcludePatterns
     }
+
+    override fun getOrder(): Int =
+        PriorityOrdered.LOWEST_PRECEDENCE
 }

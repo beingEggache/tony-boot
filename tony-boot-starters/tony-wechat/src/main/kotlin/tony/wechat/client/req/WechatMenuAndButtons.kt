@@ -100,7 +100,8 @@ public enum class WechatButtonType(
     VIEW_LIMITED("view_limited"),
     ;
 
-    public companion object : StringEnumCreator(WechatButtonType::class.java) {
+    @Suppress("ClassName")
+    public companion object `-Companion` : StringEnumCreator(WechatButtonType::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: String): WechatButtonType? =

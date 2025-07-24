@@ -13,7 +13,8 @@ public data class MonoResult<T> private constructor(
     override fun getResult(): T? =
         result
 
-    public companion object {
+    @Suppress("ClassName")
+    public companion object `-Companion` {
         /**
          * 包装成简单值响应统一结构.
          * @return [MonoResult]

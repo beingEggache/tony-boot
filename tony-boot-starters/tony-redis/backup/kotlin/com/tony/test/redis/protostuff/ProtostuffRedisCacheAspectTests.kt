@@ -11,7 +11,7 @@ import tony.test.redis.RedisTestStringEnum
 import tony.test.redis.SimpleObj
 import tony.test.redis.TestRedisApp
 import tony.test.redis.protostuff.service.ProtostuffRedisCacheAspectService
-import tony.test.redis.protostuff.service.ProtostuffRedisCacheAspectService.Companion.cacheKeyTemplate
+import tony.test.redis.protostuff.service.ProtostuffRedisCacheAspectService.`-Companion`.cacheKeyTemplate
 import tony.core.utils.getLogger
 import tony.core.utils.toJsonString
 import jakarta.annotation.Resource

@@ -8,7 +8,7 @@ import org.springdoc.core.customizers.OpenApiCustomizer
  * @author tangli
  * @date 2025/07/21 11:41
  */
-public class FlattenPropertiesOpenApiCustomizer : OpenApiCustomizer {
+internal class FlattenPropertiesOpenApiCustomizer : OpenApiCustomizer {
     override fun customise(openApi: OpenAPI) {
         openApi.components?.schemas?.forEach { (_, schema) ->
             schema.properties

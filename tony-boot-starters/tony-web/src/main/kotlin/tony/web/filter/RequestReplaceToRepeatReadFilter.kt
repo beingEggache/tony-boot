@@ -49,7 +49,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 import tony.core.utils.antPathMatchAny
 import tony.core.utils.sanitizedPath
 import tony.web.WebContext
-import tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
+import tony.web.filter.RepeatReadRequestWrapper.`-Companion`.toRepeatRead
 import tony.web.utils.isCorsPreflightRequest
 
 /**
@@ -162,7 +162,8 @@ public class RepeatReadRequestWrapper
                     .POST
                     .matches(method)
 
-        public companion object {
+        @Suppress("ClassName")
+        public companion object `-Companion` {
             @JvmStatic
             public fun HttpServletRequest.toRepeatRead(): RepeatReadRequestWrapper =
                 this as? RepeatReadRequestWrapper ?: RepeatReadRequestWrapper(this)

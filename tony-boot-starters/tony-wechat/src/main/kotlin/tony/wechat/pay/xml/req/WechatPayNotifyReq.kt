@@ -189,7 +189,8 @@ public data class WechatPayNotifyReq(
     @XStreamAlias("time_end")
     var timeEnd: String,
 ) {
-    public companion object {
+    @Suppress("ClassName")
+    public companion object `-Companion` {
         private val logger = getLogger()
 
         @JvmStatic

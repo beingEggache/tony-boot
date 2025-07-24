@@ -48,7 +48,7 @@ import tony.core.utils.sanitizedPath
 import tony.core.utils.toInstant
 import tony.core.utils.uuid
 import tony.web.WebContext
-import tony.web.filter.RepeatReadRequestWrapper.Companion.toRepeatRead
+import tony.web.filter.RepeatReadRequestWrapper.`-Companion`.toRepeatRead
 import tony.web.log.TraceLogger
 import tony.web.utils.isCorsPreflightRequest
 

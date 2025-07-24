@@ -45,7 +45,8 @@ public enum class SymmetricCryptoAlgorithm(
     DES("DES", Des),
     ;
 
-    public companion object : StringEnumCreator(SymmetricCryptoAlgorithm::class.java) {
+    @Suppress("ClassName")
+    public companion object `-Companion` : StringEnumCreator(SymmetricCryptoAlgorithm::class.java) {
         @JsonCreator
         @JvmStatic
         override fun create(value: String): StringEnumValue? =
