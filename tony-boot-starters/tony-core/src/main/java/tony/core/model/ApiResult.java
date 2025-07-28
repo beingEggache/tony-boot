@@ -86,6 +86,6 @@ public interface ApiResult<T> {
         @JsonProperty(value = "message", defaultValue = "操作成功")
         String message
     ) {
-        return new ApiResultImpl<>(data, code, message);
+        return ApiResults.ofApiResult(data, code, message);
     }
 }

@@ -58,6 +58,6 @@ public interface Rows<T> {
     static <T> Rows<T> create(
         @JsonProperty(value = "rows", defaultValue = "[]")
         Collection<T> rows) {
-        return new RowsImpl<>(rows);
+        return Rowses.ofRows(rows);
     }
 }

@@ -154,7 +154,7 @@ public fun <E> ofApiResult(
     value: Collection<E>,
     message: String = ApiProperty.defaultOkMessage,
 ): ApiResult<Rows<E>> =
-    ApiResultImpl(RowsImpl(value), ApiProperty.okCode, message)
+    ApiResultImpl(ofRows(value), ApiProperty.okCode, message)
 
 /**
  * 用 [Rows] 包装 [array]
