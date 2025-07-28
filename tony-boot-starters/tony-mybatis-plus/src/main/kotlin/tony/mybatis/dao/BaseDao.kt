@@ -35,8 +35,8 @@ import org.apache.ibatis.annotations.Param
 import tony.core.ApiProperty
 import tony.core.exception.BaseException
 import tony.core.exception.BizException
-import tony.core.model.PageQueryLike
-import tony.core.model.PageResultLike
+import tony.core.model.PageQuery
+import tony.core.model.PageResult
 import tony.core.utils.throwIfEmpty
 import tony.core.utils.throwIfNull
 import tony.mybatis.utils.toPage
@@ -234,28 +234,28 @@ public interface BaseDao<T : Any> : BaseMapper<T> {
      * 分页查询出全局统一结构.
      * @param [page] 页
      * @param [queryWrapper] 查询包装器
-     * @return [PageResultLike]<[T]>
+     * @return [PageResult]<[T]>
      * @author tangli
      * @date 2023/09/13 19:39
      */
     public fun selectPageResult(
-        page: PageQueryLike<*>,
+        page: PageQuery<*>?,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
-    ): PageResultLike<T> =
+    ): PageResult<T> =
         selectPage(page.toPage(), queryWrapper).toPageResult()
 
     /**
      * 分页查询出全局统一结构.
      * @param [page] 页
      * @param [queryWrapper] 查询包装器
-     * @return [PageResultLike]<[Map]<[String], [Any]?>>
+     * @return [PageResult]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/10/23 19:42
      */
     public fun selectMapPageResult(
-        page: PageQueryLike<*>,
+        page: PageQuery<*>,
         @Param(Constants.WRAPPER) queryWrapper: Wrapper<T>?,
-    ): PageResultLike<Map<String, Any?>> =
+    ): PageResult<Map<String, Any?>> =
         selectMapsPage(page.toPage(), queryWrapper).toPageResult()
 
     /**

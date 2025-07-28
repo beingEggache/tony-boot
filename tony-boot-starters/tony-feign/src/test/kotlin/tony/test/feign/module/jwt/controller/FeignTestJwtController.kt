@@ -28,7 +28,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import tony.annotation.web.auth.NoLoginCheck
-import tony.core.model.MonoResult.`-Companion`.ofMonoResult
+import tony.core.model.wrap
 import tony.jwt.JwtToken
 import tony.test.feign.dto.LoginReq
 import tony.test.feign.dto.Person
@@ -40,7 +40,7 @@ class FeignTestJwtController : FeignJwtTestApi {
 
     @NoLoginCheck
     override fun login(@RequestBody req: LoginReq) =
-        JwtToken.gen("userId" to "99efd6bbc03b491191ca3206bd20046f").ofMonoResult()
+        JwtToken.gen("userId" to "99efd6bbc03b491191ca3206bd20046f").wrap()
 
     override fun doAfterLogin(@RequestBody person: Person) = person
 }

@@ -28,14 +28,14 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.time.temporal.TemporalAccessor
 import java.util.Date
-import tony.core.model.ApiResultLike
+import tony.core.model.ApiResult
 
 /**
  * 不支持响应包装类
  */
 public val notSupportResponseWrapClassCollection: Collection<Class<*>?> =
     listOf(
-        ApiResultLike::class.java,
+        ApiResult::class.java,
         Enum::class.java,
         Date::class.java,
         TemporalAccessor::class.java,

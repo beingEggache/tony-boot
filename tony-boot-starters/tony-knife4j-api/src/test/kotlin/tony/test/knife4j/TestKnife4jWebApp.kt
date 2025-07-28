@@ -24,38 +24,31 @@
 
 package tony.test.knife4j
 
-import jakarta.annotation.Resource
-import org.springdoc.api.AbstractOpenApiResource
-import org.springdoc.webmvc.api.OpenApiWebMvcResource
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.context.event.ApplicationReadyEvent
-import org.springframework.context.event.EventListener
 import tony.core.annotation.EnableTonyBoot
-import tony.core.utils.toJsonString
-import java.util.Locale
 
 @EnableTonyBoot
 @SpringBootApplication
 class TestKnife4jWebApp {
 
-    @Resource
-    lateinit var openApiWebMvcResource: OpenApiWebMvcResource
-
-    @EventListener(ApplicationReadyEvent::class)
-    fun syncApiJson() {
-        val method = AbstractOpenApiResource::class
-            .java
-            .getDeclaredMethod(
-                "getOpenApi",
-                String::class.java,
-                Locale::class.java
-            )
-        method.setAccessible(true)
-        val openApi = method.invoke(
-            openApiWebMvcResource,
-            "http://localhost:10000",
-            Locale.CHINA
-        )
-        openApi.toJsonString()
-    }
+//    @Resource
+//    lateinit var openApiWebMvcResource: OpenApiWebMvcResource
+//
+//    @EventListener(ApplicationReadyEvent::class)
+//    fun syncApiJson() {
+//        val method = AbstractOpenApiResource::class
+//            .java
+//            .getDeclaredMethod(
+//                "getOpenApi",
+//                String::class.java,
+//                Locale::class.java
+//            )
+//        method.setAccessible(true)
+//        val openApi = method.invoke(
+//            openApiWebMvcResource,
+//            "http://localhost:10000",
+//            Locale.CHINA
+//        )
+//        openApi.toJsonString()
+//    }
 }

@@ -24,12 +24,8 @@
 
 package tony.test.core;
 
-import tony.core.utils.Cols;
-import tony.test.core.utils.ColsTest;
+import tony.core.utils.Digests;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * JavaTestWhatever is
@@ -40,10 +36,7 @@ import java.util.List;
 public class JavaTestWhatever {
 
     public static void main(final String[] args) {
-
-        Collection<ColsTest.TestNode> testNodes = List.of(new ColsTest.TestNode("", 0, new ArrayList<>()));
-
-        Cols.treeToList(testNodes);
+        System.out.println(Digests.md5("123456").toUpperCase());
     }
 }
 

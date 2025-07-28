@@ -59,7 +59,7 @@ import tony.core.jackson.InjectableValueSupplier
 import tony.core.jackson.InjectableValuesBySupplier
 import tony.core.jackson.NullValueBeanSerializerModifier
 import tony.core.misc.YamlPropertySourceFactory
-import tony.core.model.ApiResult
+import tony.core.model.ofApiResult
 import tony.core.utils.asTo
 import tony.core.utils.createObjectMapper
 import tony.core.utils.getLogger
@@ -307,12 +307,11 @@ internal class ApiCorsProcessor : DefaultCorsProcessor() {
     private companion object {
         @JvmStatic
         val invalidCorsRequestResponseByteArray by lazy(LazyThreadSafetyMode.NONE) {
-            ApiResult
-                .of(
-                    Unit,
-                    HttpServletResponse.SC_FORBIDDEN,
-                    "Invalid CORS request"
-                ).toJsonString()
+            ofApiResult(
+                Unit,
+                HttpServletResponse.SC_FORBIDDEN,
+                "Invalid CORS request"
+            ).toJsonString()
                 .toByteArray(Charsets.UTF_8)
         }
     }

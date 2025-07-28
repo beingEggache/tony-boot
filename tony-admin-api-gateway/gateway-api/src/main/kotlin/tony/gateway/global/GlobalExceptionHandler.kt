@@ -12,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import tony.core.ApiProperty
-import tony.core.model.ApiResult
+import tony.core.model.ofApiResult
 import tony.core.utils.getLogger
 import tony.gateway.utils.jsonBody
 
@@ -34,7 +34,7 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
             val httpStatus = ex.statusCode
             response.statusCode = httpStatus
             response.jsonBody(
-                ApiResult.of(
+                ofApiResult(
                     Unit,
                     httpStatus.value(),
                     ex.reason ?: ""
@@ -42,7 +42,7 @@ class GlobalExceptionHandler : ErrorWebExceptionHandler {
             )
         } else {
             response.jsonBody(
-                ApiResult.of(
+                ofApiResult(
                     Unit,
                     ApiProperty.errorCode,
                     ApiProperty.errorMsg

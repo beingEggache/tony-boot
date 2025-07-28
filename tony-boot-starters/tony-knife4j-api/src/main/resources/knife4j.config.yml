@@ -8,6 +8,9 @@ springdoc:
   nullable-request-parameter-enabled: on
   enable-hateoas: off
   show-spring-cloud-functions: off
+  remove-broken-reference-definitions: off
+  override-with-generic-response: off
+  pre-loading-enabled: on
 knife4j:
   enable: on
   setting:

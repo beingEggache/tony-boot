@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import tony.annotation.web.auth.NoLoginCheck
 import tony.core.model.ApiResult
+import tony.core.model.apiMessage
 import tony.test.feign.module.file.api.FeignFileTestApi
 import java.nio.file.Paths
 
@@ -61,7 +62,7 @@ class FeignFileTestController : FeignFileTestApi {
         files: List<MultipartFile>,
         @RequestParam("remark")
         remark: String?
-    ):ApiResult<*> {
+    ): ApiResult<*> {
         println(remark)
         println(absolutePath)
         files.forEach {
@@ -69,7 +70,7 @@ class FeignFileTestController : FeignFileTestApi {
             println(it.originalFilename)
             it.transferTo(Paths.get("$absolutePath/${it.originalFilename}"))
         }
-        return ApiResult.message()
+        return apiMessage()
     }
 
     @PostMapping("/upload-single", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
@@ -78,12 +79,12 @@ class FeignFileTestController : FeignFileTestApi {
         file: MultipartFile,
         @RequestParam("remark")
         remark: String?
-    ):ApiResult<*> {
+    ): ApiResult<*> {
         println(remark)
         println(file.name)
         println(file.originalFilename)
         println(absolutePath)
         file.transferTo(Paths.get("$absolutePath/${file.originalFilename}"))
-        return ApiResult.message()
+        return apiMessage()
     }
 }

@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController
 import tony.annotation.web.crypto.DecryptRequestBody
 import tony.annotation.web.crypto.EncryptResponseBody
 import tony.core.exception.BizException
-import tony.core.model.MonoResult.`-Companion`.ofMonoResult
+import tony.core.model.wrap
 import tony.test.web.crypto.api.FeignCryptoTestApi
 import tony.test.web.crypto.req.TestReq
 
@@ -60,7 +60,7 @@ class FeignCryptoTestController : FeignCryptoTestApi {
 
     @EncryptResponseBody
     @Operation(description = "mono")
-    override fun mono() = "hello world".ofMonoResult()
+    override fun mono() = "hello world".wrap()
 
     @DecryptRequestBody
     @EncryptResponseBody

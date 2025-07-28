@@ -25,18 +25,6 @@
 package tony.test.mybatis
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers
-import tony.ApiSession
-import tony.core.model.PageQuery
-import tony.core.annotation.EnableTonyBoot
-import tony.mybatis.DbMetaObjectHandler
-import tony.mybatis.DefaultMetaObjectHandler
-import tony.test.mybatis.db.config.DbConfig
-import tony.test.mybatis.db.dao.EmployeeDao
-import tony.test.mybatis.db.po.Employee
-import tony.core.utils.genRandomInt
-import tony.core.utils.getLogger
-import tony.core.utils.md5
-import tony.core.utils.toJsonString
 import jakarta.annotation.Resource
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.MethodOrderer
@@ -48,6 +36,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
+import tony.ApiSession
+import tony.core.annotation.EnableTonyBoot
+import tony.core.utils.genRandomInt
+import tony.core.utils.getLogger
+import tony.core.utils.md5
+import tony.core.utils.toJsonString
+import tony.mybatis.DbMetaObjectHandler
+import tony.mybatis.DefaultMetaObjectHandler
+import tony.test.mybatis.db.config.DbConfig
+import tony.test.mybatis.db.dao.EmployeeDao
+import tony.test.mybatis.db.po.Employee
 
 
 @SpringBootTest(
@@ -61,11 +61,14 @@ class MyBatisAppTest {
     @Resource
     lateinit var employeeDao: EmployeeDao
 
+    @Resource
+    lateinit var namedParameterJdbcTemplate: NamedParameterJdbcTemplate
+
     private val logger = getLogger()
 
     @BeforeAll
     fun beforeAll() {
-        //namedParameterJdbcTemplate.execute("delete from sys_user") { it.execute() }
+        namedParameterJdbcTemplate.execute("delete from sys_employee") { it.execute() }
     }
 
     @Order(1)
@@ -93,6 +96,7 @@ class MyBatisAppTest {
                 account = s
                 realName = "孙笑川$indexStr"
                 employeeMobile = "13984842$indexStr"
+                salt = s
                 pwd = "${"123456".md5().uppercase()}$s".md5().uppercase()
             }
         }
@@ -135,7 +139,7 @@ class MyBatisAppTest {
                 )
             }
         logger.info(mapList.toJsonString())
-        val pageResult1 = employeeDao.selectPageResult(PageQuery<String>(), Wrappers.emptyWrapper())
+        val pageResult1 = employeeDao.selectPageResult(null, Wrappers.emptyWrapper())
         logger.info(pageResult1.toJsonString())
     }
 
@@ -148,7 +152,7 @@ class MyBatisAppTest {
         val oneObj = employeeDao.ktQuery().eq(Employee::employeeId, employeeId).oneObj<String>()
         logger.info(oneObj!!::class.java.name)
         logger.info(oneObj.toJsonString())
-        val pageResult = employeeDao.ktQuery().pageResult(PageQuery<String>())
+        val pageResult = employeeDao.ktQuery().pageResult(null)
         logger.info(pageResult.toJsonString())
     }
 

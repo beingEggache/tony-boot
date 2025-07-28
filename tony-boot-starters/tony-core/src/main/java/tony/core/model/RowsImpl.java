@@ -24,31 +24,22 @@
 
 package tony.core.model;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
 /**
- * Global collection wrapper interface.
+ * Global collection wrapper
  *
- * @param <T> 内容类型
  * @author tangli
- * @date 2021/12/6 10:51
+ * @date 2024/07/02 09:03
  */
-@SuppressWarnings("unused")
-public interface RowsLike<T> {
-
-    /**
-     * 返回包装集合对象.
-     *
-     * @return 集合对象
-     */
-    @Schema(description = "列表")
-    @JsonSetter(nulls = Nulls.AS_EMPTY, contentNulls = Nulls.AS_EMPTY)
+record RowsImpl<T>(
+    Collection<T> rows
+) implements Rows<T> {
     @NotNull
-    Collection<@Valid T> getRows();
+    @Override
+    public Collection<T> getRows() {
+        return rows;
+    }
 }

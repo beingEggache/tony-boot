@@ -24,12 +24,6 @@
 
 package tony.test.web.auth.controller
 
-import tony.core.model.ApiResult
-import tony.annotation.web.auth.NoLoginCheck
-import tony.jwt.JwtToken
-import tony.test.web.auth.req.TestLoginReq
-import tony.web.WebContext
-import tony.web.auth.WebContextExtensions.webSession
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.validation.annotation.Validated
@@ -37,6 +31,12 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import tony.annotation.web.auth.NoLoginCheck
+import tony.core.model.ofApiResult
+import tony.jwt.JwtToken
+import tony.test.web.auth.req.TestLoginReq
+import tony.web.WebContext
+import tony.web.auth.WebContextExtensions.webSession
 
 @Tag(name = "测试session")
 @Validated
@@ -59,5 +59,5 @@ class TestSessionController {
         @Validated
         @RequestBody
         req: TestLoginReq
-    ) = ApiResult.of(JwtToken.gen("userId" to req.name))
+    ) = ofApiResult(JwtToken.gen("userId" to req.name))
 }

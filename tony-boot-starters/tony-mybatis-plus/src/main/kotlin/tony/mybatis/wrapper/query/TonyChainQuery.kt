@@ -29,8 +29,8 @@ import java.util.Collections
 import org.apache.ibatis.exceptions.TooManyResultsException
 import tony.core.ApiProperty
 import tony.core.exception.BaseException
-import tony.core.model.PageQueryLike
-import tony.core.model.PageResultLike
+import tony.core.model.PageQuery
+import tony.core.model.PageResult
 import tony.core.utils.throwIfFalse
 import tony.core.utils.throwIfNull
 import tony.core.utils.throwIfTrue
@@ -187,21 +187,21 @@ public interface TonyChainQuery<T : Any> : ChainQuery<T> {
     /**
      * 分页查询出全局统一结构.
      * @param [page] 全局统一请求分页结构.
-     * @return [PageResultLike]<[T]>
+     * @return [PageResult]<[T]>
      * @author tangli
      * @date 2023/10/23 19:49
      */
-    public fun pageResult(page: PageQueryLike<*>): PageResultLike<T> =
+    public fun pageResult(page: PageQuery<*>?): PageResult<T> =
         baseMapper.selectPageResult(page, wrapper)
 
     /**
      * 查询全局统一分页结构.
      * @param [page] 全局统一请求分页结构.
-     * @return [PageResultLike]<[Map]<[String], [Any]?>>
+     * @return [PageResult]<[Map]<[String], [Any]?>>
      * @author tangli
      * @date 2023/10/23 19:49
      */
-    public fun mapPageResult(page: PageQueryLike<*>): PageResultLike<Map<String, Any?>> =
+    public fun mapPageResult(page: PageQuery<*>): PageResult<Map<String, Any?>> =
         baseMapper.selectMapPageResult(page, wrapper)
 
     /**

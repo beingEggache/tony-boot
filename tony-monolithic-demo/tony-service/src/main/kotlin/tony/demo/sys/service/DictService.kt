@@ -2,7 +2,7 @@ package tony.demo.sys.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import tony.core.model.PageQueryLike
+import tony.core.model.PageQuery
 import tony.core.model.PageResult
 import tony.core.utils.copyTo
 import tony.core.utils.listToTree
@@ -104,7 +104,7 @@ class DictService(
      * @author tangli
      * @date 2024/07/29 15:38
      */
-    fun dictList(req: PageQueryLike<DictQuery>): PageResult<DictResp> =
+    fun dictList(req: PageQuery<DictQuery>): PageResult<DictResp> =
         dictDao
             .ktQuery()
             .eq(req.query.dictTypeId.isNotBlank(), Dict::dictTypeId, req.query.dictTypeId)

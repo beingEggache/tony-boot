@@ -37,8 +37,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 import tony.core.ApiProperty
 import tony.core.misc.notSupportResponseWrapClassCollection
 import tony.core.model.ApiResult
-import tony.core.model.ApiResultLike
-import tony.core.model.ListResult
+import tony.core.model.ofApiResult
+import tony.core.model.ofRows
 import tony.core.utils.antPathMatchAny
 import tony.core.utils.asTo
 import tony.core.utils.getLogger
@@ -69,24 +69,24 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
         selectedConverterType: Class<out HttpMessageConverter<*>>,
         request: ServerHttpRequest,
         response: ServerHttpResponse,
-    ): ApiResultLike<*> =
+    ): ApiResult<*> =
         when {
             body == null -> {
-                ApiResult.of(Unit, ApiProperty.okCode)
+                ofApiResult(Unit, ApiProperty.okCode)
             }
 
             !body::class.java
                 .isArrayLikeType() -> {
-                ApiResult.of(body, ApiProperty.okCode)
+                ofApiResult(body, ApiProperty.okCode)
             }
 
             else -> {
                 if (body::class.java
                         .isArray
                 ) {
-                    ApiResult.of(toListResult(body), ApiProperty.okCode)
+                    ofApiResult(toRows(body), ApiProperty.okCode)
                 } else {
-                    ApiResult.of(ListResult(body.asTo()), ApiProperty.okCode)
+                    ofApiResult(ofRows(body.asTo()), ApiProperty.okCode)
                 }
             }
         }
@@ -107,18 +107,18 @@ internal class WrapResponseBodyAdvice : ResponseBodyAdvice<Any?> {
 
     private companion object Utils {
         @JvmStatic
-        private fun toListResult(body: Any?) =
+        private fun toRows(body: Any?) =
             when (body) {
-                is ByteArray -> ListResult<Byte>(body)
-                is ShortArray -> ListResult<Short>(body)
-                is IntArray -> ListResult<Int>(body)
-                is LongArray -> ListResult<Long>(body)
-                is FloatArray -> ListResult<Float>(body)
-                is DoubleArray -> ListResult<Double>(body)
-                is BooleanArray -> ListResult<Boolean>(body)
-                is CharArray -> ListResult<Char>(body)
-                is Array<*> -> ListResult<Any>(body)
-                else -> ListResult(Collections.EMPTY_LIST)
+                is ByteArray -> ofRows(body)
+                is ShortArray -> ofRows(body)
+                is IntArray -> ofRows(body)
+                is LongArray -> ofRows(body)
+                is FloatArray -> ofRows(body)
+                is DoubleArray -> ofRows(body)
+                is BooleanArray -> ofRows(body)
+                is CharArray -> ofRows(body)
+                is Array<*> -> ofRows(body)
+                else -> ofRows(Collections.EMPTY_LIST)
             }
     }
 }

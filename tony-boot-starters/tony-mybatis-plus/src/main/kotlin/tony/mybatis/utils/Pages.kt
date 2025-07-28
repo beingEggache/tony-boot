@@ -37,9 +37,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage
 import com.baomidou.mybatisplus.core.metadata.OrderItem
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import java.util.Collections
-import tony.core.model.PageQueryLike
+import tony.core.model.PageQuery
 import tony.core.model.PageResult
-import tony.core.model.PageResultLike
+import tony.core.model.ofPageResult
 import tony.core.utils.asToNotNull
 import tony.core.utils.camelToSnakeCase
 
@@ -49,18 +49,20 @@ import tony.core.utils.camelToSnakeCase
  * @author tangli
  * @date 2023/09/28 19:55
  */
-public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
+public fun <T> PageQuery<*>?.toPage(): IPage<T> =
     Page<T>().also { page ->
-        page.current = this.page.takeIf { it > 0 } ?: 1L
-        page.size = this.size.takeIf { it > 0 } ?: 10L
-        descs
-            .filter { !it.isNullOrBlank() }
-            .map { OrderItem.desc(it.camelToSnakeCase()) }
-            .let { page.addOrder(it) }
-        ascs
-            .filter { !it.isNullOrBlank() }
-            .map { OrderItem.asc(it.camelToSnakeCase()) }
-            .let { page.addOrder(it) }
+        page.current = this?.page?.takeIf { it > 0 } ?: 1L
+        page.size = this?.size?.takeIf { it > 0 } ?: 10L
+        this
+            ?.descs
+            ?.filter { !it.isNullOrBlank() }
+            ?.map { OrderItem.desc(it.camelToSnakeCase()) }
+            ?.let { page.addOrder(it) }
+        this
+            ?.ascs
+            ?.filter { !it.isNullOrBlank() }
+            ?.map { OrderItem.asc(it.camelToSnakeCase()) }
+            ?.let { page.addOrder(it) }
     }
 
 /**
@@ -69,11 +71,11 @@ public fun <T> PageQueryLike<*>.toPage(): IPage<T> =
  * @author tangli
  * @date 2023/09/28 19:55
  */
-public fun <T> IPage<T>?.toPageResult(): PageResultLike<T> =
+public fun <T> IPage<T>?.toPageResult(): PageResult<T> =
     if (this == null) {
         EMPTY_PAGE_RESULT
     } else {
-        PageResult.of(records, current, size, total)
+        ofPageResult(records, current, size, total)
     }.asToNotNull()
 
 /**
@@ -81,4 +83,4 @@ public fun <T> IPage<T>?.toPageResult(): PageResultLike<T> =
  * @return
  */
 private val EMPTY_PAGE_RESULT =
-    PageResult.of<Any>(Collections.emptyList(), 1L, 0L, 0L)
+    ofPageResult<Any>(Collections.emptyList(), 1L, 0L, 0L)

@@ -2,7 +2,7 @@ package tony.demo.sys.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import tony.core.model.RowsValue
+import tony.core.model.Rows
 import tony.core.utils.copyTo
 import tony.core.utils.listToTree
 import tony.core.utils.throwIfEmpty
@@ -30,7 +30,7 @@ class ModuleService(
      * @date 2024/07/05 16:33
      */
     @Transactional(rollbackFor = [Throwable::class])
-    fun submitAll(req: RowsValue<ModuleSubmitReq>) {
+    fun submitAll(req: Rows<ModuleSubmitReq>) {
         val rows = req.rows.throwIfEmpty()
         moduleDao
             .ktUpdate()

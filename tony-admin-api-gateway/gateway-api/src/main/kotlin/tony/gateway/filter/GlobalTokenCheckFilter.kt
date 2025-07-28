@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import tony.core.ApiProperty
-import tony.core.model.ApiResult
+import tony.core.model.ofApiResult
 import tony.core.utils.ifNullOrBlank
 import tony.gateway.TOKEN_HEADER_NAME
 import tony.gateway.USER_ID_HEADER_NAME
@@ -41,7 +41,7 @@ class GlobalTokenCheckFilter(
                 JwtToken.parse(request.headers.getFirst(TOKEN_HEADER_NAME).ifNullOrBlank())
             } catch (_: JWTVerificationException) {
                 null
-            } ?: return exchange.response.jsonBody(ApiResult.of(Unit, ApiProperty.unauthorizedCode, "请登录"))
+            } ?: return exchange.response.jsonBody(ofApiResult(Unit, ApiProperty.unauthorizedCode, "请登录"))
         val mutReq = request.mutate().header(USER_ID_HEADER_NAME, token.getClaim("userId").asString()).build()
         return chain.filter(exchange.mutate().request(mutReq).build())
     }

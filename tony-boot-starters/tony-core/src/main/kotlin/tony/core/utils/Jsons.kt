@@ -213,12 +213,10 @@ public fun InputStream.jsonNode(): JsonNode =
  * @receiver [T]
  * @param [T] 自身类型
  * @return [String]
- * @throws [IOException]
  * @author tangli
  * @date 2023/09/13 19:22
  * @see com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString
  */
-@Throws(IOException::class)
 public fun <T> T?.toJsonString(): String =
     if (this != null) {
         globalObjectMapper.writeValueAsString(this)

@@ -53,7 +53,7 @@ import tony.test.redis.util.TestDataGenerator
 )
 @ActiveProfiles("test")
 @TestPropertySource(locations = ["classpath:application.yml"])
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 abstract class BaseRedisTest {
 
     private val logger = LoggerFactory.getLogger(BaseRedisTest::class.java)

@@ -4,7 +4,7 @@ import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum
 import com.github.houbb.pinyin.util.PinyinHelper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import tony.core.model.PageQueryLike
+import tony.core.model.PageQuery
 import tony.core.model.PageResult
 import tony.core.utils.alsoIfNotEmpty
 import tony.core.utils.copyTo
@@ -36,7 +36,7 @@ class RoleService(
      * @author tangli
      * @date 2024/07/04 14:35
      */
-    fun list(req: PageQueryLike<RoleQuery>): PageResult<RoleResp> =
+    fun list(req: PageQuery<RoleQuery>): PageResult<RoleResp> =
         dao
             .ktQuery()
             .like(req.query.roleName.isNotBlank(), Role::roleName, req.query.roleName)

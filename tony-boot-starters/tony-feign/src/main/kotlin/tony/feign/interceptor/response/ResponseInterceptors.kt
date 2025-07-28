@@ -45,8 +45,8 @@ import tony.core.crypto.CryptoProvider
 import tony.core.crypto.symmetric.decryptToString
 import tony.core.exception.ApiException
 import tony.core.misc.notSupportResponseWrapClassCollection
-import tony.core.model.ApiResultLike
-import tony.core.model.ListResult
+import tony.core.model.ApiResult
+import tony.core.model.Rows
 import tony.core.utils.convertTo
 import tony.core.utils.getLogger
 import tony.core.utils.isArrayLikeType
@@ -207,16 +207,16 @@ internal class DefaultUnwrapResponseInterceptor(
 
     private companion object {
         @JvmStatic
-        private val messageFieldName = ApiResultLike<*>::getMessage.name.lTrimAndDecapitalize()
+        private val messageFieldName = ApiResult<*>::getMessage.name.lTrimAndDecapitalize()
 
         @JvmStatic
-        private val codeFieldName = ApiResultLike<*>::getCode.name.lTrimAndDecapitalize()
+        private val codeFieldName = ApiResult<*>::getCode.name.lTrimAndDecapitalize()
 
         @JvmStatic
-        private val dataFieldName = ApiResultLike<*>::getData.name.lTrimAndDecapitalize()
+        private val dataFieldName = ApiResult<*>::getData.name.lTrimAndDecapitalize()
 
         @JvmStatic
-        private val rowsFieldName = ListResult<*>::getRows.name.lTrimAndDecapitalize()
+        private val rowsFieldName = Rows<*>::getRows.name.lTrimAndDecapitalize()
 
         private fun String.lTrimAndDecapitalize(): String =
             this

@@ -11,7 +11,7 @@ import org.springframework.core.Ordered
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
-import tony.core.model.ApiResult
+import tony.core.model.ofApiResult
 import tony.gateway.config.GatewayRouteConfigProperties
 import tony.gateway.utils.jsonBody
 
@@ -30,7 +30,7 @@ class GlobalPermissionCheckFilter(
             return chain.filter(exchange)
         }
         // TODO check permission
-        return exchange.response.jsonBody(ApiResult.of(Unit, 40300, "未经许可的访问"))
+        return exchange.response.jsonBody(ofApiResult(Unit, 40300, "未经许可的访问"))
     }
 
     override fun getOrder(): Int =

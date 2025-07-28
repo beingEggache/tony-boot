@@ -2,8 +2,8 @@ package tony.demo.sys.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import tony.core.model.PageQueryLike
-import tony.core.model.PageResultLike
+import tony.core.model.PageQuery
+import tony.core.model.PageResult
 import tony.core.utils.alsoIfNotEmpty
 import tony.core.utils.copyTo
 import tony.core.utils.md5
@@ -114,11 +114,11 @@ class EmployeeService(
     /**
      * 列表
      * @param [req] 请求
-     * @return [PageResultLike]<[EmployeeResp]>
+     * @return [PageResult]<[EmployeeResp]>
      * @author tangli
      * @date 2024/07/04 14:43
      */
-    fun pageList(req: PageQueryLike<EmployeeQuery>): PageResultLike<EmployeeResp> =
+    fun pageList(req: PageQuery<EmployeeQuery>): PageResult<EmployeeResp> =
         employeeDao.selectEmployeeByQuery(req.query, req.toPage()).toPageResult()
 
     /**

@@ -24,7 +24,9 @@
 
 package tony.core.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +40,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static tony.core.model.PageResults.ofPageResult;
+
 /**
  * Global page response structure.
  *
@@ -47,7 +51,7 @@ import java.util.function.Predicate;
  */
 @SuppressWarnings("unused")
 @JsonPropertyOrder(value = {"page", "size", "total", "pages", "hasNext", "rows"})
-public interface PageResultLike<T> extends RowsLike<T> {
+public interface PageResult<T> extends Rows<T> {
 
     /**
      * current page.
@@ -106,10 +110,10 @@ public interface PageResultLike<T> extends RowsLike<T> {
      * @see [List.map]
      */
     @NotNull
-    default <R, E extends PageResultLike<R>> E map(final Function<T, R> transform) {
+    default <R, E extends PageResult<R>> E map(final Function<T, R> transform) {
         final Collection<? extends T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
         return Objs.asToNotNull(
-            PageResult.of(
+            ofPageResult(
                 rows.stream().map(transform).toList(),
                 getPage(),
                 getSize(),
@@ -126,10 +130,10 @@ public interface PageResultLike<T> extends RowsLike<T> {
      * @see [List.onEach]
      */
     @NotNull
-    default <E extends PageResultLike<T>> E onEach(final Consumer<T> action) {
+    default <E extends PageResult<T>> E onEach(final Consumer<T> action) {
         final Collection<? extends T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
         return Objs.asToNotNull(
-            PageResult.of(
+            ofPageResult(
                 rows.stream().peek(action).toList(),
                 getPage(),
                 getSize(),
@@ -151,5 +155,19 @@ public interface PageResultLike<T> extends RowsLike<T> {
             return null;
         }
         return rows.stream().filter(predicate).findFirst().orElse(null);
+    }
+
+    @JsonCreator
+    static <T> PageResult<T> create(
+        @JsonProperty(value = "rows", defaultValue = "[]")
+        Collection<T> rows,
+        @JsonProperty(value = "page", defaultValue = "1")
+        long page,
+        @JsonProperty(value = "size", defaultValue = "10")
+        long size,
+        @JsonProperty(value = "total", defaultValue = "100")
+        long total
+    ) {
+        return new PageResultImpl<>(rows, page, size, total);
     }
 }

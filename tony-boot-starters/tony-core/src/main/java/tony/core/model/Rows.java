@@ -24,36 +24,40 @@
 
 package tony.core.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.Collections;
 
 /**
- * Global collection wrapper
+ * 全局统一列表结构.
  *
+ * @param <T>
  * @author tangli
- * @date 2024/07/02 09:03
+ * @date 2021/12/6 10:51
  */
 @SuppressWarnings("unused")
-public class RowsValue<T> implements RowsLike<T> {
+public interface Rows<T> {
 
-    private Collection<@Valid T> rows = Collections.emptyList();
-
-    public void setRows(Collection<T> rows) {
-        this.rows = rows;
-    }
-
+    /**
+     * 返回包装集合对象.
+     *
+     * @return 集合对象
+     */
+    @Schema(description = "列表")
+    @JsonSetter(nulls = Nulls.AS_EMPTY, contentNulls = Nulls.AS_EMPTY)
     @NotNull
-    @Override
-    public Collection<T> getRows() {
-        return rows;
-    }
+    Collection<@Valid T> getRows();
 
-    public RowsValue(){}
-
-    public RowsValue(Collection<T> rows) {
-        this.rows = rows;
+    @JsonCreator
+    static <T> Rows<T> create(
+        @JsonProperty(value = "rows", defaultValue = "[]")
+        Collection<T> rows) {
+        return new RowsImpl<>(rows);
     }
 }

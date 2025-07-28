@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tony.annotation.web.auth.NoLoginCheck;
-import tony.core.model.MonoResult;
-import tony.core.model.MonoResultLike;
+import tony.core.model.MonoValue;
+import tony.core.model.MonoValues;
 import tony.core.model.PageQuery;
-import tony.core.model.PageResultLike;
+import tony.core.model.PageResult;
 import tony.jwt.JwtToken;
 import tony.mono.db.po.User;
 import tony.mono.db.service.UserService;
@@ -47,10 +47,10 @@ public class IndexController {
     @Operation(summary = "登录")
     @NoLoginCheck
     @PostMapping("/login")
-    public MonoResultLike<String> login(
+    public MonoValue<String> login(
         @Validated
         @RequestBody final UserLoginReq req) {
-        return MonoResult.ofMonoResult(JwtToken.gen(new Pair<>("userId", userService.login(req))));
+        return MonoValues.wrap(JwtToken.gen(new Pair<>("userId", userService.login(req))));
     }
 
     @Operation(summary = "用户信息")
@@ -63,7 +63,7 @@ public class IndexController {
     @Operation(summary = "用户列表")
     @NoLoginCheck
     @PostMapping("/user/list")
-    public PageResultLike<User> list(
+    public PageResult<User> list(
         @Validated
         @RequestBody final PageQuery<String> req
     ) {
@@ -87,15 +87,15 @@ public class IndexController {
     @Operation(summary = "origin")
     @NoLoginCheck
     @PostMapping("/origin")
-    public MonoResultLike<String> origin() {
-        return MonoResult.ofMonoResult(Servlets.origin());
+    public MonoValue<String> origin() {
+        return MonoValues.wrap(Servlets.origin());
     }
 
     @Operation(summary = "remoteIp")
     @NoLoginCheck
     @PostMapping("/remote-ip")
-    public MonoResultLike<String> remoteIp() {
-        return MonoResult.ofMonoResult(Servlets.remoteIp());
+    public MonoValue<String> remoteIp() {
+        return MonoValues.wrap(Servlets.remoteIp());
     }
 
     @Operation(summary = "url")

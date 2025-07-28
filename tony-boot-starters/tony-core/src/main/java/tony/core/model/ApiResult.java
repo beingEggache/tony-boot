@@ -24,71 +24,68 @@
 
 package tony.core.model;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import org.jetbrains.annotations.NotNull;
+import tony.core.ApiProperty;
 
-import java.util.Collection;
+import java.util.Objects;
 
 /**
- * Global page request structure.
+ * 全局响应统一结构.
  *
- * @param <T> query类型
+ * @param <T> data 类型
  * @author tangli
  * @date 2021/12/6 10:51
  */
-@JsonPropertyOrder(value = {"page", "size", "query", "ascs", "descs"})
-public interface PageQueryLike<T> {
+@JsonPropertyOrder(value = {"success", "code", "message", "data"})
+public interface ApiResult<T> {
 
     /**
-     * query condition.
+     * 响应体
      *
-     * @return query.
+     * @return data.
      */
-    @Schema(description = "查询对象、值")
-    @Valid
+    @Schema(description = "数据")
     @JsonSetter(nulls = Nulls.AS_EMPTY, contentNulls = Nulls.AS_EMPTY)
-    T getQuery();
+    T getData();
 
     /**
-     * current page.
+     * 返回码
      *
-     * @return current page.
+     * @return code.
      */
-    @Schema(description = "当前页")
-    @Positive(message = "页码请输入正数")
-    long getPage();
+    @Schema(description = "返回码", defaultValue = "20000")
+    int getCode();
 
     /**
-     * size per page.
+     * 返回消息
      *
-     * @return size per page.
+     * @return message.
      */
-    @Schema(description = "每页条数")
-    @Positive(message = "每页数量请输入正数")
-    long getSize();
-
-    /**
-     * asc fields.
-     *
-     * @return asc fields.
-     */
-    @Schema(description = "升序排序字段")
+    @Schema(description = "消息", defaultValue = "操作成功")
     @NotNull
-    @JsonSetter(nulls = Nulls.AS_EMPTY)
-    Collection<? extends CharSequence> getAscs();
+    String getMessage();
 
     /**
-     * desc fields.
+     * 是否成功
      *
-     * @return desc fields.
+     * @return boolean
      */
-    @Schema(description = "降序排序字段")
-    @NotNull
-    @JsonSetter(nulls = Nulls.AS_EMPTY)
-    Collection<? extends CharSequence> getDescs();
+    @Schema(description = "成功")
+    default boolean getSuccess() {
+        return Objects.equals(getCode(), ApiProperty.okCode());
+    }
+
+    @JsonCreator
+    static <T> ApiResult<T> create(
+        @JsonProperty(value = "data", defaultValue = "{}")
+        T data,
+        @JsonProperty(value = "code", defaultValue = "20000")
+        int code,
+        @JsonProperty(value = "message", defaultValue = "操作成功")
+        String message
+    ) {
+        return new ApiResultImpl<>(data, code, message);
+    }
 }

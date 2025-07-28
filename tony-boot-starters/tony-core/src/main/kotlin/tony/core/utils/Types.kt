@@ -31,6 +31,7 @@ package tony.core.utils
  * @author tangli
  * @date 2023/06/07 19:53
  */
+import com.fasterxml.jackson.core.type.ResolvedType
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -51,6 +52,7 @@ public fun Type.rawClass(): Class<*> =
     when (this) {
         is Class<*> -> this
         is ParameterizedType -> this.rawType.asToNotNull()
+        is ResolvedType -> rawClass
         else -> error("${this::class.java} doesn't support")
     }
 
@@ -73,7 +75,7 @@ public fun Type.toJavaType(): JavaType =
 public fun <T : Collection<*>> Type.toCollectionJavaType(collectionType: Class<T>): JavaType =
     TypeFactory
         .defaultInstance()
-        .constructCollectionLikeType(collectionType, this.toJavaType())
+        .constructParametricType(collectionType, this.toJavaType())
 
 /**
  * 返回父类范型参数的  [Type]

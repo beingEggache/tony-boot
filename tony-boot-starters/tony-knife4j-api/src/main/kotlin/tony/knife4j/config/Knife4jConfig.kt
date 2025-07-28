@@ -24,12 +24,15 @@
 
 package tony.knife4j.config
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.xingfudeshi.knife4j.spring.annotations.EnableKnife4j
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Contact
 import io.swagger.v3.oas.models.info.Info
+import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 import org.springdoc.core.models.GroupedOpenApi
+import org.springdoc.core.utils.SpringDocUtils
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -41,7 +44,6 @@ import tony.core.misc.YamlPropertySourceFactory
 import tony.knife4j.customizers.EnumValueCustomizer
 import tony.knife4j.customizers.FlattenPropertiesOpenApiCustomizer
 import tony.knife4j.customizers.OctetStreamResponseOperationCustomizer
-import tony.knife4j.customizers.UnifyResponseOperationCustomizer
 import tony.knife4j.customizers.WrapResponseBodyOperationCustomizer
 
 @EnableKnife4j
@@ -53,6 +55,11 @@ private class Knife4jExtensionConfig(
     private val knife4jExtensionProperties: Knife4jExtensionProperties,
 ) {
     private val logger = LoggerFactory.getLogger(Knife4jExtensionConfig::class.java)
+
+    @PostConstruct
+    private fun init() {
+        SpringDocUtils.getConfig().addAnnotationsToIgnore(JsonIgnore::class.java)
+    }
 
     @Bean
     private fun openAPI(): OpenAPI =
@@ -80,12 +87,8 @@ private class Knife4jExtensionConfig(
         EnumValueCustomizer()
 
     @Bean
-    private fun unifyResponseOperationCustomizer(): UnifyResponseOperationCustomizer =
-        UnifyResponseOperationCustomizer(knife4jExtensionProperties.defaultResponseName)
-
-    @Bean
     private fun octetStreamResponseOperationCustomizer(): OctetStreamResponseOperationCustomizer =
-        OctetStreamResponseOperationCustomizer(knife4jExtensionProperties.defaultResponseName)
+        OctetStreamResponseOperationCustomizer()
 
     @ConditionalOnProperty(
         prefix = "web",
@@ -95,7 +98,7 @@ private class Knife4jExtensionConfig(
     )
     @Bean
     private fun wrapResponseBodyOperationCustomizer(): WrapResponseBodyOperationCustomizer =
-        WrapResponseBodyOperationCustomizer(knife4jExtensionProperties.defaultResponseName)
+        WrapResponseBodyOperationCustomizer()
 }
 
 @ConfigurationProperties(prefix = "knife4j.extension")
@@ -107,6 +110,4 @@ private data class Knife4jExtensionProperties(
     @DefaultValue("")
     val description: String,
     val contact: Contact = Contact(),
-    @DefaultValue("200")
-    val defaultResponseName: String = "200",
 )

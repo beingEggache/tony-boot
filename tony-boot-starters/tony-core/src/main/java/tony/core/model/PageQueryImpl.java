@@ -24,58 +24,51 @@
 
 package tony.core.model;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.jetbrains.annotations.NotNull;
-import tony.core.ApiProperty;
 
-import java.util.Objects;
+import java.util.Collection;
 
 /**
- * 全局响应统一结构.
+ * Java Query请求包装
  *
- * @param <T> data 类型
+ * @param <T> query 类型
  * @author tangli
- * @date 2021/12/6 10:51
+ * @date 2023/07/11 19:21
+ * @see PageQuery
  */
-@JsonPropertyOrder(value = {"success", "code", "message", "data"})
-public interface ApiResultLike<T> {
+record PageQueryImpl<T>(
+    Object query,
+    long page,
+    long size,
+    Collection<String> ascs,
+    Collection<String> descs
+) implements PageQuery<T> {
 
-    /**
-     * 响应体
-     *
-     * @return data.
-     */
-    @Schema(description = "数据")
-    @JsonSetter(nulls = Nulls.AS_EMPTY, contentNulls = Nulls.AS_EMPTY)
-    T getData();
+    @SuppressWarnings("unchecked")
+    @Override
+    public T getQuery() {
+        return (T) query;
+    }
 
-    /**
-     * 返回码
-     *
-     * @return code.
-     */
-    @Schema(description = "返回码", defaultValue = "20000")
-    int getCode();
+    @Override
+    public long getPage() {
+        return page;
+    }
 
-    /**
-     * 返回消息
-     *
-     * @return message.
-     */
-    @Schema(description = "消息", defaultValue = "操作成功")
+    @Override
+    public long getSize() {
+        return size;
+    }
+
     @NotNull
-    String getMessage();
+    @Override
+    public Collection<String> getAscs() {
+        return ascs;
+    }
 
-    /**
-     * 是否成功
-     *
-     * @return boolean
-     */
-    @Schema(description = "成功")
-    default boolean getSuccess() {
-        return Objects.equals(getCode(), ApiProperty.okCode());
+    @NotNull
+    @Override
+    public Collection<String> getDescs() {
+        return descs;
     }
 }

@@ -73,7 +73,7 @@ public fun RequestBody.byteArray(): ByteArray =
  * @date 2025/07/08 10:38
  */
 public fun parseMediaType(contentType: String?): MediaType? =
-    if (contentType.isNullOrBlank()) {
+    if (contentType.isNullOrBlank() || contentType == "null") {
         null
     } else {
         MediaType.parseMediaType(contentType)

@@ -24,7 +24,7 @@
 
 package tony.web.crpto
 
-import tony.core.model.ApiResultLike
+import tony.core.model.ApiResult
 
 /**
  * 加密请求响应结构
@@ -36,7 +36,7 @@ internal data class EncryptApiResult(
     private val code: Int,
     private val message: String,
     private val data: String,
-) : ApiResultLike<String> {
+) : ApiResult<String> {
     override fun getData(): String =
         data
 

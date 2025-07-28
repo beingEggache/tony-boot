@@ -8,7 +8,6 @@ import io.swagger.v3.oas.models.media.Content
 import io.swagger.v3.oas.models.media.Schema
 import java.lang.reflect.Type
 import java.util.Optional
-import kotlin.jvm.java
 import org.slf4j.Logger
 import org.springdoc.core.customizers.GlobalOperationComponentsCustomizer
 import org.springframework.core.PriorityOrdered
@@ -18,9 +17,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.method.HandlerMethod
 import tony.core.SpringContexts
-import tony.core.model.ApiResultLike
-import tony.core.model.MonoResultLike
-import tony.core.model.RowsLike
+import tony.core.model.ApiResult
+import tony.core.model.MonoValue
+import tony.core.model.Rows
 import tony.core.utils.antPathMatchAny
 import tony.core.utils.asTo
 import tony.core.utils.getLogger
@@ -38,9 +37,8 @@ import tony.knife4j.utils.typeParam
  * @author tangli
  * @date 2025/07/23 11:40
  */
-internal class WrapResponseBodyOperationCustomizer(
-    private val defaultResponseName: String = "200",
-) : GlobalOperationComponentsCustomizer,
+internal class WrapResponseBodyOperationCustomizer :
+    GlobalOperationComponentsCustomizer,
     PriorityOrdered {
     private val logger: Logger = getLogger()
 
@@ -53,7 +51,7 @@ internal class WrapResponseBodyOperationCustomizer(
             return operation
         }
 
-        val response = operation.responses.get(defaultResponseName) ?: return operation
+        val response = operation.responses["200"] ?: return operation
         val type = ResolvableType.forMethodReturnType(handlerMethod.method).type
         val returnType =
             if (type.isTypesOrSubTypesOf(
@@ -68,7 +66,7 @@ internal class WrapResponseBodyOperationCustomizer(
 
         if (
             (response.content == null && !returnType.isVoidLikeType()) ||
-            returnType.isTypesOrSubTypesOf(ApiResultLike::class.java) ||
+            returnType.isTypesOrSubTypesOf(ApiResult::class.java) ||
             returnType.isSimpleType() ||
             isDownloadType(returnType)
         ) {
@@ -86,34 +84,40 @@ internal class WrapResponseBodyOperationCustomizer(
 
         val mediaType = response.content[MediaType.APPLICATION_JSON_VALUE] ?: return operation
         val parameterizedType =
-            if (returnType.isVoidLikeType()) {
-                SchemaParameterizedType(
-                    ApiResultLike::class.java,
-                    Void::class.java
-                )
-            } else if (returnType.isTypesOrSubTypesOf(MonoResultLike::class.java)) {
-                SchemaParameterizedType(
-                    ApiResultLike::class.java,
-                    SchemaParameterizedType(MonoResultLike::class.java, returnType.typeParam(0))
-                )
-            } else if (returnType.isTypesOrSubTypesOf(Collection::class.java)) {
-                SchemaParameterizedType(
-                    ApiResultLike::class.java,
-                    SchemaParameterizedType(RowsLike::class.java, returnType.typeParam(0))
-                )
-            } else if (returnType.isArrayType()) {
-                SchemaParameterizedType(
-                    ApiResultLike::class.java,
+            when {
+                returnType.isVoidLikeType() -> {
                     SchemaParameterizedType(
-                        RowsLike::class.java,
-                        returnType.rawClass().componentType
+                        ApiResult::class.java,
+                        Any::class.java
                     )
-                )
-            } else {
-                SchemaParameterizedType(
-                    ApiResultLike::class.java,
-                    returnType
-                )
+                }
+
+                returnType.isTypesOrSubTypesOf(
+                    MonoValue::class.java,
+                    Collection::class.java
+                ) -> {
+                    SchemaParameterizedType(
+                        ApiResult::class.java,
+                        SchemaParameterizedType(returnType, returnType.typeParam(0))
+                    )
+                }
+
+                returnType.isArrayType() -> {
+                    SchemaParameterizedType(
+                        ApiResult::class.java,
+                        SchemaParameterizedType(
+                            Rows::class.java,
+                            returnType.rawClass().componentType
+                        )
+                    )
+                }
+
+                else -> {
+                    SchemaParameterizedType(
+                        ApiResult::class.java,
+                        returnType
+                    )
+                }
             }
         val newSchema = generateSchema(parameterizedType, components) ?: return operation
         mediaType.schema =
@@ -142,7 +146,6 @@ internal class WrapResponseBodyOperationCustomizer(
         if (resolvedSchema == null) {
             logger.warn("Unable to resolve schema for $apiResultType")
         }
-
         resolvedSchema?.referencedSchemas?.forEach { (name, schema) ->
             components.schemas.putIfAbsent(name, schema)
         }

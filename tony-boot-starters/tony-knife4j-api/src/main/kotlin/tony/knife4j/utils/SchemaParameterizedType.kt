@@ -2,6 +2,7 @@ package tony.knife4j.utils
 
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import tony.core.utils.rawClass
 
 /**
  * schema 参数化类型
@@ -16,7 +17,7 @@ internal class SchemaParameterizedType(
         actualTypeArguments
 
     override fun getRawType(): Type =
-        rawType
+        rawType.rawClass()
 
     override fun getOwnerType(): Type? =
         null

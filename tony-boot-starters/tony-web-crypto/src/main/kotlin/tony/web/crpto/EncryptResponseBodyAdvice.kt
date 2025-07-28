@@ -44,7 +44,7 @@ import tony.annotation.web.crypto.EncryptResponseBody
 import tony.core.ENCRYPTED_HEADER_NAME
 import tony.core.crypto.CryptoProvider
 import tony.core.crypto.symmetric.encryptToString
-import tony.core.model.ApiResultLike
+import tony.core.model.ApiResult
 import tony.core.utils.getLogger
 import tony.core.utils.isTypesOrSubTypesOf
 import tony.core.utils.toJsonString
@@ -80,7 +80,7 @@ public interface EncryptResponseBodyAdvice :
         response: ServerHttpResponse,
     ): Any? {
         WebContext.response?.addHeader(ENCRYPTED_HEADER_NAME, "true")
-        if (body != null && body is ApiResultLike<*>) {
+        if (body != null && body is ApiResult<*>) {
             return if (body.success) {
                 EncryptApiResult(
                     body.code,

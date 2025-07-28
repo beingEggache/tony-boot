@@ -16,14 +16,12 @@ import tony.knife4j.utils.typeParam
  * @author tangli
  * @date 2025/07/24 14:14
  */
-internal class OctetStreamResponseOperationCustomizer(
-    private val defaultResponseName: String = "200",
-) : GlobalOperationCustomizer {
+internal class OctetStreamResponseOperationCustomizer : GlobalOperationCustomizer {
     override fun customize(
         operation: Operation,
         handlerMethod: HandlerMethod,
     ): Operation {
-        val response = operation.responses.get(defaultResponseName) ?: return operation
+        val response = operation.responses["200"] ?: return operation
         val type = ResolvableType.forMethodReturnType(handlerMethod.method).type
         val returnType =
             if (type.isTypesOrSubTypesOf(ResponseEntity::class.java)) {

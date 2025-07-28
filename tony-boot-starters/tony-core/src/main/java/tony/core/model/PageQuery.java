@@ -24,129 +24,85 @@
 
 package tony.core.model;
 
+import com.fasterxml.jackson.annotation.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.Collections;
 
 /**
- * Java Query请求包装
+ * Global page request structure.
  *
- * @param <T> query 类型
+ * @param <T> query类型
  * @author tangli
- * @date 2023/07/11 19:21
- * @see PageQueryLike
+ * @date 2021/12/6 10:51
  */
-@SuppressWarnings("unused")
-public class PageQuery<T> implements PageQueryLike<T> {
+@JsonPropertyOrder(value = {"page", "size", "query", "ascs", "descs"})
+public interface PageQuery<T> {
 
-    private Object query;
+    /**
+     * query condition.
+     *
+     * @return query.
+     */
+    @Schema(description = "查询对象、值")
+    @Valid
+    @JsonSetter(nulls = Nulls.AS_EMPTY, contentNulls = Nulls.AS_EMPTY)
+    T getQuery();
 
-    private long page = 1L;
+    /**
+     * current page.
+     *
+     * @return current page.
+     */
+    @Schema(description = "当前页", defaultValue = "1")
+    @Positive(message = "页码请输入正数")
+    long getPage();
 
-    private long size = 10L;
+    /**
+     * size per page.
+     *
+     * @return size per page.
+     */
+    @Schema(description = "每页条数", defaultValue = "10")
+    @Positive(message = "每页数量请输入正数")
+    long getSize();
 
-    private Collection<String> ascs = Collections.emptyList();
-
-    private Collection<String> descs = Collections.emptyList();
-
-    public PageQuery() {
-    }
-
-    public PageQuery(
-        final long page
-    ) {
-        this.page = page;
-    }
-
-    public PageQuery(
-        final long page,
-        final long size
-    ) {
-        this.page = page;
-        this.size = size;
-    }
-
-    public PageQuery(
-        final long page,
-        final long size,
-        final Collection<String> ascs,
-        final Collection<String> descs
-    ) {
-        this.page = page;
-        this.size = size;
-        this.ascs = ascs;
-        this.descs = descs;
-    }
-
-    public PageQuery(
-        final long page,
-        final Collection<String> ascs,
-        final Collection<String> descs
-    ) {
-        this.page = page;
-        this.ascs = ascs;
-        this.descs = descs;
-    }
-
-    public PageQuery(final T query, final long page, final long size, final Collection<String> ascs, final Collection<String> descs) {
-        this.query = query;
-        this.page = page;
-        this.size = size;
-        this.ascs = ascs;
-        this.descs = descs;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public T getQuery() {
-        return (T) query;
-    }
-
-    public void setQuery(final T query) {
-        this.query = query;
-    }
-
-    @Override
-    public long getPage() {
-        return page;
-    }
-
-    public void setPage(final long page) {
-        this.page = page;
-    }
-
-    @Override
-    public long getSize() {
-        return size;
-    }
-
-    public void setSize(final long size) {
-        this.size = size;
-    }
-
+    /**
+     * asc fields.
+     *
+     * @return asc fields.
+     */
+    @Schema(description = "升序排序字段")
     @NotNull
-    @Override
-    public Collection<String> getAscs() {
-        return ascs;
-    }
+    @JsonSetter(nulls = Nulls.AS_EMPTY)
+    Collection<String> getAscs();
 
-    public void setAscs(final Collection<String> ascs) {
-        this.ascs = ascs;
-    }
-
+    /**
+     * desc fields.
+     *
+     * @return desc fields.
+     */
+    @Schema(description = "降序排序字段")
     @NotNull
-    @Override
-    public Collection<String> getDescs() {
-        return descs;
-    }
+    @JsonSetter(nulls = Nulls.AS_EMPTY)
+    Collection<String> getDescs();
 
-    public void setDescs(final Collection<String> descs) {
-        this.descs = descs;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("PageQuery(page=%s, size=%s, ascs=%s, descs=%s, query=%s)", page, size, ascs, descs, query);
+    @JsonCreator
+    static <T> PageQuery<T> create(
+        @JsonProperty("query")
+        T query,
+        @JsonProperty(value = "page", defaultValue = "1")
+        long page,
+        @JsonProperty(value = "size", defaultValue = "10")
+        long size,
+        @JsonProperty(value = "ascs", defaultValue = "[]")
+        Collection<String> ascs,
+        @JsonProperty(value = "descs", defaultValue = "[]")
+        Collection<String> descs
+    ) {
+        return new PageQueryImpl<>(query, page, size, ascs, descs);
     }
 }

@@ -24,9 +24,14 @@
 
 package tony.test.knife4j
 
+import io.swagger.v3.core.converter.AnnotatedType
+import io.swagger.v3.core.converter.ModelConverters
 import org.junit.jupiter.api.Test
 import org.springframework.boot.runApplication
 import org.springframework.boot.test.context.SpringBootTest
+import tony.core.model.ApiResult
+import tony.core.utils.println
+import tony.knife4j.utils.SchemaParameterizedType
 
 
 @SpringBootTest(classes = [TestKnife4jWebApp::class], webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -34,7 +39,15 @@ class Knife4jWebAppTest {
 
     @Test
     fun test() {
-        println(123)
+        val parameterizedType = SchemaParameterizedType(
+            ApiResult::class.java,
+            Any::class.java,
+        )
+        val resolvedSchema = ModelConverters
+            .getInstance()
+            .resolveAsResolvedSchema(AnnotatedType(parameterizedType))
+
+        resolvedSchema.schema.properties.println()
     }
 }
 
