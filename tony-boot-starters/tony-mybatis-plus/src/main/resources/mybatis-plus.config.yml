@@ -12,6 +12,7 @@ mybatis-plus:
   mapper-locations: classpath*:mappers/*.mapper.xml
   configuration:
     return-instance-for-empty-row: true
+    arg-name-based-constructor-auto-mapping: on
     default-enum-type-handler: tony.mybatis.typehandler.EnumTypeHandler
   global-config:
     banner: off
