@@ -1,1 +1,1 @@
-tony.web.crypto.config.WebCryptoConfig
+tony.web.crypto.autoconfigure.WebCryptoAutoConfiguration

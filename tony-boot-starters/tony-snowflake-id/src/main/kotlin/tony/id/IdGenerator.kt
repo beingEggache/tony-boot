@@ -26,7 +26,7 @@ package tony.id
 
 import com.github.yitter.contract.IdGeneratorOptions
 import com.github.yitter.idgen.YitIdHelper
-import tony.id.config.IdProperties
+import tony.id.autoconfigure.IdProperties
 
 /**
  * id生成器

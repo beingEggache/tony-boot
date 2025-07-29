@@ -62,21 +62,20 @@ private class TonyBootImportSelector : ImportSelector {
 
     override fun selectImports(importingClassMetadata: AnnotationMetadata) =
         listOf(
-            "$PROJECT_GROUP.alipay.config.AlipayConfig",
-            "$PROJECT_GROUP.aliyun.oss.config.AliyunOssConfig",
-            "$PROJECT_GROUP.aliyun.sms.config.AliyunSmsConfig",
-            "$PROJECT_GROUP.cache.config.RedisCacheConfig",
-            "$PROJECT_GROUP.captcha.config.CaptchaConfig",
-            "$PROJECT_GROUP.feign.config.FeignConfig",
-            "$PROJECT_GROUP.id.config.IdConfig",
-            "$PROJECT_GROUP.jwt.config.JwtConfig",
-            "$PROJECT_GROUP.knife4j.config.Knife4jExtensionConfig",
-            "$PROJECT_GROUP.mybatis.config.MybatisPlusConfig",
-            "$PROJECT_GROUP.web.config.WebAuthConfig",
-            "$PROJECT_GROUP.web.config.WebConfig",
-            "$PROJECT_GROUP.wechat.config.WechatConfig",
-            "$PROJECT_GROUP.knife4j.config.Knife4jExtensionConfig",
-            "$PROJECT_GROUP.fus.config.FusConfig"
+            "$PROJECT_GROUP.web.autoconfigure.WebAutoConfiguration",
+            "$PROJECT_GROUP.jwt.autoconfigure.JwtAutoConfiguration",
+            "$PROJECT_GROUP.web.auth.autoconfigure.WebAuthAutoConfiguration",
+            "$PROJECT_GROUP.mybatis.autoconfigure.MybatisPlusAutoConfiguration",
+            "$PROJECT_GROUP.id.autoconfigure.IdAutoConfiguration",
+            "$PROJECT_GROUP.knife4j.autoconfigure.Knife4jExtensionAutoConfiguration",
+            "$PROJECT_GROUP.redis.autoconfigure.RedisAutoConfiguration",
+            "$PROJECT_GROUP.captcha.autoconfigure.CaptchaAutoConfiguration",
+            "$PROJECT_GROUP.feign.autoconfigure.FeignAutoConfiguration",
+            "$PROJECT_GROUP.web.crypto.autoconfigure.WebCryptoAutoConfiguration",
+            "$PROJECT_GROUP.aliyun.oss.autoconfigure.AliyunOssAutoConfiguration",
+            "$PROJECT_GROUP.aliyun.sms.autoconfigure.AliyunSmsAutoConfiguration",
+            "$PROJECT_GROUP.wechat.autoconfigure.WechatAutoConfiguration",
+            "$PROJECT_GROUP.alipay.autoconfigure.AlipayAutoConfiguration"
         ).filter(::hasClass).toTypedArray()
 
     private fun hasClass(className: String) =

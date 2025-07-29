@@ -28,7 +28,7 @@ import com.aliyun.oss.OSS
 import com.aliyun.oss.OSSClientBuilder
 import com.aliyun.oss.model.ObjectMetadata
 import java.io.InputStream
-import tony.aliyun.oss.config.AliyunOssProperties
+import tony.aliyun.oss.autoconfigure.AliyunOssProperties
 import tony.core.SpringContexts
 import tony.core.utils.sanitizedPath
 

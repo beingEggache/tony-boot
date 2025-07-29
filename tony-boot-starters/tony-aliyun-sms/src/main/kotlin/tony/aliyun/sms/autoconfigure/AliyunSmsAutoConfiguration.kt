@@ -22,36 +22,33 @@
  * SOFTWARE.
  */
 
-package tony.jwt.config
+package tony.aliyun.sms.autoconfigure
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.context.properties.bind.DefaultValue
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import tony.aliyun.sms.AliyunSmsManager
 
-/**
- * JwtConfig
- * @author tangli
- * @date 2023/05/25 19:55
- */
-@ConditionalOnWebApplication
-@EnableConfigurationProperties(JwtProperties::class)
+@EnableConfigurationProperties(AliyunSmsProperties::class)
 @Configuration(proxyBeanMethods = false)
-private class JwtConfig
+private class AliyunSmsAutoConfiguration(
+    private val aliyunSmsProperties: AliyunSmsProperties,
+) {
+    @Bean
+    private fun smsService() =
+        AliyunSmsManager(
+            aliyunSmsProperties.accessKeyId,
+            aliyunSmsProperties.accessKeySecret,
+            aliyunSmsProperties.signName,
+            aliyunSmsProperties.timeout
+        )
+}
 
-/**
- * JwtProperties
- * @author tangli
- * @date 2023/05/25 19:56
- */
-@ConfigurationProperties(prefix = "jwt")
-public data class JwtProperties(
-    @DefaultValue("")
-    val secret: String,
-    /**
-     * jwt token expired minutes, default value is one year.
-     */
-    @DefaultValue("525600")
-    val expiredMinutes: Long,
+@ConfigurationProperties(prefix = "aliyun.sms")
+private class AliyunSmsProperties(
+    val accessKeyId: String,
+    val accessKeySecret: String,
+    val signName: String,
+    val timeout: String,
 )

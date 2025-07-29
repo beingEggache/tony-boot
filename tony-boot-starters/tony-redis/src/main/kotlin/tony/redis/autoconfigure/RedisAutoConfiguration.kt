@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package tony.redis.config
+package tony.redis.autoconfigure
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
-import org.springframework.boot.autoconfigure.AutoConfigureBefore
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
@@ -35,7 +35,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
@@ -61,12 +60,11 @@ import tony.redis.service.impl.JacksonRedisService
  */
 @PropertySource("classpath:redis.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(RedisProperties::class)
-@AutoConfigureBefore(RedisAutoConfiguration::class)
-@Configuration(proxyBeanMethods = false)
-private class RedisConfig(
+@AutoConfiguration(before = [RedisAutoConfiguration::class])
+private class RedisAutoConfiguration(
     private val redisProperties: RedisProperties,
 ) {
-    private val logger = LoggerFactory.getLogger(RedisConfig::class.java)
+    private val logger = LoggerFactory.getLogger(RedisAutoConfiguration::class.java)
 
     @ConditionalOnMissingBean(RedisCacheAspect::class)
     @ConditionalOnProperty(prefix = "redis", name = ["serializer-mode"], havingValue = "JACKSON", matchIfMissing = true)

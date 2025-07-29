@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package tony.aliyun.oss.config
+package tony.aliyun.oss.autoconfigure
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration
 
 @EnableConfigurationProperties(AliyunOssProperties::class)
 @Configuration(proxyBeanMethods = false)
-private class AliyunOssConfig
+private class AliyunOssAutoConfiguration
 
 @ConfigurationProperties(prefix = "aliyun.oss")
 internal data class AliyunOssProperties(

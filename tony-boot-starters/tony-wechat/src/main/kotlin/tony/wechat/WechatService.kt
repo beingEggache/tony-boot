@@ -26,10 +26,10 @@ package tony.wechat
 
 import tony.core.SpringContexts
 import tony.core.exception.ApiException
+import tony.wechat.autoconfigure.WechatProperties
 import tony.wechat.client.WechatClient
 import tony.wechat.client.req.WechatStableAccessTokenReq
 import tony.wechat.client.resp.WechatUserTokenResp
-import tony.wechat.config.WechatProperties
 
 public interface WechatPropProvider {
     public fun token(app: String? = ""): String

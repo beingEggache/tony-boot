@@ -1,1 +1,1 @@
-tony.web.auth.config.WebAuthConfig
+tony.web.auth.autoconfigure.WebAuthAutoConfiguration

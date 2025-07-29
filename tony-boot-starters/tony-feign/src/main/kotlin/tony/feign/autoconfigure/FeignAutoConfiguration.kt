@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package tony.feign.config
+package tony.feign.autoconfigure
 
 import feign.RequestInterceptor
 import feign.codec.Decoder
@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import org.springframework.beans.factory.ObjectFactory
 import org.springframework.beans.factory.ObjectProvider
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperties
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
@@ -45,7 +46,6 @@ import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomize
 import org.springframework.cloud.openfeign.support.SpringDecoder
 import org.springframework.cloud.openfeign.support.SpringEncoder
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.lang.Nullable
 import org.springframework.util.unit.DataSize
@@ -71,8 +71,8 @@ import tony.feign.okhttp.interceptor.NetworkInterceptor
  */
 @PropertySource("classpath:feign.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(value = [FeignConfigProperties::class, RequestLogProperties::class])
-@Configuration(proxyBeanMethods = false)
-private class FeignConfig(
+@AutoConfiguration
+private class FeignAutoConfiguration(
     private val requestLogProperties: RequestLogProperties,
 ) {
     @Bean

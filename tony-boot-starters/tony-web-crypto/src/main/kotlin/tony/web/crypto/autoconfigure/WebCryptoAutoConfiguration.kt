@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package tony.web.crypto.config
+package tony.web.crypto.autoconfigure
 
 import jakarta.annotation.Resource
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import tony.core.crypto.CryptoProvider
@@ -51,8 +51,8 @@ import tony.web.crypto.EncryptResponseBodyAdvice
             .SERVLET
 )
 @ConditionalOnBooleanProperty(prefix = "web.crypto", name = ["enabled"], matchIfMissing = true)
-@Configuration(proxyBeanMethods = false)
-internal class WebCryptoConfig {
+@AutoConfiguration
+internal class WebCryptoAutoConfiguration {
     @Resource
     private fun initMappingJackson2HttpMessageConverter(
         mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,

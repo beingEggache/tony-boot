@@ -22,42 +22,60 @@
  * SOFTWARE.
  */
 
-package tony.alipay.config
+package tony.captcha.autoconfigure
 
+/**
+ * tony-boot-dependencies
+ * CaptchaConfig
+ *
+ * @author tangli
+ * @date 2022/03/10 19:14
+ */
+import org.springframework.boot.autoconfigure.AutoConfiguration
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver
-import tony.alipay.AlipayManager
+import tony.captcha.CaptchaService
+import tony.captcha.DefaultCaptchaServiceImpl
+import tony.captcha.NoopCaptchaServiceImpl
 
-@EnableConfigurationProperties(AlipayProperties::class)
-@Configuration(proxyBeanMethods = false)
-private class AlipayConfig(
-    private val alipayProperties: AlipayProperties,
+/**
+ * 验证码配置
+ *
+ * @author tangli
+ * @date 2023/05/25 19:41
+ */
+@EnableConfigurationProperties(CaptchaProperties::class)
+@AutoConfiguration
+private class CaptchaAutoConfiguration(
+    private val captchaProperties: CaptchaProperties,
 ) {
-    private val resourceResolver = PathMatchingResourcePatternResolver()
-
+    @ConditionalOnMissingBean(CaptchaService::class)
     @Bean
-    private fun alipayService() =
-        AlipayManager(
-            alipayProperties.appId,
-            getFrom(alipayProperties.publicKeyPath),
-            getFrom(alipayProperties.privateKeyPath),
-            getFrom(alipayProperties.aliPublicKeyPath)
-        )
-
-    private fun getFrom(path: String): String =
-        resourceResolver
-            .getResource(path)
-            .file
-            .readText()
+    private fun captchaService(): CaptchaService =
+        if (captchaProperties.mode == CaptchaMode.DEFAULT) {
+            DefaultCaptchaServiceImpl()
+        } else {
+            NoopCaptchaServiceImpl()
+        }
 }
 
-@ConfigurationProperties(prefix = "alipay")
-private data class AlipayProperties(
-    val appId: String,
-    val publicKeyPath: String,
-    val privateKeyPath: String,
-    val aliPublicKeyPath: String,
+/**
+ * CaptchaProperties
+ *
+ * @author tangli
+ * @date 2023/05/25 19:42
+ */
+@ConfigurationProperties(prefix = "captcha")
+private data class CaptchaProperties(
+    /**
+     * captcha mode.
+     */
+    val mode: CaptchaMode = CaptchaMode.NOOP,
 )
+
+public enum class CaptchaMode {
+    NOOP,
+    DEFAULT,
+}

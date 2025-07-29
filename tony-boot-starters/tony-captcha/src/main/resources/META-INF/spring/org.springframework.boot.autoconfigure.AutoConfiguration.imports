@@ -1,1 +1,1 @@
-tony.captcha.config.CaptchaConfig
+tony.captcha.autoconfigure.CaptchaAutoConfiguration

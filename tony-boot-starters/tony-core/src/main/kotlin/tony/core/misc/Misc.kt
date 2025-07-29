@@ -40,7 +40,6 @@ public val notSupportResponseWrapClassCollection: Collection<Class<*>?> =
         Date::class.java,
         TemporalAccessor::class.java,
         // converterType is use StringHttpMessageConverter
-        java.lang.CharSequence::class.java,
         CharSequence::class.java,
         Char::class.javaObjectType,
         Char::class.javaPrimitiveType,

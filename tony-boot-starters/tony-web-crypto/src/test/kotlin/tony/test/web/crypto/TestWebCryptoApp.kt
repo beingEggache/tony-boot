@@ -32,10 +32,10 @@ import tony.core.annotation.EnableTonyBoot
 import tony.core.codec.enums.Encoding
 import tony.core.crypto.CryptoProvider
 import tony.core.crypto.symmetric.enums.SymmetricCryptoAlgorithm
-import tony.web.crypto.config.WebCryptoConfig
+import tony.web.crypto.autoconfigure.WebCryptoAutoConfiguration
 
 @EnableTonyBoot
-@Import(WebCryptoConfig::class)
+@Import(WebCryptoAutoConfiguration::class)
 @SpringBootApplication
 class TestWebCryptoApp {
     @Bean

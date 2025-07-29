@@ -1,1 +1,1 @@
-tony.feign.config.FeignConfig
+tony.feign.autoconfigure.FeignAutoConfiguration

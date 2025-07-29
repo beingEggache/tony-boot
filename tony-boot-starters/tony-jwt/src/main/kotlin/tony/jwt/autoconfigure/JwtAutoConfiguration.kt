@@ -22,23 +22,36 @@
  * SOFTWARE.
  */
 
-package tony.mybatis.config
+package tony.jwt.autoconfigure
 
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.PropertySource
-import tony.core.misc.YamlPropertySourceFactory
-import tony.mybatis.sqlinjector.TonySqlInjector
+import org.springframework.boot.autoconfigure.AutoConfiguration
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.bind.DefaultValue
 
 /**
- * MybatisPlusConfig
+ * JwtConfig
  * @author tangli
  * @date 2023/05/25 19:55
  */
-@PropertySource("classpath:mybatis-plus.config.yml", factory = YamlPropertySourceFactory::class)
-@Configuration(proxyBeanMethods = false)
-private class MybatisPlusConfig {
-    @Bean
-    private fun tonySqlInjector(): TonySqlInjector =
-        TonySqlInjector()
-}
+@ConditionalOnWebApplication
+@EnableConfigurationProperties(JwtProperties::class)
+@AutoConfiguration
+private class JwtAutoConfiguration
+
+/**
+ * JwtProperties
+ * @author tangli
+ * @date 2023/05/25 19:56
+ */
+@ConfigurationProperties(prefix = "jwt")
+public data class JwtProperties(
+    @DefaultValue("")
+    val secret: String,
+    /**
+     * jwt token expired minutes, default value is one year.
+     */
+    @DefaultValue("525600")
+    val expiredMinutes: Long,
+)

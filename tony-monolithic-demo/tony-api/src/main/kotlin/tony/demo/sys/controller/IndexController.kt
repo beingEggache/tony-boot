@@ -17,7 +17,7 @@ import tony.demo.sys.dto.resp.InfoResp
 import tony.demo.sys.dto.resp.LoginResp
 import tony.demo.sys.service.IndexService
 import tony.jwt.JwtToken
-import tony.jwt.config.JwtProperties
+import tony.jwt.autoconfigure.JwtProperties
 import tony.web.WebContext
 import tony.web.auth.WebContextExtensions.userId
 

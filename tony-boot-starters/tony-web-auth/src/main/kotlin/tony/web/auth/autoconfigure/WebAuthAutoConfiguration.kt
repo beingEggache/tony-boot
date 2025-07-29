@@ -22,21 +22,21 @@
  * SOFTWARE.
  */
 
-package tony.web.auth.config
+package tony.web.auth.autoconfigure
 
 import org.slf4j.LoggerFactory
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.core.PriorityOrdered
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import tony.core.SpringContexts
 import tony.core.utils.getLogger
-import tony.jwt.config.JwtProperties
+import tony.jwt.autoconfigure.JwtProperties
 import tony.web.WebContext
 import tony.web.WebSession
 import tony.web.auth.JwtWebSession
@@ -52,12 +52,12 @@ import tony.web.auth.interceptor.LoginCheckInterceptor
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableConfigurationProperties(JwtProperties::class, WebAuthProperties::class)
-@Configuration(proxyBeanMethods = false)
-private class WebAuthConfig(
+@AutoConfiguration
+private class WebAuthAutoConfiguration(
     private val jwtProperties: JwtProperties,
     private val webAuthProperties: WebAuthProperties,
 ) : WebMvcConfigurer {
-    private val logger = LoggerFactory.getLogger(WebAuthConfig::class.java)
+    private val logger = LoggerFactory.getLogger(WebAuthAutoConfiguration::class.java)
 
     @ConditionalOnMissingBean(LoginCheckInterceptor::class)
     @Bean

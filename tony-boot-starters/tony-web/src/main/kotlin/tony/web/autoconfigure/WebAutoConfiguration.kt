@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package tony.web.config
+package tony.web.autoconfigure
 
 /**
  * WebConfig
@@ -33,6 +33,7 @@ package tony.web.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.BeanUtils
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
@@ -41,7 +42,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.format.FormatterRegistry
 import org.springframework.http.HttpHeaders
@@ -88,8 +88,8 @@ import tony.web.log.TraceLogger
 )
 @PropertySource("classpath:web.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(value = [WebProperties::class, TraceLogProperties::class, WebCorsProperties::class])
-@Configuration(proxyBeanMethods = false)
-private class WebConfig(
+@AutoConfiguration
+private class WebAutoConfiguration(
     private val webProperties: WebProperties,
     private val traceLogProperties: TraceLogProperties,
     private val webCorsProperties: WebCorsProperties,

@@ -37,14 +37,14 @@ tony-{module}/
 └── src/
     ├── main/
     │   ├── kotlin/
-    │   │   └── tony/{package-name}/          # 模块主包
-    │   │       ├── config/                   # 配置包
-    │   │       │   ├── {Module}Config.kt
-    │   │       │   └── {Module}Properties.kt # 配置 （可选）
-    │   │       ├── utils/                    # 工具类包（可选）
-    │   │       ├── exception/                # 异常类包（可选）
-    │   │       └── [其他包].../               # 其他包（可选）
-    │   ├── java/                             # Java 源码（可选）
+    │   │   └── tony/{package-name}/                 # 模块主包
+    │   │       ├── autoconfigure/                   # 配置包
+    │   │       │   ├── {Module}AutoConfiguration.kt
+    │   │       │   └── {Module}Properties.kt        # 配置 （可选）
+    │   │       ├── utils/                           # 工具类包（可选）
+    │   │       ├── exception/                       # 异常类包（可选）
+    │   │       └── [其他包].../                      # 其他包（可选）
+    │   ├── java/                                    # Java 源码（可选）
     │   └── resources/
     │       ├── META-INF/
     │       │   └── spring/
@@ -68,26 +68,15 @@ tony-{module}/
 ```kotlin
 dependencies {
     api(projects.tonyCore)
-    implementation(tonyLibs.springBootStarterWeb)
+    implementation(tonyLibs.springBoot)
+    // 其他依赖...
     testImplementation(tonyLibs.springBootStarterTest)
 }
 ```
 🔴 **禁止**：其他任何配置。
 
 ---
-### 默认配置规范
-🟢 需要覆盖 Spring Boot 或其他 starter 默认配置时，创建 `{module}.config.yml` 并在 `{Module}Config` 类上添加 `@PropertySource` 注解。
 
-**标准格式**：
-```kotlin
-@PropertySource("classpath:{module}.config.yml", factory = YamlPropertySourceFactory::class) //可选
-@EnableConfigurationProperties({Module}Properties::class)
-@Configuration
-public class {Module}Config(public val properties: {Module}Properties) {
-    // 配置逻辑
-}
-```
----
 
 ## 3. 核心开发规范
 
@@ -215,6 +204,8 @@ condition.throwIfTrue("条件不满足")
 
 ---
 ### 配置类及配置属性规范
+🟢 需要覆盖 Spring Boot 或其他 starter 默认配置时，创建 `{module}.config.yml` 并在 `{Module}AutoConfiguration` 类上添加 `@PropertySource` 注解。
+
 🔴 注册到 `AutoConfiguration.imports`, 使用 `@EnableConfigurationProperties`。
 
 🟢 `tony.{module}.enabled` 属性与 `@ConditionalOnBooleanProperty` 配合使用，控制模块是否启用。仅对影响整体逻辑的模块使用，工具类模块无需配置。
@@ -223,7 +214,7 @@ condition.throwIfTrue("条件不满足")
 @ConditionalOnBooleanProperty(prefix = "tony.{module}", name = ["enabled"], matchIfMissing = true)  // 🟢 影响整体逻辑时添加
 @EnableConfigurationProperties({Module}Properties::class) // 🟢 当需要配置项时添加.
 @Configuration
-public class {Module}Config(public val properties: {Module}Properties){
+public class {Module}AutoConfiguration(public val properties: {Module}Properties){
     // ...
 }
 ```

@@ -31,7 +31,7 @@ import java.time.LocalDateTime
 import java.util.Date
 import tony.core.SpringContexts
 import tony.core.utils.toDate
-import tony.jwt.config.JwtProperties
+import tony.jwt.autoconfigure.JwtProperties
 
 /**
  * jwt 单例类.

@@ -1,1 +1,1 @@
-tony.jwt.config.JwtConfig
+tony.jwt.autoconfigure.JwtAutoConfiguration

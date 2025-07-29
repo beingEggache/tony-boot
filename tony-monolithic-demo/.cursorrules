@@ -67,7 +67,7 @@
 │   │   │   └── {ProjectName}WebContext.kt   # Web 上下文常量（可选）
 │   │   └── {module}/                        # 业务模块包
 │   │       └── controller/                  # 控制器包
-│   │           └── {Module}Controller.kt    # 控制器类
+│   │           └── {Entity}Controller.kt    # 控制器类
 │   └── resources/
 │       ├── application.yml                  # 主配置文件
 │       └── logback-spring.xml               # 日志配置
@@ -85,14 +85,14 @@
 │   │   └── {module}/                        # 业务模块包
 │   │       ├── service/                     # 服务包
 │   │       │   └── impl/                    # 服务实现包
-│   │       │       └── {Module}Service.kt   # 服务实现类
+│   │       │       └── {Entity}Service.kt   # 服务实现类
 │   │       ├── dao/                         # 数据访问包
-│   │       │   └── {Module}Dao.kt           # 数据访问接口
+│   │       │   └── {Entity}Dao.kt           # 数据访问接口
 │   │       └── po/                          # 持久化对象包
 │   │           └── {Entity}.kt              # 持久化对象类
 │   └── resources/
 │       └── mappers/                         # MyBatis 映射文件目录
-│           └── {Module}Dao.xml              # SQL 映射文件
+│           └── {Entity}Dao.xml              # SQL 映射文件
 └── build.gradle.kts                         # 模块构建配置
 ```
 ---
@@ -287,7 +287,7 @@ CREATE TABLE `{table}` (
 
 ```kotlin
 import tony.mybatis.dao.BaseDao
-interface {Module}Dao : BaseDao<{Entity}>
+interface {Entity}Dao : BaseDao<{Entity}>
 ```
 ---
 
@@ -304,12 +304,12 @@ interface {Module}Dao : BaseDao<{Entity}>
 // 请求 DTO
 @Schema(description = "新增{Entity}请求")
 data class {Entity}AddReq(
-    @field:NotBlank(message = "名称不能为空")
     @Schema(description = "名称", example = "示例")
+    @get:NotBlank(message = "名称不能为空")
     val {entity}Name: String,
 
-    @field:NotNull(message = "状态不能为空")
     @Schema(description = "状态")
+    @get:NotNull(message = "状态不能为空")
     val status: StatusEnum,
 )
 ```
@@ -342,22 +342,24 @@ data class {Entity}Query(
 - 🔴 当接口逻辑里包含多行 增/删/改逻辑时请使用事务。
 ---
 ####  有 SDK 层的情况
+
+分接口和实现类
 ```kotlin
-// SDK 层接口
-interface I{Module}Service {
-    fun add(req: {Entity}AddReq): String
+interface I{Entity}Service {
+
+    fun add(req: {Entity}AddReq): Unit
+
     fun detail({entity}Id: String): {Entity}Resp
+
     fun query(req: PageQuery<{Entity}Query>): PageResult<{Entity}Resp>
 }
 ```
 ```kotlin
-// Service 层实现
 @Service
-class {Module}Service(
-    private val {module}Dao: {Module}Dao
+class {Entity}Service(
+    private val {entity}Dao: {Entity}Dao
 ) : I{Module}Service {
-
-    override fun add(req: {Entity}AddReq): String {
+    override fun add(req: {Entity}AddReq): Unit {
         // 业务逻辑实现
     }
 
@@ -372,14 +374,14 @@ class {Module}Service(
 ```
 ---
 ####  无 SDK 层的情况
+
+直接在 Service 层实现
 ```kotlin
-// 直接在 Service 层实现
 @Service
 class {Entity}Service(
     private val {entity}Dao: {Entity}Dao,
 ) {
-
-    fun add(req: {Entity}AddReq): String {
+    fun add(req: {Entity}AddReq): Unit {
         // 业务逻辑实现
     }
 
@@ -419,25 +421,25 @@ throw RuntimeException("业务异常")
 
 ```kotlin
 @RestController
-@Tag(name = "{Module}管理", description = "{Module}相关接口")
-class {Module}Controller(
-    private val {module}Service: {Module}Service,
+@Tag(name = "{Entity}管理", description = "{Entity}相关接口")
+class {Entity}Controller(
+    private val {entity}Service: {Entity}Service,
 ) {
 
-    @PostMapping("/add")
     @Operation(summary = "新增{Entity}", description = "新增{Entity}信息")
-    fun add(@Validated @RequestBody req: {Entity}AddReq): String {
+    @PostMapping("/{module}/{entity}/add")
+    fun add(@Validated @RequestBody req: {Entity}AddReq): Unit {
         return {module}Service.add(req)
     }
 
-    @PostMapping("/detail")
     @Operation(summary = "根据ID查询", description = "根据ID查询{Entity}详情")
+    @PostMapping("/{module}/{entity}/detail")
     fun detail(@Validated @RequestBody req: WrappedReq<String>): {Entity}Resp {
         return {module}Service.detail(req.value)
     }
 
-    @PostMapping("/query")
     @Operation(summary = "查询{Entity}列表", description = "分页查询{Entity}列表")
+    @PostMapping("/{module}/{entity}/query")
     fun query(@Validated @RequestBody req: {Entity}Query): PageResult<{Entity}Resp> {
         return {module}Service.query(req)
     }

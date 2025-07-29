@@ -32,8 +32,8 @@ import tony.core.utils.ifNullOrBlank
 import tony.core.utils.md5
 import tony.core.utils.toString
 import tony.wechat.WechatPropProvider
+import tony.wechat.autoconfigure.WechatProperties
 import tony.wechat.client.WechatPayClient
-import tony.wechat.config.WechatProperties
 import tony.wechat.genMd5UpperCaseSign
 import tony.wechat.genNonceStr
 import tony.wechat.genTimeStamp

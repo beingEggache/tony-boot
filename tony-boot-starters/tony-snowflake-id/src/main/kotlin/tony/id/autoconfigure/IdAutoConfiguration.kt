@@ -28,17 +28,17 @@
  * @author tangli
  * @date 2022/07/12 19:56
  */
-package tony.id.config
+package tony.id.autoconfigure
 
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
-import org.springframework.context.annotation.Configuration
 import tony.id.IdGenerator
 
 @EnableConfigurationProperties(IdProperties::class)
-@Configuration(proxyBeanMethods = false)
-private class IdConfig(
+@AutoConfiguration
+private class IdAutoConfiguration(
     idProperties: IdProperties,
 ) {
     init {

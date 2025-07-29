@@ -1,1 +1,1 @@
-tony.redis.config.RedisConfig
+tony.redis.autoconfigure.RedisAutoConfiguration

@@ -1,1 +1,1 @@
-tony.aliyun.sms.config.AliyunSmsConfig
+tony.aliyun.sms.autoconfigure.AliyunSmsAutoConfiguration

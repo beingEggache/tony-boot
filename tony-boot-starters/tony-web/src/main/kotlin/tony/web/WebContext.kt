@@ -40,7 +40,7 @@ import tony.core.utils.asToDefault
 import tony.core.utils.asToNotNull
 import tony.core.utils.ifNull
 import tony.core.utils.sanitizedPath
-import tony.web.config.WebProperties
+import tony.web.autoconfigure.WebProperties
 
 /**
  * 全局 Web 上下文单例

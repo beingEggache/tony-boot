@@ -1,1 +1,1 @@
-tony.mybatis.config.MybatisPlusConfig
+tony.mybatis.autoconfigure.MybatisPlusAutoConfiguration

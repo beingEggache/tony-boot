@@ -22,33 +22,23 @@
  * SOFTWARE.
  */
 
-package tony.aliyun.sms.config
+package tony.mybatis.autoconfigure
 
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import tony.aliyun.sms.AliyunSmsManager
+import org.springframework.context.annotation.PropertySource
+import tony.core.misc.YamlPropertySourceFactory
+import tony.mybatis.sqlinjector.TonySqlInjector
 
-@EnableConfigurationProperties(AliyunSmsProperties::class)
-@Configuration(proxyBeanMethods = false)
-private class AliyunSmsConfig(
-    private val aliyunSMSProperties: AliyunSmsProperties,
-) {
+/**
+ * MybatisPlusConfig
+ * @author tangli
+ * @date 2023/05/25 19:55
+ */
+@PropertySource("classpath:mybatis-plus.config.yml", factory = YamlPropertySourceFactory::class)
+@AutoConfiguration
+private class MybatisPlusAutoConfiguration {
     @Bean
-    private fun smsService() =
-        AliyunSmsManager(
-            aliyunSMSProperties.accessKeyId,
-            aliyunSMSProperties.accessKeySecret,
-            aliyunSMSProperties.signName,
-            aliyunSMSProperties.timeout
-        )
+    private fun tonySqlInjector(): TonySqlInjector =
+        TonySqlInjector()
 }
-
-@ConfigurationProperties(prefix = "aliyun.sms")
-private class AliyunSmsProperties(
-    val accessKeyId: String,
-    val accessKeySecret: String,
-    val signName: String,
-    val timeout: String,
-)

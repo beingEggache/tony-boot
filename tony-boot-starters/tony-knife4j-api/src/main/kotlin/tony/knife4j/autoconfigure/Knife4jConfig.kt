@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package tony.knife4j.config
+package tony.knife4j.autoconfigure
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.xingfudeshi.knife4j.spring.annotations.EnableKnife4j
@@ -33,12 +33,12 @@ import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 import org.springdoc.core.models.GroupedOpenApi
 import org.springdoc.core.utils.SpringDocUtils
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import tony.core.misc.YamlPropertySourceFactory
 import tony.knife4j.customizers.EnumValueCustomizer
@@ -50,11 +50,11 @@ import tony.knife4j.customizers.WrapResponseBodyOperationCustomizer
 @ConditionalOnBooleanProperty(prefix = "knife4j", value = ["enabled"], matchIfMissing = true)
 @PropertySource("classpath:knife4j.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(Knife4jExtensionProperties::class)
-@Configuration(proxyBeanMethods = false)
-private class Knife4jExtensionConfig(
+@AutoConfiguration
+private class Knife4jExtensionAutoConfiguration(
     private val knife4jExtensionProperties: Knife4jExtensionProperties,
 ) {
-    private val logger = LoggerFactory.getLogger(Knife4jExtensionConfig::class.java)
+    private val logger = LoggerFactory.getLogger(Knife4jExtensionAutoConfiguration::class.java)
 
     @PostConstruct
     private fun init() {

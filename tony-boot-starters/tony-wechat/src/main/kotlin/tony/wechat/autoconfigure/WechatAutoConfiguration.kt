@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-package tony.wechat.config
+package tony.wechat.autoconfigure
 
 import jakarta.annotation.Resource
 import kotlin.reflect.full.findAnnotation
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -33,7 +34,6 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.cloud.openfeign.FeignClientBuilder
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import tony.wechat.DefaultWechatApiAccessTokenProvider
@@ -43,8 +43,8 @@ import tony.wechat.WechatPropProvider
 import tony.wechat.client.WechatClient
 
 @EnableConfigurationProperties(WechatProperties::class)
-@Configuration(proxyBeanMethods = false)
-private class WechatConfig {
+@AutoConfiguration
+private class WechatAutoConfiguration {
     @Resource
     private fun initMappingJackson2HttpMessageConverter(
         mappingJackson2HttpMessageConverter: MappingJackson2HttpMessageConverter,

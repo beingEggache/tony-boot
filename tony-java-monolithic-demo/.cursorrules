@@ -64,7 +64,7 @@
 │   │   │   └── {ProjectName}WebContext.java   # Web 上下文常量（可选）
 │   │   └── {module}/                        # 业务模块包
 │   │       └── controller/                  # 控制器包
-│   │           └── {Module}Controller.java    # 控制器类
+│   │           └── {Entity}Controller.java    # 控制器类
 │   └── resources/
 │       ├── application.yml                  # 主配置文件
 │       └── logback-spring.xml               # 日志配置
@@ -82,14 +82,14 @@
 │   │   └── {module}/                        # 业务模块包
 │   │       ├── service/                     # 服务包
 │   │       │   └── impl/                    # 服务实现包
-│   │       │       └── {Module}Service.java   # 服务实现类
+│   │       │       └── {Entity}Service.java   # 服务实现类
 │   │       ├── dao/                         # 数据访问包
-│   │       │   └── {Module}Dao.java           # 数据访问接口
+│   │       │   └── {Entity}Dao.java           # 数据访问接口
 │   │       └── po/                          # 持久化对象包
 │   │           └── {Entity}.java              # 持久化对象类
 │   └── resources/
 │       └── mappers/                         # MyBatis 映射文件目录
-│           └── {Module}Dao.xml              # SQL 映射文件
+│           └── {Entity}Dao.xml              # SQL 映射文件
 └── build.gradle.kts                         # 模块构建配置
 ```
 ---
@@ -118,7 +118,7 @@
 │   └── java/{company}/{projectName}/
 │       └── {module}/                        # 业务模块包
 │           └── service/                     # 服务接口包
-│               └── I{Module}Service.java      # 服务接口类
+│               └── I{Entity}Service.java      # 服务接口类
 └── build.gradle.kts                         # 模块构建配置
 ```
 ---
@@ -346,27 +346,28 @@ public class {Entity}Query {
 - 🔴 Bean 注入用 `@RequiredArgsConstructor` + `private final` 字段。
 
 ####  有 SDK 层的情况
-
+分接口和实现类
 ```java
-// SDK 层接口
 public interface I{Entity}Service {
-    String add({Entity}AddReq req);
+
+    void add({Entity}AddReq req);
+
     {Entity}Resp detail(String {entity}Id);
+
     PageResult<{Entity}Resp> query(PageQuery<{Entity}Query> req);
 }
 ```
 ```java
-// Service 层实现
 @Service
 @RequiredArgsConstructor
 public class {Entity}Service implements I{Entity}Service {
     private final {Entity}Dao {entity}Dao;
 
     @Override
-    public String add({Entity}AddReq req) { /* ... */ }
+    public void add({Entity}AddReq req) { /* ... */ }
 
     @Override
-    public EmployeeResp detail(String {entity}Id) { /* ... */ }
+    public {Entity}Resp detail(String {entity}Id) { /* ... */ }
 
     @Override
     public PageResult<{Entity}Resp> query(PageQuery<{Entity}Query> req) { /* ... */ }
@@ -374,16 +375,16 @@ public class {Entity}Service implements I{Entity}Service {
 ```
 ---
 ####  无 SDK 层的情况
+直接在 Service 层实现
 ```java
-// 直接在 Service 层实现
 @Service
 @RequiredArgsConstructor
 public class {Entity}Service {
     private final {Entity}Dao {entity}Dao;
 
-    public String add({Entity}AddReq req) { /* ... */ }
+    public void add({Entity}AddReq req) { /* ... */ }
 
-    public EmployeeResp detail(String {entity}Id) { /* ... */ }
+    public {Entity}Resp detail(String {entity}Id) { /* ... */ }
 
     public PageResult<{Entity}Resp> query(PageQuery<{Entity}Query> req) { /* ... */ }
 }
@@ -422,19 +423,19 @@ throw new RuntimeException("业务异常");
 public class {Entity}Controller {
     private final {Entity}Service {entity}Service;
 
-    @PostMapping("/add")
+    @PostMapping("/{module}/{entity}/add")
     @Operation(summary = "新增{entity}", description = "新增{entity}信息")
-    public String add(@Validated @RequestBody {Entity}AddReq req) {
-        return employeeService.add(req);
+    public void add(@Validated @RequestBody {Entity}AddReq req) {
+        employeeService.add(req);
     }
 
-    @PostMapping("/detail")
+    @PostMapping("/{module}/{entity}/detail")
     @Operation(summary = "根据ID查询", description = "根据ID查询{entity}详情")
     public {Entity}Resp detail(@Validated @RequestBody WrappedReq<String> req) {
         return {entity}Service.detail(req.getValue());
     }
 
-    @PostMapping("/query")
+    @PostMapping("/{module}/{entity}/query")
     @Operation(summary = "查询{entity}列表", description = "分页查询{etity}列表")
     public PageResult<{Entity}Resp> query(@Validated @RequestBody PageQuery<{Entity}Query> req) {
         return {entity}Service.query(req);
