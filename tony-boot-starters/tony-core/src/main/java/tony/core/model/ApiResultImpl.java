@@ -48,8 +48,9 @@ record ApiResultImpl<T>(
         return code;
     }
 
+    @NotNull
     @Override
-    public @NotNull String getMessage() {
+    public  String getMessage() {
         return message;
     }
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package tony.web.crpto
+package tony.web.crypto
 
 /**
  * 请求体解密, 目前只支持 RequestBody
@@ -52,10 +52,10 @@ import tony.core.utils.getLogger
  * @author tangli
  * @date 2023/05/26 19:53
  */
-public interface DecryptRequestBodyAdvice :
+internal interface DecryptRequestBodyAdvice :
     PriorityOrdered,
     RequestBodyAdvice {
-    public val cryptoProvider: CryptoProvider
+    val cryptoProvider: CryptoProvider
 
     override fun supports(
         methodParameter: MethodParameter,

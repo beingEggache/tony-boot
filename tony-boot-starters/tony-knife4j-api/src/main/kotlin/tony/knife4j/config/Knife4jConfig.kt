@@ -33,7 +33,7 @@ import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 import org.springdoc.core.models.GroupedOpenApi
 import org.springdoc.core.utils.SpringDocUtils
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
@@ -47,7 +47,7 @@ import tony.knife4j.customizers.OctetStreamResponseOperationCustomizer
 import tony.knife4j.customizers.WrapResponseBodyOperationCustomizer
 
 @EnableKnife4j
-@ConditionalOnProperty(prefix = "knife4j", value = ["enabled"], havingValue = "true", matchIfMissing = true)
+@ConditionalOnBooleanProperty(prefix = "knife4j", value = ["enabled"], matchIfMissing = true)
 @PropertySource("classpath:knife4j.config.yml", factory = YamlPropertySourceFactory::class)
 @EnableConfigurationProperties(Knife4jExtensionProperties::class)
 @Configuration(proxyBeanMethods = false)
@@ -90,10 +90,9 @@ private class Knife4jExtensionConfig(
     private fun octetStreamResponseOperationCustomizer(): OctetStreamResponseOperationCustomizer =
         OctetStreamResponseOperationCustomizer()
 
-    @ConditionalOnProperty(
+    @ConditionalOnBooleanProperty(
         prefix = "web",
         value = ["wrap-response-body-enabled"],
-        havingValue = "true",
         matchIfMissing = true
     )
     @Bean

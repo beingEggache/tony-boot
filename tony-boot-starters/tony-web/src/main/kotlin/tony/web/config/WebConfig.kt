@@ -33,8 +33,8 @@ package tony.web.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.BeanUtils
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -120,7 +120,7 @@ private class WebConfig(
         }
     }
 
-    @ConditionalOnProperty(prefix = "web.log.trace", value = ["enabled"], havingValue = "true", matchIfMissing = true)
+    @ConditionalOnBooleanProperty(prefix = "web.log.trace", value = ["enabled"], matchIfMissing = true)
     @Bean
     private fun requestReplaceToRepeatReadFilter() =
         RequestReplaceToRepeatReadFilter(traceLogProperties.excludePatterns)
@@ -130,12 +130,12 @@ private class WebConfig(
         TraceIdFilter()
 
     @ConditionalOnMissingBean(TraceLogger::class)
-    @ConditionalOnProperty(prefix = "web.log.trace", value = ["enabled"], havingValue = "true", matchIfMissing = true)
+    @ConditionalOnBooleanProperty(prefix = "web.log.trace", value = ["enabled"], matchIfMissing = true)
     @Bean
     private fun defaultTraceLogger(): TraceLogger =
         DefaultTraceLogger()
 
-    @ConditionalOnProperty(prefix = "web.log.trace", value = ["enabled"], havingValue = "true", matchIfMissing = true)
+    @ConditionalOnBooleanProperty(prefix = "web.log.trace", value = ["enabled"], matchIfMissing = true)
     @Bean
     private fun traceLogFilter(traceLogger: TraceLogger): TraceLogFilter =
         TraceLogFilter(
@@ -145,10 +145,9 @@ private class WebConfig(
             traceLogProperties.responseBodyMaxSize.toBytes()
         )
 
-    @ConditionalOnProperty(
+    @ConditionalOnBooleanProperty(
         prefix = "web",
         value = ["wrap-response-body-enabled"],
-        havingValue = "true",
         matchIfMissing = true
     )
     @Bean
@@ -159,7 +158,7 @@ private class WebConfig(
     private fun exceptionHandler() =
         ExceptionHandler()
 
-    @ConditionalOnProperty(prefix = "web.cors", value = ["enabled"], havingValue = "true", matchIfMissing = true)
+    @ConditionalOnBooleanProperty(prefix = "web.cors", value = ["enabled"], matchIfMissing = true)
     @Bean
     private fun corsFilter(): CorsFilter {
         val corsConfiguration =

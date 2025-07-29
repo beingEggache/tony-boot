@@ -37,6 +37,7 @@ public interface CryptoProvider {
      * 加解密算法, 目前只支持 aes/des, 默认des
      */
     public val algorithm: SymmetricCryptoAlgorithm
+        get() = SymmetricCryptoAlgorithm.DES
 
     /**
      * 秘钥
@@ -44,7 +45,8 @@ public interface CryptoProvider {
     public val secret: String
 
     /**
-     * 二进制编码
+     * 二进制编码, 默认HEX upper case.
      */
     public val encoding: Encoding
+        get() = Encoding.HEX
 }

@@ -217,10 +217,10 @@ condition.throwIfTrue("条件不满足")
 ### 配置类及配置属性规范
 🔴 注册到 `AutoConfiguration.imports`, 使用 `@EnableConfigurationProperties`。
 
-🟢 `tony.{module}.enabled` 属性与 `@ConditionalOnProperty` 配合使用，控制模块是否启用。仅对影响整体逻辑的模块使用，工具类模块无需配置。
+🟢 `tony.{module}.enabled` 属性与 `@ConditionalOnBooleanProperty` 配合使用，控制模块是否启用。仅对影响整体逻辑的模块使用，工具类模块无需配置。
 
 ```kotlin
-@ConditionalOnProperty(prefix = "tony.{module}", name = ["enabled"], havingValue = "true", matchIfMissing = true)  // 🟢 影响整体逻辑时添加
+@ConditionalOnBooleanProperty(prefix = "tony.{module}", name = ["enabled"], matchIfMissing = true)  // 🟢 影响整体逻辑时添加
 @EnableConfigurationProperties({Module}Properties::class) // 🟢 当需要配置项时添加.
 @Configuration
 public class {Module}Config(public val properties: {Module}Properties){

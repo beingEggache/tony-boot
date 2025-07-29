@@ -32,7 +32,7 @@ import tony.core.annotation.EnableTonyBoot
 import tony.core.codec.enums.Encoding
 import tony.core.crypto.CryptoProvider
 import tony.core.crypto.symmetric.enums.SymmetricCryptoAlgorithm
-import tony.web.crpto.config.WebCryptoConfig
+import tony.web.crypto.config.WebCryptoConfig
 
 @EnableTonyBoot
 @Import(WebCryptoConfig::class)

@@ -22,9 +22,10 @@
  * SOFTWARE.
  */
 
-package tony.web.crpto
+package tony.web.crypto;
 
-import tony.core.model.ApiResult
+import org.jetbrains.annotations.NotNull;
+import tony.core.model.ApiResult;
 
 /**
  * 加密请求响应结构
@@ -32,17 +33,24 @@ import tony.core.model.ApiResult
  * @author tangli
  * @date 2023/08/08 19:30
  */
-internal data class EncryptApiResult(
-    private val code: Int,
-    private val message: String,
-    private val data: String,
-) : ApiResult<String> {
-    override fun getData(): String =
-        data
+record EncryptApiResult(
+    int code,
+    String message,
+    String data
+) implements ApiResult<String> {
+    @Override
+    public String getData() {
+        return data;
+    }
 
-    override fun getCode(): Int =
-        code
+    @Override
+    public int getCode() {
+        return code;
+    }
 
-    override fun getMessage(): String =
-        message
+    @NotNull
+    @Override
+    public String getMessage() {
+        return message;
+    }
 }

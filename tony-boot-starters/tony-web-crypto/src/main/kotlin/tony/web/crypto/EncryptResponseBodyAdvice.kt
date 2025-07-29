@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package tony.web.crpto
+package tony.web.crypto
 
 /**
  * 响应体加密

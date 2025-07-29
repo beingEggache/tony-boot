@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package tony.web.crpto.config
+package tony.web.crypto.config
 
 import jakarta.annotation.Resource
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.context.annotation.Bean
@@ -33,10 +33,11 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import tony.core.crypto.CryptoProvider
-import tony.web.crpto.DecryptRequestBodyAdvice
-import tony.web.crpto.DefaultDecryptRequestBodyAdvice
-import tony.web.crpto.DefaultEncryptResponseBodyAdvice
-import tony.web.crpto.EncryptResponseBodyAdvice
+import tony.web.crypto.DecryptRequestBodyAdvice
+import tony.web.crypto.DefaultCryptoProvider
+import tony.web.crypto.DefaultDecryptRequestBodyAdvice
+import tony.web.crypto.DefaultEncryptResponseBodyAdvice
+import tony.web.crypto.EncryptResponseBodyAdvice
 
 /**
  * WebCryptoConfig is
@@ -49,7 +50,7 @@ import tony.web.crpto.EncryptResponseBodyAdvice
             .Type
             .SERVLET
 )
-@ConditionalOnExpression($$"${web.crypto.enabled:true}")
+@ConditionalOnBooleanProperty(prefix = "web.crypto", name = ["enabled"], matchIfMissing = true)
 @Configuration(proxyBeanMethods = false)
 internal class WebCryptoConfig {
     @Resource
@@ -64,6 +65,11 @@ internal class WebCryptoConfig {
                 .toTypedArray()
         mappingJackson2HttpMessageConverter.supportedMediaTypes = listOf(*supportedMediaTypes)
     }
+
+    @ConditionalOnMissingBean(CryptoProvider::class)
+    @Bean
+    private fun defaultCryptoProvider(): DefaultCryptoProvider =
+        DefaultCryptoProvider()
 
     @ConditionalOnMissingBean(DecryptRequestBodyAdvice::class)
     @Bean

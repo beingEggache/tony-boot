@@ -34,7 +34,8 @@ import okhttp3.OkHttpClient
 import org.springframework.beans.factory.ObjectFactory
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperties
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -91,15 +92,29 @@ private class FeignConfig(
         DefaultErrorDecoder()
 
     @ConditionalOnMissingBean(FeignRequestLogger::class)
-    @ConditionalOnExpression(
-        $$"${spring.cloud.openfeign.okhttp.enabled:true} and ${web.log.request.enabled:true}"
+    @ConditionalOnBooleanProperties(
+        value = [
+            ConditionalOnBooleanProperty(
+                prefix = "spring.cloud.openfeign.okhttp",
+                name = ["enabled"],
+                matchIfMissing = true
+            ),
+            ConditionalOnBooleanProperty(prefix = "web.log.request", name = ["enabled"], matchIfMissing = true)
+        ]
     )
     @Bean
     private fun feignRequestLogger(): FeignRequestLogger =
         DefaultFeignRequestLogger()
 
-    @ConditionalOnExpression(
-        $$"${spring.cloud.openfeign.okhttp.enabled:true} and ${web.log.request.enabled:true}"
+    @ConditionalOnBooleanProperties(
+        value = [
+            ConditionalOnBooleanProperty(
+                prefix = "spring.cloud.openfeign.okhttp",
+                name = ["enabled"],
+                matchIfMissing = true
+            ),
+            ConditionalOnBooleanProperty(prefix = "web.log.request", name = ["enabled"], matchIfMissing = true)
+        ]
     )
     @Bean
     private fun feignLogInterceptor(feignRequestLogger: FeignRequestLogger) =
@@ -133,7 +148,7 @@ private class FeignConfig(
             unwrapResponseInterceptors.map { it.getObject() }
         )
 
-    @ConditionalOnExpression($$"${spring.cloud.openfeign.okhttp.enabled:true}")
+    @ConditionalOnBooleanProperty(prefix = "spring.cloud.openfeign.okhttp", name = ["enabled"], matchIfMissing = true)
     @ConditionalOnMissingBean(OkHttpClient::class)
     @Bean
     private fun okHttpClient(
@@ -174,7 +189,7 @@ private data class FeignConfigProperties(
     val followRedirects: Boolean,
 )
 
-@ConditionalOnExpression($$"${spring.cloud.openfeign.okhttp.enabled:true}")
+@ConditionalOnBooleanProperty(prefix = "spring.cloud.openfeign.okhttp", name = ["enabled"], matchIfMissing = true)
 @ConditionalOnBean(OkHttpClient::class)
 @ConfigurationProperties(prefix = "web.log.request")
 private data class RequestLogProperties(
