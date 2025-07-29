@@ -39,7 +39,7 @@ import java.util.Objects;
  * @date 2021/12/6 10:51
  */
 @JsonPropertyOrder(value = {"success", "code", "message", "data"})
-public interface ApiResult<T> {
+public sealed interface ApiResult<T> permits ApiResultImpl, FlattenApiResultImpl {
 
     /**
      * 响应体

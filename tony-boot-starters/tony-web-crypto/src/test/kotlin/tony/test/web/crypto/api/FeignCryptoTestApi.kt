@@ -48,4 +48,9 @@ interface FeignCryptoTestApi {
 
     @PostMapping("/method/test/crypto-string")
     fun string(): String
+
+    @PostMapping("/method/test/encryptReqAndDecryptResp")
+    fun encryptReqAndDecryptResp(
+        @RequestBody
+        req: MonoValue<String>): MonoValue<String>
 }

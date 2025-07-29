@@ -41,8 +41,7 @@ import java.util.Collection;
  * @author tangli
  * @date 2021/12/6 10:51
  */
-@SuppressWarnings("unused")
-public interface Rows<T> {
+public sealed interface Rows<T> permits PageResult, RowsImpl {
 
     /**
      * 返回包装集合对象.

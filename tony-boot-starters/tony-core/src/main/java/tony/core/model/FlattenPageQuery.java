@@ -37,7 +37,6 @@ import java.util.Collection;
  * @date 2023/07/11 19:21
  * @see PageQuery
  */
-@SuppressWarnings("unused")
 public record FlattenPageQuery<T>(
     T query,
     long page,

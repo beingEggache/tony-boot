@@ -49,9 +49,8 @@ import static tony.core.model.PageResults.ofPageResult;
  * @author tangli
  * @date 2021/12/6 10:51
  */
-@SuppressWarnings("unused")
 @JsonPropertyOrder(value = {"page", "size", "total", "pages", "hasNext", "rows"})
-public interface PageResult<T> extends Rows<T> {
+public sealed interface PageResult<T> extends Rows<T> permits PageResultImpl {
 
     /**
      * current page.
@@ -76,6 +75,7 @@ public interface PageResult<T> extends Rows<T> {
      *
      * @return page total pages.
      */
+    @SuppressWarnings("unused")
     @Schema(description = "总页数", defaultValue = "10")
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     default long getPages() {
@@ -96,6 +96,7 @@ public interface PageResult<T> extends Rows<T> {
      *
      * @return has next page.
      */
+    @SuppressWarnings("unused")
     @Schema(description = "是否有下一页", defaultValue = "true")
     default boolean getHasNext() {
         return getRows().size() < getSize();
@@ -110,7 +111,7 @@ public interface PageResult<T> extends Rows<T> {
      * @see [List.map]
      */
     @NotNull
-    default <R, E extends PageResult<R>> E map(final Function<T, R> transform) {
+    default <R> PageResult<R> map(final Function<T, R> transform) {
         final Collection<? extends T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
         return Objs.asToNotNull(
             ofPageResult(
@@ -129,8 +130,9 @@ public interface PageResult<T> extends Rows<T> {
      * @return this.
      * @see [List.onEach]
      */
+    @SuppressWarnings("unused")
     @NotNull
-    default <E extends PageResult<T>> E onEach(final Consumer<T> action) {
+    default PageResult<T> onEach(final Consumer<T> action) {
         final Collection<? extends T> rows = Cols.ifEmpty(getRows(), Collections.emptyList());
         return Objs.asToNotNull(
             ofPageResult(

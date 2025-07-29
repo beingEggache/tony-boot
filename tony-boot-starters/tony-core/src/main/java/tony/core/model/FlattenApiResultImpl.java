@@ -22,24 +22,26 @@
  * SOFTWARE.
  */
 
-package tony.web.crypto;
+package tony.core.model;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.jetbrains.annotations.NotNull;
-import tony.core.model.ApiResult;
 
 /**
- * 加密请求响应结构
+ * 压平的全局响应统一结构.
  *
  * @author tangli
- * @date 2023/08/08 19:30
+ * @date 2023/09/27 19:06
  */
-record EncryptApiResult(
+record FlattenApiResultImpl<T>(
+    T data,
     int code,
-    String message,
-    String data
-) implements ApiResult<String> {
+    String message
+) implements ApiResult<T> {
+
+    @JsonUnwrapped
     @Override
-    public String getData() {
+    public T getData() {
         return data;
     }
 

@@ -43,7 +43,7 @@ import tony.core.utils.isNumberTypes
 import tony.core.utils.isStringLikeType
 
 /**
- * 拉平对象成 [tony.core.model.FlattenApiResult], 将所有字段拉到最外层显示.
+ * 拉平对象成 [FlattenApiResultImpl], 将所有字段拉到最外层显示.
  *
  * 比如
  * ```
@@ -74,7 +74,7 @@ public fun <T> T.flattenResult(
     code: Int = ApiProperty.okCode,
     message: String = ApiProperty.defaultOkMessage,
 ): ApiResult<T> =
-    FlattenApiResult(this, code, message)
+    FlattenApiResultImpl(this, code, message)
 
 /**
  * 只返回消息
@@ -263,6 +263,24 @@ public fun ofApiResult(
     message: String = ApiProperty.defaultOkMessage,
 ): ApiResult<Rows<Char>> =
     ApiResultImpl(ofRows(array), ApiProperty.okCode, message)
+
+/**
+ * 只用于 加密
+ * @param [data] 数据
+ * @param [code] 法典
+ * @param [message] 消息
+ * @return [ApiResult<String>]
+ * @author tangli
+ * @date 2025/07/29 16:57
+ */
+@JvmSynthetic
+@JvmName("-encryptApiResult")
+public fun encryptApiResult(
+    data: String,
+    code: Int = ApiProperty.okCode,
+    message: String = ApiProperty.defaultOkMessage,
+): ApiResult<String> =
+    ApiResultImpl(data, code, message)
 
 /**
  * 构造方法

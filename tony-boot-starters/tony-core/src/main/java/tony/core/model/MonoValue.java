@@ -39,7 +39,7 @@ import jakarta.validation.constraints.NotNull;
  * @author tangli
  * @date 2025/07/17 09:32
  */
-public interface MonoValue<T> {
+public sealed interface MonoValue<T> permits MonoValueImpl {
 
     @Valid
     @Schema(description = "value")
