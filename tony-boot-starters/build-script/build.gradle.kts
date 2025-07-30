@@ -113,6 +113,22 @@ gradlePlugin {
 dependencies {
     implementation(versionCatalog.findLibrary("springBootGradlePlugin").get())
     implementation(versionCatalog.findLibrary("gradleDocker").get())
+    configurations.all {
+        exclude(group = "com.google.errorprone", module = "error_prone_annotations")
+        exclude(group = "com.google.guava", module = "listenablefuture")
+        exclude(group = "com.google.j2objc", module = "j2objc-annotations")
+        exclude(group = "com.google.code.findbugs", module = "jsr305")
+        exclude(group = "com.google.code.findbugs", module = "annotations")
+        exclude(group = "com.vaadin.external.google", module = "android-json")
+        exclude(group = "org.checkerframework", module = "checker-qual")
+        resolutionStrategy {
+            versionCatalog.libraryAliases.filter {
+                it != "kotlinStdlib"
+            }.forEach {
+                force(versionCatalog.findLibrary(it).get())
+            }
+        }
+    }
 }
 
 val releasesGradleRepoUrl: String by project
@@ -142,4 +158,20 @@ publishing {
             artifact(tasks["sourcesJar"])
         }
     }
+}
+
+tasks.withType<Jar> {
+    into("META-INF") {
+        from(rootProject.file("LICENSE"))
+    }
+    into("META-INF/maven/${project.group}/${project.name}") {
+        from(project.tasks.getByPath("generatePomFileForJarPublication"))
+        rename("pom-default.xml","pom.xml")
+    }
+    manifest {
+        attributes["Implementation-Title"] = project.name
+        attributes["Implementation-Version"] = project.version
+        attributes["Build-Jdk-Spec"] = javaVersion
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
