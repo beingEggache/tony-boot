@@ -4,7 +4,7 @@
 ## 如何使用
 - Java 21 或更高版本
 
-在 [build.gradle.kts](file://C:\workspace\tony-projects\tony-boot-starters\build.gradle.kts) 中添加依赖：
+在 `build.gradle.kts` 中添加依赖：
 ```kotlin
 dependencies {
     implementation("tony:tony-captcha:0.1-SNAPSHOT")
