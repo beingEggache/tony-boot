@@ -12,7 +12,6 @@
   - [字段自动填充](#4-字段自动填充)
   - [链式查询增强](#5-链式查询增强)
   - [类型安全枚举处理](#6-类型安全枚举处理)
-- [配置说明](#配置说明)
 - [使用示例](#使用示例)
 - [进阶用法](#进阶用法)
 - [适用场景](#适用场景)
@@ -51,8 +50,8 @@ fun main(args: Array<String>) {
 
 ### 1. 统一分页处理
 
-- **PageQuery/PageResult**：标准化分页请求与响应结构，支持排序、总页数、总条数等。
-- **BaseDao.selectPageResult**：DAO 层直接接收 `PageQuery`，返回 `PageResult<T>`，简化分页开发。
+- **`PageQuery`/`PageResult`**：标准化分页请求与响应结构，支持排序、总页数、总条数等。
+- **`BaseDao.selectPageResult`**：DAO 层直接接收 `PageQuery`，返回 `PageResult<T>`，简化分页开发。
 - **Kotlin/Java 兼容**：Kotlin/Java 项目均可无缝集成。
 
 ### 2. 查询结果非空断言
@@ -62,23 +61,23 @@ fun main(args: Array<String>) {
 
 ### 3. 物理删除能力
 
-- **BaseDao.physicalDelete**：支持按条件、按 ID、批量物理删除，区别于 MyBatis-Plus 默认逻辑删除。
+- **`BaseDao.physicalDelete`**：支持按条件、按 ID、批量物理删除，区别于 MyBatis-Plus 默认逻辑删除。
 - **SQL 注入器**：自动注册物理删除 SQL，兼容原生与扩展用法。
 
 ### 4. 字段自动填充
 
-- **@MybatisPlusMetaProperty**：实体字段注解，支持用户ID、用户名、组织ID、租户ID等元数据自动填充。
-- **DbMetaObjectHandler**：自动注入会话上下文（如 ApiSession），支持 relativeProp 关联属性联动填充。
+- **`@MybatisPlusMetaProperty`**：实体字段注解，支持用户ID、用户名、组织ID、租户ID等元数据自动填充。
+- **`DbMetaObjectHandler`**：自动注入会话上下文（如 ApiSession），支持 relativeProp 关联属性联动填充。
 - **自定义元数据**：支持自定义 provider，灵活扩展部门、岗位等业务元数据。
 
 ### 5. 链式查询增强
 
-- **TonyChainQuery**：扩展 MyBatis-Plus 链式查询，支持 `oneNotNull`、`listThrowIfEmpty`、`throwIfExists` 等断言与便捷方法。
+- **`TonyChainQuery`**：扩展 MyBatis-Plus 链式查询，支持 `oneNotNull`、`listThrowIfEmpty`、`throwIfExists` 等断言与便捷方法。
 - **类型安全**：链式 API 保证类型安全，提升开发体验。
 
 ### 6. 类型安全枚举处理
 
-- **EnumTypeHandler**：自动处理 Java/Kotlin 枚举与数据库字段映射，兼容 Int/String 枚举。
+- **`EnumTypeHandler`**：自动处理 Java/Kotlin 枚举与数据库字段映射，兼容 Int/String 枚举。
 - **全链路兼容**：与 Redis、DTO、数据库等序列化/反序列化规则一致。
 
 ## 使用示例
@@ -238,8 +237,8 @@ fun metaObjectHandler(apiSession: ApiSession): MetaObjectHandler =
 
 ## 注意事项
 
-1. **分页参数**：PageQuery 默认 pageNo/pageSize，建议前端统一传参。
-2. **自动填充**：自定义 ApiSession 时需保证线程安全。
-3. **枚举处理**：枚举需实现 IntEnumValue/StringEnumValue 并注册工厂方法。
+1. **分页参数**：`PageQuery` 默认 `page`/`size`，建议前端统一传参。
+2. **自动填充**：自定义 `ApiSession` 时需保证线程安全。
+3. **枚举处理**：枚举需实现 `IntEnumValue`/`StringEnumValue` 并注册工厂方法。
 
 

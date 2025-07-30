@@ -84,7 +84,7 @@ internal class EnumStringValueConverterFactory : ConverterFactory<String, String
  * @param enumType 枚举类型
  * @throws IllegalArgumentException 如果 source 不能正确转换为目标 value 类型
  */
-internal sealed class EnumValueConverter<out E, K>(
+private sealed class EnumValueConverter<out E, K>(
     enumType: Class<out E>,
 ) : Converter<String, EnumValue<K>>
     where E : EnumValue<K>,
@@ -114,7 +114,7 @@ internal sealed class EnumValueConverter<out E, K>(
  *
  * 特殊约定：当 source 为 DEFAULT_INT_VALUE（-1）时，返回 null
  */
-internal class EnumIntValueConverter(
+private class EnumIntValueConverter(
     enumType: Class<out IntEnumValue>,
 ) : EnumValueConverter<IntEnumValue, Int>(enumType),
     Converter<String, EnumValue<Int>> {
@@ -135,7 +135,7 @@ internal class EnumIntValueConverter(
  *
  * 特殊约定：当 source 为 DEFAULT_STRING_VALUE（空字符串）时，返回 null
  */
-internal class EnumStringValueConverter(
+private class EnumStringValueConverter(
     enumType: Class<out StringEnumValue>,
 ) : EnumValueConverter<StringEnumValue, String>(enumType),
     Converter<String, EnumValue<String>> {

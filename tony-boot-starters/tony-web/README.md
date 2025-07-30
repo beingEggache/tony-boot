@@ -13,7 +13,6 @@
   - [其他能力](#6-其他能力)
 - [配置说明](#配置说明)
 - [使用示例](#使用示例)
-- [进阶用法](#进阶用法)
 - [适用场景](#适用场景)
 - [注意事项](#注意事项)
 
@@ -48,13 +47,13 @@ fun main(args: Array<String>) {
 ## 主要功能
 
 ### 1. 统一响应与包装
-- **ApiResult<T> 响应结构**：所有接口默认返回统一结构，包含 code、message、data 字段，便于前后端协作。
-- **自动包装**：`WrapResponseBodyAdvice` 自动拦截 Controller 返回值，智能封装为 ApiResult，无需手动包装。
-- **Null 值自动处理**：支持 String/集合/Object 类型 null 值自动转空串/空数组/空对象，前端无空指针困扰。
+- **`ApiResult<T>` 响应结构**：所有接口默认返回统一结构，包含 `code`、`message`、`data` 字段，便于前后端协作。
+- **自动包装**：`WrapResponseBodyAdvice` 自动拦截 `Controller` 返回值，智能封装为 `ApiResult`，无需手动包装。
+- **`Null` 值自动处理**：支持 `String`/集合/`Object` 类型 `null` 值自动转空串/空数组/空对象，前端无空指针困扰。
 - **可配置白名单**：通过配置可排除特定接口（如文件下载）不自动包装。
 
 ### 2. 全局异常处理
-- **ExceptionHandler**：捕获所有未处理异常，统一转换为 ApiResult 格式，支持自定义业务异常体系。
+- **`ExceptionHandler`**：捕获所有未处理异常，统一转换为 `ApiResult` 格式，支持自定义业务异常体系。
 - **参数校验友好提示**：对参数类型不匹配、必填校验等异常，自动返回友好错误信息。
 
 ### 3. 跨域与安全配置
@@ -62,8 +61,8 @@ fun main(args: Array<String>) {
 - **请求体重复读取**：支持请求体多次读取，便于日志、参数注入等安全增强。
 
 ### 4. 结构化日志与全链路追踪
-- **TraceLogFilter**：自动生成 traceId，注入日志上下文，实现全链路追踪。
-- **TraceLogger**：结构化日志输出，支持分级、异步、分文件存储。
+- **`TraceLogFilter`**：自动生成 `traceId`，注入日志上下文，实现全链路追踪。
+- **`TraceLogger`**：结构化日志输出，支持分级、异步、分文件存储。
 - **日志格式标准化**：字段丰富，便于自动化分析与监控。
 - **请求/响应体大小限制**：防止日志过大，支持最大长度配置。
 
@@ -96,9 +95,9 @@ fun main(args: Array<String>) {
 | 服务端IP   | 当前服务IP          |
 
 ### 5. 枚举自动转换
-- **EnumIntValueConverterFactory/EnumStringValueConverterFactory**：支持枚举类型在 Controller 参数、DTO、表单、JSON、缓存、数据库等场景自动转换。
+- **`EnumIntValueConverterFactory`/`EnumStringValueConverterFactory`**：支持枚举类型在 Controller 参数、DTO、表单、JSON、缓存、数据库等场景自动转换。
 - **与 Redis/MyBatis-Plus 兼容**：序列化/反序列化规则一致，保证数据一致性。
-- **静态工厂方法要求**：枚举需实现 Creator 并加 @JsonCreator 注解。
+- **静态工厂方法要求**：枚举需实现 Creator 并加 `@JsonCreator` 注解。
 
 ### 6. 其他能力
 - **WebContext**：便捷获取当前请求、响应、上下文等。
@@ -177,4 +176,4 @@ enum class Status(@get:JsonValue override val value: String) : StringEnumValue {
 
 ## 注意事项
 1. **日志安全**：敏感信息建议脱敏处理，避免泄露。
-2. **枚举转换**：枚举需实现 Creator 并加 @JsonCreator 注解。
+2. **枚举转换**：枚举需实现 Creator 并加 `@JsonCreator` 注解。

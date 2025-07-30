@@ -14,9 +14,6 @@
   - [多序列化与类型安全](#6-多序列化与类型安全)
 - [配置说明](#配置说明)
 - [使用示例](#使用示例)
-- [进阶用法](#进阶用法)
-- [适用场景](#适用场景)
-- [注意事项](#注意事项)
 
 ## 如何使用
 
@@ -77,10 +74,9 @@ fun main(args: Array<String>) {
 - 内置分布式锁实现，支持超时与自旋等待。
 - 支持 Redis 事务操作，保障多步操作的原子性。
 
-### 6. 多序列化与类型安全
+### 6. 序列化与类型安全
 
 - 默认采用 Jackson 进行对象序列化，支持复杂对象、泛型安全存取。
-- 支持多种序列化模式（如 JDK、STRING、FASTJSON），可自定义切换。
 
 ## 配置说明
 
@@ -88,7 +84,7 @@ fun main(args: Array<String>) {
 
 ```yaml
 redis:
-  serializer-mode: JACKSON   # 支持JACKSON、JDK、STRING、FASTJSON等
+  serializer-mode: JACKSON   # 目前只支持JACKSON
   key-prefix: "myapp"
 ```
 

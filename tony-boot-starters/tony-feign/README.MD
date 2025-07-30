@@ -50,34 +50,34 @@ fun main(args: Array<String>) {
 
 ### 1. 响应拦截与解包
 
-- **UnwrapResponseInterceptor**：自动解包 `ApiResult` 统一响应结构，只返回 `data` 字段，支持加密响应自动解包。
+- **`UnwrapResponseInterceptor`**：自动解包 `ApiResult` 统一响应结构，只返回 `data` 字段，支持加密响应自动解包。
 - **全局响应拦截器**：支持自定义全局响应拦截器，灵活扩展响应处理逻辑。
 
 ### 2. 请求拦截与处理器链
 
-- **@RequestProcessors 注解**：支持为 Feign 接口/方法动态指定请求处理器链，实现自动加 token、动态 header、参数加工等。
+- **`@RequestProcessors` 注解**：支持为 Feign 接口/方法动态指定请求处理器链，实现自动加 token、动态 header、参数加工等。
 - **全局请求拦截器**：支持全局注册请求拦截器，统一处理所有 Feign 请求。
 
 ### 3. 日志与异常处理
 
-- **FeignLogInterceptor**：详细记录 Feign 请求与响应的时间、头、体、状态码、耗时、远端IP等信息，日志内容结构化，便于排查和监控。支持配置日志体最大长度，防止日志过大。
-- **日志脱敏与自定义**：支持自定义 FeignRequestLogger，可实现日志脱敏、格式化、异步落盘等高级处理，保障敏感信息安全。
-- **日志分级与异步输出**：日志默认 TRACE 级别输出到 request-logger，支持异步写入，避免主流程阻塞。
-- **日志格式与 traceId**：日志包含 traceId，便于全链路追踪，格式与 tony-web 保持一致，便于统一分析。
-- **DefaultErrorDecoder**：Feign 调用异常时，自动抛出统一的 `ApiException`，便于全局异常捕获和处理。
+- **`FeignLogInterceptor`**：详细记录 Feign 请求与响应的时间、头、体、状态码、耗时、远端IP等信息，日志内容结构化，便于排查和监控。支持配置日志体最大长度，防止日志过大。
+- **日志脱敏与自定义**：支持自定义 `FeignRequestLogger`，可实现日志脱敏、格式化、异步落盘等高级处理，保障敏感信息安全。
+- **日志分级与异步输出**：日志默认 `TRACE` 级别输出到 `request-logger`，支持异步写入，避免主流程阻塞。
+- **日志格式与 `traceId`**：日志包含 `traceId`，便于全链路追踪，格式与 `tony-web` 保持一致，便于统一分析。
+- **`DefaultErrorDecoder`**：`Feign` 调用异常时，自动抛出统一的 `ApiException`，便于全局异常捕获和处理。
 
 ### 4. 文件上传与表单支持
 
-- **ByteArrayMultipartFile**：支持二进制文件、表单文件上传，兼容 Spring 的 `MultipartFile`。
+- **`ByteArrayMultipartFile`**：支持二进制文件、表单文件上传，兼容 Spring 的 `MultipartFile`。
 
 ### 5. OkHttp 支持与高级配置
 
 - 支持 OkHttp 作为底层 HTTP 客户端，支持连接池、超时、重试、心跳等参数配置。
-- 支持自定义 OkHttp 拦截器（如 AppInterceptor、NetworkInterceptor）。
+- 支持自定义 OkHttp 拦截器（如 `AppInterceptor`、`NetworkInterceptor`）。
 
 ## 配置说明
 
-### Feign 客户端配置
+### `Feign` 客户端配置
 
 ```kotlin
 @RequestProcessors(RequestProcessors.Value(AddTokenRequestProcessor::class))
@@ -115,14 +115,14 @@ web:
       responseBodyMaxSize: 50KB  # 响应体最大日志长度，超出仅显示 ContentType
 ```
 
-- 日志输出到 `request-logger`，可通过 logback 配置异步、分文件、分级输出。
+- 日志输出到 `request-logger`，可通过 `logback` 配置异步、分文件、分级输出。
 - 日志格式示例：
 
 ```text
 2025-06-16 15:20:04.406|应用名|F67D3255E9B94E99B9353A51D2BEEEF5|11|20000|OK|http|POST|http://localhost:10000/sys/employee/detail|/sys/employee/detail|abc=123|Origin:http://localhost:10000;;Cookie:...|{  "employeeId": "9253054075269"}|{"success":true,"code":20000,"message":"操作成功","data":{...}}|172.24.0.1|172.24.0.4
 ```
 
-- 建议敏感信息通过自定义 FeignRequestLogger 实现脱敏。
+- 建议敏感信息通过自定义 `FeignRequestLogger` 实现脱敏。
 
 #### 日志字段说明
 
@@ -197,7 +197,7 @@ fun errorDecoder(): ErrorDecoder = MyCustomErrorDecoder()
 
 ## 进阶用法
 
-- 支持自定义 FeignRequestLogger，实现日志脱敏、格式化、异步落盘等高级处理。例如：
+- 支持自定义 `FeignRequestLogger`，实现日志脱敏、格式化、异步落盘等高级处理。例如：
 
 ```kotlin
 @Bean
@@ -206,7 +206,7 @@ fun feignRequestLogger(): FeignRequestLogger = MySensitiveFeignRequestLogger()
 
 - 日志输出可通过 logback 配置异步、分文件、分级，详见主工程日志配置。
 - 支持自定义日志格式、内容、脱敏规则，满足企业安全与合规要求。
-- 支持自定义 FeignRequestLogger，实现日志脱敏、格式化、异步落盘等高级处理。
+- 支持自定义 `FeignRequestLogger`，实现日志脱敏、格式化、异步落盘等高级处理。
 - 支持自定义全局异常体系，细粒度映射 HTTP 状态码与业务异常。
 - 支持接口加密传输场景下的自动解密与解包。
 - 支持多环境配置与灵活扩展。
@@ -222,6 +222,6 @@ fun feignRequestLogger(): FeignRequestLogger = MySensitiveFeignRequestLogger()
 
 1. **日志安全**：敏感信息建议脱敏处理，避免泄露。
 2. **异常体系**：建议统一异常处理，便于全局监控和定位。
-3. **请求处理器链**：如需动态 header/token，建议使用 @RequestProcessors 注解。
-4. **加密解包**：如需接口加密，需自定义 CryptoProvider 并配置解包拦截器。
+3. **请求处理器链**：如需动态 header/token，建议使用 `@RequestProcessors` 注解。
+4. **加密解包**：如需接口加密，需自定义 `CryptoProvider` 并配置解包拦截器。
 5. **OkHttp 配置**：高并发场景建议合理配置连接池和超时参数。
