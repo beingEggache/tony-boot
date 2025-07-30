@@ -125,6 +125,7 @@ public fun CharSequence.queryStringToMap(): Map<String, String> =
     split("&")
         .asSequence()
         .filterNot(String::isBlank)
+        .filter { "=" in it }
         .mapNotNull { param ->
             val (key, value) = param.split("=", limit = 2)
             if (key.isNotEmpty()) key to value else null
