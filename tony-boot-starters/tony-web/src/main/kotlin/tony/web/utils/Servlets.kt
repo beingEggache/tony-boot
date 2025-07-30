@@ -218,7 +218,7 @@ private val TEXT_MEDIA_TYPES =
     )
 
 /**
- * 判断给定的MediaType是否为常见文本类型（如json、xml、html、plain等）。
+ * 判断给定的[MediaType]是否为常见文本类型（如json、xml、html、plain等）。
  *
  * @param mediaType 需要判断的媒体类型
  * @return [Boolean] 是否为文本类型
@@ -261,7 +261,7 @@ public fun isCorsPreflightRequest(): Boolean =
  * @date 2025/07/08 10:38
  */
 public fun parseMediaType(contentType: String?): MediaType? =
-    if (contentType.isNullOrBlank()) {
+    if (contentType.isNullOrBlank() || contentType == "null") {
         null
     } else {
         MediaType.parseMediaType(contentType)

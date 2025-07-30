@@ -269,7 +269,7 @@ public fun ofApiResult(
  * @param [data] 数据
  * @param [code] 法典
  * @param [message] 消息
- * @return [ApiResult<String>]
+ * @return [ApiResult]<[String]>
  * @author tangli
  * @date 2025/07/29 16:57
  */

@@ -36,6 +36,7 @@ import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.register
 
+@Suppress("unused")
 class MavenPublishPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.apply {

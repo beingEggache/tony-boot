@@ -110,10 +110,10 @@ public fun Map<String, Any?>.toQueryString(
     skipNull: Boolean = true,
     skipEmpty: Boolean = false,
 ): String =
-    asIterable()
-        .filter { if (skipNull) it.value != null else true }
-        .filter { if (skipEmpty) !it.value.toString().isEmpty() else true }
-        .joinToString("&") { "${it.key}=${it.value ?: ""}" }
+    asSequence()
+        .filterNot { (_, value) -> skipNull && value == null }
+        .filterNot { (_, value) -> skipEmpty && value.blank() }
+        .joinToString("&") { (key, value) -> "$key=${value ?: ""}" }
 
 /**
  * 将queryString字符串转为map， 如将a=1&b=2&c=3  转为 {a=1,b=2,c=3}
@@ -122,15 +122,12 @@ public fun Map<String, Any?>.toQueryString(
  * @date 2023/12/08 19:28
  */
 public fun CharSequence.queryStringToMap(): Map<String, String> =
-    toString()
-        .split("&")
-        .mapNotNull {
-            val parts = it.split("=")
-            if (parts.size == 2 && parts[0].isNotEmpty()) {
-                parts[0] to parts[1]
-            } else {
-                null // 跳过格式不正确的项
-            }
+    split("&")
+        .asSequence()
+        .filterNot(String::isBlank)
+        .mapNotNull { param ->
+            val (key, value) = param.split("=", limit = 2)
+            if (key.isNotEmpty()) key to value else null
         }.toMap()
 
 /**

@@ -33,6 +33,7 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.getByType
 
+@Suppress("unused")
 class DependenciesConfigurationsPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {

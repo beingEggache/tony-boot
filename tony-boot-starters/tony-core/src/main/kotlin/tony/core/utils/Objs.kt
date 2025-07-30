@@ -125,3 +125,12 @@ public fun Any?.notBlank(): Boolean =
     } else {
         true
     }
+
+/**
+ * 普通对象非null, 字符串非blank
+ * @return [Boolean]
+ * @author tangli
+ * @date 2024/01/15 10:13
+ */
+public fun Any?.blank(): Boolean =
+    !notBlank()

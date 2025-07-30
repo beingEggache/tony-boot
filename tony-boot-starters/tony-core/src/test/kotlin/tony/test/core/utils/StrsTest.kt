@@ -297,6 +297,16 @@ class StrsTest {
             assertEquals("", map["age"])
             assertEquals("Beijing", map["city"])
         }
+        @Test
+        @DisplayName("Strs.queryStringToMap():多个key=value没有&的情况")
+        fun testQueryStringToMapWithMultiEqual() {
+            val queryString = "name=Tony=Me=FuckingAwesome&age=13=14=15&city=Beijing=TongZhou=TianTongYuan"
+            val map = queryString.queryStringToMap()
+
+            assertEquals("Tony=Me=FuckingAwesome", map["name"])
+            assertEquals("13=14=15", map["age"])
+            assertEquals("Beijing=TongZhou=TianTongYuan", map["city"])
+        }
     }
 
     @Nested

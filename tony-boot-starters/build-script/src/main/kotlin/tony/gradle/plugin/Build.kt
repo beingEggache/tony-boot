@@ -61,6 +61,7 @@ class Build : Plugin<Project> {
         fun Project.templateVersion(defaultValue: String = VERSION): String =
             propFromSysOrProject("templateVersion", defaultValue)
 
+        @Suppress("unused")
         @JvmStatic
         fun Project.profile(): String =
             propFromSysOrProject("profile", "dev")

@@ -36,6 +36,7 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.getValue
 
+@Suppress("unused")
 class KtlintPlugin : Plugin<Project> {
     override fun apply(target: Project) {
 
