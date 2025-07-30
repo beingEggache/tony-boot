@@ -91,7 +91,7 @@ fun login(vo: CaptchaVo) = CaptchaManager.verify(vo) {
 }
 ```
 ### 自定义验证码实现
-1. 实现 `CaptchaService` 接口：
+实现 `CaptchaService` 接口：
 ```kotlin
 class CustomCaptchaService : CaptchaService {
     override fun verify(vo: CaptchaVo): Boolean {
@@ -99,7 +99,7 @@ class CustomCaptchaService : CaptchaService {
     }
 }
 ```
-2. 注册为 Spring Bean：
+注册为 Spring Bean：
 ```kotlin
 @Bean
 fun customCaptchaService() = CustomCaptchaService()

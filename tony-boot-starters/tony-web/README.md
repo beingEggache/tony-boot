@@ -156,9 +156,6 @@ class DemoController {
 
 ### 枚举自动转换
 ```kotlin
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonValue
-
 enum class Status(@get:JsonValue override val value: String) : StringEnumValue {
     ENABLED("enabled"), DISABLED("disabled");
 

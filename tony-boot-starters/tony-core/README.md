@@ -207,9 +207,6 @@ data class CreateOrderRequest(
 
 **典型用法示例：**
 ```kotlin
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonValue
-
 enum class Gender(@get:JsonValue override val value: Int) : IntEnumValue {
     MALE(1), FEMALE(2);
 

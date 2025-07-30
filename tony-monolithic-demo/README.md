@@ -42,14 +42,14 @@ tony-monolithic-demo/
 
 ## 🛠️ 技术栈
 
-| 领域         | 技术选型                 | 版本             |
-|--------------|--------------------------|----------------|
-| 编程语言     | Kotlin                   | 2.2.0+        |
-| 构建工具     | Gradle                   | 8.14.1+        |
-| Web 框架     | Spring Boot              | 3.5.0+         |
-| 定时任务     | PowerJob                 | 5.1.1          |
-| 接口文档     | Knife4j                  | 4.6.0          |
-| 数据库       | MySQL / PostgreSQL       | 9.3.0 / 42.7.7 |
+| 领域     | 技术选型               | 版本             |
+|--------|--------------------|----------------|
+| 编程语言   | Kotlin             | 2.2.0+         |
+| 构建工具   | Gradle             | 8.14.1+        |
+| Web 框架 | Spring Boot        | 3.5.0+         |
+| 定时任务   | PowerJob           | 5.1.1          |
+| 接口文档   | Knife4j            | 4.6.0          |
+| 数据库    | MySQL / PostgreSQL | 9.3.0 / 42.7.7 |
 
 ---
 
@@ -97,13 +97,13 @@ spring:
 - 应用 `tony.gradle.plugin.docker` 插件（见 build.gradle.kts）
 - 配置 `gradle.properties` 或命令行参数（见下表）
 
-| 参数名           | 说明                   |
-|------------------|------------------------|
-| dockerRegistry   | 镜像仓库地址           |
-| dockerUserName   | 用户名                 |
-| dockerPassword   | 密码                   |
-| dockerNameSpace  | 命名空间               |
-| projectName      | 项目名（可选）         |
+| 参数名             | 说明      |
+|-----------------|---------|
+| dockerRegistry  | 镜像仓库地址  |
+| dockerUserName  | 用户名     |
+| dockerPassword  | 密码      |
+| dockerNameSpace | 命名空间    |
+| projectName     | 项目名（可选） |
 
 - 构建镜像示例：
 

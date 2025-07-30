@@ -321,7 +321,6 @@ public data object RedisManager {
      * @param keys must not be null.
      * @return null when used in pipeline / transaction.
      */
-    @Suppress("MemberVisibilityCanBePrivate")
     public fun keys(keys: Collection<String>): Collection<String> =
         keys.fold(HashSet()) { set, key ->
             set.addAll(redisTemplate.keys(key))

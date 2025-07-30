@@ -25,11 +25,6 @@
 ### 1. 直接加解密
 
 ```kotlin
-import tony.core.crypto.symmetric.SymmetricCryptos.encryptToString
-import tony.core.crypto.symmetric.SymmetricCryptos.decryptToString
-import tony.core.crypto.symmetric.enums.SymmetricCryptoAlgorithm
-import tony.codec.enums.Encoding
-
 val secret = "1234567890123456" // AES密钥需16/24/32字节，DES需8字节
 val plainText = "hello, world!"
 
@@ -51,10 +46,6 @@ val decrypted = encrypted.decryptToString(
 ### 2. 使用CryptoProvider
 
 ```kotlin
-import tony.core.crypto.CryptoProvider
-import tony.core.crypto.symmetric.enums.SymmetricCryptoAlgorithm
-import tony.codec.enums.Encoding
-
 val provider = object : CryptoProvider {
     override val algorithm = SymmetricCryptoAlgorithm.DES
     override val secret = "12345678" // DES密钥8字节
