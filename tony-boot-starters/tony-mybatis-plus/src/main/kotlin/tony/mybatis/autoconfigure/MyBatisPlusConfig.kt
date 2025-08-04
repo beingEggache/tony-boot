@@ -25,6 +25,7 @@
 package tony.mybatis.autoconfigure
 
 import org.springframework.boot.autoconfigure.AutoConfiguration
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.PropertySource
 import tony.core.misc.YamlPropertySourceFactory
@@ -36,6 +37,13 @@ import tony.mybatis.sqlinjector.TonySqlInjector
  * @date 2023/05/25 19:55
  */
 @PropertySource("classpath:mybatis-plus.config.yml", factory = YamlPropertySourceFactory::class)
+@EnableAutoConfiguration(
+    excludeName = [
+        "org.springframework.boot.autoconfigure.dao.PersistenceExceptionTranslationAutoConfiguration",
+        "org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration",
+        "org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration"
+    ]
+)
 @AutoConfiguration
 private class MybatisPlusAutoConfiguration {
     @Bean

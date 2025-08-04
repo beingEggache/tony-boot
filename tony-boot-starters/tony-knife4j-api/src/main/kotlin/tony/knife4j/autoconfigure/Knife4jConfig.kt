@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory
 import org.springdoc.core.models.GroupedOpenApi
 import org.springdoc.core.utils.SpringDocUtils
 import org.springframework.boot.autoconfigure.AutoConfiguration
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -49,6 +50,16 @@ import tony.knife4j.customizers.WrapResponseBodyOperationCustomizer
 @EnableKnife4j
 @ConditionalOnBooleanProperty(prefix = "knife4j", value = ["enabled"], matchIfMissing = true)
 @PropertySource("classpath:knife4j.config.yml", factory = YamlPropertySourceFactory::class)
+@EnableAutoConfiguration(
+    excludeName = [
+        "org.springdoc.core.configuration.SpringDocPageableConfiguration",
+        "org.springdoc.core.configuration.SpringDocDataRestConfiguration",
+        "org.springdoc.core.configuration.SpringDocFunctionCatalogConfiguration",
+        "org.springdoc.core.configuration.SpringDocGroovyConfiguration",
+        "org.springdoc.core.configuration.SpringDocHateoasConfiguration",
+        "org.springdoc.core.configuration.SpringDocSecurityConfiguration"
+    ]
+)
 @EnableConfigurationProperties(Knife4jExtensionProperties::class)
 @AutoConfiguration
 private class Knife4jExtensionAutoConfiguration(

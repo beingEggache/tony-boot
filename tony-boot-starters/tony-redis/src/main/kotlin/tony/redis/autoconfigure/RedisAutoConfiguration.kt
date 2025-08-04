@@ -27,9 +27,9 @@ package tony.redis.autoconfigure
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.AutoConfiguration
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -52,6 +52,8 @@ import tony.redis.serializer.SerializerMode
 import tony.redis.service.RedisService
 import tony.redis.service.impl.JacksonRedisService
 
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration as SpringRedisAutoConfiguration
+
 /**
  * RedisCacheConfig
  *
@@ -59,8 +61,15 @@ import tony.redis.service.impl.JacksonRedisService
  * @date 2023/05/25 19:31
  */
 @PropertySource("classpath:redis.config.yml", factory = YamlPropertySourceFactory::class)
+@EnableAutoConfiguration(
+    excludeName = [
+        "org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration",
+        "org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration",
+        "org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration"
+    ]
+)
 @EnableConfigurationProperties(RedisProperties::class)
-@AutoConfiguration(before = [RedisAutoConfiguration::class])
+@AutoConfiguration(before = [SpringRedisAutoConfiguration::class])
 private class RedisAutoConfiguration(
     private val redisProperties: RedisProperties,
 ) {

@@ -143,6 +143,9 @@ internal class WrapResponseBodyOperationCustomizer :
                     )
                 }
             }
+        if (components.schemas == null) {
+            components.schemas = mutableMapOf()
+        }
         val newSchema = generateSchema(parameterizedType, components) ?: return operation
         mediaType.schema =
             Schema<Any>().apply {

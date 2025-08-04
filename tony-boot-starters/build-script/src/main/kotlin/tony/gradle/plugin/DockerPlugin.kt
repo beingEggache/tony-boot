@@ -25,7 +25,6 @@
 package tony.gradle.plugin
 
 import com.palantir.gradle.docker.DockerExtension
-import tony.gradle.plugin.Build.Companion.propFromSysOrProject
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -34,7 +33,9 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.Exec
 import org.gradle.kotlin.dsl.getByType
 import org.slf4j.LoggerFactory
+import tony.gradle.plugin.Build.Companion.propFromSysOrProject
 
+@Suppress("unused")
 class DockerPlugin : Plugin<Project> {
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -42,7 +43,6 @@ class DockerPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.apply {
             plugin("com.palantir.docker")
-            plugin("com.palantir.docker-compose")
             plugin("org.springframework.boot")
         }
 

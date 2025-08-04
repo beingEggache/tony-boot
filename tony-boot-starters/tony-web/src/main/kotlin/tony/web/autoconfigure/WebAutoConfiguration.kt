@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.beans.BeanUtils
 import org.springframework.boot.autoconfigure.AutoConfiguration
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
@@ -87,6 +88,17 @@ import tony.web.log.TraceLogger
             .SERVLET
 )
 @PropertySource("classpath:web.config.yml", factory = YamlPropertySourceFactory::class)
+@EnableAutoConfiguration(
+    excludeName = [
+        "org.springframework.boot.autoconfigure.http.client.reactive.ClientHttpConnectorAutoConfiguration",
+        "org.springframework.boot.autoconfigure.reactor.ReactorAutoConfiguration",
+        "org.springframework.boot.autoconfigure.http.client.HttpClientAutoConfiguration",
+        "org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration",
+        "org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration",
+        "org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration",
+        "org.springframework.boot.autoconfigure.session.SessionAutoConfiguration"
+    ]
+)
 @EnableConfigurationProperties(value = [WebProperties::class, TraceLogProperties::class, WebCorsProperties::class])
 @AutoConfiguration
 private class WebAutoConfiguration(

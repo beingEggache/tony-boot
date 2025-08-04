@@ -26,6 +26,7 @@ package tony.web.auth.autoconfigure
 
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.AutoConfiguration
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -51,6 +52,15 @@ import tony.web.auth.interceptor.LoginCheckInterceptor
  * @date 2023/05/25 19:13
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@EnableAutoConfiguration(
+    excludeName = [
+        "org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration",
+        "org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration",
+        "org.springframework.boot.autoconfigure.security.servlet.Saml2RelyingPartyAutoConfiguration",
+        "org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration",
+        "org.springframework.cloud.commons.security.ResourceServerTokenRelayAutoConfiguration"
+    ]
+)
 @EnableConfigurationProperties(JwtProperties::class, WebAuthProperties::class)
 @AutoConfiguration
 private class WebAuthAutoConfiguration(

@@ -142,7 +142,7 @@ web:
 
 **包装行为**：
 - ✅ 普通对象、集合、数组类型
-- ✅ 数组、列表集合类型会被包装为 `ListResult`（如 `IntArray`、`List<User>` → `ListResult<Int>`、 `ListResult<User>`）
+- ✅ 数组、列表集合类型会被包装为 `Rows`（如 `IntArray`、`List<User>` → `Rows<Int>`、 `Rows<User>`）
 - ❌ 基本类型、字符串、数字、枚举、时间类型：直接返回，不包装
 
 ```kotlin

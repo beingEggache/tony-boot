@@ -23,16 +23,15 @@
  */
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import tony.gradle.plugin.Build.Companion.templateGroup
-import tony.gradle.plugin.Build.Companion.templatePrefix
-import tony.gradle.plugin.Build.Companion.templateVersion
-import org.cadixdev.gradle.licenser.LicenseExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
+import tony.gradle.plugin.Build.Companion.templateGroup
+import tony.gradle.plugin.Build.Companion.templatePrefix
+import tony.gradle.plugin.Build.Companion.templateVersion
 
 plugins {
     `version-catalog`
@@ -42,7 +41,6 @@ plugins {
     alias(tonyLibs.plugins.kotlinKapt) apply false
     alias(tonyLibs.plugins.dokka)
     alias(tonyLibs.plugins.gradleVersionsPlugin)
-    alias(tonyLibs.plugins.licenser) apply false
 }
 
 val dependenciesProjects = setOf(project("${templatePrefix()}-dependencies"))
@@ -59,22 +57,6 @@ configure(allprojects) {
         mavenLocal()
         maven(url = "https://maven.aliyun.com/repository/central")
         mavenCentral()
-    }
-
-    apply {
-        plugin(rootProject.tonyLibs.plugins.licenser.get().pluginId)
-    }
-
-    extensions.getByType<LicenseExtension>().apply {
-        this.setHeader(rootProject.file("LICENSE"))
-        include(
-            "**/*.java",
-            "**/*.kt",
-            "**/*.kts",
-            "**/*.xml",
-            "**/*.properties",
-            "**/*.toml",
-        )
     }
 }
 
