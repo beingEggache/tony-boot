@@ -61,7 +61,10 @@ fun main(args: Array<String>) {
 ### 3. 日志与异常处理
 
 - **`FeignLogInterceptor`**：详细记录 Feign 请求与响应的时间、头、体、状态码、耗时、远端IP等信息，日志内容结构化，便于排查和监控。支持配置日志体最大长度，防止日志过大。
-- **日志脱敏与自定义**：支持自定义 `FeignRequestLogger`，可实现日志脱敏、格式化、异步落盘等高级处理，保障敏感信息安全。
+- **日志脱敏功能**：
+  - **JSON 字段脱敏**：支持对 JSON 请求/响应体中的指定字段进行脱敏处理
+  - **请求头脱敏**：支持对敏感请求头（如 Authorization、Cookie 等）进行脱敏
+  - **响应头脱敏**：支持对敏感响应头进行脱敏处理
 - **日志分级与异步输出**：日志默认 `TRACE` 级别输出到 `request-logger`，支持异步写入，避免主流程阻塞。
 - **日志格式与 `traceId`**：日志包含 `traceId`，便于全链路追踪，格式与 `tony-web` 保持一致，便于统一分析。
 - **`DefaultErrorDecoder`**：`Feign` 调用异常时，自动抛出统一的 `ApiException`，便于全局异常捕获和处理。
@@ -110,19 +113,45 @@ spring:
 web:
   log:
     request:
-      enabled: true           # 是否记录 Feign 请求日志
-      requestBodyMaxSize: 50KB   # 请求体最大日志长度，超出仅显示 ContentType
-      responseBodyMaxSize: 50KB  # 响应体最大日志长度，超出仅显示 ContentType
+      enabled: true                    # 是否记录 Feign 请求日志
+      requestBodyMaxSize: 50KB        # 请求体最大日志长度，超出仅显示 ContentType
+      responseBodyMaxSize: 50KB       # 响应体最大日志长度，超出仅显示 ContentType
+      enableDesensitized: true        # 是否启用日志脱敏
+      desensitizedFields:             # 需要脱敏的 JSON 字段
+        - "password"
+        - "token"
+        - "secret"
+        - "authorization"
+        - "creditCard"
+        - "phone"
+        - "email"
+      desensitizedRequestHeaders:     # 需要脱敏的请求头
+        - "Authorization"
+        - "Cookie"
+        - "X-Auth-Token"
+        - "X-API-Key"
+      desensitizedResponseHeaders:    # 需要脱敏的响应头
+        - "Set-Cookie"
+        - "X-Auth-Token"
 ```
+
+#### 脱敏配置说明
+
+| 配置项                           | 说明          | 默认值   | 必填 |
+|-------------------------------|-------------|-------|----|
+| `enableDesensitized`          | 是否启用日志脱敏    | false | 否  |
+| `desensitizedFields`          | JSON 字段脱敏列表 | []    | 否  |
+| `desensitizedRequestHeaders`  | 请求头脱敏列表     | []    | 否  |
+| `desensitizedResponseHeaders` | 响应头脱敏列表     | []    | 否  |
 
 - 日志输出到 `request-logger`，可通过 `logback` 配置异步、分文件、分级输出。
 - 日志格式示例：
 
 ```text
-2025-06-16 15:20:04.406|应用名|F67D3255E9B94E99B9353A51D2BEEEF5|11|20000|OK|http|POST|http://localhost:10000/sys/employee/detail|/sys/employee/detail|abc=123|Origin:http://localhost:10000;;Cookie:...|{  "employeeId": "9253054075269"}|{"success":true,"code":20000,"message":"操作成功","data":{...}}|172.24.0.1|172.24.0.4
+2025-06-16 15:20:04.406|应用名|F67D3255E9B94E99B9353A51D2BEEEF5|11|20000|OK|http|POST|http://localhost:10000/sys/employee/detail|/sys/employee/detail|abc=123|Origin:http://localhost:10000;;Cookie:******|{  "employeeId": "9253054075269"}|{"success":true,"code":20000,"message":"操作成功","data":{...}}|172.24.0.1|172.24.0.4
 ```
 
-- 建议敏感信息通过自定义 `FeignRequestLogger` 实现脱敏。
+- 建议敏感信息通过配置脱敏字段实现自动脱敏。
 
 #### 日志字段说明
 

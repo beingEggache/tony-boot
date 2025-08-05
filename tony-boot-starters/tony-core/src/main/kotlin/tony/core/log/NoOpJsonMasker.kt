@@ -11,7 +11,7 @@ import java.io.OutputStream
  */
 public class NoOpJsonMasker : JsonMasker {
     override fun mask(input: ByteArray): ByteArray =
-        ByteArray(0)
+        input
 
     override fun mask(
         inputStream: InputStream,

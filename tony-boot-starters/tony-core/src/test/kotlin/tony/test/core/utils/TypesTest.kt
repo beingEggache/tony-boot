@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import tony.core.utils.isArrayLikeType
+import tony.core.utils.isArrayType
 import tony.core.utils.isBooleanType
 import tony.core.utils.isByteType
 import tony.core.utils.isDateTimeLikeType
@@ -45,9 +46,10 @@ import tony.core.utils.isNumberType
 import tony.core.utils.isNumberTypes
 import tony.core.utils.isObjLikeType
 import tony.core.utils.isShortType
+import tony.core.utils.isSimpleType
 import tony.core.utils.isStringLikeType
-import tony.core.utils.isTypeOrSubTypeOf
 import tony.core.utils.isTypesOrSubTypesOf
+import tony.core.utils.isVoidLikeType
 import tony.core.utils.rawClass
 import tony.core.utils.toCollectionJavaType
 import tony.core.utils.toJavaType
@@ -63,15 +65,14 @@ import java.util.LinkedList
 /**
  * 类型工具类单元测试
  * @author tangli
- *
- * @date 2025/06/27 17:00
+ * @date 2025/08/05 14:00
  */
 @DisplayName("Types测试")
 class TypesTest {
 
     // 测试用的泛型类
     abstract class TestGenericClass<T> {
-        fun getType(): Type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0]
+        public fun getType(): Type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0]
     }
 
     class StringGenericClass : TestGenericClass<String>()
@@ -81,7 +82,7 @@ class TypesTest {
     inner class TypeExtensionTest {
         @Test
         @DisplayName("Type.rawClass():Class类型")
-        fun testRawClassWithClass() {
+        public fun testRawClassWithClass() {
             val stringClass: Type = String::class.java
             val result = stringClass.rawClass()
             assertEquals(String::class.java, result)
@@ -89,7 +90,7 @@ class TypesTest {
 
         @Test
         @DisplayName("Type.rawClass():ParameterizedType类型")
-        fun testRawClassWithParameterizedType() {
+        public fun testRawClassWithParameterizedType() {
             val genericClass = StringGenericClass()
             val type = genericClass.getType()
             val result = type.rawClass()
@@ -98,7 +99,7 @@ class TypesTest {
 
         @Test
         @DisplayName("Type.toJavaType():转换JavaType")
-        fun testToJavaType() {
+        public fun testToJavaType() {
             val stringClass: Type = String::class.java
             val javaType = stringClass.toJavaType()
             assertNotNull(javaType)
@@ -107,69 +108,24 @@ class TypesTest {
 
         @Test
         @DisplayName("Type.toCollectionJavaType():集合类型转换")
-        fun testToCollectionJavaType() {
+        public fun testToCollectionJavaType() {
             val stringClass: Type = String::class.java
             val collectionType = stringClass.toCollectionJavaType(List::class.java)
             assertNotNull(collectionType)
             assertTrue(collectionType.isCollectionLikeType)
         }
-    }
-
-    @Nested
-    @DisplayName("Class扩展方法测试")
-    inner class ClassExtensionTest {
-        @Test
-        @DisplayName("Class.typeParamOfSuperClass():获取父类泛型参数")
-        fun testTypeParamOfSuperClass() {
-            val genericClass = StringGenericClass()
-            val type = genericClass.javaClass.typeParamOfSuperClass()
-            assertEquals(String::class.java, type)
-        }
 
         @Test
-        @DisplayName("Class.typeParamOfSuperClass():指定索引")
-        fun testTypeParamOfSuperClassWithIndex() {
-            val genericClass = StringGenericClass()
-            val type = genericClass.javaClass.typeParamOfSuperClass(0)
-            assertEquals(String::class.java, type)
-        }
-
-        @Test
-        @DisplayName("Class.isTypeOrSubTypeOf():直接类型")
-        fun testIsTypeOrSubTypeOfDirect() {
-            assertTrue(String::class.java.isTypeOrSubTypeOf(String::class.java))
-        }
-
-        @Test
-        @DisplayName("Class.isTypeOrSubTypeOf():继承关系")
-        fun testIsTypeOrSubTypeOfInheritance() {
-            assertTrue(ArrayList::class.java.isTypeOrSubTypeOf(List::class.java))
-            assertTrue(LinkedList::class.java.isTypeOrSubTypeOf(Collection::class.java))
-        }
-
-        @Test
-        @DisplayName("Class.isTypeOrSubTypeOf():无关系")
-        fun testIsTypeOrSubTypeOfNoRelation() {
-            assertFalse(String::class.java.isTypeOrSubTypeOf(Integer::class.java))
-        }
-
-        @Test
-        @DisplayName("Class.isTypeOrSubTypeOf():null类型")
-        fun testIsTypeOrSubTypeOfNull() {
-            assertFalse(String::class.java.isTypeOrSubTypeOf(null))
-        }
-
-        @Test
-        @DisplayName("Class.isTypesOrSubTypesOf():变参形式")
-        fun testIsTypesOrSubTypesOfVararg() {
+        @DisplayName("Type.isTypesOrSubTypesOf():变参形式")
+        public fun testIsTypesOrSubTypesOfVararg() {
             val targetType = ArrayList::class.java
             val result = targetType.isTypesOrSubTypesOf(List::class.java, Collection::class.java, Object::class.java)
             assertTrue(result)
         }
 
         @Test
-        @DisplayName("Class.isTypesOrSubTypesOf():集合形式")
-        fun testIsTypesOrSubTypesOfCollection() {
+        @DisplayName("Type.isTypesOrSubTypesOf():集合形式")
+        public fun testIsTypesOrSubTypesOfCollection() {
             val targetType = ArrayList::class.java
             val types = listOf(List::class.java, Collection::class.java)
             val result = targetType.isTypesOrSubTypesOf(types)
@@ -177,8 +133,28 @@ class TypesTest {
         }
 
         @Test
-        @DisplayName("Class.isNumberTypes():数字类型")
-        fun testIsNumberTypes() {
+        @DisplayName("Type.isTypesOrSubTypesOf():ParameterizedType类型")
+        public fun testIsTypesOrSubTypesOfParameterizedType() {
+            val genericClass = StringGenericClass()
+            val type = genericClass.getType()
+            val result = type.isTypesOrSubTypesOf(String::class.java, CharSequence::class.java)
+            assertTrue(result)
+        }
+
+        @Test
+        @DisplayName("Type.isTypesOrSubTypesOf():不支持的类型")
+        public fun testIsTypesOrSubTypesOfUnsupportedType() {
+            // 创建一个不支持的类型（这里使用一个模拟的Type实现）
+            val unsupportedType = object : Type {
+                override fun getTypeName(): String = "UnsupportedType"
+            }
+            val result = unsupportedType.isTypesOrSubTypesOf(String::class.java)
+            assertFalse(result)
+        }
+
+        @Test
+        @DisplayName("Type.isNumberTypes():数字类型")
+        public fun testIsNumberTypes() {
             val numberTypes = listOf(
                 Long::class.java,
                 Int::class.java,
@@ -195,8 +171,8 @@ class TypesTest {
         }
 
         @Test
-        @DisplayName("Class.isNumberTypes():非数字类型")
-        fun testIsNumberTypesNonNumber() {
+        @DisplayName("Type.isNumberTypes():非数字类型")
+        public fun testIsNumberTypesNonNumber() {
             val nonNumberTypes = listOf(
                 String::class.java,
                 Boolean::class.java,
@@ -209,36 +185,36 @@ class TypesTest {
         }
 
         @Test
-        @DisplayName("Class.isStringLikeType():字符串类型")
-        fun testIsStringLikeType() {
-            val stringTypes = listOf(
-                String::class.java,
-                CharSequence::class.java,
-                StringBuilder::class.java,
-                StringBuffer::class.java
-            )
-            stringTypes.forEach { type ->
-                assertTrue(type.isStringLikeType())
-            }
+        @DisplayName("Type.isBooleanType():布尔类型")
+        public fun testIsBooleanType() {
+            assertTrue(Boolean::class.java.isBooleanType())
+            assertTrue(Boolean::class.javaPrimitiveType!!.isBooleanType())
         }
 
         @Test
-        @DisplayName("Class.isStringLikeType():非字符串类型")
-        fun testIsStringLikeTypeNonString() {
-            val nonStringTypes = listOf(
-                Int::class.java,
-                Boolean::class.java,
-                Date::class.java,
-                List::class.java
-            )
-            nonStringTypes.forEach { type ->
-                assertFalse(type.isStringLikeType())
-            }
+        @DisplayName("Type.isBooleanType():非布尔类型")
+        public fun testIsBooleanTypeNonBoolean() {
+            assertFalse(String::class.java.isBooleanType())
+            assertFalse(Int::class.java.isBooleanType())
         }
 
         @Test
-        @DisplayName("Class.isArrayLikeType():数组类型")
-        fun testIsArrayLikeType() {
+        @DisplayName("Type.isArrayType():数组类型")
+        public fun testIsArrayType() {
+            assertTrue(Array<String>::class.java.isArrayType())
+            assertTrue(IntArray::class.java.isArrayType())
+        }
+
+        @Test
+        @DisplayName("Type.isArrayType():非数组类型")
+        public fun testIsArrayTypeNonArray() {
+            assertFalse(String::class.java.isArrayType())
+            assertFalse(List::class.java.isArrayType())
+        }
+
+        @Test
+        @DisplayName("Type.isArrayLikeType():数组类型")
+        public fun testIsArrayLikeType() {
             val arrayTypes = listOf(
                 Array<String>::class.java,
                 List::class.java,
@@ -253,8 +229,8 @@ class TypesTest {
         }
 
         @Test
-        @DisplayName("Class.isArrayLikeType():非数组类型")
-        fun testIsArrayLikeTypeNonArray() {
+        @DisplayName("Type.isArrayLikeType():非数组类型")
+        public fun testIsArrayLikeTypeNonArray() {
             val nonArrayTypes = listOf(
                 String::class.java,
                 Int::class.java,
@@ -265,6 +241,106 @@ class TypesTest {
                 assertFalse(type.isArrayLikeType())
             }
         }
+
+        @Test
+        @DisplayName("Type.isStringLikeType():字符串类型")
+        public fun testIsStringLikeType() {
+            val stringTypes = listOf(
+                String::class.java,
+                CharSequence::class.java,
+                StringBuilder::class.java,
+                StringBuffer::class.java
+            )
+            stringTypes.forEach { type ->
+                assertTrue(type.isStringLikeType())
+            }
+        }
+
+        @Test
+        @DisplayName("Type.isStringLikeType():非字符串类型")
+        public fun testIsStringLikeTypeNonString() {
+            val nonStringTypes = listOf(
+                Int::class.java,
+                Boolean::class.java,
+                Date::class.java,
+                List::class.java
+            )
+            nonStringTypes.forEach { type ->
+                assertFalse(type.isStringLikeType())
+            }
+        }
+
+        @Test
+        @DisplayName("Type.isDateTimeLikeType():日期时间类型")
+        public fun testIsDateTimeLikeType() {
+            assertTrue(Date::class.java.isDateTimeLikeType())
+            assertTrue(LocalDateTime::class.java.isDateTimeLikeType())
+        }
+
+        @Test
+        @DisplayName("Type.isDateTimeLikeType():非日期时间类型")
+        public fun testIsDateTimeLikeTypeNonDateTime() {
+            assertFalse(String::class.java.isDateTimeLikeType())
+            assertFalse(Int::class.java.isDateTimeLikeType())
+        }
+
+        @Test
+        @DisplayName("Type.isSimpleType():简单类型")
+        public fun testIsSimpleType() {
+            // 字符串类型
+            assertTrue(String::class.java.isSimpleType())
+            // 数字类型
+            assertTrue(Int::class.java.isSimpleType())
+            assertTrue(Long::class.java.isSimpleType())
+            // 布尔类型
+            assertTrue(Boolean::class.java.isSimpleType())
+            // 日期时间类型
+            assertTrue(Date::class.java.isSimpleType())
+            // 枚举类型
+            assertTrue(TestEnum::class.java.isSimpleType())
+        }
+
+        @Test
+        @DisplayName("Type.isSimpleType():非简单类型")
+        public fun testIsSimpleTypeNonSimple() {
+            assertFalse(List::class.java.isSimpleType())
+            assertFalse(Map::class.java.isSimpleType())
+            assertFalse(TestUser::class.java.isSimpleType())
+        }
+
+        @Test
+        @DisplayName("Type.isVoidLikeType():Void类型")
+        public fun testIsVoidLikeType() {
+            assertTrue(Void.TYPE.isVoidLikeType())
+            assertTrue(Unit::class.java.isVoidLikeType())
+        }
+
+        @Test
+        @DisplayName("Type.isVoidLikeType():非Void类型")
+        public fun testIsVoidLikeTypeNonVoid() {
+            assertFalse(String::class.java.isVoidLikeType())
+            assertFalse(Int::class.java.isVoidLikeType())
+        }
+    }
+
+    @Nested
+    @DisplayName("Class扩展方法测试")
+    inner class ClassExtensionTest {
+        @Test
+        @DisplayName("Class.typeParamOfSuperClass():获取父类泛型参数")
+        public fun testTypeParamOfSuperClass() {
+            val genericClass = StringGenericClass()
+            val type = genericClass.javaClass.typeParamOfSuperClass()
+            assertEquals(String::class.java, type)
+        }
+
+        @Test
+        @DisplayName("Class.typeParamOfSuperClass():指定索引")
+        public fun testTypeParamOfSuperClassWithIndex() {
+            val genericClass = StringGenericClass()
+            val type = genericClass.javaClass.typeParamOfSuperClass(0)
+            assertEquals(String::class.java, type)
+        }
     }
 
     @Nested
@@ -272,7 +348,7 @@ class TypesTest {
     inner class TypeReferenceExtensionTest {
         @Test
         @DisplayName("TypeReference.rawClass():获取原始类")
-        fun testTypeReferenceRawClass() {
+        public fun testTypeReferenceRawClass() {
             val typeRef = object : TypeReference<String>() {}
             val result = typeRef.rawClass()
             assertEquals(String::class.java, result)
@@ -280,7 +356,7 @@ class TypesTest {
 
         @Test
         @DisplayName("TypeReference.isStringLikeType():字符串类型")
-        fun testTypeReferenceIsStringLikeType() {
+        public fun testTypeReferenceIsStringLikeType() {
             val stringTypeRef = object : TypeReference<String>() {}
             assertTrue(stringTypeRef.isStringLikeType())
 
@@ -290,14 +366,14 @@ class TypesTest {
 
         @Test
         @DisplayName("TypeReference.isStringLikeType():非字符串类型")
-        fun testTypeReferenceIsStringLikeTypeNonString() {
+        public fun testTypeReferenceIsStringLikeTypeNonString() {
             val intTypeRef = object : TypeReference<Int>() {}
             assertFalse(intTypeRef.isStringLikeType())
         }
 
         @Test
         @DisplayName("TypeReference.isNumberTypes():数字类型")
-        fun testTypeReferenceIsNumberTypes() {
+        public fun testTypeReferenceIsNumberTypes() {
             val intTypeRef = object : TypeReference<Int>() {}
             assertTrue(intTypeRef.isNumberTypes())
 
@@ -310,7 +386,7 @@ class TypesTest {
 
         @Test
         @DisplayName("TypeReference.isNumberTypes():非数字类型")
-        fun testTypeReferenceIsNumberTypesNonNumber() {
+        public fun testTypeReferenceIsNumberTypesNonNumber() {
             val stringTypeRef = object : TypeReference<String>() {}
             assertFalse(stringTypeRef.isNumberTypes())
         }
@@ -321,7 +397,7 @@ class TypesTest {
     inner class JavaTypeExtensionTest {
         @Test
         @DisplayName("JavaType.rawClass():获取原始类")
-        fun testJavaTypeRawClass() {
+        public fun testJavaTypeRawClass() {
             val javaType = TypeFactory.defaultInstance().constructType(String::class.java)
             val result = javaType.rawClass<String>()
             assertEquals(String::class.java, result)
@@ -329,7 +405,7 @@ class TypesTest {
 
         @Test
         @DisplayName("JavaType.toCollectionJavaType():转换为集合类型")
-        fun testJavaTypeToCollectionJavaType() {
+        public fun testJavaTypeToCollectionJavaType() {
             val javaType = TypeFactory.defaultInstance().constructType(String::class.java)
             val collectionType = javaType.toCollectionJavaType(List::class.java)
             assertNotNull(collectionType)
@@ -337,56 +413,8 @@ class TypesTest {
         }
 
         @Test
-        @DisplayName("JavaType.isDateTimeLikeType():日期时间类型")
-        fun testJavaTypeIsDateTimeLikeType() {
-            val dateType = TypeFactory.defaultInstance().constructType(Date::class.java)
-            assertTrue(dateType.isDateTimeLikeType())
-
-            val localDateTimeType = TypeFactory.defaultInstance().constructType(LocalDateTime::class.java)
-            assertTrue(localDateTimeType.isDateTimeLikeType())
-        }
-
-        @Test
-        @DisplayName("JavaType.isDateTimeLikeType():非日期时间类型")
-        fun testJavaTypeIsDateTimeLikeTypeNonDateTime() {
-            val stringType = TypeFactory.defaultInstance().constructType(String::class.java)
-            assertFalse(stringType.isDateTimeLikeType())
-        }
-
-        @Test
-        @DisplayName("JavaType.isArrayLikeType():数组类型")
-        fun testJavaTypeIsArrayLikeType() {
-            val arrayType = TypeFactory.defaultInstance().constructArrayType(String::class.java)
-            assertTrue(arrayType.isArrayLikeType())
-
-            val collectionType = TypeFactory.defaultInstance().constructCollectionType(List::class.java, String::class.java)
-            assertTrue(collectionType.isArrayLikeType())
-        }
-
-        @Test
-        @DisplayName("JavaType.isArrayLikeType():非数组类型")
-        fun testJavaTypeIsArrayLikeTypeNonArray() {
-            val stringType = TypeFactory.defaultInstance().constructType(String::class.java)
-            assertFalse(stringType.isArrayLikeType())
-        }
-
-        @Test
-        @DisplayName("JavaType.isBooleanType():布尔类型")
-        fun testJavaTypeIsBooleanType() {
-            val booleanType = TypeFactory.defaultInstance().constructType(Boolean::class.java)
-            assertTrue(booleanType.isBooleanType())
-        }
-
-        @Test
-        @DisplayName("JavaType.isBooleanType():非布尔类型")
-        fun testJavaTypeIsBooleanTypeNonBoolean() {
-            val stringType = TypeFactory.defaultInstance().constructType(String::class.java)
-            assertFalse(stringType.isBooleanType())
-        }
-
-        @Test
         @DisplayName("JavaType.isNumberType():数字类型")
-        fun testJavaTypeIsNumberType() {
+        public fun testJavaTypeIsNumberType() {
             val intType = TypeFactory.defaultInstance().constructType(Int::class.java)
             assertTrue(intType.isNumberType())
 
@@ -402,76 +430,87 @@ class TypesTest {
 
         @Test
         @DisplayName("JavaType.isNumberType():非数字类型")
-        fun testJavaTypeIsNumberTypeNonNumber() {
+        public fun testJavaTypeIsNumberTypeNonNumber() {
             val stringType = TypeFactory.defaultInstance().constructType(String::class.java)
             assertFalse(stringType.isNumberType())
         }
 
         @Test
+        @DisplayName("JavaType.isBooleanType():布尔类型")
+        public fun testJavaTypeIsBooleanType() {
+            val booleanType = TypeFactory.defaultInstance().constructType(Boolean::class.java)
+            assertTrue(booleanType.isBooleanType())
+        }
+
+        @Test
+        @DisplayName("JavaType.isBooleanType():非布尔类型")
+        public fun testJavaTypeIsBooleanTypeNonBoolean() {
+            val stringType = TypeFactory.defaultInstance().constructType(String::class.java)
+            assertFalse(stringType.isBooleanType())
+        }
+
+        @Test
         @DisplayName("JavaType.isByteType():字节类型")
-        fun testJavaTypeIsByteType() {
+        public fun testJavaTypeIsByteType() {
             val byteType = TypeFactory.defaultInstance().constructType(Byte::class.java)
             assertTrue(byteType.isByteType())
         }
 
         @Test
         @DisplayName("JavaType.isShortType():短整型")
-        fun testJavaTypeIsShortType() {
+        public fun testJavaTypeIsShortType() {
             val shortType = TypeFactory.defaultInstance().constructType(Short::class.java)
             assertTrue(shortType.isShortType())
         }
 
         @Test
         @DisplayName("JavaType.isIntType():整型")
-        fun testJavaTypeIsIntType() {
+        public fun testJavaTypeIsIntType() {
             val intType = TypeFactory.defaultInstance().constructType(Int::class.java)
             assertTrue(intType.isIntType())
         }
 
         @Test
         @DisplayName("JavaType.isLongType():长整型")
-        fun testJavaTypeIsLongType() {
+        public fun testJavaTypeIsLongType() {
             val longType = TypeFactory.defaultInstance().constructType(Long::class.java)
             assertTrue(longType.isLongType())
         }
 
         @Test
         @DisplayName("JavaType.isFloatType():浮点型")
-        fun testJavaTypeIsFloatType() {
+        public fun testJavaTypeIsFloatType() {
             val floatType = TypeFactory.defaultInstance().constructType(Float::class.java)
             assertTrue(floatType.isFloatType())
         }
 
         @Test
         @DisplayName("JavaType.isDoubleType():双精度浮点型")
-        fun testJavaTypeIsDoubleType() {
+        public fun testJavaTypeIsDoubleType() {
             val doubleType = TypeFactory.defaultInstance().constructType(Double::class.java)
             assertTrue(doubleType.isDoubleType())
         }
 
         @Test
-        @DisplayName("JavaType.isObjLikeType():对象类型")
-        fun testJavaTypeIsObjLikeType() {
-            val mapType = TypeFactory.defaultInstance().constructMapType(Map::class.java, String::class.java, String::class.java)
-            assertTrue(mapType.isObjLikeType())
+        @DisplayName("JavaType.isDateTimeLikeType():日期时间类型")
+        public fun testJavaTypeIsDateTimeLikeType() {
+            val dateType = TypeFactory.defaultInstance().constructType(Date::class.java)
+            assertTrue(dateType.isDateTimeLikeType())
 
-            val customType = TypeFactory.defaultInstance().constructType(TestUser::class.java)
-            assertTrue(customType.isObjLikeType())
+            val localDateTimeType = TypeFactory.defaultInstance().constructType(LocalDateTime::class.java)
+            assertTrue(localDateTimeType.isDateTimeLikeType())
         }
 
         @Test
-        @DisplayName("JavaType.isObjLikeType():非对象类型")
-        fun testJavaTypeIsObjLikeTypeNonObject() {
+        @DisplayName("JavaType.isDateTimeLikeType():非日期时间类型")
+        public fun testJavaTypeIsDateTimeLikeTypeNonDateTime() {
             val stringType = TypeFactory.defaultInstance().constructType(String::class.java)
-            assertFalse(stringType.isObjLikeType())
-
-            val intType = TypeFactory.defaultInstance().constructType(Int::class.java)
-            assertFalse(intType.isObjLikeType())
+            assertFalse(stringType.isDateTimeLikeType())
         }
 
         @Test
         @DisplayName("JavaType.isStringLikeType():字符串类型")
-        fun testJavaTypeIsStringLikeType() {
+        public fun testJavaTypeIsStringLikeType() {
             val stringType = TypeFactory.defaultInstance().constructType(String::class.java)
             assertTrue(stringType.isStringLikeType())
 
@@ -481,12 +520,54 @@ class TypesTest {
 
         @Test
         @DisplayName("JavaType.isStringLikeType():非字符串类型")
-        fun testJavaTypeIsStringLikeTypeNonString() {
+        public fun testJavaTypeIsStringLikeTypeNonString() {
             val intType = TypeFactory.defaultInstance().constructType(Int::class.java)
             assertFalse(intType.isStringLikeType())
+        }
+
+        @Test
+        @DisplayName("JavaType.isArrayLikeType():数组类型")
+        public fun testJavaTypeIsArrayLikeType() {
+            val arrayType = TypeFactory.defaultInstance().constructArrayType(String::class.java)
+            assertTrue(arrayType.isArrayLikeType())
+
+            val collectionType = TypeFactory.defaultInstance().constructCollectionType(List::class.java, String::class.java)
+            assertTrue(collectionType.isArrayLikeType())
+        }
+
+        @Test
+        @DisplayName("JavaType.isArrayLikeType():非数组类型")
+        public fun testJavaTypeIsArrayLikeTypeNonArray() {
+            val stringType = TypeFactory.defaultInstance().constructType(String::class.java)
+            assertFalse(stringType.isArrayLikeType())
+        }
+
+        @Test
+        @DisplayName("JavaType.isObjLikeType():对象类型")
+        public fun testJavaTypeIsObjLikeType() {
+            val mapType = TypeFactory.defaultInstance().constructMapType(Map::class.java, String::class.java, String::class.java)
+            assertTrue(mapType.isObjLikeType())
+
+            val customType = TypeFactory.defaultInstance().constructType(TestUser::class.java)
+            assertTrue(customType.isObjLikeType())
+        }
+
+        @Test
+        @DisplayName("JavaType.isObjLikeType():非对象类型")
+        public fun testJavaTypeIsObjLikeTypeNonObject() {
+            val stringType = TypeFactory.defaultInstance().constructType(String::class.java)
+            assertFalse(stringType.isObjLikeType())
+
+            val intType = TypeFactory.defaultInstance().constructType(Int::class.java)
+            assertFalse(intType.isObjLikeType())
         }
     }
 
     // 测试用的数据类
-    data class TestUser(val id: Int, val name: String)
+    public data class TestUser(public val id: Int, public val name: String)
+
+    // 测试用的枚举
+    public enum class TestEnum {
+        VALUE1, VALUE2
+    }
 }

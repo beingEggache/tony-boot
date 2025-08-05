@@ -31,7 +31,6 @@ package tony.feign.log
  * @date 2023/05/25 19:48
  */
 import dev.blaauwendraad.masker.json.JsonMasker
-import dev.blaauwendraad.masker.json.config.JsonMaskingConfig
 import jakarta.annotation.Priority
 import java.net.URL
 import java.time.LocalDateTime
@@ -42,13 +41,11 @@ import okhttp3.Response
 import org.slf4j.Logger
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.util.unit.DataSize
 import tony.core.TRACE_ID_HEADER_NAME
-import tony.core.log.NoOpJsonMasker
+import tony.core.log.DesensitizedLogger
 import tony.core.utils.getLogger
 import tony.core.utils.ifNullOrBlank
 import tony.core.utils.mdcPutOrGetDefault
-import tony.core.utils.removeLineBreak
 import tony.core.utils.toInstant
 import tony.feign.byteArray
 import tony.feign.isTextMediaTypes
@@ -119,21 +116,11 @@ public open class DefaultFeignRequestLogger(
     override val desensitizedFields: Set<String>,
     override val desensitizedRequestHeaders: Set<String>,
     override val desensitizedResponseHeaders: Set<String>,
-) : FeignRequestLogger {
-    protected val logger: Logger =
-        getLogger("request-logger")
+) : FeignRequestLogger,
+    DesensitizedLogger {
+    protected val logger: Logger = getLogger("request-logger")
 
-    protected val jsonMasker: JsonMasker =
-        if (enableDesensitized && desensitizedFields.isNotEmpty()) {
-            JsonMasker.getMasker(
-                JsonMaskingConfig
-                    .builder()
-                    .maskKeys(desensitizedFields)
-                    .build()
-            )
-        } else {
-            NoOpJsonMasker()
-        }
+    override val jsonMasker: JsonMasker = jsonMasker()
 
     override fun requestLog(
         connection: Connection?,
@@ -158,66 +145,49 @@ public open class DefaultFeignRequestLogger(
                 .query
                 .ifNullOrBlank("[null]")
         val requestHeaders =
-            request
-                .headers
-                .names()
-                .sortedBy { it }
-                .associateWith {
-                    request.header(it)
-                }.entries
-                .joinToString(";;") {
-                    val headerValue = it.value
-                    val value =
-                        if (enableDesensitized && desensitizedRequestHeaders.contains(it.key)) {
-                            headerValue?.replaceRange(0 until headerValue.length, "******")
-                        } else {
-                            headerValue
-                        }
-                    "${it.key}:$value"
-                }
+            desensitizedHeaders(
+                request
+                    .headers
+                    .names()
+                    .sortedBy { it }
+                    .associateWith {
+                        request.header(it)
+                    }.entries
+            )
         val responseHeaders =
-            response
-                .headers
-                .names()
-                .sortedBy { it }
-                .associateWith {
-                    response.header(it)
-                }.entries
-                .joinToString(";;") {
-                    val headerValue = it.value
-                    val value =
-                        if (enableDesensitized && desensitizedResponseHeaders.contains(it.key)) {
-                            headerValue?.replaceRange(0 until headerValue.length, "******")
-                        } else {
-                            headerValue
-                        }
-                    "${it.key}:$value"
-                }
+            desensitizedHeaders(
+                response
+                    .headers
+                    .names()
+                    .sortedBy { it }
+                    .associateWith {
+                        request.header(it)
+                    }.entries
+            )
+        val requestContentType = request.body?.contentType().toString()
+        val requestMediaType = parseMediaType(requestContentType)
         val requestBody =
-            request.body?.run {
-                body(
-                    byteArray(),
-                    contentType().toString(),
-                    requestBodyMaxSize
-                )
-            }
+            desensitizeBody(
+                request.body?.byteArray(),
+                requestContentType,
+                requestBodyMaxSize,
+                isTextMediaTypes(requestMediaType),
+                MediaType.APPLICATION_JSON.includes(requestMediaType)
+            )
 
+        val responseContentType = response.body.contentType().toString()
+        val responseMediaType = parseMediaType(responseContentType)
         val responseBody =
-            response
-                .peekBody(
-                    (
-                        response
-                            .body
-                            .contentLength()
-                    ).coerceAtLeast(0)
-                ).run {
-                    body(
-                        bytes(),
-                        contentType().toString(),
-                        responseBodyMaxSize
-                    )
-                }
-
+            desensitizeBody(
+                response
+                    .peekBody(
+                        (response.body.contentLength()).coerceAtLeast(0)
+                    ).bytes(),
+                responseContentType,
+                responseBodyMaxSize,
+                isTextMediaTypes(responseMediaType),
+                MediaType.APPLICATION_JSON.includes(responseMediaType)
+            )
         val remoteIp =
             connection
                 ?.socket()
@@ -242,35 +212,6 @@ public open class DefaultFeignRequestLogger(
             }
 
         logger.trace(logMessage)
-    }
-
-    private fun body(
-        contentByteArray: ByteArray,
-        contentType: String,
-        bodyMaxSize: Long,
-    ): String {
-        val mediaType = parseMediaType(contentType)
-        return if (!isTextMediaTypes(mediaType)) {
-            "[$contentType]"
-        } else {
-            contentByteArray.let { bytes ->
-                val size = bytes.size.toLong()
-                when {
-                    size in 1..bodyMaxSize &&
-                        enableDesensitized &&
-                        desensitizedFields.isNotEmpty() &&
-                        MediaType.APPLICATION_JSON.includes(
-                            mediaType
-                        ) -> String(jsonMasker.mask(bytes)).removeLineBreak()
-
-                    size in 1..bodyMaxSize -> String(bytes).removeLineBreak()
-
-                    size >= bodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
-
-                    else -> "[null]"
-                }
-            }
-        }
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -307,33 +248,4 @@ public interface FeignRequestLogger {
         requestBodyMaxSize: Long,
         responseBodyMaxSize: Long,
     )
-
-    /**
-     * 是否启用脱敏
-     */
-    public val enableDesensitized: Boolean
-
-    /**
-     * 获取脱敏字段
-     * @return [Set]<[String]>
-     * @author tangli
-     * @date 2025/08/05 10:42
-     */
-    public val desensitizedFields: Set<String>
-
-    /**
-     * 获取脱敏请求头
-     * @return [Set]<[String]>
-     * @author tangli
-     * @date 2025/08/05 10:42
-     */
-    public val desensitizedRequestHeaders: Set<String>
-
-    /**
-     * 获取脱敏响应标头
-     * @return [Set]<[String]>
-     * @author tangli
-     * @date 2025/08/05 10:42
-     */
-    public val desensitizedResponseHeaders: Set<String>
 }

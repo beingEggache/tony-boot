@@ -7,3 +7,27 @@ spring:
     banner-mode: off
 jwt:
   secret: "saoidadsio3jsdfn12323"
+web:
+  log:
+    trace:
+      enable-desensitized: on
+      desensitized-fields:
+        - pwd
+        - value
+      desensitized-request-headers:
+        - X-Access-Token
+        - X-B3-Trace-Id
+      desensitized-response-headers:
+        - X-Access-Token
+        - X-B3-Trace-Id
+    request:
+      enable-desensitized: on
+      desensitized-fields:
+        - pwd
+        - value
+      desensitized-request-headers:
+        - X-Access-Token
+        - X-B3-Trace-Id
+      desensitized-response-headers:
+        - X-Access-Token
+        - X-B3-Trace-Id

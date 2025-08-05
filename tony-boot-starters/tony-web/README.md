@@ -63,6 +63,10 @@ fun main(args: Array<String>) {
 ### 4. 结构化日志与全链路追踪
 - **`TraceLogFilter`**：自动生成 `traceId`，注入日志上下文，实现全链路追踪。
 - **`TraceLogger`**：结构化日志输出，支持分级、异步、分文件存储。
+- **日志脱敏功能**：
+  - **JSON 字段脱敏**：支持对 JSON 请求/响应体中的指定字段进行脱敏处理
+  - **请求头脱敏**：支持对敏感请求头（如 Authorization、Cookie 等）进行脱敏
+  - **响应头脱敏**：支持对敏感响应头进行脱敏处理
 - **日志格式标准化**：字段丰富，便于自动化分析与监控。
 - **请求/响应体大小限制**：防止日志过大，支持最大长度配置。
 
@@ -130,11 +134,37 @@ web:
 web:
   log:
     trace:
-      enabled: true  # 是否记录 trace 日志
-      excludePatterns: []  # trace 日志排除 URL
-      requestBodyMaxSize: 50KB  # trace 日志请求体最大长度
-      responseBodyMaxSize: 50KB  # trace 日志响应体最大长度
+      enabled: true                    # 是否记录 trace 日志
+      excludePatterns: []              # trace 日志排除 URL
+      requestBodyMaxSize: 50KB         # trace 日志请求体最大长度
+      responseBodyMaxSize: 50KB        # trace 日志响应体最大长度
+      enableDesensitized: true         # 是否启用日志脱敏
+      desensitizedFields:              # 需要脱敏的 JSON 字段
+        - "password"
+        - "token"
+        - "secret"
+        - "authorization"
+        - "creditCard"
+        - "phone"
+        - "email"
+      desensitizedRequestHeaders:      # 需要脱敏的请求头
+        - "Authorization"
+        - "Cookie"
+        - "X-Auth-Token"
+        - "X-API-Key"
+      desensitizedResponseHeaders:     # 需要脱敏的响应头
+        - "Set-Cookie"
+        - "X-Auth-Token"
 ```
+
+#### 脱敏配置说明
+
+| 配置项                           | 说明          | 默认值   | 必填 |
+|-------------------------------|-------------|-------|----|
+| `enableDesensitized`          | 是否启用日志脱敏    | false | 否  |
+| `desensitizedFields`          | JSON 字段脱敏列表 | []    | 否  |
+| `desensitizedRequestHeaders`  | 请求头脱敏列表     | []    | 否  |
+| `desensitizedResponseHeaders` | 响应头脱敏列表     | []    | 否  |
 
 ## 使用示例
 
@@ -172,5 +202,5 @@ enum class Status(@get:JsonValue override val value: String) : StringEnumValue {
 - 追求高规范、易维护、易扩展的 Spring Boot Web 应用
 
 ## 注意事项
-1. **日志安全**：敏感信息建议脱敏处理，避免泄露。
+1. **日志安全**：敏感信息建议通过配置脱敏字段实现自动脱敏，避免泄露。
 2. **枚举转换**：枚举需实现 Creator 并加 `@JsonCreator` 注解。
