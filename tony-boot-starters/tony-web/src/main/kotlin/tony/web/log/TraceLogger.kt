@@ -30,12 +30,16 @@ package tony.web.log
  * @author tangli
  * @date 2023/05/25 19:29
  */
+import dev.blaauwendraad.masker.json.JsonMasker
+import dev.blaauwendraad.masker.json.config.JsonMaskingConfig
 import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.Logger
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.util.unit.DataSize
 import org.springframework.web.util.ContentCachingResponseWrapper
 import tony.core.ApiProperty
+import tony.core.log.NoOpJsonMasker
 import tony.core.utils.getFromRootAsString
 import tony.core.utils.getLogger
 import tony.core.utils.removeLineBreak
@@ -58,7 +62,7 @@ import tony.web.utils.status3xxRedirection
  * @author tangli
  * @date 2023/05/25 19:29
  */
-public fun interface TraceLogger {
+public interface TraceLogger {
     /**
      * trace跟踪日志
      * @param [request] 请求
@@ -76,6 +80,35 @@ public fun interface TraceLogger {
         requestBodyMaxSize: Long,
         responseBodyMaxSize: Long,
     )
+
+    /**
+     * 是否启用脱敏
+     */
+    public val enableDesensitized: Boolean
+
+    /**
+     * 获取脱敏字段
+     * @return [Set]<[String]>
+     * @author tangli
+     * @date 2025/08/05 10:42
+     */
+    public val desensitizedFields: Set<String>
+
+    /**
+     * 获取脱敏请求头
+     * @return [Set]<[String]>
+     * @author tangli
+     * @date 2025/08/05 10:42
+     */
+    public val desensitizedRequestHeaders: Set<String>
+
+    /**
+     * 获取脱敏响应标头
+     * @return [Set]<[String]>
+     * @author tangli
+     * @date 2025/08/05 10:42
+     */
+    public val desensitizedResponseHeaders: Set<String>
 }
 
 @Suppress("ClassName")
@@ -94,7 +127,24 @@ internal object `#Const` {
  * @author tangli
  * @date 2023/05/25 19:30
  */
-internal class DefaultTraceLogger : TraceLogger {
+public open class DefaultTraceLogger(
+    override val enableDesensitized: Boolean,
+    override val desensitizedFields: Set<String>,
+    override val desensitizedRequestHeaders: Set<String>,
+    override val desensitizedResponseHeaders: Set<String>,
+) : TraceLogger {
+    protected val jsonMasker: JsonMasker =
+        if (enableDesensitized && desensitizedFields.isNotEmpty()) {
+            JsonMasker.getMasker(
+                JsonMaskingConfig
+                    .builder()
+                    .maskKeys(desensitizedFields)
+                    .build()
+            )
+        } else {
+            NoOpJsonMasker()
+        }
+
     override fun traceLog(
         request: RepeatReadRequestWrapper,
         response: ContentCachingResponseWrapper,
@@ -128,12 +178,30 @@ internal class DefaultTraceLogger : TraceLogger {
             request
                 .headers
                 .entries
-                .joinToString(";;") { "${it.key}:${it.value}" }
+                .joinToString(";;") {
+                    val headerValue = it.value
+                    val value =
+                        if (enableDesensitized && desensitizedRequestHeaders.contains(it.key)) {
+                            headerValue.replaceRange(0 until headerValue.length, "******")
+                        } else {
+                            headerValue
+                        }
+                    "${it.key}:$value"
+                }
         val responseHeaders =
             response
                 .headers
                 .entries
-                .joinToString(";;") { "${it.key}:${it.value}" }
+                .joinToString(";;") {
+                    val headerValue = it.value
+                    val value =
+                        if (enableDesensitized && desensitizedResponseHeaders.contains(it.key)) {
+                            headerValue.replaceRange(0 until headerValue.length, "******")
+                        } else {
+                            headerValue
+                        }
+                    "${it.key}:$value"
+                }
         val remoteIp = request.remoteIp
         val logMessage =
             buildString {
@@ -158,19 +226,30 @@ internal class DefaultTraceLogger : TraceLogger {
         contentByteArray: ByteArray,
         contentType: String,
         bodyMaxSize: Long,
-    ) =
-        if (!isTextMediaTypes(parseMediaType(contentType))) {
+    ): String {
+        val mediaType = parseMediaType(contentType)
+        return if (!isTextMediaTypes(mediaType)) {
             "[$contentType]"
         } else {
             contentByteArray.let { bytes ->
                 val size = bytes.size.toLong()
                 when {
+                    size in 1..bodyMaxSize &&
+                        enableDesensitized &&
+                        desensitizedFields.isNotEmpty() &&
+                        MediaType.APPLICATION_JSON.includes(
+                            mediaType
+                        ) -> String(jsonMasker.mask(bytes)).removeLineBreak()
+
                     size in 1..bodyMaxSize -> String(bytes).removeLineBreak()
+
                     size >= bodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
+
                     else -> NULL
                 }
             }
         }
+    }
 
     private fun resultCode(
         responseBody: String,

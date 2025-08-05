@@ -32,6 +32,7 @@ package tony.web.autoconfigure
  */
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletResponse
+import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -61,6 +62,7 @@ import tony.core.jackson.InjectableValuesBySupplier
 import tony.core.jackson.NullValueBeanSerializerModifier
 import tony.core.misc.YamlPropertySourceFactory
 import tony.core.model.ofApiResult
+import tony.core.utils.applyIf
 import tony.core.utils.asTo
 import tony.core.utils.createObjectMapper
 import tony.core.utils.getLogger
@@ -145,17 +147,52 @@ private class WebAutoConfiguration(
     @ConditionalOnBooleanProperty(prefix = "web.log.trace", value = ["enabled"], matchIfMissing = true)
     @Bean
     private fun defaultTraceLogger(): TraceLogger =
-        DefaultTraceLogger()
+        DefaultTraceLogger(
+            traceLogProperties.enableDesensitized,
+            traceLogProperties.desensitizedFields,
+            traceLogProperties.desensitizedRequestHeaders,
+            traceLogProperties.desensitizedResponseHeaders
+        )
 
     @ConditionalOnBooleanProperty(prefix = "web.log.trace", value = ["enabled"], matchIfMissing = true)
     @Bean
-    private fun traceLogFilter(traceLogger: TraceLogger): TraceLogFilter =
-        TraceLogFilter(
+    private fun traceLogFilter(traceLogger: TraceLogger): TraceLogFilter {
+        val logger = LoggerFactory.getLogger(TraceLogFilter::class.java)
+
+        logger.info(
+            "Trace log is enabled. " +
+                "Request body size limit is {}, " +
+                "Response body size limit is {} ",
+            traceLogProperties.requestBodyMaxSize,
+            traceLogProperties.responseBodyMaxSize
+        )
+        if (traceLogProperties.excludePatterns.isNotEmpty()) {
+            logger.info("Request trace log exclude patterns: {}", traceLogProperties.excludePatterns)
+        }
+
+        if (traceLogProperties.enableDesensitized) {
+            traceLogProperties.desensitizedFields.applyIf(traceLogProperties.desensitizedFields.isNotEmpty()) {
+                logger.info("Desensitized Fields is {}.", traceLogProperties.desensitizedFields)
+            }
+            traceLogProperties.desensitizedRequestHeaders.applyIf(
+                traceLogProperties.desensitizedRequestHeaders.isNotEmpty()
+            ) {
+                logger.info("Desensitized Request Headers is {}.", traceLogProperties.desensitizedRequestHeaders)
+            }
+            traceLogProperties.desensitizedResponseHeaders.applyIf(
+                traceLogProperties.desensitizedResponseHeaders.isNotEmpty()
+            ) {
+                logger.info("Desensitized Response Headers is {}.", traceLogProperties.desensitizedResponseHeaders)
+            }
+        }
+
+        return TraceLogFilter(
             traceLogger,
             traceLogProperties.excludePatterns,
             traceLogProperties.requestBodyMaxSize.toBytes(),
             traceLogProperties.responseBodyMaxSize.toBytes()
         )
+    }
 
     @ConditionalOnBooleanProperty(
         prefix = "web",
@@ -270,7 +307,7 @@ internal data class TraceLogProperties(
     /**
      * trace日志排除url
      */
-    val excludePatterns: List<String> = listOf(),
+    val excludePatterns: Set<String> = setOf(),
     /**
      * trace日志请求体长度, 超过只显示ContentType
      */
@@ -281,6 +318,23 @@ internal data class TraceLogProperties(
      */
     @DefaultValue("50KB")
     val responseBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
+    /**
+     * 是否启用日志脱敏
+     */
+    @DefaultValue("false")
+    val enableDesensitized: Boolean,
+    /**
+     * trace日志需要被脱敏的字段.
+     */
+    val desensitizedFields: Set<String> = setOf(),
+    /**
+     * trace日志需要被脱敏的请求头.
+     */
+    val desensitizedRequestHeaders: Set<String> = setOf(),
+    /**
+     * trace日志需要被脱敏的响应头.
+     */
+    val desensitizedResponseHeaders: Set<String> = setOf(),
 )
 
 /**

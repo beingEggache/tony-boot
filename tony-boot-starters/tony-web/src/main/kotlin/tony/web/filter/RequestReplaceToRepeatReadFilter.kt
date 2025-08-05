@@ -61,7 +61,7 @@ internal class RequestReplaceToRepeatReadFilter(
     /**
      * 请求日志排除url
      */
-    traceLogExcludePatterns: List<String>,
+    traceLogExcludePatterns: Set<String>,
 ) : OncePerRequestFilter(),
     PriorityOrdered {
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {

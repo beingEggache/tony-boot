@@ -105,7 +105,7 @@ public class NameMaskFun : MaskConvertFunc {
 public class MobileMaskFun : MaskConvertFunc {
     override fun convert(input: String?): String? =
         if (input?.length != null && input.length >= 4) {
-            "${input.substring(0, 2)}****${input.substring(input.length - 4, input.length)}"
+            "${input.take(2)}****${input.substring(input.length - 4, input.length)}"
         } else {
             input
         }

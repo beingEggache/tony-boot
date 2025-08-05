@@ -7,9 +7,5 @@ dependencies {
     api(tonyLibs.openFeignOkhttp)
     api(tonyLibs.openFeignJackson)
     implementation(tonyLibs.caffeine)
-
-//    compileOnly(tonyLibs.findbugsJsr305)
-//    compileOnly(tonyLibs.findbugsAnnotations)
-
     testImplementation(projects.tonyWebAuth)
 }

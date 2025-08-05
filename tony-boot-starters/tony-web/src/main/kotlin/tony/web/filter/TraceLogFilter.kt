@@ -37,7 +37,6 @@ import java.io.IOException
 import java.time.LocalDateTime
 import org.slf4j.MDC
 import org.springframework.core.PriorityOrdered
-import org.springframework.util.unit.DataSize
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingResponseWrapper
 import tony.core.TRACE_ID_HEADER_NAME
@@ -62,7 +61,7 @@ internal class TraceLogFilter(
     /**
      * 请求日志排除url
      */
-    traceLogExcludePatterns: List<String>,
+    traceLogExcludePatterns: Set<String>,
     /**
      * trace日志请求体长度, 超过只显示ContentType
      */
@@ -74,18 +73,6 @@ internal class TraceLogFilter(
 ) : OncePerRequestFilter(),
     PriorityOrdered {
     private val log = getLogger()
-
-    init {
-        log.info(
-            "Trace log is enabled. " +
-                "Request body size limit is ${DataSize.ofBytes(requestBodyMaxSize)}, " +
-                "Response body size limit is ${DataSize.ofBytes(responseBodyMaxSize)} "
-        )
-        if (traceLogExcludePatterns.isNotEmpty()) {
-            log.info("Request trace log exclude patterns: $traceLogExcludePatterns")
-        }
-    }
-
     private val excludedUrls by lazy(LazyThreadSafetyMode.PUBLICATION) {
         WebContext
             .responseWrapExcludePatterns

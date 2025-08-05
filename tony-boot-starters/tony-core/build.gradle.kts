@@ -11,6 +11,8 @@ dependencies {
     api(tonyLibs.jacksonModuleKotlin)
     api(tonyLibs.jacksonModuleParameterNames)
 
+    api(tonyLibs.jsonMasker)
+
     implementation(tonyLibs.bcprovJdk18On)
     compileOnly(tonyLibs.swaggerV3AnnotaionJakarta)
 //    compileOnly(tonyLibs.findbugsJsr305)

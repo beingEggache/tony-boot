@@ -113,6 +113,7 @@ jacksonDatatypeJdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatyp
 jacksonDatatypeJsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 jacksonModuleKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 jacksonModuleParameterNames = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names", version.ref = "jackson" }
+jsonMasker = { module = "dev.blaauwendraad:json-masker", version = "1.1.2" }
 
 nettyBom = { module = "io.netty:netty-bom", version.ref = "netty" }
 

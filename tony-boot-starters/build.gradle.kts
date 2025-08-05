@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -40,7 +39,7 @@ plugins {
     alias(tonyLibs.plugins.kotlinSpring) apply false
     alias(tonyLibs.plugins.kotlinKapt) apply false
     alias(tonyLibs.plugins.dokka)
-    alias(tonyLibs.plugins.gradleVersionsPlugin)
+    alias(tonyLibs.plugins.gradleVersionsPlugin) apply false
 }
 
 val dependenciesProjects = setOf(project("${templatePrefix()}-dependencies"))
@@ -57,20 +56,6 @@ configure(allprojects) {
         mavenLocal()
         maven(url = "https://maven.aliyun.com/repository/central")
         mavenCentral()
-    }
-}
-
-tasks.withType<DependencyUpdatesTask> {
-    revision = "release"
-    checkForGradleUpdate = true
-    gradleReleaseChannel = "current"
-    checkConstraints = true
-    checkBuildEnvironmentConstraints = true
-    outputFormatter = "plain"
-    rejectVersionIf {
-        candidate
-            .version
-            .contains(Regex("alpha|beta|rc|snapshot|milestone|pre|m", RegexOption.IGNORE_CASE))
     }
 }
 

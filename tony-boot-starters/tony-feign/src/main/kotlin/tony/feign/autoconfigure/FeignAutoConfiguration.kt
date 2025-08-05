@@ -31,6 +31,7 @@ import feign.codec.ErrorDecoder
 import feign.form.spring.SpringFormEncoder
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.ObjectFactory
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.AutoConfiguration
@@ -51,6 +52,7 @@ import org.springframework.lang.Nullable
 import org.springframework.util.unit.DataSize
 import tony.core.crypto.CryptoProvider
 import tony.core.misc.YamlPropertySourceFactory
+import tony.core.utils.applyIf
 import tony.feign.FeignTargeter
 import tony.feign.codec.DefaultErrorDecoder
 import tony.feign.interceptor.request.GlobalRequestInterceptorProvider
@@ -104,7 +106,12 @@ private class FeignAutoConfiguration(
     )
     @Bean
     private fun feignRequestLogger(): FeignRequestLogger =
-        DefaultFeignRequestLogger()
+        DefaultFeignRequestLogger(
+            requestLogProperties.enableDesensitized,
+            requestLogProperties.desensitizedFields,
+            requestLogProperties.desensitizedRequestHeaders,
+            requestLogProperties.desensitizedResponseHeaders
+        )
 
     @ConditionalOnBooleanProperties(
         value = [
@@ -117,12 +124,37 @@ private class FeignAutoConfiguration(
         ]
     )
     @Bean
-    private fun feignLogInterceptor(feignRequestLogger: FeignRequestLogger) =
-        FeignLogInterceptor(
+    private fun feignLogInterceptor(feignRequestLogger: FeignRequestLogger): FeignLogInterceptor {
+        val logger = LoggerFactory.getLogger(FeignLogInterceptor::class.java)
+        logger.info(
+            "Trace log is enabled. " +
+                "Request body size limit is {}, " +
+                "Response body size limit is {} ",
+            requestLogProperties.requestBodyMaxSize,
+            requestLogProperties.responseBodyMaxSize
+        )
+        if (requestLogProperties.enableDesensitized) {
+            requestLogProperties.desensitizedFields.applyIf(requestLogProperties.desensitizedFields.isNotEmpty()) {
+                logger.info("Desensitized Fields is {}.", requestLogProperties.desensitizedFields)
+            }
+            requestLogProperties.desensitizedRequestHeaders.applyIf(
+                requestLogProperties.desensitizedRequestHeaders.isNotEmpty()
+            ) {
+                logger.info("Desensitized Request Headers is {}.", requestLogProperties.desensitizedRequestHeaders)
+            }
+            requestLogProperties.desensitizedResponseHeaders.applyIf(
+                requestLogProperties.desensitizedResponseHeaders.isNotEmpty()
+            ) {
+                logger.info("Desensitized Response Headers is {}.", requestLogProperties.desensitizedResponseHeaders)
+            }
+        }
+
+        return FeignLogInterceptor(
             feignRequestLogger,
             requestLogProperties.requestBodyMaxSize.toBytes(),
             requestLogProperties.responseBodyMaxSize.toBytes()
         )
+    }
 
     @ConditionalOnMissingBean(name = ["useRequestProcessorsRequestInterceptor"])
     @Bean("useRequestProcessorsRequestInterceptor")
@@ -208,4 +240,21 @@ private data class RequestLogProperties(
      */
     @DefaultValue("50KB")
     val responseBodyMaxSize: DataSize = DataSize.ofKilobytes(50),
+    /**
+     * 是否启用日志脱敏
+     */
+    @DefaultValue("false")
+    val enableDesensitized: Boolean,
+    /**
+     * request日志需要被脱敏的字段.
+     */
+    val desensitizedFields: Set<String> = setOf(),
+    /**
+     * request日志需要被脱敏的请求头.
+     */
+    val desensitizedRequestHeaders: Set<String> = setOf(),
+    /**
+     * request日志需要被脱敏的响应头.
+     */
+    val desensitizedResponseHeaders: Set<String> = setOf(),
 )

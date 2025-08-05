@@ -30,6 +30,8 @@ package tony.feign.log
  * @author tangli
  * @date 2023/05/25 19:48
  */
+import dev.blaauwendraad.masker.json.JsonMasker
+import dev.blaauwendraad.masker.json.config.JsonMaskingConfig
 import jakarta.annotation.Priority
 import java.net.URL
 import java.time.LocalDateTime
@@ -39,8 +41,10 @@ import okhttp3.Request
 import okhttp3.Response
 import org.slf4j.Logger
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.util.unit.DataSize
 import tony.core.TRACE_ID_HEADER_NAME
+import tony.core.log.NoOpJsonMasker
 import tony.core.utils.getLogger
 import tony.core.utils.ifNullOrBlank
 import tony.core.utils.mdcPutOrGetDefault
@@ -69,16 +73,6 @@ internal class FeignLogInterceptor(
      */
     private val responseBodyMaxSize: Long,
 ) : NetworkInterceptor {
-    private val logger = getLogger()
-
-    init {
-        logger.info(
-            "Request log is enabled. " +
-                "Request body size limit is ${DataSize.ofBytes(requestBodyMaxSize)}, " +
-                "Response body size limit is ${DataSize.ofBytes(responseBodyMaxSize)} "
-        )
-    }
-
     override fun intercept(chain: Interceptor.Chain): Response {
         val startTime = LocalDateTime.now()
 
@@ -120,19 +114,27 @@ internal class FeignLogInterceptor(
  * @author tangli
  * @date 2023/09/13 19:35
  */
-internal open class DefaultFeignRequestLogger : FeignRequestLogger {
+public open class DefaultFeignRequestLogger(
+    override val enableDesensitized: Boolean,
+    override val desensitizedFields: Set<String>,
+    override val desensitizedRequestHeaders: Set<String>,
+    override val desensitizedResponseHeaders: Set<String>,
+) : FeignRequestLogger {
     protected val logger: Logger =
         getLogger("request-logger")
 
-    /**
-     * 记录请求日志
-     * @param [connection] 链接
-     * @param [request] 请求
-     * @param [response] 响应
-     * @param [elapsedTime] 执行时间
-     * @author Tony
-     * @date 2023/09/12 19:10
-     */
+    protected val jsonMasker: JsonMasker =
+        if (enableDesensitized && desensitizedFields.isNotEmpty()) {
+            JsonMasker.getMasker(
+                JsonMaskingConfig
+                    .builder()
+                    .maskKeys(desensitizedFields)
+                    .build()
+            )
+        } else {
+            NoOpJsonMasker()
+        }
+
     override fun requestLog(
         connection: Connection?,
         request: Request,
@@ -163,7 +165,16 @@ internal open class DefaultFeignRequestLogger : FeignRequestLogger {
                 .associateWith {
                     request.header(it)
                 }.entries
-                .joinToString(";;") { "${it.key}:${it.value}" }
+                .joinToString(";;") {
+                    val headerValue = it.value
+                    val value =
+                        if (enableDesensitized && desensitizedRequestHeaders.contains(it.key)) {
+                            headerValue?.replaceRange(0 until headerValue.length, "******")
+                        } else {
+                            headerValue
+                        }
+                    "${it.key}:$value"
+                }
         val responseHeaders =
             response
                 .headers
@@ -172,7 +183,16 @@ internal open class DefaultFeignRequestLogger : FeignRequestLogger {
                 .associateWith {
                     response.header(it)
                 }.entries
-                .joinToString(";;") { "${it.key}:${it.value}" }
+                .joinToString(";;") {
+                    val headerValue = it.value
+                    val value =
+                        if (enableDesensitized && desensitizedResponseHeaders.contains(it.key)) {
+                            headerValue?.replaceRange(0 until headerValue.length, "******")
+                        } else {
+                            headerValue
+                        }
+                    "${it.key}:$value"
+                }
         val requestBody =
             request.body?.run {
                 body(
@@ -228,19 +248,30 @@ internal open class DefaultFeignRequestLogger : FeignRequestLogger {
         contentByteArray: ByteArray,
         contentType: String,
         bodyMaxSize: Long,
-    ) =
-        if (!isTextMediaTypes(parseMediaType(contentType))) {
+    ): String {
+        val mediaType = parseMediaType(contentType)
+        return if (!isTextMediaTypes(mediaType)) {
             "[$contentType]"
         } else {
             contentByteArray.let { bytes ->
                 val size = bytes.size.toLong()
                 when {
+                    size in 1..bodyMaxSize &&
+                        enableDesensitized &&
+                        desensitizedFields.isNotEmpty() &&
+                        MediaType.APPLICATION_JSON.includes(
+                            mediaType
+                        ) -> String(jsonMasker.mask(bytes)).removeLineBreak()
+
                     size in 1..bodyMaxSize -> String(bytes).removeLineBreak()
+
                     size >= bodyMaxSize -> "[too long content, length = ${DataSize.ofBytes(size)}]"
+
                     else -> "[null]"
                 }
             }
         }
+    }
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected val URL.origin: String
@@ -258,7 +289,16 @@ internal open class DefaultFeignRequestLogger : FeignRequestLogger {
  * @author tangli
  * @date 2023/09/13 19:35
  */
-public fun interface FeignRequestLogger {
+public interface FeignRequestLogger {
+    /**
+     * 请求日志
+     * @param [connection] 连接
+     * @param [request] 请求
+     * @param [response] 响应
+     * @param [elapsedTime] 经过时间
+     * @author tangli
+     * @date 2025/08/05 10:38
+     */
     public fun requestLog(
         connection: Connection?,
         request: Request,
@@ -267,4 +307,33 @@ public fun interface FeignRequestLogger {
         requestBodyMaxSize: Long,
         responseBodyMaxSize: Long,
     )
+
+    /**
+     * 是否启用脱敏
+     */
+    public val enableDesensitized: Boolean
+
+    /**
+     * 获取脱敏字段
+     * @return [Set]<[String]>
+     * @author tangli
+     * @date 2025/08/05 10:42
+     */
+    public val desensitizedFields: Set<String>
+
+    /**
+     * 获取脱敏请求头
+     * @return [Set]<[String]>
+     * @author tangli
+     * @date 2025/08/05 10:42
+     */
+    public val desensitizedRequestHeaders: Set<String>
+
+    /**
+     * 获取脱敏响应标头
+     * @return [Set]<[String]>
+     * @author tangli
+     * @date 2025/08/05 10:42
+     */
+    public val desensitizedResponseHeaders: Set<String>
 }
