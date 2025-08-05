@@ -1,4 +1,4 @@
-FROM sonatype/nexus3:3.81.1-java17-alpine
+FROM sonatype/nexus3:3.82.0-java17-alpine
 
 ARG GID
 ARG UID

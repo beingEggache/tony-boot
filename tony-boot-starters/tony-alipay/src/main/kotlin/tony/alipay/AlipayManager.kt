@@ -37,9 +37,9 @@ import tony.core.utils.urlEncode
  * @author tangli
  * @date 2023/09/12 19:05
  */
-@Suppress("unused")
 public class AlipayManager(
     private val appId: String,
+    @Suppress("unused")
     private val publicKey: String,
     private val privateKey: String,
     private val aliPayPublicKey: String,

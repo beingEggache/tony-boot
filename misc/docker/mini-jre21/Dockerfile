@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21.0.7_6-jdk-alpine AS jre-builder
+FROM eclipse-temurin:21.0.8_9-jdk-alpine AS jre-builder
 
 RUN apk add --no-cache binutils upx
 
@@ -13,7 +13,7 @@ RUN jlink \
 RUN find /custom-jre -name "*.so" -exec strip {} \; || true && \
     find /custom-jre -name "*.so" -exec upx --best {} \; 2>/dev/null || true
 
-FROM alpine:3.21
+FROM alpine:3.22
 
 RUN apk add --no-cache \
     ca-certificates \

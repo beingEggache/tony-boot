@@ -1,4 +1,4 @@
-FROM redis:8.0.2-alpine3.21
+FROM redis:8.2.0-alpine3.22
 RUN apk add --no-cache tzdata \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone \
