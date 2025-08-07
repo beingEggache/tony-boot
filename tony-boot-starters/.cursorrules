@@ -191,7 +191,7 @@ public object Strs {
 ```
 ---
 ### 异常处理规范
-🔴 优先使用工具函数抛出异常, 所有自定义异常继承 tony.core.exception.ApiException。
+🔴 优先使用工具函数抛出异常, 所有自定义异常继承 `tony.core.exception.ApiException`。
 
 ```kotlin
 // 工具函数示例
@@ -242,7 +242,7 @@ public class YourApplication
 
 ---
 ### 测试类组织规范
-🔴 所有测试断言使用 org.junit.jupiter.api 包下的方法。
+🔴 所有测试断言使用 `org.junit.jupiter.api` 包下的方法。
 ```kotlin
 @DisplayName("测试类名称")
 class {ClassName}Test {
@@ -330,10 +330,10 @@ public class YourApplication
 ---
 
 ## 7. 快速参考
-- ❌ 省略 public 修饰符。
-- ❌ 省略方法返回类型（除 Unit 外）。
+- ❌ 省略 `public` 修饰符。
+- ❌ 省略方法返回类型（除 `Unit` 外）。
 - ❌ 省略属性类型声明。
-- ❌ 未注册到 AutoConfiguration.imports。
+- ❌ 未注册到 `AutoConfiguration.imports`。
 - ❌ 工具类未提供 Java 友好性。
 - ❌ 枚举字段使用原始类型。
 - ❌ 使用通配符导入。

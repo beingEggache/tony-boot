@@ -75,7 +75,7 @@ internal class JwtWebSession : WebSession {
                         .ifNullOrBlank()
                 try {
                     JwtToken.parse(jwtTokenString)
-                } catch (e: JWTVerificationException) {
+                } catch (_: JWTVerificationException) {
                     logger.warn("Jwt Token($jwtTokenString) verify failed.")
                     throw UnauthorizedException("请登录")
                 }

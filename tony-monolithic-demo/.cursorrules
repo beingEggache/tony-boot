@@ -29,10 +29,10 @@
 | `{table}`       | 数据库表名（全小写模块名+小写snake_case实体类名） | `sys_employee`、`housemanage_sale_order` |
 ---
 
-## 2. 项目结构规范
+## 2. 项目目录结构规范
 
 ---
-###  标准模块结构
+###  标准模块目录结构
 ```
 {project-name}/
 ├── {company}-api/              # Web 层：控制器、配置、启动类、Docker 文件
@@ -53,10 +53,10 @@
 └── dockerBuild.sh              # Docker 构建脚本
 ```
 ---
-###  核心文件结构
+###  核心文件目录结构
 
 ---
-####  API 模块文件
+####  API 模块目录结构
 ```
 {company}-api/
 ├── src/main/
@@ -77,7 +77,7 @@
 └── build.gradle.kts                         # 模块构建配置
 ```
 ---
-####  Service 模块文件
+####  Service 模块目录结构
 ```
 {company}-service/
 ├── src/main/
@@ -96,7 +96,7 @@
 └── build.gradle.kts                         # 模块构建配置
 ```
 ---
-####  DTO 模块文件
+####  DTO 模块目录结构
 ```
 {company}-dto/
 ├── src/main/
@@ -114,7 +114,7 @@
 └── build.gradle.kts                         # 模块构建配置
 ```
 ---
-####  SDK 模块文件（🟡 当使用微服务架构需要对外提供接口jar包时, 请选择接口与实现分离。）
+####  SDK 模块目录结构（🟡 当使用微服务架构需要对外提供接口jar包时, 请选择接口与实现分离。）
 ```
 {company}-sdk/
 ├── src/main/
@@ -125,7 +125,7 @@
 └── build.gradle.kts                         # 模块构建配置
 ```
 ---
-####  数据库脚本文件
+####  数据库脚本目录结构
 ```
 db/
 ├── db.init.mysql.sql                        # 初始化用户、数据库（MySQL）
@@ -283,7 +283,7 @@ CREATE TABLE `{table}` (
 ---
 ###  DAO 层规范
 - 🔴 继承 `tony.mybatis.dao.BaseDao`，使用 XML 映射文件。
-- 🔴 **禁止**：在接口上使用 `@Select`、`@Update` 等注解。
+- 🔴 **禁止**：在接口上使用 `@Insert`、`@Delete`、`@Update`、`@Select`等注解。
 
 ```kotlin
 import tony.mybatis.dao.BaseDao
@@ -483,14 +483,13 @@ data class DemoReq(
 ---
 
 ## 7. 快速参考
-- ❌ 在 DAO 接口使用 `@Select` 注解。
+- ❌ 在 Dao 接口上使用 `@Insert`、`@Delete`、`@Update`、`@Select`等注解。
 - ❌ Controller 类上使用路由注解。
 - ❌ 使用通配符导入。
 - ❌ 实体类字段使用原始类型而非枚举。
 - ❌ 违反命名规范。
+- ❌ 违反目录结构规范。
 - ✅ 使用构造器注入依赖。
 - ✅ 完整的参数校验。
 - ✅ 规范的 Swagger 注解。
 - ✅ 类型安全的 DTO 设计。
-- ✅ 清晰的业务逻辑分层。
-- ✅ 完整的项目骨架文件。

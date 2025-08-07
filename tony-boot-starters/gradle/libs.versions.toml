@@ -54,7 +54,7 @@ knife4j = "4.6.0"
 springdocStarter = "2.8.9"
 
 powerjob = "5.1.1"
-vertx = "4.5.16"
+vertx = "4.5.17"
 xnio = "3.8.16.Final"
 
 springCloud = "2025.0.0"
@@ -216,7 +216,7 @@ elApi = { module = "jakarta.el:jakarta.el-api", version = "6.0.1" }
 websocketApi = { module = "jakarta.websocket:jakarta.websocket-api", version = "2.2.0" }
 bindApi = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version = "4.0.2" }
 
-tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.9" }
+tomcatEmbedEl = { module = "org.apache.tomcat.embed:tomcat-embed-el", version = "11.0.10" }
 
 commonsFileUpload = { module = "commons-fileupload:commons-fileupload", version = "1.6.0" }
 commonsCodec = { module = "commons-codec:commons-codec", version = "1.19.0" }

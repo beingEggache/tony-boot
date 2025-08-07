@@ -81,7 +81,7 @@ configure(libraryProjects) {
         }
         into("META-INF/maven/${project.group}/${project.name}") {
             from(project.tasks.getByPath("generatePomFileForJarPublication"))
-            rename("pom-default.xml","pom.xml")
+            rename("pom-default.xml", "pom.xml")
         }
         manifest {
             attributes["Implementation-Title"] = project.name
@@ -102,7 +102,7 @@ configure(libraryProjects) {
         compilerOptions {
             jvmTarget = JvmTarget.fromTarget(javaVersion)
             languageVersion = KotlinVersion.fromVersion(kotlinVersion.substring(0..2))
-            apiVersion= KotlinVersion.fromVersion(kotlinVersion.substring(0..2))
+            apiVersion = KotlinVersion.fromVersion(kotlinVersion.substring(0..2))
             jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
 
             verbose = true
@@ -159,7 +159,6 @@ configure(libraryProjects) {
                 "--add-opens=java.base/java.util=ALL-UNNAMED",
                 "-Dlogging.config=${rootProject.rootDir}/config/logback-spring.xml",
                 "-XX:+EnableDynamicAgentLoading",
-                "-Xshare:off"
             )
     }
 }

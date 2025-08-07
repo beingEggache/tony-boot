@@ -1,6 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import tony.gradle.plugin.Build.Companion.profile
 import tony.gradle.plugin.Build.Companion.templateProject
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     alias(tonyLibs.plugins.lombok)
@@ -69,6 +69,10 @@ configure(subprojects) {
         testLogging {
             exceptionFormat = TestExceptionFormat.FULL
         }
-        listOf("-XX:+EnableDynamicAgentLoading")
+        jvmArgs =
+            listOf(
+                "--add-opens=java.base/java.util=ALL-UNNAMED",
+                "-XX:+EnableDynamicAgentLoading",
+            )
     }
 }

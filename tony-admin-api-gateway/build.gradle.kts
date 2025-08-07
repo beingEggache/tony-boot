@@ -1,9 +1,9 @@
-import tony.gradle.plugin.Build.Companion.templateProject
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import tony.gradle.plugin.Build.Companion.templateProject
 
 plugins {
     alias(tonyLibs.plugins.kotlin) apply false
@@ -46,7 +46,7 @@ configure(subprojects) {
         compilerOptions {
             jvmTarget = JvmTarget.fromTarget(javaVersion)
             languageVersion = KotlinVersion.fromVersion(kotlinVersion.substring(0..2))
-            apiVersion= KotlinVersion.fromVersion(kotlinVersion.substring(0..2))
+            apiVersion = KotlinVersion.fromVersion(kotlinVersion.substring(0..2))
             jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
 
             verbose = true
@@ -85,6 +85,10 @@ configure(subprojects) {
         testLogging {
             exceptionFormat = TestExceptionFormat.FULL
         }
-        listOf("-XX:+EnableDynamicAgentLoading")
+        jvmArgs =
+            listOf(
+                "--add-opens=java.base/java.util=ALL-UNNAMED",
+                "-XX:+EnableDynamicAgentLoading",
+            )
     }
 }
