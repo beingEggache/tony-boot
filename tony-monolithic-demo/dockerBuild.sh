@@ -4,14 +4,11 @@ print_help() {
   echo "\nUsage: $0 [options]"
   echo "\nOptions:"
   echo "  -r, --docker-registry     Docker registry address (required)"
-  echo "  -d, --project-dir         Project directory (optional, not used by default)"
   echo "  -p, --port                Exposed port (required)"
   echo "  -n, --project-name        Project name (required)"
   echo "  -P, --profile             Profile (default: qa)"
   echo "  -N, --docker-org-name     Docker organization name (default: publisher)"
   echo "  -t, --image-tag           Image tag (default: latest)"
-  echo "  -e, --env-file            Env file to load (optional, will auto export if exists)"
-  echo "  -o, --overwrite-config    Overwrite config (optional, not used by default)"
   echo "  -h, --help                Show this help message and exit"
   echo "\nExample:"
   echo "  $0 -r my.registry.com -p 8080 -n myapp -P prod -t v1.0.0"
@@ -42,7 +39,7 @@ if ! getopt --test > /dev/null; then
 fi
 
 TEMP=$(getopt -o r:d:p:n:P:N:t:e:o: --long \
-    docker-registry:,project-dir:,port:,project-name:,profile:,docker-org-name:,image-tag:,env-file:,overwrite-config \
+    docker-registry:,port:,project-name:,profile:,docker-org-name:,image-tag \
     -n 'dockerBuild.sh' -- "$@")
 if [ $? != 0 ]; then
   echo "Failed to parse options." >&2
@@ -54,14 +51,11 @@ eval set -- "$TEMP"
 while true ; do
     case "$1" in
         -r|--docker-registry) docker_registry=$2 ; shift 2 ;;
-        -d|--project-dir) project_dir=$2 ; shift 2 ;;
         -p|--port) port=$2 ; shift 2 ;;
         -n|--project-name) project_name=$2 ; shift 2 ;;
         -P|--profile) profile=$2 ; shift 2 ;;
         -N|--docker-org-name) docker_org_name=$2 ; shift 2 ;;
         -t|--image-tag) image_tag=$2 ; shift 2 ;;
-        -e|--env-file) env_file=$2 ; shift 2 ;;
-        -o|--overwrite-config) overwrite_config=$2 ; shift 2 ;;
         --) shift ; break ;;
         *) break ;;
     esac
@@ -70,7 +64,6 @@ done
 docker_org_name=${docker_org_name:=publisher}
 profile=${profile:=qa}
 image_tag=${image_tag:=latest}
-overwrite_config=${overwrite_config:=false}
 log_dir=${log_dir:-/logs}
 
 # xargs -r compatibility (macOS does not support -r)
@@ -91,17 +84,7 @@ check_arg() {
    fi
 }
 
-# Load env file if specified and exists
-auto_load_env() {
-  if [ -n "$env_file" ] && [ -f "$env_file" ]; then
-    echo "==================== Loading env file: $env_file ======================"
-    set -a
-    . "$env_file"
-    set +a
-  fi
-}
-
-dir=/data/java-instances/"${project_name}"
+dir=/data/java-instances/"${port}"-"${project_name}"
 
 mkdir -p "${dir}" || { echo "Failed to create directory: ${dir}"; exit 1; }
 echo "Created directory: ${dir}"
@@ -176,7 +159,6 @@ check_container_status() {
 check_arg "$docker_registry" "-r|--docker-registry"
 check_arg "$port" "-p|--port"
 check_arg "$project_name" "-n|--project-name"
-auto_load_env
 clean_project_resources
 pull_image_with_retry
 

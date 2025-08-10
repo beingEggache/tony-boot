@@ -45,7 +45,7 @@ tony-monolithic-demo/
 | 领域     | 技术选型               | 版本             |
 |--------|--------------------|----------------|
 | 编程语言   | Kotlin             | 2.2.0+         |
-| 构建工具   | Gradle             | 8.14.1+        |
+| 构建工具   | Gradle             | 9.0.0+         |
 | Web 框架 | Spring Boot        | 3.5.0+         |
 | 定时任务   | PowerJob           | 5.1.1          |
 | 接口文档   | Knife4j            | 4.6.0          |
@@ -58,7 +58,7 @@ tony-monolithic-demo/
 ### 1. 环境准备
 
 - JDK 21+
-- Gradle 8.14.1+
+- Gradle 9.0.0+
 - Redis 6.x+
 - MySQL 或 PostgreSQL
 
@@ -108,7 +108,7 @@ spring:
 - 构建镜像示例：
 
 ```bash
-./dockerBuild.sh -r your-docker-registry -d /path/to/project -p 8080 -n tony-monolithic-demo -P prod -N your-org -t v1.0
+./dockerBuild.sh -r your-docker-registry -p 8080 -n tony-monolithic-demo -P prod -N your-org -t v1.0
 ```
 
 - 运行容器：
@@ -119,7 +119,7 @@ docker run -d -p 8080:8080 --name tony-demo tony-monolithic-demo
 
 ### 6. 访问接口文档
 
-[http://localhost:8080/doc.html](http://localhost:8080/doc.html)
+http://localhost:10000/doc.html
 
 ---
 
