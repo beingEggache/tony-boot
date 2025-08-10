@@ -24,10 +24,13 @@
 
 package tony.test.redis
 
+import jakarta.annotation.PostConstruct
+import jakarta.annotation.PreDestroy
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.context.annotation.Import
+import redis.embedded.RedisServer
 import tony.core.annotation.EnableTonyBoot
-import tony.test.redis.config.RedisTestConfig
 
 /**
  * Redis 测试专用 Spring Boot 主配置类
@@ -37,5 +40,43 @@ import tony.test.redis.config.RedisTestConfig
  */
 @SpringBootApplication
 @EnableTonyBoot
-@Import(RedisTestConfig::class)
-class TestRedisApplication
+class TestRedisApplication {
+    private val logger = LoggerFactory.getLogger(TestRedisApplication::class.java)
+
+    @Value($$"${spring.data.redis.port:6380}")
+    private lateinit var redisPort: String
+
+
+    private val redisServer: RedisServer by lazy {
+        RedisServer(redisPort.toInt())
+    }
+
+    /**
+     * 在 Spring 容器初始化前启动 embedded-redis
+     */
+    @PostConstruct
+    fun startEmbeddedRedis() {
+        val port = redisPort.toInt()
+        logger.info("Starting embedded Redis server on port: {}", port)
+        try {
+            redisServer.start()
+            logger.info("Embedded Redis server started successfully on port: {}", port)
+        } catch (e: Exception) {
+            logger.error("Failed to start embedded Redis server: {}", e.message, e)
+            throw e
+        }
+    }
+
+    /**
+     * 在 Spring 容器销毁前停止 embedded-redis
+     */
+    @PreDestroy
+    fun stopEmbeddedRedis() {
+        try {
+            redisServer.stop()
+            logger.info("Embedded Redis server stopped")
+        } catch (e: Exception) {
+            logger.error("Failed to stop embedded Redis server: {}", e.message, e)
+        }
+    }
+}

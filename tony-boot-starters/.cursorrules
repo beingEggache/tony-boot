@@ -54,7 +54,6 @@ tony-{module}/
         ├── kotlin/
         │   └── tony/test/{package-name}/      # 模块测试包
         │       ├── {ClassName}Test.kt         # 单元测试
-        │       ├── config/                    # 测试配置包（可选）
         │       ├── {Module}BaseTest.kt        # 基础测试类（可选）
         │       └── {Module}TestApplication.kt # 测试启动类（可选）
         ├── java/                              # Java 测试源码（可选）
@@ -180,13 +179,11 @@ public var encoding: String = "HEX"
 
 ```kotlin
 @file:JvmName("Strs")
-public object Strs {
 
-    @JvmStatic
-    @JvmOverloads
-    public fun truncate(str: String, maxLength: Int = 100): String {
-        return if (str.length <= maxLength) str else str.substring(0, maxLength)
-    }
+@JvmStatic
+@JvmOverloads
+public fun truncate(str: String, maxLength: Int = 100): String {
+    return if (str.length <= maxLength) str else str.substring(0, maxLength)
 }
 ```
 ---
@@ -267,8 +264,6 @@ class {ClassName}Test {
     classes = [{Module}TestApplication::class],
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
-@ActiveProfiles("qa")
-@TestPropertySource(locations = ["classpath:application.yml"])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class {Module}BaseTest {
     // 基础测试方法
@@ -277,7 +272,6 @@ abstract class {Module}BaseTest {
 ```kotlin
 @SpringBootApplication
 @EnableTonyBoot
-@Import({Module}TestConfig::class)
 class {Module}TestApplication
 ```
 ---

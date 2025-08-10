@@ -51,8 +51,6 @@ import tony.test.redis.util.TestDataGenerator
     classes = [TestRedisApplication::class],
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
-@ActiveProfiles("test")
-@TestPropertySource(locations = ["classpath:application.yml"])
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 abstract class BaseRedisTest {
 
