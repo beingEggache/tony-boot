@@ -33,7 +33,7 @@ byteBuddy = "1.17.6"
 bouncycastle = "1.81"
 
 openFeign = "13.6"
-lettuce = "6.7.1.RELEASE"
+lettuce = "6.8.0.RELEASE"
 
 jackson = "2.19.2"
 gson = "2.13.1"
@@ -42,7 +42,7 @@ fastjson = "2.0.58"
 postgresql = "42.7.7"
 mysql = "9.4.0"
 
-hikariCP = "7.0.0"
+hikariCP = "7.0.1"
 mybatis = "3.5.19"
 mybatisSpring = "3.0.5"
 mybatisPlus = "3.5.12"

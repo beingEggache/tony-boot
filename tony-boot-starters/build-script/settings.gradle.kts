@@ -25,7 +25,7 @@
 pluginManagement {
     repositories {
         mavenLocal()
-		gradlePluginPortal()
+        gradlePluginPortal()
         maven(url = "https://maven.aliyun.com/repository/gradle-plugin")
 //        val privateGradleRepoUrl: String by settings
 //        maven(url = privateGradleRepoUrl) {
@@ -44,4 +44,3 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "build-script"
-enableFeaturePreview("STABLE_CONFIGURATION_CACHE")

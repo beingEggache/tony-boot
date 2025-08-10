@@ -60,5 +60,4 @@ include("$templatePrefix-snowflake-id")
 include("$templatePrefix-knife4j-api")
 include("$templatePrefix-web-crypto")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 

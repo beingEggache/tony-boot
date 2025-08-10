@@ -35,4 +35,3 @@ dependencyResolutionManagement {
 
 include("tony-api")
 include("tony-service")
-enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
