@@ -146,7 +146,7 @@ private class RedisAutoConfiguration(
  * @author tangli
  * @date 2023/05/25 19:31
  */
-@ConfigurationProperties(prefix = "redis")
+@ConfigurationProperties(prefix = "redis", ignoreInvalidFields = false, ignoreUnknownFields = false)
 private data class RedisProperties(
     @DefaultValue("")
     val keyPrefix: String,

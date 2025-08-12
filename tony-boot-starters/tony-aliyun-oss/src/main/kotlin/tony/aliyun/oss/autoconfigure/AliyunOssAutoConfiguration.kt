@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration(proxyBeanMethods = false)
 private class AliyunOssAutoConfiguration
 
-@ConfigurationProperties(prefix = "aliyun.oss")
+@ConfigurationProperties(prefix = "aliyun.oss", ignoreInvalidFields = false, ignoreUnknownFields = false)
 internal data class AliyunOssProperties(
     val accessKeyId: String,
     val accessKeySecret: String,

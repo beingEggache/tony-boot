@@ -45,7 +45,7 @@ private class AliyunSmsAutoConfiguration(
         )
 }
 
-@ConfigurationProperties(prefix = "aliyun.sms")
+@ConfigurationProperties(prefix = "aliyun.sms", ignoreInvalidFields = false, ignoreUnknownFields = false)
 private class AliyunSmsProperties(
     val accessKeyId: String,
     val accessKeySecret: String,

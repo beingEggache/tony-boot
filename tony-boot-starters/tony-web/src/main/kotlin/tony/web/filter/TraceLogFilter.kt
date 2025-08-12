@@ -37,6 +37,7 @@ import java.io.IOException
 import java.time.LocalDateTime
 import org.slf4j.MDC
 import org.springframework.core.PriorityOrdered
+import org.springframework.web.cors.CorsUtils
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingResponseWrapper
 import tony.core.TRACE_ID_HEADER_NAME
@@ -49,7 +50,6 @@ import tony.core.utils.uuid
 import tony.web.WebContext
 import tony.web.filter.RepeatReadRequestWrapper.`-Companion`.toRepeatRead
 import tony.web.log.TraceLogger
-import tony.web.utils.isCorsPreflightRequest
 
 /**
  * 跟踪日志过滤器
@@ -140,7 +140,7 @@ internal class TraceLogFilter(
         request
             .requestURI
             .antPathMatchAny(excludedUrls) ||
-            request.isCorsPreflightRequest
+            CorsUtils.isPreFlightRequest(request)
 
     override fun getOrder() =
         PriorityOrdered.HIGHEST_PRECEDENCE + 2

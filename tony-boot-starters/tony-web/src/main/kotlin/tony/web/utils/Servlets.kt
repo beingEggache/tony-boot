@@ -39,10 +39,8 @@ import java.net.URL
 import java.net.URLEncoder
 import org.springframework.http.ContentDisposition
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.cors.CorsUtils
 import tony.core.utils.applyIf
 import tony.core.utils.ifNull
 import tony.web.WebContext
@@ -230,30 +228,6 @@ public fun isTextMediaTypes(mediaType: MediaType?): Boolean =
     TEXT_MEDIA_TYPES.any { it.includes(mediaType) }
 
 /**
- * 判断当前请求是否为CORS预检请求（preflight）。
- *
- * @receiver [HttpServletRequest] 当前请求对象
- * @return [Boolean] 是否为预检请求
- * @author tangli
- * @date 2024/02/06 15:15
- */
-@get:JvmSynthetic
-@get:JvmName("isCorsPreflightRequest")
-public val HttpServletRequest.isCorsPreflightRequest: Boolean
-    get() =
-        CorsUtils.isPreFlightRequest(this)
-
-/**
- * 判断当前请求是否为CORS预检请求（preflight）。
- *
- * @return [Boolean] 是否为预检请求
- * @author tangli
- * @date 2024/02/06 15:15
- */
-public fun isCorsPreflightRequest(): Boolean =
-    WebContext.request.isCorsPreflightRequest
-
-/**
  * 解析媒体类型
  * @param [contentType] 内容类型
  * @return [MediaType]?
@@ -266,54 +240,6 @@ public fun parseMediaType(contentType: String?): MediaType? =
     } else {
         MediaType.parseMediaType(contentType)
     }
-
-/**
- * 判断响应状态码是否为1xx（信息性响应）。
- *
- * @receiver [HttpServletResponse] 当前响应对象
- * @return [Boolean] 是否为1xx状态
- * @author tangli
- * @date 2024/02/06 15:38
- */
-@get:JvmSynthetic
-@get:JvmName("status1xxInformational")
-public val HttpServletResponse.status1xxInformational: Boolean
-    get() =
-        HttpStatus
-            .valueOf(status)
-            .is1xxInformational
-
-/**
- * 判断响应状态码是否为2xx（成功响应）。
- *
- * @receiver [HttpServletResponse] 当前响应对象
- * @return [Boolean] 是否为2xx状态
- * @author tangli
- * @date 2024/02/06 15:38
- */
-@get:JvmSynthetic
-@get:JvmName("status2xxSuccessful")
-public val HttpServletResponse.status2xxSuccessful: Boolean
-    get() =
-        HttpStatus
-            .valueOf(status)
-            .is2xxSuccessful
-
-/**
- * 判断响应状态码是否为3xx（重定向响应）。
- *
- * @receiver [HttpServletResponse] 当前响应对象
- * @return [Boolean] 是否为3xx状态
- * @author tangli
- * @date 2024/02/06 15:38
- */
-@get:JvmSynthetic
-@get:JvmName("status3xxRedirection")
-public val HttpServletResponse.status3xxRedirection: Boolean
-    get() =
-        HttpStatus
-            .valueOf(status)
-            .is3xxRedirection
 
 /**
  * 将二进制数据包装为Web响应，常用于文件下载。

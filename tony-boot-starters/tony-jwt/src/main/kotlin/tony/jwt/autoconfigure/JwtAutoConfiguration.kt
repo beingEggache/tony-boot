@@ -45,7 +45,7 @@ private class JwtAutoConfiguration
  * @author tangli
  * @date 2023/05/25 19:56
  */
-@ConfigurationProperties(prefix = "jwt")
+@ConfigurationProperties(prefix = "jwt", ignoreInvalidFields = false, ignoreUnknownFields = false)
 public data class JwtProperties(
     @DefaultValue("")
     val secret: String,

@@ -46,7 +46,7 @@ private class IdAutoConfiguration(
     }
 }
 
-@ConfigurationProperties(prefix = "snowflake")
+@ConfigurationProperties(prefix = "snowflake", ignoreInvalidFields = false, ignoreUnknownFields = false)
 public data class IdProperties(
     /**
      * 机器码

@@ -223,7 +223,7 @@ private data class FeignConfigProperties(
 
 @ConditionalOnBooleanProperty(prefix = "spring.cloud.openfeign.okhttp", name = ["enabled"], matchIfMissing = true)
 @ConditionalOnBean(OkHttpClient::class)
-@ConfigurationProperties(prefix = "web.log.request")
+@ConfigurationProperties(prefix = "web.log.request", ignoreInvalidFields = false, ignoreUnknownFields = false)
 private data class RequestLogProperties(
     /**
      * 是否记录request日志。

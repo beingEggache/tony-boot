@@ -217,7 +217,7 @@ public class {Module}AutoConfiguration(public val properties: {Module}Properties
 ```
 🟢 当需要配置项时添加.
 ```kotlin
-@ConfigurationProperties(prefix = "tony.{module}")
+@ConfigurationProperties(prefix = "tony.{module}", ignoreInvalidFields = false, ignoreUnknownFields = false)
 public data class {Module}Properties(
     public val enabled: Boolean = true,  // 🟢 影响整体逻辑时添加
     public val name: String = "default",

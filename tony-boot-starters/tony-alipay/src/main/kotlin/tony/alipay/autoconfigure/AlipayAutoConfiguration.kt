@@ -54,7 +54,7 @@ private class AlipayAutoConfiguration(
             .readText()
 }
 
-@ConfigurationProperties(prefix = "alipay")
+@ConfigurationProperties(prefix = "alipay", ignoreInvalidFields = false, ignoreUnknownFields = false)
 private data class AlipayProperties(
     val appId: String,
     val publicKeyPath: String,

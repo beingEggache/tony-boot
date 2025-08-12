@@ -30,8 +30,11 @@ package tony.web.autoconfigure
  * @author tangli
  * @date 2023/05/25 19:35
  */
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletResponse
+import java.time.LocalDateTime
+import java.util.Date
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.boot.autoconfigure.AutoConfiguration
@@ -40,6 +43,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProp
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer
+import org.springframework.boot.autoconfigure.jackson.JacksonProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
@@ -244,10 +248,16 @@ private class WebAutoConfiguration(
     private fun objectMapper(
         jackson2ObjectMapperBuilder: Jackson2ObjectMapperBuilder,
         injectableValueSuppliers: List<InjectableValueSupplier>,
+        jacksonProperties: JacksonProperties,
     ): ObjectMapper =
         createObjectMapper()
             .apply {
                 jackson2ObjectMapperBuilder.configure(this)
+                if (jacksonProperties.dateFormat?.isNotBlank() == true) {
+                    configOverride(Date::class.java).format = JsonFormat.Value.forPattern(jacksonProperties.dateFormat)
+                    configOverride(LocalDateTime::class.java).format =
+                        JsonFormat.Value.forPattern(jacksonProperties.dateFormat)
+                }
                 injectableValues =
                     InjectableValuesBySupplier(
                         injectableValueSuppliers
@@ -297,7 +307,7 @@ internal data class WebProperties(
             .Type
             .SERVLET
 )
-@ConfigurationProperties(prefix = "web.log.trace")
+@ConfigurationProperties(prefix = "web.log.trace", ignoreInvalidFields = false, ignoreUnknownFields = false)
 internal data class TraceLogProperties(
     /**
      * 是否记录trace日志。
@@ -349,7 +359,7 @@ internal data class TraceLogProperties(
             .Type
             .SERVLET
 )
-@ConfigurationProperties(prefix = "web.cors")
+@ConfigurationProperties(prefix = "web.cors", ignoreInvalidFields = false, ignoreUnknownFields = false)
 internal data class WebCorsProperties(
     @DefaultValue("false")
     val enabled: Boolean,

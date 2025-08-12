@@ -105,7 +105,7 @@ private class WebAuthAutoConfiguration(
  * @date 2023/05/25 19:13
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-@ConfigurationProperties(prefix = "web.auth")
+@ConfigurationProperties(prefix = "web.auth", ignoreInvalidFields = false, ignoreUnknownFields = false)
 private data class WebAuthProperties(
     /**
      * 不需要登录校验的地址.

@@ -67,7 +67,7 @@ private class CaptchaAutoConfiguration(
  * @author tangli
  * @date 2023/05/25 19:42
  */
-@ConfigurationProperties(prefix = "captcha")
+@ConfigurationProperties(prefix = "captcha", ignoreInvalidFields = false, ignoreUnknownFields = false)
 private data class CaptchaProperties(
     /**
      * captcha mode.

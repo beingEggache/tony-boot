@@ -84,7 +84,7 @@ private class WechatAutoConfiguration {
  * @author tangli
  * @date 2023/05/25 19:22
  */
-@ConfigurationProperties(prefix = "wechat")
+@ConfigurationProperties(prefix = "wechat", ignoreInvalidFields = false, ignoreUnknownFields = false)
 public data class WechatProperties(
     val token: String?,
     val appId: String?,

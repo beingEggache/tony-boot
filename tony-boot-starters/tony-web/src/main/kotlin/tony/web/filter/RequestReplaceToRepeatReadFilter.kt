@@ -45,12 +45,12 @@ import java.util.Collections
 import org.springframework.core.PriorityOrdered
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
+import org.springframework.web.cors.CorsUtils
 import org.springframework.web.filter.OncePerRequestFilter
 import tony.core.utils.antPathMatchAny
 import tony.core.utils.sanitizedPath
 import tony.web.WebContext
 import tony.web.filter.RepeatReadRequestWrapper.`-Companion`.toRepeatRead
-import tony.web.utils.isCorsPreflightRequest
 
 /**
  * 可重复读请求过滤器.
@@ -84,7 +84,7 @@ internal class RequestReplaceToRepeatReadFilter(
         request
             .requestURI
             .antPathMatchAny(excludedUrls) ||
-            request.isCorsPreflightRequest
+            CorsUtils.isPreFlightRequest(request)
 
     override fun getOrder() =
         PriorityOrdered.HIGHEST_PRECEDENCE + 1

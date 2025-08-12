@@ -49,9 +49,6 @@ import tony.web.utils.isTextMediaTypes
 import tony.web.utils.origin
 import tony.web.utils.parseMediaType
 import tony.web.utils.remoteIp
-import tony.web.utils.status1xxInformational
-import tony.web.utils.status2xxSuccessful
-import tony.web.utils.status3xxRedirection
 
 /**
  * trace日志记录接口.
@@ -169,12 +166,13 @@ public open class DefaultTraceLogger(
             responseBody
                 .getFromRootAsString("code")
                 ?.toInt()
+        val httpStatus = HttpStatus.valueOf(response.status)
         return when {
             codeFromResponseDirectly != null -> codeFromResponseDirectly
 
-            response.status2xxSuccessful ||
-                response.status3xxRedirection ||
-                response.status1xxInformational -> ApiProperty.okCode
+            httpStatus.is2xxSuccessful ||
+                httpStatus.is3xxRedirection ||
+                httpStatus.is1xxInformational -> ApiProperty.okCode
 
             else -> response.status * 100
         }
