@@ -20,8 +20,8 @@
 | `{company}`     | 公司/组织名（全小写）                    | `tony`                                  |
 | `{projectName}` | 项目名（小写驼峰）                      | `demo`                                  |
 | `{ProjectName}` | 项目名（大写驼峰）                      | `Demo`、`byteDance`                      |
-| `{module}`      | 模块名（全小写）                       | `sys`、`housemanage`                     |
-| `{Module}`      | 模块名（首大写）                       | `Sys`、`houseManage`                     |
+| `{module}`      | 模块名（全小写）,单模块简单项目可省略            | `sys`、`housemanage`                     |
+| `{Module}`      | 模块名（首大写）,单模块简单项目可省略            | `Sys`、`houseManage`                     |
 | `{entity}`      | 实体类名（小写驼峰）                     | `employee`、`saleOrder`                  |
 | `{Entity}`      | 实体类名（大写驼峰）                     | `Employee`、`SaleOrder`                  |
 | `{table}`       | 数据库表名（全小写模块名+小写snake_case实体类名） | `sys_employee`、`housemanage_sale_order` |
@@ -62,7 +62,7 @@
 │   │   ├── config/                          # 配置类包
 │   │   │   ├── {ProjectName}WebConfig.java    # Web 配置类
 │   │   │   └── {ProjectName}WebContext.java   # Web 上下文常量（可选）
-│   │   └── {module}/                        # 业务模块包
+│   │   └── {module}/                        # 业务模块包 (省略后可直接挂在上级目录)
 │   │       └── controller/                  # 控制器包
 │   │           └── {Entity}Controller.java    # 控制器类
 │   └── resources/
@@ -79,7 +79,7 @@
 {company}-service/
 ├── src/main/
 │   ├── java/{company}/{projectName}/
-│   │   └── {module}/                        # 业务模块包
+│   │   └── {module}/                        # 业务模块包 (省略后可直接挂在上级目录)
 │   │       ├── service/                     # 服务包
 │   │       │   └── impl/                    # 服务实现包
 │   │       │       └── {Entity}Service.java   # 服务实现类
@@ -98,7 +98,7 @@
 {company}-dto/
 ├── src/main/
 │   └── java/{company}/{projectName}/
-│       └── {module}/                        # 业务模块包
+│       └── {module}/                        # 业务模块包 (省略后可直接挂在上级目录)
 │           └── dto/                         # DTO 包
 │               ├── req/                     # 请求 DTO 包
 │               │   └── {Entity}AddReq.java    # 请求 DTO 类
@@ -116,7 +116,7 @@
 {company}-sdk/
 ├── src/main/
 │   └── java/{company}/{projectName}/
-│       └── {module}/                        # 业务模块包
+│       └── {module}/                        # 业务模块包 (省略后可直接挂在上级目录)
 │           └── service/                     # 服务接口包
 │               └── I{Entity}Service.java      # 服务接口类
 └── build.gradle.kts                         # 模块构建配置

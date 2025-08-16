@@ -92,7 +92,7 @@ public class GlobalResponseInterceptorProvider<T : ResponseInterceptor>(
  * @author tangli
  * @date 2023/08/02 19:00
  */
-internal class UnwrapResponseInterceptorProvider<T : UnwrapResponseInterceptor>(
+public class UnwrapResponseInterceptorProvider<T : UnwrapResponseInterceptor>(
     private val obj: T,
 ) : ObjectProvider<T> {
     override fun getObject(vararg args: Any?): T =

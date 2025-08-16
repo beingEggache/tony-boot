@@ -23,8 +23,8 @@
 [versions]
 template = "0.1-SNAPSHOT"
 java = "21"
-kotlin = "2.2.0"
-spring = "6.2.9"
+kotlin = "2.2.10"
+spring = "6.2.10"
 springBoot = "3.5.4"
 
 slf4j = "2.0.17"
@@ -54,16 +54,16 @@ knife4j = "4.6.0"
 springdocStarter = "2.8.9"
 
 powerjob = "5.1.1"
-vertx = "4.5.17"
+vertx = "4.5.18"
 xnio = "3.8.16.Final"
 
 springCloud = "2025.0.0"
 springCloudAlibaba = "2023.0.3.3"
 springCloudTencent = "2.0.2.2-2024.0.1"
-reactor = "2024.0.8"
-netty = "4.2.3.Final"
+reactor = "2024.0.9"
+netty = "4.2.4.Final"
 grpc = "1.74.0"
-protobuf = "4.31.1"
+protobuf = "4.32.0"
 
 grpcSpringBoot = "3.1.0.RELEASE"
 
@@ -75,6 +75,7 @@ dokka = "2.0.0"
 [libraries]
 kotlinBom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlinStdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlinxCoroutinesCoreJvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version = "1.10.2" }
 annotations = { module = "org.jetbrains:annotations", version = "26.0.2" }
 
 springBom = { module = "org.springframework:spring-framework-bom", version.ref = "spring" }
