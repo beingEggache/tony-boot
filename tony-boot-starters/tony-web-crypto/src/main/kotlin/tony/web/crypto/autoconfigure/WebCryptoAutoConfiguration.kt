@@ -50,7 +50,7 @@ import tony.web.crypto.EncryptResponseBodyAdvice
             .Type
             .SERVLET
 )
-@ConditionalOnBooleanProperty(prefix = "web.crypto", name = ["enabled"], matchIfMissing = true)
+@ConditionalOnBooleanProperty(prefix = "web.crypto", name = ["enabled"])
 @AutoConfiguration
 internal class WebCryptoAutoConfiguration {
     @Resource

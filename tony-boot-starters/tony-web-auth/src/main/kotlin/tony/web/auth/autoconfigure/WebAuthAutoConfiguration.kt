@@ -82,7 +82,9 @@ private class WebAuthAutoConfiguration(
                 getLogger().info("Jwt auth is enabled")
             }
         } else {
-            NoopWebSession()
+            NoopWebSession().apply {
+                getLogger().info("Noop session enabled")
+            }
         }
 
     override fun addInterceptors(registry: InterceptorRegistry) {

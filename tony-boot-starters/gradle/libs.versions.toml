@@ -29,7 +29,7 @@ springBoot = "3.5.4"
 
 slf4j = "2.0.17"
 
-byteBuddy = "1.17.6"
+byteBuddy = "1.17.7"
 bouncycastle = "1.81"
 
 openFeign = "13.6"
@@ -53,7 +53,7 @@ swagger = "2.2.35"
 knife4j = "4.6.0"
 springdocStarter = "2.8.9"
 
-powerjob = "5.1.1"
+powerjob = "5.1.2"
 vertx = "4.5.18"
 xnio = "3.8.16.Final"
 

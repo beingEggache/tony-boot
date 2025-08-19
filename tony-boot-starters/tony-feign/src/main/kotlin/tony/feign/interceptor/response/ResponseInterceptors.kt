@@ -147,6 +147,9 @@ internal class DefaultUnwrapResponseInterceptor(
         chain: ResponseInterceptor.Chain,
     ): Any {
         val returnType = invocationContext.returnType()
+        if (returnType.isTypesOrSubTypesOf(ApiResult::class.java)) {
+            return chain.next(invocationContext)
+        }
         val returnJavaType = returnType.toJavaType()
         val returnRawClass = returnType.rawClass()
 

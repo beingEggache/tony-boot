@@ -211,7 +211,7 @@ private class WebAutoConfiguration(
     private fun exceptionHandler() =
         ExceptionHandler()
 
-    @ConditionalOnBooleanProperty(prefix = "web.cors", value = ["enabled"], matchIfMissing = true)
+    @ConditionalOnBooleanProperty(prefix = "web.cors", value = ["enabled"])
     @Bean
     private fun corsFilter(): CorsFilter {
         val corsConfiguration =

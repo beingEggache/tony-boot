@@ -40,7 +40,6 @@ import tony.core.ApiProperty
 import tony.core.log.DesensitizedLogger
 import tony.core.utils.getFromRootAsString
 import tony.core.utils.getLogger
-import tony.web.WebContext
 import tony.web.filter.RepeatReadRequestWrapper
 import tony.web.log.`#Const`.NULL
 import tony.web.log.`#Const`.logger
@@ -131,10 +130,7 @@ public open class DefaultTraceLogger(
         val protocol = request.scheme
         val httpMethod = request.method
         val origin = request.origin
-        val path =
-            request
-                .requestURI
-                .removePrefix(WebContext.contextPath)
+        val path = request.requestURI
         val query = request.queryString ?: NULL
         val requestHeaders = desensitizedHeaders(request.headers.entries)
         val responseHeaders = desensitizedHeaders(response.headers.entries)
