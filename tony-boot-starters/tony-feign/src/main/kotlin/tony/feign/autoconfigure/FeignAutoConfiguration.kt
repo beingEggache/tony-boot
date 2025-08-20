@@ -215,7 +215,7 @@ private data class FeignConfigProperties(
     val writeTimeout: Long,
     @DefaultValue("10000")
     val pingInterval: Long,
-    @DefaultValue("true")
+    @DefaultValue("false")
     val retryOnConnectionFailure: Boolean,
     @DefaultValue("true")
     val followRedirects: Boolean,

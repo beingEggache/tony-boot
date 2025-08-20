@@ -68,12 +68,12 @@ public fun getLogger(name: String?): Logger =
 /**
  * 获取 Logger
  *
- * LoggerFactory.getLogger(this::class.java)
+ * LoggerFactory.getLogger(T::class.java)
  *
  * @return [Logger]
  * @author tangli
  * @date 2024/02/06 13:57
  */
 @JvmSynthetic
-public fun <T : Any> T.getLogger(): Logger =
-    LoggerFactory.getLogger(this::class.java)
+public inline fun <reified T : Any> T.getLogger(): Logger =
+    LoggerFactory.getLogger(T::class.java)

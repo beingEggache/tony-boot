@@ -24,6 +24,7 @@
 
 package tony.core
 
+import tony.core.utils.asToNotNull
 import tony.core.utils.getLogger
 
 /**
@@ -36,16 +37,21 @@ import tony.core.utils.getLogger
  * @date 2022/09/29 19:20
  */
 public data object ApiProperty {
+    private val propertyCache = mutableMapOf<String, Any>()
+
     private inline fun <reified T : Any> getPropertyAvoidInitError(
         key: String,
         default: T,
     ): T =
         try {
-            SpringContexts.Env
-                .getProperty(key, T::class.java, default)
+            @Suppress("UNCHECKED_CAST")
+            propertyCache
+                .getOrPut(key) {
+                    SpringContexts.Env.getProperty(key, T::class.java, default)
+                }.asToNotNull()
         } catch (e: Throwable) {
             getLogger("tony.core.utils.Funcs").warn(e.message ?: e.cause?.message)
-            default
+            propertyCache.getOrPut(key) { default }.asToNotNull()
         }
 
     /**

@@ -36,7 +36,6 @@ import jakarta.servlet.http.HttpServletResponse
 import java.time.LocalDateTime
 import java.util.Date
 import org.slf4j.LoggerFactory
-import org.springframework.beans.BeanUtils
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty
@@ -216,7 +215,12 @@ private class WebAutoConfiguration(
     private fun corsFilter(): CorsFilter {
         val corsConfiguration =
             CorsConfiguration().apply {
-                BeanUtils.copyProperties(webCorsProperties, this)
+                allowedOriginPatterns = webCorsProperties.allowedOriginPatterns
+                allowedHeaders = webCorsProperties.allowedHeaders
+                allowedMethods = webCorsProperties.allowedMethods
+                exposedHeaders = webCorsProperties.exposedHeaders
+                allowCredentials = webCorsProperties.allowCredentials
+                maxAge = webCorsProperties.maxAge
                 getLogger(CorsFilter::class.java.name)
                     .info(
                         "Cors is enabled. " +

@@ -58,17 +58,14 @@ public data class IdProperties(
      * 机器码位长
      * 默认值6，取值范围 [1, 15]（要求：序列数位长+机器码位长不超过22）
      */
-    @DefaultValue("3")
+    @DefaultValue("1")
     val workerIdBitLength: Byte,
-//    val workerIdBitLength: Byte = 6;
     /**
      * 序列数位长
      * 默认值6，取值范围 [3, 21]（要求：序列数位长+机器码位长不超过22）
      */
     @DefaultValue("3")
     val seqBitLength: Byte,
-//    val seqBitLength: Byte = 6;
-    //    private byte seqBitLength = 6;
     /**
      * 最大序列数（含）
      * 设置范围 [MinSeqNumber, 2^SeqBitLength-1]，默认值0，表示最大序列数取最大值（2^SeqBitLength-1]）
@@ -85,6 +82,12 @@ public data class IdProperties(
      * 最大漂移次数（含）
      * 默认2000，推荐范围500-10000（与计算能力有关）
      */
-    @DefaultValue("2000")
+    @DefaultValue("500")
     val topOverCostCount: Short,
+    /**
+     * 雪花计算方法
+     * （1-漂移算法|2-传统算法），默认2
+     */
+    @DefaultValue("2")
+    var method: Short = 2,
 )

@@ -43,6 +43,7 @@ public data object IdGenerator {
         options.MaxSeqNumber = idProperties.maxSeqNumber
         options.MinSeqNumber = idProperties.minSeqNumber
         options.TopOverCostCount = idProperties.topOverCostCount
+        options.Method = idProperties.method
         YitIdHelper.setIdGenerator(options)
     }
 

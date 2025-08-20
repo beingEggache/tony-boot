@@ -42,14 +42,14 @@ fastjson = "2.0.58"
 postgresql = "42.7.7"
 mysql = "9.4.0"
 
-hikariCP = "7.0.1"
+hikariCP = "7.0.2"
 mybatis = "3.5.19"
 mybatisSpring = "3.0.5"
 mybatisPlus = "3.5.12"
 
 guava = "33.4.8-jre"
 
-swagger = "2.2.35"
+swagger = "2.2.36"
 knife4j = "4.6.0"
 springdocStarter = "2.8.9"
 
