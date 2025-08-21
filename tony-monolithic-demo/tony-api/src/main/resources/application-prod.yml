@@ -10,6 +10,14 @@ spring:
   web:
     resources:
       add-mappings: false
+      chain:
+        enabled: false
+        cache: false
+  threads:
+    virtual:
+      enabled: true
+  main:
+    banner-mode: off
 web:
   cors:
     allowed-origin-patterns:

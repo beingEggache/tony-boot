@@ -28,6 +28,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 import org.springframework.context.annotation.ImportSelector
+import org.springframework.context.annotation.Lazy
 import org.springframework.core.type.AnnotationMetadata
 import tony.core.PROJECT_GROUP
 import tony.core.SpringContexts
@@ -52,6 +53,7 @@ public annotation class EnableTonyBoot
 
 @Configuration(proxyBeanMethods = false)
 private class TonyBootConfiguration {
+    @Lazy(false)
     @Bean
     private fun applicationContextHolder() =
         SpringContexts.ApplicationContextHolder

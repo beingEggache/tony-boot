@@ -5,6 +5,10 @@ spring:
     default: dev
   application:
     name: tony-api
+  main:
+    lazy-initialization: true
   cloud:
     compatibility-verifier:
       enabled: false
+    openfeign:
+      lazy-attributes-resolution: true

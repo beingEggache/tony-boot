@@ -17,7 +17,7 @@ dependencies {
     implementation(templateProject("web")) { isChanging = true }
     implementation(templateProject("web-auth")) { isChanging = true }
     implementation(project(":tony-service"))
-    implementation(project(":tony-job"))
+//    implementation(project(":tony-job"))
     // implementation(tonyLibs.springBootStarterActuator)
 
     testImplementation(tonyLibs.bundles.test)

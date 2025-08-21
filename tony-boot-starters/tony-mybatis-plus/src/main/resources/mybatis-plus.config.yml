@@ -14,4 +14,4 @@ mybatis-plus:
     return-instance-for-empty-row: true
     default-enum-type-handler: tony.mybatis.typehandler.EnumTypeHandler
   global-config:
-    banner: off
+    banner: false

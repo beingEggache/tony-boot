@@ -8,12 +8,7 @@ COPY ${JAR_FILE} app.jar
 
 RUN java -Djarmode=tools -jar ${WORKDIR}/app.jar extract --layers --destination extracted
 
-FROM eclipse-temurin:21.0.8_9-jre-alpine-3.21
-
-# 安装时区和 unzip 工具
-RUN apk add --no-cache tzdata unzip && \
-    echo "Asia/Shanghai" > /etc/timezone && \
-    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+FROM tony-min-jre:latest
 
 ARG WORKDIR=/app
 ENV WORKDIR=${WORKDIR}
@@ -44,6 +39,8 @@ RUN java \
     -Dspring.context.exit=onRefresh \
     -Dspring.main.banner-mode=off \
     -Dspring.output.ansi.enabled=never \
+    -Dspring.main.lazy-initialization=false \
+    -Dspring.cloud.openfeign.lazy-attributes-resolution=false \
     -jar ${WORKDIR}/app.jar
 COPY --chmod=755 docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["sh", "-c", "docker-entrypoint.sh"]

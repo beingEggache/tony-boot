@@ -35,5 +35,5 @@ dependencyResolutionManagement {
 
 include("tony-api")
 include("tony-service")
-include("tony-job")
+// include("tony-job")
 include("tony-dto")

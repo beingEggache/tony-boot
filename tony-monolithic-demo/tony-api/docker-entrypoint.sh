@@ -4,6 +4,9 @@ set -e
 # Set WORKDIR default if not set
 WORKDIR=${WORKDIR:-/app}
 
+# Set APP_NAME default if not set
+APP_NAME=${APP_NAME:-spring-boot}
+
 # Ensure log, config, and tmp directories exist
 # ==================== Prepare directories ====================
 mkdir -p ${WORKDIR}/logs ${WORKDIR}/config ${WORKDIR}/tmp
@@ -108,7 +111,16 @@ then
     fi
 fi
 
+# ==================== Log JVM options ====================
+# Function to log JVM options in specified format
+log_jvm_opts() {
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S.000')
+    local log_file="${WORKDIR}/logs/stdout.log"
+    local formatted_opts=$(echo "${opts}" | tr ' ' '\n' | grep -v '^$' | tr '\n' ' ' | sed 's/[[:space:]]*$//')
+    echo "${timestamp} ${APP_NAME} $$ [null] INFO  console [null] - JVM Options: ${formatted_opts}"
+    echo "${timestamp} ${APP_NAME} $$ [null] INFO  console [null] - JVM Options: ${formatted_opts}" >> "${log_file}"
+}
+# Log JVM options to file
+log_jvm_opts
 # ==================== Start application ====================
-echo "Starting application with JVM options:"
-echo "${opts}" | sed 's/ -/\n-/g' | sed 's/^[[:space:]]*//'
 exec java ${opts} -jar ${WORKDIR}/app.jar

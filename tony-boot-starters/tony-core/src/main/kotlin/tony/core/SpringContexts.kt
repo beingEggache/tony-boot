@@ -141,7 +141,7 @@ public data object SpringContexts : ApplicationContext by ApplicationContextHold
             key: String,
             value: Any,
         ) {
-            dynamicProperties.put(key, value)
+            dynamicProperties[key] = value
         }
     }
 }

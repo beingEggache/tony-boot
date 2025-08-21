@@ -1,22 +1,22 @@
 springdoc:
-  default-flat-param-object: on
+  default-flat-param-object: true
   default-produces-media-type: "application/json"
-  disable-i18n: on
-  enable-spring-security: off
-  enable-data-rest: off
-  default-support-form-data: on
-  nullable-request-parameter-enabled: on
-  enable-hateoas: off
-  show-spring-cloud-functions: off
-  remove-broken-reference-definitions: off
-  override-with-generic-response: off
-  pre-loading-enabled: on
+  disable-i18n: true
+  enable-spring-security: false
+  enable-data-rest: false
+  default-support-form-data: true
+  nullable-request-parameter-enabled: true
+  enable-hateoas: false
+  show-spring-cloud-functions: false
+  remove-broken-reference-definitions: false
+  override-with-generic-response: false
+  pre-loading-enabled: true
 knife4j:
-  enable: on
+  enable: true
   setting:
-    enable-host: on
-    enable-dynamic-parameter: on
-    enable-reload-cache-parameter: on
-    enable-response-code: off
-    enable-swagger-models: on
-    enable-version: on
+    enable-host: true
+    enable-dynamic-parameter: true
+    enable-reload-cache-parameter: true
+    enable-response-code: false
+    enable-swagger-models: true
+    enable-version: true

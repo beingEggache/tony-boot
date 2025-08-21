@@ -10,7 +10,7 @@ jwt:
 web:
   log:
     trace:
-      enable-desensitized: on
+      enable-desensitized: true
       desensitized-fields:
         - pwd
         - value
@@ -21,7 +21,7 @@ web:
         - X-Access-Token
         - X-B3-Trace-Id
     request:
-      enable-desensitized: on
+      enable-desensitized: true
       desensitized-fields:
         - pwd
         - value

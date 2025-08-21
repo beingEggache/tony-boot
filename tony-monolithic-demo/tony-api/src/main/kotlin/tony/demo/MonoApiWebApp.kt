@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Import
 import org.springframework.core.PriorityOrdered
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import tony.config.PowerJobConfig
 import tony.core.annotation.EnableTonyBoot
 import tony.demo.config.DbConfig
 import tony.demo.permission.PermissionInterceptor
@@ -31,8 +30,8 @@ fun main(args: Array<String>) {
 @EnableTonyBoot
 @Import(
     value = [
-        DbConfig::class,
-        PowerJobConfig::class
+//        PowerJobConfig::class,
+        DbConfig::class
     ]
 )
 @SpringBootApplication(proxyBeanMethods = false)

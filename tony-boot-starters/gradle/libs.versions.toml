@@ -95,6 +95,7 @@ springBootStarterJson = { module = "org.springframework.boot:spring-boot-starter
 springBootStarterLogging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "springBoot" }
 springBootDevtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "springBoot" }
 springBootStarterUndertow = { module = "org.springframework.boot:spring-boot-starter-undertow", version.ref = "springBoot" }
+springBootStarterJetty = { module = "org.springframework.boot:spring-boot-starter-jetty", version.ref = "springBoot" }
 springBootStarterValidation = { module = "org.springframework.boot:spring-boot-starter-validation", version.ref = "springBoot" }
 springBootStarterWeb = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBoot" }
 springBootStarterDataRedis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version.ref = "springBoot" }
