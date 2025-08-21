@@ -12,7 +12,6 @@
     - [丰富的工具类（utils 包）](#丰富的工具类utils-包)
     - [JSON 反序列化动态值注入](#json-反序列化动态值注入)
     - [枚举统一序列化与反序列化](#枚举统一序列化与反序列化)
-- [适用场景](#适用场景)
 
 ## 主要功能
 
@@ -220,7 +219,3 @@ enum class Gender(@get:JsonValue override val value: Int) : IntEnumValue {
 
 > 只要实现上述模式，无论是 Web 层参数、JSON、Redis、MyBatis-Plus、Swagger，均可自动完成枚举的序列化与反序列化，无需手动注册额外转换器。
 
-## 适用场景
-
-- 适用于 Spring Boot 项目中需要统一响应、分页、异常、工具类等通用能力的场景。
-- 可作为其他业务模块的基础依赖，提升开发效率，减少重复造轮子。

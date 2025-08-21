@@ -1,4 +1,8 @@
-# Kotlin Spring Boot 企业级脚手架集合
+# Kotlin Spring Boot
+![GitHub package.json dependency version (prod)](https://img.shields.io/badge/licence-MIT-green)
+![GitHub package.json dependency version (prod)](https://img.shields.io/badge/jdk-21-green)
+![GitHub package.json dependency version (prod)](https://img.shields.io/badge/kotlin-2.2.10-orange)
+![GitHub package.json dependency version (prod)](https://img.shields.io/badge/gradle-9.0-green)
 
 本仓库汇集了多套基于 **Kotlin/Java + Spring Boot** 的企业级开发脚手架与基础库，涵盖单体应用、微服务、API 网关、通用能力扩展等多种场景，助力团队高效开发、统一规范、快速交付。
 
@@ -6,13 +10,13 @@
 
 ## 📚 项目总览
 
-| 子项目目录                  | 简介                                                         |
-|----------------------------|--------------------------------------------------------------|
-| tony-admin-api-gateway      | API 网关脚手架，支持请求路由、负载均衡、认证授权等            |
-| tony-boot-starters          | 通用能力库，包含统一日志、异常、响应、认证、加解密、数据访问等 |
-| tony-java-monolithic-demo   | Java 版单体应用脚手架，适合快速开发和原型验证                 |
-| tony-micro-service-demo     | 微服务架构示例，涵盖服务发现、配置管理、远程调用等            |
-| tony-monolithic-demo        | Kotlin 版单体应用脚手架，集成主流企业级能力，结构清晰         |
+| 子项目目录                     | 简介                              |
+|---------------------------|---------------------------------|
+| tony-admin-api-gateway    | API 网关脚手架，支持请求路由、负载均衡、认证授权等     |
+| tony-boot-starters        | 通用能力库，包含统一日志、异常、响应、认证、加解密、数据访问等 |
+| tony-java-monolithic-demo | Java 版单体应用脚手架，适合快速开发和原型验证       |
+| tony-micro-service-demo   | 微服务架构示例，涵盖服务发现、配置管理、远程调用等       |
+| tony-monolithic-demo      | Kotlin 版单体应用脚手架，集成主流企业级能力，结构清晰  |
 
 ---
 
@@ -36,4 +40,4 @@
 
 ## 📄 许可证
 
-本仓库采用 [MIT License](LICENSE)，可自由用于商业和个人项目。
+[MIT](LICENSE)
